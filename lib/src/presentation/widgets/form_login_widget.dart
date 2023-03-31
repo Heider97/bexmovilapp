@@ -12,6 +12,8 @@ extension TextFieldWidget on LoginViewState {
     return TextFormField(
       controller: controller,
       decoration: const InputDecoration(
+        filled: true,
+        fillColor: Colors.transparent,
         border: OutlineInputBorder(),
       ),
       validator: validator,
@@ -34,14 +36,16 @@ extension LoginButton on LoginViewState {
   }
 
   Future<void> buildOnPressed(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
-      context.read<LoginCubit>().onPressedLogin(username, password);
-    }
+    // if (formKey.currentState!.validate()) {
+    //   context.read<LoginCubit>().onPressedLogin(username, password);
+    // }
+
+    context.read<LoginCubit>().onPressedLogin(username, password);
   }
 
   Widget buildChild(LoginState state) {
     return state is LoginLoading
         ? const CircularProgressIndicator.adaptive()
-        : const Icon(Icons.arrow_forward_ios);
+        : const Text('Iniciar', style: TextStyle(color: Colors.white));
   }
 }

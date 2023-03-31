@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,22 +71,19 @@ class InitialViewState extends State<InitialView> {
     initialCubit = BlocProvider.of<InitialCubit>(context);
 
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-        ),
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: BlocBuilder<InitialCubit, InitialState>(
-          builder: (context, state) {
-            if (state.runtimeType == InitialLoading) {
-              return const Center(child: CupertinoActivityIndicator());
-            } else if (state.runtimeType == InitialSuccess ||
-                state.runtimeType == InitialFailed) {
-              return _buildBody(size, state.enterprise, state.error);
-            } else {
-              return const SizedBox();
-            }
-          },
-        ));
+      builder: (context, state) {
+        if (state.runtimeType == InitialLoading) {
+          return const Center(child: CupertinoActivityIndicator());
+        } else if (state.runtimeType == InitialSuccess ||
+            state.runtimeType == InitialFailed) {
+          return _buildBody(size, state.enterprise, state.error);
+        } else {
+          return const SizedBox();
+        }
+      },
+    ));
   }
 
   Widget _buildBody(Size size, Enterprise? enterprise, String? error) {
@@ -96,24 +94,28 @@ class InitialViewState extends State<InitialView> {
           }
         },
         child: SingleChildScrollView(
-            child: SafeArea(
-                child: SizedBox(
-                    height: size.height,
-                    width: size.width,
-                    child: BlocBuilder<NetworkCubit, NetworkState>(
-                        builder: (context, networkState) {
-                      switch (networkState.runtimeType) {
-                        case NetworkInitial:
-                          return const Center(
-                              child: CupertinoActivityIndicator());
-                        case NetworkFailure:
-                          return _buildNetworkFailed();
-                        case NetworkSuccess:
-                          return _buildBodyNetworkSuccess(size, error);
-                        default:
-                          return const SizedBox();
-                      }
-                    })))));
+            child: Container(
+                height: size.height,
+                width: size.width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/bg-initial-1.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: BlocBuilder<NetworkCubit, NetworkState>(
+                    builder: (context, networkState) {
+                  switch (networkState.runtimeType) {
+                    case NetworkInitial:
+                      return const Center(child: CupertinoActivityIndicator());
+                    case NetworkFailure:
+                      return _buildNetworkFailed();
+                    case NetworkSuccess:
+                      return _buildBodyNetworkSuccess(size, error);
+                    default:
+                      return const SizedBox();
+                  }
+                }))));
   }
 
   Widget _buildNetworkFailed() {
@@ -130,47 +132,68 @@ class InitialViewState extends State<InitialView> {
   }
 
   Widget _buildBodyNetworkSuccess(Size size, String? error) {
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      Padding(
-          padding: const EdgeInsets.all(20),
-          child: SvgPicture.asset(
-            'assets/svg/analytics-svgrepo-com.svg',
-            height: 250,
-            width: 250,
-            // child: Image.asset(
-            //   'assets/images/bex-deliveries-icon.png',
-            //   fit: BoxFit.contain,
-          )),
-      Padding(
-          padding: const EdgeInsets.only(
-              left: kDefaultPadding,
-              right: kDefaultPadding,
-              bottom: kDefaultPadding),
-          child: buildCompanyField()),
-      if (error != null) Text(error),
-      Column(
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-                left: kDefaultPadding, right: kDefaultPadding),
-            child: DefaultButton(
-                widget: isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      )
-                    : Text('Comenzar'.toUpperCase(),
-                        style: const TextStyle(
-                            // color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)),
-                press: () async {
-                  initialCubit.getEnterprise(companyNameController);
-                }),
+              padding: const EdgeInsets.only(
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text('Bienvenido a',
+                      style: TextStyle(
+                          // color: Colors.white,
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold)),
+                  Text('Bexmovil',
+                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 30)),
+                  Text('la mejor app para tomar pedidos.',
+                      style: TextStyle( fontSize: 30)),
+                ],
+              )),
+          const SizedBox(height: 20),
+          Column(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding),
+                  child: buildCompanyField()),
+              if (error != null)
+                Padding(
+                    padding: const EdgeInsets.only(
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
+                        bottom: kDefaultPadding),
+                    child: Text(error,
+                        style: const TextStyle(color: Colors.white))),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: kDefaultPadding, right: kDefaultPadding),
+                child: DefaultButton(
+                    widget: isLoading
+                        ? const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                        : Text('Comenzar'.toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal)),
+                    press: () async {
+                      initialCubit.getEnterprise(companyNameController);
+                    }),
+              ),
+            ],
           ),
-          const VersionWidget()
-        ],
-      ),
-    ]);
+        ]);
   }
 
   MediaQuery buildCompanyField() {
@@ -184,13 +207,15 @@ class InitialViewState extends State<InitialView> {
         keyboardType: TextInputType.multiline,
         maxLines: null,
         decoration: const InputDecoration(
+          fillColor: Colors.white,
           hintText: 'empresa',
-          border: OutlineInputBorder(),
-          suffixIcon: SizedBox(
-            child: Center(
-              widthFactor: 1.2,
-              child: Text('@bexmovil.com', style: TextStyle(fontSize: 16)),
-            ),
+          hintStyle: TextStyle(
+            fontSize: 30,
+            color: Colors.white,
+            fontWeight: FontWeight.bold
+          ),
+          border: OutlineInputBorder(
+            gapPadding: 1
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
         ),

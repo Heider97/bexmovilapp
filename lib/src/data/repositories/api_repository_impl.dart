@@ -4,8 +4,6 @@ import '../../domain/models/responses/login_response.dart';
 import '../../domain/models/requests/enterprise_request.dart';
 import '../../domain/models/responses/enterprise_response.dart';
 
-import '../../domain/models/requests/work_request.dart';
-import '../../domain/models/responses/work_response.dart';
 
 import '../../domain/models/requests/database_request.dart';
 import '../../domain/models/responses/database_response.dart';
@@ -13,8 +11,6 @@ import '../../domain/models/responses/database_response.dart';
 import '../../domain/models/requests/enterprise_config_request.dart';
 import '../../domain/models/responses/enterprise_config_response.dart';
 
-import '../../domain/models/requests/reason_request.dart';
-import '../../domain/models/responses/reason_response.dart';
 
 import '../../domain/repositories/api_repository.dart';
 import '../../utils/resources/data_state.dart';
@@ -45,15 +41,6 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<ReasonResponse>> reasons({
-    required ReasonRequest request,
-  }) {
-    return getStateOf<ReasonResponse>(
-      request: () => _apiService.reasons(),
-    );
-  }
-
-  @override
   Future<DataState<LoginResponse>> login({
     required LoginRequest request,
   }) {
@@ -61,24 +48,6 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
       request: () => _apiService.login(
         username: request.username,
         password: request.password
-      ),
-    );
-  }
-
-  @override
-  Future<DataState<WorkResponse>> works({
-    required WorkRequest request,
-  }) {
-    return getStateOf<WorkResponse>(
-      request: () => _apiService.works(
-          id: request.id,
-          udid: request.udid,
-          model: request.model,
-          version: request.version,
-          latitude: request.latitude,
-          longitude: request.longitude,
-          date: request.date,
-          from: request.from
       ),
     );
   }

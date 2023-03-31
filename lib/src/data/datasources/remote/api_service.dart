@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/enterprise_config.dart';
-import '../../../domain/models/work.dart';
-import '../../../domain/models/reason.dart';
 
 //interceptor
 import 'interceptor_api_service.dart';
@@ -14,10 +12,8 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
-import '../../../domain/models/responses/work_response.dart';
 import '../../../domain/models/responses/database_response.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
-import '../../../domain/models/responses/reason_response.dart';
 
 //services
 import '../../../locator.dart';
@@ -140,97 +136,6 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = LoginResponse(login: Login.fromMap(result.data!));
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<ReasonResponse>> reasons() async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-
-    queryParameters.removeWhere((k, v) => v == null);
-
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
-    };
-
-    final result = await dio.fetch(
-        _setStreamType<Response<ReasonResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
-            .compose(
-          dio.options,
-          '/works/transactions/reasons',
-          queryParameters: queryParameters,
-        )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-    final value = ReasonResponse(reasons: List<Reason>.from(result.data.map((e)  => Reason.fromJson(e)).toList()));
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<WorkResponse>> works(
-      {id,
-      password,
-      udid,
-      model,
-      version,
-      latitude,
-      longitude,
-      date,
-      from}) async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'id': id,
-      r'udid': udid,
-      r'model': model,
-      r'version': version,
-      r'latitude': latitude,
-      r'longitude': longitude,
-      r'date': date,
-      r'from': from
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
-    };
-
-    final result = await dio.fetch(
-        _setStreamType<Response<WorkResponse>>(Options(
-      method: 'GET',
-      headers: headers,
-      extra: extra,
-    )
-            .compose(
-              dio.options,
-              '/works',
-              queryParameters: queryParameters,
-            )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-
-
-    final value = WorkResponse(works: List<Work>.from(result.data.map((e)  => Work.fromJson(e)).toList()));
 
     return Response(
         data: value,

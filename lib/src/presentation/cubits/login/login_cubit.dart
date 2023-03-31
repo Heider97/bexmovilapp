@@ -48,41 +48,43 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
               ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
               : null));
 
-      final results = await Future.wait([
-        _apiRepository.getConfigEnterprise(request: EnterpriseConfigRequest()),
-      ]);
+      emit(const LoginSuccess());
 
-      if (results.isNotEmpty) {
-        if (results[0] is DataSuccess) {
-          var data = results[0].data as EnterpriseConfigResponse;
-          _storageService.setObject('config', data.enterpriseConfig.toMap());
-        }
-      }
-
-      final response = await _apiRepository.login(
-        request: LoginRequest(usernameController.text, passwordController.text),
-      );
-
-      if (response is DataSuccess) {
-        final login = response.data!.login;
-
-        _storageService.setString('username', usernameController.text);
-        _storageService.setString('password', passwordController.text);
-        _storageService.setString('token', response.data!.login.token);
-        _storageService.setObject('user', response.data!.login.user!.toMap());
-
-        emit(LoginSuccess(
-            login: login,
-            enterprise: _storageService.getObject('enterprise') != null
-                ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-                : null));
-      } else if (response is DataFailed) {
-        emit(LoginFailed(
-            error: response.error,
-            enterprise: _storageService.getObject('enterprise') != null
-                ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-                : null));
-      }
+      // final results = await Future.wait([
+      //   _apiRepository.getConfigEnterprise(request: EnterpriseConfigRequest()),
+      // ]);
+      //
+      // if (results.isNotEmpty) {
+      //   if (results[0] is DataSuccess) {
+      //     var data = results[0].data as EnterpriseConfigResponse;
+      //     _storageService.setObject('config', data.enterpriseConfig.toMap());
+      //   }
+      // }
+      //
+      // final response = await _apiRepository.login(
+      //   request: LoginRequest(usernameController.text, passwordController.text),
+      // );
+      //
+      // if (response is DataSuccess) {
+      //   final login = response.data!.login;
+      //
+      //   _storageService.setString('username', usernameController.text);
+      //   _storageService.setString('password', passwordController.text);
+      //   _storageService.setString('token', response.data!.login.token);
+      //   _storageService.setObject('user', response.data!.login.user!.toMap());
+      //
+      //   emit(LoginSuccess(
+      //       login: login,
+      //       enterprise: _storageService.getObject('enterprise') != null
+      //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+      //           : null));
+      // } else if (response is DataFailed) {
+      //   emit(LoginFailed(
+      //       error: response.error,
+      //       enterprise: _storageService.getObject('enterprise') != null
+      //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+      //           : null));
+      // }
     });
   }
 }

@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 //services
-import '../../../domain/models/work.dart';
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 

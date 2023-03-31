@@ -14,6 +14,8 @@ import '../../presentation/views/global/undefined_view.dart';
 import '../../presentation/views/global/splash_view.dart';
 import '../../presentation/views/global/politics_view.dart';
 
+//user
+import '../../presentation/views/user/home/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -28,6 +30,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const InitialView());
     case loginRoute:
       return MaterialPageRoute(builder: (context) => const LoginView());
+    case homeRoute:
+      return MaterialPageRoute(builder: (context) => const HomeView());
     default:
       return MaterialPageRoute(
           builder: (context) => UndefinedView(
