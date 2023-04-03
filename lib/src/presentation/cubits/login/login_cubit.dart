@@ -35,9 +35,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
   final DatabaseRepository _databaseRepository;
 
   LoginCubit(this._apiRepository, this._databaseRepository)
-      : super(
-            LoginSuccess(
-                enterprise: _storageService.getObject('enterprise') != null
+      : super(LoginSuccess(enterprise: _storageService.getObject('enterprise') != null
                     ? Enterprise.fromMap(
                         _storageService.getObject('enterprise')!)
                     : null),
@@ -55,31 +53,33 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
 
      await _databaseRepository.init();
 
-      // final String response = await rootBundle.loadString('assets/data/products.json');
-      // final data = await json.decode(response);
-      //
-      // var len = data.length;
-      // var size = 10;
-      // var chunks = [];
-      //
-      // for(var i = 0; i< len; i+= size) {
-      //   var end = (i+size<len)?i+size:len;
-      //   chunks.add(data.sublist(i,end));
-      // }
-      //
-      // for(var j = 0; j < chunks.length; j++){
-      //   var category = Category(name: 'Category ${j+1}', image: 'assets/svg/pant${j+1}.svg');
-      //
-      //   var id = await _databaseRepository.insertCategory(category);
-      //
-      //   final products = chunks[j].map<Product>((product) {
-      //     product['category_id'] = id;
-      //     return Product.fromMap(product);
-      //   }).toList();
-      //
-      //   await _databaseRepository.insertProducts(products);
-      //
-      // }
+      final String response = await rootBundle.loadString('assets/data/products.json');
+      final data = await json.decode(response);
+
+      var len = data.length;
+      var size = 10;
+      var chunks = [];
+
+      for(var i = 0; i< len; i+= size) {
+        var end = (i+size<len)?i+size:len;
+        chunks.add(data.sublist(i,end));
+      }
+
+      for(var j = 0; j < chunks.length; j++){
+        var category = Category(name: 'Category ${j+1}', image: 'assets/svg/plant${j+1}.svg');
+
+        var id = await _databaseRepository.insertCategory(category);
+
+        final products = chunks[j].map<Product>((product) {
+          product['category_id'] = id;
+          return Product.fromMap(product);
+        }).toList();
+
+        await _databaseRepository.insertProducts(products);
+
+      }
+
+      _storageService.setString('token', 'token');
 
       emit(const LoginSuccess());
 

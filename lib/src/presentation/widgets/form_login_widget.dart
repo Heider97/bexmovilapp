@@ -8,12 +8,14 @@ extension SnackBarWidget on LoginViewState {
 }
 
 extension TextFieldWidget on LoginViewState {
-  Widget buildTextField(TextEditingController controller, String hint) {
+
+  Widget buildTextField(TextEditingController controller, String error, String hint) {
     return TextFormField(
       controller: controller,
       style: const TextStyle(
           fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
+        border: InputBorder.none,
         filled: true,
         fillColor: Colors.transparent,
         labelStyle: const TextStyle(
@@ -21,18 +23,16 @@ extension TextFieldWidget on LoginViewState {
         hintText: hint,
         hintStyle: const TextStyle(
             fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-        border: const OutlineInputBorder(),
       ),
-      validator: validator,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return error;
+        } else {
+          return null;
+        }
+      }
     );
-  }
 
-  String? validator(value) {
-    if (value == null || value.isEmpty) {
-      return 'Enter a value';
-    } else {
-      return null;
-    }
   }
 }
 

@@ -33,8 +33,6 @@ class HomeCubit extends Cubit<HomeState> {
     for (var i = 0; i < categories.length; i++) {
       final category = categories[i];
 
-      print(category.products);
-
       if (i > 0) {
         offsetFrom += categories[i - 1].products!.length * productHeight;
       }
@@ -94,13 +92,3 @@ class HomeCubit extends Cubit<HomeState> {
     tabController.dispose();
   }
 }
-
-//
-// class Item {
-//   final Category? category;
-//   final Product? product;
-//
-//   Item({this.category, this.product});
-//
-//   bool get isCategory => category != null;
-// }

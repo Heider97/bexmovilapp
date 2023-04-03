@@ -19,21 +19,32 @@ class CategoryDao {
     final categoryList = await db!.query(tableCategories);
 
     if (categoryList.isNotEmpty) {
-
       var data = <Category>[];
       return Future.forEach(categoryList, (category) async {
         final categoryMap = Map.of(category);
-        final products = await db.query(tableProducts, where: 'category_id = ?', whereArgs: [categoryMap['id']]);
+        final products = await db.query(tableProducts, where: 'category_id = ?', whereArgs: [categoryMap['id']], limit: 5, orderBy: 'rating DESC');
         categoryMap['products'] = products;
         data.add(Category.fromMap(categoryMap));
       }).then((_) {
         return data;
       });
 
-
-
     } else {
       return [];
+    }
+  }
+
+  Future<Category?> getCategoryWithProducts(int categoryId) async {
+    final db = await _appDatabase.streamDatabase;
+    final categoryList = await db!.query(tableCategories, where: 'id = ?', whereArgs: [categoryId]);
+
+    if (categoryList.isNotEmpty) {
+      final categoryMap = Map.of(categoryList[0]);
+      final products = await db.query(tableProducts, where: 'category_id = ?', whereArgs: [categoryMap['id']], orderBy: 'rating DESC');
+      categoryMap['products'] = products;
+      return Category.fromMap(categoryMap);
+    } else {
+      return null;
     }
   }
 

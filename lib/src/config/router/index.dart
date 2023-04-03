@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-
 //config
 import '../../utils/constants/strings.dart';
 
@@ -16,7 +15,7 @@ import '../../presentation/views/global/politics_view.dart';
 
 //user
 import '../../presentation/views/user/home/index.dart';
-import '../../presentation/views/user/enterprise/index.dart';
+import '../../presentation/views/user/category/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -33,8 +32,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const LoginView());
     case homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView());
-    case enterpriseRoute:
-      return MaterialPageRoute(builder: (context) => const EnterpriseView());
+    case categoryRoute:
+      return MaterialPageRoute(builder: (context) => CategoryView(categoryId: settings.arguments as int));
     default:
       return MaterialPageRoute(
           builder: (context) => UndefinedView(

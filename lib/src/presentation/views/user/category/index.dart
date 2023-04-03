@@ -1,35 +1,85 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+//cubit
+import '../../../cubits/category/category_cubit.dart';
+
+//domain
 import '../../../../domain/models/product.dart';
+
+//features
 import '../home/features/product_widget.dart';
 
-class EnterpriseView extends StatefulWidget {
-  const EnterpriseView({Key? key}) : super(key: key);
+class CategoryView extends StatefulWidget {
+  const CategoryView({Key? key, required this.categoryId}) : super(key: key);
+
+  final int categoryId;
 
   @override
-  State<EnterpriseView> createState() => _EnterpriseViewState();
+  State<CategoryView> createState() => _CategoryViewState();
 }
 
-class _EnterpriseViewState extends State<EnterpriseView> {
+class _CategoryViewState extends State<CategoryView> {
+  late CategoryCubit categoryCubit;
+
+  @override
+  void initState() {
+    categoryCubit = BlocProvider.of<CategoryCubit>(context);
+    categoryCubit.init(widget.categoryId);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Scaffold(
-        body: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
+    return Scaffold(body:
+        BlocBuilder<CategoryCubit, CategoryState>(builder: (context, state) {
+      if (state is CategoryLoading) {
+        return const Center(
+          child: CupertinoActivityIndicator(),
+        );
+      } else if (state is CategorySuccess) {
+        return buildBody(size, state);
+      } else {
+        return const SizedBox();
+      }
+    }));
+  }
+
+  Widget buildBody(Size size, state) {
+    return CustomScrollView(
       slivers: [
         SliverAppBar(
           floating: true,
           flexibleSpace: FlexibleSpaceBar(
-            title: const Text('Enterprise name'),
+            title: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(state.category.name),
+                Text(state.category.image, style: TextStyle(fontSize: 10)),
+              ],
+            ),
             background: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                Image.asset(
-                  "assets/images/hero.png",
-                  fit: BoxFit.cover,
-                ),
+                SvgPicture.asset(state.category.image, fit: BoxFit.fill),
+                // CachedNetworkImage(
+                //     imageUrl: state.category.image,
+                //     placeholder: (context, url) =>
+                //         const Center(child: CupertinoActivityIndicator()),
+                //     errorWidget: (context, url, error) => Image.asset(
+                //           "assets/images/hero.png",
+                //           fit: BoxFit.cover,
+                //         )),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -47,44 +97,16 @@ class _EnterpriseViewState extends State<EnterpriseView> {
           ),
           expandedHeight: 150,
         ),
-        const SliverToBoxAdapter(child: SizedBox(height: 10)),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              height: 140,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: List.generate(3, (index) => category(index)).toList(),
-              ),
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              height: size.height,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Theme.of(context).colorScheme.primaryContainer),
-              child: ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(
-                    10,
-                    (index) => const ProductWidget(
-                        product: Product(
-                            categoryId: 0,
-                            id: 0,
-                            name: 'pizza',
-                            description: 'original masa',
-                            price: 200000,
-                            image: 'assets/images/pizza.jpg'))),
-              ),
-            ),
-          ),
-        )
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ProductWidget(product: state.category.products[index]),
+            );
+          },
+          childCount: state.category.products.length,
+        )),
         // SliverList(
         //   delegate: SliverChildBuilderDelegate(
         //     (context, index) => Padding(
@@ -99,7 +121,7 @@ class _EnterpriseViewState extends State<EnterpriseView> {
         //   ),
         // ),
       ],
-    ));
+    );
   }
 
   Widget category(index) => (index == 0)

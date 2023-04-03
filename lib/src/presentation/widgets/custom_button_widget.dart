@@ -22,7 +22,7 @@ class CustomMaterialButton extends StatelessWidget {
       animationDuration: const Duration(seconds: 1),
       child: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-        child: Text(buttonText.toString().toUpperCase() ?? "DEFAULT",
+        child: Text(buttonText.toString().toUpperCase(),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,

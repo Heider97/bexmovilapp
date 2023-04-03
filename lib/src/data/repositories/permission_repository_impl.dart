@@ -114,18 +114,18 @@ class PermissionRepository {
   }
 
   @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
 
-    return o is PermissionRepository &&
-        o.isDenied == isDenied &&
-        o.isGranted == isGranted &&
-        o.isPermanentlyDenied == isPermanentlyDenied &&
-        o.isUnknown == isUnknown &&
-        o.isReRequesting == isReRequesting &&
-        o.buttonText == buttonText &&
-        o.displayTitle == displayTitle &&
-        o.displayMessage == displayMessage;
+    return other is PermissionRepository &&
+        other.isDenied == isDenied &&
+        other.isGranted == isGranted &&
+        other.isPermanentlyDenied == isPermanentlyDenied &&
+        other.isUnknown == isUnknown &&
+        other.isReRequesting == isReRequesting &&
+        other.buttonText == buttonText &&
+        other.displayTitle == displayTitle &&
+        other.displayMessage == displayMessage;
   }
 
   @override

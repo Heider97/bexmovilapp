@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -137,83 +136,89 @@ class InitialViewState extends State<InitialView> {
   }
 
   Widget _buildBodyNetworkSuccess(Size size, String? error) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
-                  bottom: kDefaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Bienvenido a',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold)),
-                  Text('Bexmovil',
-                      style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 50,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 2.0,
-                              color: Colors.white,
-                            ),
-                            Shadow(
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 3.0,
-                              color: Colors.white,
-                            ),
-                          ])),
-                  Text('La mejor app para tomar pedidos.',
-                      style: TextStyle(color: Colors.white, fontSize: 30)),
-                ],
-              )),
-          const SizedBox(height: 20),
-          Column(
+    return BlocListener<InitialCubit, InitialState>(
+        listener: (context, state) {
+          if (state.enterprise != null) {
+            _navigationService.replaceTo(loginRoute);
+          }
+        },
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
                   padding: const EdgeInsets.only(
                       left: kDefaultPadding,
                       right: kDefaultPadding,
                       bottom: kDefaultPadding),
-                  child: buildCompanyField()),
-              if (error != null)
-                Padding(
-                    padding: const EdgeInsets.only(
-                        left: kDefaultPadding,
-                        right: kDefaultPadding,
-                        bottom: kDefaultPadding),
-                    child: Text(error,
-                        style: const TextStyle(color: Colors.white))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text('Bienvenido a',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold)),
+                      Text('Bexmovil',
+                          style: TextStyle(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 50,
+                              shadows: [
+                                Shadow(
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 2.0,
+                                  color: Colors.white,
+                                ),
+                                Shadow(
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 3.0,
+                                  color: Colors.white,
+                                ),
+                              ])),
+                      Text('La mejor app para tomar pedidos.',
+                          style: TextStyle(color: Colors.white, fontSize: 30)),
+                    ],
+                  )),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: kDefaultPadding, right: kDefaultPadding),
-                child: DefaultButton(
-                    widget: isLoading
-                        ? const CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                          )
-                        : Text('Comenzar'.toUpperCase(),
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal)),
-                    press: () async {
-                      initialCubit.getEnterprise(companyNameController);
-                    }),
+              Column(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding,
+                          right: kDefaultPadding,
+                          bottom: kDefaultPadding),
+                      child: buildCompanyField()),
+                  if (error != null)
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            left: kDefaultPadding,
+                            right: kDefaultPadding,
+                            bottom: kDefaultPadding),
+                        child: Text(error,
+                            style: const TextStyle(color: Colors.white))),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: kDefaultPadding, right: kDefaultPadding),
+                    child: DefaultButton(
+                        widget: isLoading
+                            ? const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              )
+                            : Text('Comenzar'.toUpperCase(),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal)),
+                        press: () async {
+                          initialCubit.getEnterprise(companyNameController);
+                        }),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ]);
+            ]));
   }
 
   MediaQuery buildCompanyField() {
@@ -230,10 +235,10 @@ class InitialViewState extends State<InitialView> {
             fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
           fillColor: Colors.white,
-          hintText: 'empresa',
+          hintText: 'Empresa',
           hintStyle: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-          border: OutlineInputBorder(gapPadding: 1),
+          border: InputBorder.none,
           floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
       ),

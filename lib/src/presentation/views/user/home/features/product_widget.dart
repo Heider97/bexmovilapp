@@ -7,6 +7,8 @@ import '../../../../../domain/models/product.dart';
 //utils
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/nums.dart';
+//extensions
+import '../../../../../utils/constants/extensions/string_extension.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({Key? key, required this.product}) : super(key: key);
@@ -45,9 +47,30 @@ class ProductWidget extends StatelessWidget {
                   Text(product.description,
                       maxLines: 2, style: const TextStyle(fontSize: 11)),
                   const SizedBox(height: 5),
-                  Text('\$${product.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                          color: kPrimaryColor, fontWeight: FontWeight.bold))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(''.formatted(product.price),
+                          style: const TextStyle(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold)),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              style: const TextStyle(
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.bold),
+                              text: product.rating.toString(),
+                            ),
+                            const WidgetSpan(
+                              child: Icon(Icons.star, size: 15),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             )

@@ -76,6 +76,7 @@ class LoginViewState extends State<LoginView> {
       appBar: buildAppBar,
       extendBodyBehindAppBar: true,
       body: BlocBuilder<LoginCubit, LoginState>(
+        // buildWhen: ,
         builder: (context, state) => buildBlocConsumer(size),
       ),
     );
@@ -231,9 +232,9 @@ class LoginViewState extends State<LoginView> {
         child: Column(
           children: [
             const SizedBox(height: 30.0),
-            buildTextField(username, 'Usuario'),
+            buildTextField(username, kNameNullError, 'Usuario'),
             const SizedBox(height: 10.0),
-            buildTextField(password, 'Contraseña'),
+            buildTextField(password, kPassNullError, 'Contraseña'),
             const SizedBox(height: 120.0),
             buildButton(context, state),
           ],

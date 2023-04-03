@@ -23,6 +23,7 @@ import 'src/presentation/cubits/network/network_event.dart';
 import 'src/presentation/cubits/processing_queue/procesing_queue_bloc.dart';
 import 'src/presentation/cubits/processing_queue/processing_queue_event.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
+import 'src/presentation/cubits/category/category_cubit.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -86,6 +87,10 @@ class MyApp extends StatelessWidget {
               create: (context) => HomeCubit(
                     locator<DatabaseRepository>(),
                   )),
+          BlocProvider(
+              create: (context) => CategoryCubit(
+                locator<DatabaseRepository>(),
+              )),
         ],
         child: BlocProvider(
             create: (context) => ThemeBloc(),

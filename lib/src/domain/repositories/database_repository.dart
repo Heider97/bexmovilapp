@@ -15,6 +15,7 @@ abstract class DatabaseRepository {
 
   //CATEGORIES
   Future<List<Category>> getAllCategoriesWithProducts();
+  Future<Category?> getCategoryWithProducts(int categoryId);
   Future<int> updateCategory(Category category);
   Future<int> insertCategory(Category category);
   Future<void> emptyCategories();

@@ -53,7 +53,7 @@ class Logging extends Interceptor {
         handler.resolve(await DioHttpRequestRetrier(dio: dio)
             .requestRetry(err.requestOptions)
             .catchError((e) {
-          handler.next(err);
+                handler.next(err);
         }));
       } catch (e) {
         handler.next(err);

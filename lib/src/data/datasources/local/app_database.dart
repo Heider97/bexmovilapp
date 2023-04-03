@@ -52,6 +52,7 @@ class AppDatabase {
         ${ProductFields.description} TEXT DEFAULT NULL,
         ${ProductFields.price} REAL DEFAULT NULL,
         ${ProductFields.image} TEXT DEFAULT NULL,
+        ${ProductFields.rating} INTEGER DEFAULT NULL,
         ${ProductFields.categoryId} INTEGER DEFAULT NULL
       )  
     ''',

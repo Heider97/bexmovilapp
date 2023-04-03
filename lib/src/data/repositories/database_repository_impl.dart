@@ -34,6 +34,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<Category?> getCategoryWithProducts(int categoryId) async {
+    return _appDatabase.categoryDao.getCategoryWithProducts(categoryId);
+  }
+
+  @override
   Future<int> updateCategory(Category category) async {
     return _appDatabase.categoryDao.updateCategory(category);
   }

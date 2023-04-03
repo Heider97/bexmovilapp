@@ -1,7 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
 import '../../../cubits/home/home_cubit.dart';
@@ -12,12 +12,9 @@ import '../../../../utils/constants/strings.dart';
 //features
 import 'features/category_widget.dart';
 import 'features/product_widget.dart';
+import 'features/category_image_widget.dart';
 
-//services
-import '../../../../locator.dart';
-import '../../../../services/navigation.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -88,11 +85,11 @@ class _HomeViewState extends State<HomeView>
       SizedBox(
         height: 60,
         child: TabBar(
-            onTap: homeCubit.onTapSelected,
-            controller: homeCubit.tabController,
+            onTap: context.read<HomeCubit>().onTapSelected,
+            controller: context.read<HomeCubit>().tabController,
             indicatorWeight: 0.1,
             isScrollable: true,
-            tabs: homeCubit.tabs.map((e) => TabWidget(tab: e)).toList()),
+            tabs: context.read<HomeCubit>().tabs.map((e) => TabWidget(tab: e)).toList()),
       ),
       Padding(
         padding: const EdgeInsets.all(20),
@@ -115,7 +112,7 @@ class _HomeViewState extends State<HomeView>
       ),
       Expanded(
           child: ListView.builder(
-              controller: homeCubit.scrollController,
+              controller: context.read<HomeCubit>().scrollController,
               itemCount: state.categories!.length,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemBuilder: (context, index) {
@@ -124,7 +121,7 @@ class _HomeViewState extends State<HomeView>
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Stack(
-                    clipBehavior: Clip.antiAlias,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -137,27 +134,16 @@ class _HomeViewState extends State<HomeView>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //CATEGORY
-                            GestureDetector(
-                              onTap: () =>
-                                  _navigationService.goTo(enterpriseRoute),
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 20),
-                                  child: Text(category.name,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.normal))),
-                            ),
+                            CategoryWidget(category: category),
                             //PRODUCTS
-                            ...List.generate(category.products.length, (index) => ProductWidget(product: category.products[index]))
+                            ...List.generate(
+                                category.products.length,
+                                (index) => ProductWidget(
+                                    product: category.products[index]))
                           ],
                         ),
                       ),
-                      Positioned(
-                          right: -25,
-                          bottom: -55,
-                          child: SvgPicture.asset('assets/svg/plant1.svg',
-                              height: 170, width: 170)),
+                      // CategoryImageWidget(image: category.image)
                     ],
                   ),
                 );

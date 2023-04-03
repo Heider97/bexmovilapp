@@ -17,7 +17,7 @@ const companyRoute = '/company';
 const permissionRoute = '/permission';
 const loginRoute = '/login';
 const homeRoute = '/home';
-const enterpriseRoute = '/enterprise';
+const categoryRoute = '/category';
 const productRoute = '/product';
 
 const databaseRoute = '/database';
