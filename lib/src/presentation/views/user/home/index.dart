@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,15 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //cubit
 import '../../../cubits/home/home_cubit.dart';
 
-//utils
-import '../../../../utils/constants/strings.dart';
-
 //features
 import 'features/category_widget.dart';
 import 'features/product_widget.dart';
-import 'features/category_image_widget.dart';
-
-
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

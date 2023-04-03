@@ -55,6 +55,7 @@ dependencies:
   hive: ^2.2.3
   path: ^1.8.2
   synchronized: ^3.0.1
+  syncfusion_flutter_calendar: ^21.1.37
 
 dev_dependencies:
   flutter_test:

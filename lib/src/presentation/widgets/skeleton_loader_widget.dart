@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-//utils
-import '../../utils/constants/nums.dart';
-
 class SkeletonLoading extends StatefulWidget {
   const SkeletonLoading({ Key? key, required this.cant }) : super(key: key);
 

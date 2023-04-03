@@ -1,6 +1,4 @@
-import 'package:bexmovil/src/data/repositories/base/dio_exeptions.dart';
-import 'package:dio/dio.dart';
-
+import '../../../data/repositories/base/dio_exeptions.dart';
 import '../cache_strategy.dart';
 import '../cache_manager.dart';
 import '../storage/storage.dart';
