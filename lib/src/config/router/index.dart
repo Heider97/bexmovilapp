@@ -16,6 +16,7 @@ import '../../presentation/views/global/politics_view.dart';
 
 //user
 import '../../presentation/views/user/home/index.dart';
+import '../../presentation/views/user/enterprise/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -32,6 +33,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const LoginView());
     case homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView());
+    case enterpriseRoute:
+      return MaterialPageRoute(builder: (context) => const EnterpriseView());
     default:
       return MaterialPageRoute(
           builder: (context) => UndefinedView(

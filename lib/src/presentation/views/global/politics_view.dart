@@ -72,7 +72,7 @@ class PoliticsViewState extends State<PoliticsView> {
                             fontSize: 15, fontWeight: FontWeight.w300)),
                     const SizedBox(height: 10),
                     const Text(
-                        'Bex deliveries recopila datos de tu ubicación para habilitar el seguimiento continuo de los transportadores en la entrega de clientes y mejorar los tiempo de entrega incluso cuando la aplicación esta cerrada o no esta en uso.',
+                        'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los transportadores en la entrega de clientes y mejorar los tiempo de entrega incluso cuando la aplicación esta cerrada o no esta en uso.',
                         textAlign: TextAlign.justify,
                         // textScaleFactor: textScaleFactor(context),
                         style: TextStyle(
@@ -100,6 +100,7 @@ class PoliticsViewState extends State<PoliticsView> {
                               softWrap: false,
                               // textScaleFactor: textScaleFactor(context),
                               style: TextStyle(
+                                color: Colors.white,
                                 fontSize: 16.0,
                               )),
                       press: () => _dispatchEvent(context),

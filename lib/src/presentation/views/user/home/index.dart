@@ -1,7 +1,23 @@
-import 'package:bexmovil/src/domain/models/product.dart';
-import 'package:bexmovil/src/presentation/cubits/home/home_bloc.dart';
-import 'package:bexmovil/src/utils/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+//cubit
+import '../../../cubits/home/home_cubit.dart';
+
+//utils
+import '../../../../utils/constants/strings.dart';
+
+//features
+import 'features/category_widget.dart';
+import 'features/product_widget.dart';
+
+//services
+import '../../../../locator.dart';
+import '../../../../services/navigation.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -12,82 +28,141 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
-  final bloc = HomeBloc();
+  late HomeCubit homeCubit;
 
   @override
   void initState() {
-    bloc.init(this);
+    homeCubit = BlocProvider.of<HomeCubit>(context);
+    homeCubit.init(this);
     super.initState();
   }
 
   @override
   void dispose() {
-    bloc.dispose();
+    homeCubit.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('TR 38AA #59A-231', style: TextStyle(fontSize: 16)),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.people),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          ),
+        ),
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
-        child: AnimatedBuilder(
-            animation: bloc,
-            builder: (_, __) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Container(
-                      height: 80,
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+        child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+          if (state is HomeLoading) {
+            return const Center(
+              child: CupertinoActivityIndicator(),
+            );
+          } else if (state is HomeSuccess) {
+            return buildHome(state);
+          } else {
+            return const SizedBox();
+          }
+        }),
+      ),
+    );
+  }
+
+  Widget buildHome(state) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      SizedBox(
+        height: 60,
+        child: TabBar(
+            onTap: homeCubit.onTapSelected,
+            controller: homeCubit.tabController,
+            indicatorWeight: 0.1,
+            isScrollable: true,
+            tabs: homeCubit.tabs.map((e) => TabWidget(tab: e)).toList()),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).colorScheme.tertiaryContainer,
+          ),
+          padding: const EdgeInsets.all(20),
+          height: 100,
+          child: Row(
+            children: const [
+              Icon(Icons.lightbulb),
+              Flexible(
+                  child: Text('Aqui va toda la publicidad engañosa de la app',
+                      maxLines: 2))
+            ],
+          ),
+        ),
+      ),
+      Expanded(
+          child: ListView.builder(
+              controller: homeCubit.scrollController,
+              itemCount: state.categories!.length,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              itemBuilder: (context, index) {
+                final category = state.categories![index];
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Stack(
+                    clipBehavior: Clip.antiAlias,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer),
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Home Page',
-                                style: TextStyle(
-                                    color: kPrimaryColor,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold)),
-                            CircleAvatar(
-                              radius: 17,
-                              child: ClipOval(
-                                child: Image.asset('assets/images/icon.png',
-                                    height: 30, fit: BoxFit.cover),
-                              ),
-                            )
+                            //CATEGORY
+                            GestureDetector(
+                              onTap: () =>
+                                  _navigationService.goTo(enterpriseRoute),
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 20),
+                                  child: Text(category.name,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal))),
+                            ),
+                            //PRODUCTS
+                            ...List.generate(category.products.length, (index) => ProductWidget(product: category.products[index]))
                           ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 80,
-                      child: TabBar(
-                          onTap: bloc.onTapSelected,
-                          controller: bloc.tabController,
-                          indicatorWeight: 0.1,
-                          isScrollable: true,
-                          tabs:
-                              bloc.tabs.map((e) => TabWidget(tab: e)).toList()),
-                    ),
-                    Expanded(
-                        child: ListView.builder(
-                            controller: bloc.scrollController,
-                            itemCount: bloc.items.length,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemBuilder: (context, index) {
-                              final item = bloc.items[index];
-                              if (item.isCategory) {
-                                return CategoryWidget(category: item.category!);
-                              } else {
-                                return ProductWidget(product: item.product!);
-                              }
-                            }))
-                  ],
-                )),
-      ),
-    );
+                      Positioned(
+                          right: -25,
+                          bottom: -55,
+                          child: SvgPicture.asset('assets/svg/plant1.svg',
+                              height: 170, width: 170)),
+                    ],
+                  ),
+                );
+              }))
+    ]);
   }
 }
 
@@ -104,70 +179,9 @@ class TabWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           tab.category.name,
-          style: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 13),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),
-    );
-  }
-}
-
-class CategoryWidget extends StatelessWidget {
-  const CategoryWidget({Key? key, required this.category}) : super(key: key);
-
-  final Category category;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: categoryHeight,
-      alignment: Alignment.centerLeft,
-      color: Colors.white,
-      child: Text(category.name,
-          style: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
-    );
-  }
-}
-
-class ProductWidget extends StatelessWidget {
-  const ProductWidget({Key? key, required this.product}) : super(key: key);
-
-  final Product product;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: productHeight,
-      child: Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Image.asset(product.image)),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(product.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 5),
-                    Text(product.description,
-                        maxLines: 2, style: const TextStyle(fontSize: 11)),
-                    const SizedBox(height: 5),
-                    Text('\$${product.price.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                            color: kPrimaryColor, fontWeight: FontWeight.bold))
-                  ],
-                ),
-              )
-            ],
-          )),
     );
   }
 }

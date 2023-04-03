@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:intl/intl.dart';
 
 extension SizeFormatter on num {

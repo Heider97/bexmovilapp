@@ -1,35 +1,47 @@
+import 'package:equatable/equatable.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+//utils
+import '../../../utils/constants/nums.dart';
+
 //domain
-import '../../../domain/models/product.dart';
+import '../../../domain/models/category.dart';
+import '../../../domain/repositories/database_repository.dart';
 
-const categoryHeight = 50.0;
-const productHeight = 110.0;
+part 'home_state.dart';
+part 'tab_category.dart';
 
-class HomeBloc extends ChangeNotifier {
+class HomeCubit extends Cubit<HomeState> {
+  final DatabaseRepository _databaseRepository;
+
+  HomeCubit(this._databaseRepository) : super(const HomeLoading());
+
   List<TabCategory> tabs = [];
   late TabController tabController;
   ScrollController scrollController = ScrollController();
-  List<Item> items = [];
   bool listen = true;
 
-  void init(TickerProvider ticker) {
-    tabController =
-        TabController(length: rappiCategories.length, vsync: ticker);
+  Future<void> init(TickerProvider ticker) async {
+    final categories = await _databaseRepository.getAllCategoriesWithProducts();
+
+    tabController = TabController(length: categories.length, vsync: ticker);
 
     double offsetFrom = 0.0;
     double offsetTo = 0.0;
 
-    for (var i = 0; i < rappiCategories.length; i++) {
-      final category = rappiCategories[i];
+    for (var i = 0; i < categories.length; i++) {
+      final category = categories[i];
+
+      print(category.products);
 
       if (i > 0) {
-        offsetFrom += rappiCategories[i - 1].products.length * productHeight;
+        offsetFrom += categories[i - 1].products!.length * productHeight;
       }
 
-      if (i < rappiCategories.length - 1) {
+      if (i < categories.length - 1) {
         offsetTo =
-            offsetFrom + rappiCategories[i + 1].products.length * productHeight;
+            offsetFrom + categories[i + 1].products!.length * productHeight;
       } else {
         offsetTo = double.infinity;
       }
@@ -39,17 +51,11 @@ class HomeBloc extends ChangeNotifier {
           selected: (i == 0),
           offsetFrom: categoryHeight * i + offsetFrom,
           offsetTo: offsetTo));
-
-      items.add(Item(
-        category: category,
-      ));
-
-      for (var j = 0; j < category.products.length; j++) {
-        items.add(Item(product: category.products[j]));
-      }
     }
 
     scrollController.addListener(onScrollListener);
+
+    emit(HomeSuccess(categories: categories));
   }
 
   void onScrollListener() {
@@ -74,8 +80,6 @@ class HomeBloc extends ChangeNotifier {
       tabs[i] = tabs[i].copyWith(condition);
     }
 
-    notifyListeners();
-
     if (animationRequired) {
       listen = false;
       await scrollController.animateTo(selected.offsetFrom,
@@ -84,39 +88,19 @@ class HomeBloc extends ChangeNotifier {
     }
   }
 
-  @override
   void dispose() {
     scrollController.removeListener(onScrollListener);
     scrollController.dispose();
     tabController.dispose();
-    super.dispose();
   }
 }
 
-class TabCategory {
-  final Category category;
-  final bool selected;
-  final double offsetFrom;
-  final double offsetTo;
-
-  TabCategory copyWith(bool selected) => TabCategory(
-      category: category,
-      selected: selected,
-      offsetFrom: offsetFrom,
-      offsetTo: offsetTo);
-
-  TabCategory(
-      {required this.category,
-      required this.selected,
-      required this.offsetFrom,
-      required this.offsetTo});
-}
-
-class Item {
-  final Category? category;
-  final Product? product;
-
-  Item({this.category, this.product});
-
-  bool get isCategory => category != null;
-}
+//
+// class Item {
+//   final Category? category;
+//   final Product? product;
+//
+//   Item({this.category, this.product});
+//
+//   bool get isCategory => category != null;
+// }

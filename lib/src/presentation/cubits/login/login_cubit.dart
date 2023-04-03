@@ -1,15 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:location_repository/location_repository.dart';
+import 'package:path_provider/path_provider.dart';
 
 //domain
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
+import '../../../domain/models/category.dart';
+import '../../../domain/models/product.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
 import '../../../domain/models/requests/login_request.dart';
-import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/models/requests/enterprise_config_request.dart';
+import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //utils
@@ -47,6 +52,34 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
           enterprise: _storageService.getObject('enterprise') != null
               ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
               : null));
+
+     await _databaseRepository.init();
+
+      // final String response = await rootBundle.loadString('assets/data/products.json');
+      // final data = await json.decode(response);
+      //
+      // var len = data.length;
+      // var size = 10;
+      // var chunks = [];
+      //
+      // for(var i = 0; i< len; i+= size) {
+      //   var end = (i+size<len)?i+size:len;
+      //   chunks.add(data.sublist(i,end));
+      // }
+      //
+      // for(var j = 0; j < chunks.length; j++){
+      //   var category = Category(name: 'Category ${j+1}', image: 'assets/svg/pant${j+1}.svg');
+      //
+      //   var id = await _databaseRepository.insertCategory(category);
+      //
+      //   final products = chunks[j].map<Product>((product) {
+      //     product['category_id'] = id;
+      //     return Product.fromMap(product);
+      //   }).toList();
+      //
+      //   await _databaseRepository.insertProducts(products);
+      //
+      // }
 
       emit(const LoginSuccess());
 

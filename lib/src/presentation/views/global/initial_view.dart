@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/utils/constants/colors.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,7 @@ import '../../../domain/models/enterprise.dart';
 //utils
 import '../../../utils/constants/nums.dart';
 import '../../../utils/constants/strings.dart';
+import '../../../utils/constants/colors.dart';
 
 //cubits
 import '../../cubits/initial/initial_cubit.dart';
@@ -19,13 +20,14 @@ import '../../cubits/network/network_state.dart';
 
 //widgets
 import '../../widgets/default_button_widget.dart';
-import '../../widgets/version_widget.dart';
 
 //service
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
+import '../../../services/storage.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
+final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class InitialView extends StatefulWidget {
   const InitialView({Key? key}) : super(key: key);
@@ -54,6 +56,12 @@ class InitialViewState extends State<InitialView> {
     super.dispose();
   }
 
+  void rememberSession() {
+    if (_storageService.getString('token') != null) {
+      _navigationService.goTo(homeRoute);
+    }
+  }
+
   void _onFocusChange() {
     if (_focus.hasFocus) {
       setState(() {
@@ -71,9 +79,10 @@ class InitialViewState extends State<InitialView> {
     initialCubit = BlocProvider.of<InitialCubit>(context);
 
     return Scaffold(
-        // resizeToAvoidBottomInset: false,
         body: BlocBuilder<InitialCubit, InitialState>(
+      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
+        rememberSession();
         if (state.runtimeType == InitialLoading) {
           return const Center(child: CupertinoActivityIndicator());
         } else if (state.runtimeType == InitialSuccess ||
@@ -87,35 +96,31 @@ class InitialViewState extends State<InitialView> {
   }
 
   Widget _buildBody(Size size, Enterprise? enterprise, String? error) {
-    return BlocListener<InitialCubit, InitialState>(
-        listener: (context, state) {
-          if (state.enterprise != null) {
-            _navigationService.goTo(loginRoute);
-          }
-        },
-        child: SingleChildScrollView(
-            child: Container(
-                height: size.height,
-                width: size.width,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/bg-initial-1.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: BlocBuilder<NetworkCubit, NetworkState>(
-                    builder: (context, networkState) {
-                  switch (networkState.runtimeType) {
-                    case NetworkInitial:
-                      return const Center(child: CupertinoActivityIndicator());
-                    case NetworkFailure:
-                      return _buildNetworkFailed();
-                    case NetworkSuccess:
-                      return _buildBodyNetworkSuccess(size, error);
-                    default:
-                      return const SizedBox();
-                  }
-                }))));
+    return SingleChildScrollView(
+        child: Container(
+            height: size.height,
+            width: size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage("assets/images/bg-initial-1.jpg"),
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.7), BlendMode.darken),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: BlocBuilder<NetworkCubit, NetworkState>(
+                builder: (context, networkState) {
+              switch (networkState.runtimeType) {
+                case NetworkInitial:
+                  return const Center(child: CupertinoActivityIndicator());
+                case NetworkFailure:
+                  return _buildNetworkFailed();
+                case NetworkSuccess:
+                  return _buildBodyNetworkSuccess(size, error);
+                default:
+                  return const SizedBox();
+              }
+            })));
   }
 
   Widget _buildNetworkFailed() {
@@ -146,13 +151,28 @@ class InitialViewState extends State<InitialView> {
                 children: const [
                   Text('Bienvenido a',
                       style: TextStyle(
-                          // color: Colors.white,
+                          color: Colors.white,
                           fontSize: 50,
                           fontWeight: FontWeight.bold)),
                   Text('Bexmovil',
-                      style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold, fontSize: 30)),
-                  Text('la mejor app para tomar pedidos.',
-                      style: TextStyle( fontSize: 30)),
+                      style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 50,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 2.0,
+                              color: Colors.white,
+                            ),
+                            Shadow(
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 3.0,
+                              color: Colors.white,
+                            ),
+                          ])),
+                  Text('La mejor app para tomar pedidos.',
+                      style: TextStyle(color: Colors.white, fontSize: 30)),
                 ],
               )),
           const SizedBox(height: 20),
@@ -206,17 +226,14 @@ class InitialViewState extends State<InitialView> {
         focusNode: _focus,
         keyboardType: TextInputType.multiline,
         maxLines: null,
+        style: const TextStyle(
+            fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
           fillColor: Colors.white,
           hintText: 'empresa',
           hintStyle: TextStyle(
-            fontSize: 30,
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-          ),
-          border: OutlineInputBorder(
-            gapPadding: 1
-          ),
+              fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+          border: OutlineInputBorder(gapPadding: 1),
           floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
       ),

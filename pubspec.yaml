@@ -1,4 +1,4 @@
-name: bexmovil
+name: BexMovil
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -53,6 +53,8 @@ dependencies:
     sdk: flutter
   latlong2: ^0.8.1
   hive: ^2.2.3
+  path: ^1.8.2
+  synchronized: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +80,7 @@ flutter:
     - assets/launcher/
     - assets/animations/
     - assets/icons/
+    - assets/data/
     - pubspec.yaml
   fonts:
     - family: Butler

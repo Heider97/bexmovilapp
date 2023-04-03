@@ -8,13 +8,20 @@ extension SnackBarWidget on LoginViewState {
 }
 
 extension TextFieldWidget on LoginViewState {
-  Widget buildTextField(TextEditingController controller) {
+  Widget buildTextField(TextEditingController controller, String hint) {
     return TextFormField(
       controller: controller,
-      decoration: const InputDecoration(
+      style: const TextStyle(
+          fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+      decoration: InputDecoration(
         filled: true,
         fillColor: Colors.transparent,
-        border: OutlineInputBorder(),
+        labelStyle: const TextStyle(
+            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+        hintText: hint,
+        hintStyle: const TextStyle(
+            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+        border: const OutlineInputBorder(),
       ),
       validator: validator,
     );
@@ -29,10 +36,10 @@ extension TextFieldWidget on LoginViewState {
   }
 }
 
-
 extension LoginButton on LoginViewState {
   Widget buildButton(BuildContext context, LoginState state) {
-    return DefaultButton(widget: buildChild(state), press: () => buildOnPressed(context));
+    return DefaultButton(
+        widget: buildChild(state), press: () => buildOnPressed(context));
   }
 
   Future<void> buildOnPressed(BuildContext context) async {
@@ -46,6 +53,10 @@ extension LoginButton on LoginViewState {
   Widget buildChild(LoginState state) {
     return state is LoginLoading
         ? const CircularProgressIndicator.adaptive()
-        : const Text('Iniciar', style: TextStyle(color: Colors.white));
+        : const Text('Iniciar',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Colors.white));
   }
 }

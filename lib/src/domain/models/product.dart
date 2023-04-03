@@ -1,292 +1,52 @@
-class Category {
-  const Category({required this.name, required this.products});
+const String tableProducts = 'products';
 
-  final String name;
-  final List<Product> products;
+class ProductFields {
+  static final List<String> values = [id, name, description, price, image, categoryId];
+
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String description = 'description';
+  static const String price = 'price';
+  static const String image = 'image';
+  static const String categoryId = 'category_id';
 }
 
 class Product {
-  const Product(
-      {required this.name,
-      required this.description,
-      required this.price,
-      required this.image});
+  const Product({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.image,
+    this.categoryId,
+  });
 
+  final int id;
   final String name;
   final String description;
   final double price;
   final String image;
-}
+  final int? categoryId;
 
-const rappiCategories = [
-  Category(name: 'Order 1', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 2', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 3', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 4', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 5', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 6', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 7', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 8', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 9', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ]),
-  Category(name: 'Order 10', products: [
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg'),
-    Product(
-        name: 'Pizza',
-        description: 'la pizza es muy deliciosa cuando te la comes caliente',
-        price: 30000.0,
-        image: 'assets/images/pizza.jpg')
-  ])
-];
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      id : map['id'],
+      name : map['name'],
+      description : map['description'],
+      price : map['price'] is String ? double.parse(map['price']) : map['price'],
+      image : map['image'],
+      categoryId : map['category_id'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'image': image,
+      'category_id' : categoryId
+    };
+  }
+}

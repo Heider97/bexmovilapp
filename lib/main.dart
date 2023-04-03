@@ -22,6 +22,7 @@ import 'src/presentation/cubits/network/network_cubit.dart';
 import 'src/presentation/cubits/network/network_event.dart';
 import 'src/presentation/cubits/processing_queue/procesing_queue_bloc.dart';
 import 'src/presentation/cubits/processing_queue/processing_queue_event.dart';
+import 'src/presentation/cubits/home/home_cubit.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -81,6 +82,10 @@ class MyApp extends StatelessWidget {
                     locator<ApiRepository>(),
                     locator<DatabaseRepository>(),
                   )),
+          BlocProvider(
+              create: (context) => HomeCubit(
+                    locator<DatabaseRepository>(),
+                  )),
         ],
         child: BlocProvider(
             create: (context) => ThemeBloc(),
@@ -105,6 +110,9 @@ class MyApp extends StatelessWidget {
                       Locale('es'), // Spanish
                     ],
                     theme: state.isDarkTheme ? AppTheme.light : AppTheme.dark,
+                    darkTheme: AppTheme.dark,
+                    themeMode: ThemeMode
+                        .system, //this should be enoguh for most updated devices
                     navigatorKey: locator<NavigationService>().navigatorKey,
                     onUnknownRoute: (RouteSettings settings) =>
                         MaterialPageRoute(

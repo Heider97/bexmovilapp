@@ -97,9 +97,10 @@ class LoginViewState extends State<LoginView> {
         Container(
             height: size.height,
             width: size.width,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/bg-initial-1.jpg"),
+                image: const AssetImage("assets/images/bg-initial-1.jpg"),
+                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.darken),
                 fit: BoxFit.cover,
               ),
             ),
@@ -159,21 +160,21 @@ class LoginViewState extends State<LoginView> {
                                     ),
                                   ],
                                 ),
-                                CircleAvatar(
-                                  radius: 50,
-                                  child: CachedNetworkImage(
-                                    width: double.infinity,
-                                    height: 100.0,
-                                    imageUrl: state.enterprise != null &&
-                                            state.enterprise!.logo != null
-                                        ? 'https://bexdeliveries.com/${state.enterprise!.logo}'
-                                        : '',
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
-                                )
+                                // CircleAvatar(
+                                //   radius: 50,
+                                //   child: CachedNetworkImage(
+                                //     width: double.infinity,
+                                //     height: 100.0,
+                                //     imageUrl: state.enterprise != null &&
+                                //             state.enterprise!.logo != null
+                                //         ? 'https://bexdeliveries.com/${state.enterprise!.logo}'
+                                //         : '',
+                                //     placeholder: (context, url) =>
+                                //         const CircularProgressIndicator(),
+                                //     errorWidget: (context, url, error) =>
+                                //         const Icon(Icons.error),
+                                //   ),
+                                // )
                               ],
                             )
                           ],
@@ -217,7 +218,7 @@ class LoginViewState extends State<LoginView> {
       if (state.error != null) {
         buildSnackBar(context, state.error!);
       } else {
-        _navigationService.goTo(homeRoute);
+        _navigationService.replaceTo(homeRoute);
       }
     }
   }
@@ -230,9 +231,9 @@ class LoginViewState extends State<LoginView> {
         child: Column(
           children: [
             const SizedBox(height: 30.0),
-            buildTextField(username),
+            buildTextField(username, 'Usuario'),
             const SizedBox(height: 10.0),
-            buildTextField(password),
+            buildTextField(password, 'Contraseña'),
             const SizedBox(height: 120.0),
             buildButton(context, state),
           ],
