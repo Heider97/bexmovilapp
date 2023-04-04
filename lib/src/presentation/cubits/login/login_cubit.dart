@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:BexMovil/src/utils/constants/extensions/string_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -57,7 +58,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
       final data = await json.decode(response);
 
       var len = data.length;
-      var size = 10;
+      var size = 25;
       var chunks = [];
 
       for(var i = 0; i< len; i+= size) {
@@ -65,8 +66,15 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
         chunks.add(data.sublist(i,end));
       }
 
+      var images = [
+        'pizza',
+        'hamburger',
+        'hot-dog',
+        'steak'
+      ];
+
       for(var j = 0; j < chunks.length; j++){
-        var category = Category(name: 'Category ${j+1}', image: 'assets/svg/plant${j+1}.svg');
+        var category = Category(name: ' ${images[j].capitalize} Category', image: 'assets/images/${images[j]}.png');
 
         var id = await _databaseRepository.insertCategory(category);
 

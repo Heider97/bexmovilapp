@@ -7,7 +7,12 @@ import '../../../cubits/home/home_cubit.dart';
 
 //features
 import 'features/category_widget.dart';
+import 'features/category_image_widget.dart';
 import 'features/product_widget.dart';
+
+//widgets
+import '../../../widgets/drawer_widget.dart';
+import '../../../widgets/end_drawer_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -57,6 +62,9 @@ class _HomeViewState extends State<HomeView>
           ),
         ],
       ),
+      drawer: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+        return DrawerWidget(user: state.user, companyName: state.companyName);
+      }),
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
           if (state is HomeLoading) {
@@ -82,7 +90,11 @@ class _HomeViewState extends State<HomeView>
             controller: context.read<HomeCubit>().tabController,
             indicatorWeight: 0.1,
             isScrollable: true,
-            tabs: context.read<HomeCubit>().tabs.map((e) => TabWidget(tab: e)).toList()),
+            tabs: context
+                .read<HomeCubit>()
+                .tabs
+                .map((e) => TabWidget(tab: e))
+                .toList()),
       ),
       Padding(
         padding: const EdgeInsets.all(20),
@@ -114,8 +126,9 @@ class _HomeViewState extends State<HomeView>
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Stack(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    alignment: AlignmentDirectional.center,
                     children: [
+
                       Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -136,6 +149,10 @@ class _HomeViewState extends State<HomeView>
                           ],
                         ),
                       ),
+                      Positioned(
+                          right: -25,
+                          bottom: -55,
+                          child: CategoryImageWidget(image: category.image)),
                       // CategoryImageWidget(image: category.image)
                     ],
                   ),

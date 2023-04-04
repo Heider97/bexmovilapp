@@ -7,10 +7,17 @@ import '../../../utils/constants/nums.dart';
 
 //domain
 import '../../../domain/models/category.dart';
+import '../../../domain/models/user.dart';
 import '../../../domain/repositories/database_repository.dart';
+
+//service
+import '../../../locator.dart';
+import '../../../services/storage.dart';
 
 part 'home_state.dart';
 part 'tab_category.dart';
+
+final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class HomeCubit extends Cubit<HomeState> {
   final DatabaseRepository _databaseRepository;
@@ -24,6 +31,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> init(TickerProvider ticker) async {
     final categories = await _databaseRepository.getAllCategoriesWithProducts();
+
+    final companyName = _storageService.getString('company_name');
 
     tabController = TabController(length: categories.length, vsync: ticker);
 
@@ -53,7 +62,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     scrollController.addListener(onScrollListener);
 
-    emit(HomeSuccess(categories: categories));
+    emit(HomeSuccess(categories: categories, companyName: companyName));
   }
 
   void onScrollListener() {

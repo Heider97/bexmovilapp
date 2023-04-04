@@ -65,13 +65,13 @@ class _CategoryViewState extends State<CategoryView> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(state.category.name),
-                Text(state.category.image, style: TextStyle(fontSize: 10)),
+                Text(state.category.image, style: const TextStyle(fontSize: 10)),
               ],
             ),
             background: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                SvgPicture.asset(state.category.image, fit: BoxFit.fill),
+                Image.asset(state.category.image, fit: BoxFit.fill),
                 // CachedNetworkImage(
                 //     imageUrl: state.category.image,
                 //     placeholder: (context, url) =>
