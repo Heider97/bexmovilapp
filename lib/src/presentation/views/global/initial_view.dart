@@ -233,11 +233,18 @@ class InitialViewState extends State<InitialView> {
         style: const TextStyle(
             fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          border: UnderlineInputBorder(),
           fillColor: Colors.white,
           hintText: 'Empresa',
           hintStyle: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-          border: InputBorder.none,
+
           floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
       ),

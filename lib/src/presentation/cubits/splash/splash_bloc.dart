@@ -24,6 +24,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         emit(const Loaded(route: '/politics'));
       } else {
         var token = _storageService.getString('token');
+        print(token);
         if (token != null) {
           emit(const Loaded(route: '/home'));
         } else {
@@ -43,12 +44,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         if (!firstTime!) {
           yield const Loaded(route: '/politics');
         } else {
-          // await checkLocation()
-          //     .then((_) async {
-          //   await _locationService.activateBackgroundMode();
-          //
-          // });
-
           validateSession();
         }
       });

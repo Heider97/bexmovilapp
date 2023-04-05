@@ -12,6 +12,8 @@ import '../models/responses/database_response.dart';
 import '../models/requests/enterprise_config_request.dart';
 import '../models/responses/enterprise_config_response.dart';
 
+import '../models/requests/dummy_request.dart';
+import '../models/responses/dummy_response.dart';
 
 abstract class ApiRepository {
   Future<DataState<EnterpriseResponse>> getEnterprise({
@@ -28,5 +30,9 @@ abstract class ApiRepository {
 
   Future<DataState<DatabaseResponse>> database({
     required DatabaseRequest request
+  });
+
+  Future<DataState<DummyResponse>> products({
+    required DummyRequest request
   });
 }

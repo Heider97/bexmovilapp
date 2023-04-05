@@ -1,3 +1,4 @@
+import 'package:BexMovil/src/utils/constants/strings.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -13,14 +14,15 @@ import '../base/base_cubit.dart';
 //service
 import '../../../locator.dart';
 import '../../../services/storage.dart';
+import '../../../services/navigation.dart';
 
 part 'initial_state.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
+final NavigationService _navigationService = locator<NavigationService>();
 
 class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
   final ApiRepository _apiRepository;
-
   InitialCubit(this._apiRepository)
       : super(
             InitialSuccess(
@@ -36,18 +38,20 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
     await run(() async {
       _storageService.setString('company_name', companyNameController.text);
 
-      final response = await _apiRepository.getEnterprise(
-        request: EnterpriseRequest(companyNameController.text),
-      );
+      emit(const InitialSuccess(enterprise: Enterprise(name: 'DEMO')));
 
-      if (response is DataSuccess) {
-        final enterprise = response.data!.enterprise;
-        _storageService.setObject('enterprise', enterprise.toMap());
-        emit(InitialSuccess(enterprise: enterprise));
-      } else if (response is DataFailed) {
-        _storageService.setString('company_name', null);
-        emit(InitialFailed(error: response.error));
-      }
+      // final response = await _apiRepository.getEnterprise(
+      //   request: EnterpriseRequest(companyNameController.text),
+      // );
+      //
+      // if (response is DataSuccess) {
+      //   final enterprise = response.data!.enterprise;
+      //   _storageService.setObject('enterprise', enterprise.toMap());
+      //   emit(InitialSuccess(enterprise: enterprise));
+      // } else if (response is DataFailed) {
+      //   _storageService.setString('company_name', null);
+      //   emit(InitialFailed(error: response.error));
+      // }
     });
   }
 }

@@ -1,9 +1,11 @@
+
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 //utils
 import '../../../utils/constants/nums.dart';
+import '../../../utils/constants/strings.dart';
 
 //domain
 import '../../../domain/models/category.dart';
@@ -13,56 +15,72 @@ import '../../../domain/repositories/database_repository.dart';
 //service
 import '../../../locator.dart';
 import '../../../services/storage.dart';
+import '../../../services/navigation.dart';
 
 part 'home_state.dart';
 part 'tab_category.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
+final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeCubit extends Cubit<HomeState> {
   final DatabaseRepository _databaseRepository;
 
   HomeCubit(this._databaseRepository) : super(const HomeLoading());
 
-  List<TabCategory> tabs = [];
+  late List<TabCategory> tabs = [];
   late TabController tabController;
-  ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
   bool listen = true;
 
   Future<void> init(TickerProvider ticker) async {
-    final categories = await _databaseRepository.getAllCategoriesWithProducts();
 
-    final companyName = _storageService.getString('company_name');
+    await Future.value(_databaseRepository.getAllCategoriesWithProducts())
+    .then((categories) {
 
-    tabController = TabController(length: categories.length, vsync: ticker);
+      print('***********');
+      print(categories.length);
 
-    double offsetFrom = 0.0;
-    double offsetTo = 0.0;
+      final companyName = _storageService.getString('company_name');
 
-    for (var i = 0; i < categories.length; i++) {
-      final category = categories[i];
+      scrollController = ScrollController();
 
-      if (i > 0) {
-        offsetFrom += categories[i - 1].products!.length * productHeight;
+      tabController = TabController(length: categories.length, vsync: ticker);
+
+      double offsetFrom = 0.0;
+      double offsetTo = 0.0;
+
+      for (var i = 0; i < categories.length; i++) {
+        final category = categories[i];
+
+        if (i > 0) {
+          offsetFrom += categories[i - 1].products!.length * productHeight;
+        }
+
+        if (i < categories.length - 1) {
+          offsetTo =
+              offsetFrom + categories[i + 1].products!.length * productHeight;
+        } else {
+          offsetTo = double.infinity;
+        }
+
+        tabs.add(TabCategory(
+            category: category,
+            selected: (i == 0),
+            offsetFrom: categoryHeight * i + offsetFrom,
+            offsetTo: offsetTo));
       }
 
-      if (i < categories.length - 1) {
-        offsetTo =
-            offsetFrom + categories[i + 1].products!.length * productHeight;
-      } else {
-        offsetTo = double.infinity;
-      }
+      scrollController.addListener(onScrollListener);
 
-      tabs.add(TabCategory(
-          category: category,
-          selected: (i == 0),
-          offsetFrom: categoryHeight * i + offsetFrom,
-          offsetTo: offsetTo));
-    }
+      Future.delayed(const Duration(seconds: 2), () {
+        emit(HomeSuccess(categories: categories, companyName: companyName));
+      });
 
-    scrollController.addListener(onScrollListener);
 
-    emit(HomeSuccess(categories: categories, companyName: companyName));
+    });
+
+
   }
 
   void onScrollListener() {
@@ -96,8 +114,21 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void dispose() {
+    emit(const HomeLoading());
     scrollController.removeListener(onScrollListener);
     scrollController.dispose();
     tabController.dispose();
+  }
+
+  Future<void> logout() async {
+    await Future.wait([
+      _databaseRepository.emptyCategories(),
+      _databaseRepository.emptyProducts(),
+      _databaseRepository.emptyProcessingQueues()
+    ]);
+
+    _storageService.remove('token');
+    _navigationService.replaceTo(loginRoute);
+
   }
 }

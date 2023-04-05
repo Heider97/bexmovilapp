@@ -13,13 +13,14 @@ class ProductFields {
 }
 
 class Product {
-  const Product({
+  Product({
     required this.id,
     required this.name,
     required this.description,
     required this.price,
     required this.image,
     required this.rating,
+    this.category,
     this.categoryId,
   });
 
@@ -29,16 +30,18 @@ class Product {
   final double price;
   final String image;
   final int rating;
-  final int? categoryId;
+  String? category;
+  int? categoryId;
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(
       id : map['id'],
-      name : map['name'],
+      name : map['title'] ?? map['name'],
       description : map['description'],
-      price : map['price'] is String ? double.parse(map['price']) : map['price'],
-      image : map['image'],
-      rating : map['rating'],
+      price : map['price'] is int ? map['price'].toDouble() : map['price'],
+      image : map['thumbnail'] ?? map['image'],
+      rating : map['rating'] is double ? map['rating'].round() : map['rating'],
+      category : map['category'],
       categoryId : map['category_id'],
     );
   }

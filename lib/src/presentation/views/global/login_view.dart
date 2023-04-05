@@ -40,8 +40,8 @@ class LoginViewState extends State<LoginView> {
 
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController username = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController username = TextEditingController(text: 'kminchelle');
+  TextEditingController password = TextEditingController(text: '0lelplR');
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class LoginViewState extends State<LoginView> {
       appBar: buildAppBar,
       extendBodyBehindAppBar: true,
       body: BlocBuilder<LoginCubit, LoginState>(
-        // buildWhen: ,
+        buildWhen: (current, previous) => current != previous,
         builder: (context, state) => buildBlocConsumer(size),
       ),
     );
@@ -84,9 +84,8 @@ class LoginViewState extends State<LoginView> {
 
   AppBar get buildAppBar => AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new,
-              color: Theme.of(context).colorScheme.shadow),
-          onPressed: () => _navigationService.goTo(companyRoute),
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => context.read<LoginCubit>().selectCompanyName(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -100,7 +99,7 @@ class LoginViewState extends State<LoginView> {
             width: size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: const AssetImage("assets/images/bg-initial-1.jpg"),
+                image: const AssetImage("assets/images/bg-login-1.jpg"),
                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.darken),
                 fit: BoxFit.cover,
               ),
@@ -145,10 +144,22 @@ class LoginViewState extends State<LoginView> {
                                           : 'demo',
                                       maxLines: 2,
                                       style: TextStyle(
+                                          shadows: const [
+                                            Shadow(
+                                              offset: Offset(0.0, 0.0),
+                                              blurRadius: 2.0,
+                                              color: Colors.white,
+                                            ),
+                                            Shadow(
+                                              offset: Offset(0.0, 0.0),
+                                              blurRadius: 3.0,
+                                              color: Colors.white,
+                                            ),
+                                          ],
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary,
-                                          fontSize: 40,
+                                          fontSize: 50,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const Text(
@@ -156,7 +167,7 @@ class LoginViewState extends State<LoginView> {
                                       maxLines: 2,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],

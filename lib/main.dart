@@ -89,8 +89,8 @@ class MyApp extends StatelessWidget {
                   )),
           BlocProvider(
               create: (context) => CategoryCubit(
-                locator<DatabaseRepository>(),
-              )),
+                    locator<DatabaseRepository>(),
+                  )),
         ],
         child: BlocProvider(
             create: (context) => ThemeBloc(),

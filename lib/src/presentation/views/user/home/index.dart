@@ -27,6 +27,7 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
+    print('init');
     homeCubit = BlocProvider.of<HomeCubit>(context);
     homeCubit.init(this);
     super.initState();
@@ -34,6 +35,7 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void dispose() {
+    print('disposing');
     homeCubit.dispose();
     super.dispose();
   }
@@ -67,11 +69,13 @@ class _HomeViewState extends State<HomeView>
       }),
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+          print(state);
           if (state is HomeLoading) {
             return const Center(
               child: CupertinoActivityIndicator(),
             );
           } else if (state is HomeSuccess) {
+            print('holaaa');
             return buildHome(state);
           } else {
             return const SizedBox();

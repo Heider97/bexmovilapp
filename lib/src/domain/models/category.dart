@@ -14,12 +14,12 @@ class Category {
   const Category(
       {this.id,
       required this.name,
-      required this.image,
+      this.image,
       this.products});
 
   final int? id;
   final String name;
-  final String image;
+  final String? image;
   final List<Product>? products;
 
   factory Category.fromMap(Map<String, dynamic> map) {

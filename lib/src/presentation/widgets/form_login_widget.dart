@@ -15,7 +15,13 @@ extension TextFieldWidget on LoginViewState {
       style: const TextStyle(
           fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
-        border: InputBorder.none,
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        border: const UnderlineInputBorder(),
         filled: true,
         fillColor: Colors.transparent,
         labelStyle: const TextStyle(

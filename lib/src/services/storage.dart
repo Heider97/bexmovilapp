@@ -73,6 +73,11 @@ class LocalStorageService {
     _preferences!.setBool(key, value);
   }
 
+  void remove(key) {
+    if (_preferences == null) return;
+    _preferences!.remove(key);
+  }
+
   Future<void> clear() async {
     if (_preferences == null) return;
     await _preferences!.clear();

@@ -1,5 +1,7 @@
+import 'package:BexMovil/src/presentation/cubits/home/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yaml/yaml.dart';
 
 //utils
@@ -11,8 +13,10 @@ import '../../domain/models/user.dart';
 //services
 import '../../locator.dart';
 import '../../services/navigation.dart';
+import '../../services/storage.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
+final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key, this.user, this.companyName}) : super(key: key);
@@ -70,7 +74,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.bookmark_border,
               text: 'Mis pedidos',
-              onTap: () => _navigationService.goTo(databaseRoute)),
+              onTap: null),
           _createDrawerItem(
               context: context,
               icon: Icons.money,
@@ -95,9 +99,10 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.logout,
               text: 'Salir',
-              onTap: null),
+              onTap: () async{
+                await context.read<HomeCubit>().logout();
+              }),
           const Divider(),
-          //_createDrawerItem(icon: Icons.bug_report, text: 'Reportar un problema'),
           FutureBuilder(
               future: rootBundle.loadString('pubspec.yaml'),
               builder: (context, snapshot) {
