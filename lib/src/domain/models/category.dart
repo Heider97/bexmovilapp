@@ -11,24 +11,21 @@ class CategoryFields {
 }
 
 class Category {
-  const Category(
-      {this.id,
-      required this.name,
-      this.image,
-      this.products});
+  const Category({this.id, this.name, this.image, this.products});
 
   final int? id;
-  final String name;
+  final String? name;
   final String? image;
   final List<Product>? products;
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      id: map['id'],
-      name: map['name'],
-      image: map['image'],
-      products: map['products']?.map<Product>((product) => Product.fromMap(product)).toList()
-    );
+        id: map['id'],
+        name: map['name'],
+        image: map['image'],
+        products: map['products']
+            ?.map<Product>((product) => Product.fromMap(product))
+            .toList());
   }
 
   Map<String, dynamic> toMap() {

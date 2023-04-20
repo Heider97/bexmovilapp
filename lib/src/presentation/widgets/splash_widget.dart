@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//cubits
-import '../cubits/splash/splash_bloc.dart';
-import '../cubits/splash/splash_event.dart';
+//blocs
+import '../blocs/splash/splash_bloc.dart';
 
-//contansts
+//constants
 import '../../utils/constants/colors.dart';
 
 class SplashScreenWidget extends StatefulWidget {

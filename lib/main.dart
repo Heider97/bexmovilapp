@@ -12,18 +12,20 @@ import 'src/domain/repositories/api_repository.dart';
 import 'src/domain/repositories/database_repository.dart';
 
 //cubits
-import 'src/presentation/cubits/theme/theme_bloc.dart';
+
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
 import 'src/presentation/cubits/location/location_bloc.dart';
 import 'src/presentation/cubits/login/login_cubit.dart';
-import 'src/presentation/cubits/network/network_cubit.dart';
-import 'src/presentation/cubits/network/network_event.dart';
-import 'src/presentation/cubits/processing_queue/procesing_queue_bloc.dart';
-import 'src/presentation/cubits/processing_queue/processing_queue_event.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
 import 'src/presentation/cubits/category/category_cubit.dart';
+import 'src/presentation/cubits/productivity/productivity_cubit.dart';
+
+//blocs
+import 'src/presentation/blocs/theme/theme_bloc.dart';
+import 'src/presentation/blocs/network/network_bloc.dart';
+import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -59,12 +61,12 @@ class MyApp extends StatelessWidget {
             create: (context) => ThemeBloc(),
           ),
           BlocProvider(
-            create: (context) => NetworkCubit()..add(NetworkObserve()),
+            create: (context) => NetworkBloc()..add(NetworkObserve()),
           ),
           BlocProvider(
             create: (context) => ProcessingQueueCubit(
                 locator<DatabaseRepository>(),
-                BlocProvider.of<NetworkCubit>(context))
+                BlocProvider.of<NetworkBloc>(context))
               ..add(ProcessingQueueObserve()),
           ),
           RepositoryProvider(
@@ -91,6 +93,10 @@ class MyApp extends StatelessWidget {
               create: (context) => CategoryCubit(
                     locator<DatabaseRepository>(),
                   )),
+          BlocProvider(
+              create: (context) => ProductivityCubit(
+                locator<DatabaseRepository>(),
+              )),
         ],
         child: BlocProvider(
             create: (context) => ThemeBloc(),
@@ -116,8 +122,7 @@ class MyApp extends StatelessWidget {
                     ],
                     theme: state.isDarkTheme ? AppTheme.light : AppTheme.dark,
                     darkTheme: AppTheme.dark,
-                    themeMode: ThemeMode
-                        .system, //this should be enoguh for most updated devices
+                    themeMode: ThemeMode.system,
                     navigatorKey: locator<NavigationService>().navigatorKey,
                     onUnknownRoute: (RouteSettings settings) =>
                         MaterialPageRoute(

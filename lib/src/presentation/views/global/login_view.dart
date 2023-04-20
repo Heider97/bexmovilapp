@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+
+//blocs
+import '../../blocs/network/network_bloc.dart';
 
 //cubit
 import '../../cubits/login/login_cubit.dart';
-import '../../cubits/network/network_cubit.dart';
-import '../../cubits/network/network_state.dart';
 
 //models
 import '../../../domain/models/enterprise.dart';
@@ -106,7 +106,7 @@ class LoginViewState extends State<LoginView> {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
-              child: BlocBuilder<NetworkCubit, NetworkState>(
+              child: BlocBuilder<NetworkBloc, NetworkState>(
                   builder: (context, networkState) {
                 if (networkState is NetworkFailure) {
                   return Center(

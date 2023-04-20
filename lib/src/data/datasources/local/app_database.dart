@@ -67,10 +67,7 @@ class AppDatabase {
         ${LocationFields.speedAccuracy} REAL DEFAULT NULL,
         ${LocationFields.heading} REAL DEFAULT NULL,
         ${LocationFields.isMock} BOOLEAN DEFAULT NULL,
-        ${LocationFields.userId} INTEGER DEFAULT NULL,
-        ${LocationFields.time} TEXT DEFAULT NULL,
-        ${LocationFields.type} TEXT DEFAULT NULL,
-        ${LocationFields.workcode} TEXT DEFAULT NULL
+        ${LocationFields.createdAt} TEXT DEFAULT NULL,
       )  
     ''',
     '''

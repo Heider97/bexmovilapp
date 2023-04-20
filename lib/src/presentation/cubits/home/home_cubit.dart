@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +33,8 @@ class HomeCubit extends Cubit<HomeState> {
   bool listen = true;
 
   Future<void> init(TickerProvider ticker) async {
-
     await Future.value(_databaseRepository.getAllCategoriesWithProducts())
-    .then((categories) {
-
-      print('***********');
-      print(categories.length);
-
+        .then((categories) {
       final companyName = _storageService.getString('company_name');
 
       scrollController = ScrollController();
@@ -49,6 +43,8 @@ class HomeCubit extends Cubit<HomeState> {
 
       double offsetFrom = 0.0;
       double offsetTo = 0.0;
+
+      tabs = [];
 
       for (var i = 0; i < categories.length; i++) {
         final category = categories[i];
@@ -74,13 +70,15 @@ class HomeCubit extends Cubit<HomeState> {
       scrollController.addListener(onScrollListener);
 
       Future.delayed(const Duration(seconds: 2), () {
-        emit(HomeSuccess(categories: categories, companyName: companyName));
+        emit(HomeSuccess(
+            categories: categories,
+            companyName: companyName,
+            tabController: tabController,
+            tabs: tabs,
+            scrollController: scrollController
+        ));
       });
-
-
     });
-
-
   }
 
   void onScrollListener() {
@@ -96,6 +94,8 @@ class HomeCubit extends Cubit<HomeState> {
         }
       }
     }
+
+    emit(HomeSuccess(categories: state.categories));
   }
 
   void onTapSelected(int index, {bool animationRequired = true}) async {
@@ -111,6 +111,14 @@ class HomeCubit extends Cubit<HomeState> {
           duration: const Duration(milliseconds: 500), curve: Curves.linear);
       listen = true;
     }
+
+    emit(HomeSuccess(
+        categories: state.categories,
+        companyName: state.companyName,
+        tabController: tabController,
+        tabs: tabs,
+        scrollController: scrollController
+    ));
   }
 
   void dispose() {
@@ -129,6 +137,5 @@ class HomeCubit extends Cubit<HomeState> {
 
     _storageService.remove('token');
     _navigationService.replaceTo(loginRoute);
-
   }
 }

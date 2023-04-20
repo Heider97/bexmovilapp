@@ -11,10 +11,12 @@ import '../../../utils/constants/nums.dart';
 import '../../../utils/constants/strings.dart';
 import '../../../utils/constants/colors.dart';
 
+//blocs
+import '../../blocs/network/network_bloc.dart';
+
 //cubits
 import '../../cubits/initial/initial_cubit.dart';
-import '../../cubits/network/network_cubit.dart';
-import '../../cubits/network/network_state.dart';
+
 
 //widgets
 import '../../widgets/default_button_widget.dart';
@@ -106,7 +108,7 @@ class InitialViewState extends State<InitialView> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: BlocBuilder<NetworkCubit, NetworkState>(
+            child: BlocBuilder<NetworkBloc, NetworkState>(
                 builder: (context, networkState) {
               switch (networkState.runtimeType) {
                 case NetworkInitial:

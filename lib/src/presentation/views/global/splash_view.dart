@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 //bloc
-import '../../cubits/splash/splash_bloc.dart';
+import '../../blocs/splash/splash_bloc.dart';
 import '../../widgets/splash_widget.dart';
 
 //services

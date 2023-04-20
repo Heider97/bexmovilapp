@@ -1,3 +1,5 @@
+part of 'network_bloc.dart';
+
 abstract class NetworkEvent {}
 
 class NetworkObserve extends NetworkEvent {}

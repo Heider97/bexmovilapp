@@ -24,7 +24,7 @@ class CategoryWidget extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: 10, vertical: 20),
-          child: Text(category.name,
+          child: Text(category.name!,
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal))),

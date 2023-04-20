@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import './splash_event.dart';
-
 //service
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 
+part 'splash_event.dart';
 part 'splash_state.dart';
+
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 

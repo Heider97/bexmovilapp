@@ -6,25 +6,24 @@ import '../../../domain/models/processing_queue.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //cubit
-import '../../cubits/network/network_cubit.dart';
-import '../../cubits/network/network_state.dart';
+import '../network/network_bloc.dart';
 
-import './processing_queue_event.dart';
-import './processing_queue_state.dart';
+part 'processing_queue_event.dart';
+part 'processing_queue_state.dart';
 
 class ProcessingQueueCubit extends Bloc<ProcessingQueueEvent, ProcessingQueueState> {
 
   final DatabaseRepository _databaseRepository;
 
-  NetworkCubit? networkCubit;
+  NetworkBloc? networkBloc;
   StreamSubscription? networkSubscription;
   bool? isConnected;
 
-  ProcessingQueueCubit(this._databaseRepository, this.networkCubit) : super(ProcessingQueueInitial()) {
+  ProcessingQueueCubit(this._databaseRepository, this.networkBloc) : super(ProcessingQueueInitial()) {
     on<ProcessingQueueObserve>(_observe);
     on<ProcessingQueueNotify>(_notifyStatus);
-    if (networkCubit == null) return;
-    networkSubscription = networkCubit?.stream.listen((networkState) {
+    if (networkBloc == null) return;
+    networkSubscription = networkBloc?.stream.listen((networkState) {
       isConnected = networkState.runtimeType is NetworkSuccess;
     });
   }
@@ -35,8 +34,6 @@ class ProcessingQueueCubit extends Bloc<ProcessingQueueEvent, ProcessingQueueSta
   }
 
   void _observe(event, emit) {
-    print('***');
-    print(isConnected);
     if(isConnected != null && isConnected == true){
       print('activate procesing_queue');
     }

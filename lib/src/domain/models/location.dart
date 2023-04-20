@@ -1,7 +1,7 @@
 const String tableLocations = 'locations';
 
 class LocationFields {
-  static final List<String> values = [id, latitude, longitude, type, workcode, time];
+  static final List<String> values = [id, latitude, longitude, createdAt];
 
   static const String id = '_id';
   static const String latitude = 'latitude';
@@ -12,10 +12,7 @@ class LocationFields {
   static const String speedAccuracy = 'speed_accuracy';
   static const String heading = 'heading';
   static const String isMock = 'is_mock';
-  static const String userId = 'user_id';
-  static const String type = 'type';
-  static const String workcode = 'workcode';
-  static const String time = 'time';
+  static const String createdAt = 'created_at';
 }
 
 class Location {
@@ -29,13 +26,10 @@ class Location {
         required this.speedAccuracy,
         required this.heading,
         required this.isMock,
-        required this.userId,
-        required this.time,
-        this.type,
-        this.workcode
+        required this.createdAt,
       });
 
-  Location copy(
+  Location copyWith(
       {int? id,
         double? latitude,
         double? longitude,
@@ -45,10 +39,7 @@ class Location {
         double? speedAccuracy,
         double? heading,
         bool? isMock,
-        int? userId,
-        String? type,
-        String? workcode,
-        DateTime? time}) =>
+        DateTime? createdAt}) =>
       Location(
         id: id ?? this.id,
         latitude: latitude ?? this.latitude,
@@ -59,27 +50,21 @@ class Location {
         speedAccuracy: speedAccuracy ?? this.speedAccuracy,
         heading: heading ?? this.heading,
         isMock: isMock ?? this.isMock,
-        userId: userId ?? this.userId,
-        time: time ?? this.time,
-        type: type ?? this.type,
-        workcode: workcode ?? this.workcode,
+        createdAt: createdAt ?? this.createdAt,
       );
 
   // ignore: sort_constructors_first
   factory Location.fromJson(Map<String, dynamic> json) => Location(
       id: json[LocationFields.id] as int?,
-      latitude: json[LocationFields.latitude] is String ? double.parse(json[LocationFields.latitude]) : json[LocationFields.latitude],
-      longitude: json[LocationFields.longitude] is String ? double.parse(json[LocationFields.longitude]) : json[LocationFields.longitude],
+      latitude: json[LocationFields.latitude],
+      longitude: json[LocationFields.longitude],
       accuracy: json[LocationFields.accuracy],
       altitude: json[LocationFields.altitude],
       speed: json[LocationFields.speed],
       speedAccuracy: json[LocationFields.speedAccuracy] ?? json['speedAccuracy'],
       heading: json[LocationFields.heading],
       isMock: json[LocationFields.isMock] == 1,
-      userId: json[LocationFields.userId],
-      time: DateTime.parse(json[LocationFields.time] as String),
-      type: json[LocationFields.type],
-      workcode: json[LocationFields.workcode]
+    createdAt: DateTime.parse(json[LocationFields.createdAt] as String),
   );
 
   Map<String, dynamic> toJson() => {
@@ -91,10 +76,7 @@ class Location {
     'speed_accuracy': speedAccuracy,
     'heading': heading,
     'is_mock': isMock ? 1 : 0,
-    'user_id' : userId,
-    'time': time.toIso8601String(),
-    'type': type,
-    'workcode': workcode,
+    'created_at': createdAt.toIso8601String(),
   };
 
   int? id;
@@ -106,8 +88,5 @@ class Location {
   double? speedAccuracy;
   double? heading;
   bool isMock;
-  int userId;
-  DateTime time;
-  String? type;
-  String? workcode;
+  DateTime createdAt;
 }

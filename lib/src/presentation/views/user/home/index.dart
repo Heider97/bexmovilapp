@@ -27,7 +27,6 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void initState() {
-    print('init');
     homeCubit = BlocProvider.of<HomeCubit>(context);
     homeCubit.init(this);
     super.initState();
@@ -35,7 +34,6 @@ class _HomeViewState extends State<HomeView>
 
   @override
   void dispose() {
-    print('disposing');
     homeCubit.dispose();
     super.dispose();
   }
@@ -44,6 +42,7 @@ class _HomeViewState extends State<HomeView>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         title: const Text('TR 38AA #59A-231', style: TextStyle(fontSize: 16)),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -68,117 +67,153 @@ class _HomeViewState extends State<HomeView>
         return DrawerWidget(user: state.user, companyName: state.companyName);
       }),
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-          print(state);
-          if (state is HomeLoading) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
-          } else if (state is HomeSuccess) {
-            print('holaaa');
-            return buildHome(state);
-          } else {
-            return const SizedBox();
-          }
-        }),
+        child: BlocBuilder<HomeCubit, HomeState>(
+            bloc: homeCubit,
+            builder: (context, state) {
+              if (state is HomeLoading) {
+                return const Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              } else if (state is HomeSuccess) {
+                return buildHome(state);
+              } else {
+                return const SizedBox();
+              }
+            }),
       ),
     );
   }
 
   Widget buildHome(state) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      SizedBox(
-        height: 60,
-        child: TabBar(
-            onTap: context.read<HomeCubit>().onTapSelected,
-            controller: context.read<HomeCubit>().tabController,
-            indicatorWeight: 0.1,
-            isScrollable: true,
-            tabs: context
-                .read<HomeCubit>()
-                .tabs
-                .map((e) => TabWidget(tab: e))
-                .toList()),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(20),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).colorScheme.tertiaryContainer,
+    return BlocListener<HomeCubit, HomeState>(
+        listener: (context, state) {},
+        child:
+            Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              height: 120,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                            child: TextField(
+                              autofocus: false,
+                              style: const TextStyle(height: 0.5),
+                              controller: TextEditingController(),
+                              decoration: const InputDecoration(
+                                  labelText: "Buscar",
+                                  border: InputBorder.none
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: null,
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 28,
+                            child: Icon(Icons.search),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  TabBar(
+                      onTap: context.read<HomeCubit>().onTapSelected,
+                      controller: context.read<HomeCubit>().tabController,
+                      indicatorWeight: 0.1,
+                      isScrollable: true,
+                      tabs: context
+                          .read<HomeCubit>()
+                          .tabs
+                          .map((tab) => tabWidget(tab))
+                          .toList()),
+                ],
+              ),
           ),
-          padding: const EdgeInsets.all(20),
-          height: 100,
-          child: Row(
-            children: const [
-              Icon(Icons.lightbulb),
-              Flexible(
-                  child: Text('Aqui va toda la publicidad engañosa de la app',
-                      maxLines: 2))
-            ],
+          Padding(
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                ),
+                padding: const EdgeInsets.all(20),
+                height: 100,
+                child: Row(
+                  children: const [
+                    Icon(Icons.lightbulb),
+                    Flexible(
+                        child: Text(
+                            'Aqui va toda la publicidad engañosa de la app',
+                            maxLines: 2))
+                  ],
+                ),
+              ),
           ),
-        ),
-      ),
-      Expanded(
-          child: ListView.builder(
-              controller: context.read<HomeCubit>().scrollController,
-              itemCount: state.categories!.length,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemBuilder: (context, index) {
-                final category = state.categories![index];
+          Expanded(
+                child: ListView.builder(
+                    controller: context.read<HomeCubit>().scrollController,
+                    itemCount: state.categories!.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemBuilder: (context, index) {
+                      final category = state.categories![index];
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondaryContainer),
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
                           children: [
-                            //CATEGORY
-                            CategoryWidget(category: category),
-                            //PRODUCTS
-                            ...List.generate(
-                                category.products.length,
-                                (index) => ProductWidget(
-                                    product: category.products[index]))
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //CATEGORY
+                                  CategoryWidget(category: category),
+                                  //PRODUCTS
+                                  ...List.generate(
+                                      category.products.length,
+                                      (index) => ProductWidget(
+                                          product: category.products[index]))
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                right: -25,
+                                bottom: -55,
+                                child:
+                                    CategoryImageWidget(image: category.image)),
+                            // CategoryImageWidget(image: category.image)
                           ],
                         ),
-                      ),
-                      Positioned(
-                          right: -25,
-                          bottom: -55,
-                          child: CategoryImageWidget(image: category.image)),
-                      // CategoryImageWidget(image: category.image)
-                    ],
-                  ),
-                );
-              }))
-    ]);
+                      );
+                    }))
+        ]),
+            ));
   }
-}
 
-class TabWidget extends StatelessWidget {
-  const TabWidget({super.key, required this.tab});
-
-  final TabCategory tab;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget tabWidget(tab) {
     return Opacity(
-      opacity: tab.selected ? 1 : 0.1,
+      opacity: tab.selected ? 1 : 0.7,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          tab.category.name,
+          tab.category.name!,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),

@@ -19,6 +19,9 @@ const loginRoute = '/login';
 const homeRoute = '/home';
 const categoryRoute = '/category';
 const productRoute = '/product';
+const calendarRoute = '/calendar';
+const productivityRoute = '/productivity';
+
 
 const databaseRoute = '/database';
 
