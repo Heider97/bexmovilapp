@@ -1,4 +1,5 @@
 
+import 'package:BexMovil/src/presentation/views/schedule/index.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -39,7 +40,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case categoryRoute:
       return MaterialPageRoute(builder: (context) => CategoryView(categoryId: settings.arguments as int));
     case calendarRoute:
-      return MaterialPageRoute(builder: (context) => const CalendarPage());
+      return MaterialPageRoute(builder: (context) => const ScheduleView());
     case productivityRoute:
       return MaterialPageRoute(builder: (context) => ProductivityView());
     default:

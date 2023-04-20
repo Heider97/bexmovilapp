@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+//utils
+import '../../../../utils/constants/strings.dart';
+
+//services
+import '../../../../locator.dart';
+import '../../../../services/navigation.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
+
 class CalendarPage extends StatefulWidget {
   const CalendarPage({Key? key}) : super(key: key);
 
@@ -13,7 +22,33 @@ class CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          actions: [
+            Builder(
+                builder: (context) => CircleAvatar(
+                      radius: 22,
+                      backgroundColor: Colors.white,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                        onPressed: () =>
+                            _navigationService.replaceTo(homeRoute),
+                      ),
+                    )),
+            const Spacer(),
+            Builder(
+              builder: (context) => const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 22,
+                  child: Badge(
+                    alignment: AlignmentDirectional.topEnd,
+                    label: Text('2'),
+                    child: IconButton(
+                      icon: Icon(Icons.notifications),
+                      onPressed: null,
+                    ),
+                  )),
+            ),
+          ],
         ),
         body: SfCalendar(
           view: CalendarView.month,

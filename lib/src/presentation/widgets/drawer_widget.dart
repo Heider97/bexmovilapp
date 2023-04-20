@@ -80,11 +80,11 @@ class DrawerWidget extends StatelessWidget {
               icon: Icons.money,
               text: 'Billetera',
               onTap: null),
-          // _createDrawerItem(
-          //     context: context,
-          //     icon: Icons.calendar_month,
-          //     text: 'Calendario',
-          //     onTap: () => _navigationService.replaceTo(calendarRoute)),
+          _createDrawerItem(
+              context: context,
+              icon: Icons.calendar_month,
+              text: 'Calendario',
+              onTap: () => _navigationService.replaceTo(calendarRoute)),
           _createDrawerItem(
               context: context,
               icon: Icons.label_important,
