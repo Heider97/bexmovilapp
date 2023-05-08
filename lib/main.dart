@@ -23,7 +23,6 @@ import 'src/presentation/cubits/category/category_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 
 //blocs
-import 'src/presentation/blocs/theme/theme_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 
@@ -57,9 +56,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => ThemeBloc(),
-          ),
           BlocProvider(
             create: (context) => NetworkBloc()..add(NetworkObserve()),
           ),
@@ -98,11 +94,7 @@ class MyApp extends StatelessWidget {
                 locator<DatabaseRepository>(),
               )),
         ],
-        child: BlocProvider(
-            create: (context) => ThemeBloc(),
-            child:
-                BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
-              return GestureDetector(
+        child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
@@ -120,7 +112,7 @@ class MyApp extends StatelessWidget {
                       Locale('en'), // English
                       Locale('es'), // Spanish
                     ],
-                    theme: state.isDarkTheme ? AppTheme.light : AppTheme.dark,
+                    theme: AppTheme.light,
                     darkTheme: AppTheme.dark,
                     themeMode: ThemeMode.system,
                     navigatorKey: locator<NavigationService>().navigatorKey,
@@ -133,7 +125,6 @@ class MyApp extends StatelessWidget {
                     onGenerateRoute: router.generateRoute,
                   ),
                 ),
-              );
-            })));
+              ));
   }
 }

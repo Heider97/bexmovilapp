@@ -192,32 +192,32 @@ class _ProductivityViewState extends State<ProductivityView> {
                               alignment: Alignment.topRight,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: const [
+                                children: [
                                   CircleAvatar(
                                     radius: 6,
-                                    backgroundColor: Colors.lightGreen,
+                                    backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 1,
                                   ),
-                                  Text(
-                                    'planned',
+                                  const Text(
+                                    'planeado',
                                     style: TextStyle(
                                       fontSize: 14,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 12,
                                   ),
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     radius: 6,
                                     backgroundColor: Colors.black,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 1,
                                   ),
-                                  Text(
-                                    'completed',
+                                  const Text(
+                                    'completados',
                                     style: TextStyle(
                                       fontSize: 14,
                                     ),

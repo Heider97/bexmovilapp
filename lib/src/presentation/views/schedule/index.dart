@@ -9,8 +9,6 @@ class ScheduleView extends StatefulWidget {
 }
 
 class _ScheduleViewState extends State<ScheduleView> {
-
-
   var day = 21;
 
   var hour = 1;
@@ -27,12 +25,12 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   int selectedIndex = 0;
 
-  IconData getRandomIcon(){
+  IconData getRandomIcon() {
     final Random random = Random();
     const String chars = '0123456789ABCDEF';
     int length = 3;
     String hex = '0xe';
-    while(length-- > 0) {
+    while (length-- > 0) {
       hex += chars[(random.nextInt(16)) | 0];
     }
     return IconData(int.parse(hex), fontFamily: 'MaterialIcons');
@@ -40,7 +38,6 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -52,7 +49,9 @@ class _ScheduleViewState extends State<ScheduleView> {
         title: const Text('February'),
         centerTitle: true,
         actions: [
-          Builder(builder: (context) => const IconButton(onPressed: null, icon: Icon(Icons.calendar_month)))
+          Builder(
+              builder: (context) => const IconButton(
+                  onPressed: null, icon: Icon(Icons.calendar_month)))
         ],
       ),
       body: SafeArea(
@@ -61,10 +60,7 @@ class _ScheduleViewState extends State<ScheduleView> {
             children: [
               itemsDays(size),
               Row(
-                children: [
-                  itemsSection(size),
-                  hoursSection(size)
-                ],
+                children: [itemsSection(size), hoursSection(size)],
               ),
             ],
           ),
@@ -81,22 +77,23 @@ class _ScheduleViewState extends State<ScheduleView> {
           scrollDirection: Axis.horizontal,
           itemCount: 7,
           itemBuilder: (context, index) => SizedBox(
-            width: 80,
-            height: 80,
-            child: ListTile(
-              selected: index == selectedIndex,
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
-              tileColor: Colors.white,
-              selectedTileColor: Theme.of(context).colorScheme.primaryContainer,
-              title: Text(days[index], textAlign: TextAlign.center),
-              subtitle: Text((day + index).toString(), textAlign: TextAlign.center),
-            ),
-          )
-      ),
+                width: 80,
+                height: 80,
+                child: ListTile(
+                  selected: index == selectedIndex,
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  tileColor: Colors.white,
+                  selectedTileColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  title: Text(days[index], textAlign: TextAlign.center),
+                  subtitle: Text((day + index).toString(),
+                      textAlign: TextAlign.center),
+                ),
+              )),
     );
   }
 
@@ -108,42 +105,57 @@ class _ScheduleViewState extends State<ScheduleView> {
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemCount: 7,
           itemBuilder: (context, index) => Container(
-            width: 180,
-            height: 160,
-            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(12)
-            ),
-            child: ListTile(
-              title: Row(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiaryContainer,
-                          borderRadius: BorderRadius.circular(12)
+                width: 180,
+                height: 160,
+                margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(12)),
+                child: ListTile(
+                    title: Row(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.tertiaryContainer,
+                            borderRadius: BorderRadius.circular(12)),
+                        height: 50,
+                        width: 50,
+                        child: Icon(getRandomIcon()),
                       ),
-                      height: 50,
-                      width: 50,
-                      child: Icon(getRandomIcon()),
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Flexible(child: Text('Jogging in the morning', maxLines: 2, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
-                      Flexible(child: Text('- Inviting bex soluciones', maxLines: 2, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w300))),
-                      Flexible(child: Text('- Bring a bottle of mineral water', maxLines: 2, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w300)))
-                    ],
-                  ),
-                ],
-              )
-            ),
-          )
-      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Flexible(
+                            child: Text('Jogging in the morning',
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold))),
+                        Flexible(
+                            child: Text('- Inviting bex soluciones',
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300))),
+                        Flexible(
+                            child: Text('- Bring a bottle of mineral water',
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w300)))
+                      ],
+                    ),
+                  ],
+                )),
+              )),
     );
   }
 
@@ -152,13 +164,12 @@ class _ScheduleViewState extends State<ScheduleView> {
       width: size.width * 0.3,
       height: size.height,
       child: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 20),
+          separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemCount: 12,
           itemBuilder: (context, index) => ListTile(
-            selected: index == selectedIndex,
-            title: Text('${hour+index}:00', textAlign: TextAlign.center),
-          )
-      ),
+                selected: index == selectedIndex,
+                title: Text('${hour + index}:00', textAlign: TextAlign.center),
+              )),
     );
   }
 }

@@ -9,7 +9,7 @@ abstract class AppTheme {
         brightness: Brightness.light,
         primary: Color(0xFFAF3100),
         onPrimary: Color(0xFFFFFFFF),
-        primaryContainer: Color(0xFFFFDBD1),
+        primaryContainer: Color(0xFFED5A38),
         onPrimaryContainer: Color(0xFF3A0A00),
         secondary: Color(0xFF77574D),
         onSecondary: Color(0xFFFFFFFF),
@@ -48,7 +48,7 @@ abstract class AppTheme {
       fontFamily: 'IBM',
       colorScheme: const ColorScheme(
         brightness: Brightness.dark,
-        primary: Color(0xFFFFB59F),
+        primary: Color(0xFFF33700),
         onPrimary: Color(0xFF5F1600),
         primaryContainer: Color(0xFF862300),
         onPrimaryContainer: Color(0xFFFFDBD1),
