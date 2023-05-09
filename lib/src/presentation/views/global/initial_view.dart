@@ -17,7 +17,6 @@ import '../../blocs/network/network_bloc.dart';
 //cubits
 import '../../cubits/initial/initial_cubit.dart';
 
-
 //widgets
 import '../../widgets/default_button_widget.dart';
 
@@ -25,6 +24,7 @@ import '../../widgets/default_button_widget.dart';
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
 import '../../../services/storage.dart';
+import '../../../services/platform.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 final LocalStorageService _storageService = locator<LocalStorageService>();
@@ -38,6 +38,7 @@ class InitialView extends StatefulWidget {
 
 class InitialViewState extends State<InitialView> {
   late InitialCubit initialCubit;
+  final screenCaptureProtected = ValueNotifier(false);
   bool isLoading = false;
   bool showSuffix = true;
   final FocusNode _focus = FocusNode();
@@ -46,6 +47,7 @@ class InitialViewState extends State<InitialView> {
   @override
   void initState() {
     super.initState();
+    _handleScreenCaptureTogglePressed();
     _focus.addListener(_onFocusChange);
   }
 
@@ -79,20 +81,24 @@ class InitialViewState extends State<InitialView> {
     initialCubit = BlocProvider.of<InitialCubit>(context);
 
     return Scaffold(
-        body: BlocBuilder<InitialCubit, InitialState>(
-      buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
-        rememberSession();
-        if (state.runtimeType == InitialLoading) {
-          return const Center(child: CupertinoActivityIndicator());
-        } else if (state.runtimeType == InitialSuccess ||
-            state.runtimeType == InitialFailed) {
-          return _buildBody(size, state.enterprise, state.error);
-        } else {
-          return const SizedBox();
-        }
-      },
-    ));
+        body: ValueListenableBuilder<bool>(
+            valueListenable: screenCaptureProtected,
+            builder: (context, value, child) {
+              return BlocBuilder<InitialCubit, InitialState>(
+                buildWhen: (previous, current) => previous != current,
+                builder: (context, state) {
+                  rememberSession();
+                  if (state.runtimeType == InitialLoading) {
+                    return const Center(child: CupertinoActivityIndicator());
+                  } else if (state.runtimeType == InitialSuccess ||
+                      state.runtimeType == InitialFailed) {
+                    return _buildBody(size, state.enterprise, state.error);
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              );
+            }));
   }
 
   Widget _buildBody(Size size, Enterprise? enterprise, String? error) {
@@ -246,10 +252,15 @@ class InitialViewState extends State<InitialView> {
           hintText: 'Empresa',
           hintStyle: TextStyle(
               fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-
           floatingLabelBehavior: FloatingLabelBehavior.always,
         ),
       ),
     );
+  }
+
+  void _handleScreenCaptureTogglePressed() async {
+    final nextValue = !screenCaptureProtected.value;
+    await PlatformService.preventScreenCapture(enable: nextValue);
+    screenCaptureProtected.value = nextValue;
   }
 }

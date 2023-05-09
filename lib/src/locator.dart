@@ -18,6 +18,7 @@ import 'domain/repositories/database_repository.dart';
 //services
 import 'services/storage.dart';
 import 'services/navigation.dart';
+import 'services/platform.dart';
 
 final locator = GetIt.instance;
 
@@ -30,6 +31,9 @@ Future<void> initializeDependencies() async {
 
   final navigation = NavigationService();
   locator.registerSingleton<NavigationService>(navigation);
+
+  final platform = await PlatformService.getInstance();
+  locator.registerSingleton<PlatformService>(platform!);
 
   final db = AppDatabase.instance;
   locator.registerSingleton<AppDatabase>(db);

@@ -49,8 +49,22 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  late Locale locale;
+
+  void setLocale(Locale value) {
+    setState(() {
+      locale = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +126,15 @@ class MyApp extends StatelessWidget {
                       Locale('en'), // English
                       Locale('es'), // Spanish
                     ],
+                    localeResolutionCallback: (deviceLocale, supportedLocales) {
+                      for (var locale in supportedLocales) {
+                        if (locale.languageCode == deviceLocale!.languageCode &&
+                            locale.countryCode == deviceLocale.countryCode) {
+                          return deviceLocale;
+                        }
+                      }
+                      return supportedLocales.first;
+                    },
                     theme: AppTheme.light,
                     darkTheme: AppTheme.dark,
                     themeMode: ThemeMode.system,
