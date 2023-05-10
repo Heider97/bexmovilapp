@@ -19,6 +19,7 @@ import '../../presentation/views/global/politics_view.dart';
 //user
 import '../../presentation/views/user/home/index.dart';
 import '../../presentation/views/user/category/index.dart';
+import '../../presentation/views/user/product/index.dart';
 import '../../presentation/views/user/calendar/index.dart';
 import '../../presentation/views/user/productivity/index.dart';
 
@@ -39,6 +40,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const HomeView());
     case categoryRoute:
       return MaterialPageRoute(builder: (context) => CategoryView(categoryId: settings.arguments as int));
+    case productRoute:
+      return MaterialPageRoute(builder: (context) => ProductView(productId: settings.arguments as int));
     case calendarRoute:
       return MaterialPageRoute(builder: (context) => const ScheduleView());
     case productivityRoute:

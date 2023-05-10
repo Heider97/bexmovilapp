@@ -22,6 +22,7 @@ abstract class DatabaseRepository {
 
   //PRODUCTS
   Future<List<Product>> getAllProducts();
+  Future<Product> getProduct(int productId);
   Future<int> updateProduct(Product product);
   Future<int> insertProduct(Product product);
   Future<void> insertProducts(List<Product> products);

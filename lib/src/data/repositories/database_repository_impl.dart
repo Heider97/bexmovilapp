@@ -60,6 +60,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<Product> getProduct(int productId) async {
+    return _appDatabase.productDao.getProduct(productId);
+  }
+
+  @override
   Future<int> updateProduct(Product product) async {
     return _appDatabase.productDao.updateProduct(product);
   }

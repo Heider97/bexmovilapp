@@ -21,6 +21,13 @@ class ProductDao {
     return products;
   }
 
+  Future<Product> getProduct(int productId) async {
+    final db = await _appDatabase.streamDatabase;
+    final productList = await db!.query(tableProducts, where: 'id = ?', whereArgs: [productId]);
+    final products = parseProducts(productList);
+    return products.first;
+  }
+
   Future<int> insertProduct(Product product) {
     return _appDatabase.insert(tableProducts, product.toMap());
   }

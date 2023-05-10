@@ -9,6 +9,7 @@ import '../../blocs/network/network_bloc.dart';
 import '../../cubits/login/login_cubit.dart';
 
 //models
+import '../../../domain/models/language.dart';
 import '../../../domain/models/enterprise.dart';
 
 //utils
@@ -87,6 +88,20 @@ class LoginViewState extends State<LoginView> {
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () => context.read<LoginCubit>().selectCompanyName(),
         ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: Language.languageList().map((e) =>
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    changeLanguage(e, context);
+                  },
+                  child: Text("${e.name} ${e.flag}"),
+                ),),
+          ).toList(),
+        ),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
       );

@@ -2,10 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
-import '../../../cubits/category/category_cubit.dart';
+import '../../../cubits/product/product_cubit.dart';
 
 //domain
 import '../../../../domain/models/product.dart';
@@ -14,21 +13,21 @@ import '../../../../domain/models/product.dart';
 import '../home/features/product_widget.dart';
 
 class ProductView extends StatefulWidget {
-  const ProductView({Key? key, required this.categoryId}) : super(key: key);
+  const ProductView({Key? key, required this.productId}) : super(key: key);
 
-  final int categoryId;
+  final int productId;
 
   @override
   State<ProductView> createState() => _ProductViewState();
 }
 
 class _ProductViewState extends State<ProductView> {
-  late CategoryCubit categoryCubit;
+  late ProductCubit productCubit;
 
   @override
   void initState() {
-    categoryCubit = BlocProvider.of<CategoryCubit>(context);
-    categoryCubit.init(widget.categoryId);
+    productCubit = BlocProvider.of<ProductCubit>(context);
+    productCubit.init(widget.productId);
     super.initState();
   }
 
@@ -42,12 +41,12 @@ class _ProductViewState extends State<ProductView> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(body:
-    BlocBuilder<CategoryCubit, CategoryState>(builder: (context, state) {
-      if (state is CategoryLoading) {
+        BlocBuilder<ProductCubit, ProductState>(builder: (context, state) {
+      if (state is ProductLoading) {
         return const Center(
           child: CupertinoActivityIndicator(),
         );
-      } else if (state is CategorySuccess) {
+      } else if (state is ProductSuccess) {
         return buildBody(size, state);
       } else {
         return const SizedBox();
@@ -64,22 +63,22 @@ class _ProductViewState extends State<ProductView> {
             title: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(state.category.name),
+                Text(state.product.name),
               ],
             ),
             background: Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                state.category.image == null
+                state.product.image == null
                     ? Image.asset("assets/images/hero.png", fit: BoxFit.cover)
                     : CachedNetworkImage(
-                    imageUrl: state.category.image,
-                    placeholder: (context, url) =>
-                    const Center(child: CupertinoActivityIndicator()),
-                    errorWidget: (context, url, error) => Image.asset(
-                      "assets/images/hero.png",
-                      fit: BoxFit.cover,
-                    )),
+                        imageUrl: state.product.image,
+                        placeholder: (context, url) =>
+                            const Center(child: CupertinoActivityIndicator()),
+                        errorWidget: (context, url, error) => Image.asset(
+                              "assets/images/hero.png",
+                              fit: BoxFit.cover,
+                            )),
                 const DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -97,61 +96,17 @@ class _ProductViewState extends State<ProductView> {
           ),
           expandedHeight: 150,
         ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: ProductWidget(product: state.category.products[index]),
-                );
-              },
-              childCount: state.category.products.length,
-            )),
+        // SliverList(
+        //     delegate: SliverChildBuilderDelegate(
+        //           (BuildContext context, int index) {
+        //         return Padding(
+        //           padding: const EdgeInsets.symmetric(horizontal: 20),
+        //           child: ProductWidget(product: state.category.products[index]),
+        //         );
+        //       },
+        //       childCount: state.category.products.length,
+        //     )),
       ],
     );
   }
-
-  Widget category(index) => (index == 0)
-      ? Container(
-    width: 150,
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).colorScheme.tertiaryContainer),
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.brightness_7_outlined, size: 50),
-          Text('Category $index',
-              style: const TextStyle(fontWeight: FontWeight.bold)),
-          const Text('This is a popular plant in our store', maxLines: 2)
-        ],
-      ),
-    ),
-  )
-      : Padding(
-    padding: const EdgeInsets.only(left: 20),
-    child: Container(
-      width: 150,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).colorScheme.tertiaryContainer),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.brightness_7_outlined, size: 50),
-            Text('Category $index',
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            const Text('This is a popular plant in our store',
-                maxLines: 2)
-          ],
-        ),
-      ),
-    ),
-  );
 }

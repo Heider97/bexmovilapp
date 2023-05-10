@@ -35,10 +35,9 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> init(TickerProvider ticker) async {
     await Future.value(_databaseRepository.getAllCategoriesWithProducts())
         .then((categories) {
+
       final companyName = _storageService.getString('company_name');
-
       scrollController = ScrollController();
-
       tabController = TabController(length: categories.length, vsync: ticker);
 
       double offsetFrom = 0.0;

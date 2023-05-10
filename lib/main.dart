@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 //theme
+import 'app_localizations.dart';
 import 'src/config/theme/index.dart';
 
 //domain
@@ -12,7 +12,6 @@ import 'src/domain/repositories/api_repository.dart';
 import 'src/domain/repositories/database_repository.dart';
 
 //cubits
-
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
@@ -113,14 +112,14 @@ class _MyAppState extends State<MyApp> {
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
                 },
-                child: OKToast(
-                  child: MaterialApp(
+                child: MaterialApp(
                     debugShowCheckedModeBanner: false,
                     title: appTitle,
                     localizationsDelegates: const [
                       GlobalMaterialLocalizations.delegate,
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,
+                      AppLocalization.delegate,
                     ],
                     supportedLocales: const [
                       Locale('en'), // English
@@ -135,8 +134,8 @@ class _MyAppState extends State<MyApp> {
                       }
                       return supportedLocales.first;
                     },
-                    theme: AppTheme.light,
-                    darkTheme: AppTheme.dark,
+                    // theme: AppTheme.light,
+                    // darkTheme: AppTheme.dark,
                     themeMode: ThemeMode.system,
                     navigatorKey: locator<NavigationService>().navigatorKey,
                     onUnknownRoute: (RouteSettings settings) =>
@@ -148,6 +147,6 @@ class _MyAppState extends State<MyApp> {
                     onGenerateRoute: router.generateRoute,
                   ),
                 ),
-              ));
+              );
   }
 }

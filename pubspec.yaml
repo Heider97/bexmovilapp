@@ -83,6 +83,7 @@ flutter:
     - assets/animations/
     - assets/icons/
     - assets/data/
+    - assets/lang/
     - pubspec.yaml
   fonts:
     - family: Butler
