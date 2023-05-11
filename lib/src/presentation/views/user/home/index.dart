@@ -52,7 +52,7 @@ class _HomeViewState extends State<HomeView>
           automaticallyImplyLeading: false,
           leading: Builder(
             builder: (context) => IconButton(
-              icon: const Icon(Icons.people),
+              icon: const Icon(Icons.list_sharp),
               onPressed: () => Scaffold.of(context).openDrawer(),
               tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
             ),
@@ -78,6 +78,8 @@ class _HomeViewState extends State<HomeView>
                       ), //Change background color from here
                       onTap: context.read<HomeCubit>().onTapSelected,
                       controller: context.read<HomeCubit>().tabController,
+                      indicatorWeight: 0,
+                      indicatorSize: TabBarIndicatorSize.tab,
                       isScrollable: true,
                       tabs: context
                           .read<HomeCubit>()

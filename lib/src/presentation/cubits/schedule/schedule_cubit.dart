@@ -9,22 +9,24 @@ import '../../../locator.dart';
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
 
-part 'productivity_state.dart';
+part 'schedule_state.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
 
-class ProductivityCubit extends Cubit<ProductivityState> {
+class ScheduleCubit extends Cubit<ScheduleState> {
   final DatabaseRepository _databaseRepository;
 
-  ProductivityCubit(this._databaseRepository) : super(const ProductivityLoading());
+  ScheduleCubit(this._databaseRepository) : super(const ScheduleLoading());
 
   Future<void> init() async {
-    emit(const ProductivitySuccess());
+
+
+    emit(const ScheduleSuccess());
   }
 
   void dispose() {
-    emit(const ProductivityLoading());
+    emit(const ScheduleLoading());
   }
 
   void back() => _navigationService.goBack();

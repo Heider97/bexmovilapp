@@ -1,5 +1,5 @@
 
-import 'package:BexMovil/src/presentation/views/schedule/index.dart';
+import 'package:BexMovil/src/presentation/views/user/schedule/index.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 

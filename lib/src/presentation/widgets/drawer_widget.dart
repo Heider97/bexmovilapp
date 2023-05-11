@@ -70,26 +70,26 @@ class DrawerWidget extends StatelessWidget {
                 // _storageService.setBool('summary-is-init', false);
                 // _storageService.setBool('inventory-is-init', false);
               }),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.bookmark_border,
-              text: 'Mis pedidos',
-              onTap: null),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.money,
-              text: 'Billetera',
-              onTap: null),
+          // _createDrawerItem(
+          //     context: context,
+          //     icon: Icons.bookmark_border,
+          //     text: 'Mis pedidos',
+          //     onTap: null),
+          // _createDrawerItem(
+          //     context: context,
+          //     icon: Icons.money,
+          //     text: 'Billetera',
+          //     onTap: null),
           _createDrawerItem(
               context: context,
               icon: Icons.calendar_month,
-              text: 'Calendario',
-              onTap: () => _navigationService.replaceTo(calendarRoute)),
+              text: 'Agenda',
+              onTap: () => _navigationService.goTo(calendarRoute)),
           _createDrawerItem(
               context: context,
               icon: Icons.label_important,
               text: 'Productividad',
-              onTap: () => _navigationService.replaceTo(productivityRoute)),
+              onTap: () => _navigationService.goTo(productivityRoute)),
           _createDrawerItem(
               context: context,
               icon: Icons.settings,

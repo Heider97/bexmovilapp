@@ -38,7 +38,7 @@ class ProductivityView extends StatefulWidget {
   final Color barBackgroundColor =
       AppColors.contentColorWhite.darken().withOpacity(0.3);
   final Color barColor = AppColors.contentColorWhite;
-  final Color touchedBarColor = AppColors.contentColorGreen;
+  final Color touchedBarColor = AppColors.contentColorWhite;
 
   @override
   State<ProductivityView> createState() => _ProductivityViewState();
@@ -71,35 +71,10 @@ class _ProductivityViewState extends State<ProductivityView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        leading: Builder(
-          builder: (context) => CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 22,
-            child: Center(
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new),
-                onPressed: () => _navigationService.replaceTo(homeRoute),
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          Builder(
-            builder: (context) => const CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 22,
-                child: Badge(
-                  alignment: AlignmentDirectional.topEnd,
-                  label: Text('2'),
-                  child: IconButton(
-                    icon: Icon(Icons.notifications),
-                    onPressed: null,
-                  ),
-                )),
-          ),
-        ],
-      ),
+          leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios_new),
+        onPressed: () => _navigationService.goBack(),
+      )),
       body: SafeArea(
         child: BlocBuilder<ProductivityCubit, ProductivityState>(
             bloc: productivityCubit,
@@ -119,187 +94,181 @@ class _ProductivityViewState extends State<ProductivityView> {
   }
 
   Widget buildProductivity(state) {
-    return BlocListener<ProductivityCubit, ProductivityState>(
-        listener: (context, state) {},
-        child: Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Productividad',
+    return Padding(
+      padding: const EdgeInsets.all(kDefaultPadding),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text('Productividad',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
+            IconButton(
+              icon: Icon(Icons.more_horiz),
+              onPressed: null,
+            )
+          ],
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      const Text(
+                        'General',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 26)),
-                    IconButton(
-                      icon: Icon(Icons.more_horiz),
-                      onPressed: null,
-                    )
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              const Text(
-                                'General',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Text(
-                                '41',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 38,
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8),
-                                  child: BarChart(
-                                    isPlaying ? randomData() : mainBarData(),
-                                    swapAnimationDuration: animDuration,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                            ],
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Text(
+                        '41',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 38,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: BarChart(
+                            isPlaying ? randomData() : mainBarData(),
+                            swapAnimationDuration: animDuration,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                CircleAvatar(
-                                  radius: 6,
-                                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                                ),
-                                const SizedBox(
-                                  width: 1,
-                                ),
-                                const Text(
-                                  'planeado',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                const CircleAvatar(
-                                  radius: 6,
-                                  backgroundColor: Colors.black,
-                                ),
-                                const SizedBox(
-                                  width: 1,
-                                ),
-                                const Text(
-                                  'completados',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            // child: IconButton(
-                            //   icon: Icon(
-                            //     isPlaying ? Icons.pause : Icons.play_arrow,
-                            //     color: AppColors.contentColorGreen,
-                            //   ),
-                            //   onPressed: () {
-                            //     setState(() {
-                            //       isPlaying = !isPlaying;
-                            //       if (isPlaying) {
-                            //         refreshState();
-                            //       }
-                            //     });
-                            //   },
-                            // ),
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                    ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text('Tareas',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 26)),
-                    IconButton(
-                      icon: Icon(Icons.more_horiz),
-                      onPressed: null,
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(
-                          child: ListView.builder(
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  leading: const CircleAvatar(
-                                      radius: 20, child: Icon(Icons.done)),
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Item $index'),
-                                      Row(
-                                        children: List.generate(
-                                            next(1, 3),
-                                            (index) => const CircleAvatar(
-                                                  radius: 20,
-                                                  child:
-                                                      Icon(Icons.people_alt),
-                                                )),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              itemCount: 5),
+                        CircleAvatar(
+                          radius: 6,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: DefaultButton(
-                              widget: const Text('Añadir Subtarea', style: TextStyle(color: Colors.white, fontSize: 20)),
-                              press: () {}),
-                        )
+                        const SizedBox(
+                          width: 1,
+                        ),
+                        const Text(
+                          'planeado',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        const CircleAvatar(
+                          radius: 6,
+                          backgroundColor: Colors.black,
+                        ),
+                        const SizedBox(
+                          width: 1,
+                        ),
+                        const Text(
+                          'completados',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
+                    // child: IconButton(
+                    //   icon: Icon(
+                    //     isPlaying ? Icons.pause : Icons.play_arrow,
+                    //     color: AppColors.contentColorGreen,
+                    //   ),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       isPlaying = !isPlaying;
+                    //       if (isPlaying) {
+                    //         refreshState();
+                    //       }
+                    //     });
+                    //   },
+                    // ),
                   ),
                 )
-              ]),
-        ));
+              ],
+            ),
+          ),
+        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: const [
+        //     Text('Tareas',
+        //         style: TextStyle(
+        //             fontWeight: FontWeight.bold, fontSize: 26)),
+        //     IconButton(
+        //       icon: Icon(Icons.more_horiz),
+        //       onPressed: null,
+        //     )
+        //   ],
+        // ),
+        // Expanded(
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //         color: Colors.white,
+        //         borderRadius: BorderRadius.circular(12)),
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       children: [
+        //         Expanded(
+        //           child: ListView.builder(
+        //               itemBuilder: (context, index) {
+        //                 return ListTile(
+        //                   leading: const CircleAvatar(
+        //                       radius: 20, child: Icon(Icons.done)),
+        //                   title: Row(
+        //                     mainAxisAlignment:
+        //                         MainAxisAlignment.spaceBetween,
+        //                     children: [
+        //                       Text('Item $index'),
+        //                       Row(
+        //                         children: List.generate(
+        //                             next(1, 3),
+        //                             (index) => const CircleAvatar(
+        //                                   radius: 20,
+        //                                   child:
+        //                                       Icon(Icons.people_alt),
+        //                                 )),
+        //                       )
+        //                     ],
+        //                   ),
+        //                 );
+        //               },
+        //               itemCount: 5),
+        //         ),
+        //         Padding(
+        //           padding: const EdgeInsets.all(12),
+        //           child: DefaultButton(
+        //               widget: const Text('Añadir Subtarea', style: TextStyle(color: Colors.white, fontSize: 20)),
+        //               press: () {}),
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // )
+      ]),
+    );
   }
 
   BarChartGroupData makeGroupData(
@@ -335,19 +304,33 @@ class _ProductivityViewState extends State<ProductivityView> {
   List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(0, 5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(1, 6.5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(2, 5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(3, 7.5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(4, 9,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(5, 11.5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex, barColor: Theme.of(context).colorScheme.primaryContainer);
+            return makeGroupData(6, 6.5,
+                isTouched: i == touchedIndex,
+                barColor: Theme.of(context).colorScheme.primaryContainer);
           default:
             return throw Error();
         }
@@ -364,25 +347,25 @@ class _ProductivityViewState extends State<ProductivityView> {
             String weekDay;
             switch (group.x) {
               case 0:
-                weekDay = 'Monday';
+                weekDay = 'Lunes';
                 break;
               case 1:
-                weekDay = 'Tuesday';
+                weekDay = 'Martes';
                 break;
               case 2:
-                weekDay = 'Wednesday';
+                weekDay = 'Miercoles';
                 break;
               case 3:
-                weekDay = 'Thursday';
+                weekDay = 'Jueves';
                 break;
               case 4:
-                weekDay = 'Friday';
+                weekDay = 'Viernes';
                 break;
               case 5:
-                weekDay = 'Saturday';
+                weekDay = 'Sabado';
                 break;
               case 6:
-                weekDay = 'Sunday';
+                weekDay = 'Domingo';
                 break;
               default:
                 throw Error();
@@ -456,25 +439,25 @@ class _ProductivityViewState extends State<ProductivityView> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('Mo', style: style);
+        text = const Text('Lu', style: style);
         break;
       case 1:
-        text = const Text('Tu', style: style);
+        text = const Text('Ma', style: style);
         break;
       case 2:
-        text = const Text('We', style: style);
+        text = const Text('Mi', style: style);
         break;
       case 3:
-        text = const Text('Th', style: style);
+        text = const Text('Ju', style: style);
         break;
       case 4:
-        text = const Text('Fr', style: style);
+        text = const Text('Vi', style: style);
         break;
       case 5:
         text = const Text('Sa', style: style);
         break;
       case 6:
-        text = const Text('Su', style: style);
+        text = const Text('Do', style: style);
         break;
       default:
         text = const Text('', style: style);

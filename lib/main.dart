@@ -21,6 +21,7 @@ import 'src/presentation/cubits/home/home_cubit.dart';
 import 'src/presentation/cubits/category/category_cubit.dart';
 import 'src/presentation/cubits/product/product_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
+import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/network/network_bloc.dart';
@@ -107,6 +108,10 @@ class _MyAppState extends State<MyApp> {
               )),
           BlocProvider(
               create: (context) => ProductivityCubit(
+                locator<DatabaseRepository>(),
+              )),
+          BlocProvider(
+              create: (context) => ScheduleCubit(
                 locator<DatabaseRepository>(),
               )),
         ],
