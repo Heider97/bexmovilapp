@@ -7,7 +7,7 @@ abstract class AppTheme {
       fontFamily: 'IBM',
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
-        primary: Color(0xFFAF3100),
+        primary: Color(0xFFFFFFFF),
         onPrimary: Color(0xFFFFFFFF),
         primaryContainer: Color(0xFFED5A38),
         onPrimaryContainer: Color(0xFF3A0A00),

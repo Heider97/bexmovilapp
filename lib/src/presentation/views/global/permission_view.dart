@@ -69,11 +69,11 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                     customTextProperty: CustomTextProperty.header3(context)),
                 CustomMaterialButton(
                     buttonText: state.permissionRepository.buttonText ?? "Permitir",
-                    onButtonPressed: () {
+                    onButtonPressed: () async {
                       if (state.permissionRepository.isGranted != null && state.permissionRepository.isGranted == true) {
                         _navigationService.goTo(companyRoute);
                       } else {
-                        return permissionCubit.onRequestAllPermission();
+                        return await permissionCubit.onRequestAllPermission();
                       }
                     }),
               ],

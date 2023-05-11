@@ -19,6 +19,7 @@ import 'src/presentation/cubits/location/location_bloc.dart';
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
 import 'src/presentation/cubits/category/category_cubit.dart';
+import 'src/presentation/cubits/product/product_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 
 //blocs
@@ -41,9 +42,7 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initializeDependencies();
-
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
@@ -103,6 +102,10 @@ class _MyAppState extends State<MyApp> {
                     locator<DatabaseRepository>(),
                   )),
           BlocProvider(
+              create: (context) => ProductCubit(
+                locator<DatabaseRepository>(),
+              )),
+          BlocProvider(
               create: (context) => ProductivityCubit(
                 locator<DatabaseRepository>(),
               )),
@@ -134,8 +137,8 @@ class _MyAppState extends State<MyApp> {
                       }
                       return supportedLocales.first;
                     },
-                    // theme: AppTheme.light,
-                    // darkTheme: AppTheme.dark,
+                    theme: AppTheme.light,
+                    darkTheme: AppTheme.dark,
                     themeMode: ThemeMode.system,
                     navigatorKey: locator<NavigationService>().navigatorKey,
                     onUnknownRoute: (RouteSettings settings) =>

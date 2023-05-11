@@ -21,7 +21,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
+class _HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
   late HomeCubit homeCubit;
 
   @override
@@ -40,35 +41,36 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(120),
-          child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-            return AppBar(
-              elevation: 0,
-              backgroundColor: Colors.orange.withOpacity(0.6),
-              title: Text(AppLocalization.of(context)
-                      .getTranslatedValue("home_title")
-                      .toString(),
-                  style: const TextStyle(fontSize: 16)),
-              centerTitle: true,
-              automaticallyImplyLeading: false,
-              leading: Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.people),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                ),
-              ),
-              actions: const [
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: null,
-                ),
-              ],
-              bottom: state.runtimeType is HomeLoading
-                  ? null
-                  : TabBar(
+      appBar: AppBar(
+          elevation: 0,
+          title: Text(
+              AppLocalization.of(context)
+                  .getTranslatedValue("home_title")
+                  .toString(),
+              style: const TextStyle(fontSize: 16)),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.people),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            ),
+          ),
+          actions: const [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: null,
+            ),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(70),
+            child: BlocSelector<HomeCubit, HomeState, bool>(
+              selector: (state) =>
+                  state.runtimeType == HomeSuccess ? true : false,
+              builder: (context, booleanState) {
+                if (booleanState) {
+                  return TabBar(
                       padding: const EdgeInsets.only(bottom: 10, left: 5),
                       indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
@@ -81,9 +83,15 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                           .read<HomeCubit>()
                           .tabs
                           .map((tab) => tabWidget(tab))
-                          .toList()),
-            );
-          })),
+                          .toList());
+                } else {
+                  return const LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  );
+                }
+              },
+            ),
+          )),
       drawer: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
         return DrawerWidget(user: state.user, companyName: state.companyName);
       }),
@@ -121,8 +129,8 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

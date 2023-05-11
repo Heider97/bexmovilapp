@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomMaterialButton extends StatelessWidget {
-  final onButtonPressed;
+  final VoidCallback onButtonPressed;
   final String buttonText;
 
   const CustomMaterialButton(

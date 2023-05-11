@@ -20,7 +20,6 @@ import '../../presentation/views/global/politics_view.dart';
 import '../../presentation/views/user/home/index.dart';
 import '../../presentation/views/user/category/index.dart';
 import '../../presentation/views/user/product/index.dart';
-import '../../presentation/views/user/calendar/index.dart';
 import '../../presentation/views/user/productivity/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {

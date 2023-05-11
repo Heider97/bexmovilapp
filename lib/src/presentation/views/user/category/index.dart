@@ -11,6 +11,7 @@ import '../../../cubits/category/category_cubit.dart';
 import '../../../../domain/models/product.dart';
 
 //features
+import '../../../widgets/custom_icon_back.dart';
 import '../home/features/product_widget.dart';
 
 class CategoryView extends StatefulWidget {
@@ -56,70 +57,83 @@ class _CategoryViewState extends State<CategoryView> {
   }
 
   Widget buildBody(Size size, state) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(state.category.name),
-              ],
-            ),
-            background: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                state.category.image == null
-                    ? Image.asset("assets/images/hero.png", fit: BoxFit.cover)
-                    : CachedNetworkImage(
-                        imageUrl: state.category.image,
-                        placeholder: (context, url) =>
-                            const Center(child: CupertinoActivityIndicator()),
-                        errorWidget: (context, url, error) => Image.asset(
-                              "assets/images/hero.png",
-                              fit: BoxFit.cover,
-                            )),
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(0.0, 0.5),
-                      end: Alignment.center,
-                      colors: <Color>[
-                        Color(0x60000000),
-                        Color(0x00000000),
-                      ],
+    return Stack(
+      children: [
+        CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              floating: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    state.category.image == null
+                        ? Image.asset("assets/images/hero.png",
+                            fit: BoxFit.cover)
+                        : CachedNetworkImage(
+                            imageUrl: state.category.image,
+                            placeholder: (context, url) => const Center(
+                                child: CupertinoActivityIndicator()),
+                            errorWidget: (context, url, error) => Image.asset(
+                                  "assets/images/hero.png",
+                                  fit: BoxFit.cover,
+                                )),
+                    const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment(0.0, 0.5),
+                          end: Alignment.center,
+                          colors: <Color>[
+                            Color(0x60000000),
+                            Color(0x00000000),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
+              expandedHeight: 150,
             ),
-          ),
-          expandedHeight: 150,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(state.category.name,
+                    style: const TextStyle(fontSize: 30, color: Colors.black)),
+              ),
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ProductWidget(product: state.category.products[index]),
+                );
+              },
+              childCount: state.category.products.length,
+            )),
+            // SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) => Padding(
+            //       padding: const EdgeInsets.all(12.0),
+            //       child: ListTile(
+            //           contentPadding:
+            //               const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            //           tileColor: index.isOdd ? oddItemColor : evenItemColor,
+            //           title: Text('Place ${index + 1}')),
+            //     ),
+            //     childCount: 30,
+            //   ),
+            // ),
+          ],
         ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ProductWidget(product: state.category.products[index]),
-            );
-          },
-          childCount: state.category.products.length,
-        )),
-        // SliverList(
-        //   delegate: SliverChildBuilderDelegate(
-        //     (context, index) => Padding(
-        //       padding: const EdgeInsets.all(12.0),
-        //       child: ListTile(
-        //           contentPadding:
-        //               const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-        //           tileColor: index.isOdd ? oddItemColor : evenItemColor,
-        //           title: Text('Place ${index + 1}')),
-        //     ),
-        //     childCount: 30,
-        //   ),
-        // ),
+        Positioned(
+            top: 30,
+            left: 10,
+            child: CustomIconBack(
+              onPressed: () => context.read<CategoryCubit>().back(),
+            )),
       ],
     );
   }
