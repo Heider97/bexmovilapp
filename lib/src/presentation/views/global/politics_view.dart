@@ -65,16 +65,14 @@ class PoliticsViewState extends State<PoliticsView> {
                         height: 300, width: 300),
                     const SizedBox(height: 20),
                     const Text(
-                        'Tu ubicación actual se mostrará en el mapa y se usará para rutas, búsquedas de sitios y estimaciones del tiempo de entrega de tus pedidos.',
+                        'Tu ubicación actual se mostrará en el mapa y se usará para rutas, búsquedas de sitios y estimaciones del tiempo de venta de tus pedidos.',
                         textAlign: TextAlign.justify,
-                        // textScaleFactor: textScaleFactor(context),
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w300)),
                     const SizedBox(height: 10),
                     const Text(
-                        'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los transportadores en la entrega de clientes y mejorar los tiempo de entrega incluso cuando la aplicación esta cerrada o no esta en uso.',
+                        'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los vendedores en la toma de pedidos y mejorar los tiempo de venta incluso cuando la aplicación esta cerrada o no esta en uso.',
                         textAlign: TextAlign.justify,
-                        // textScaleFactor: textScaleFactor(context),
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w300)),
                     const SizedBox(height: 20),
@@ -84,7 +82,6 @@ class PoliticsViewState extends State<PoliticsView> {
                         child: const Text(
                             'Para ver nuestras politicas de privacidad haz click aquí',
                             textAlign: TextAlign.justify,
-                            // textScaleFactor: textScaleFactor(context),
                             style: TextStyle(
                                 color: kPrimaryColor,
                                 fontSize: 15,

@@ -1,5 +1,4 @@
 
-import 'package:BexMovil/src/presentation/views/user/schedule/index.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -21,6 +20,7 @@ import '../../presentation/views/user/home/index.dart';
 import '../../presentation/views/user/category/index.dart';
 import '../../presentation/views/user/product/index.dart';
 import '../../presentation/views/user/productivity/index.dart';
+import '../../presentation/views/user/schedule/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
