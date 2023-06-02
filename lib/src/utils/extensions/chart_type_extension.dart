@@ -1,4 +1,4 @@
-import '../../resources/app_assets.dart';
+import '../resources/app_assets.dart';
 
 enum ChartType { line, bar, pie, scatter, radar }
 

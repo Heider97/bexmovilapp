@@ -12,7 +12,7 @@ import '../../../cubits/productivity/productivity_cubit.dart';
 import '../../../../utils/constants/nums.dart';
 import '../../../../utils/constants/strings.dart';
 import '../../../../utils/resources/app_colors.dart';
-import '../../../../utils/constants/extensions/color_extension.dart';
+import '../../../../utils/extensions/color_extension.dart';
 
 //features
 import '../../../widgets/default_button_widget.dart';

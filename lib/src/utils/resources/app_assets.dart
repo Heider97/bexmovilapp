@@ -1,4 +1,4 @@
-import '../constants/extensions/chart_type_extension.dart';
+import '../extensions/chart_type_extension.dart';
 
 class AppAssets {
   static String getChartIcon(ChartType type) {

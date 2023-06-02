@@ -13,6 +13,7 @@ import 'features/product_widget.dart';
 
 //widgets
 import '../../../widgets/drawer_widget.dart';
+import '../../../widgets/dwi_appbar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -62,6 +63,7 @@ class _HomeViewState extends State<HomeView>
               icon: Icon(Icons.search),
               onPressed: null,
             ),
+            UpdateButton(),
           ],
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(70),

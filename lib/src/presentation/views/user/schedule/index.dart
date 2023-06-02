@@ -152,13 +152,13 @@ class _ScheduleViewState extends State<ScheduleView> {
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(12)),
-                child: ListTile(
+                child: const ListTile(
                     title: Row(
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Flexible(
                           flex: 2,
                             child: Text('Reunion con cliente ',

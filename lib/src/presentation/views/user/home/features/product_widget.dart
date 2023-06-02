@@ -11,7 +11,7 @@ import '../../../../../utils/constants/nums.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //extensions
-import '../../../../../utils/constants/extensions/string_extension.dart';
+import '../../../../../utils/extensions/string_extension.dart';
 
 //services
 import '../../../../../locator.dart';

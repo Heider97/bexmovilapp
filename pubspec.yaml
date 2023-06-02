@@ -41,7 +41,7 @@ dependencies:
   url_launcher: ^6.1.10
   showcaseview: ^2.0.2
   flutter_udid: ^2.0.1
-  intl: ^0.17.0
+  intl: ^0.18.0
   vibration: ^1.7.6
   carousel_slider: ^4.2.1
   shimmer: ^2.0.0
@@ -57,6 +57,8 @@ dependencies:
   syncfusion_flutter_calendar: ^21.1.38
   fl_chart: ^0.61.0
   universal_platform: ^1.0.0+1
+  upgrader: ^7.0.2
+  dart_ping: ^8.0.1
 
 dev_dependencies:
   flutter_test:

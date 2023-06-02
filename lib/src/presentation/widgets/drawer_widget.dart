@@ -34,24 +34,11 @@ class DrawerWidget extends StatelessWidget {
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountName: Text(user != null ? user!.name! : 'No user'),
-            accountEmail: Text(user != null ?  user!.email! : 'No email'),
-            otherAccountsPictures: const [
-              // IconButton(
-              //     icon: Icon(
-              //         themeNotifier.isDark
-              //             ? Icons.nightlight_round
-              //             : Icons.wb_sunny,
-              //         color: Colors.white),
-              //     onPressed: () {
-              //       themeNotifier.isDark
-              //           ? themeNotifier.isDark = false
-              //           : themeNotifier.isDark = true;
-              //     })
-            ],
+            accountEmail: Text(user != null ? user!.email! : 'No email'),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.orange,
               child: Text(
-                user != null ? user!.name! :  'S',
+                user != null ? user!.name! : 'S',
                 style: const TextStyle(fontSize: 40.0, color: Colors.white),
               ),
             ),
@@ -59,18 +46,20 @@ class DrawerWidget extends StatelessWidget {
           _createDrawerItem(
               context: context,
               icon: Icons.business,
-              text: companyName != null ? companyName!.toUpperCase() : 'Not found',
+              text: companyName != null
+                  ? companyName!.toUpperCase()
+                  : 'Not found',
               onTap: null),
           _createDrawerItem(
               context: context,
               icon: Icons.help_center,
               text: 'Ver tutorial.',
               onTap: () {
-                // _storageService.setBool('home-is-init', false);
-                // _storageService.setBool('work-is-init', false);
-                // _storageService.setBool('navigation-is-init', false);
-                // _storageService.setBool('summary-is-init', false);
-                // _storageService.setBool('inventory-is-init', false);
+                _storageService.setBool('home-is-init', false);
+                _storageService.setBool('work-is-init', false);
+                _storageService.setBool('navigation-is-init', false);
+                _storageService.setBool('summary-is-init', false);
+                _storageService.setBool('inventory-is-init', false);
               }),
           // _createDrawerItem(
           //     context: context,
@@ -101,9 +90,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.logout,
               text: 'Salir',
-              onTap: () async{
-                await context.read<HomeCubit>().logout();
-              }),
+              onTap: () async => await context.read<HomeCubit>().logout()),
           const Divider(),
           FutureBuilder(
               future: rootBundle.loadString('pubspec.yaml'),
@@ -114,9 +101,17 @@ class DrawerWidget extends StatelessWidget {
                   version = yaml['version'];
                 }
 
-                return ListTile(
-                  title: Text(version),
-                  onTap: () {},
+                return AboutListTile(
+                  icon: const Icon(
+                    Icons.info,
+                  ),
+                  applicationIcon: const Icon(
+                    Icons.local_play,
+                  ),
+                  applicationName: 'Bex movil',
+                  applicationVersion: version,
+                  applicationLegalese: '© 2023 Company',
+                  child: const Text('Sobre la aplicación'),
                 );
               }),
         ],

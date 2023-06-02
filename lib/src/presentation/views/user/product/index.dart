@@ -8,7 +8,7 @@ import '../../../cubits/product/product_cubit.dart';
 
 //utils
 import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/extensions/string_extension.dart';
+import '../../../../utils/extensions/string_extension.dart';
 
 //features
 import '../../../widgets/custom_icon_back.dart';

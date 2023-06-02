@@ -1,5 +1,4 @@
-package com.example.bexmovil
-
+package com.bexsoluciones.bexmovil
 
 import android.view.WindowManager
 import io.flutter.embedding.android.FlutterActivity

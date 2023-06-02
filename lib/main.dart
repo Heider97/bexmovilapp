@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:upgrader/upgrader.dart';
 
 //theme
 import 'app_localizations.dart';
@@ -43,6 +44,14 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Only call clearSavedSettings() during testing to reset internal values.
+  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
+
+  // On Android, the default behavior will be to use the Google Play Store
+  // version of the app.
+  // On iOS, the default behavior will be to use the App Store version of
+  // the app, so update the Bundle Identifier in example/ios/Runner with a
+  // valid identifier already in the App Store.
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
