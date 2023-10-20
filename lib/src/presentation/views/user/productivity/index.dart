@@ -15,7 +15,6 @@ import '../../../../utils/resources/app_colors.dart';
 import '../../../../utils/extensions/color_extension.dart';
 
 //features
-import '../../../widgets/default_button_widget.dart';
 
 //services
 import '../../../../locator.dart';

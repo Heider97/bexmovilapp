@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,11 +10,10 @@ import '../../../services/storage.dart';
 part 'splash_event.dart';
 part 'splash_state.dart';
 
-
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
-  SplashScreenBloc() : super(Initial()){
+  SplashScreenBloc() : super(Initial()) {
     on<HandleNavigateScreenEvent>(_observe);
   }
 
@@ -25,28 +25,27 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       } else {
         var token = _storageService.getString('token');
         if (token != null) {
-          emit(const Loaded(route: '/home'));
+          emit(const Loaded(route: Routes.homeRoute));
         } else {
-          emit(const Loaded(route: '/login'));
+          emit(const Loaded(route: Routes.selectEnterpriceRoute));
         }
       }
     });
   }
 
   Stream<SplashScreenState> mapEventToState(
-      SplashScreenEvent event,
-      ) async* {
+    SplashScreenEvent event,
+  ) async* {
     if (event is HandleNavigateScreenEvent) {
       yield Loading();
       await Future.delayed(const Duration(seconds: 3));
       isFirstTime().then((firstTime) async* {
         if (!firstTime!) {
-          yield const Loaded(route: '/politics');
+          yield const Loaded(route: Routes.politicsRoute);
         } else {
           validateSession();
         }
       });
-
     }
   }
 
@@ -57,12 +56,10 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
   Stream<Loaded> validateSession() async* {
     var token = _storageService.getString('token');
     if (token != null) {
-      yield const Loaded(route: '/home');
+      yield const Loaded(route: Routes.homeRoute);
     } else {
-      yield const Loaded(route: '/initial');
+      yield const Loaded(route: Routes.selectEnterpriceRoute);
+      /* yield const Loaded(route: Routes.productRoute ); */
     }
   }
-
-
-
 }

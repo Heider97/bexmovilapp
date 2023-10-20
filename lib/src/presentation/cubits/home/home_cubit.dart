@@ -35,7 +35,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> init(TickerProvider ticker) async {
     await Future.value(_databaseRepository.getAllCategoriesWithProducts())
         .then((categories) {
-
       final companyName = _storageService.getString('company_name');
       scrollController = ScrollController();
       tabController = TabController(length: categories.length, vsync: ticker);
@@ -74,8 +73,7 @@ class HomeCubit extends Cubit<HomeState> {
             companyName: companyName,
             tabController: tabController,
             tabs: tabs,
-            scrollController: scrollController
-        ));
+            scrollController: scrollController));
       });
     });
   }
@@ -116,8 +114,7 @@ class HomeCubit extends Cubit<HomeState> {
         companyName: state.companyName,
         tabController: tabController,
         tabs: tabs,
-        scrollController: scrollController
-    ));
+        scrollController: scrollController));
   }
 
   void dispose() {
@@ -135,6 +132,6 @@ class HomeCubit extends Cubit<HomeState> {
     ]);
 
     _storageService.remove('token');
-    _navigationService.replaceTo(loginRoute);
+    _navigationService.replaceTo(Routes.loginRoute);
   }
 }

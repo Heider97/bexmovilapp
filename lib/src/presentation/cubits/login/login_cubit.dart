@@ -31,7 +31,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
   final DatabaseRepository _databaseRepository;
 
   LoginCubit(this._apiRepository, this._databaseRepository)
-      : super(LoginSuccess(enterprise: _storageService.getObject('enterprise') != null
+      : super(
+            LoginSuccess(
+                enterprise: _storageService.getObject('enterprise') != null
                     ? Enterprise.fromMap(
                         _storageService.getObject('enterprise')!)
                     : null),
@@ -47,7 +49,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
               ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
               : null));
 
-     await _databaseRepository.init();
+      await _databaseRepository.init();
 
       _storageService.setString('token', 'token');
 
@@ -68,10 +70,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
         );
 
         if (responseProducts is DataSuccess) {
-
           final products = responseProducts.data!.products;
 
-          for(var product in products){
+          for (var product in products) {
             var category = Category(name: product.category!);
             var id = await _databaseRepository.insertCategory(category);
             product.categoryId = id;
@@ -84,7 +85,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
               enterprise: _storageService.getObject('enterprise') != null
                   ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
                   : null));
-
         } else if (responseProducts is DataFailed) {
           emit(LoginFailed(
               error: responseProducts.error,
@@ -92,8 +92,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
                   ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
                   : null));
         }
-
-
       } else if (response is DataFailed) {
         emit(LoginFailed(
             error: response.error,
@@ -106,7 +104,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
 
   Future<void> selectCompanyName() async {
     _storageService.setString('company_name', null);
-    _navigationService.replaceTo(companyRoute);
-
+    _navigationService.replaceTo(Routes.companyRoute);
   }
 }

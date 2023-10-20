@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 //utils
@@ -14,26 +13,26 @@ part 'politics_state.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class PoliticsCubit extends BaseCubit<PoliticsState, String?> {
-
-  PoliticsCubit() : super(PoliticsSuccess(token: _storageService.getString('token')), null);
+  PoliticsCubit()
+      : super(PoliticsSuccess(token: _storageService.getString('token')), null);
 
   Future<void> goTo() async {
     if (isBusy) return;
 
     await run(() async {
-
       try {
         _storageService.setBool('first_time', true);
-        var token  = _storageService.getString('token');
+        var token = _storageService.getString('token');
         String route;
 
         if (token != null) {
-          route = homeRoute;
+          route = Routes.homeRoute;
         } else {
-          route = permissionRoute;
+          route = Routes.permissionRoute;
         }
 
-        emit(PoliticsSuccess(token: _storageService.getString('token'), route: route));
+        emit(PoliticsSuccess(
+            token: _storageService.getString('token'), route: route));
       } catch (e) {
         emit(PoliticsFailed(error: e.toString()));
       }

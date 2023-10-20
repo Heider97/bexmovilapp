@@ -20,14 +20,13 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _navigationService.goTo(categoryRoute, arguments: category.id),
+      onTap: () =>
+          _navigationService.goTo(Routes.categoryRoute, arguments: category.id),
       child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Text(category.name!,
               style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal))),
+                  fontSize: 20, fontWeight: FontWeight.normal))),
     );
   }
 }

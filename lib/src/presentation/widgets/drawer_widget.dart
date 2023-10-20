@@ -75,12 +75,12 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.calendar_month,
               text: 'Agenda',
-              onTap: () => _navigationService.goTo(calendarRoute)),
+              onTap: () => _navigationService.goTo(Routes.calendarRoute)),
           _createDrawerItem(
               context: context,
               icon: Icons.label_important,
               text: 'Productividad',
-              onTap: () => _navigationService.goTo(productivityRoute)),
+              onTap: () => _navigationService.goTo(Routes.productivityRoute)),
           _createDrawerItem(
               context: context,
               icon: Icons.settings,
