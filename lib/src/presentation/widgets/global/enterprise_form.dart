@@ -1,9 +1,20 @@
+import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 
-class EnterpriceForm extends StatelessWidget {
+class EnterpriceForm extends StatefulWidget {
   const EnterpriceForm({super.key});
+
+  @override
+  State<EnterpriceForm> createState() => _EnterpriceFormState();
+}
+
+class _EnterpriceFormState extends State<EnterpriceForm> {
+  //bool isLoading = false;
+  final NavigationService _navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +55,10 @@ class EnterpriceForm extends StatelessWidget {
                 width: 150,
                 height: 50,
                 child: CustomElevatedButton(
-                  onTap: () {},
+                  onTap: () {
+                    _navigationService.goTo(Routes.loginRoute);
+                  },
+                  //z  isLoading: isLoading,
                   child: Text(
                     'Siguiente',
                     style: theme.textTheme.bodyLarge!.copyWith(

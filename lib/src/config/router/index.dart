@@ -8,7 +8,7 @@ import '../../utils/constants/strings.dart';
 
 //SCREENS
 //global
-import '../../presentation/views/global/initial_view.dart';
+
 import '../../presentation/views/global/permission_view.dart';
 
 import '../../presentation/views/global/undefined_view.dart';
@@ -36,7 +36,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: InitialView())) */
     case Routes.loginRoute:
-      return MaterialPageRoute(builder: (context) => const LoginView());
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackground(child: LoginView()));
 /*     case Routes.homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView()); */
 /*     case Routes.categoryRoute:
