@@ -1,8 +1,6 @@
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-//utils
-import '../../../../utils/constants/strings.dart';
 
 //services
 import '../../../../locator.dart';
@@ -31,7 +29,7 @@ class CalendarPageState extends State<CalendarPage> {
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back_ios_new),
                         onPressed: () =>
-                            _navigationService.replaceTo(homeRoute),
+                            _navigationService.replaceTo(Routes.homeRoute),
                       ),
                     )),
             const Spacer(),

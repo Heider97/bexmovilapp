@@ -13,10 +13,10 @@ class CustomIconBack extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20), color: Colors.white),
-        child: Padding(
-            padding: const EdgeInsets.all(10),
+        child: const Padding(
+            padding: EdgeInsets.all(10),
             child: Row(
-              children: const [
+              children: [
                 Icon(Icons.arrow_back_ios_new, size: 15, color: Colors.black),
                 SizedBox(width: 5),
                 Text('Regresar',

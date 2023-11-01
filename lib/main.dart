@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/splash/splash_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -65,7 +66,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   late Locale locale;
 
   void setLocale(Locale value) {
@@ -77,93 +77,97 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => NetworkBloc()..add(NetworkObserve()),
-          ),
-          BlocProvider(
-            create: (context) => ProcessingQueueCubit(
-                locator<DatabaseRepository>(),
-                BlocProvider.of<NetworkBloc>(context))
-              ..add(ProcessingQueueObserve()),
-          ),
-          RepositoryProvider(
-              create: (context) => LocationRepository(),
-              child: BlocProvider(
-                create: (context) => LocationBloc(
-                    locationRepository: context.read<LocationRepository>())
-                  ..add(GetLocation()),
-              )),
-          BlocProvider(
-              create: (context) => InitialCubit(locator<ApiRepository>())),
-          BlocProvider(create: (context) => PermissionCubit()),
-          BlocProvider(create: (context) => PoliticsCubit()),
-          BlocProvider(
-              create: (context) => LoginCubit(
-                    locator<ApiRepository>(),
-                    locator<DatabaseRepository>(),
+      providers: [
+        //BLOC PROVIDERS
+        BlocProvider(create: (_) => SplashScreenBloc()),
+        BlocProvider(
+          create: (_) => NetworkBloc()..add(NetworkObserve()),
+        ),
+        BlocProvider(
+          create: (context) => ProcessingQueueCubit(
+              locator<DatabaseRepository>(),
+              BlocProvider.of<NetworkBloc>(context))
+            ..add(ProcessingQueueObserve()),
+        ),
+        BlocProvider(
+            create: (context) => InitialCubit(locator<ApiRepository>())),
+        BlocProvider(create: (context) => PermissionCubit()),
+        BlocProvider(create: (context) => PoliticsCubit()),
+        BlocProvider(
+            create: (context) => LoginCubit(
+                  locator<ApiRepository>(),
+                  locator<DatabaseRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => HomeCubit(
+                  locator<DatabaseRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => CategoryCubit(
+                  locator<DatabaseRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => ProductCubit(
+                  locator<DatabaseRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => ProductivityCubit(
+                  locator<DatabaseRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => ScheduleCubit(
+                  locator<DatabaseRepository>(),
+                )),
+
+        //REPOSITORY PROVIDER.
+
+        RepositoryProvider(
+            create: (_) => LocationRepository(),
+            child: BlocProvider(
+              create: (context) => LocationBloc(
+                  locationRepository: context.read<LocationRepository>())
+                ..add(GetLocation()),
+            )),
+      ],
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: appTitle,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalization.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'), // English
+            Locale('es'), // Spanish
+          ],
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            for (var locale in supportedLocales) {
+              if (locale.languageCode == deviceLocale!.languageCode &&
+                  locale.countryCode == deviceLocale.countryCode) {
+                return deviceLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: ThemeMode.system,
+          navigatorKey: locator<NavigationService>().navigatorKey,
+          onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
+              builder: (BuildContext context) => UndefinedView(
+                    name: settings.name,
                   )),
-          BlocProvider(
-              create: (context) => HomeCubit(
-                    locator<DatabaseRepository>(),
-                  )),
-          BlocProvider(
-              create: (context) => CategoryCubit(
-                    locator<DatabaseRepository>(),
-                  )),
-          BlocProvider(
-              create: (context) => ProductCubit(
-                locator<DatabaseRepository>(),
-              )),
-          BlocProvider(
-              create: (context) => ProductivityCubit(
-                locator<DatabaseRepository>(),
-              )),
-          BlocProvider(
-              create: (context) => ScheduleCubit(
-                locator<DatabaseRepository>(),
-              )),
-        ],
-        child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    title: appTitle,
-                    localizationsDelegates: const [
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                      AppLocalization.delegate,
-                    ],
-                    supportedLocales: const [
-                      Locale('en'), // English
-                      Locale('es'), // Spanish
-                    ],
-                    localeResolutionCallback: (deviceLocale, supportedLocales) {
-                      for (var locale in supportedLocales) {
-                        if (locale.languageCode == deviceLocale!.languageCode &&
-                            locale.countryCode == deviceLocale.countryCode) {
-                          return deviceLocale;
-                        }
-                      }
-                      return supportedLocales.first;
-                    },
-                    theme: AppTheme.light,
-                    darkTheme: AppTheme.dark,
-                    themeMode: ThemeMode.system,
-                    navigatorKey: locator<NavigationService>().navigatorKey,
-                    onUnknownRoute: (RouteSettings settings) =>
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => UndefinedView(
-                                  name: settings.name,
-                                )),
-                    initialRoute: '/splash',
-                    onGenerateRoute: router.generateRoute,
-                  ),
-                ),
-              );
+          initialRoute: '/splash',
+          onGenerateRoute: router.generateRoute,
+        ),
+      ),
+    );
   }
 }

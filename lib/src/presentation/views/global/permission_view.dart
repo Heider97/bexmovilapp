@@ -37,14 +37,15 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
           child: BlocConsumer<PermissionCubit, PermissionState>(
               listener: (context, state) {
             if (state is AllPermissionsGranted) {
-              _navigationService.replaceTo(companyRoute);
+              _navigationService.replaceTo(Routes.companyRoute);
             }
           }, listenWhen: (previous, current) {
             return (current is AllPermissionsGranted);
           }, builder: (context, state) {
             var permissionCubit = context.watch<PermissionCubit>();
             permissionCubit.checkIfPermissionNeeded();
-            if (state is AllPermissionsGranted || state is WaitingForPermission) {
+            if (state is AllPermissionsGranted ||
+                state is WaitingForPermission) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -68,10 +69,12 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                         "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.",
                     customTextProperty: CustomTextProperty.header3(context)),
                 CustomMaterialButton(
-                    buttonText: state.permissionRepository.buttonText ?? "Permitir",
+                    buttonText:
+                        state.permissionRepository.buttonText ?? "Permitir",
                     onButtonPressed: () async {
-                      if (state.permissionRepository.isGranted != null && state.permissionRepository.isGranted == true) {
-                        _navigationService.goTo(companyRoute);
+                      if (state.permissionRepository.isGranted != null &&
+                          state.permissionRepository.isGranted == true) {
+                        _navigationService.goTo(Routes.companyRoute);
                       } else {
                         return await permissionCubit.onRequestAllPermission();
                       }

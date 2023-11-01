@@ -4,11 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //blocs
 import '../blocs/splash/splash_bloc.dart';
 
-//constants
-import '../../utils/constants/colors.dart';
-
 class SplashScreenWidget extends StatefulWidget {
-  const SplashScreenWidget({ Key? key }) : super(key: key);
+  const SplashScreenWidget({Key? key}) : super(key: key);
 
   @override
   SplashScreenWidgetState createState() => SplashScreenWidgetState();
@@ -23,32 +20,41 @@ class SplashScreenWidgetState extends State<SplashScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Stack(
-      fit: StackFit.expand,
-      children: <Widget>[
-        Container(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('assets/images/icon.png',
-                      width: 400.0, height: 400.0),
-                  const CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(kPrimaryColor),
-                  ),
-                ],
+    final ThemeData theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            'assets/images/bg-pattern.png',
+            fit: BoxFit.cover,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Image.asset('assets/icons/BEX.png',
+                            fit: BoxFit.cover, width: 200.0, height: 300.0),
+                        Text('Solución en ventas integral',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(fontWeight: FontWeight.w600))
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
-        )
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 

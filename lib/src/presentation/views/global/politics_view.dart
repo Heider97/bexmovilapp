@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,8 +18,6 @@ import '../../../services/navigation.dart';
 import '../../../services/storage.dart';
 
 //widgets
-
-import '../../widgets/default_button_widget.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 final LocalStorageService _storageService = locator<LocalStorageService>();
@@ -44,6 +41,7 @@ class PoliticsViewState extends State<PoliticsView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
 
     return Scaffold(
       body: BlocConsumer<PoliticsCubit, PoliticsState>(
@@ -71,7 +69,7 @@ class PoliticsViewState extends State<PoliticsView> {
                             fontSize: 15, fontWeight: FontWeight.w300)),
                     const SizedBox(height: 10),
                     const Text(
-                        'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los vendedores en la toma de pedidos y mejorar los tiempo de venta incluso cuando la aplicación esta cerrada o no esta en uso.',
+                        'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los vendedores en la toma de pedidos y mejorar los tiempos de venta incluso cuando la aplicación esta cerrada o no esta en uso.',
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w300)),
@@ -79,15 +77,15 @@ class PoliticsViewState extends State<PoliticsView> {
                     InkWell(
                         onTap: () => _launchUrl(Uri.parse(
                             'https://bexdeliveries.com/politicas-de-datos-terminos-y-condiciones')),
-                        child: const Text(
+                        child: Text(
                             'Para ver nuestras politicas de privacidad haz click aquí',
                             textAlign: TextAlign.justify,
                             style: TextStyle(
-                                color: kPrimaryColor,
+                                color: theme.primaryColor,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300))),
                     const SizedBox(height: 40),
-                    DefaultButton(
+                    /*  DefaultButton(
                       widget: isLoading
                           ? const CircularProgressIndicator(
                               valueColor:
@@ -101,7 +99,7 @@ class PoliticsViewState extends State<PoliticsView> {
                                 fontSize: 16.0,
                               )),
                       press: () => _dispatchEvent(context),
-                    )
+                    ) */
                   ]),
                 )),
           ),
