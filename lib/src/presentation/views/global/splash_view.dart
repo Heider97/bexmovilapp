@@ -17,17 +17,13 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: BlocListener<SplashScreenBloc, SplashScreenState>(
-        listener: (context, state) {
-          if (state is Loaded) {
-            _navigationService.goTo(state.route!);
-          }
-        },
-        child: const SplashScreenWidget(),
-      ),
+    return BlocListener<SplashScreenBloc, SplashScreenState>(
+      listener: (context, state) {
+        if (state is Loaded) {
+          _navigationService.goTo(state.route!);
+        }
+      },
+      child: const SplashScreenWidget(),
     );
   }
 }

@@ -5,16 +5,14 @@ class GlobalBackground extends StatelessWidget {
   const GlobalBackground({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Image.asset(
-          'assets/images/bg-pattern.png', // Reemplaza con la ruta de tu imagen
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-        ),
-        child,
-      ],
-    );
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(fit: StackFit.expand, children: [
+          Image.asset(
+            'assets/images/bg-pattern.png',
+            fit: BoxFit.cover,
+          ),
+          child
+        ]));
   }
 }
