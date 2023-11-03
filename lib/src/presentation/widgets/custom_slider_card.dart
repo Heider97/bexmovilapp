@@ -104,7 +104,11 @@ class CustomSliderCard extends StatelessWidget {
                                 Text('10%')
                               ],
                             ),
-                            const Divider(color: Colors.black),
+                            const Divider(
+                              indent: 10,
+                              color: Colors.black,
+                              endIndent: 10,
+                            ),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -234,9 +238,9 @@ class SliderCard2 extends StatelessWidget {
                           ),
 
                           const Divider(
-                            indent: 15,
+                            indent: 10,
                             color: Colors.black,
-                            endIndent: 15,
+                            endIndent: 10,
                           ),
 
                           const Row(
