@@ -1,6 +1,8 @@
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final Widget? child;

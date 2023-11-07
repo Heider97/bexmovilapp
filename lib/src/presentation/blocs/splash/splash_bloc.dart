@@ -27,7 +27,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         if (token != null) {
           emit(const Loaded(route: Routes.homeRoute));
         } else {
-          emit(const Loaded(route: Routes.selectEnterpriceRoute));
+          emit(const Loaded(route: Routes.selectEnterpriseRoute));
         }
       }
     });
@@ -58,8 +58,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     if (token != null) {
       yield const Loaded(route: Routes.homeRoute);
     } else {
-      yield const Loaded(route: Routes.selectEnterpriceRoute);
-      /* yield const Loaded(route: Routes.productRoute ); */
+      yield const Loaded(route: Routes.selectEnterpriseRoute);
     }
   }
 }
