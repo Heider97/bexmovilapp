@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+
+
+class CustomAlertDialog extends StatelessWidget {
+
+  final String title;
+  final Icon icon;
+  final String text;
+  final VoidCallback onPressed;
+
+  const CustomAlertDialog({
+    super.key, 
+    required this.title, 
+    required this.icon, 
+    required this.text, 
+    required this.onPressed
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: ()=> showDialog(
+        context: context, 
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(title),
+          content: Column(
+            children: [
+              Icon(icon.icon, color: Colors.orange,),
+              const SizedBox(height: 10,),
+              Text(text),     
+            ],
+          ),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.orange,
+                
+              ),
+              onPressed: onPressed, 
+              child: Text('Activar', style: TextStyle(color: Colors.white),)
+            )
+          ],
+        )
+      ), child: Text('Alert Dialog'),
+    );
+  }
+}

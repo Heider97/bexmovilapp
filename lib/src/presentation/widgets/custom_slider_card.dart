@@ -69,7 +69,7 @@ class CustomSliderCard extends StatelessWidget {
                                 Container(
                                   height: 40,
                                   child: Image.asset(
-                                    'assets/arrow.jpg',
+                                    'assets/images/arrow.jpg',
                                   ),
                                 ),
                                 const SizedBox(
@@ -198,7 +198,7 @@ class SliderCard2 extends StatelessWidget {
                               Container(
                                 height: 40,
                                 child: Image.asset(
-                                  'assets/arrow.jpg',
+                                  'assets/images/arrow.jpg',
                                 ),
                               ),
                               const SizedBox(
