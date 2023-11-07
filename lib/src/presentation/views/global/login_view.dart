@@ -1,7 +1,11 @@
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
+
+//widgets
+import '../../widgets/global/custom_elevated_button.dart';
+import '../../widgets/global/custom_textformfield.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

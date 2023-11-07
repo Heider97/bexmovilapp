@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
 
 //service
 import '../../../locator.dart';
