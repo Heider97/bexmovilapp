@@ -32,16 +32,23 @@ class CustomAlertDialog extends StatelessWidget {
                 const SizedBox(height: 10,),
                 Text(text),
                 const SizedBox(height: 10,),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    
+                SizedBox(
+                  width: 300,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      
+                    ),
+                    onPressed: onPressed, 
+                    child: const Text('Activar', style: TextStyle(color: Colors.white),)
                   ),
-                  onPressed: onPressed, 
-                  child: const Text('Activar', style: TextStyle(color: Colors.white),)
                 )     
               ],
             ),
+          ),
+          elevation: 10,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))
           ),
         )
       ), child: const Text('Custom Alert Dialog'),
