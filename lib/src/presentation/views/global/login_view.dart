@@ -1,4 +1,6 @@
+import 'package:bexmovil/src/presentation/cubits/login/login_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
@@ -15,6 +17,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -35,7 +38,6 @@ class _LoginViewState extends State<LoginView> {
     }
 
     return Stack(
-      //mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Align(
           alignment: Alignment.topCenter,
@@ -63,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                   left: Const.space25,
                   right: Const.space25),
               child: CustomTextFormField(
-                  controller: TextEditingController(),
+                  controller: usernameController,
                   hintText: 'Usuario o correo'),
             ),
             Padding(
@@ -92,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
             CustomElevatedButton(
               width: 150,
               height: 50,
-              onTap: () {},
+              onTap: () => context.read<LoginCubit>().onPressedLogin(usernameController, passwordController),
               child: Text(
                 'Iniciar',
                 style: theme.textTheme.bodyLarge!
