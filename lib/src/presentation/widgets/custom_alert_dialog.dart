@@ -23,25 +23,28 @@ class CustomAlertDialog extends StatelessWidget {
         context: context, 
         builder: (BuildContext context) => AlertDialog(
           title: Text(title),
-          content: Column(
-            children: [
-              Icon(icon.icon, color: Colors.orange,),
-              const SizedBox(height: 10,),
-              Text(text),     
-            ],
+          content: SizedBox(
+            height: 180,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                Icon(icon.icon, color: Colors.orange,),
+                const SizedBox(height: 10,),
+                Text(text),
+                const SizedBox(height: 10,),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    
+                  ),
+                  onPressed: onPressed, 
+                  child: const Text('Activar', style: TextStyle(color: Colors.white),)
+                )     
+              ],
+            ),
           ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.orange,
-                
-              ),
-              onPressed: onPressed, 
-              child: Text('Activar', style: TextStyle(color: Colors.white),)
-            )
-          ],
         )
-      ), child: Text('Alert Dialog'),
+      ), child: const Text('Custom Alert Dialog'),
     );
   }
 }
