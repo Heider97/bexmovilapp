@@ -7,13 +7,15 @@ class CustomAlertDialog extends StatelessWidget {
   final Icon icon;
   final String text;
   final VoidCallback onPressed;
+  final String textbutton;
 
   const CustomAlertDialog({
     super.key, 
     required this.title, 
     required this.icon, 
     required this.text, 
-    required this.onPressed
+    required this.onPressed, 
+    required this.textbutton
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomAlertDialog extends StatelessWidget {
                       
                     ),
                     onPressed: onPressed, 
-                    child: const Text('Activar', style: TextStyle(color: Colors.white),)
+                    child: Text(textbutton, style: const TextStyle(color: Colors.white),)
                   ),
                 )     
               ],
