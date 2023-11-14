@@ -28,11 +28,10 @@ abstract class ApiRepository {
     required LoginRequest request,
   });
 
-  Future<DataState<DatabaseResponse>> database({
-    required DatabaseRequest request
-  });
+  Future<DataState<DatabaseResponse>> database(
+      {required DatabaseRequest request});
 
-  Future<DataState<DummyResponse>> products({
+/*   Future<DataState<DummyResponse>> products({
     required DummyRequest request
-  });
+  }); */
 }

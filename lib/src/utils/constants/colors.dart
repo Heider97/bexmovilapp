@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'dart:ui';
-
 class ColorLight {
   static const Color primary = Color(0xFFF27114);
   static const Color onPrimary = Colors.white;
-  static const Color secondary = Color(0xFF737373);
-  static const Color onSecondary = Color(0xFF9B9B9B);
+  static const Color secondary = Color(0xFFFCEFE7);
+  static const Color tertiary = Color(0xFFFBA874);
+
+  static const Color onSecondary = Color(0xFFDA6317);
   static const Color background = Color(0xFFFDFDFF);
   static const Color onBackground = Colors.black;
   static const Color surface = Colors.white;

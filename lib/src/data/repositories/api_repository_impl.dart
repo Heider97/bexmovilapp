@@ -1,4 +1,4 @@
-import '../../domain/models/requests/login_request.dart';
+/* import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
 
 import '../../domain/models/requests/enterprise_request.dart';
@@ -67,12 +67,12 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
-  @override
+/*   @override
   Future<DataState<DummyResponse>> products({
     required DummyRequest request,
   }) {
     return getStateOf<DummyResponse>(
       request: () => _apiService.products(),
     );
-  }
-}
+  } */
+} */

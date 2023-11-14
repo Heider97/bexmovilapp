@@ -1,4 +1,4 @@
-part of '../app_database.dart';
+/* part of '../app_database.dart';
 
 class CategoryDao {
   final AppDatabase _appDatabase;
@@ -72,3 +72,4 @@ class CategoryDao {
     return Future.value();
   }
 }
+ */

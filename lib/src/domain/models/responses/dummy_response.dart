@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+/* import 'package:equatable/equatable.dart';
 
 import '../product.dart';
 
@@ -31,4 +31,4 @@ class DummyResponse extends Equatable {
 
   @override
   List<Object> get props => [limit, total, skip, products];
-}
+} */

@@ -1,4 +1,4 @@
-part of '../app_database.dart';
+/* part of '../app_database.dart';
 
 class LocationDao {
   final AppDatabase _appDatabase;
@@ -45,3 +45,4 @@ class LocationDao {
         tableLocations, location.toJson(), 'id', location.id!);
   }
 }
+ */
