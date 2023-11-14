@@ -10,6 +10,7 @@ import 'custom_textformfield.dart';
 //services
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
+import 'package:intl/intl.dart';
 
 class EnterpriseForm extends StatefulWidget {
   const EnterpriseForm({super.key});
@@ -20,6 +21,30 @@ class EnterpriseForm extends StatefulWidget {
 
 class _EnterpriseFormState extends State<EnterpriseForm> {
   final NavigationService _navigationService = locator<NavigationService>();
+
+  String tdata = DateFormat("HH:mm:ss").format(DateTime.now());
+  var dt = DateTime.now();
+
+  String? timeZoneName;
+  Duration? timeZoneOffset;
+  // late HelperFunction helperFunction;
+
+  @override
+  void initState() {
+    super.initState();
+    print(tdata);
+    
+    // _checkIsRootedOrJailBroken();
+  }
+
+
+  // List<Object>_checkIsRootedOrJailBroken()  {
+  //     DateTime dateTime = DateTime.now();
+  //     String timeZoneName = dateTime.timeZoneName;
+  //     Duration timeZoneOffset = dateTime.timeZoneOffset;
+
+  //     return [timeZoneName,timeZoneOffset, ];
+  //   }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +68,9 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                     style: theme.textTheme.displayLarge!.copyWith(fontSize: 15),
                   ),
                 ),
+
+                Text(tdata),
+
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 10.0, left: 22, right: 22),

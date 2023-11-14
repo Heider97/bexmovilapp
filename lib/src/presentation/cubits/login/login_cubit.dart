@@ -53,6 +53,8 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
 
       _storageService.setString('token', 'token');
 
+      //login(); //funcion del retry loguin
+
       final response = await _apiRepository.login(
         request: LoginRequest(usernameController.text, passwordController.text),
       );
