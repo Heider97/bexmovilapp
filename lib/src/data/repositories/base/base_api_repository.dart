@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../../utils/resources/data_state.dart';
-import 'dio_exeptions.dart';
+import 'dio_exceptions.dart';
 
 abstract class BaseApiRepository {
   @protected

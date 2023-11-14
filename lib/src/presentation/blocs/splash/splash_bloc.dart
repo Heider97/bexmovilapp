@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
 
 //service
 import '../../../locator.dart';
@@ -27,7 +29,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         if (token != null) {
           emit(const Loaded(route: Routes.homeRoute));
         } else {
-          emit(const Loaded(route: Routes.selectEnterpriceRoute));
+          emit(const Loaded(route: Routes.selectEnterpriseRoute));
         }
       }
     });
@@ -58,8 +60,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     if (token != null) {
       yield const Loaded(route: Routes.homeRoute);
     } else {
-      yield const Loaded(route: Routes.selectEnterpriceRoute);
-      /* yield const Loaded(route: Routes.productRoute ); */
+      yield const Loaded(route: Routes.selectEnterpriseRoute);
     }
   }
 }

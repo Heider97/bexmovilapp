@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -85,21 +86,14 @@ class PoliticsViewState extends State<PoliticsView> {
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300))),
                     const SizedBox(height: 40),
-                    /*  DefaultButton(
-                      widget: isLoading
-                          ? const CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            )
-                          : const Text('Aceptar y continuar',
-                              softWrap: false,
-                              // textScaleFactor: textScaleFactor(context),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              )),
-                      press: () => _dispatchEvent(context),
-                    ) */
+                    isLoading
+                        ? CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                          )
+                        : CustomMaterialButton(
+                            onButtonPressed: () => _dispatchEvent(context),
+                            buttonText: 'Aceptar y Continuar')
                   ]),
                 )),
           ),

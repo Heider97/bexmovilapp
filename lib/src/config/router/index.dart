@@ -23,10 +23,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.splashRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: SplashView()));
-    case Routes.selectEnterpriceRoute:
+    case Routes.selectEnterpriseRoute:
       return MaterialPageRoute(
           builder: (context) =>
-              const GlobalBackground(child: SelectEnterpriceView()));
+              const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:

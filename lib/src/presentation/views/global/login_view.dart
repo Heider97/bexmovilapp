@@ -4,7 +4,16 @@ import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.da
 
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
+
+//widgets
+import '../../widgets/global/custom_elevated_button.dart';
+import '../../widgets/global/custom_textformfield.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -32,6 +41,7 @@ Product myProduct = Product(
 );
 
 class _LoginViewState extends State<LoginView> {
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
