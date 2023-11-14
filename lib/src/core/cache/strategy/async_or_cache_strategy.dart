@@ -1,4 +1,4 @@
-import '../../../data/repositories/base/dio_exeptions.dart';
+import '../../../data/repositories/base/dio_exceptions.dart';
 import '../cache_strategy.dart';
 import '../cache_manager.dart';
 import '../storage/storage.dart';

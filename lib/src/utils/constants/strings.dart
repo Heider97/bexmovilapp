@@ -23,7 +23,7 @@ class Routes {
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';
   static const productivityRoute = '/productivity';
-  static const selectEnterpriceRoute = '/select-enterprise';
+  static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
 }
 
@@ -86,7 +86,11 @@ class Assets {
 }
 
 class Const {
+  static const int splashDuration = 3;
+  static const double textFieldRadius = 12;
+
   static const double buttonRadius = 15;
+  static const double padding = 8;
   static const double margin = 18;
   static const double radius = 12;
   static const double space5 = 5;
@@ -94,6 +98,6 @@ class Const {
   static const double space12 = 12;
   static const double space15 = 15;
   static const double space25 = 25;
-  static const int splashDuration = 3;
-  static const double textFieldRadius = 12;
+  static const double space40 = 40;
+  static const double space50 = 50;
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final String butonText;
-  const CustomButton({super.key, required this.butonText});
+  final String buttonText;
+  const CustomButton({super.key, required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class CustomButton extends StatelessWidget {
       decoration: BoxDecoration(
           color: theme.primaryColor,
           borderRadius: const BorderRadius.all(Radius.circular(10))),
-      child: Text(butonText, style: theme.textTheme.bodyMedium),
+      child: Text(buttonText, style: theme.textTheme.bodyMedium),
     );
   }
 }

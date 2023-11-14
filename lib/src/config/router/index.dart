@@ -8,7 +8,7 @@ import '../../utils/constants/strings.dart';
 
 //SCREENS
 //global
-import '../../presentation/views/global/initial_view.dart';
+
 import '../../presentation/views/global/permission_view.dart';
 
 import '../../presentation/views/global/undefined_view.dart';
@@ -23,10 +23,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.splashRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: SplashView()));
-    case Routes.selectEnterpriceRoute:
+    case Routes.selectEnterpriseRoute:
       return MaterialPageRoute(
           builder: (context) =>
-              const GlobalBackground(child: SelectEnterpriceView()));
+              const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:
@@ -36,7 +36,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: InitialView())) */
     case Routes.loginRoute:
-      return MaterialPageRoute(builder: (context) => const LoginView());
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackground(child: LoginView()));
 /*     case Routes.homeRoute:
       return MaterialPageRoute(builder: (context) => const HomeView()); */
 /*     case Routes.categoryRoute:
