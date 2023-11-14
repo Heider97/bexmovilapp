@@ -24,7 +24,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
@@ -36,7 +40,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
@@ -48,7 +56,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
@@ -60,7 +72,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
@@ -72,7 +88,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
@@ -84,8 +104,11 @@ class CustomGridItem extends StatelessWidget {
                 elevation: 8,
                 child: Column(
                   children: [
-                    
-                    Icon(Icons.alarm),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Icon(Icons.alarm, size: 50,),
+                    SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
