@@ -50,8 +50,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ProductView(productId: settings.arguments as int)); */
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const ScheduleView());
-    case Routes.productivityRoute:
-      return MaterialPageRoute(builder: (context) => ProductivityView());
+    /*  case Routes.productivityRoute:
+      return MaterialPageRoute(builder: (context) => ProductivityView()); */
     default:
       return MaterialPageRoute(
           builder: (context) => UndefinedView(

@@ -1,4 +1,4 @@
-part of '../app_database.dart';
+/* part of '../app_database.dart';
 
 class ProcessingQueueDao {
   final AppDatabase _appDatabase;
@@ -55,3 +55,4 @@ class ProcessingQueueDao {
     return Future.value();
   }
 }
+ */

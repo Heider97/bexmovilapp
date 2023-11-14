@@ -1,10 +1,6 @@
+import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
-
-
-//domain
-import '../../../domain/models/product.dart';
-import '../../../domain/repositories/database_repository.dart';
 
 //services
 import '../../../locator.dart';
@@ -15,16 +11,7 @@ part 'product_state.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class ProductCubit extends Cubit<ProductState> {
-  final DatabaseRepository _databaseRepository;
-
-  ProductCubit(this._databaseRepository) : super(const ProductLoading());
-
-  Future<void> init(int productId) async {
-    final product = await _databaseRepository.getProduct(productId);
-    emit(ProductSuccess(product: product));
-  }
+  ProductCubit() : super(const ProductLoading());
 
   void back() => _navigationService.goBack();
-
-
 }

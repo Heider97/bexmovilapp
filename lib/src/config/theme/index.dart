@@ -11,6 +11,7 @@ abstract class AppTheme {
           onPrimary: ColorLight.onPrimary,
           secondary: ColorLight.secondary,
           onSecondary: ColorLight.onSecondary,
+          tertiary: ColorLight.tertiary,
           brightness: Brightness.light,
           background: ColorLight.background,
           error: ColorLight.error,
@@ -52,6 +53,14 @@ abstract class AppTheme {
             fontSize: 10.0,
             color: Color(0xFF201A18),
           ),
+          labelSmall: TextStyle(
+              fontSize: 8.0,
+              color: Color(0xFF201A18),
+              fontWeight: FontWeight.w300),
+          labelMedium: TextStyle(
+              fontSize: 12.0,
+              color: Color(0xFF201A18),
+              fontWeight: FontWeight.w300),
         ));
   }
 
@@ -83,7 +92,7 @@ abstract class AppTheme {
               color: Color(0xFF201A18),
             ),
             bodyMedium: TextStyle(
-              fontSize: 14.0,
+              fontSize: 10.0,
               color: Color(0xFF201A18),
             )));
   }

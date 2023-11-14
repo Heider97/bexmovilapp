@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+/* import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -126,12 +126,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> logout() async {
     await Future.wait([
-      _databaseRepository.emptyCategories(),
-      _databaseRepository.emptyProducts(),
-      _databaseRepository.emptyProcessingQueues()
+      //DELETE  DATABASE INFORMATION
     ]);
 
     _storageService.remove('token');
     _navigationService.replaceTo(Routes.loginRoute);
   }
 }
+ */
