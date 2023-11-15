@@ -51,6 +51,7 @@ class Logging extends Interceptor {
       try {
         handler.resolve(await DioHttpRequestRetrier(dio: dio)
             .requestRetry(err.requestOptions)
+            // ignore: body_might_complete_normally_catch_error
             .catchError((e) {
                 handler.next(err);
         }));
@@ -63,6 +64,12 @@ class Logging extends Interceptor {
   }
 
   bool _shouldRetryOnHttpException(DioError err) {
+
+
+if(err.type == DioErrorType.badResponse && err.message!.contains('Authorized')){
+  //aqui va la parte del retry loguin
+  //login();
+}
     return err.type == DioErrorType.unknown &&
         ((err.error is HttpException &&
             err.message!.contains(
