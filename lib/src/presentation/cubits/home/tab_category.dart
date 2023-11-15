@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+/* part of 'home_cubit.dart';
 
 class TabCategory {
   final Category category;
@@ -17,4 +17,4 @@ class TabCategory {
       required this.selected,
       required this.offsetFrom,
       required this.offsetTo});
-}
+} */

@@ -1,13 +1,13 @@
-import '../../domain/repositories/database_repository.dart';
+/* import '../../domain/repositories/database_repository.dart';
 import '../datasources/local/app_database.dart';
 
 //models
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/category.dart';
-import '../../domain/models/product.dart';
+/* import '../../domain/models/product.dart' */;
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
-  final AppDatabase _appDatabase;
+  /* final AppDatabase _appDatabase; */
 
   DatabaseRepositoryImpl(this._appDatabase);
 
@@ -96,3 +96,4 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     _appDatabase.close();
   }
 }
+ */
