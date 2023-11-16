@@ -18,7 +18,7 @@ import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
 import 'src/presentation/cubits/location/location_bloc.dart';
-
+import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 
@@ -90,7 +90,9 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(create: (context) => PermissionCubit()),
         BlocProvider(create: (context) => PoliticsCubit()),
-
+        BlocProvider(create: (context) => LoginCubit(
+            locator<ApiRepository>(), locator<DatabaseRepository>()
+        )),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),

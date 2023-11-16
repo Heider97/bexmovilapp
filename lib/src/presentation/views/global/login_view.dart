@@ -1,117 +1,120 @@
-import 'package:bexmovil/src/domain/models/porduct.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
-
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
+
+//cubit
+import '../../blocs/network/network_bloc.dart';
+import '../../cubits/login/login_cubit.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
+import '../../../utils/constants/gaps.dart';
+import '../../../utils/constants/strings.dart';
 
 //widgets
-import '../../cubits/login/login_cubit.dart';
 import '../../widgets/global/custom_elevated_button.dart';
 import '../../widgets/global/custom_textformfield.dart';
+
+//services
+import '../../../locator.dart';
+import '../../../services/storage.dart';
+
+part '../../widgets/global/form_login.dart';
+
+final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginView> createState() => LoginViewState();
 }
 
-OriginLocation origin = OriginLocation(
-  name: "Origin A",
-  availableQuantity: 50,
-  isSelected: true,
-);
-
-Product myProduct = Product(
-  lastSoldOn: DateTime.now(),
-  lastQuantitySold: 10,
-  code: "ABC123",
-  name: "Sample Product",
-  sellingPrice: 25.0,
-  discount: 50,
-  availableUnits: 100,
-  quantity: 20,
-  originLocation: origin,
-);
-
-class _LoginViewState extends State<LoginView> {
-  String hora = 'cargando...';
+class LoginViewState extends State<LoginView> {
+  late LoginCubit loginCubit;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  String tdata = DateFormat("HH:mm:ss").format(DateTime.now());
-
   @override
   void initState() {
+
+    rememberSession();
     super.initState();
-    obtenerHoraDesdeWeb();
   }
 
-//funcion de la hora desde la web
-  Future<void> obtenerHoraDesdeWeb() async {
-    try {
-      final response =
-          await http.get(Uri.parse('https://worldtimeapi.org/api/ip'));
+  void rememberSession() {
+    var usernameStorage = _storageService.getString('username');
+    var passwordStorage = _storageService.getString('password');
 
-      if (response.statusCode == 200) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        String nuevaHora = data['datetime'];
-
-        var date = DateFormat("HH:mm:ss").format(DateTime.parse(nuevaHora).toLocal());
-
-        setState(() {
-          hora = date;
-        });
-      } else {
-        throw Exception('no se pudo obtener la hora desde la web');
-      }
-    } catch (e) {
-      print('Error: $e');
+    if (usernameStorage != null) {
       setState(() {
-        hora = 'Error al obtener la hora';
+        usernameController.text = usernameStorage;
       });
     }
-  }
 
-  bool esHoraIgual() {
-    return hora == obtenerHoraActual();
-  }
-
-  String obtenerHoraActual() {
-    return DateTime.now().toIso8601String();
+    if (passwordStorage != null) {
+      setState(() {
+        passwordController.text = passwordStorage;
+      });
+    }
   }
 
   bool obscureText = true;
 
+  void togglePasswordVisibility() {
+    setState(() {
+      obscureText = !obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+
+    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
 
-    void togglePasswordVisibility() {
-      setState(() {
-        obscureText = !obscureText;
-      });
-    }
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, state) => buildBlocConsumer(size, theme),
+    );
+  }
 
+  Widget buildBlocConsumer(Size size, ThemeData theme) {
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: buildBlocListener,
+      builder: (context, state) {
+        return _buildBody(size, theme, state);
+      },
+    );
+  }
+
+  void buildBlocListener(context, state) {
+    if (state is LoginSuccess || state is LoginFailed) {
+      if (state.error != null) {
+        buildSnackBar(context, state.error!);
+      } else {
+        loginCubit.goToHome();
+      }
+    }
+  }
+
+  Widget _buildBody(Size size, ThemeData theme, LoginState state) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.network(
-            'https://cdn.shopify.com/s/files/1/0579/4453/9318/files/Banner_Retal-01_480x480.png?v=1632324712',
-            fit: BoxFit.contain,
-            width: 200.0,
-            height: 100.0),
+        CachedNetworkImage(
+          fit: BoxFit.contain,
+          width: double.infinity,
+          height: 100.0,
+          imageUrl: state.enterprise != null && state.enterprise!.logo != null
+              ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
+              : '',
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+        gapH16,
         Padding(
           padding: const EdgeInsets.only(
               bottom: Const.space25, left: Const.space25, right: Const.space25),
@@ -135,21 +138,13 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
         ),
-        Text(tdata),
-        Text(hora),
+        gapH16,
         CustomElevatedButton(
           width: 150,
           height: 50,
-          onTap: () {
-            if (tdata == hora) {
-              context
-                  .read<LoginCubit>()
-                  .onPressedLogin(usernameController, passwordController);
-            } else {
-              print(
-                  'error: las horas no son iguales, no se puede iniciar sesion');
-            }
-          },
+          onTap: () => context
+              .read<LoginCubit>()
+              .onPressedLogin(usernameController, passwordController),
           child: Text(
             'Iniciar',
             style: theme.textTheme.bodyLarge!

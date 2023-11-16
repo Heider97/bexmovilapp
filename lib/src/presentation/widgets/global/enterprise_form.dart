@@ -49,13 +49,8 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
 
   void buildBlocListener(context, state) {
     if (state is InitialSuccess || state is InitialFailed) {
-
-      print(state.error);
-
-      if (state.error != null) {
-      } else {
-        print('go to login');
-        // initialCubit.goToLogin();
+      if (state.error == null) {
+        initialCubit.goToLogin();
       }
     }
   }

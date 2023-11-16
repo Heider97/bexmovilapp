@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 class Enterprise extends Equatable {
-
   final String? name;
   final String? logo;
 
@@ -12,8 +11,12 @@ class Enterprise extends Equatable {
 
   factory Enterprise.fromMap(Map<String, dynamic> map) {
     return Enterprise(
-      name : map['fqdn'] != null ? map['fqdn'] as String : null,
-      logo : map['website'] != null ? map['website']['logo'] as String : null,
+      name: map['fqdn'] != null
+          ? map['fqdn'] as String
+          : map['name'],
+      logo: map['website'] != null
+          ? map['website']['logo'] as String
+          : map['logo'],
     );
   }
 

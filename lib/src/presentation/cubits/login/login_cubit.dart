@@ -1,11 +1,13 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 //domain
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
-import '../../../domain/models/category.dart';
-import '../../../domain/models/requests/dummy_request.dart';
 import '../../../domain/models/requests/login_request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -48,54 +50,82 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
               ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
               : null));
 
-      await _databaseRepository.init();
+      try {
+        final response = await Dio().get('https://worldtimeapi.org/api/ip');
 
-      _storageService.setString('token', 'token');
+        String? localHour;
+        String? webHour;
 
-      //login(); //funcion del retry loguin
+        if (response.statusCode == 200) {
+          localHour = DateFormat("HH:mm").format(DateTime.now());
+          webHour = DateFormat("HH:mm")
+              .format(DateTime.parse(response.data!['datetime']).toLocal());
+        }
 
-      final response = await _apiRepository.login(
-        request: LoginRequest(usernameController.text, passwordController.text),
-      );
+        if (localHour == webHour) {
 
-      if (response is DataSuccess) {
-        final login = response.data!.login;
+          final response = await _apiRepository.login(
+            request:
+                LoginRequest(usernameController.text, passwordController.text),
+          );
 
-        _storageService.setString('username', usernameController.text);
-        _storageService.setString('password', passwordController.text);
-        _storageService.setString('token', response.data!.login.token);
-        // _storageService.setObject('user', response.data!.login.user!.toMap());
+          if (response is DataSuccess) {
+            final login = response.data!.login;
 
-        // final responseProducts = await _apiRepository.products(
-        //   request: DummyRequest(),
-        // );
-        //
-        // if (responseProducts is DataSuccess) {
-        //   final products = responseProducts.data!.products;
-        //
-        //   for (var product in products) {
-        //     var category = Category(name: product.category!);
-        //     var id = await _databaseRepository.insertCategory(category);
-        //     product.categoryId = id;
-        //   }
-        //
-        //   await _databaseRepository.insertProducts(products);
-        //
-        //   emit(LoginSuccess(
-        //       login: login,
-        //       enterprise: _storageService.getObject('enterprise') != null
-        //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-        //           : null));
-        // } else if (responseProducts is DataFailed) {
-        //   emit(LoginFailed(
-        //       error: responseProducts.error,
-        //       enterprise: _storageService.getObject('enterprise') != null
-        //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-        //           : null));
-        // }
-      } else if (response is DataFailed) {
+            _storageService.setString('username', usernameController.text);
+            _storageService.setString('password', passwordController.text);
+            _storageService.setString('token', login.token);
+
+            await _databaseRepository.init();
+
+            // _storageService.setObject('user', response.data!.login.user!.toMap());
+
+            // final responseProducts = await _apiRepository.products(
+            //   request: DummyRequest(),
+            // );
+            //
+            // if (responseProducts is DataSuccess) {
+            //   final products = responseProducts.data!.products;
+            //
+            //   for (var product in products) {
+            //     var category = Category(name: product.category!);
+            //     var id = await _databaseRepository.insertCategory(category);
+            //     product.categoryId = id;
+            //   }
+            //
+            //   await _databaseRepository.insertProducts(products);
+            //
+            //   emit(LoginSuccess(
+            //       login: login,
+            //       enterprise: _storageService.getObject('enterprise') != null
+            //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+            //           : null));
+            // } else if (responseProducts is DataFailed) {
+            //   emit(LoginFailed(
+            //       error: responseProducts.error,
+            //       enterprise: _storageService.getObject('enterprise') != null
+            //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+            //           : null));
+            // }
+          } else if (response is DataFailed) {
+            emit(LoginFailed(
+                error: response.error,
+                enterprise: _storageService.getObject('enterprise') != null
+                    ? Enterprise.fromMap(
+                        _storageService.getObject('enterprise')!)
+                    : null));
+          }
+        } else {
+          emit(LoginFailed(
+              error:
+                  'Las horas no son iguales porfavor actualiza la hora de tu dispositivo a la hora correcta.',
+              enterprise: _storageService.getObject('enterprise') != null
+                  ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+                  : null));
+        }
+      } catch (e) {
         emit(LoginFailed(
-            error: response.error,
+            error: e.toString(),
             enterprise: _storageService.getObject('enterprise') != null
                 ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
                 : null));
@@ -103,8 +133,14 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
     });
   }
 
-  Future<void> selectCompanyName() async {
-    _storageService.setString('company_name', null);
+  void goToHome() {
+    _navigationService.replaceTo(Routes.homeRoute);
+  }
+
+  void goToCompany() {
+    _storageService.remove('company_name');
+    _storageService.remove('enterprise');
+
     _navigationService.replaceTo(Routes.companyRoute);
   }
 }
