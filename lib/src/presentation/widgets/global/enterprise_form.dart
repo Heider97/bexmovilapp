@@ -1,4 +1,9 @@
+import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//cubit
+import '../../../presentation/cubits/initial/initial_cubit.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
@@ -6,11 +11,6 @@ import '../../../utils/constants/strings.dart';
 //widgets
 import 'custom_elevated_button.dart';
 import 'custom_textformfield.dart';
-
-//services
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
-import 'package:intl/intl.dart';
 
 class EnterpriseForm extends StatefulWidget {
   const EnterpriseForm({super.key});
@@ -20,39 +20,44 @@ class EnterpriseForm extends StatefulWidget {
 }
 
 class _EnterpriseFormState extends State<EnterpriseForm> {
-  final NavigationService _navigationService = locator<NavigationService>();
-
-  String tdata = DateFormat("HH:mm:ss").format(DateTime.now());
-  var dt = DateTime.now();
-
-  String? timeZoneName;
-  Duration? timeZoneOffset;
-  // late HelperFunction helperFunction;
+  final companyNameController = TextEditingController();
+  late InitialCubit initialCubit;
 
   @override
   void initState() {
+    initialCubit = BlocProvider.of<InitialCubit>(context);
     super.initState();
-    print(tdata);
-    
-    // _checkIsRootedOrJailBroken();
   }
-
-
-  // List<Object>_checkIsRootedOrJailBroken()  {
-  //     DateTime dateTime = DateTime.now();
-  //     String timeZoneName = dateTime.timeZoneName;
-  //     Duration timeZoneOffset = dateTime.timeZoneOffset;
-
-  //     return [timeZoneName,timeZoneOffset, ];
-  //   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
 
+    return BlocBuilder<InitialCubit, InitialState>(
+        builder: (context, state) => buildBlocConsumer(size, theme));
+  }
+
+  Widget buildBlocConsumer(Size size, ThemeData theme) {
+    return BlocConsumer<InitialCubit, InitialState>(
+      listener: buildBlocListener,
+      builder: (context, state) {
+        return _buildBody(size, state, theme);
+      },
+    );
+  }
+
+  void buildBlocListener(context, state) {
+    if (state is InitialSuccess || state is InitialFailed) {
+      if (state.error == null) {
+        initialCubit.goToLogin();
+      }
+    }
+  }
+
+  Widget _buildBody(Size size, InitialState state, ThemeData theme) {
     return SizedBox(
-      height: size.height * 0.33,
+      height: size.height * 0.52,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -68,14 +73,11 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                     style: theme.textTheme.displayLarge!.copyWith(fontSize: 15),
                   ),
                 ),
-
-                Text(tdata),
-
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 10.0, left: 22, right: 22),
                   child: CustomTextFormField(
-                    controller: TextEditingController(),
+                    controller: companyNameController,
                     hintText: 'Nombre de la empresa',
                   ),
                 )
@@ -88,10 +90,8 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                 width: 150,
                 height: 50,
                 child: CustomElevatedButton(
-                  onTap: () {
-                    _navigationService.goTo(Routes.loginRoute);
-                  },
-                  //z  isLoading: isLoading,
+                  onTap: () =>
+                      initialCubit.getEnterprise(companyNameController),
                   child: Text(
                     'Siguiente',
                     style: theme.textTheme.bodyLarge!.copyWith(
@@ -100,7 +100,14 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                 ),
               ),
             ),
-          )
+          ),
+          if (state.error != null)
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                  child: Text(state.error!, textAlign: TextAlign.center)),
+            ),
+          const Expanded(child: VersionWidget())
         ],
       ),
     );

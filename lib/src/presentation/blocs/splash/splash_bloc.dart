@@ -26,8 +26,14 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         emit(const Loaded(route: '/politics'));
       } else {
         var token = _storageService.getString('token');
+        var company = _storageService.getObject('enterprise');
+
+        print(company);
+
         if (token != null) {
           emit(const Loaded(route: Routes.homeRoute));
+        } else if (company != null) {
+          emit(const Loaded(route: Routes.loginRoute));
         } else {
           emit(const Loaded(route: Routes.selectEnterpriseRoute));
         }
@@ -57,8 +63,11 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Stream<Loaded> validateSession() async* {
     var token = _storageService.getString('token');
+    var company = _storageService.getObject('company');
     if (token != null) {
       yield const Loaded(route: Routes.homeRoute);
+    } else if (company != null) {
+      yield const Loaded(route: Routes.loginRoute);
     } else {
       yield const Loaded(route: Routes.selectEnterpriseRoute);
     }

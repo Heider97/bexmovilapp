@@ -15,7 +15,6 @@ class CustomNavbar extends StatelessWidget {
         unselectedItemColor: const Color(0xFFF69B5B),
         currentIndex: 0,
         onTap: (p0) {},
-        // dotIndicatorColor: Colors.black,
         items: [
           /// Home
           DotNavigationBarItem(
@@ -36,14 +35,14 @@ class CustomNavbar extends StatelessWidget {
             ),
           ),
 
-          DotNavigationBarItem(
-            icon: const Row(
-              children: [
-                Icon(Icons.person),
-                Text('Clientes'),
-              ],
-            ),
-          ),
+          // DotNavigationBarItem(
+          //   icon: const Row(
+          //     children: [
+          //       Icon(Icons.person),
+          //       Text('Clientes'),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
