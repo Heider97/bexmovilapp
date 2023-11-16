@@ -51,6 +51,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
               : null));
 
       try {
+        //TODO:: [Sebastian Monroy] All logic is handle by bloc or provider don´t write logic in ui
         final response = await Dio().get('https://worldtimeapi.org/api/ip');
 
         String? localHour;
@@ -64,6 +65,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
 
         if (localHour == webHour) {
 
+          //TODO: [Felipe Bedoya] GET OTHERS VARIABLES LIKE DEVICE_ID,MODEL,DATE,LAT,LNG
           final response = await _apiRepository.login(
             request:
                 LoginRequest(usernameController.text, passwordController.text),
@@ -75,38 +77,18 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
             _storageService.setString('username', usernameController.text);
             _storageService.setString('password', passwordController.text);
             _storageService.setString('token', login.token);
+            _storageService.setObject('user', login.user!.toMap());
 
             await _databaseRepository.init();
 
-            // _storageService.setObject('user', response.data!.login.user!.toMap());
+            //TODO: [Jairo Grande] SYNC LOGIC
 
-            // final responseProducts = await _apiRepository.products(
-            //   request: DummyRequest(),
-            // );
-            //
-            // if (responseProducts is DataSuccess) {
-            //   final products = responseProducts.data!.products;
-            //
-            //   for (var product in products) {
-            //     var category = Category(name: product.category!);
-            //     var id = await _databaseRepository.insertCategory(category);
-            //     product.categoryId = id;
-            //   }
-            //
-            //   await _databaseRepository.insertProducts(products);
-            //
-            //   emit(LoginSuccess(
-            //       login: login,
-            //       enterprise: _storageService.getObject('enterprise') != null
-            //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-            //           : null));
-            // } else if (responseProducts is DataFailed) {
-            //   emit(LoginFailed(
-            //       error: responseProducts.error,
-            //       enterprise: _storageService.getObject('enterprise') != null
-            //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-            //           : null));
-            // }
+            emit(LoginSuccess(
+                // login: login,
+                enterprise: _storageService.getObject('enterprise') != null
+                    ? Enterprise.fromMap(
+                        _storageService.getObject('enterprise')!)
+                    : null));
           } else if (response is DataFailed) {
             emit(LoginFailed(
                 error: response.error,
