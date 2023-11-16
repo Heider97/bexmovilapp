@@ -1,4 +1,4 @@
-/* import 'dart:io';
+import 'dart:io';
 import 'package:dio/dio.dart';
 
 //models
@@ -14,7 +14,6 @@ import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
 import '../../../domain/models/responses/database_response.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
-import '../../../domain/models/responses/dummy_response.dart';
 
 //services
 import '../../../locator.dart';
@@ -28,13 +27,13 @@ class ApiService {
   String? get url {
     var company = _storageService.getString('company_name');
     if (company == null) return null;
-    return 'https://$company.bexdeliveries.com/api/v1';
+    return 'https://$company.bexmovil.com/api/v1';
   }
 
   ApiService() {
     dio = Dio(
       BaseOptions(
-          baseUrl: url ?? 'https://demo.bexdeliveries.com/api/v1',
+          baseUrl: url ?? 'https://demo.bexmovil.com/api/v1',
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
@@ -189,43 +188,6 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DummyResponse>> products() async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final headers = <String, dynamic>{};
-    final data = <String, dynamic>{};
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<DummyResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
-            .compose(
-          dio.options,
-          '/products',
-          queryParameters: queryParameters,
-          data: data,
-        )
-            .copyWith(baseUrl: 'https://dummyjson.com')));
-
-
-    print(result.data);
-
-    final value = DummyResponse.fromMap(result.data!);
-
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
@@ -240,4 +202,3 @@ class ApiService {
     return requestOptions;
   }
 }
- */

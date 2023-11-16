@@ -32,9 +32,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.permissionRoute:
       return MaterialPageRoute(
           builder: (context) => const RequestPermissionView());
-    // case Routes.companyRoute:
-    // return MaterialPageRoute(
-    //     builder: (context) => const GlobalBackground(child: InitialView()))
+    case Routes.companyRoute:
+    return MaterialPageRoute(
+        builder: (context) => const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));

@@ -32,8 +32,7 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
                     : null),
             null);
 
-  Future<void> getEnterprise(
-      TextEditingController companyNameController) async {
+  Future<void> getEnterprise(TextEditingController companyNameController) async {
     if (isBusy) return;
 
     await run(() async {
@@ -41,18 +40,20 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
 
       emit(const InitialSuccess(enterprise: Enterprise(name: 'DEMO')));
 
-      // final response = await _apiRepository.getEnterprise(
-      //   request: EnterpriseRequest(companyNameController.text),
-      // );
-      //
-      // if (response is DataSuccess) {
-      //   final enterprise = response.data!.enterprise;
-      //   _storageService.setObject('enterprise', enterprise.toMap());
-      //   emit(InitialSuccess(enterprise: enterprise));
-      // } else if (response is DataFailed) {
-      //   _storageService.setString('company_name', null);
-      //   emit(InitialFailed(error: response.error));
-      // }
+      final response = await _apiRepository.getEnterprise(
+        request: EnterpriseRequest(companyNameController.text),
+      );
+
+      if (response is DataSuccess) {
+        final enterprise = response.data!.enterprise;
+        _storageService.setObject('enterprise', enterprise.toMap());
+        emit(InitialSuccess(enterprise: enterprise));
+      } else if (response is DataFailed) {
+        _storageService.setString('company_name', null);
+        emit(InitialFailed(error: response.error));
+      }
     });
   }
+
+  goToLogin() => _navigationService.goTo(Routes.loginRoute);
 }

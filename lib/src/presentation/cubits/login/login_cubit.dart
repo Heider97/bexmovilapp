@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 //domain
 import '../../../domain/models/login.dart';
@@ -16,6 +18,7 @@ import '../../../utils/constants/strings.dart';
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
+import '../base/base_cubit.dart';
 
 part 'login_state.dart';
 
@@ -63,33 +66,33 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
         _storageService.setString('token', response.data!.login.token);
         // _storageService.setObject('user', response.data!.login.user!.toMap());
 
-        final responseProducts = await _apiRepository.products(
-          request: DummyRequest(),
-        );
-
-        if (responseProducts is DataSuccess) {
-          final products = responseProducts.data!.products;
-
-          for (var product in products) {
-            var category = Category(name: product.category!);
-            var id = await _databaseRepository.insertCategory(category);
-            product.categoryId = id;
-          }
-
-          await _databaseRepository.insertProducts(products);
-
-          emit(LoginSuccess(
-              login: login,
-              enterprise: _storageService.getObject('enterprise') != null
-                  ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-                  : null));
-        } else if (responseProducts is DataFailed) {
-          emit(LoginFailed(
-              error: responseProducts.error,
-              enterprise: _storageService.getObject('enterprise') != null
-                  ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
-                  : null));
-        }
+        // final responseProducts = await _apiRepository.products(
+        //   request: DummyRequest(),
+        // );
+        //
+        // if (responseProducts is DataSuccess) {
+        //   final products = responseProducts.data!.products;
+        //
+        //   for (var product in products) {
+        //     var category = Category(name: product.category!);
+        //     var id = await _databaseRepository.insertCategory(category);
+        //     product.categoryId = id;
+        //   }
+        //
+        //   await _databaseRepository.insertProducts(products);
+        //
+        //   emit(LoginSuccess(
+        //       login: login,
+        //       enterprise: _storageService.getObject('enterprise') != null
+        //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+        //           : null));
+        // } else if (responseProducts is DataFailed) {
+        //   emit(LoginFailed(
+        //       error: responseProducts.error,
+        //       enterprise: _storageService.getObject('enterprise') != null
+        //           ? Enterprise.fromMap(_storageService.getObject('enterprise')!)
+        //           : null));
+        // }
       } else if (response is DataFailed) {
         emit(LoginFailed(
             error: response.error,

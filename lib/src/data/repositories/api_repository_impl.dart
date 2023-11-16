@@ -1,4 +1,4 @@
-/* import '../../domain/models/requests/login_request.dart';
+import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
 
 import '../../domain/models/requests/enterprise_request.dart';
@@ -10,10 +10,6 @@ import '../../domain/models/responses/database_response.dart';
 
 import '../../domain/models/requests/enterprise_config_request.dart';
 import '../../domain/models/responses/enterprise_config_response.dart';
-
-import '../../domain/models/requests/dummy_request.dart';
-import '../../domain/models/responses/dummy_response.dart';
-
 
 import '../../domain/repositories/api_repository.dart';
 import '../../utils/resources/data_state.dart';
@@ -67,12 +63,4 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
-/*   @override
-  Future<DataState<DummyResponse>> products({
-    required DummyRequest request,
-  }) {
-    return getStateOf<DummyResponse>(
-      request: () => _apiService.products(),
-    );
-  } */
-} */
+}

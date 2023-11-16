@@ -15,6 +15,7 @@ import 'dart:convert';
 import '../../../utils/constants/strings.dart';
 
 //widgets
+import '../../cubits/login/login_cubit.dart';
 import '../../widgets/global/custom_elevated_button.dart';
 import '../../widgets/global/custom_textformfield.dart';
 
@@ -44,7 +45,6 @@ Product myProduct = Product(
 );
 
 class _LoginViewState extends State<LoginView> {
-
   String hora = 'cargando...';
 
   TextEditingController usernameController = TextEditingController();
@@ -59,34 +59,38 @@ class _LoginViewState extends State<LoginView> {
   }
 
 //funcion de la hora desde la web
-Future<void> obtenerHoraDesdeWeb() async {
-  try{
-    final response = await http.get(Uri.parse('https://worldtimeapi.org/api/ip'));
+  Future<void> obtenerHoraDesdeWeb() async {
+    try {
+      final response =
+          await http.get(Uri.parse('https://worldtimeapi.org/api/ip'));
 
-    if (response.statusCode == 200){
-      Map<String, dynamic>data = jsonDecode(response.body);
-      String nuevaHora = data['datetime'];
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        String nuevaHora = data['datetime'];
+
+        var date = DateFormat("HH:mm:ss").format(DateTime.parse(nuevaHora).toLocal());
+
+        setState(() {
+          hora = date;
+        });
+      } else {
+        throw Exception('no se pudo obtener la hora desde la web');
+      }
+    } catch (e) {
+      print('Error: $e');
       setState(() {
-        hora = nuevaHora;
+        hora = 'Error al obtener la hora';
       });
-    } else {
-      throw Exception('no se pudo obtener la hora desde la web');
     }
-  } catch (e){
-    print('Error: $e');
-    setState(() {
-      hora = 'Error al obtener la hora';
-    });
   }
-}
 
-bool esHoraIgual(){
-  return hora == obtenerHoraActual();
-}
+  bool esHoraIgual() {
+    return hora == obtenerHoraActual();
+  }
 
-String obtenerHoraActual(){
-  return DateTime.now().toIso8601String();
-}
+  String obtenerHoraActual() {
+    return DateTime.now().toIso8601String();
+  }
 
   bool obscureText = true;
 
@@ -116,39 +120,41 @@ String obtenerHoraActual(){
               hintText: 'Usuario o correo'),
         ),
         Padding(
-            padding: const EdgeInsets.only(
-                left: Const.space25, right: Const.space25),
-            child: CustomTextFormField(
-              controller: passwordController,
-              obscureText: obscureText,
-              hintText: 'Contraseña',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: theme.primaryColor, // Cambia el color del icono
-                ),
-                onPressed: togglePasswordVisibility,
+          padding:
+              const EdgeInsets.only(left: Const.space25, right: Const.space25),
+          child: CustomTextFormField(
+            controller: passwordController,
+            obscureText: obscureText,
+            hintText: 'Contraseña',
+            suffixIcon: IconButton(
+              icon: Icon(
+                obscureText ? Icons.visibility : Icons.visibility_off,
+                color: theme.primaryColor, // Cambia el color del icono
               ),
+              onPressed: togglePasswordVisibility,
             ),
-           Text(tdata),
-           Text(hora),
-            CustomElevatedButton(
-              width: 150,
-              height: 50,
-              onTap: () {
-                if(tdata == hora){
-                  context.read<LoginCubit>().onPressedLogin(usernameController, passwordController);
-                } else {
-                  print('error: las horas no son iguales, no se puede iniciar sesion');
-                }
-              } ,
-              child: Text(
-                'Iniciar',
-                style: theme.textTheme.bodyLarge!
-                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            )
-          ],
+          ),
+        ),
+        Text(tdata),
+        Text(hora),
+        CustomElevatedButton(
+          width: 150,
+          height: 50,
+          onTap: () {
+            if (tdata == hora) {
+              context
+                  .read<LoginCubit>()
+                  .onPressedLogin(usernameController, passwordController);
+            } else {
+              print(
+                  'error: las horas no son iguales, no se puede iniciar sesion');
+            }
+          },
+          child: Text(
+            'Iniciar',
+            style: theme.textTheme.bodyLarge!
+                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
         )
       ],
     );
