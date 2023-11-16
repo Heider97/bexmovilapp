@@ -55,7 +55,7 @@ class HelperFunctions {
 
     if (response is LoginSuccess) {
       final login = response.data!.login;
-      _storageService.setString('token', login.token);
+      _storageService.setString('token', login?.token);
     }
   }
 

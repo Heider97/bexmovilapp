@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,8 +74,8 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
 
             _storageService.setString('username', usernameController.text);
             _storageService.setString('password', passwordController.text);
-            _storageService.setString('token', login.token);
-            _storageService.setObject('user', login.user!.toMap());
+            _storageService.setString('token', login?.token);
+            _storageService.setObject('user', login?.user!.toMap());
 
             await _databaseRepository.init();
 

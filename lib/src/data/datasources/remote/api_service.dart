@@ -117,7 +117,7 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
     final data = <String, dynamic>{
-      r'username': username,
+      r'email': username,
       r'password': password,
     };
 
@@ -137,7 +137,10 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = LoginResponse(login: Login.fromMap(result.data!));
+    final value = LoginResponse(
+        status: result.data!['status'],
+        message: result.data!['message'],
+        login: Login.fromMap(result.data!));
 
     return Response(
         data: value,
