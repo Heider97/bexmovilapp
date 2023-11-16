@@ -62,7 +62,7 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
     final value =
-        EnterpriseResponse(enterprise: Enterprise.fromMap(result.data!));
+        EnterpriseResponse.fromMap(result.data!);
 
     return Response(
         data: value,
