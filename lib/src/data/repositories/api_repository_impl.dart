@@ -26,7 +26,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required EnterpriseRequest request,
   }) {
     return getStateOf<EnterpriseResponse>(
-      request: () => _apiService.getEnterprise(),
+      request: () => _apiService.getEnterprise(request.company),
     );
   }
 

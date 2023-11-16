@@ -49,16 +49,20 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
 
   void buildBlocListener(context, state) {
     if (state is InitialSuccess || state is InitialFailed) {
+
+      print(state.error);
+
       if (state.error != null) {
       } else {
-        initialCubit.goToLogin();
+        print('go to login');
+        // initialCubit.goToLogin();
       }
     }
   }
 
   Widget _buildBody(Size size, InitialState state, ThemeData theme) {
     return SizedBox(
-      height: size.height * 0.39,
+      height: size.height * 0.52,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -102,6 +106,12 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
               ),
             ),
           ),
+          if (state.error != null)
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                  child: Text(state.error!, textAlign: TextAlign.center)),
+            ),
           const Expanded(child: VersionWidget())
         ],
       ),

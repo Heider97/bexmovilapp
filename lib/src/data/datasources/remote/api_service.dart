@@ -27,13 +27,13 @@ class ApiService {
   String? get url {
     var company = _storageService.getString('company_name');
     if (company == null) return null;
-    return 'https://$company.bexmovil.com/api/v1';
+    return 'https://$company.bexmovil.com/api';
   }
 
   ApiService() {
     dio = Dio(
       BaseOptions(
-          baseUrl: url ?? 'https://demo.bexmovil.com/api/v1',
+          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
@@ -42,10 +42,12 @@ class ApiService {
     dio.interceptors.add(Logging(dio: dio));
   }
 
-  Future<Response<EnterpriseResponse>> getEnterprise() async {
+  Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
-    final data = <String, dynamic>{};
+    final data = <String, dynamic>{
+      r'name': company
+    };
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
@@ -56,7 +58,7 @@ class ApiService {
     )
             .compose(
               dio.options,
-              '/enterprises/show',
+              '/auth/enterprise',
               queryParameters: queryParameters,
               data: data,
             )
@@ -89,7 +91,7 @@ class ApiService {
         )
             .compose(
           dio.options,
-          '/enterprise/config',
+          '/auth/config',
           queryParameters: queryParameters,
           data: data,
         )
@@ -133,7 +135,7 @@ class ApiService {
               queryParameters: queryParameters,
               data: data,
             )
-            .copyWith(baseUrl: 'https://dummyjson.com')));
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = LoginResponse(login: Login.fromMap(result.data!));
 
