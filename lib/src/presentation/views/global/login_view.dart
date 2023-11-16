@@ -38,7 +38,6 @@ class LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-
     rememberSession();
     super.initState();
   }
@@ -68,6 +67,7 @@ class LoginViewState extends State<LoginView> {
     });
   }
 
+  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method
   @override
   Widget build(BuildContext context) {
 
