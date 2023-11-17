@@ -1,19 +1,18 @@
-/* import '../../domain/models/requests/login_request.dart';
+import 'package:bexmovil/src/domain/models/requests/recovery_code.dart';
+
+import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
+
+import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
 
 import '../../domain/models/requests/enterprise_request.dart';
 import '../../domain/models/responses/enterprise_response.dart';
-
 
 import '../../domain/models/requests/database_request.dart';
 import '../../domain/models/responses/database_response.dart';
 
 import '../../domain/models/requests/enterprise_config_request.dart';
 import '../../domain/models/responses/enterprise_config_response.dart';
-
-import '../../domain/models/requests/dummy_request.dart';
-import '../../domain/models/responses/dummy_response.dart';
-
 
 import '../../domain/repositories/api_repository.dart';
 import '../../utils/resources/data_state.dart';
@@ -49,30 +48,22 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }) {
     return getStateOf<LoginResponse>(
       request: () => _apiService.login(
-        username: request.username,
-        password: request.password
-      ),
+          username: request.username, password: request.password),
     );
   }
-
 
   @override
-  Future<DataState<DatabaseResponse>> database({
-    required DatabaseRequest request,
-  }) {
-    return getStateOf<DatabaseResponse>(
-      request: () => _apiService.database(
-          path: request.path
-      ),
-    );
+  Future<DataState<DatabaseResponse>> database(
+      {required DatabaseRequest request}) {
+    // TODO: implement database
+    throw UnimplementedError();
   }
 
-/*   @override
-  Future<DataState<DummyResponse>> products({
-    required DummyRequest request,
-  }) {
-    return getStateOf<DummyResponse>(
-      request: () => _apiService.products(),
+  @override
+  Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
+      {required RecoveryCodeRequest request}) {
+    return getStateOf<RecoveryCodeResponse>(
+      request: () => _apiService.requestRecoveryCode(email: request.email),
     );
-  } */
-} */
+  }
+}

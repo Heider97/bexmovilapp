@@ -1,4 +1,6 @@
-/* import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:dio/dio.dart';
 
 //models
@@ -43,6 +45,8 @@ class ApiService {
     dio.interceptors.add(Logging(dio: dio));
   }
 
+  //ENTERPRISES.
+
   Future<Response<EnterpriseResponse>> getEnterprise() async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
@@ -84,18 +88,55 @@ class ApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<EnterpriseConfigResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(
+              dio.options,
+              '/enterprise/config',
+              queryParameters: queryParameters,
+              data: data,
+            )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+    final value = EnterpriseConfigResponse(
+        enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
+      {required String email}) async {
+    const extra = <String, dynamic>{};
+    final headers = <String, dynamic>{};
+    final data = json.encode({"email": email});
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final result = await dio.fetch<Map<String, dynamic>>(_setStreamType<
+        Response<RecoveryCodeResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+        .compose(
           dio.options,
-          '/enterprise/config',
+          '/password/email',
           queryParameters: queryParameters,
           data: data,
         )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value = EnterpriseConfigResponse(enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
+        .copyWith(
+            baseUrl:
+                'https://pandapan.bexmovil.com/api' /*  url ?? dio.options.baseUrl */)));
+
+    final value = RecoveryCodeResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -149,84 +190,6 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DatabaseResponse>> database({path}) async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-
-    final data = <String, dynamic>{
-      'path': path
-    };
-
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
-    };
-
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<DatabaseResponse>>(Options(
-          method: 'POST',
-          headers: headers,
-          extra: extra,
-        )
-            .compose(
-          dio.options,
-          '/database/send',
-          queryParameters: queryParameters,
-          data: data
-        )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-    final value = DatabaseResponse.fromMap(result.data!);
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<DummyResponse>> products() async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final headers = <String, dynamic>{};
-    final data = <String, dynamic>{};
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<DummyResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
-            .compose(
-          dio.options,
-          '/products',
-          queryParameters: queryParameters,
-          data: data,
-        )
-            .copyWith(baseUrl: 'https://dummyjson.com')));
-
-
-    print(result.data);
-
-    final value = DummyResponse.fromMap(result.data!);
-
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
@@ -240,4 +203,3 @@ class ApiService {
     return requestOptions;
   }
 }
- */

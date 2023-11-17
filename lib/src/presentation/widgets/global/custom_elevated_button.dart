@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/colors.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,35 +14,46 @@ class CustomElevatedButton extends StatelessWidget {
   final double height;
   final double? labelSize;
   final EdgeInsetsGeometry? margin;
+  final double? borderRadius;
+  final bool? enable;
 
-  const CustomElevatedButton({
-    Key? key,
-    this.label,
-    this.labelLoading,
-    this.color,
-    this.child,
-    required this.onTap,
-    this.isLoading = false,
-    this.width = double.infinity,
-    this.height = 47,
-    this.labelSize,
-    this.margin,
-  }) : super(key: key);
+  const CustomElevatedButton(
+      {Key? key,
+      this.label,
+      this.labelLoading,
+      this.color,
+      this.child,
+      required this.onTap,
+      this.isLoading = false,
+      this.width = double.infinity,
+      this.height = 47,
+      this.labelSize,
+      this.margin,
+      this.borderRadius,
+      this.enable})
+      : super(key: key);
+
+// ... (tu código anterior)
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    Color buttonColor = enable == false
+        ? ColorLight.disabledButton
+        : color ?? theme.primaryColor;
 
     return Container(
       width: width,
       height: height,
       margin: margin,
       child: ElevatedButton(
-        onPressed: (isLoading == true) ? () {} : onTap,
+        onPressed: (isLoading == true || enable == false) ? () {} : onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? theme.primaryColor,
+          backgroundColor: buttonColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Const.buttonRadius),
+            borderRadius:
+                BorderRadius.circular(borderRadius ?? Const.buttonRadius),
           ),
         ),
         child: (isLoading == true)
@@ -70,4 +82,49 @@ class CustomElevatedButton extends StatelessWidget {
       ),
     );
   }
+
+/*   @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      width: width,
+      height: height,
+      margin: margin,
+      child: ElevatedButton(
+        
+        onPressed: (isLoading == true) ? () {} : onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color ?? theme.primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(borderRadius ?? Const.buttonRadius),
+          ),
+        ),
+        child: (isLoading == true)
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SpinKitThreeBounce(
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: Const.space12),
+                  Text(
+                    labelLoading ?? '',
+                    style: theme.textTheme.labelLarge,
+                  )
+                ],
+              )
+            : (label == '' || label == null)
+                ? child
+                : Text(
+                    label ?? '',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontSize: labelSize,
+                    ),
+                  ),
+      ),
+    );
+  } */
 }

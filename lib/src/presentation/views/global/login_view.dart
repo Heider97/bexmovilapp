@@ -1,10 +1,16 @@
 import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -33,9 +39,11 @@ Product myProduct = Product(
 
 class _LoginViewState extends State<LoginView> {
   TextEditingController passwordController = TextEditingController();
+  late RecoveryPasswordBloc recoveryBloc;
 
   @override
   void initState() {
+    recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
     super.initState();
   }
 
@@ -84,10 +92,69 @@ class _LoginViewState extends State<LoginView> {
         gapH12,
         Padding(
           padding: const EdgeInsets.all(Const.space25),
-          child: Text(
-            '¿Olvidaste tu contraseña?',
-            style: theme.textTheme.bodyMedium!.copyWith(
-                color: theme.primaryColor, fontWeight: FontWeight.w600),
+          child: GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                shape: const LinearBorder(),
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox(
+                    height: 200,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Container(
+                              width: 80,
+                              height: 5,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(50)),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            _navigationService.goTo(Routes.codeFormRequest);
+                            recoveryBloc
+                                .add(const StartRecovery(type: 'Email'));
+                          },
+                          title: Text(
+                            'Email',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: theme.primaryColor),
+                          ),
+                          subtitle: Text(
+                              'Obten tu código de verificación por correo electrónico.',
+                              style: theme.textTheme.bodyMedium!),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            _navigationService.goTo(Routes.codeFormRequest);
+                            recoveryBloc.add(const StartRecovery(type: 'SMS'));
+                          },
+                          title: Text(
+                            'SMS',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: theme.primaryColor),
+                          ),
+                          subtitle: const Text(
+                              'Obten tu código de verificación por mensaje de texto'),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+            child: Text(
+              '¿Olvidaste tu contraseña?',
+              style: theme.textTheme.bodyMedium!.copyWith(
+                  color: theme.primaryColor, fontWeight: FontWeight.w600),
+            ),
           ),
         ),
         gapH32,

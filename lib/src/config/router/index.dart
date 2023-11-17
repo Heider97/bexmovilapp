@@ -1,6 +1,10 @@
+import 'package:bexmovil/src/presentation/views/global/code_form_request_view.dart';
+import 'package:bexmovil/src/presentation/views/global/code_verification_view.dart';
 import 'package:bexmovil/src/presentation/views/global/login_view.dart';
+import 'package:bexmovil/src/presentation/views/global/recover_password_view.dart';
 import 'package:bexmovil/src/presentation/views/global/select_enterprise_view.dart';
 import 'package:bexmovil/src/presentation/widgets/global/global_background.dart';
+import 'package:bexmovil/src/presentation/widgets/global/global_background_square.dart';
 import 'package:flutter/material.dart';
 
 //config
@@ -15,7 +19,6 @@ import '../../presentation/views/global/undefined_view.dart';
 import '../../presentation/views/global/splash_view.dart';
 import '../../presentation/views/global/politics_view.dart';
 
-import '../../presentation/views/user/productivity/index.dart';
 import '../../presentation/views/user/schedule/index.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -27,6 +30,21 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) =>
               const GlobalBackground(child: SelectEnterpriceView()));
+    case Routes.codeFormRequest:
+      return MaterialPageRoute(
+          builder: (_) => const GlobalBackgroundSquare(
+              opacity: 0.1, child: CodeFormRequestView()));
+
+    case Routes.codeValidation:
+      return MaterialPageRoute(
+          builder: (_) => const GlobalBackgroundSquare(
+              opacity: 0.1, child: CodeVerificationView()));
+
+    case Routes.recoverPassword:
+      return MaterialPageRoute(
+          builder: (_) => const GlobalBackgroundSquare(
+              opacity: 0.1, child: RecoverPasswordView()));
+
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:

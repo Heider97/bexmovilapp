@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/widgets/user/custom_navbar.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class GlobalBackground extends StatelessWidget {
           Assets.bgPattern,
           fit: BoxFit.cover,
         ),
-        const CustomNavbar(),
+        child
       ]),
     );
   }
