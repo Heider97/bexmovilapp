@@ -23,8 +23,7 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-        body: SafeArea(
+    return SafeArea(
             child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
@@ -40,7 +39,7 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
                     default:
                       return const SizedBox();
                   }
-                }))));
+                })));
   }
 
   Widget _buildNetworkFailed() {
