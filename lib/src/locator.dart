@@ -21,34 +21,67 @@ import 'services/platform.dart';
 
 final locator = GetIt.instance;
 
-Future<void> initializeDependencies() async {
-  final storage = await LocalStorageService.getInstance();
-  locator.registerSingleton<LocalStorageService>(storage!);
+Future<void> initializeDependencies({testing = false}) async {
+  if (testing) {
 
-  locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
+    final storage = await LocalStorageService.getInstance();
+    locator.registerSingleton<LocalStorageService>(storage!);
 
-  final navigation = NavigationService();
-  locator.registerSingleton<NavigationService>(navigation);
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
 
-  final platform = await PlatformService.getInstance();
-  locator.registerSingleton<PlatformService>(platform!);
+    locator.registerSingleton<ApiService>(
+      ApiService(),
+    );
 
-  final db = AppDatabase.instance;
-  locator.registerSingleton<AppDatabase>(db);
+    locator.registerSingleton<ApiRepository>(
+      ApiRepositoryImpl(locator<ApiService>()),
+    );
 
-  locator.registerSingleton<ApiService>(
-    ApiService(),
-  );
+    locator.registerSingleton<DatabaseRepository>(
+      DatabaseRepositoryImpl(locator<AppDatabase>()),
+    );
 
-  locator.registerSingleton<ApiRepository>(
-    ApiRepositoryImpl(locator<ApiService>()),
-  );
+    locator.registerSingleton<LocationRepository>(
+      LocationRepository(),
+    );
+  } else {
+    final storage = await LocalStorageService.getInstance();
+    locator.registerSingleton<LocalStorageService>(storage!);
 
-  locator.registerSingleton<DatabaseRepository>(
-    DatabaseRepositoryImpl(locator<AppDatabase>()),
-  );
+    locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
 
-  locator.registerSingleton<LocationRepository>(
-    LocationRepository(),
-  );
+    final navigation = NavigationService();
+    locator.registerSingleton<NavigationService>(navigation);
+
+    final platform = await PlatformService.getInstance();
+    locator.registerSingleton<PlatformService>(platform!);
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
+
+    locator.registerSingleton<ApiService>(
+      ApiService(),
+    );
+
+    locator.registerSingleton<ApiRepository>(
+      ApiRepositoryImpl(locator<ApiService>()),
+    );
+
+    locator.registerSingleton<DatabaseRepository>(
+      DatabaseRepositoryImpl(locator<AppDatabase>()),
+    );
+
+    locator.registerSingleton<LocationRepository>(
+      LocationRepository(),
+    );
+  }
+}
+
+void unregisterService() {
+  locator.unregister<LocalStorageService>();
+  locator.unregister<AppDatabase>();
+  locator.unregister<ApiService>();
+  locator.unregister<DatabaseRepository>();
+  locator.unregister<LocationRepository>();
 }

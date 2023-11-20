@@ -11,4 +11,6 @@ class LoginRequest {
 
   LoginRequest(this.username, this.password, this.deviceId, this.model,
       this.date, this.latitude, this.longitude);
+
+
 }
