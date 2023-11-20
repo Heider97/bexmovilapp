@@ -106,7 +106,7 @@ class LoginViewState extends State<LoginView> {
         CachedNetworkImage(
           fit: BoxFit.contain,
           width: double.infinity,
-          height: 100.0,
+          height: 200.0,
           imageUrl: state.enterprise != null && state.enterprise!.logo != null
               ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
               : '',
