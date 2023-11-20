@@ -146,7 +146,7 @@ class LoginViewState extends State<LoginView> {
           children: [
             GestureDetector(
                 onTap: () => loginCubit.goToCompany(),
-                child: const Text('Desear Cambiar de empresa?')),
+                child: const Text('¿Desear cambiar de empresa?')),
             gapH24,
             BlocSelector<LoginCubit, LoginState, bool>(
                 selector: (state) => state is LoginLoading ? true : false,
@@ -175,7 +175,7 @@ class LoginViewState extends State<LoginView> {
         gapH64,
         GestureDetector(
             onTap: () => loginCubit.goToCompany(),
-            child: const Text('Olvidaste tu contraseña?')),
+            child: const Text('¿Olvidaste tu contraseña?')),
       ],
     );
   }
