@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -38,7 +39,6 @@ class LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-
     rememberSession();
     super.initState();
   }
@@ -70,7 +70,6 @@ class LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-
     loginCubit = BlocProvider.of<LoginCubit>(context);
 
     final Size size = MediaQuery.of(context).size;
@@ -114,41 +113,69 @@ class LoginViewState extends State<LoginView> {
           placeholder: (context, url) => const CircularProgressIndicator(),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
-        gapH16,
-        Padding(
-          padding: const EdgeInsets.only(
-              bottom: Const.space25, left: Const.space25, right: Const.space25),
-          child: CustomTextFormField(
-              controller: usernameController,
-              hintText: 'Usuario o correo'),
-        ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: Const.space25, right: Const.space25),
-          child: CustomTextFormField(
-            controller: passwordController,
-            obscureText: obscureText,
-            hintText: 'Contraseña',
-            suffixIcon: IconButton(
-              icon: Icon(
-                obscureText ? Icons.visibility : Icons.visibility_off,
-                color: theme.primaryColor
-              ),
-              onPressed: togglePasswordVisibility,
+        gapH64,
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: Const.space25,
+                  left: Const.space25,
+                  right: Const.space25),
+              child: CustomTextFormField(
+                  controller: usernameController, hintText: 'Usuario o correo'),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: Const.space25, right: Const.space25),
+              child: CustomTextFormField(
+                controller: passwordController,
+                obscureText: obscureText,
+                hintText: 'Contraseña',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: theme.primaryColor),
+                  onPressed: togglePasswordVisibility,
+                ),
+              ),
+            ),
+          ],
         ),
-        gapH16,
-        CustomElevatedButton(
-          width: 150,
-          height: 50,
-          onTap: () => loginCubit.onPressedLogin(usernameController, passwordController),
-          child: Text(
-            'Iniciar',
-            style: theme.textTheme.bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        )
+        gapH64,
+        Column(
+          children: [
+            GestureDetector(
+                onTap: () => loginCubit.goToCompany(),
+                child: const Text('Desear Cambiar de empresa?')),
+            gapH24,
+            BlocSelector<LoginCubit, LoginState, bool>(
+                selector: (state) => state is LoginLoading ? true : false,
+                builder: (context, booleanState) {
+                  return CustomElevatedButton(
+                    width: 150,
+                    height: 50,
+                    onTap: () => booleanState
+                        ? null
+                        : loginCubit.onPressedLogin(
+                            usernameController, passwordController),
+                    child: booleanState
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          )
+                        : Text(
+                            'Iniciar',
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                  );
+                })
+          ],
+        ),
+        gapH64,
+        GestureDetector(
+            onTap: () => loginCubit.goToCompany(),
+            child: const Text('Olvidaste tu contraseña?')),
       ],
     );
   }
