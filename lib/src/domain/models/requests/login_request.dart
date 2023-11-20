@@ -12,5 +12,14 @@ class LoginRequest {
   LoginRequest(this.username, this.password, this.deviceId, this.model,
       this.date, this.latitude, this.longitude);
 
-
+  Map toMap() {
+    return {
+      'email': username,
+      'password': password,
+      'udid': deviceId,
+      'phonetype': date,
+      'latitude': latitude,
+      'longitude': longitude
+    };
+  }
 }

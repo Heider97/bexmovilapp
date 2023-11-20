@@ -17,7 +17,7 @@ class TestApiService {
 
   Future<LoginResponse> login(LoginRequest? data) async {
     final response = await _httpClient
-        .post(Uri.parse('$baseUrl/auth/login'), body: data);
+        .post(Uri.parse('$baseUrl/auth/login'), body: data?.toMap());
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
         return LoginResponse.fromMap(json.decode(response.body)[0]);

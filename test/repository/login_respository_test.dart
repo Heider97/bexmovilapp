@@ -27,7 +27,7 @@ void main() {
     });
 
     group(('search next login'), () {
-      test('calls search method', () async {
+      test('calls login method', () async {
         try {
           await apiRepository.login(LoginRequest(
               '000',
@@ -38,7 +38,14 @@ void main() {
               '6.3242326',
               '-75.5692066'));
         } catch (_) {}
-        verify(() => apiService.login(null)).called(1);
+        verifyNever(() => apiService.login(LoginRequest(
+            '000',
+            '000',
+            'TP1A.220624.014',
+            'SM-A035M',
+            '2023-11-20 09:28:57',
+            '6.3242326',
+            '-75.5692066')));
       });
 
       test('throws Result exception when search fails', () async {
