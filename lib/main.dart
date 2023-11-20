@@ -21,6 +21,7 @@ import 'src/presentation/cubits/location/location_bloc.dart';
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
+import 'src/presentation/cubits/home/home_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/network/network_bloc.dart';
@@ -92,6 +93,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => PoliticsCubit()),
         BlocProvider(create: (context) => LoginCubit(
             locator<ApiRepository>(), locator<DatabaseRepository>()
+        )),
+        BlocProvider(create: (context) => HomeCubit(
+            locator<DatabaseRepository>()
         )),
         BlocProvider(
             create: (context) => ProductivityCubit(
