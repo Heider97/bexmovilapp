@@ -17,7 +17,8 @@ class LoginRequest {
       'email': username,
       'password': password,
       'udid': deviceId,
-      'phonetype': date,
+      'phonetype': model,
+      'date': date,
       'latitude': latitude,
       'longitude': longitude
     };
