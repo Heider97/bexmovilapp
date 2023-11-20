@@ -162,11 +162,77 @@ class LoginViewState extends State<LoginView> {
             ),
           ),
           gapH16,
-          GestureDetector(
+          Padding(
+            padding: const EdgeInsets.all(Const.space25),
+            child: GestureDetector(
               onTap: () {
-                _navigationService.goTo(Routes.recoverPassword);
+                showModalBottomSheet(
+                  shape: const LinearBorder(),
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 200,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Container(
+                                width: 80,
+                                height: 5,
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              _navigationService.goTo(Routes.codeFormRequest);
+                              recoveryBloc
+                                  .add(const StartRecovery(type: 'Email'));
+                            },
+                            title: Text(
+                              'Email',
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: theme.primaryColor),
+                            ),
+                            subtitle: Text(
+                                'Obten tu código de verificación por correo electrónico.',
+                                style: theme.textTheme.bodyMedium!),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              _navigationService.goTo(Routes.codeFormRequest);
+                              recoveryBloc
+                                  .add(const StartRecovery(type: 'SMS'));
+                            },
+                            title: Text(
+                              'SMS',
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: theme.primaryColor),
+                            ),
+                            subtitle: const Text(
+                                'Obten tu código de verificación por mensaje de texto'),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
               },
-              child: const Text('¿Olvidaste la contraseña?')),
+              child: Text(
+                '¿Olvidaste tu contraseña?',
+                style: theme.textTheme.bodyMedium!.copyWith(
+                    color: theme.primaryColor,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                    decorationColor: theme.primaryColor),
+              ),
+            ),
+          ),
           gapH36,
           CustomElevatedButton(
             width: 150,
