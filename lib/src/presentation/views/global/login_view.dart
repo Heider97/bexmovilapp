@@ -44,6 +44,8 @@ class LoginViewState extends State<LoginView> {
   @override
   void initState() {
     recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+
     rememberSession();
     super.initState();
   }
@@ -76,8 +78,6 @@ class LoginViewState extends State<LoginView> {
   //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method
   @override
   Widget build(BuildContext context) {
-    loginCubit = BlocProvider.of<LoginCubit>(context);
-
     final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
 

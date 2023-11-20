@@ -27,10 +27,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.splashRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: SplashView()));
-/*     case Routes.selectEnterpriseRoute:
-      return MaterialPageRoute(
-          builder: (context) =>
-               GlobalBackground(child: SelectEnterpriceView())); */
+
     case Routes.codeFormRequest:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
@@ -57,8 +54,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
-    case Routes.homeRoute:
-     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView()));
+    /*    case Routes.homeRoute:
+     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView())); */
     //  case Routes.categoryRoute:
     //   return MaterialPageRoute(
     //       builder: (context) =>

@@ -162,6 +162,47 @@ class ApiService {
         headers: result.headers);
   }
 
+  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
+      {required String email}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{'email': email};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<LoginResponse>>(Options(
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(
+              dio.options,
+              '/auth/login',
+              queryParameters: queryParameters,
+              data: data,
+            )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = RecoveryCodeResponse(
+      message: result.data!['message'],
+    );
+//TODO: TO CHANGE
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
