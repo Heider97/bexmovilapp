@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
+//cubit
+import '../base/base_cubit.dart';
+
 //domains
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/requests/enterprise_request.dart';
@@ -9,7 +12,6 @@ import '../../../domain/repositories/api_repository.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 import '../../../utils/resources/data_state.dart';
-import '../base/base_cubit.dart';
 
 //service
 import '../../../locator.dart';
@@ -38,7 +40,7 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
     await run(() async {
       _storageService.setString('company_name', companyNameController.text);
 
-      emit(const InitialSuccess(enterprise: Enterprise(name: 'DEMO')));
+      emit(const InitialLoading());
 
       final response = await _apiRepository.getEnterprise(
         request: EnterpriseRequest(companyNameController.text),

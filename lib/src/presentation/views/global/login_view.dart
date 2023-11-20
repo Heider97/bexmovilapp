@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:flutter/material.dart';
@@ -127,84 +128,18 @@ class LoginViewState extends State<LoginView> {
               hintText: 'Usuario o correo'),
         ),
         Padding(
-            padding: const EdgeInsets.only(
-                left: Const.space25, right: Const.space25),
-            child: CustomTextFormField(
-                controller: passwordController,
-                obscureText: obscureText,
-                hintText: 'Contraseña',
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    obscureText ? Icons.visibility : Icons.visibility_off,
-                    color: theme.primaryColor, // Cambia el color del icono
-                  ),
-                ))),
-        gapH12,
-        Padding(
-          padding: const EdgeInsets.all(Const.space25),
-          child: GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                shape: const LinearBorder(),
-                context: context,
-                builder: (BuildContext context) {
-                  return SizedBox(
-                    height: 200,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Container(
-                              width: 80,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(50)),
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            _navigationService.goTo(Routes.codeFormRequest);
-                            recoveryBloc
-                                .add(const StartRecovery(type: 'Email'));
-                          },
-                          title: Text(
-                            'Email',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.primaryColor),
-                          ),
-                          subtitle: Text(
-                              'Obten tu código de verificación por correo electrónico.',
-                              style: theme.textTheme.bodyMedium!),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            _navigationService.goTo(Routes.codeFormRequest);
-                            recoveryBloc.add(const StartRecovery(type: 'SMS'));
-                          },
-                          title: Text(
-                            'SMS',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.primaryColor),
-                          ),
-                          subtitle: const Text(
-                              'Obten tu código de verificación por mensaje de texto'),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            child: Text(
-              '¿Olvidaste tu contraseña?',
-              style: theme.textTheme.bodyMedium!.copyWith(
-                  color: theme.primaryColor, fontWeight: FontWeight.w600),
+          padding:
+              const EdgeInsets.only(left: Const.space25, right: Const.space25),
+          child: CustomTextFormField(
+            controller: passwordController,
+            obscureText: obscureText,
+            hintText: 'Contraseña',
+            suffixIcon: IconButton(
+              icon: Icon(
+                obscureText ? Icons.visibility : Icons.visibility_off,
+                color: theme.primaryColor, // Cambia el color del icono
+              ),
+              onPressed: togglePasswordVisibility,
             ),
           ),
         ),

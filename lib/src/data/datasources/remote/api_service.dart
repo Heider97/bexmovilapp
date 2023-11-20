@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-
+import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/enterprise_config.dart';
 
 //interceptor
@@ -47,10 +47,10 @@ class ApiService {
 
   //ENTERPRISES.
 
-  Future<Response<EnterpriseResponse>> getEnterprise() async {
+  Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
-    final data = <String, dynamic>{};
+    final data = <String, dynamic>{r'name': company};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
@@ -66,10 +66,7 @@ class ApiService {
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value = EnterpriseResponse(
-        enterprise: Enterprise.fromMap(result.data!),
-        message: '',
-        status: true);
+    final value = EnterpriseResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -96,7 +93,7 @@ class ApiService {
     )
             .compose(
               dio.options,
-              '/enterprise/config',
+              '/auth/config',
               queryParameters: queryParameters,
               data: data,
             )
@@ -115,43 +112,8 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
-      {required String email}) async {
-    const extra = <String, dynamic>{};
-    final headers = <String, dynamic>{};
-    final data = json.encode({"email": email});
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final result = await dio.fetch<Map<String, dynamic>>(_setStreamType<
-        Response<RecoveryCodeResponse>>(Options(
-      method: 'GET',
-      headers: headers,
-      extra: extra,
-    )
-        .compose(
-          dio.options,
-          '/password/email',
-          queryParameters: queryParameters,
-          data: data,
-        )
-        .copyWith(
-            baseUrl:
-                'https://pandapan.bexmovil.com/api' /*  url ?? dio.options.baseUrl */)));
-
-    final value = RecoveryCodeResponse.fromMap(result.data!);
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<LoginResponse>> login({username, password}) async {
+  Future<Response<LoginResponse>> login(
+      {username, password, deviceId, model, date, latitude, longitude}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -159,8 +121,13 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
     final data = <String, dynamic>{
-      r'username': username,
+      r'email': username,
       r'password': password,
+      r'device_id': deviceId,
+      r'phonetype': model,
+      r'date': date,
+      r'latitude': latitude,
+      r'longitude': longitude,
     };
 
     data.removeWhere((k, v) => v == null);
@@ -179,7 +146,10 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = LoginResponse(login: Login.fromMap(result.data!));
+    final value = LoginResponse(
+        status: result.data!['status'],
+        message: result.data!['message'],
+        login: Login.fromMap(result.data!));
 
     return Response(
         data: value,

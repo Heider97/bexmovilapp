@@ -29,7 +29,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required EnterpriseRequest request,
   }) {
     return getStateOf<EnterpriseResponse>(
-      request: () => _apiService.getEnterprise(),
+      request: () => _apiService.getEnterprise(request.company),
     );
   }
 
@@ -48,7 +48,13 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }) {
     return getStateOf<LoginResponse>(
       request: () => _apiService.login(
-          username: request.username, password: request.password),
+          username: request.username,
+          password: request.password,
+          deviceId: request.deviceId,
+          model: request.model,
+          date: request.date,
+          latitude: request.latitude,
+          longitude: request.longitude),
     );
   }
 
