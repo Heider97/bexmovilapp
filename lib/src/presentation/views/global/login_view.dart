@@ -1,18 +1,17 @@
-import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
-import '../../blocs/network/network_bloc.dart';
+
 import '../../cubits/login/login_cubit.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
 import '../../../utils/constants/gaps.dart';
-import '../../../utils/constants/strings.dart';
 
 //widgets
 import '../../widgets/global/custom_elevated_button.dart';
@@ -106,57 +105,80 @@ class LoginViewState extends State<LoginView> {
   }
 
   Widget _buildBody(Size size, ThemeData theme, LoginState state) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CachedNetworkImage(
-          fit: BoxFit.contain,
-          width: double.infinity,
-          height: 100.0,
-          imageUrl: state.enterprise != null && state.enterprise!.logo != null
-              ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
-              : '',
-          placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
-        gapH16,
-        Padding(
-          padding: const EdgeInsets.only(
-              bottom: Const.space25, left: Const.space25, right: Const.space25),
-          child: CustomTextFormField(
-              controller: TextEditingController(),
-              hintText: 'Usuario o correo'),
-        ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: Const.space25, right: Const.space25),
-          child: CustomTextFormField(
-            controller: passwordController,
-            obscureText: obscureText,
-            hintText: 'Contraseña',
-            suffixIcon: IconButton(
-              icon: Icon(
-                obscureText ? Icons.visibility : Icons.visibility_off,
-                color: theme.primaryColor, // Cambia el color del icono
-              ),
-              onPressed: togglePasswordVisibility,
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(Const.padding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomBackButton(route: Routes.selectEnterpriseRoute),
+                SizedBox()
+              ],
             ),
           ),
-        ),
-        gapH16,
-        CustomElevatedButton(
-          width: 150,
-          height: 50,
-          onTap: () => context
-              .read<LoginCubit>()
-              .onPressedLogin(usernameController, passwordController),
-          child: Text(
-            'Iniciar',
-            style: theme.textTheme.bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+          gapH64,
+          gapH64,
+          CachedNetworkImage(
+            fit: BoxFit.contain,
+            width: double.infinity,
+            height: 100.0,
+            imageUrl: state.enterprise != null && state.enterprise!.logo != null
+                ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
+                : '',
+            placeholder: (context, url) =>
+                const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-        )
-      ],
+          gapH64,
+          Padding(
+            padding: const EdgeInsets.only(
+                bottom: Const.space25,
+                left: Const.space25,
+                right: Const.space25),
+            child: CustomTextFormField(
+                controller: TextEditingController(),
+                hintText: 'Usuario o correo'),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                left: Const.space25, right: Const.space25),
+            child: CustomTextFormField(
+              controller: passwordController,
+              obscureText: obscureText,
+              hintText: 'Contraseña',
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: theme.primaryColor, // Cambia el color del icono
+                ),
+                onPressed: togglePasswordVisibility,
+              ),
+            ),
+          ),
+          gapH16,
+          GestureDetector(
+              onTap: () {
+                _navigationService.goTo(Routes.recoverPassword);
+              },
+              child: const Text('¿Olvidaste la contraseña?')),
+          gapH36,
+          CustomElevatedButton(
+            width: 150,
+            height: 50,
+            onTap: () => context
+                .read<LoginCubit>()
+                .onPressedLogin(usernameController, passwordController),
+            child: Text(
+              'Iniciar',
+              style: theme.textTheme.bodyLarge!
+                  .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          ),
+          Expanded(child: Container()),
+        ],
+      ),
     );
   }
 }

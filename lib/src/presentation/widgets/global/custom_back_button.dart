@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
+  final String? route;
+
+  const CustomBackButton({super.key, this.route});
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return InkWell(
       onTap: () {
-        _navigationService.goBack();
+        route ?? _navigationService.goBack();
       },
       child: Container(
         decoration: BoxDecoration(

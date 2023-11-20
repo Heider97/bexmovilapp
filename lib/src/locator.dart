@@ -33,6 +33,9 @@ Future<void> initializeDependencies() async {
   final navigation = NavigationService();
   locator.registerSingleton<NavigationService>(navigation);
 
+  final db = AppDatabase.instance;
+  locator.registerSingleton<AppDatabase>(db);
+
   final platform = await PlatformService.getInstance();
   locator.registerSingleton<PlatformService>(platform!);
 
