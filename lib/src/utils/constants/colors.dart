@@ -17,7 +17,9 @@ class ColorLight {
   static const Color fontSubtitle = Color(0xFF737373);
   static const Color fontDisable = Color(0xFF9B9B9B);
 
-  static const Color disabledButton = Color.fromARGB(255, 211, 209, 209);
+  static const Color disableColor = Color.fromARGB(255, 211, 209, 209);
+  static const Color disabledButton = Color(0xFFF9C6A1);
+
   static const Color divider = Color(0xFFDCDCDC);
 
   static const Color success = Color(0xFF388E3C);
