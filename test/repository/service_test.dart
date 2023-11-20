@@ -53,7 +53,7 @@ void main() {
       //
       //   when(() => response.statusCode).thenReturn(200);
       //   when(() => response.body).thenReturn('');
-      //   when(() => httpClient.get(any())).thenAnswer((_) async => response);
+      //   when(() => httpClient.post(any())).thenAnswer((_) async => response);
       //   try {
       //     await apiService.login(goodLoginResponse);
       //     fail('should throw error empty body');
@@ -64,7 +64,7 @@ void main() {
       //     );
       //   }
       //   verify(
-      //         () => httpClient.get(
+      //         () => httpClient.post(
       //       Uri.parse(
       //           'https://pandapan.bexmovil.com/auth/login'),
       //     ),
@@ -89,14 +89,14 @@ void main() {
             '000',
             'TP1A.220624.014',
             'SM-A035M',
+            '1.3.120+244',
             '2023-11-20 09:28:57',
             '6.3242326',
             '-75.5692066');
 
         final response = MockResponse();
         when(() => response.statusCode).thenReturn(200);
-        when(() => response.body).thenReturn(TestHelper.loginJsonResponse);
-        when(() => httpClient.get(any())).thenAnswer((_) async => response);
+        when(() => httpClient.post(any())).thenAnswer((_) async => response);
 
         await apiService.login(goodLoginResponse);
         expect(

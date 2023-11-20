@@ -27,8 +27,15 @@ void main() {
 
     group(('search next login'), () {
       test('calls login method', () async {
-        var goodLoginRequest = LoginRequest('000', '000', 'TP1A.220624.014',
-            'SM-A035M', '2023-11-20 09:28:57', '6.3242326', '-75.5692066');
+        var goodLoginRequest = LoginRequest(
+            '000',
+            '000',
+            'TP1A.220624.014',
+            'SM-A035M',
+            '1.3.120+244',
+            '2023-11-20 09:28:57',
+            '6.3242326',
+            '-75.5692066');
         try {
           await apiRepository.login(goodLoginRequest);
         } catch (_) {}
@@ -41,6 +48,7 @@ void main() {
             'no-exist',
             'TP1A.220624.014',
             'SM-A035M',
+            '1.3.120+244',
             '2023-11-20 09:28:57',
             '6.3242326',
             '-75.5692066');

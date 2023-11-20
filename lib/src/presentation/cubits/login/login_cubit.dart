@@ -75,12 +75,15 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
           var location = await _locationRepository.getCurrentLocation();
           var device = await _helperFunction.getDevice();
 
+          var version = "1.3.120+244";
+
           final response = await _apiRepository.login(
             request: LoginRequest(
                 usernameController.text,
                 passwordController.text,
                 device!['id'],
                 device['model'],
+                version,
                 now(),
                 location.latitude.toString(),
                 location.longitude.toString()),

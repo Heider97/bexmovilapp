@@ -20,6 +20,7 @@ class TestApiService {
 
     print('*************');
     debugPrint(data?.toMap().toString());
+    debugPrint(Uri.parse('$baseUrl/auth/login').toString());
 
     final response = await _httpClient
         .post(Uri.parse('$baseUrl/auth/login'), body: data?.toMap());
