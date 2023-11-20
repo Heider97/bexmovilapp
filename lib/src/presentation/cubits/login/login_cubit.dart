@@ -1,10 +1,15 @@
+
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
+//core
+import '../../../core/functions.dart';
+import '../../../core/abstracts/FormatAbstract.dart';
 
 //domain
+
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/requests/login_request.dart';
@@ -28,9 +33,10 @@ final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
 final LocationRepository _locationRepository = locator<LocationRepository>();
 
-class LoginCubit extends BaseCubit<LoginState, Login?> {
+class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   final ApiRepository _apiRepository;
   final DatabaseRepository _databaseRepository;
+  final _helperFunction = HelperFunctions();
 
   LoginCubit(this._apiRepository, this._databaseRepository)
       : super(
@@ -65,13 +71,19 @@ class LoginCubit extends BaseCubit<LoginState, Login?> {
         }
 
         if (localHour == webHour) {
-
           //TODO: [Felipe Bedoya] GET OTHERS VARIABLES LIKE DEVICE_ID,MODEL,DATE,LAT,LNG, VERSION
           var location = await _locationRepository.getCurrentLocation();
+          var device = await _helperFunction.getDevice();
 
           final response = await _apiRepository.login(
-            request:
-                LoginRequest(usernameController.text, passwordController.text),
+            request: LoginRequest(
+                usernameController.text,
+                passwordController.text,
+                device!['id'],
+                device['model'],
+                now(),
+                location.latitude.toString(),
+                location.longitude.toString()),
           );
 
           if (response is DataSuccess) {
