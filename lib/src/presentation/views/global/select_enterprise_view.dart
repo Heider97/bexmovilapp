@@ -18,7 +18,6 @@ class SelectEnterpriseView extends StatefulWidget {
 }
 
 class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -55,10 +54,10 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
     );
   }
 
+  //TODO [Jairo Grande] fix ui carousel giving a mid size screen and do the keyboard don´t resize the screen
   Widget _buildBodyNetworkSuccess(Size size) {
     return const Column(
       children: [CustomCarousel(), EnterpriseForm()],
     );
   }
-
 }

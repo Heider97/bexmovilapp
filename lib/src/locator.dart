@@ -1,3 +1,6 @@
+import 'package:bexmovil/src/data/datasources/remote/api_service.dart';
+import 'package:bexmovil/src/data/repositories/api_repository_impl.dart';
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location_repository/location_repository.dart';
 
@@ -30,11 +33,11 @@ Future<void> initializeDependencies() async {
   final navigation = NavigationService();
   locator.registerSingleton<NavigationService>(navigation);
 
-  final platform = await PlatformService.getInstance();
-  locator.registerSingleton<PlatformService>(platform!);
-
   final db = AppDatabase.instance;
   locator.registerSingleton<AppDatabase>(db);
+
+  final platform = await PlatformService.getInstance();
+  locator.registerSingleton<PlatformService>(platform!);
 
   locator.registerSingleton<ApiService>(
     ApiService(),

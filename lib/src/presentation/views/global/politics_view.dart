@@ -16,12 +16,10 @@ import 'package:lottie/lottie.dart';
 //services
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
-import '../../../services/storage.dart';
 
 //widgets
 
 final NavigationService _navigationService = locator<NavigationService>();
-final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class PoliticsView extends StatefulWidget {
   const PoliticsView({super.key});
