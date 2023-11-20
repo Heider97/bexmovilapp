@@ -43,4 +43,12 @@ Future<void> initializeDependencies() async {
   locator.registerSingleton<ApiRepository>(
     ApiRepositoryImpl(locator<ApiService>()),
   );
+
+  locator.registerSingleton<DatabaseRepository>(
+    DatabaseRepositoryImpl(locator<AppDatabase>()),
+  );
+
+  locator.registerSingleton<LocationRepository>(
+    LocationRepository(),
+  );
 }
