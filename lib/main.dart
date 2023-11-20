@@ -1,8 +1,10 @@
+import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/splash/splash_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:upgrader/upgrader.dart';
 
 //theme
@@ -77,6 +79,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         //BLOC PROVIDERS
+        BlocProvider(
+            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
@@ -91,12 +95,11 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(create: (context) => PermissionCubit()),
         BlocProvider(create: (context) => PoliticsCubit()),
-        BlocProvider(create: (context) => LoginCubit(
-            locator<ApiRepository>(), locator<DatabaseRepository>()
-        )),
-        BlocProvider(create: (context) => HomeCubit(
-            locator<DatabaseRepository>()
-        )),
+        BlocProvider(
+            create: (context) => LoginCubit(
+                locator<ApiRepository>(), locator<DatabaseRepository>())),
+        BlocProvider(
+            create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -121,6 +124,8 @@ class _MyAppState extends State<MyApp> {
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
+        /* child: MultiProvider(
+          providers: [], */
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: appTitle,
@@ -155,6 +160,7 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: router.generateRoute,
         ),
       ),
+      //  ),
     );
   }
 }
