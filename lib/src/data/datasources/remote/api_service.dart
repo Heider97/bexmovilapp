@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/enterprise_config.dart';
 
 //interceptor
@@ -45,9 +44,7 @@ class ApiService {
   Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
-    final data = <String, dynamic>{
-      r'name': company
-    };
+    final data = <String, dynamic>{r'name': company};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
@@ -63,8 +60,7 @@ class ApiService {
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value =
-        EnterpriseResponse.fromMap(result.data!);
+    final value = EnterpriseResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -85,18 +81,19 @@ class ApiService {
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<EnterpriseConfigResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(
-          dio.options,
-          '/auth/config',
-          queryParameters: queryParameters,
-          data: data,
-        )
+              dio.options,
+              '/auth/config',
+              queryParameters: queryParameters,
+              data: data,
+            )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value = EnterpriseConfigResponse(enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
+    final value = EnterpriseConfigResponse(
+        enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
 
     return Response(
         data: value,
@@ -109,7 +106,8 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<LoginResponse>> login({username, password}) async {
+  Future<Response<LoginResponse>> login(
+      {username, password, deviceId, model, date, latitude, longitude}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -117,8 +115,13 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
     final data = <String, dynamic>{
-      r'username': username,
+      r'email': username,
       r'password': password,
+      r'device_id': deviceId,
+      r'phonetype': model,
+      r'date': date,
+      r'latitude': latitude,
+      r'longitude': longitude,
     };
 
     data.removeWhere((k, v) => v == null);
@@ -137,7 +140,10 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = LoginResponse(login: Login.fromMap(result.data!));
+    final value = LoginResponse(
+        status: result.data!['status'],
+        message: result.data!['message'],
+        login: Login.fromMap(result.data!));
 
     return Response(
         data: value,
@@ -155,9 +161,7 @@ class ApiService {
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
 
-    final data = <String, dynamic>{
-      'path': path
-    };
+    final data = <String, dynamic>{'path': path};
 
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json',
@@ -165,16 +169,12 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<DatabaseResponse>>(Options(
-          method: 'POST',
-          headers: headers,
-          extra: extra,
-        )
-            .compose(
-          dio.options,
-          '/database/send',
-          queryParameters: queryParameters,
-          data: data
-        )
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/database/send',
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DatabaseResponse.fromMap(result.data!);
@@ -189,7 +189,6 @@ class ApiService {
         extra: result.extra,
         headers: result.headers);
   }
-
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&

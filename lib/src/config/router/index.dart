@@ -38,8 +38,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
-    // case Routes.homeRoute:
-    //  return MaterialPageRoute(builder: (context) => const HomeView());
+    case Routes.homeRoute:
+     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView()));
     //  case Routes.categoryRoute:
     //   return MaterialPageRoute(
     //       builder: (context) =>

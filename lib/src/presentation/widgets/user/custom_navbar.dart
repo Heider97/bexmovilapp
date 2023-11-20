@@ -25,7 +25,6 @@ class CustomNavbar extends StatelessWidget {
               ],
             ),
           ),
-
           DotNavigationBarItem(
             icon: const Row(
               children: [
@@ -34,15 +33,14 @@ class CustomNavbar extends StatelessWidget {
               ],
             ),
           ),
-
-          // DotNavigationBarItem(
-          //   icon: const Row(
-          //     children: [
-          //       Icon(Icons.person),
-          //       Text('Clientes'),
-          //     ],
-          //   ),
-          // ),
+          DotNavigationBarItem(
+            icon: const Row(
+              children: [
+                Icon(Icons.person),
+                Text('Clientes'),
+              ],
+            ),
+          ),
         ],
       ),
     );

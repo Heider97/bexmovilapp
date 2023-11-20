@@ -3,14 +3,20 @@ import 'package:equatable/equatable.dart';
 import '../login.dart';
 
 class LoginResponse extends Equatable {
-  final Login login;
+  final bool status;
+  final String message;
+  final Login? login;
 
   const LoginResponse({
-    required this.login,
+    required this.status,
+    required this.message,
+    this.login
   });
 
   factory LoginResponse.fromMap(Map<String, dynamic> map) {
     return LoginResponse(
+      status: map['status'],
+      message: map['message'],
       login: Login.fromMap(map),
     );
   }
@@ -19,5 +25,5 @@ class LoginResponse extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [login];
+  List<Object> get props => [status, message, login!];
 }

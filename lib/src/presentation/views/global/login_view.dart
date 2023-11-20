@@ -119,7 +119,7 @@ class LoginViewState extends State<LoginView> {
           padding: const EdgeInsets.only(
               bottom: Const.space25, left: Const.space25, right: Const.space25),
           child: CustomTextFormField(
-              controller: TextEditingController(),
+              controller: usernameController,
               hintText: 'Usuario o correo'),
         ),
         Padding(
@@ -132,7 +132,7 @@ class LoginViewState extends State<LoginView> {
             suffixIcon: IconButton(
               icon: Icon(
                 obscureText ? Icons.visibility : Icons.visibility_off,
-                color: theme.primaryColor, // Cambia el color del icono
+                color: theme.primaryColor
               ),
               onPressed: togglePasswordVisibility,
             ),
@@ -142,9 +142,7 @@ class LoginViewState extends State<LoginView> {
         CustomElevatedButton(
           width: 150,
           height: 50,
-          onTap: () => context
-              .read<LoginCubit>()
-              .onPressedLogin(usernameController, passwordController),
+          onTap: () => loginCubit.onPressedLogin(usernameController, passwordController),
           child: Text(
             'Iniciar',
             style: theme.textTheme.bodyLarge!

@@ -43,11 +43,8 @@ class CustomSearchBar extends StatelessWidget {
             horizontal: Const.space25,
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-                20.0), // Ajusta el radio para cambiar la cantidad de redondez
-            borderSide:
-                BorderSide.none, // Puedes establecer un borde si lo deseas
-          ),
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide.none),
         ));
   }
 }
