@@ -113,7 +113,11 @@ class LoginViewState extends State<LoginView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomBackButton(route: Routes.selectEnterpriseRoute),
+                CustomBackButton(
+                  onTap: () {
+                    loginCubit.goToCompany();
+                  },
+                ),
                 SizedBox()
               ],
             ),
