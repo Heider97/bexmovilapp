@@ -170,28 +170,29 @@ class ApiService {
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
-    final data = <String, dynamic>{'email': email};
+    final data = <String, dynamic>{r'email': email};
 
     data.removeWhere((k, v) => v == null);
 
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<LoginResponse>>(Options(
+        _setStreamType<Response<RecoveryCodeResponse>>(Options(
       method: 'POST',
       headers: headers,
       extra: extra,
     )
             .compose(
               dio.options,
-              '/auth/login',
+              '/password/email',
               queryParameters: queryParameters,
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = RecoveryCodeResponse(
+      status: result.data!['status'],
       message: result.data!['message'],
     );
-//TODO: TO CHANGE
+
     return Response(
         data: value,
         requestOptions: result.requestOptions,

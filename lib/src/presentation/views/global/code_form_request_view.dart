@@ -2,6 +2,7 @@ import 'package:bexmovil/src/domain/models/requests/recovery_code.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+import 'package:bexmovil/src/presentation/widgets/custom_alert_dialog.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
@@ -85,13 +86,11 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                       width: Screens.width(context) * 0.87,
                       child: CustomTextFormField(
                           focusNode: focusNode,
-                          validator: (state is StartRecoveryState &&
-                                  state.type == 'SMS')
+                          validator: (state.type == 'SMS')
                               ? Validator().number
                               : Validator().email,
                           controller: textController,
-                          hintText: (state is StartRecoveryState &&
-                                  state.type == 'SMS')
+                          hintText: (state.type == 'SMS')
                               ? 'Ingrese el número de celular'
                               : 'Dirección de correo electrónico'),
                     ),
@@ -107,14 +106,9 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                             setState(() {
                               isloading = true;
                             });
-
-                            recoveryPasswordBloc
-                                .add(RequestCode(email: textController.text));
-
-                            /*    if (state is CodeSuccesfull) {
-
-                            } */
-                            _navigationService.goTo(Routes.codeValidation);
+                            recoveryPasswordBloc.add(RequestCode(
+                                context: context,
+                                recoveryMethod: textController.text));
 
                             setState(() {
                               isloading = false;

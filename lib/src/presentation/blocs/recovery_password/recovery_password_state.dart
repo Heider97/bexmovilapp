@@ -1,21 +1,17 @@
 part of 'recovery_password_bloc.dart';
 
 class RecoveryPasswordState {
-  const RecoveryPasswordState();
-}
+  final String? type;
+  final String? email;
+  final String? phone;
+  final String? error;
+  RecoveryPasswordState({this.type, this.email, this.phone, this.error});
 
-class RecoveryPasswordInitial extends RecoveryPasswordState {}
-
-class StartRecoveryState extends RecoveryPasswordState {
-  final String type;
-  const StartRecoveryState({required this.type});
-}
-
-class RecoveryPasswordLoading extends RecoveryPasswordState {
-  const RecoveryPasswordLoading();
-}
-
-class RecoveryPasswordError extends RecoveryPasswordState {
-  final String? message;
-  const RecoveryPasswordError(this.message);
+  RecoveryPasswordState copyWith(
+          {String? type, String? email, String? phone, String? error}) =>
+      RecoveryPasswordState(
+          type: type ?? this.type,
+          email: email ?? this.email,
+          phone: phone ?? this.phone,
+          error: error ?? this.error);
 }

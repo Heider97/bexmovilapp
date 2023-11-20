@@ -1,15 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class RecoveryCodeResponse extends Equatable {
+  final bool status;
   final String message;
 
   const RecoveryCodeResponse({
+    required this.status,
     required this.message,
   });
 
   factory RecoveryCodeResponse.fromMap(Map<String, dynamic> map) {
     return RecoveryCodeResponse(
-      message: map['message'] != null ? map['message'] as String : '',
+      status: map['status'],
+      message: map['message'],
     );
   }
 

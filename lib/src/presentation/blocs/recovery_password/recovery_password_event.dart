@@ -10,8 +10,9 @@ class StartRecovery extends RecoveryPasswordEvent {
 }
 
 class RequestCode extends RecoveryPasswordEvent {
-  final String email;
-  const RequestCode({required this.email});
+  final BuildContext context;
+  final String recoveryMethod;
+  const RequestCode({required this.recoveryMethod, required this.context});
 }
 
 class ValidateCode extends RecoveryPasswordEvent {
