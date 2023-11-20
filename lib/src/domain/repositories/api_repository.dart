@@ -1,5 +1,10 @@
-import 'package:bexmovil/src/domain/models/requests/recovery_code.dart';
+import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
+import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
+import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
+import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
+import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
+import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 
 import '../../utils/resources/data_state.dart';
 
@@ -30,6 +35,14 @@ abstract class ApiRepository {
 
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode({
     required RecoveryCodeRequest request,
+  });
+
+  Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode({
+    required ValidateCodeRequest request,
+  });
+
+  Future<DataState<ChangePasswordResponse>> changePassword({
+    required ChangePasswordRequest request,
   });
 
   Future<DataState<DatabaseResponse>> database(

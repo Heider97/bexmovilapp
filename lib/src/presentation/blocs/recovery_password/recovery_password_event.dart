@@ -16,10 +16,21 @@ class RequestCode extends RecoveryPasswordEvent {
 }
 
 class ValidateCode extends RecoveryPasswordEvent {
-  final String? code;
-  const ValidateCode({required this.code});
+  final BuildContext context;
+  final String code;
+  const ValidateCode({required this.code, required this.context});
 }
 
 class ChangePassword extends RecoveryPasswordEvent {
-  const ChangePassword();
+  final BuildContext context;
+  final String password;
+  final String confirmPassword;
+  const ChangePassword(
+      {required this.password,
+      required this.confirmPassword,
+      required this.context});
+}
+
+class ClearErrors extends RecoveryPasswordEvent {
+  const ClearErrors();
 }

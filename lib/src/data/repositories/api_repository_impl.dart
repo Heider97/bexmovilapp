@@ -1,6 +1,10 @@
-import 'package:bexmovil/src/domain/models/requests/recovery_code.dart';
+import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
+import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
+import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
+import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
+import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
 
 import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
@@ -67,9 +71,27 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
 
   @override
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
-      {required RecoveryCodeRequest request}) {
+      {required request}) {
     return getStateOf<RecoveryCodeResponse>(
       request: () => _apiService.requestRecoveryCode(email: request.email),
     );
+  }
+
+  @override
+  Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode(
+      {required request}) {
+    return getStateOf<ValidateRecoveryCodeResponse>(
+      request: () => _apiService.validateRecoveryCode(code: request.code),
+    );
+  }
+
+  @override
+  Future<DataState<ChangePasswordResponse>> changePassword(
+      {required ChangePasswordRequest request}) {
+    return getStateOf<ChangePasswordResponse>(
+      request: () => _apiService.changePassword(
+          code: request.code, password: request.password),
+    );
+    ;
   }
 }

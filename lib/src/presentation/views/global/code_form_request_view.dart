@@ -1,8 +1,8 @@
-import 'package:bexmovil/src/domain/models/requests/recovery_code.dart';
+import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/custom_alert_dialog.dart';
+
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';

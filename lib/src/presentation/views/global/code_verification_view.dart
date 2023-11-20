@@ -1,24 +1,41 @@
+import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
+final ApiRepository _apiRepository = locator<ApiRepository>();
 
-class CodeVerificationView extends StatelessWidget {
+class CodeVerificationView extends StatefulWidget {
   const CodeVerificationView({super.key});
+
+  @override
+  State<CodeVerificationView> createState() => _CodeVerificationViewState();
+}
+
+class _CodeVerificationViewState extends State<CodeVerificationView> {
+  late RecoveryPasswordBloc recoveryPasswordBloc;
+
+  @override
+  void initState() {
+    recoveryPasswordBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
     final defaultPinTheme = PinTheme(
-      width: 56,
+      width: 46,
       height: 56,
       textStyle: TextStyle(
           fontSize: 20, color: theme.primaryColor, fontWeight: FontWeight.w600),
@@ -80,23 +97,24 @@ class CodeVerificationView extends StatelessWidget {
                       )
               ],
             )),
-            Pinput(
-              defaultPinTheme: defaultPinTheme,
-              focusedPinTheme: focusedPinTheme,
-              submittedPinTheme: submittedPinTheme,
-              errorTextStyle: theme.textTheme.bodyMedium!
-                  .copyWith(color: theme.colorScheme.error),
-              validator: (s) {
-                if (s == '2222') {
-                  _navigationService.goTo(Routes.recoverPassword);
-                  return null;
-                } else {
-                  return 'Errorr';
-                }
-              },
-              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-              showCursor: true,
-              onCompleted: (pin) => print(pin),
+            Column(
+              children: [
+                Pinput(
+                  length: 6,
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: focusedPinTheme,
+                  submittedPinTheme: submittedPinTheme,
+                  errorTextStyle: theme.textTheme.bodyMedium!
+                      .copyWith(color: theme.colorScheme.error),
+                  validator: (pin) {
+                    recoveryPasswordBloc
+                        .add(ValidateCode(code: pin!, context: context));
+                  },
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  showCursor: true,
+                  onCompleted: (pin) {},
+                ),
+              ],
             ),
             Expanded(
               child: Column(
