@@ -2,12 +2,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+//core
+import '../../../core/functions.dart';
+
 //services
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 const String appToken = 'token';
+
+final helperFunction = HelperFunctions();
 
 class Logging extends Interceptor {
   Logging({
@@ -51,8 +56,9 @@ class Logging extends Interceptor {
       try {
         handler.resolve(await DioHttpRequestRetrier(dio: dio)
             .requestRetry(err.requestOptions)
+            // ignore: body_might_complete_normally_catch_error
             .catchError((e) {
-                handler.next(err);
+          handler.next(err);
         }));
       } catch (e) {
         handler.next(err);
@@ -63,6 +69,12 @@ class Logging extends Interceptor {
   }
 
   bool _shouldRetryOnHttpException(DioError err) {
+    //TODO:: [Sebastian Monroy] Always try to verify that contains variables to do correct validations
+    if (err.type == DioErrorType.badResponse &&
+        !err.requestOptions.uri.toString().contains('auth') &&
+        err.message!.contains('401')) {
+      Future.value(helperFunction.login());
+    }
     return err.type == DioErrorType.unknown &&
         ((err.error is HttpException &&
             err.message!.contains(

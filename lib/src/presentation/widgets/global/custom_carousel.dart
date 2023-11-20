@@ -1,7 +1,9 @@
-import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
+import '../../../utils/constants/screens.dart';
 
 class CustomCarousel extends StatefulWidget {
   const CustomCarousel({super.key});
@@ -32,10 +34,6 @@ class _CustomCarouselState extends State<CustomCarousel> {
         scrollPhysics: const BouncingScrollPhysics(),
         viewportFraction: 1,
         autoPlay: false,
-        //   enlargeCenterPage: true,
-        /*  onPageChanged: (index, reason) {
-         
-          } */
       ),
     ));
   }
@@ -118,13 +116,25 @@ class CarouselCustomItem extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (activePosition == 1)
+                                      ? theme.cardColor
+                                      : theme.disabledColor,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.radius)),
+                              width: Screens.width(context) * 0.15,
+                              height: Screens.heigth(context) * 0.005,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: Const.space12, right: Const.space12),
+                              child: Container(
                                 decoration: BoxDecoration(
-                                    color: (activePosition == 1)
+                                    color: (activePosition == 2)
                                         ? theme.cardColor
                                         : theme.disabledColor,
                                     borderRadius:
@@ -132,32 +142,18 @@ class CarouselCustomItem extends StatelessWidget {
                                 width: Screens.width(context) * 0.15,
                                 height: Screens.heigth(context) * 0.005,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: Const.space12, right: Const.space12),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: (activePosition == 2)
-                                          ? theme.cardColor
-                                          : theme.disabledColor,
-                                      borderRadius:
-                                          BorderRadius.circular(Const.radius)),
-                                  width: Screens.width(context) * 0.15,
-                                  height: Screens.heigth(context) * 0.005,
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: (activePosition == 3)
-                                        ? theme.cardColor
-                                        : theme.disabledColor,
-                                    borderRadius:
-                                        BorderRadius.circular(Const.radius)),
-                                width: Screens.width(context) * 0.15,
-                                height: Screens.heigth(context) * 0.005,
-                              )
-                            ]),
-                      ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (activePosition == 3)
+                                      ? theme.cardColor
+                                      : theme.disabledColor,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.radius)),
+                              width: Screens.width(context) * 0.15,
+                              height: Screens.heigth(context) * 0.005,
+                            )
+                          ]),
                     )
                   ],
                 ),
@@ -165,7 +161,6 @@ class CarouselCustomItem extends StatelessWidget {
             ),
           ),
         )
-        // Agrega otros widgets superpuestos en el Stack si es necesario
       ],
     );
   }

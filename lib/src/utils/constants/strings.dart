@@ -28,7 +28,7 @@ class Routes {
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';
   static const productivityRoute = '/productivity';
-  static const selectEnterpriceRoute = '/select-enterprise';
+  static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
 }
 

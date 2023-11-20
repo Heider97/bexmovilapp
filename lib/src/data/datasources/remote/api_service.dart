@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/enterprise.dart';
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/enterprise.dart';
+
 import '../../../domain/models/enterprise_config.dart';
 
 //interceptor
@@ -14,9 +15,8 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
-import '../../../domain/models/responses/database_response.dart';
+
 import '../../../domain/models/responses/enterprise_config_response.dart';
-import '../../../domain/models/responses/dummy_response.dart';
 
 //services
 import '../../../locator.dart';
@@ -30,13 +30,13 @@ class ApiService {
   String? get url {
     var company = _storageService.getString('company_name');
     if (company == null) return null;
-    return 'https://$company.bexdeliveries.com/api/v1';
+    return 'https://$company.bexmovil.com/api';
   }
 
   ApiService() {
     dio = Dio(
       BaseOptions(
-          baseUrl: url ?? 'https://demo.bexdeliveries.com/api/v1',
+          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
@@ -61,13 +61,15 @@ class ApiService {
     )
             .compose(
               dio.options,
-              '/enterprises/show',
+              '/auth/enterprise',
               queryParameters: queryParameters,
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value =
-        EnterpriseResponse(enterprise: Enterprise.fromMap(result.data!));
+    final value = EnterpriseResponse(
+        enterprise: Enterprise.fromMap(result.data!),
+        message: '',
+        status: true);
 
     return Response(
         data: value,
@@ -175,7 +177,7 @@ class ApiService {
               queryParameters: queryParameters,
               data: data,
             )
-            .copyWith(baseUrl: 'https://dummyjson.com')));
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = LoginResponse(login: Login.fromMap(result.data!));
 

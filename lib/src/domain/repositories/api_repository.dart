@@ -34,8 +34,4 @@ abstract class ApiRepository {
 
   Future<DataState<DatabaseResponse>> database(
       {required DatabaseRequest request});
-
-/*   Future<DataState<DummyResponse>> products({
-    required DummyRequest request
-  }); */
 }

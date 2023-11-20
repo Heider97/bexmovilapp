@@ -3,6 +3,9 @@ import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+//utils
+import '../../../utils/constants/strings.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   final Widget? child;
   final String? label;
@@ -50,7 +53,8 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (isLoading == true || enable == false) ? () {} : onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
+          elevation: 0,
+          backgroundColor: color ?? theme.primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.circular(borderRadius ?? Const.buttonRadius),

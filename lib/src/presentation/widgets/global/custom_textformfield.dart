@@ -2,6 +2,9 @@ import 'package:bexmovil/src/utils/constants/strings.dart';
 
 import 'package:flutter/material.dart';
 
+//utils
+import '../../../utils/constants/strings.dart';
+
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;

@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
 
 //service
 import '../../../locator.dart';
@@ -24,10 +26,16 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         emit(const Loaded(route: '/politics'));
       } else {
         var token = _storageService.getString('token');
+        var company = _storageService.getObject('enterprise');
+
+        print(company);
+
         if (token != null) {
           emit(const Loaded(route: Routes.homeRoute));
+        } else if (company != null) {
+          emit(const Loaded(route: Routes.loginRoute));
         } else {
-          emit(const Loaded(route: Routes.selectEnterpriceRoute));
+          emit(const Loaded(route: Routes.selectEnterpriseRoute));
         }
       }
     });
@@ -55,11 +63,13 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Stream<Loaded> validateSession() async* {
     var token = _storageService.getString('token');
+    var company = _storageService.getObject('company');
     if (token != null) {
       yield const Loaded(route: Routes.homeRoute);
+    } else if (company != null) {
+      yield const Loaded(route: Routes.loginRoute);
     } else {
-      yield const Loaded(route: Routes.selectEnterpriceRoute);
-      /* yield const Loaded(route: Routes.productRoute ); */
+      yield const Loaded(route: Routes.selectEnterpriseRoute);
     }
   }
 }

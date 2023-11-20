@@ -14,10 +14,11 @@ import '../../utils/constants/strings.dart';
 //global
 
 import '../../presentation/views/global/permission_view.dart';
-
 import '../../presentation/views/global/undefined_view.dart';
 import '../../presentation/views/global/splash_view.dart';
 import '../../presentation/views/global/politics_view.dart';
+
+//user
 
 import '../../presentation/views/user/schedule/index.dart';
 
@@ -26,10 +27,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.splashRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: SplashView()));
-    case Routes.selectEnterpriceRoute:
+/*     case Routes.selectEnterpriseRoute:
       return MaterialPageRoute(
           builder: (context) =>
-              const GlobalBackground(child: SelectEnterpriceView()));
+               GlobalBackground(child: SelectEnterpriceView())); */
     case Routes.codeFormRequest:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
@@ -44,28 +45,28 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
               opacity: 0.1, child: RecoverPasswordView()));
-
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:
       return MaterialPageRoute(
           builder: (context) => const RequestPermissionView());
-/*     case Routes.companyRoute:
+    case Routes.companyRoute:
       return MaterialPageRoute(
-          builder: (context) => const GlobalBackground(child: InitialView())) */
+          builder: (context) =>
+              const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
-/*     case Routes.homeRoute:
-      return MaterialPageRoute(builder: (context) => const HomeView()); */
-/*     case Routes.categoryRoute:
-      return MaterialPageRoute(
-          builder: (context) =>
-              CategoryView(categoryId: settings.arguments as int));
-    case Routes.productRoute:
-      return MaterialPageRoute(
-          builder: (context) =>
-              ProductView(productId: settings.arguments as int)); */
+    // case Routes.homeRoute:
+    //  return MaterialPageRoute(builder: (context) => const HomeView());
+    //  case Routes.categoryRoute:
+    //   return MaterialPageRoute(
+    //       builder: (context) =>
+    //           CategoryView(categoryId: settings.arguments as int));
+    // case Routes.productRoute:
+    //   return MaterialPageRoute(
+    //       builder: (context) =>
+    //           ProductView(productId: settings.arguments as int));
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const ScheduleView());
     /*  case Routes.productivityRoute:
