@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
+import '../../../services/navigation.dart';
 import '../../blocs/network/network_bloc.dart';
 import '../../cubits/login/login_cubit.dart';
 
@@ -23,6 +24,7 @@ import '../../../services/storage.dart';
 part '../../widgets/global/form_login.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
+final NavigationService _navigationService = locator<NavigationService>();
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -170,7 +172,13 @@ class LoginViewState extends State<LoginView> {
                                 color: Colors.white),
                           ),
                   );
-                })
+                }),
+                TextButton(
+                  onPressed: (){
+                    _navigationService.goTo(Routes.syncRoute);
+                  }, 
+                  child: Text('Ir a la vista sync')
+                )
           ],
         ),
         gapH64,

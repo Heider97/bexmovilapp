@@ -1,4 +1,6 @@
+import 'package:bexmovil/src/presentation/views/global/sync_view.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 //config
 import '../../utils/constants/strings.dart';
@@ -35,6 +37,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.companyRoute:
     return MaterialPageRoute(
         builder: (context) => const GlobalBackground(child: SelectEnterpriseView()));
+    case Routes.syncRoute:
+      return MaterialPageRoute(
+        builder: (context) => const GlobalBackground(child: SyncView()));
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
