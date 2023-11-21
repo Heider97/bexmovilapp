@@ -33,8 +33,8 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required EnterpriseRequest request,
   }) {
     return getStateOf<EnterpriseResponse>(
-      request: () => _apiService.getEnterprise(request.company),
-    );
+        request: () => _apiService.getEnterprise(request.company),
+        );
   }
 
   @override
@@ -42,7 +42,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required EnterpriseConfigRequest request,
   }) {
     return getStateOf<EnterpriseConfigResponse>(
-      request: () => _apiService.getConfigEnterprise(),
+      request: () => _apiService.getConfigEnterprise()
     );
   }
 
@@ -51,15 +51,15 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required LoginRequest request,
   }) {
     return getStateOf<LoginResponse>(
-      request: () => _apiService.login(
-          username: request.username,
-          password: request.password,
-          deviceId: request.deviceId,
-          model: request.model,
-          date: request.date,
-          latitude: request.latitude,
-          longitude: request.longitude),
-    );
+        request: () => _apiService.login(
+            username: request.username,
+            password: request.password,
+            deviceId: request.deviceId,
+            model: request.model,
+            date: request.date,
+            latitude: request.latitude,
+            longitude: request.longitude)
+        );
   }
 
   @override
@@ -73,25 +73,24 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
-      request: () => _apiService.requestRecoveryCode(email: request.email),
-    );
+        request: () => _apiService.requestRecoveryCode(email: request.email),
+        );
   }
 
   @override
   Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode(
       {required request}) {
     return getStateOf<ValidateRecoveryCodeResponse>(
-      request: () => _apiService.validateRecoveryCode(code: request.code),
-    );
+        request: () => _apiService.validateRecoveryCode(code: request.code),
+        );
   }
 
   @override
   Future<DataState<ChangePasswordResponse>> changePassword(
       {required ChangePasswordRequest request}) {
     return getStateOf<ChangePasswordResponse>(
-      request: () => _apiService.changePassword(
-          code: request.code, password: request.password),
-    );
-    ;
+        request: () => _apiService.changePassword(
+            code: request.code, password: request.password),
+        );
   }
 }

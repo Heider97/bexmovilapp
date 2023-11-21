@@ -29,17 +29,14 @@ final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class ApiService {
   late Dio dio;
-  late bool? testing;
 
   String? get url {
-    if(testing == true) return 'https://pandapan.bexmovil.com/api';
     var company = _storageService.getString('company_name');
     if (company == null) return null;
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService({ this.testing }) {
-    testing = testing;
+  ApiService() {
     dio = Dio(
       BaseOptions(
           baseUrl: url!,
@@ -48,7 +45,7 @@ class ApiService {
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
     );
 
-    dio.interceptors.add(Logging(dio: dio, testing: testing ?? false));
+    dio.interceptors.add(Logging(dio: dio));
   }
 
   //ENTERPRISES.

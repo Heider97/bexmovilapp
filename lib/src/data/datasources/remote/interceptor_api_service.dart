@@ -17,11 +17,9 @@ final helperFunction = HelperFunctions();
 class Logging extends Interceptor {
   Logging({
     required this.dio,
-    required this.testing
   });
 
   final Dio dio;
-  final bool testing;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -30,10 +28,8 @@ class Logging extends Interceptor {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     try {
-      if(!testing){
-        var token = _storageService.getString(appToken) ?? '';
-        options.headers['Authorization'] = 'Bearer $token';
-      }
+      var token = _storageService.getString(appToken) ?? '';
+      options.headers['Authorization'] = 'Bearer $token';
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
       options.headers[HttpHeaders.acceptHeader] = 'application/json';
     } catch (e) {

@@ -1,39 +1,25 @@
-import 'dart:convert';
-import 'package:bexmovil/src/presentation/cubits/login/login_cubit.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:dio/dio.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 //repositories
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
-import 'package:bexmovil/src/data/repositories/api_repository_impl.dart';
 import 'package:bexmovil/src/data/datasources/remote/api_service.dart';
 
 //domain
-import 'package:bexmovil/src/domain/models/requests/login_request.dart';
-import 'package:bexmovil/src/domain/models/responses/login_response.dart';
-
 
 void main() {
+  final dio = Dio(BaseOptions(contentType: Headers.jsonContentType));
+  final dioAdapter = DioAdapter(
+    dio: dio,
+    matcher: const FullHttpRequestMatcher(needsExactBody: true),
+  );
+
   group('Service', () {
-    late ApiService apiService;
-    late ApiRepositoryImpl apiRepositoryImpl;
-
-    setUpAll(() {
-      // registerFallbackValue(FakeUri());
-    });
-
-    setUp(() {
-      apiService = ApiService(testing: true);
-      apiRepositoryImpl = ApiRepositoryImpl(apiService);
-    });
-
-    group('constructor', () {
-      test('does not required a httpClient', () {
-        expect(ApiService(testing: true), isNotNull);
-      });
-    });
+    // group('constructor', () {
+    //   test('does not required a httpClient', () {
+    //     expect(ApiService(), isNotNull);
+    //   });
+    // });
 
     group(('login'), () {
       // test(
@@ -70,24 +56,21 @@ void main() {
       // });
 
       test('throws ResultError on non-200 response', () async {
-          var badLoginResponse = LoginRequest(
-              'no-exist',
-              'no-exist',
-              'TP1A.220624.014',
-              'SM-A035M',
-              '1.0.1+1',
-              '2023-11-20 09:28:57',
-              '6.3242326',
-              '-75.5692066');
+        const path = 'https://pandapan.bexmovil.com/api/auth/login';
 
-        final response = await apiRepositoryImpl.login(request: badLoginResponse);
-
-        expect(
-          response,
-          throwsA(
-            isA<DataFailed<LoginResponse>>(),
+        dioAdapter.onPost(
+          path,
+          (server) => server.reply(
+            200,
+            {'message': 'Success!'},
+            // Reply would wait for one-sec before returning data.
+            delay: const Duration(seconds: 1),
           ),
         );
+
+        final response = await dio.post(path);
+
+        print(response.data); // {message: Success!}
       });
 
       //

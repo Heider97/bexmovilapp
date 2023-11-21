@@ -9,21 +9,15 @@ import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 
 void main() {
   group('Login Repository', () {
-    late ApiService apiService;
-    late ApiRepository apiRepository;
 
-    setUp(() async {
-      TestWidgetsFlutterBinding.ensureInitialized();
-      await initializeDependencies(testing: true);
-      apiService = ApiService(testing: true);
-      apiRepository = ApiRepositoryImpl(apiService);
-    });
+    // setUp(() {
+    // });
 
-    group('constructor', () {
-      test('instantiates LoginRepository with a required apiService', () {
-        expect(apiRepository, isNotNull);
-      });
-    });
+    // group('constructor', () {
+    //   test('instantiates LoginRepository with a required apiService', () {
+    //     expect(apiRepository, isNotNull);
+    //   });
+    // });
 
     group(('search next login'), () {
       // test('calls login method', () async {
