@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+//TODO [Heider Zapa] Organize
+import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 //utils

@@ -1,3 +1,9 @@
+<<<<<<< Updated upstream
+=======
+//TODO [Heider Zapa] Organize
+import 'package:bexmovil/src/utils/constants/colors.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

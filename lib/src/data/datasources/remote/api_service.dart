@@ -5,6 +5,10 @@ import 'package:dio/dio.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/enterprise_config.dart';
+import '../../../domain/models/enterprise.dart';
+
+//blocs
+import '../../../presentation/blocs/recovery_password/recovery_password_bloc.dart';
 
 //interceptor
 import 'interceptor_api_service.dart';
@@ -12,7 +16,14 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
+<<<<<<< Updated upstream
 import '../../../domain/models/responses/database_response.dart';
+=======
+import '../../../domain/models/responses/change_password_response.dart';
+import '../../../domain/models/responses/recovery_code_response.dart';
+import '../../../domain/models/responses/validate_recovery_code_response.dart';
+
+>>>>>>> Stashed changes
 import '../../../domain/models/responses/enterprise_config_response.dart';
 import '../../../domain/models/responses/dummy_response.dart';
 
@@ -34,7 +45,11 @@ class ApiService {
   ApiService() {
     dio = Dio(
       BaseOptions(
+<<<<<<< Updated upstream
           baseUrl: url ?? 'https://demo.bexdeliveries.com/api/v1',
+=======
+          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
+>>>>>>> Stashed changes
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),

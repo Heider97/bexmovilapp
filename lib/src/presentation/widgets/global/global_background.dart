@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+//TODO [Heider Zapa] Organize
+import 'package:bexmovil/src/utils/constants/strings.dart';
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 class GlobalBackground extends StatelessWidget {

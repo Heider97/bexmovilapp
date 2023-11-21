@@ -83,6 +83,7 @@ class AppDatabase {
     ''',
   ];
 
+<<<<<<< Updated upstream
   final migrations = [
     '''
       CREATE INDEX ${CategoryFields.name} ON $tableCategories(${CategoryFields.name});
@@ -90,6 +91,9 @@ class AppDatabase {
   ];
 
   Future<Database> _initDatabase(databaseName) async {
+=======
+   Future<Database> _initDatabase(databaseName) async {
+>>>>>>> Stashed changes
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
     final config = MigrationConfig(
