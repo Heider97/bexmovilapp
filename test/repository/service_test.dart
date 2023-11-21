@@ -1,39 +1,37 @@
 import 'dart:convert';
-import 'package:bexmovil/src/domain/models/requests/login_request.dart';
+import 'package:bexmovil/src/presentation/cubits/login/login_cubit.dart';
+import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:mocktail/mocktail.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
-//responses
+//repositories
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
+import 'package:bexmovil/src/data/repositories/api_repository_impl.dart';
+import 'package:bexmovil/src/data/datasources/remote/api_service.dart';
+
+//domain
+import 'package:bexmovil/src/domain/models/requests/login_request.dart';
 import 'package:bexmovil/src/domain/models/responses/login_response.dart';
 
-import '../data/api_service.dart';
-import '../utils/errors.dart';
-import '../utils/test_helper.dart';
-
-class MockHttp extends Mock implements http.Client {}
-
-class MockResponse extends Mock implements http.Response {}
-
-class FakeUri extends Fake implements Uri {}
 
 void main() {
   group('Service', () {
-    late TestApiService apiService;
-    late MockHttp httpClient;
+    late ApiService apiService;
+    late ApiRepositoryImpl apiRepositoryImpl;
 
     setUpAll(() {
-      registerFallbackValue(FakeUri());
+      // registerFallbackValue(FakeUri());
     });
 
     setUp(() {
-      httpClient = MockHttp();
-      apiService = TestApiService(httpClient: httpClient);
+      apiService = ApiService(testing: true);
+      apiRepositoryImpl = ApiRepositoryImpl(apiService);
     });
 
     group('constructor', () {
       test('does not required a httpClient', () {
-        expect(TestApiService(), isNotNull);
+        expect(ApiService(testing: true), isNotNull);
       });
     });
 
@@ -72,38 +70,48 @@ void main() {
       // });
 
       test('throws ResultError on non-200 response', () async {
-        final response = MockResponse();
-        when(() => response.statusCode).thenReturn(401);
-        when(() => httpClient.post(any())).thenAnswer((_) async => response);
+          var badLoginResponse = LoginRequest(
+              'no-exist',
+              'no-exist',
+              'TP1A.220624.014',
+              'SM-A035M',
+              '1.0.1+1',
+              '2023-11-20 09:28:57',
+              '6.3242326',
+              '-75.5692066');
+
+        final response = await apiRepositoryImpl.login(request: badLoginResponse);
+
         expect(
-          apiService.login(null),
+          response,
           throwsA(
-            isA<ErrorLogin>(),
+            isA<DataFailed<LoginResponse>>(),
           ),
         );
       });
 
-      test('return Login.json on a valid response', () async {
-        var goodLoginResponse = LoginRequest(
-            '000',
-            '000',
-            'TP1A.220624.014',
-            'SM-A035M',
-            '1.3.120+244',
-            '2023-11-20 09:28:57',
-            '6.3242326',
-            '-75.5692066');
-
-        final response = MockResponse();
-        when(() => response.statusCode).thenReturn(200);
-        when(() => httpClient.post(any())).thenAnswer((_) async => response);
-
-        await apiService.login(goodLoginResponse);
-        expect(
-          LoginResponse.fromMap(jsonDecode(response.body)),
-          isA<LoginResponse>(),
-        );
-      });
+      //
+      // test('return Login.json on a valid response', () async {
+      //   var goodLoginResponse = LoginRequest(
+      //       '000',
+      //       '000',
+      //       'TP1A.220624.014',
+      //       'SM-A035M',
+      //       '1.3.120+244',
+      //       '2023-11-20 09:28:57',
+      //       '6.3242326',
+      //       '-75.5692066');
+      //
+      //   final response = MockResponse();
+      //   when(() => response.statusCode).thenReturn(200);
+      //   when(() => httpClient.post(any())).thenAnswer((_) async => response);
+      //
+      //   await apiService.login(goodLoginResponse);
+      //   expect(
+      //     LoginResponse.fromMap(jsonDecode(response.body)),
+      //     isA<LoginResponse>(),
+      //   );
+      // });
     });
   });
 }

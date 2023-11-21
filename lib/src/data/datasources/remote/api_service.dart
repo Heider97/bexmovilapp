@@ -29,27 +29,29 @@ final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class ApiService {
   late Dio dio;
+  late bool? testing;
 
   String? get url {
+    if(testing == true) return 'https://pandapan.bexmovil.com/api';
     var company = _storageService.getString('company_name');
     if (company == null) return null;
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService() {
+  ApiService({ this.testing }) {
+    testing = testing;
     dio = Dio(
       BaseOptions(
-          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
+          baseUrl: url!,
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
     );
 
-    dio.interceptors.add(Logging(dio: dio));
+    dio.interceptors.add(Logging(dio: dio, testing: testing ?? false));
   }
 
   //ENTERPRISES.
-
   Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};

@@ -17,9 +17,11 @@ final helperFunction = HelperFunctions();
 class Logging extends Interceptor {
   Logging({
     required this.dio,
+    required this.testing
   });
 
   final Dio dio;
+  final bool testing;
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -28,8 +30,10 @@ class Logging extends Interceptor {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     try {
-      var token = _storageService.getString(appToken) ?? '';
-      options.headers['Authorization'] = 'Bearer $token';
+      if(!testing){
+        var token = _storageService.getString(appToken) ?? '';
+        options.headers['Authorization'] = 'Bearer $token';
+      }
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
       options.headers[HttpHeaders.acceptHeader] = 'application/json';
     } catch (e) {
@@ -51,7 +55,7 @@ class Logging extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (_shouldRetryOnHttpException(err)) {
       try {
         handler.resolve(await DioHttpRequestRetrier(dio: dio)
@@ -68,14 +72,14 @@ class Logging extends Interceptor {
     }
   }
 
-  bool _shouldRetryOnHttpException(DioError err) {
+  bool _shouldRetryOnHttpException(DioException err) {
     //TODO:: [Sebastian Monroy] Always try to verify that contains variables to do correct validations
-    if (err.type == DioErrorType.badResponse &&
+    if (err.type == DioExceptionType.badResponse &&
         !err.requestOptions.uri.toString().contains('auth') &&
         err.message!.contains('401')) {
       Future.value(helperFunction.login());
     }
-    return err.type == DioErrorType.unknown &&
+    return err.type == DioExceptionType.unknown &&
         ((err.error is HttpException &&
             err.message!.contains(
                 'Connection closed before full header was received')));
