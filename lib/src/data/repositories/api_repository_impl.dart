@@ -1,3 +1,6 @@
+import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
+import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
+
 import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
 
@@ -52,6 +55,18 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
         date: request.date,
         latitude: request.latitude,
         longitude: request.longitude
+      ),
+    );
+  }
+
+
+  @override
+  Future<DataState<SyncResponse>> syncfeatures({
+    required SyncRequest request,
+  }) {
+    return getStateOf<SyncResponse>(
+      request: () => _apiService.syncfeatures(
+        
       ),
     );
   }

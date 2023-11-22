@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 import 'package:dio/dio.dart';
 
 //models
@@ -154,6 +155,41 @@ class ApiService {
         redirects: result.redirects,
         extra: result.extra,
         headers: result.headers);
+  }
+
+  Future<Response<SyncResponse>> syncfeatures()async{
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+      _setStreamType<Response<SyncResponse>>(Options(
+        method: 'GET',
+        headers: headers,
+        extra: extra,
+      )
+            .compose(dio.options, 'sync/features',
+              queryParameters: queryParameters, data: data)
+              .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+    
+    final value = SyncResponse.fromMap(result.data!);
+
+    return Response(
+      data: value,
+      requestOptions: result.requestOptions,
+      statusCode: result.statusCode,
+      statusMessage: result.statusMessage,
+      isRedirect: result.isRedirect,
+      redirects: result.redirects,
+      extra: result.extra,
+      headers: result.headers,
+    );
   }
 
   Future<Response<DatabaseResponse>> database({path}) async {
