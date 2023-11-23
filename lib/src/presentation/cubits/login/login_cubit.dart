@@ -14,7 +14,6 @@ import '../../../domain/models/requests/login_request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 
-
 //utils
 import '../../../utils/resources/data_state.dart';
 import '../../../utils/constants/strings.dart';
@@ -122,17 +121,16 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               login: login,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                  _storageService!.getObject('enterprise')!)
+                      _storageService!.getObject('enterprise')!)
                   : null));
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                  _storageService!.getObject('enterprise')!)
+                      _storageService!.getObject('enterprise')!)
                   : null));
         }
-
       } catch (e) {
         emit(LoginFailed(
             error: e.toString(),
