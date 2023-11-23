@@ -7,10 +7,6 @@ abstract class LoginState extends Equatable {
 
   const LoginState({this.login, this.enterprise, this.error});
 
-  LoginState copyWith({Enterprise? enterprise}) => LoginInitial(
-        enterprise: enterprise ?? this.enterprise,
-      );
-
   @override
   List<Object?> get props => [enterprise, error];
 }

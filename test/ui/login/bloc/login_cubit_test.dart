@@ -1,7 +1,3 @@
-import 'package:bexmovil/src/domain/models/requests/login_request.dart';
-import 'package:bexmovil/src/domain/models/responses/login_response.dart';
-import 'package:bexmovil/src/domain/models/user.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -12,9 +8,17 @@ import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 
 //domain
 import 'package:bexmovil/src/domain/models/login.dart';
+import 'package:bexmovil/src/domain/models/user.dart';
 
 //cubit
 import 'package:bexmovil/src/presentation/cubits/login/login_cubit.dart';
+
+//utils
+import 'package:bexmovil/src/utils/resources/data_state.dart';
+
+//requests and response
+import 'package:bexmovil/src/domain/models/requests/login_request.dart';
+import 'package:bexmovil/src/domain/models/responses/login_response.dart';
 
 class MockApiRepository extends Mock implements ApiRepository {}
 class MockDatabaseRepository extends Mock implements DatabaseRepository {}
@@ -26,7 +30,7 @@ void main() {
     late MockDatabaseRepository databaseRepositoryMock;
     late MockLogin loginMock;
 
-    var loginRequest = LoginRequest('000', '000', deviceId, model, version, date, latitude, longitude);
+    // var loginRequest = LoginRequest('000', '000', deviceId, model, version, date, latitude, longitude);
 
     setUp(() {
       apiRepositoryMock = MockApiRepository();
@@ -35,8 +39,7 @@ void main() {
     });
 
     test('initial state of the bloc is [LoginStatus.initial]', () {
-      expect(LoginCubit(apiRepositoryMock, databaseRepositoryMock).state,
-          const LoginState.copyWith());
+      expect(LoginCubit(apiRepositoryMock, databaseRepositoryMock).state, LoginInitial);
     });
 
     // blocTest<LoginCubit, LoginState>(
@@ -100,5 +103,5 @@ void main() {
   //       const LoginFailed()
   //     ],
   //   );
-  // });
+  });
 }
