@@ -106,10 +106,11 @@ class LoginViewState extends State<LoginView> {
 
   Widget _buildBody(Size size, ThemeData theme, LoginState state) {
     return SafeArea(
+      key: const Key('LoginSuccess'),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(Const.padding),
+            padding: const EdgeInsets.all(Const.padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -118,7 +119,7 @@ class LoginViewState extends State<LoginView> {
                     loginCubit.goToCompany();
                   },
                 ),
-                SizedBox()
+                const SizedBox()
               ],
             ),
           ),

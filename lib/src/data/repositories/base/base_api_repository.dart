@@ -14,6 +14,9 @@ abstract class BaseApiRepository {
     try {
       final httpResponse = await request();
 
+      print('**sending***');
+      print(httpResponse.statusCode);
+
       if (httpResponse.statusCode == HttpStatus.ok || httpResponse.statusCode == HttpStatus.created) {
         return DataSuccess(httpResponse.data as T);
       } else {

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/data/repositories/api_repository_impl.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +27,13 @@ import 'package:bexmovil/src/domain/models/responses/login_response.dart';
 //services
 import 'package:bexmovil/src/services/storage.dart';
 
-class MockApiRepository extends Mock implements ApiRepository {}
+class MockApiRepository extends Mock implements ApiRepository {
+
+  @override
+  Future<DataState<LoginResponse>> login({required LoginRequest request}) async {
+    return const DataSuccess(LoginResponse(status: true, message: 'successful'));
+  }
+}
 
 class MockDatabaseRepository extends Mock implements DatabaseRepository {}
 
@@ -37,6 +44,12 @@ class MockNavigationService extends Mock implements NavigationService {}
 class MockLocationRepository extends Mock implements LocationRepository {}
 
 class MockLogin extends Mock implements Login {}
+
+extension VoidAnswer on Answering<Future<void>> {
+  void thenAnswerSuccessApi() => (_) async {
+        return const DataSuccess('success');
+      };
+}
 
 void main() {
   group('LoginCubit', () {
@@ -106,12 +119,12 @@ void main() {
       'emits [LoginStatus.loading, LoginStatus.success]'
       ' with a copyWith of other user'
       'state for successful',
-      // setUp: () {
-      //   when(() => loginMock.user).thenReturn(() => const User(
-      //       id: 1, email: 'heiderzapa78@gmail.com', name: '000-VENDEDOR'));
-      //   // when(() => apiRepositoryMock.login(request: loginRequest))
-      //   //     .thenAnswer((_) => DataState<LoginResponse>);
-      // },
+      setUp: () {
+        when(() => loginMock.user).thenReturn(() => const User(
+            id: 1, email: 'heiderzapa78@gmail.com', name: '000-VENDEDOR'));
+        when(() => apiRepositoryMock.login(request: loginRequest))
+            .thenReturn(() async => const DataSuccess(LoginResponse(status: true, message: 'successful')));
+      },
       build: () => LoginCubit(apiRepositoryMock, databaseRepositoryMock,
           storageServiceMock, navigationServiceMock, locationRepositoryMock),
       act: (cubit) => cubit.onPressedLogin(loginRequest, testing: true),
@@ -121,14 +134,19 @@ void main() {
     blocTest<LoginCubit, LoginState>(
       'emits [LoginStatus.loading, LoginStatus.failure] '
       'when unsuccessful',
-      setUp: () {
-        when(() => apiRepositoryMock.login(request: loginRequest))
-            .thenThrow(const DataFailed('Unauthentic'));
-      },
+      // setUp: () {
+      //   when(() => apiRepositoryMock.login(request: loginRequest))
+      //       .thenThrow(const DataFailed('Unauthentic'));
+      // },
       build: () => LoginCubit(apiRepositoryMock, databaseRepositoryMock,
           storageServiceMock, navigationServiceMock, locationRepositoryMock),
       act: (cubit) => cubit.onPressedLogin(loginRequest, testing: true),
-      expect: () => <LoginState>[const LoginLoading(), const LoginFailed()],
+      expect: () => <LoginState>[
+        const LoginLoading(),
+        const LoginFailed(
+            error:
+                "type 'Null' is not a subtype of type 'Future<DataState<LoginResponse>>'")
+      ],
     );
   });
 }

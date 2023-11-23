@@ -1,21 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:location_repository/location_repository.dart';
 
 //core
 import '../../../core/functions.dart';
 import '../../../core/abstracts/FormatAbstract.dart';
 
 //domain
-
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/requests/login_request.dart';
-import '../../../domain/models/user.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
-import 'package:location_repository/location_repository.dart';
+
 
 //utils
 import '../../../utils/resources/data_state.dart';
@@ -124,16 +122,17 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               login: login,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                      _storageService!.getObject('enterprise')!)
+                  _storageService!.getObject('enterprise')!)
                   : null));
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                      _storageService!.getObject('enterprise')!)
+                  _storageService!.getObject('enterprise')!)
                   : null));
         }
+
       } catch (e) {
         emit(LoginFailed(
             error: e.toString(),
