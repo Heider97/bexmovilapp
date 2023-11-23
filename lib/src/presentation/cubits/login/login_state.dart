@@ -7,8 +7,16 @@ abstract class LoginState extends Equatable {
 
   const LoginState({this.login, this.enterprise, this.error});
 
+  LoginState copyWith({Enterprise? enterprise}) => LoginInitial(
+        enterprise: enterprise ?? this.enterprise,
+      );
+
   @override
   List<Object?> get props => [enterprise, error];
+}
+
+class LoginInitial extends LoginState {
+  const LoginInitial({super.enterprise});
 }
 
 class LoginLoading extends LoginState {
@@ -22,4 +30,3 @@ class LoginSuccess extends LoginState {
 class LoginFailed extends LoginState {
   const LoginFailed({super.enterprise, super.error});
 }
-

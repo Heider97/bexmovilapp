@@ -40,7 +40,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
 
   LoginCubit(this._apiRepository, this._databaseRepository)
       : super(
-            LoginSuccess(
+            LoginInitial(
                 enterprise: _storageService.getObject('enterprise') != null
                     ? Enterprise.fromMap(
                         _storageService.getObject('enterprise')!)
