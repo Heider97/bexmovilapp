@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/splash/splash_bloc.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -97,7 +98,12 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => PoliticsCubit()),
         BlocProvider(
             create: (context) => LoginCubit(
-                locator<ApiRepository>(), locator<DatabaseRepository>())),
+                  locator<ApiRepository>(),
+                  locator<DatabaseRepository>(),
+                  locator<LocalStorageService>(),
+                  locator<NavigationService>(),
+                  locator<LocationRepository>(),
+                )),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(

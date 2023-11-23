@@ -5,38 +5,37 @@ import 'package:bexmovil/src/presentation/cubits/login/login_cubit.dart';
 void main() {
   group('LoginStatus', () {
     test('returns correct values for LoginStatus.initial', () {
-      const status = LoginInitial;
-      print(status);
-      print(status is LoginInitial);
+      const status = LoginStatus.initial;
 
-      expect(status is LoginInitial, isTrue);
-      expect(status is LoginLoading, isFalse);
-      expect(status is LoginSuccess, isFalse);
-      expect(status is LoginFailed, isFalse);
+      expect(status.isInitial, isTrue);
+      expect(status.isLoading, isFalse);
+      expect(status.isSuccess, isFalse);
+      expect(status.isFailure, isFalse);
     });
 
     test('returns correct values for LoginStatus.loading', () {
-      const status = LoginLoading();
-      expect(status is LoginInitial, isFalse);
-      expect(status is LoginLoading, isTrue);
-      expect(status is LoginSuccess, isFalse);
-      expect(status is LoginFailed, isFalse);
+      const status = LoginStatus.loading;
+
+      expect(status.isInitial, isFalse);
+      expect(status.isLoading, isTrue);
+      expect(status.isSuccess, isFalse);
+      expect(status.isFailure, isFalse);
     });
 
     test('returns correct values for LoginStatus.isSuccess', () {
-      const status = LoginSuccess();
-      expect(status is LoginInitial, isFalse);
-      expect(status is LoginLoading, isFalse);
-      expect(status is LoginSuccess, isTrue);
-      expect(status is LoginFailed, isFalse);
+      const status = LoginStatus.success;
+      expect(status.isInitial, isFalse);
+      expect(status.isLoading, isFalse);
+      expect(status.isSuccess, isTrue);
+      expect(status.isFailure, isFalse);
     });
 
     test('returns correct values for LoginStatus.isFailure', () {
-      const status = LoginFailed();
-      expect(status is LoginInitial, isFalse);
-      expect(status is LoginLoading, isFalse);
-      expect(status is LoginSuccess, isFalse);
-      expect(status is LoginFailed, isTrue);
+      const status = LoginStatus.failure;
+      expect(status.isInitial, isFalse);
+      expect(status.isLoading, isFalse);
+      expect(status.isSuccess, isFalse);
+      expect(status.isFailure, isTrue);
     });
 
   });

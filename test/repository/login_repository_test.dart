@@ -1,12 +1,6 @@
-import 'package:bexmovil/src/domain/models/responses/login_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-
-//repositories
-import 'package:bexmovil/src/data/datasources/remote/api_service.dart';
-
-//domain
 
 void main() {
   late Dio dio;

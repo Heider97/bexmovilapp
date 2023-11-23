@@ -239,7 +239,7 @@ class LoginViewState extends State<LoginView> {
             height: 50,
             onTap: () => context
                 .read<LoginCubit>()
-                .onPressedLogin(usernameController, passwordController),
+                .differenceHours(usernameController.value, passwordController.value),
             child: Text(
               'Iniciar',
               style: theme.textTheme.bodyLarge!
