@@ -1,6 +1,5 @@
-import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/splash/splash_bloc.dart';
-import 'package:bexmovil/src/services/storage.dart';
+
+import 'src/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -28,6 +27,8 @@ import 'src/presentation/cubits/home/home_cubit.dart';
 //blocs
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
+import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+import 'src/presentation/blocs/splash/splash_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';

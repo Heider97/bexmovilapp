@@ -35,14 +35,15 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   late LoginCubit loginCubit;
+  // late RecoveryPasswordBloc recoveryBloc;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late RecoveryPasswordBloc recoveryBloc;
+
 
   @override
   void initState() {
-    recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    // recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
     loginCubit = BlocProvider.of<LoginCubit>(context);
 
     rememberSession();
@@ -192,8 +193,8 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               _navigationService.goTo(Routes.codeFormRequest);
-                              recoveryBloc
-                                  .add(const StartRecovery(type: 'Email'));
+                              // recoveryBloc
+                              //     .add(const StartRecovery(type: 'Email'));
                             },
                             title: Text(
                               'Email',
@@ -207,8 +208,8 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               _navigationService.goTo(Routes.codeFormRequest);
-                              recoveryBloc
-                                  .add(const StartRecovery(type: 'SMS'));
+                              // recoveryBloc
+                              //     .add(const StartRecovery(type: 'SMS'));
                             },
                             title: Text(
                               'SMS',
