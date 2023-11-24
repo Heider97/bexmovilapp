@@ -50,6 +50,10 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<LoginResponse>> login({
     required LoginRequest request,
   }) {
+
+    print(_apiService);
+    print(_apiService.url);
+
     return getStateOf<LoginResponse>(
         request: () => _apiService.login(
             username: request.username,

@@ -93,6 +93,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
       {bool testing = false}) async {
     if (isBusy) return;
 
+    print('*************');
+    print(_storageService);
+
     await run(() async {
       emit(LoginLoading(
           enterprise: _storageService!.getObject('enterprise') != null
@@ -100,9 +103,17 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               : null));
 
       try {
+
+        print(loginRequest.toMap());
+
         final response = await _apiRepository.login(
           request: loginRequest,
         );
+
+        print(response.data);
+
+        print('*********');
+        print(response.error);
 
         if (response is DataSuccess) {
           final login = response.data!.login;
@@ -132,6 +143,10 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
                   : null));
         }
       } catch (e) {
+
+        print('*************');
+        print(e.toString());
+
         emit(LoginFailed(
             error: e.toString(),
             enterprise: _storageService!.getObject('enterprise') != null

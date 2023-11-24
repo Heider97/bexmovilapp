@@ -32,7 +32,7 @@ class ApiService {
   }
 
   ApiService({ required this.dio, required this.storageService }) {
-    if(url != null) dio.options.baseUrl = url!;
+    url != null ? dio.options.baseUrl = url! : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
     dio.interceptors.add(Logging(dio: dio));
   }
 

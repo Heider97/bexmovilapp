@@ -25,10 +25,33 @@ import 'services/platform.dart';
 
 final locator = GetIt.instance;
 
-Future<void> initializeDependencies({ testing = false }) async {
+Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
   if(testing) {
     final storage = await LocalStorageService.getInstance(testing: true);
     locator.registerSingleton<LocalStorageService>(storage!);
+
+    final navigation = NavigationService();
+    locator.registerSingleton<NavigationService>(navigation);
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
+
+    locator.registerSingleton<ApiService>(
+      ApiService(dio: dio!, storageService: locator<LocalStorageService>()),
+    );
+
+    locator.registerSingleton<ApiRepository>(
+      ApiRepositoryImpl(locator<ApiService>()),
+    );
+
+    locator.registerSingleton<DatabaseRepository>(
+      DatabaseRepositoryImpl(locator<AppDatabase>()),
+    );
+
+    locator.registerSingleton<LocationRepository>(
+      LocationRepository(),
+    );
+
   } else {
     final storage = await LocalStorageService.getInstance();
     locator.registerSingleton<LocalStorageService>(storage!);
