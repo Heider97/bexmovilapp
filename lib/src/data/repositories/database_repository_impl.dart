@@ -27,13 +27,23 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //SYNC FEATURES
+  // ignore: override_on_non_overriding_member
+  @override
+  Future<int> updateSyncFeatures(Clients clients) async {
+    return _appDatabase.syncfeaturesDao.updateClients(clients);
+  }
 
-  
+  @override
+  Future<int> insertSyncFeatures(Clients clients) async {
+    return _appDatabase.syncfeaturesDao.insertClients(clients);
+  }
 
   @override
   Future<void> getSyncFeatures(Clients clients) {
     return _appDatabase.syncfeaturesDao.getAllClients();
   }
+
+
 
   // initialize and close methods go here
   @override
