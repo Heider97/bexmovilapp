@@ -1,6 +1,6 @@
-const String tableClients = 'clients';
+const String tableFeature = 'features';
 
-class ClientsFields{
+class FeaturesFields{
   static final List<String> values = [
     coddashboard,
     codvendedor,
@@ -12,10 +12,10 @@ class ClientsFields{
     fechafinevento,
     fecgra,
     requerido,
-    created_by_id,
-    created_at,
-    updated_at,
-    deleted_at,
+    createdById,
+    createdAt,
+    updatedAt,
+    deletedAt,
   ];
 
   static const String coddashboard = 'coddashboard';
@@ -28,14 +28,14 @@ class ClientsFields{
   static const String fechafinevento = 'fechafinevento';
   static const String fecgra = 'fecgra';
   static const String requerido = 'requerido';
-  static const String created_by_id = 'created_by_id';
-  static const String created_at = 'created_at';
-  static const String updated_at = 'updated_at';
-  static const String deleted_at = 'deleted_at';
+  static const String createdById = 'created_by_id';
+  static const String createdAt = 'created_at';
+  static const String updatedAt = 'updated_at';
+  static const String deletedAt = 'deleted_at';
 
 }
 
-class Clients {
+class Feature {
     late int coddashboard;
     late int codvendedor;
     late String description;
@@ -46,12 +46,12 @@ class Clients {
     late String fechafinevento;
     late String fecgra;
     late String requerido;
-    late int created_by_id;
-    late String created_at;
-    late String updated_at;
-    late String deleted_at;
+    late int createdById;
+    late String createdAt;
+    late String updatedAt;
+    late String deletedAt;
 
-  Clients({
+  Feature({
     required this.coddashboard, 
     required this.codvendedor, 
     required this.description, 
@@ -62,28 +62,30 @@ class Clients {
     required this.fechafinevento, 
     required this.fecgra, 
     required this.requerido, 
-    required this.created_by_id,
-    required this.created_at,
-    required this.updated_at,
-    required this.deleted_at
+    required this.createdById,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt
   });
 
-  Clients.fromJson(Map<String, dynamic> json){
-    coddashboard = json['coddashboard'];
-    codvendedor = json['codvendedor'];
-    description = json['description'];
-    urldesc = json['urldesc'];
-    categoria = json['categoria'];
-    codcliente = json['codcliente'];
-    fechaevento = json['fechaevento'];
-    fechafinevento = json['fechafinevento'];
-    fecgra = json['fecgra'];
-    requerido = json['requerido'];
-    created_by_id = json['created_by_id'];
-    created_at = json['created_at'];
-    updated_at = json['updated_at'];
-    deleted_at = json['deleted_at'];
-  }
+    factory Feature.fromMap(Map<String, dynamic> map){
+      return Feature(
+          coddashboard: map['coddashboard'],
+          codvendedor: map['codvendedor'],
+          description: map['description'],
+          urldesc: map['urldesc'],
+          categoria: map['categoria'],
+          codcliente: map['codcliente'],
+          fechaevento: map['fechaevento'],
+          fechafinevento: map['fechafinevento'],
+          fecgra: map['fecgra'],
+          requerido: map['requerido'],
+          createdById: map['created_by_id'],
+          createdAt: map['created_at'],
+          updatedAt: map['updated_at'],
+          deletedAt: map['deleted_at']
+      );
+    }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -97,30 +99,13 @@ class Clients {
     data['fechafinevento'] = fechafinevento;
     data['fecgra'] = fecgra;
     data['requerido'] = requerido;
-    data['created_by_id'] = created_by_id;
-    data['created_at'] = created_at;
-    data['updated_at'] = updated_at;
-    data['deleted_at'] = deleted_at;
+    data['created_by_id'] = createdById;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
     return data;
   }
 
-  factory Clients.fromMap(Map<String, dynamic> map){
-    return Clients(
-      coddashboard: map['coddashboard'] != null ? map['coddashboard'] : null, 
-      codvendedor: map['codvendedor'] != null ? map['codvendedor'] : null, 
-      description: map['description'] != null ? map['description'] : null, 
-      urldesc: map['urldesc'] != null ? map['urldesc'] : null, 
-      categoria: map['categoria'] != null ? map['categoria'] : null, 
-      codcliente: map['codcliente'] != null ? map['codcliente'] : null, 
-      fechaevento: map['fechaevento'] != null ? map['fechaevento'] : null, 
-      fechafinevento: map['fechafinevento'] != null ? map['fechafinevento'] : null, 
-      fecgra: map['fecgra'] != null ? map['fecgra'] : null, 
-      requerido: map['requerido'] != null ? map['requerido'] : null,
-      created_by_id: map['created_by_id'] != null ? map['created_by_id'] : null,
-      created_at: map['created_at'] != null ? map['created_at'] : null,
-      updated_at: map['updated_at'] != null ? map['updated_at'] : null,
-      deleted_at: map['deleted_at'] != null ? map['deleted_at'] : null
-    );
-  }
+
 
 }

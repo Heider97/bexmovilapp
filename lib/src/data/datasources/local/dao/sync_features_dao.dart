@@ -5,35 +5,49 @@ class SyncFeaturesDao {
 
   SyncFeaturesDao(this._appDatabase);
 
-  List<Clients> parseClients(
-    List<Map<String,dynamic>> clientsLists){
-    final clients = <Clients>[];
-      for(var clientsMap in clientsLists){
-        final client = Clients.fromJson(clientsMap);
-        clients.add(client); 
+  List<Feature> parseFeature(
+    List<Map<String,dynamic>> featureLists){
+    final features = <Feature>[];
+      for(var featureMap in featureLists){
+        final client = Feature.fromMap(featureMap);
+        features.add(client);
       }
-      return clients;
+      return features;
   }
 
-  Future<List<Clients>> getAllClients() async {
+  Future<List<Feature>> getAllFeature() async {
     final db = await _appDatabase.streamDatabase;
-    final clientsList = await db!.query(tableClients);
-    final clients = parseClients(clientsList);
-    return clients;
+    final featureList = await db!.query(tableFeature);
+    final feature = parseFeature(featureList);
+    return feature;
   }
 
-  Future<int> insertClients(Clients clients) {
-    return _appDatabase.insert(tableClients, clients.toJson());
-  }
-
-  Future<int> updateClients(Clients clients) {
-    return _appDatabase.update(tableClients, clients.toJson(),
-        'coddashboard', clients.coddashboard);
-  }
-
-  Future<void> emptyClients() async {
+  Future<void> insertFeatures(List<Feature> features) async {
     final db = await _appDatabase.streamDatabase;
-    await db!.delete(tableClients);
+    var batch = db!.batch();
+
+    await Future.forEach(features, (feature) async {
+      var foundProduct = await db.query(tableFeature, where: 'coddashboard = ?', whereArgs: [feature.coddashboard]);
+
+      if(foundProduct.isNotEmpty){
+        batch.update(tableFeature, feature.toJson(), where: 'coddashboard = ?', whereArgs: [feature.coddashboard]);
+      } else {
+        batch.insert(tableFeature, feature.toJson());
+      }
+    });
+
+
+    batch.commit(noResult: true, continueOnError: true);
+  }
+
+  Future<int> updateFeature(Feature feature) {
+    return _appDatabase.update(tableFeature, feature.toJson(),
+        'coddashboard', feature.coddashboard);
+  }
+
+  Future<void> emptyFeature() async {
+    final db = await _appDatabase.streamDatabase;
+    await db!.delete(tableFeature);
     return Future.value();
   }
 

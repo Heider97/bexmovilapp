@@ -1,3 +1,4 @@
+import '../../domain/models/client.dart';
 import '../../domain/repositories/database_repository.dart';
 import '../datasources/local/app_database.dart';
 
@@ -27,23 +28,25 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //SYNC FEATURES
-  // ignore: override_on_non_overriding_member
   @override
-  Future<int> updateSyncFeatures(Clients clients) async {
-    return _appDatabase.syncfeaturesDao.updateClients(clients);
+  Future<List<Feature>> getFeatures() {
+    return _appDatabase.syncfeaturesDao.getAllFeature();
   }
 
   @override
-  Future<int> insertSyncFeatures(Clients clients) async {
-    return _appDatabase.syncfeaturesDao.insertClients(clients);
+  Future<void> insertFeatures(List<Feature> features) async {
+    return _appDatabase.syncfeaturesDao.insertFeatures(features);
   }
 
   @override
-  Future<void> getSyncFeatures(Clients clients) {
-    return _appDatabase.syncfeaturesDao.getAllClients();
+  Future<int> updateFeatures(Feature clients) async {
+    return _appDatabase.syncfeaturesDao.updateFeature(clients);
   }
 
-
+  @override
+  Future<void> emptyFeatures() {
+    return _appDatabase.syncfeaturesDao.emptyFeature();
+  }
 
   // initialize and close methods go here
   @override
@@ -56,6 +59,4 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   void close() {
     _appDatabase.close();
   }
-  
-
 }

@@ -10,10 +10,8 @@ class SyncFeaturesBloc extends Bloc <SyncFeaturesEvent, SyncFeaturesState>{
 
   SyncFeaturesBloc(this._databaseRepository):super(SyncFeaturesInitial());
 
-
-
-  Future<void> getData(Clients clients)async{
-    await _databaseRepository.getSyncFeatures(clients);
+  Future<void> getData()async{
+    await _databaseRepository.getFeatures();
     add(SyncFeatureGet());
   }
 }

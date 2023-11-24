@@ -63,21 +63,21 @@ class AppDatabase {
       )
     ''',
     '''
-      CREATE TABLE $tableClients (
-        ${ClientsFields.coddashboard} INTEGER PRIMARY KEY,
-        ${ClientsFields.codvendedor} INTEGER DEFAULT NULL,
-        ${ClientsFields.description} TEXT DEFAULT NULL,
-        ${ClientsFields.urldesc} TEXT DEFAULT NULL,
-        ${ClientsFields.categoria} INTEGER DEFAULT NULL,
-        ${ClientsFields.codcliente} INTEGER DEFAULT NULL,
-        ${ClientsFields.fechaevento} TEXT DEFAULT NULL,
-        ${ClientsFields.fechafinevento} TEXT DEFAULT NULL,
-        ${ClientsFields.fecgra} TEXT DEFAULT NULL,
-        ${ClientsFields.requerido} TEXT DEFAULT NULL,
-        ${ClientsFields.created_by_id} INTEGER DEFAULT NULL,
-        ${ClientsFields.created_at} TEXT DEFAULT NULL,
-        ${ClientsFields.updated_at} TEXT DEFAULT NULL,
-        ${ClientsFields.deleted_at} TEXT DEFAULT NULL,
+      CREATE TABLE $tableFeature (
+        ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
+        ${FeaturesFields.codvendedor} INTEGER DEFAULT NULL,
+        ${FeaturesFields.description} TEXT DEFAULT NULL,
+        ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
+        ${FeaturesFields.categoria} INTEGER DEFAULT NULL,
+        ${FeaturesFields.codcliente} INTEGER DEFAULT NULL,
+        ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
+        ${FeaturesFields.requerido} TEXT DEFAULT NULL,
+        ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
+        ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
       )
     '''
   ];
