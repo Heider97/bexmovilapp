@@ -27,6 +27,10 @@ final locator = GetIt.instance;
 
 Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
   if(testing) {
+    print('***dio for testing**');
+    print(dio);
+    print(dio!.options.baseUrl);
+
     final storage = await LocalStorageService.getInstance(testing: true);
     locator.registerSingleton<LocalStorageService>(storage!);
 
@@ -37,7 +41,7 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<AppDatabase>(db);
 
     locator.registerSingleton<ApiService>(
-      ApiService(dio: dio!, storageService: locator<LocalStorageService>()),
+      ApiService(testing: true, dio: dio, storageService: locator<LocalStorageService>()),
     );
 
     locator.registerSingleton<ApiRepository>(
@@ -74,7 +78,7 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
             connectTimeout: const Duration(seconds: 5000),
             receiveTimeout: const Duration(seconds: 3000),
             headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
-      ), storageService: locator<LocalStorageService>()),
+      ), storageService: locator<LocalStorageService>(), testing: false),
     );
 
     locator.registerSingleton<ApiRepository>(

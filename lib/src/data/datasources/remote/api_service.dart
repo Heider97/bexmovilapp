@@ -18,12 +18,12 @@ import '../../../domain/models/responses/login_response.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
 
 //services
-import '../../../locator.dart';
 import '../../../services/storage.dart';
 
 class ApiService {
   late Dio dio;
   late LocalStorageService storageService;
+  late bool testing;
 
   String? get url {
     var company = storageService.getString('company_name');
@@ -31,9 +31,14 @@ class ApiService {
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService({ required this.dio, required this.storageService }) {
-    url != null ? dio.options.baseUrl = url! : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
-    dio.interceptors.add(Logging(dio: dio));
+  ApiService(
+      {required this.dio,
+      required this.storageService,
+      required this.testing}) {
+    url != null
+        ? dio.options.baseUrl = url!
+        : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+    !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
   //ENTERPRISES.
@@ -103,7 +108,14 @@ class ApiService {
   }
 
   Future<Response<LoginResponse>> login(
-      {username, password, deviceId, model, date, latitude, longitude}) async {
+      {username,
+      password,
+      deviceId,
+      model,
+      date,
+      version,
+      latitude,
+      longitude}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -116,6 +128,7 @@ class ApiService {
       r'device_id': deviceId,
       r'phonetype': model,
       r'date': date,
+      r'version': version,
       r'latitude': latitude,
       r'longitude': longitude,
     };

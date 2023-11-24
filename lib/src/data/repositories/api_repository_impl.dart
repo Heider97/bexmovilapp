@@ -51,8 +51,8 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required LoginRequest request,
   }) {
 
-    print(_apiService);
-    print(_apiService.url);
+    print('request');
+    print(request.toMap());
 
     return getStateOf<LoginResponse>(
         request: () => _apiService.login(
