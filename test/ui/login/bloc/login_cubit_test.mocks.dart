@@ -5,24 +5,25 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i6;
 
-import 'package:bexmovil/src/domain/models/processing_queue.dart' as _i22;
+import 'package:bexmovil/src/data/repositories/api_repository_impl.dart' as _i5;
+import 'package:bexmovil/src/domain/models/processing_queue.dart' as _i23;
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart'
-    as _i18;
-import 'package:bexmovil/src/domain/models/requests/database_request.dart'
     as _i20;
+import 'package:bexmovil/src/domain/models/requests/database_request.dart'
+    as _i14;
 import 'package:bexmovil/src/domain/models/requests/enterprise_config_request.dart'
     as _i10;
 import 'package:bexmovil/src/domain/models/requests/enterprise_request.dart'
     as _i8;
 import 'package:bexmovil/src/domain/models/requests/login_request.dart' as _i12;
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart'
-    as _i14;
-import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart'
     as _i16;
+import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart'
+    as _i18;
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart'
-    as _i17;
-import 'package:bexmovil/src/domain/models/responses/database_response.dart'
     as _i19;
+import 'package:bexmovil/src/domain/models/responses/database_response.dart'
+    as _i13;
 import 'package:bexmovil/src/domain/models/responses/enterprise_config_response.dart'
     as _i9;
 import 'package:bexmovil/src/domain/models/responses/enterprise_response.dart'
@@ -30,17 +31,17 @@ import 'package:bexmovil/src/domain/models/responses/enterprise_response.dart'
 import 'package:bexmovil/src/domain/models/responses/login_response.dart'
     as _i11;
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart'
-    as _i13;
-import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart'
     as _i15;
-import 'package:bexmovil/src/domain/repositories/api_repository.dart' as _i5;
+import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart'
+    as _i17;
 import 'package:bexmovil/src/domain/repositories/database_repository.dart'
-    as _i21;
-import 'package:bexmovil/src/services/navigation.dart' as _i25;
-import 'package:bexmovil/src/services/storage.dart' as _i24;
+    as _i22;
+import 'package:bexmovil/src/services/navigation.dart' as _i26;
+import 'package:bexmovil/src/services/storage.dart' as _i25;
 import 'package:bexmovil/src/utils/resources/data_state.dart' as _i2;
+import 'package:dio/dio.dart' as _i21;
 import 'package:flutter/material.dart' as _i4;
-import 'package:location_repository/src/location_repository.dart' as _i23;
+import 'package:location_repository/src/location_repository.dart' as _i24;
 import 'package:location_repository/src/model/current_location.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -87,10 +88,10 @@ class _FakeGlobalKey_2<T extends _i4.State<_i4.StatefulWidget>>
         );
 }
 
-/// A class which mocks [ApiRepository].
+/// A class which mocks [ApiRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
+class MockApiRepositoryImpl extends _i1.Mock implements _i5.ApiRepositoryImpl {
   @override
   _i6.Future<_i2.DataState<_i7.EnterpriseResponse>> getEnterprise(
           {required _i8.EnterpriseRequest? request}) =>
@@ -183,16 +184,46 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
       ) as _i6.Future<_i2.DataState<_i11.LoginResponse>>);
 
   @override
-  _i6.Future<_i2.DataState<_i13.RecoveryCodeResponse>> requestRecoveryCode(
-          {required _i14.RecoveryCodeRequest? request}) =>
+  _i6.Future<_i2.DataState<_i13.DatabaseResponse>> database(
+          {required _i14.DatabaseRequest? request}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #database,
+          [],
+          {#request: request},
+        ),
+        returnValue: _i6.Future<_i2.DataState<_i13.DatabaseResponse>>.value(
+            _FakeDataState_0<_i13.DatabaseResponse>(
+          this,
+          Invocation.method(
+            #database,
+            [],
+            {#request: request},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i2.DataState<_i13.DatabaseResponse>>.value(
+                _FakeDataState_0<_i13.DatabaseResponse>(
+          this,
+          Invocation.method(
+            #database,
+            [],
+            {#request: request},
+          ),
+        )),
+      ) as _i6.Future<_i2.DataState<_i13.DatabaseResponse>>);
+
+  @override
+  _i6.Future<_i2.DataState<_i15.RecoveryCodeResponse>> requestRecoveryCode(
+          {required _i16.RecoveryCodeRequest? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #requestRecoveryCode,
           [],
           {#request: request},
         ),
-        returnValue: _i6.Future<_i2.DataState<_i13.RecoveryCodeResponse>>.value(
-            _FakeDataState_0<_i13.RecoveryCodeResponse>(
+        returnValue: _i6.Future<_i2.DataState<_i15.RecoveryCodeResponse>>.value(
+            _FakeDataState_0<_i15.RecoveryCodeResponse>(
           this,
           Invocation.method(
             #requestRecoveryCode,
@@ -201,8 +232,8 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i2.DataState<_i13.RecoveryCodeResponse>>.value(
-                _FakeDataState_0<_i13.RecoveryCodeResponse>(
+            _i6.Future<_i2.DataState<_i15.RecoveryCodeResponse>>.value(
+                _FakeDataState_0<_i15.RecoveryCodeResponse>(
           this,
           Invocation.method(
             #requestRecoveryCode,
@@ -210,12 +241,12 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
             {#request: request},
           ),
         )),
-      ) as _i6.Future<_i2.DataState<_i13.RecoveryCodeResponse>>);
+      ) as _i6.Future<_i2.DataState<_i15.RecoveryCodeResponse>>);
 
   @override
   _i6.Future<
-      _i2.DataState<_i15.ValidateRecoveryCodeResponse>> validateRecoveryCode(
-          {required _i16.ValidateCodeRequest? request}) =>
+      _i2.DataState<_i17.ValidateRecoveryCodeResponse>> validateRecoveryCode(
+          {required _i18.ValidateCodeRequest? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #validateRecoveryCode,
@@ -223,8 +254,8 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
           {#request: request},
         ),
         returnValue:
-            _i6.Future<_i2.DataState<_i15.ValidateRecoveryCodeResponse>>.value(
-                _FakeDataState_0<_i15.ValidateRecoveryCodeResponse>(
+            _i6.Future<_i2.DataState<_i17.ValidateRecoveryCodeResponse>>.value(
+                _FakeDataState_0<_i17.ValidateRecoveryCodeResponse>(
           this,
           Invocation.method(
             #validateRecoveryCode,
@@ -233,8 +264,8 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i2.DataState<_i15.ValidateRecoveryCodeResponse>>.value(
-                _FakeDataState_0<_i15.ValidateRecoveryCodeResponse>(
+            _i6.Future<_i2.DataState<_i17.ValidateRecoveryCodeResponse>>.value(
+                _FakeDataState_0<_i17.ValidateRecoveryCodeResponse>(
           this,
           Invocation.method(
             #validateRecoveryCode,
@@ -242,11 +273,11 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
             {#request: request},
           ),
         )),
-      ) as _i6.Future<_i2.DataState<_i15.ValidateRecoveryCodeResponse>>);
+      ) as _i6.Future<_i2.DataState<_i17.ValidateRecoveryCodeResponse>>);
 
   @override
-  _i6.Future<_i2.DataState<_i17.ChangePasswordResponse>> changePassword(
-          {required _i18.ChangePasswordRequest? request}) =>
+  _i6.Future<_i2.DataState<_i19.ChangePasswordResponse>> changePassword(
+          {required _i20.ChangePasswordRequest? request}) =>
       (super.noSuchMethod(
         Invocation.method(
           #changePassword,
@@ -254,8 +285,8 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
           {#request: request},
         ),
         returnValue:
-            _i6.Future<_i2.DataState<_i17.ChangePasswordResponse>>.value(
-                _FakeDataState_0<_i17.ChangePasswordResponse>(
+            _i6.Future<_i2.DataState<_i19.ChangePasswordResponse>>.value(
+                _FakeDataState_0<_i19.ChangePasswordResponse>(
           this,
           Invocation.method(
             #changePassword,
@@ -264,8 +295,8 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i2.DataState<_i17.ChangePasswordResponse>>.value(
-                _FakeDataState_0<_i17.ChangePasswordResponse>(
+            _i6.Future<_i2.DataState<_i19.ChangePasswordResponse>>.value(
+                _FakeDataState_0<_i19.ChangePasswordResponse>(
           this,
           Invocation.method(
             #changePassword,
@@ -273,44 +304,42 @@ class MockApiRepository extends _i1.Mock implements _i5.ApiRepository {
             {#request: request},
           ),
         )),
-      ) as _i6.Future<_i2.DataState<_i17.ChangePasswordResponse>>);
+      ) as _i6.Future<_i2.DataState<_i19.ChangePasswordResponse>>);
 
   @override
-  _i6.Future<_i2.DataState<_i19.DatabaseResponse>> database(
-          {required _i20.DatabaseRequest? request}) =>
+  _i6.Future<_i2.DataState<T>> getStateOf<T>(
+          {required _i6.Future<_i21.Response<T>> Function()? request}) =>
       (super.noSuchMethod(
         Invocation.method(
-          #database,
+          #getStateOf,
           [],
           {#request: request},
         ),
-        returnValue: _i6.Future<_i2.DataState<_i19.DatabaseResponse>>.value(
-            _FakeDataState_0<_i19.DatabaseResponse>(
+        returnValue: _i6.Future<_i2.DataState<T>>.value(_FakeDataState_0<T>(
           this,
           Invocation.method(
-            #database,
+            #getStateOf,
             [],
             {#request: request},
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i2.DataState<_i19.DatabaseResponse>>.value(
-                _FakeDataState_0<_i19.DatabaseResponse>(
+            _i6.Future<_i2.DataState<T>>.value(_FakeDataState_0<T>(
           this,
           Invocation.method(
-            #database,
+            #getStateOf,
             [],
             {#request: request},
           ),
         )),
-      ) as _i6.Future<_i2.DataState<_i19.DatabaseResponse>>);
+      ) as _i6.Future<_i2.DataState<T>>);
 }
 
 /// A class which mocks [DatabaseRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockDatabaseRepository extends _i1.Mock
-    implements _i21.DatabaseRepository {
+    implements _i22.DatabaseRepository {
   @override
   _i6.Future<void> init() => (super.noSuchMethod(
         Invocation.method(
@@ -332,7 +361,7 @@ class MockDatabaseRepository extends _i1.Mock
 
   @override
   _i6.Future<int> updateProcessingQueue(
-          _i22.ProcessingQueue? processingQueue) =>
+          _i23.ProcessingQueue? processingQueue) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateProcessingQueue,
@@ -344,7 +373,7 @@ class MockDatabaseRepository extends _i1.Mock
 
   @override
   _i6.Future<void> insertProcessingQueue(
-          _i22.ProcessingQueue? processingQueue) =>
+          _i23.ProcessingQueue? processingQueue) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertProcessingQueue,
@@ -369,7 +398,7 @@ class MockDatabaseRepository extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocationRepository extends _i1.Mock
-    implements _i23.LocationRepository {
+    implements _i24.LocationRepository {
   @override
   _i6.Future<_i3.CurrentUserLocationEntity> getCurrentLocation() =>
       (super.noSuchMethod(
@@ -401,7 +430,7 @@ class MockLocationRepository extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocalStorageService extends _i1.Mock
-    implements _i24.LocalStorageService {
+    implements _i25.LocalStorageService {
   @override
   void setString(
     dynamic key,
@@ -505,7 +534,7 @@ class MockLocalStorageService extends _i1.Mock
 /// A class which mocks [NavigationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNavigationService extends _i1.Mock implements _i25.NavigationService {
+class MockNavigationService extends _i1.Mock implements _i26.NavigationService {
   @override
   _i4.GlobalKey<_i4.NavigatorState> get navigatorKey => (super.noSuchMethod(
         Invocation.getter(#navigatorKey),

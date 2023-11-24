@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,8 +27,7 @@ final locator = GetIt.instance;
 
 Future<void> initializeDependencies({ testing = false }) async {
   if(testing) {
-    SharedPreferences.setMockInitialValues({});
-    final storage = await LocalStorageService.getInstance();
+    final storage = await LocalStorageService.getInstance(testing: true);
     locator.registerSingleton<LocalStorageService>(storage!);
   } else {
     final storage = await LocalStorageService.getInstance();
@@ -43,7 +45,13 @@ Future<void> initializeDependencies({ testing = false }) async {
     locator.registerSingleton<AppDatabase>(db);
 
     locator.registerSingleton<ApiService>(
-      ApiService(),
+      ApiService(dio: Dio(
+        BaseOptions(
+            baseUrl: 'https://pandapan.bexmovil.com/api',
+            connectTimeout: const Duration(seconds: 5000),
+            receiveTimeout: const Duration(seconds: 3000),
+            headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
+      ), storageService: locator<LocalStorageService>()),
     );
 
     locator.registerSingleton<ApiRepository>(
@@ -59,4 +67,9 @@ Future<void> initializeDependencies({ testing = false }) async {
     );
   }
 
+}
+
+Future<void> unregisterDependencies() async {
+  final storage = await LocalStorageService.getInstance();
+  locator.unregister<LocalStorageService>(instance: storage!);
 }

@@ -9,10 +9,10 @@ import 'package:flutter_test/flutter_test.dart';
 // class FakeLoginState extends Fake implements LoginState {}
 
 void main() {
-  setUpAll(() {
-    // FakeLoginState();
-    // registerFallbackValue();
-  });
+  // setUpAll(() {
+  //   // FakeLoginState();
+  //   // registerFallbackValue();
+  // });
 
   // group('LoginPage ', () {
   //   testWidgets('renders LoginPage', (tester) async {
