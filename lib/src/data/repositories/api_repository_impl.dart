@@ -65,9 +65,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required SyncRequest request,
   }) {
     return getStateOf<SyncResponse>(
-      request: () => _apiService.syncfeatures(
-        
-      ),
+      request: () => _apiService.syncfeatures(),
     );
   }
 

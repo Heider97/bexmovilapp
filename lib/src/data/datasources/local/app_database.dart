@@ -5,6 +5,7 @@ import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
+import '../../../domain/models/clients.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -20,6 +21,7 @@ import '../../../services/storage.dart';
 //daos
 part '../local/dao/location_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
+part '../local/dao/sync_features_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -60,6 +62,24 @@ class AppDatabase {
         ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
       )
     ''',
+    '''
+      CREATE TABLE $tableClients (
+        ${ClientsFields.coddashboard} INTEGER PRIMARY KEY,
+        ${ClientsFields.codvendedor} INTEGER DEFAULT NULL,
+        ${ClientsFields.description} TEXT DEFAULT NULL,
+        ${ClientsFields.urldesc} TEXT DEFAULT NULL,
+        ${ClientsFields.categoria} INTEGER DEFAULT NULL,
+        ${ClientsFields.codcliente} INTEGER DEFAULT NULL,
+        ${ClientsFields.fechaevento} TEXT DEFAULT NULL,
+        ${ClientsFields.fechafinevento} TEXT DEFAULT NULL,
+        ${ClientsFields.fecgra} TEXT DEFAULT NULL,
+        ${ClientsFields.requerido} TEXT DEFAULT NULL,
+        ${ClientsFields.created_by_id} INTEGER DEFAULT NULL,
+        ${ClientsFields.created_at} TEXT DEFAULT NULL,
+        ${ClientsFields.updated_at} TEXT DEFAULT NULL,
+        ${ClientsFields.deleted_at} TEXT DEFAULT NULL,
+      )
+    '''
   ];
 
   final migrations = [];
@@ -114,6 +134,8 @@ class AppDatabase {
   }
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
+
+  SyncFeaturesDao get syncfeaturesDao => SyncFeaturesDao(instance);
 
   void close() {
     _database = null;

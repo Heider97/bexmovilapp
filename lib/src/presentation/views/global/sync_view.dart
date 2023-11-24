@@ -2,9 +2,14 @@ import 'package:bexmovil/src/presentation/widgets/custom_card_widget.dart';
 import 'package:flutter/material.dart';
 
 
-class SyncView extends StatelessWidget {
+class SyncView extends StatefulWidget {
   const SyncView({super.key});
 
+  @override
+  State<SyncView> createState() => _SyncViewState();
+}
+
+class _SyncViewState extends State<SyncView> {
   @override
   Widget build(BuildContext context) {
     return const Column(
@@ -18,7 +23,7 @@ class SyncView extends StatelessWidget {
           ),
           Text('Mientras esperas, conoce nuestras ultimas novedades. '),
 
-          const SizedBox(height: 40,),
+          SizedBox(height: 40,),
 
           //aca pondremos el widget personalizado
 

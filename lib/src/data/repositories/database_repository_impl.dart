@@ -3,6 +3,7 @@ import '../datasources/local/app_database.dart';
 
 //models
 import '../../domain/models/processing_queue.dart';
+import '../../domain/models/clients.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -25,6 +26,15 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.processingQueueDao.emptyProcessingQueue();
   }
 
+  //SYNC FEATURES
+
+  
+
+  @override
+  Future<void> getSyncFeatures(Clients clients) {
+    return _appDatabase.syncfeaturesDao.getAllClients();
+  }
+
   // initialize and close methods go here
   @override
   Future<void> init() async {
@@ -36,4 +46,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   void close() {
     _appDatabase.close();
   }
+  
+
 }
