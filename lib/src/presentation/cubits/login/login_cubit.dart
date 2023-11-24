@@ -100,12 +100,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               : null));
 
       try {
-
         final response = await _apiRepository.login(
           request: loginRequest,
         );
-
-        print(response is DataFailed);
 
         if (response is DataSuccess) {
           final login = response.data!.login;
@@ -127,8 +124,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
                       _storageService!.getObject('enterprise')!)
                   : null));
         } else if (response is DataFailed) {
-
-          print('fallo la peticion');
           emit(LoginFailed(
               error: response.error,
               enterprise: _storageService!.getObject('enterprise') != null

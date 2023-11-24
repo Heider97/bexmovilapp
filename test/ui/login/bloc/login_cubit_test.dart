@@ -50,7 +50,10 @@ void main() {
     late LocalStorageService storageServiceMock;
     late NavigationService navigationServiceMock;
 
-    var loginRequest = LoginRequest('000', '000', 'TP1A.220624.014', 'SM-A035M',
+    var badLoginRequest = LoginRequest('no-exist', 'no-exist', 'TP1A.220624.014', 'SM-A035M',
+        '1.3.120+244', '2023-11-20 09:28:57', '6.3242326', '-75.5692066');
+
+    var goodLoginRequest = LoginRequest('000', '000', 'TP1A.220624.014', 'SM-A035M',
         '1.3.120+244', '2023-11-20 09:28:57', '6.3242326', '-75.5692066');
 
     setUp(() {
@@ -92,7 +95,7 @@ void main() {
       },
       build: () => LoginCubit(apiRepositoryMock, databaseRepositoryMock,
           storageServiceMock, navigationServiceMock, locationRepositoryMock),
-      act: (cubit) => cubit.onPressedLogin(loginRequest, testing: true),
+      act: (cubit) => cubit.onPressedLogin(goodLoginRequest, testing: true),
       wait: const Duration(milliseconds: 500),
       expect: () => [const LoginLoading(), const LoginSuccess()],
     );
@@ -111,7 +114,7 @@ void main() {
       },
       build: () => LoginCubit(apiRepositoryMock, databaseRepositoryMock,
           storageServiceMock, navigationServiceMock, locationRepositoryMock),
-      act: (cubit) => cubit.onPressedLogin(loginRequest, testing: true),
+      act: (cubit) => cubit.onPressedLogin(badLoginRequest, testing: true),
       wait: const Duration(milliseconds: 500),
       expect: () => <LoginState>[
         const LoginLoading(),
