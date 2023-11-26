@@ -21,5 +21,5 @@ class SyncFeaturesSuccess extends SyncFeaturesState {
 }
 
 class SyncFeaturesFailure extends SyncFeaturesState {
-  const SyncFeaturesFailure({super.error });
+  const SyncFeaturesFailure({super.features, super.error });
 }

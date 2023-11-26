@@ -14,20 +14,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState> {
   }
 
   void _observe(event, emit) async {
-
+    var features = await _databaseRepository.getFeatures();
     try {
-      var features = await _databaseRepository.getFeatures();
-
-      print('*************');
-      print(features);
-
       emit(SyncFeaturesLoading(features: features));
 
+      Future.delayed(const Duration(seconds: 5));
 
+      throw ArgumentError(
+          'Parece que algo salió mal realizando la sincronización');
     } catch (e) {
-      emit(SyncFeaturesFailure(error: e.toString()));
+      emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
-
-
   }
 }

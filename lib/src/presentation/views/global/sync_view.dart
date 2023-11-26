@@ -59,7 +59,7 @@ class _SyncViewState extends State<SyncView> {
           gapH64,
           const Text(
             'Sincronizado',
-            style: TextStyle(fontSize: 22),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           const Text('Mientras esperas, conoce nuestras ultimas novedades. ',
               textAlign: TextAlign.center),
@@ -99,11 +99,15 @@ class _SyncViewState extends State<SyncView> {
 
   Widget _buildError(SyncFeaturesState state, theme) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-            '!Ups Ocurrió un Error! Parece que algo salió mal realizando la sincronización',
-            style: TextStyle(fontSize: 22)),
-        Text(state.error!),
+            '!Ups Ocurrió un Error!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        gapH16,
+        Text(state.error!, textAlign: TextAlign.center),
+        gapH16,
         CustomElevatedButton(
           width: 150,
           height: 50,
