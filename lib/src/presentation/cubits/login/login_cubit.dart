@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:location_repository/location_repository.dart';
+import 'package:yaml/yaml.dart';
 
 //core
 import '../../../core/functions.dart';
@@ -65,8 +67,8 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     if (localHour == webHour) {
       var location = await _locationRepository?.getCurrentLocation();
       var device = await _helperFunction.getDevice();
-
-      var version = "1.3.120+244";
+      var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
+      var version = yaml['version'];
 
       var loginRequest = LoginRequest(
           username,

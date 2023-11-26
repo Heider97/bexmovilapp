@@ -54,14 +54,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required LoginRequest request,
   }) {
     return getStateOf<LoginResponse>(
-        request: () => _apiService.login(
-            username: request.username,
-            password: request.password,
-            deviceId: request.deviceId,
-            model: request.model,
-            date: request.date,
-            latitude: request.latitude,
-            longitude: request.longitude)
+        request: () => _apiService.login(loginRequest: request)
         );
   }
 

@@ -3,11 +3,6 @@ import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/config.dart';
-import '../../../domain/models/enterprise.dart';
-
-//blocs
-import '../../../presentation/blocs/recovery_password/recovery_password_bloc.dart';
 
 //interceptor
 import 'interceptor_api_service.dart';
@@ -15,7 +10,6 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
-import '../../../domain/models/responses/database_response.dart';
 import '../../../domain/models/responses/change_password_response.dart';
 import '../../../domain/models/responses/recovery_code_response.dart';
 import '../../../domain/models/responses/validate_recovery_code_response.dart';
@@ -111,15 +105,7 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<LoginResponse>> login(
-      {username,
-      password,
-      deviceId,
-      model,
-      date,
-      version,
-      latitude,
-      longitude}) async {
+  Future<Response<LoginResponse>> login({loginRequest}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -127,17 +113,21 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
     final data = <String, dynamic>{
-      r'email': username,
-      r'password': password,
-      r'device_id': deviceId,
-      r'phonetype': model,
-      r'date': date,
-      r'version': version,
-      r'latitude': latitude,
-      r'longitude': longitude,
+      r'email': loginRequest.username,
+      r'password': loginRequest.password,
+      r'device_id': loginRequest.deviceId,
+      r'phonetype': loginRequest.model,
+      r'date': loginRequest.date,
+      r'version': loginRequest.version,
+      r'latitude': loginRequest.latitude,
+      r'longitude': loginRequest.longitude,
     };
 
     data.removeWhere((k, v) => v == null);
+
+    print('**************');
+    print(data);
+    print(url);
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<LoginResponse>>(Options(
