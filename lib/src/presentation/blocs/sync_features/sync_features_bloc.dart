@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/clients.dart';
+import 'package:bexmovil/src/domain/models/feature.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

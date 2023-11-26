@@ -19,7 +19,7 @@ import '../models/requests/database_request.dart';
 import '../models/responses/database_response.dart';
 
 import '../models/requests/enterprise_config_request.dart';
-import '../models/responses/enterprise_config_response.dart';
+import '../models/responses/config_response.dart';
 import '../models/responses/sync_response.dart';
 
 abstract class ApiRepository {
@@ -27,15 +27,13 @@ abstract class ApiRepository {
     required EnterpriseRequest request,
   });
 
-  Future<DataState<EnterpriseConfigResponse>> getConfigEnterprise({
-    required EnterpriseConfigRequest request,
-  });
+  Future<DataState<ConfigResponse>> configs();
 
   Future<DataState<LoginResponse>> login({
     required LoginRequest request,
   });
 
-  Future<DataState<SyncResponse>> syncfeatures({
+  Future<DataState<SyncResponse>> features({
     required SyncRequest request
   });
 

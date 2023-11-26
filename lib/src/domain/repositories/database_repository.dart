@@ -1,4 +1,4 @@
-import '../models/clients.dart';
+import '../models/feature.dart';
 import '../models/processing_queue.dart';
 import '../models/client.dart';
 

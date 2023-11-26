@@ -5,12 +5,13 @@ import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../domain/models/clients.dart';
+import '../../../domain/models/feature.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
+import '../../../domain/models/config.dart';
 
 
 //services
@@ -20,6 +21,7 @@ import '../../../services/storage.dart';
 
 //daos
 part '../local/dao/location_dao.dart';
+part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/sync_features_dao.dart';
 
@@ -136,7 +138,9 @@ class AppDatabase {
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
-  SyncFeaturesDao get syncfeaturesDao => SyncFeaturesDao(instance);
+  FeatureDao get featureDao => FeatureDao(instance);
+
+  ConfigDao get configDao => ConfigDao(instance);
 
   void close() {
     _database = null;

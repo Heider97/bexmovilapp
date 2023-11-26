@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 //cubit
 import '../../cubits/login/login_cubit.dart';
 //blocs
-import '../../blocs/network/network_bloc.dart';
+import '../../blocs/recovery_password/recovery_password_bloc.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
@@ -35,7 +35,7 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   late LoginCubit loginCubit;
-  // late RecoveryPasswordBloc recoveryBloc;
+  late RecoveryPasswordBloc recoveryBloc;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -43,7 +43,7 @@ class LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
-    // recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
     loginCubit = BlocProvider.of<LoginCubit>(context);
 
     rememberSession();
@@ -144,7 +144,8 @@ class LoginViewState extends State<LoginView> {
                 left: Const.space25,
                 right: Const.space25),
             child: CustomTextFormField(
-                controller: TextEditingController(),
+
+                controller: usernameController,
                 hintText: 'Usuario o correo'),
           ),
           Padding(
@@ -193,8 +194,8 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               _navigationService.goTo(Routes.codeFormRequest);
-                              // recoveryBloc
-                              //     .add(const StartRecovery(type: 'Email'));
+                              recoveryBloc
+                                  .add(const StartRecovery(type: 'Email'));
                             },
                             title: Text(
                               'Email',

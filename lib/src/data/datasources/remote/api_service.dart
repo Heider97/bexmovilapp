@@ -1,15 +1,9 @@
 import 'dart:io';
-import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
-import 'package:bexmovil/src/domain/models/enterprise.dart';
-
-import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
-import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
-import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
 import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/enterprise_config.dart';
+import '../../../domain/models/config.dart';
 import '../../../domain/models/enterprise.dart';
 
 //blocs
@@ -25,7 +19,8 @@ import '../../../domain/models/responses/database_response.dart';
 import '../../../domain/models/responses/change_password_response.dart';
 import '../../../domain/models/responses/recovery_code_response.dart';
 import '../../../domain/models/responses/validate_recovery_code_response.dart';
-import '../../../domain/models/responses/enterprise_config_response.dart';
+import '../../../domain/models/responses/config_response.dart';
+import '../../../domain/models/responses/sync_response.dart';
 
 //services
 import '../../../services/storage.dart';
@@ -84,14 +79,14 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<EnterpriseConfigResponse>> getConfigEnterprise() async {
+  Future<Response<ConfigResponse>> configs() async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
     final data = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<EnterpriseConfigResponse>>(Options(
+        _setStreamType<Response<ConfigResponse>>(Options(
       method: 'GET',
       headers: headers,
       extra: extra,
@@ -103,8 +98,7 @@ class ApiService {
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value = EnterpriseConfigResponse(
-        enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
+    final value = ConfigResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -175,7 +169,7 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<SyncResponse>> syncfeatures()async{
+  Future<Response<SyncResponse>> features() async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -187,15 +181,15 @@ class ApiService {
     };
 
     final result = await dio.fetch<Map<String, dynamic>>(
-      _setStreamType<Response<SyncResponse>>(Options(
-        method: 'GET',
-        headers: headers,
-        extra: extra,
-      )
+        _setStreamType<Response<SyncResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, 'sync/features',
-              queryParameters: queryParameters, data: data)
-              .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
     final value = SyncResponse.fromMap(result.data!);
 
     return Response(
@@ -212,7 +206,6 @@ class ApiService {
 
   Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
       {required String email}) async {
-
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);

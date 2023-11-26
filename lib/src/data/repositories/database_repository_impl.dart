@@ -4,7 +4,7 @@ import '../datasources/local/app_database.dart';
 
 //models
 import '../../domain/models/processing_queue.dart';
-import '../../domain/models/clients.dart';
+import '../../domain/models/feature.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -30,22 +30,22 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   //SYNC FEATURES
   @override
   Future<List<Feature>> getFeatures() {
-    return _appDatabase.syncfeaturesDao.getAllFeature();
+    return _appDatabase.featureDao.getAllFeature();
   }
 
   @override
   Future<void> insertFeatures(List<Feature> features) async {
-    return _appDatabase.syncfeaturesDao.insertFeatures(features);
+    return _appDatabase.featureDao.insertFeatures(features);
   }
 
   @override
   Future<int> updateFeatures(Feature clients) async {
-    return _appDatabase.syncfeaturesDao.updateFeature(clients);
+    return _appDatabase.featureDao.updateFeature(clients);
   }
 
   @override
   Future<void> emptyFeatures() {
-    return _appDatabase.syncfeaturesDao.emptyFeature();
+    return _appDatabase.featureDao.emptyFeature();
   }
 
   // initialize and close methods go here

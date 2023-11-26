@@ -21,7 +21,7 @@ import '../../domain/models/requests/database_request.dart';
 import '../../domain/models/responses/database_response.dart';
 
 import '../../domain/models/requests/enterprise_config_request.dart';
-import '../../domain/models/responses/enterprise_config_response.dart';
+import '../../domain/models/responses/config_response.dart';
 
 import '../../domain/repositories/api_repository.dart';
 import '../../utils/resources/data_state.dart';
@@ -43,11 +43,9 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<EnterpriseConfigResponse>> getConfigEnterprise({
-    required EnterpriseConfigRequest request,
-  }) {
-    return getStateOf<EnterpriseConfigResponse>(
-      request: () => _apiService.getConfigEnterprise()
+  Future<DataState<ConfigResponse>> configs() {
+    return getStateOf<ConfigResponse>(
+      request: () => _apiService.configs()
     );
   }
 
@@ -75,11 +73,11 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<SyncResponse>> syncfeatures({
+  Future<DataState<SyncResponse>> features({
     required SyncRequest request,
   }) {
     return getStateOf<SyncResponse>(
-      request: () => _apiService.syncfeatures(),
+      request: () => _apiService.features(),
     );
   }
 

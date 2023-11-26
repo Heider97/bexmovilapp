@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/clients.dart';
+import 'package:bexmovil/src/domain/models/feature.dart';
 import 'package:equatable/equatable.dart';
 
 class SyncResponse extends Equatable {

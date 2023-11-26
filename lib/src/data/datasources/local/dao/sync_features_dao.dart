@@ -1,9 +1,9 @@
 part of '../app_database.dart';
 
-class SyncFeaturesDao {
+class FeatureDao {
   final AppDatabase _appDatabase;
 
-  SyncFeaturesDao(this._appDatabase);
+  FeatureDao(this._appDatabase);
 
   List<Feature> parseFeature(
     List<Map<String,dynamic>> featureLists){

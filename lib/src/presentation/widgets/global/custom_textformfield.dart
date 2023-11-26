@@ -34,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
     final theme = Theme.of(context);
 
     return TextFormField(
+      autofocus: false,
       focusNode: focusNode,
       controller: controller,
       style: theme.textTheme.bodyMedium,
