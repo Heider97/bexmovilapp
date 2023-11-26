@@ -20,7 +20,7 @@ abstract class AppTheme {
           surface: ColorLight.surface,
           onSurface: ColorLight.onSurface,
         ),
-        disabledColor: ColorLight.disabledButton,
+        disabledColor: ColorLight.disableColor,
         buttonTheme: const ButtonThemeData(
           disabledColor: ColorLight.disabledButton,
         ),

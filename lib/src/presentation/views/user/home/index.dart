@@ -167,11 +167,11 @@ class HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 170,
-            //   width: size.width,
-            //   child: const CustomNavbar(),
-            // )
+            SizedBox(
+              height: 170,
+              width: size.width,
+              child: const CustomNavbar(),
+            )
           ],
         ),
       ),

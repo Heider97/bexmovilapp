@@ -55,6 +55,7 @@ class HelperFunctions with FormatDate {
 
     var location = await _locationRepository.getCurrentLocation();
     var device = await getDevice();
+    var version = "1.3.120+244";
 
     var response = await _apiRepository.login(
         request: LoginRequest(
@@ -62,6 +63,7 @@ class HelperFunctions with FormatDate {
             password!,
             device!['id'],
             device['model'],
+            version,
             now(),
             location.latitude.toString(),
             location.longitude.toString()));
