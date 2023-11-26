@@ -10,6 +10,10 @@ import 'package:dio/dio.dart';
 //models
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise_config.dart';
+import '../../../domain/models/enterprise.dart';
+
+//blocs
+import '../../../presentation/blocs/recovery_password/recovery_password_bloc.dart';
 
 //interceptor
 import 'interceptor_api_service.dart';
@@ -17,7 +21,10 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
-
+import '../../../domain/models/responses/database_response.dart';
+import '../../../domain/models/responses/change_password_response.dart';
+import '../../../domain/models/responses/recovery_code_response.dart';
+import '../../../domain/models/responses/validate_recovery_code_response.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
 
 //services

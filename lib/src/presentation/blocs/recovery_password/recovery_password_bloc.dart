@@ -1,16 +1,19 @@
-import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
-import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
-import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/widgets/global/error_alert_dialog.dart';
-
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+//domain
+import '../../../domain/repositories/api_repository.dart';
+//requests
+import '../../../domain/models/requests/change_password_request.dart';
+import '../../../domain/models/requests/recovery_code_request.dart';
+import '../../../domain/models/requests/validate_code_request.dart';
+//utils
 import '../../../utils/constants/strings.dart';
+import '../../../utils/resources/data_state.dart';
+//widgets
+import '../../../presentation/widgets/global/error_alert_dialog.dart';
+//services
+import '../../../locator.dart';
+import '../../../services/navigation.dart';
 
 part 'recovery_password_event.dart';
 part 'recovery_password_state.dart';

@@ -1,20 +1,24 @@
+//TODO [Heider Zapa] Organize
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//bloc
+import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+//domain
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
-
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-
+//utils
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-
 import 'package:bexmovil/src/utils/validators.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+//widgets
+import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
+//services
+import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 

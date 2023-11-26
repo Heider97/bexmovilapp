@@ -1,6 +1,3 @@
-import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/services/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';

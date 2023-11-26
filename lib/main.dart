@@ -1,5 +1,6 @@
 
-import 'src/services/storage.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -18,13 +19,14 @@ import 'src/domain/repositories/database_repository.dart';
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
-import 'src/presentation/cubits/location/location_bloc.dart';
+
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
 
 //blocs
+import 'src/presentation/blocs/location/location_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
@@ -36,6 +38,7 @@ import 'src/utils/bloc/bloc_observer.dart';
 
 //service
 import 'src/locator.dart';
+import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 
 //router

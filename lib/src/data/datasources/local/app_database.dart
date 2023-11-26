@@ -61,7 +61,10 @@ class AppDatabase {
         ${ProcessingQueueFields.createdAt} TEXT DEFAULT NULL,
         ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
       )
-    ''',
+    '''
+  ];
+
+  final migrations = [
     '''
       CREATE TABLE $tableFeature (
         ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
@@ -81,6 +84,8 @@ class AppDatabase {
       )
     '''
   ];
+
+  Future<Database> _initDatabase(databaseName) async {
 
   final migrations = [];
 
