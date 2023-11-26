@@ -14,6 +14,9 @@ class LoginResponse extends Equatable {
   });
 
   factory LoginResponse.fromMap(Map<String, dynamic> map) {
+
+    print(map);
+
     return LoginResponse(
       status: map['status'],
       message: map['message'],

@@ -82,7 +82,7 @@ class AppDatabase {
         ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
         ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
         ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
-        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
       )
     ''',
     '''
@@ -91,7 +91,7 @@ class AppDatabase {
         ${ConfigFields.name} TEXT DEFAULT NULL,
         ${ConfigFields.type} TEXT DEFAULT NULL,
         ${ConfigFields.value} TEXT DEFAULT NULL,
-        ${ConfigFields.module} TEXT DEFAULT NULL,
+        ${ConfigFields.module} TEXT DEFAULT NULL
       )
     '''
   ];

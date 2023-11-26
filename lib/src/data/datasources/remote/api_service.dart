@@ -115,7 +115,7 @@ class ApiService {
     final data = <String, dynamic>{
       r'email': loginRequest.username,
       r'password': loginRequest.password,
-      r'device_id': loginRequest.deviceId,
+      r'udid': loginRequest.deviceId,
       r'phonetype': loginRequest.model,
       r'date': loginRequest.date,
       r'version': loginRequest.version,
@@ -124,10 +124,6 @@ class ApiService {
     };
 
     data.removeWhere((k, v) => v == null);
-
-    print('**************');
-    print(data);
-    print(url);
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<LoginResponse>>(Options(
@@ -143,10 +139,7 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = LoginResponse(
-        status: result.data!['status'],
-        message: result.data!['message'],
-        login: Login.fromMap(result.data!));
+    final value = LoginResponse.fromMap(result.data!);
 
     return Response(
         data: value,

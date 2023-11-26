@@ -69,11 +69,11 @@ class _SyncViewState extends State<SyncView> {
         const Text('Mientras esperas, conoce nuestras ultimas novedades. '),
         const SizedBox(height: 40),
         ...?features,
-        BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
-            selector: (state) => state is SyncFeaturesFailure,
-            builder: (BuildContext context, booleanState) => booleanState ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(theme.primaryColor),
-            ) : _buildError(state))
+        // BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
+        //     selector: (state) => state is SyncFeaturesFailure,
+        //     builder: (BuildContext context, booleanState) => booleanState ? CircularProgressIndicator(
+        //       valueColor: AlwaysStoppedAnimation(theme.primaryColor),
+        //     ) : _buildError(state))
       ],
     );
   }

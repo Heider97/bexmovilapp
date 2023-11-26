@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
 
-  final int? id;
+  final String? id;
   final String? email;
   final String? name;
 
@@ -14,7 +14,7 @@ class User extends Equatable {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id : map['codvendedor'] != null ? map['codvendedor'] as int : null,
+      id : map['codvendedor'] != null ? map['codvendedor'] as String : null,
       email : map['email'] != null ? map['email'] as String : null,
       name : map['nomvendedor'] != null ? map['nomvendedor'] as String : null,
     );
