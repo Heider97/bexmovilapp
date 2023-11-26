@@ -15,10 +15,7 @@ import '../models/responses/enterprise_response.dart';
 import '../models/requests/login_request.dart';
 import '../models/responses/login_response.dart';
 
-import '../models/requests/database_request.dart';
-import '../models/responses/database_response.dart';
 
-import '../models/requests/enterprise_config_request.dart';
 import '../models/responses/config_response.dart';
 import '../models/responses/sync_response.dart';
 
@@ -29,12 +26,10 @@ abstract class ApiRepository {
 
   Future<DataState<ConfigResponse>> configs();
 
+  Future<DataState<SyncResponse>> features();
+
   Future<DataState<LoginResponse>> login({
     required LoginRequest request,
-  });
-
-  Future<DataState<SyncResponse>> features({
-    required SyncRequest request
   });
 
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode({

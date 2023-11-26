@@ -10,6 +10,7 @@ import '../../../core/functions.dart';
 import '../../../core/abstracts/FormatAbstract.dart';
 
 //domain
+import '../../../domain/models/isolate.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/requests/login_request.dart';
@@ -44,6 +45,46 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
                         _storageService.getObject('enterprise')!)
                     : null),
             null);
+
+  Future<void> heavyTask(IsolateModel model) async {
+    for (var i = 0; i < model.iteration; i++) {
+      await model.functions[i]();
+    }
+  }
+
+  Future<void> getConfigs() async {
+    final response = await _apiRepository.configs();
+
+    if(response is DataSuccess) {
+
+      var version = response.data!.configs.firstWhere((element) => element.module == 'sync');
+
+      await _databaseRepository.init(version.value);
+      await _databaseRepository.insertConfigs(response.data!.configs);
+    } else {
+      emit(LoginFailed(
+          error: response.data!.message,
+          enterprise: _storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(
+              _storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
+  Future<void> getFeatures() async {
+    final response = await _apiRepository.features();
+
+    if(response is DataSuccess) {
+      await _databaseRepository.insertFeatures(response.data!.features);
+    } else {
+      emit(LoginFailed(
+          error: response.data!.message,
+          enterprise: _storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(
+              _storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
 
   Future<void> differenceHours(username, password) async {
     if (isBusy) return;
@@ -116,22 +157,10 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
             _storageService!.setString('token', login?.token);
             _storageService!.setObject('user', login?.user!.toMap());
 
-            final responseConfigs = await _apiRepository.configs();
+            var functions = [getConfigs, getFeatures];
 
-            if(responseConfigs is DataSuccess) { 
-              
-              var version = responseConfigs.data!.configs.firstWhere((element) => element.module == 'sync');
-
-              await _databaseRepository.init(version.value);
-              await _databaseRepository.insertConfigs(responseConfigs.data!.configs);
-            } else {
-              emit(LoginFailed(
-                  error: response.error,
-                  enterprise: _storageService!.getObject('enterprise') != null
-                      ? Enterprise.fromMap(
-                      _storageService!.getObject('enterprise')!)
-                      : null));
-            }
+            var isolateModel = IsolateModel(functions, 3);
+            await heavyTask(isolateModel);
           }
 
           //TODO: [Jairo Grande] SYNC LOGIC

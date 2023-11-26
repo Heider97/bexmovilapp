@@ -59,16 +59,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<DatabaseResponse>> database(
-      {required DatabaseRequest request}) {
-    // TODO: implement database
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<DataState<SyncResponse>> features({
-    required SyncRequest request,
-  }) {
+  Future<DataState<SyncResponse>> features() {
     return getStateOf<SyncResponse>(
       request: () => _apiService.features(),
     );

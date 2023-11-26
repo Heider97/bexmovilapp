@@ -23,7 +23,7 @@ import '../../../services/storage.dart';
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
-part '../local/dao/sync_features_dao.dart';
+part '../local/dao/feature_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 

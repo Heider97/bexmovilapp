@@ -87,7 +87,7 @@ class ApiService {
     )
             .compose(
               dio.options,
-              '/auth/config',
+              '/auth/enterprise/configs',
               queryParameters: queryParameters,
               data: data,
             )

@@ -61,12 +61,13 @@ class _SyncViewState extends State<SyncView> {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text(
           'Sincronizado',
           style: TextStyle(fontSize: 22),
         ),
-        const Text('Mientras esperas, conoce nuestras ultimas novedades. '),
+        const Text('Mientras esperas, conoce nuestras ultimas novedades. ', textAlign: TextAlign.center),
         const SizedBox(height: 40),
         ...?features,
         // BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(

@@ -17,6 +17,10 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState> {
 
     try {
       var features = await _databaseRepository.getFeatures();
+
+      print('*************');
+      print(features);
+
       emit(SyncFeaturesLoading(features: features));
 
 
