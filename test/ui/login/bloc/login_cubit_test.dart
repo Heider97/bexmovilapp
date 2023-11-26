@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/data/datasources/remote/api_service.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 //repositories
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import 'package:mockito/annotations.dart';
 import '../../../repository/api_repository.dart';
 import 'package:location_repository/location_repository.dart';
 

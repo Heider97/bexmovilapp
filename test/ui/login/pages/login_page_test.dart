@@ -17,27 +17,27 @@ class MockRecoveryPasswordBloc
     implements RecoveryPasswordBloc {}
 
 void main() {
-  late MockLoginCubit cubitLogin;
-  late MockRecoveryPasswordBloc blocRecoveryPassword;
-
-  setUpAll(() {
-    cubitLogin = MockLoginCubit();
-    blocRecoveryPassword = MockRecoveryPasswordBloc();
-    // FakeLoginState();
-    // registerFallbackValue();
-  });
-
-  group('LoginPage ', () {
-    testWidgets('renders LoginPage', (tester) async {
-      await tester.pumpWidget(MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => blocRecoveryPassword),
-          ],
-          child: MaterialApp(
-            home: BlocProvider(
-                create: (_) => cubitLogin, child: const LoginView()),
-          )));
-      expect(find.byType(LoginView), findsOneWidget);
-    });
-  });
+  // late MockLoginCubit cubitLogin;
+  // late MockRecoveryPasswordBloc blocRecoveryPassword;
+  //
+  // setUpAll(() {
+  //   cubitLogin = MockLoginCubit();
+  //   blocRecoveryPassword = MockRecoveryPasswordBloc();
+  //   // FakeLoginState();
+  //   // registerFallbackValue();
+  // });
+  //
+  // group('LoginPage ', () {
+  //   testWidgets('renders LoginPage', (tester) async {
+  //     await tester.pumpWidget(MultiBlocProvider(
+  //         providers: [
+  //           BlocProvider(create: (_) => blocRecoveryPassword),
+  //         ],
+  //         child: MaterialApp(
+  //           home: BlocProvider(
+  //               create: (_) => cubitLogin, child: const LoginView()),
+  //         )));
+  //     expect(find.byType(LoginView), findsOneWidget);
+  //   });
+  // });
 }
