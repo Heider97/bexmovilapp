@@ -113,7 +113,19 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
             _storageService!.setString('token', login?.token);
             _storageService!.setObject('user', login?.user!.toMap());
 
-            await _databaseRepository.init();
+
+
+            final responseConfigs = await _apiRepository.configs();
+
+            if(responseConfigs is DataSuccess) { 
+              
+              var version = responseConfigs.data!.configs.firstWhere((element) => element.module == 'sync');
+
+              await _databaseRepository.init(version.value);
+              await _databaseRepository.insertConfigs(responseConfigs.data!.configs);
+            }
+
+
           }
           //TODO: [Jairo Grande] SYNC LOGIC
 

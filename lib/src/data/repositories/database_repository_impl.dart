@@ -1,10 +1,9 @@
-import '../../domain/models/client.dart';
-import '../../domain/repositories/database_repository.dart';
 import '../datasources/local/app_database.dart';
-
+import '../../domain/repositories/database_repository.dart';
 //models
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
+import '../../domain/models/config.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -27,7 +26,28 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.processingQueueDao.emptyProcessingQueue();
   }
 
-  //SYNC FEATURES
+  //CONFIGS
+  @override
+  Future<List<Config>> getConfigs() {
+    return _appDatabase.configDao.getAllConfigs();
+  }
+
+  @override
+  Future<void> insertConfigs(List<Config> configs) async {
+    return _appDatabase.configDao.insertConfigs(configs);
+  }
+
+  @override
+  Future<int> updateConfig(Config configs) async {
+    return _appDatabase.configDao.updateConfig(configs);
+  }
+
+  @override
+  Future<void> emptyConfigs() {
+    return _appDatabase.configDao.emptyConfigs();
+  }
+
+  //FEATURES
   @override
   Future<List<Feature>> getFeatures() {
     return _appDatabase.featureDao.getAllFeature();
@@ -39,7 +59,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<int> updateFeatures(Feature clients) async {
+  Future<int> updateFeature(Feature clients) async {
     return _appDatabase.featureDao.updateFeature(clients);
   }
 
@@ -50,8 +70,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   // initialize and close methods go here
   @override
-  Future<void> init() async {
-    await _appDatabase.database;
+  Future<void> init(String? version) async {
+    await _appDatabase.database(version);
     return Future.value();
   }
 

@@ -1,17 +1,23 @@
 import '../models/feature.dart';
 import '../models/processing_queue.dart';
-import '../models/client.dart';
+import '../models/config.dart';
 
 
 abstract class DatabaseRepository {
   //DATABASE
-  Future<void> init();
+  Future<void> init(String? version);
   void close();
 
-  //SYNC FEATURES
+  //CONFIGS
+  Future<List<Config>> getConfigs();
+  Future<void> insertConfigs(List<Config> features);
+  Future<int> updateConfig(Config config);
+  Future<void> emptyConfigs();
+
+  //FEATURES
   Future<List<Feature>> getFeatures();
   Future<void> insertFeatures(List<Feature> features);
-  Future<int> updateFeatures(Feature client);
+  Future<int> updateFeature(Feature feature);
   Future<void> emptyFeatures();
 
   //PROCESSING QUEUE

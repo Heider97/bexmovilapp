@@ -49,14 +49,7 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Only call clearSavedSettings() during testing to reset internal values.
   await Upgrader.clearSavedSettings(); // REMOVE this for release builds
-
-  // On Android, the default behavior will be to use the Google Play Store
-  // version of the app.
-  // On iOS, the default behavior will be to use the App Store version of
-  // the app, so update the Bundle Identifier in example/ios/Runner with a
-  // valid identifier already in the App Store.
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
@@ -117,9 +110,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
-
         //REPOSITORY PROVIDER.
-
         RepositoryProvider(
             create: (_) => LocationRepository(),
             child: BlocProvider(
@@ -133,8 +124,6 @@ class _MyAppState extends State<MyApp> {
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        /* child: MultiProvider(
-          providers: [], */
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: appTitle,

@@ -84,6 +84,15 @@ class AppDatabase {
         ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
         ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
       )
+    ''',
+    '''
+      CREATE TABLE $tableConfig (
+        ${ConfigFields.id} INTEGER PRIMARY KEY,
+        ${ConfigFields.name} TEXT DEFAULT NULL,
+        ${ConfigFields.type} TEXT DEFAULT NULL,
+        ${ConfigFields.value} TEXT DEFAULT NULL,
+        ${ConfigFields.module} TEXT DEFAULT NULL,
+      )
     '''
   ];
 
@@ -91,14 +100,14 @@ class AppDatabase {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
      final config = MigrationConfig(
-        initializationScript: initialScript, migrationScripts: []);
+        initializationScript: initialScript, migrationScripts: migrations);
 
     final path = join(documentsDirectory.path, databaseName);
 
      return await openDatabaseWithMigration(path, config);
   }
 
-   Future<Database?> get database async {
+   Future<Database?> database(String? version) async {
     var dbName = _storageService.getString('company_name');
 
     if (_database != null) return _database;
@@ -113,7 +122,7 @@ class AppDatabase {
   }
 
   Future<BriteDatabase?> get streamDatabase async {
-    await database;
+    await database(null);
     return _streamDatabase;
   }
 
