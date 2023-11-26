@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
@@ -5,6 +6,7 @@ import 'package:bexmovil/src/domain/models/responses/change_password_response.da
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+
 
 import '../../utils/resources/data_state.dart';
 
@@ -19,6 +21,7 @@ import '../models/responses/database_response.dart';
 
 import '../models/requests/enterprise_config_request.dart';
 import '../models/responses/enterprise_config_response.dart';
+import '../models/responses/sync_response.dart';
 
 abstract class ApiRepository {
   Future<DataState<EnterpriseResponse>> getEnterprise({
@@ -33,18 +36,19 @@ abstract class ApiRepository {
     required LoginRequest request,
   });
 
+  Future<DataState<SyncResponse>> syncfeatures({
+    required SyncRequest request
+  });
+
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode({
-    required RecoveryCodeRequest request,
+    required RecoveryCodeRequest request
   });
 
   Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode({
-    required ValidateCodeRequest request,
+    required ValidateCodeRequest request
   });
 
   Future<DataState<ChangePasswordResponse>> changePassword({
-    required ChangePasswordRequest request,
+    required ChangePasswordRequest request
   });
-
-  Future<DataState<DatabaseResponse>> database(
-      {required DatabaseRequest request});
 }

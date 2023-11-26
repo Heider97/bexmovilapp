@@ -1,3 +1,7 @@
+
+import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
+import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
+
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
@@ -5,6 +9,7 @@ import 'package:bexmovil/src/domain/models/responses/change_password_response.da
 
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
+
 
 import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/responses/login_response.dart';
@@ -70,6 +75,14 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
+  Future<DataState<SyncResponse>> syncfeatures({
+    required SyncRequest request,
+  }) {
+    return getStateOf<SyncResponse>(
+      request: () => _apiService.syncfeatures(),
+    );
+  }
+
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
