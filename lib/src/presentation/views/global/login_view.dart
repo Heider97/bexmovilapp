@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -39,7 +40,6 @@ class LoginViewState extends State<LoginView> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class LoginViewState extends State<LoginView> {
       if (state.error != null) {
         buildSnackBar(context, state.error!);
       } else {
-        loginCubit.goToHome();
+        loginCubit.goToSync();
       }
     }
   }
@@ -144,9 +144,7 @@ class LoginViewState extends State<LoginView> {
                 left: Const.space25,
                 right: Const.space25),
             child: CustomTextFormField(
-
-                controller: usernameController,
-                hintText: 'Usuario o correo'),
+                controller: usernameController, hintText: 'Usuario o correo'),
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -237,19 +235,28 @@ class LoginViewState extends State<LoginView> {
             ),
           ),
           gapH36,
-          CustomElevatedButton(
-            width: 150,
-            height: 50,
-            onTap: () => context
-                .read<LoginCubit>()
-                .differenceHours(usernameController.value, passwordController.value),
-            child: Text(
-              'Iniciar',
-              style: theme.textTheme.bodyLarge!
-                  .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-          ),
-          Expanded(child: Container()),
+          BlocSelector<LoginCubit, LoginState, bool>(
+              selector: (state) => state is LoginLoading ? true : false,
+              builder: (context, booleanState) => CustomElevatedButton(
+                    width: 150,
+                    height: 50,
+                    onTap: () => booleanState
+                        ? null
+                        : loginCubit.differenceHours(
+                            usernameController.text, passwordController.text),
+                    child: booleanState
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          )
+                        : Text(
+                            'Iniciar',
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                  )),
+          gapH36,
+          const Expanded(child: VersionWidget()),
         ],
       ),
     );

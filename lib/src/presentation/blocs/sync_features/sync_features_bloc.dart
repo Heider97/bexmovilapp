@@ -14,7 +14,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState> {
   }
 
   void _observe(event, emit) async {
-    var features = await _databaseRepository.getFeatures();
-    emit(SyncFeaturesSuccess(features: features));
+
+    try {
+      var features = await _databaseRepository.getFeatures();
+      emit(SyncFeaturesLoading(features: features));
+
+
+    } catch (e) {
+      emit(SyncFeaturesFailure(error: e.toString()));
+    }
+
+
   }
 }

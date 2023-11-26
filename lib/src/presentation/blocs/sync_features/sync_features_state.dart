@@ -12,6 +12,10 @@ abstract class SyncFeaturesState extends Equatable {
 
 class SyncFeaturesInitial extends SyncFeaturesState {}
 
+class SyncFeaturesLoading extends SyncFeaturesState {
+  const SyncFeaturesLoading({super.features });
+}
+
 class SyncFeaturesSuccess extends SyncFeaturesState {
   const SyncFeaturesSuccess({super.features });
 }
