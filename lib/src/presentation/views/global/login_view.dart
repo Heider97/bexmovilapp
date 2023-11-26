@@ -12,6 +12,7 @@ import '../../../utils/constants/strings.dart';
 import '../../../utils/constants/gaps.dart';
 
 //widgets
+import '../../widgets/global/custom_back_button.dart';
 import '../../widgets/global/custom_elevated_button.dart';
 import '../../widgets/global/custom_textformfield.dart';
 

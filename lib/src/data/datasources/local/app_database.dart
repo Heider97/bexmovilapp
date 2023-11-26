@@ -85,10 +85,6 @@ class AppDatabase {
     '''
   ];
 
-  Future<Database> _initDatabase(databaseName) async {
-
-  final migrations = [];
-
    Future<Database> _initDatabase(databaseName) async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
