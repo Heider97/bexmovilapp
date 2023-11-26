@@ -1,45 +1,45 @@
-import 'package:bexmovil/src/presentation/views/global/sync_view.dart';
-import 'package:bexmovil/src/presentation/views/global/code_form_request_view.dart';
-import 'package:bexmovil/src/presentation/views/global/code_verification_view.dart';
-import 'package:bexmovil/src/presentation/views/global/login_view.dart';
-import 'package:bexmovil/src/presentation/views/global/recover_password_view.dart';
-import 'package:bexmovil/src/presentation/views/global/select_enterprise_view.dart';
-import 'package:bexmovil/src/presentation/widgets/global/global_background.dart';
-import 'package:bexmovil/src/presentation/widgets/global/global_background_square.dart';
+
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
 //config
+
 import '../../utils/constants/strings.dart';
 
 //SCREENS
 //global
-
+import '../../presentation/views/global/sync_view.dart';
+import '../../presentation/views/global/code_form_request_view.dart';
+import '../../presentation/views/global/code_verification_view.dart';
+import '../../presentation/views/global/login_view.dart';
+import '../../presentation/views/global/recover_password_view.dart';
+import '../../presentation/views/global/select_enterprise_view.dart';
 import '../../presentation/views/global/permission_view.dart';
 import '../../presentation/views/global/undefined_view.dart';
 import '../../presentation/views/global/splash_view.dart';
 import '../../presentation/views/global/politics_view.dart';
 
 //user
-
+import '../../presentation/views/user/home/index.dart';
 import '../../presentation/views/user/schedule/index.dart';
+
+//widgets
+import '../../presentation/widgets/global/global_background.dart';
+import '../../presentation/widgets/global/global_background_square.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case Routes.splashRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: SplashView()));
-
     case Routes.codeFormRequest:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
               opacity: 0.1, child: CodeFormRequestView()));
-
     case Routes.codeValidation:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
               opacity: 0.1, child: CodeVerificationView()));
-
     case Routes.recoverPassword:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
@@ -49,7 +49,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.permissionRoute:
       return MaterialPageRoute(
           builder: (context) => const RequestPermissionView());
-    case Routes.companyRoute:
+    case Routes.selectEnterpriseRoute:
       return MaterialPageRoute(
         builder: (context) => const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.syncRoute:
@@ -58,8 +58,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
-    /*    case Routes.homeRoute:
-     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView())); */
+    case Routes.homeRoute:
+     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView()));
     //  case Routes.categoryRoute:
     //   return MaterialPageRoute(
     //       builder: (context) =>

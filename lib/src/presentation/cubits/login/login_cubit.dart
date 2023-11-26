@@ -113,8 +113,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
             _storageService!.setString('token', login?.token);
             _storageService!.setObject('user', login?.user!.toMap());
 
-
-
             final responseConfigs = await _apiRepository.configs();
 
             if(responseConfigs is DataSuccess) { 
@@ -123,18 +121,24 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
 
               await _databaseRepository.init(version.value);
               await _databaseRepository.insertConfigs(responseConfigs.data!.configs);
+            } else {
+              emit(LoginFailed(
+                  error: response.error,
+                  enterprise: _storageService!.getObject('enterprise') != null
+                      ? Enterprise.fromMap(
+                      _storageService!.getObject('enterprise')!)
+                      : null));
             }
-
-
           }
-          //TODO: [Jairo Grande] SYNC LOGIC
 
+          //TODO: [Jairo Grande] SYNC LOGIC
           emit(LoginSuccess(
               login: login,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                      _storageService!.getObject('enterprise')!)
+                  _storageService!.getObject('enterprise')!)
                   : null));
+
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
