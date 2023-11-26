@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 //config
-
 import '../../utils/constants/strings.dart';
 
 //SCREENS

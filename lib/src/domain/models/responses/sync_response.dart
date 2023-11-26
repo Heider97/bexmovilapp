@@ -10,6 +10,9 @@ class SyncResponse extends Equatable {
       {required this.status, required this.message, required this.features});
 
   factory SyncResponse.fromMap(Map<String, dynamic> map) {
+
+    print(map);
+
     return SyncResponse(
         status: map['status'],
         message: map['message'],

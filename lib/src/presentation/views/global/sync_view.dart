@@ -55,7 +55,7 @@ class _SyncViewState extends State<SyncView> {
 
     List<Widget>? features = state.features?.map((e) =>
       CustomCard(
-          text: e.description,
+          text: e.description!,
           color: Colors.orange),
     ).toList(growable: false);
 

@@ -56,13 +56,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     final response = await _apiRepository.configs();
 
     if(response is DataSuccess) {
-      //
-      // var version = response.data!.configs.firstWhere((element) => element.module == 'sync');
-      //
-      // print('*********');
-      // print(version);
-
-
       await _databaseRepository.init(null);
       await _databaseRepository.insertConfigs(response.data!.configs);
     } else {

@@ -37,31 +37,31 @@ class FeaturesFields{
 
 class Feature {
     late int coddashboard;
-    late String codvendedor;
-    late String description;
-    late String urldesc;
-    late int categoria;
-    late int codcliente;
-    late String fechaevento;
-    late String fechafinevento;
-    late String fecgra;
-    late String requerido;
+    String? codvendedor;
+    String? description;
+    String? urldesc;
+    String? categoria;
+    String? codcliente;
+    String? fechaevento;
+    String? fechafinevento;
+    String? fecgra;
+    String? requerido;
     int? createdById;
     String? createdAt;
     String? updatedAt;
     String? deletedAt;
 
   Feature({
-    required this.coddashboard, 
-    required this.codvendedor, 
-    required this.description, 
-    required this.urldesc, 
-    required this.categoria, 
-    required this.codcliente, 
-    required this.fechaevento, 
-    required this.fechafinevento, 
-    required this.fecgra, 
-    required this.requerido, 
+    required this.coddashboard,
+    this.codvendedor,
+    this.description,
+    this.urldesc,
+    this.categoria,
+    this.codcliente,
+    this.fechaevento,
+    this.fechafinevento,
+    this.fecgra,
+    this.requerido,
     this.createdById,
     this.createdAt,
     this.updatedAt,

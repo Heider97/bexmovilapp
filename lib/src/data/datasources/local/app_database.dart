@@ -70,11 +70,11 @@ class AppDatabase {
     '''
       CREATE TABLE $tableFeature (
         ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
-        ${FeaturesFields.codvendedor} INTEGER DEFAULT NULL,
+        ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
         ${FeaturesFields.description} TEXT DEFAULT NULL,
         ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
-        ${FeaturesFields.categoria} INTEGER DEFAULT NULL,
-        ${FeaturesFields.codcliente} INTEGER DEFAULT NULL,
+        ${FeaturesFields.categoria} TEXT DEFAULT NULL,
+        ${FeaturesFields.codcliente} TEXT DEFAULT NULL,
         ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
         ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
         ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
