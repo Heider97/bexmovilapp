@@ -70,10 +70,14 @@ class _SyncViewState extends State<SyncView> {
                   itemCount:
                       state.features != null ? state.features!.length : 0,
                   itemBuilder: (BuildContext context, int index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         child: CustomCard(
+                            axis: Axis.vertical,
                             text: state.features![index].descripcion!,
-                            color: index / 2 == 0 ? Colors.orange : Colors.green),
+                            url: state.features![index].urldesc,
+                            color:
+                                index / 2 == 0 ? Colors.orange : Colors.green),
                       ))),
           BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
               selector: (state) => state is SyncFeaturesFailure,
@@ -101,8 +105,7 @@ class _SyncViewState extends State<SyncView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text(
-            '!Ups Ocurrió un Error!',
+        const Text('!Ups Ocurrió un Error!',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         gapH16,

@@ -92,10 +92,14 @@ class HomeViewState extends State<HomeView> {
                   scrollDirection: Axis.horizontal,
                   itemCount:
                       state.features != null ? state.features!.length : 0,
-                  itemBuilder: (BuildContext context, int index) => CustomCard(
-                      axis: Axis.horizontal,
-                      text: state.features![index].descripcion!,
-                      color: index / 2 == 0 ? Colors.orange : Colors.green),
+                  itemBuilder: (BuildContext context, int index) => Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CustomCard(
+                        axis: Axis.horizontal,
+                        text: state.features![index].descripcion!,
+                        url: state.features![index].urldesc,
+                        color: index / 2 == 0 ? Colors.orange : Colors.green),
+                  ),
                 )),
             gapH16,
             const Text('Estadisticas',
