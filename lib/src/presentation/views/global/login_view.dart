@@ -37,14 +37,15 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   late LoginCubit loginCubit;
+  // late RecoveryPasswordBloc recoveryBloc;
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  late RecoveryPasswordBloc recoveryBloc;
+
 
   @override
   void initState() {
-    recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    // recoveryBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
     loginCubit = BlocProvider.of<LoginCubit>(context);
 
     rememberSession();
@@ -108,10 +109,11 @@ class LoginViewState extends State<LoginView> {
 
   Widget _buildBody(Size size, ThemeData theme, LoginState state) {
     return SafeArea(
+      key: const Key('LoginSuccess'),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(Const.padding),
+            padding: const EdgeInsets.all(Const.padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -120,7 +122,7 @@ class LoginViewState extends State<LoginView> {
                     loginCubit.goToCompany();
                   },
                 ),
-                SizedBox()
+                const SizedBox()
               ],
             ),
           ),
@@ -193,8 +195,8 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               _navigationService.goTo(Routes.codeFormRequest);
-                              recoveryBloc
-                                  .add(const StartRecovery(type: 'Email'));
+                              // recoveryBloc
+                              //     .add(const StartRecovery(type: 'Email'));
                             },
                             title: Text(
                               'Email',
@@ -208,8 +210,8 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               _navigationService.goTo(Routes.codeFormRequest);
-                              recoveryBloc
-                                  .add(const StartRecovery(type: 'SMS'));
+                              // recoveryBloc
+                              //     .add(const StartRecovery(type: 'SMS'));
                             },
                             title: Text(
                               'SMS',
@@ -241,7 +243,7 @@ class LoginViewState extends State<LoginView> {
             height: 50,
             onTap: () => context
                 .read<LoginCubit>()
-                .onPressedLogin(usernameController, passwordController),
+                .differenceHours(usernameController.value, passwordController.value),
             child: Text(
               'Iniciar',
               style: theme.textTheme.bodyLarge!

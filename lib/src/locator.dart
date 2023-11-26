@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location_repository/location_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //data
 import 'core/cache/cache_manager.dart';
@@ -21,34 +25,74 @@ import 'services/platform.dart';
 
 final locator = GetIt.instance;
 
-Future<void> initializeDependencies() async {
+Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
+  if(testing) {
+    final storage = await LocalStorageService.getInstance(testing: true);
+    locator.registerSingleton<LocalStorageService>(storage!);
+
+    final navigation = NavigationService();
+    locator.registerSingleton<NavigationService>(navigation);
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
+
+    locator.registerSingleton<ApiService>(
+      ApiService(testing: true, dio: dio!, storageService: locator<LocalStorageService>()),
+    );
+
+    locator.registerSingleton<ApiRepository>(
+      ApiRepositoryImpl(locator<ApiService>()),
+    );
+
+    locator.registerSingleton<DatabaseRepository>(
+      DatabaseRepositoryImpl(locator<AppDatabase>()),
+    );
+
+    locator.registerSingleton<LocationRepository>(
+      LocationRepository(),
+    );
+
+  } else {
+    final storage = await LocalStorageService.getInstance();
+    locator.registerSingleton<LocalStorageService>(storage!);
+
+    locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
+
+    final navigation = NavigationService();
+    locator.registerSingleton<NavigationService>(navigation);
+
+    final platform = await PlatformService.getInstance();
+    locator.registerSingleton<PlatformService>(platform!);
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
+
+    locator.registerSingleton<ApiService>(
+      ApiService(dio: Dio(
+        BaseOptions(
+            baseUrl: 'https://pandapan.bexmovil.com/api',
+            connectTimeout: const Duration(seconds: 5000),
+            receiveTimeout: const Duration(seconds: 3000),
+            headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
+      ), storageService: locator<LocalStorageService>(), testing: false),
+    );
+
+    locator.registerSingleton<ApiRepository>(
+      ApiRepositoryImpl(locator<ApiService>()),
+    );
+
+    locator.registerSingleton<DatabaseRepository>(
+      DatabaseRepositoryImpl(locator<AppDatabase>()),
+    );
+
+    locator.registerSingleton<LocationRepository>(
+      LocationRepository(),
+    );
+  }
+
+}
+
+Future<void> unregisterDependencies() async {
   final storage = await LocalStorageService.getInstance();
-  locator.registerSingleton<LocalStorageService>(storage!);
-
-  locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
-
-  final navigation = NavigationService();
-  locator.registerSingleton<NavigationService>(navigation);
-
-  final platform = await PlatformService.getInstance();
-  locator.registerSingleton<PlatformService>(platform!);
-
-  final db = AppDatabase.instance;
-  locator.registerSingleton<AppDatabase>(db);
-
-  locator.registerSingleton<ApiService>(
-    ApiService(),
-  );
-
-  locator.registerSingleton<ApiRepository>(
-    ApiRepositoryImpl(locator<ApiService>()),
-  );
-
-  locator.registerSingleton<DatabaseRepository>(
-    DatabaseRepositoryImpl(locator<AppDatabase>()),
-  );
-
-  locator.registerSingleton<LocationRepository>(
-    LocationRepository(),
-  );
+  locator.unregister<LocalStorageService>(instance: storage!);
 }

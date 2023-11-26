@@ -1,16 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 import 'package:bexmovil/src/domain/models/enterprise.dart';
+
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
-import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/enterprise_config.dart';
 
 //interceptor
@@ -23,34 +21,30 @@ import '../../../domain/models/responses/login_response.dart';
 import '../../../domain/models/responses/enterprise_config_response.dart';
 
 //services
-import '../../../locator.dart';
 import '../../../services/storage.dart';
-
-final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class ApiService {
   late Dio dio;
+  late LocalStorageService storageService;
+  late bool testing;
 
   String? get url {
-    var company = _storageService.getString('company_name');
+    var company = storageService.getString('company_name');
     if (company == null) return null;
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService() {
-    dio = Dio(
-      BaseOptions(
-          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
-          connectTimeout: const Duration(seconds: 5000),
-          receiveTimeout: const Duration(seconds: 3000),
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
-    );
-
-    dio.interceptors.add(Logging(dio: dio));
+  ApiService(
+      {required this.dio,
+      required this.storageService,
+      required this.testing}) {
+    url != null
+        ? dio.options.baseUrl = url!
+        : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+    !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
   //ENTERPRISES.
-
   Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
@@ -117,7 +111,14 @@ class ApiService {
   }
 
   Future<Response<LoginResponse>> login(
-      {username, password, deviceId, model, date, latitude, longitude}) async {
+      {username,
+      password,
+      deviceId,
+      model,
+      date,
+      version,
+      latitude,
+      longitude}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -130,6 +131,7 @@ class ApiService {
       r'device_id': deviceId,
       r'phonetype': model,
       r'date': date,
+      r'version': version,
       r'latitude': latitude,
       r'longitude': longitude,
     };

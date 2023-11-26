@@ -17,12 +17,12 @@ abstract class BaseApiRepository {
       if (httpResponse.statusCode == HttpStatus.ok || httpResponse.statusCode == HttpStatus.created) {
         return DataSuccess(httpResponse.data as T);
       } else {
-        throw DioError(
+        throw DioException(
           response: httpResponse,
-          requestOptions: httpResponse.requestOptions,
+          requestOptions: httpResponse.requestOptions
         );
       }
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       final errorMessage = DioExceptions.fromDioError(error).toString();
       return DataFailed(errorMessage);
     }
