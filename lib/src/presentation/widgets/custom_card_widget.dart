@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 
 class CustomCard extends StatelessWidget {
-
+  final Axis axis;
   final String text;
   final Color color;
 
   const CustomCard({
-    super.key, 
+    super.key,
+    this.axis = Axis.vertical,
     required this.text, 
     required this.color
   });
@@ -16,14 +17,14 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 330,
-      height: 134,
+      height: axis == Axis.vertical ? 134 : 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: color
       ),
       child: Stack(
         children: [
-          Image(
+          const Image(
             color: Colors.black38,
             image: AssetImage('assets/images/bg-prom-card.png',)
           ),
@@ -34,7 +35,7 @@ class CustomCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   text, 
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

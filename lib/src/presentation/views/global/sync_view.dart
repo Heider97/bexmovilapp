@@ -70,10 +70,10 @@ class _SyncViewState extends State<SyncView> {
                   itemCount:
                       state.features != null ? state.features!.length : 0,
                   itemBuilder: (BuildContext context, int index) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                         child: CustomCard(
                             text: state.features![index].descripcion!,
-                            color: Colors.orange),
+                            color: index / 2 == 0 ? Colors.orange : Colors.green),
                       ))),
           BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
               selector: (state) => state is SyncFeaturesFailure,

@@ -18,6 +18,7 @@ import '../../../../utils/constants/strings.dart';
 //services
 import '../../../../locator.dart';
 import '../../../../services/storage.dart';
+import '../../../widgets/custom_card_widget.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -84,35 +85,18 @@ class HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            gapH16,
             SizedBox(
-              height: size.height / 6,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  Container(
-                    width: 160,
-                    color: Colors.red,
-                  ),
-                  Container(
-                    width: 160,
-                    color: Colors.blue,
-                  ),
-                  Container(
-                    width: 160,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    width: 160,
-                    color: Colors.yellow,
-                  ),
-                  Container(
-                    width: 160,
-                    color: Colors.orange,
-                  ),
-                ],
-              ),
-            ),
+                height: 100,
+                width: double.infinity,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount:
+                      state.features != null ? state.features!.length : 0,
+                  itemBuilder: (BuildContext context, int index) => CustomCard(
+                      axis: Axis.horizontal,
+                      text: state.features![index].descripcion!,
+                      color: index / 2 == 0 ? Colors.orange : Colors.green),
+                )),
             gapH16,
             const Text('Estadisticas',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -167,11 +151,11 @@ class HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 170,
-              width: size.width,
-              child: const CustomNavbar(),
-            )
+            // SizedBox(
+            //   height: 170,
+            //   width: size.width,
+            //   child: const CustomNavbar(),
+            // )
           ],
         ),
       ),
