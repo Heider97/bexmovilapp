@@ -169,7 +169,7 @@ class ApiService {
       headers: headers,
       extra: extra,
     )
-            .compose(dio.options, 'sync/features',
+            .compose(dio.options, '/sync/features',
                 queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 

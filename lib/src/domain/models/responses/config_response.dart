@@ -18,7 +18,7 @@ class ConfigResponse extends Equatable {
       status: map['status'],
       message: map['message'],
       configs: List<Config>.from(
-          map['configs'].map((e) => Config.fromMap(e) as Map<String, dynamic>)),
+          map['configs'].map((e) => Config.fromMap(e))),
     );
   }
 

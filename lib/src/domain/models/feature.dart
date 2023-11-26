@@ -37,7 +37,7 @@ class FeaturesFields{
 
 class Feature {
     late int coddashboard;
-    late int codvendedor;
+    late String codvendedor;
     late String description;
     late String urldesc;
     late int categoria;
@@ -46,10 +46,10 @@ class Feature {
     late String fechafinevento;
     late String fecgra;
     late String requerido;
-    late int createdById;
-    late String createdAt;
-    late String updatedAt;
-    late String deletedAt;
+    int? createdById;
+    String? createdAt;
+    String? updatedAt;
+    String? deletedAt;
 
   Feature({
     required this.coddashboard, 
@@ -62,10 +62,10 @@ class Feature {
     required this.fechafinevento, 
     required this.fecgra, 
     required this.requerido, 
-    required this.createdById,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt
+    this.createdById,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt
   });
 
     factory Feature.fromMap(Map<String, dynamic> map){

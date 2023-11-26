@@ -33,7 +33,7 @@ class Config extends Equatable {
       name: map['name'] != null ? map['name'] as String : null,
       type: map['type'] != null ? map['type'] as String : null,
       value: map['value'] != null ? map['value'] as String : null,
-      module: map['module'] != null ? map['require_arrived'] as String : null,
+      module: map['module'] != null ? map['module'] as String : null,
     );
   }
 

@@ -56,14 +56,18 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     final response = await _apiRepository.configs();
 
     if(response is DataSuccess) {
+      //
+      // var version = response.data!.configs.firstWhere((element) => element.module == 'sync');
+      //
+      // print('*********');
+      // print(version);
 
-      var version = response.data!.configs.firstWhere((element) => element.module == 'sync');
 
-      await _databaseRepository.init(version.value);
+      await _databaseRepository.init(null);
       await _databaseRepository.insertConfigs(response.data!.configs);
     } else {
       emit(LoginFailed(
-          error: response.data!.message,
+          error: 'configs-${response.data!.message}',
           enterprise: _storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(
               _storageService!.getObject('enterprise')!)
@@ -78,7 +82,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
       await _databaseRepository.insertFeatures(response.data!.features);
     } else {
       emit(LoginFailed(
-          error: response.data!.message,
+          error: 'features-${response.data!.message}',
           enterprise: _storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(
               _storageService!.getObject('enterprise')!)
