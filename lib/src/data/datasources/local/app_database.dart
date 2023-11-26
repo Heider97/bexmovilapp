@@ -5,6 +5,7 @@ import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
+import '../../../domain/models/clients.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -20,6 +21,7 @@ import '../../../services/storage.dart';
 //daos
 part '../local/dao/location_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
+part '../local/dao/sync_features_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -60,6 +62,24 @@ class AppDatabase {
         ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
       )
     ''',
+    '''
+      CREATE TABLE $tableFeature (
+        ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
+        ${FeaturesFields.codvendedor} INTEGER DEFAULT NULL,
+        ${FeaturesFields.description} TEXT DEFAULT NULL,
+        ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
+        ${FeaturesFields.categoria} INTEGER DEFAULT NULL,
+        ${FeaturesFields.codcliente} INTEGER DEFAULT NULL,
+        ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
+        ${FeaturesFields.requerido} TEXT DEFAULT NULL,
+        ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
+        ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
+      )
+    '''
   ];
 
   final migrations = [];
@@ -114,6 +134,8 @@ class AppDatabase {
   }
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
+
+  SyncFeaturesDao get syncfeaturesDao => SyncFeaturesDao(instance);
 
   void close() {
     _database = null;

@@ -24,6 +24,7 @@ class Routes {
   static const recoverPassword = '/recover-password';
 
   static const homeRoute = '/home';
+  static const syncRoute = '/sync';
   static const categoryRoute = '/category';
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';

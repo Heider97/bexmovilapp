@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/global/sync_view.dart';
 import 'package:bexmovil/src/presentation/views/global/code_form_request_view.dart';
 import 'package:bexmovil/src/presentation/views/global/code_verification_view.dart';
 import 'package:bexmovil/src/presentation/views/global/login_view.dart';
@@ -6,6 +7,7 @@ import 'package:bexmovil/src/presentation/views/global/select_enterprise_view.da
 import 'package:bexmovil/src/presentation/widgets/global/global_background.dart';
 import 'package:bexmovil/src/presentation/widgets/global/global_background_square.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 //config
 import '../../utils/constants/strings.dart';
@@ -49,8 +51,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => const RequestPermissionView());
     case Routes.companyRoute:
       return MaterialPageRoute(
-          builder: (context) =>
-              const GlobalBackground(child: SelectEnterpriseView()));
+        builder: (context) => const GlobalBackground(child: SelectEnterpriseView()));
+    case Routes.syncRoute:
+      return MaterialPageRoute(
+        builder: (context) => const GlobalBackground(child: SyncView()));
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));

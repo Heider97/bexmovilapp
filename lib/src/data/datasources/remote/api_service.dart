@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
+import 'package:bexmovil/src/domain/models/enterprise.dart';
+
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
@@ -165,8 +168,44 @@ class ApiService {
         headers: result.headers);
   }
 
+  Future<Response<SyncResponse>> syncfeatures()async{
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+      _setStreamType<Response<SyncResponse>>(Options(
+        method: 'GET',
+        headers: headers,
+        extra: extra,
+      )
+            .compose(dio.options, 'sync/features',
+              queryParameters: queryParameters, data: data)
+              .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+    
+    final value = SyncResponse.fromMap(result.data!);
+
+    return Response(
+      data: value,
+      requestOptions: result.requestOptions,
+      statusCode: result.statusCode,
+      statusMessage: result.statusMessage,
+      isRedirect: result.isRedirect,
+      redirects: result.redirects,
+      extra: result.extra,
+      headers: result.headers,
+    );
+  }
+
   Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
       {required String email}) async {
+
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);

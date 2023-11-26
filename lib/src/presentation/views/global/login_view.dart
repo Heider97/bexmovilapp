@@ -6,8 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
-
 import '../../cubits/login/login_cubit.dart';
+//blocs
+import '../../blocs/network/network_bloc.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
@@ -19,6 +20,7 @@ import '../../widgets/global/custom_textformfield.dart';
 
 //services
 import '../../../locator.dart';
+import '../../../services/navigation.dart';
 import '../../../services/storage.dart';
 
 part '../../widgets/global/form_login.dart';
