@@ -5,13 +5,13 @@ import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
+import '../../../domain/models/clients.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
-import '../../../domain/models/category.dart';
-import '../../../domain/models/product.dart';
+
 
 //services
 import '../../../locator.dart';
@@ -21,8 +21,7 @@ import '../../../services/storage.dart';
 //daos
 part '../local/dao/location_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
-part '../local/dao/category_dao.dart';
-part '../local/dao/product_dao.dart';
+part '../local/dao/sync_features_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -38,24 +37,6 @@ class AppDatabase {
   static Database? _database;
 
   final initialScript = [
-    '''
-      CREATE TABLE $tableCategories ( 
-        ${CategoryFields.id} INTEGER PRIMARY KEY, 
-        ${CategoryFields.name} TEXT DEFAULT NULL,
-        ${CategoryFields.image} TEXT DEFAULT NULL
-      )  
-    ''',
-    '''
-      CREATE TABLE $tableProducts ( 
-        ${ProductFields.id} INTEGER PRIMARY KEY, 
-        ${ProductFields.name} TEXT DEFAULT NULL,
-        ${ProductFields.description} TEXT DEFAULT NULL,
-        ${ProductFields.price} REAL DEFAULT NULL,
-        ${ProductFields.image} TEXT DEFAULT NULL,
-        ${ProductFields.rating} INTEGER DEFAULT NULL,
-        ${ProductFields.categoryId} INTEGER DEFAULT NULL
-      )  
-    ''',
     '''
       CREATE TABLE $tableLocations ( 
         ${LocationFields.id} INTEGER PRIMARY KEY, 
@@ -80,33 +61,46 @@ class AppDatabase {
         ${ProcessingQueueFields.createdAt} TEXT DEFAULT NULL,
         ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
       )
-    ''',
+    '''
   ];
 
-<<<<<<< Updated upstream
   final migrations = [
     '''
-      CREATE INDEX ${CategoryFields.name} ON $tableCategories(${CategoryFields.name});
+      CREATE TABLE $tableFeature (
+        ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
+        ${FeaturesFields.codvendedor} INTEGER DEFAULT NULL,
+        ${FeaturesFields.description} TEXT DEFAULT NULL,
+        ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
+        ${FeaturesFields.categoria} INTEGER DEFAULT NULL,
+        ${FeaturesFields.codcliente} INTEGER DEFAULT NULL,
+        ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
+        ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
+        ${FeaturesFields.requerido} TEXT DEFAULT NULL,
+        ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
+        ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
+      )
     '''
   ];
 
   Future<Database> _initDatabase(databaseName) async {
-=======
+
+  final migrations = [];
+
    Future<Database> _initDatabase(databaseName) async {
->>>>>>> Stashed changes
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
-    final config = MigrationConfig(
-        initializationScript: initialScript, migrationScripts: migrations);
+     final config = MigrationConfig(
+        initializationScript: initialScript, migrationScripts: []);
 
     final path = join(documentsDirectory.path, databaseName);
 
-    await Sqflite.setDebugModeOn(false);
-
-    return await openDatabaseWithMigration(path, config);
+     return await openDatabaseWithMigration(path, config);
   }
 
-  Future<Database?> get database async {
+   Future<Database?> get database async {
     var dbName = _storageService.getString('company_name');
 
     if (_database != null) return _database;
@@ -138,7 +132,7 @@ class AppDatabase {
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  // //DELETE METHODS
+  // //DELETE  */METHODS
   Future<int> delete(String table, String columnId, int id) async {
     final db = await instance.streamDatabase;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
@@ -146,9 +140,7 @@ class AppDatabase {
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
-  CategoryDao get categoryDao => CategoryDao(instance);
-
-  ProductDao get productDao => ProductDao(instance);
+  SyncFeaturesDao get syncfeaturesDao => SyncFeaturesDao(instance);
 
   void close() {
     _database = null;

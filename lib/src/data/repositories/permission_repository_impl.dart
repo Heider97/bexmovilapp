@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import '../../utils/constants/strings.dart';
-import '../../utils/constants/enums.dart';
+/* import '../../utils/constants/enums.dart'; */
 
 class PermissionRepository {
   bool? isDenied;
@@ -41,8 +41,7 @@ class PermissionRepository {
         isUnknown = false,
         isReRequesting = false,
         buttonText = buttonTextDefault,
-        displayMessage =
-            displayMessageDenied,
+        displayMessage = displayMessageDenied,
         displayTitle = titleDefault;
 
   PermissionRepository.permanentlyDenied()
@@ -52,8 +51,7 @@ class PermissionRepository {
         isUnknown = false,
         isReRequesting = false,
         buttonText = buttonTextPermanentlyDenied,
-        displayMessage =
-            displayMessagePermanentlydenied,
+        displayMessage = displayMessagePermanentlydenied,
         displayTitle = titleDefault;
 
   PermissionRepository.unknown()
@@ -63,7 +61,7 @@ class PermissionRepository {
         isUnknown = true,
         isReRequesting = false,
         buttonText = buttonTextDefault,
-        displayMessage =displayMessageDefault,
+        displayMessage = displayMessageDefault,
         displayTitle = titleDefault;
 
   PermissionRepository.waiting()
@@ -73,7 +71,7 @@ class PermissionRepository {
         isUnknown = false,
         isReRequesting = false,
         buttonText = buttonTextDefault,
-        displayMessage =displayMessageDefault,
+        displayMessage = displayMessageDefault,
         displayTitle = titleDefault;
 
   PermissionRepository.reRequesting()
@@ -83,7 +81,7 @@ class PermissionRepository {
         isUnknown = false,
         isReRequesting = true,
         buttonText = buttonTextDefault,
-        displayMessage =displayMessageDefault,
+        displayMessage = displayMessageDefault,
         displayTitle = titleDefault;
 
   @override
@@ -131,13 +129,13 @@ class PermissionRepository {
   @override
   int get hashCode {
     return isDenied.hashCode ^
-    isGranted.hashCode ^
-    isPermanentlyDenied.hashCode ^
-    isUnknown.hashCode ^
-    isReRequesting.hashCode ^
-    buttonText.hashCode ^
-    displayTitle.hashCode ^
-    displayMessage.hashCode;
+        isGranted.hashCode ^
+        isPermanentlyDenied.hashCode ^
+        isUnknown.hashCode ^
+        isReRequesting.hashCode ^
+        buttonText.hashCode ^
+        displayTitle.hashCode ^
+        displayMessage.hashCode;
   }
 
   Map<String, dynamic> toMap() {

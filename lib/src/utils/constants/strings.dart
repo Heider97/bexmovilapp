@@ -18,7 +18,13 @@ class Routes {
   static const companyRoute = '/company';
   static const permissionRoute = '/permission';
   static const loginRoute = '/login';
+
+  static const codeFormRequest = '/code-form-request';
+  static const codeValidation = '/code-validation';
+  static const recoverPassword = '/recover-password';
+
   static const homeRoute = '/home';
+  static const syncRoute = '/sync';
   static const categoryRoute = '/category';
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';
@@ -54,6 +60,12 @@ const String displayMessagePermanentlydenied =
     "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos, pero parece que lo denegó permanentemente. Vaya a la configuración y actívela manualmente para continuar.";
 
 class Assets {
+  static const String bgPattern = 'assets/images/bg-pattern.png';
+  static const String shadow = 'assets/images/shadow.png';
+  static const String bexBackgroundWhite =
+      'assets/icons/BEX-background-white.png';
+  static const String bgSquare = 'assets/images/bg-square.png';
+
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';
   static const String coloring = 'assets/coloring.svg';
@@ -86,6 +98,7 @@ class Assets {
 }
 
 class Const {
+  static const double elevation = 10;
   static const int splashDuration = 3;
   static const double textFieldRadius = 12;
 

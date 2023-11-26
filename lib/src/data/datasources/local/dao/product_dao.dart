@@ -1,4 +1,4 @@
-part of '../app_database.dart';
+/* part of '../app_database.dart';
 
 class ProductDao {
   final AppDatabase _appDatabase;
@@ -61,3 +61,4 @@ class ProductDao {
     return Future.value();
   }
 }
+ */

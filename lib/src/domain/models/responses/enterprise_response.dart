@@ -3,15 +3,21 @@ import 'package:equatable/equatable.dart';
 import '../enterprise.dart';
 
 class EnterpriseResponse extends Equatable {
+  final bool status;
+  final String message;
   final Enterprise enterprise;
 
   const EnterpriseResponse({
+    required this.status,
+    required this.message,
     required this.enterprise,
   });
 
   factory EnterpriseResponse.fromMap(Map<String, dynamic> map) {
     return EnterpriseResponse(
-      enterprise: Enterprise.fromMap(map),
+      status: map['status'],
+      message: map['message'],
+      enterprise: Enterprise.fromMap(map['enterprise']),
     );
   }
 
@@ -19,5 +25,5 @@ class EnterpriseResponse extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [enterprise];
+  List<Object> get props => [status, message , enterprise];
 }

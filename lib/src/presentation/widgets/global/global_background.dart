@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-=======
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/utils/constants/strings.dart';
->>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 class GlobalBackground extends StatelessWidget {
@@ -11,13 +8,15 @@ class GlobalBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(fit: StackFit.expand, children: [
-          Image.asset(
-            'assets/images/bg-pattern.png',
-            fit: BoxFit.cover,
-          ),
-          child
-        ]));
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: Stack(fit: StackFit.expand, children: [
+        Image.asset(
+          Assets.bgPattern,
+          fit: BoxFit.cover,
+        ),
+        child
+      ]),
+    );
   }
 }

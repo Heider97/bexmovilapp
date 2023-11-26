@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yaml/yaml.dart';
@@ -36,7 +36,7 @@ class DrawerWidget extends StatelessWidget {
             accountName: Text(user != null ? user!.name! : 'No user'),
             accountEmail: Text(user != null ? user!.email! : 'No email'),
             currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.orange,
+              
               child: Text(
                 user != null ? user!.name! : 'S',
                 style: const TextStyle(fontSize: 40.0, color: Colors.white),
@@ -49,7 +49,8 @@ class DrawerWidget extends StatelessWidget {
               text: companyName != null
                   ? companyName!.toUpperCase()
                   : 'Not found',
-              onTap: null),
+              onTap: null, 
+              image: ''),
           _createDrawerItem(
               context: context,
               icon: Icons.help_center,
@@ -60,7 +61,8 @@ class DrawerWidget extends StatelessWidget {
                 _storageService.setBool('navigation-is-init', false);
                 _storageService.setBool('summary-is-init', false);
                 _storageService.setBool('inventory-is-init', false);
-              }),
+              }, 
+              image: ''),
           // _createDrawerItem(
           //     context: context,
           //     icon: Icons.bookmark_border,
@@ -73,24 +75,44 @@ class DrawerWidget extends StatelessWidget {
           //     onTap: null),
           _createDrawerItem(
               context: context,
-              icon: Icons.calendar_month,
-              text: 'Agenda',
-              onTap: () => _navigationService.goTo(Routes.calendarRoute)),
+              icon: Icons.notification_add,
+              text: 'Notificaciones',
+              onTap: () => _navigationService.goTo(Routes.calendarRoute), 
+              image: ''),
           _createDrawerItem(
               context: context,
-              icon: Icons.label_important,
-              text: 'Productividad',
-              onTap: () => _navigationService.goTo(Routes.productivityRoute)),
+              icon: Icons.sell,
+              text: 'Vender',
+              onTap: () => _navigationService.goTo(Routes.productivityRoute), 
+              image: ''),
+          _createDrawerItem(
+              context: context,
+              icon: Icons.business_center,
+              text: 'Cartera',
+              onTap: null, 
+              image: ''
+            ),
           _createDrawerItem(
               context: context,
               icon: Icons.settings,
-              text: 'Configuración',
-              onTap: null),
+              text: 'Mercadeo',
+              onTap: null, 
+              image: ''
+            ),
+          _createDrawerItem(
+              context: context,
+              icon: Icons.message,
+              text: 'PQRS',
+              onTap: null, 
+              image: ''
+            ),
           _createDrawerItem(
               context: context,
               icon: Icons.logout,
               text: 'Salir',
-              onTap: () async => await context.read<HomeCubit>().logout()),
+              onTap: () async => await context.read<HomeCubit>().logout(), 
+              image: ''
+            ),
           const Divider(),
           FutureBuilder(
               future: rootBundle.loadString('pubspec.yaml'),
@@ -122,6 +144,7 @@ class DrawerWidget extends StatelessWidget {
   Widget _createDrawerItem(
       {required BuildContext context,
       required IconData icon,
+      required String image,
       required String text,
       GestureTapCallback? onTap}) {
     return ListTile(
@@ -138,3 +161,4 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 }
+ */

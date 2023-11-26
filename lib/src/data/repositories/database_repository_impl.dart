@@ -1,10 +1,10 @@
+import '../../domain/models/client.dart';
 import '../../domain/repositories/database_repository.dart';
 import '../datasources/local/app_database.dart';
 
 //models
 import '../../domain/models/processing_queue.dart';
-import '../../domain/models/category.dart';
-import '../../domain/models/product.dart';
+import '../../domain/models/clients.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -27,61 +27,25 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.processingQueueDao.emptyProcessingQueue();
   }
 
-  //CATEGORIES
+  //SYNC FEATURES
   @override
-  Future<List<Category>> getAllCategoriesWithProducts() async {
-    return _appDatabase.categoryDao.getAllCategoriesWithProducts();
+  Future<List<Feature>> getFeatures() {
+    return _appDatabase.syncfeaturesDao.getAllFeature();
   }
 
   @override
-  Future<Category?> getCategoryWithProducts(int categoryId) async {
-    return _appDatabase.categoryDao.getCategoryWithProducts(categoryId);
+  Future<void> insertFeatures(List<Feature> features) async {
+    return _appDatabase.syncfeaturesDao.insertFeatures(features);
   }
 
   @override
-  Future<int> updateCategory(Category category) async {
-    return _appDatabase.categoryDao.updateCategory(category);
+  Future<int> updateFeatures(Feature clients) async {
+    return _appDatabase.syncfeaturesDao.updateFeature(clients);
   }
 
   @override
-  Future<int> insertCategory(Category category) async {
-    return _appDatabase.categoryDao.insertCategory(category);
-  }
-
-  @override
-  Future<void> emptyCategories() async {
-    return _appDatabase.categoryDao.emptyCategories();
-  }
-
-  //PRODUCTS
-  @override
-  Future<List<Product>> getAllProducts() async {
-    return _appDatabase.productDao.getAllProducts();
-  }
-
-  @override
-  Future<Product> getProduct(int productId) async {
-    return _appDatabase.productDao.getProduct(productId);
-  }
-
-  @override
-  Future<int> updateProduct(Product product) async {
-    return _appDatabase.productDao.updateProduct(product);
-  }
-
-  @override
-  Future<int> insertProduct(Product product) async {
-    return _appDatabase.productDao.insertProduct(product);
-  }
-
-  @override
-  Future<void> insertProducts(List<Product> products) async {
-    return _appDatabase.productDao.insertProducts(products);
-  }
-
-  @override
-  Future<void> emptyProducts() async {
-    return _appDatabase.productDao.emptyProducts();
+  Future<void> emptyFeatures() {
+    return _appDatabase.syncfeaturesDao.emptyFeature();
   }
 
   // initialize and close methods go here

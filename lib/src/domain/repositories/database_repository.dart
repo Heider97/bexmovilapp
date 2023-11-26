@@ -1,32 +1,21 @@
+import '../models/clients.dart';
 import '../models/processing_queue.dart';
-import '../models/category.dart';
-import '../models/product.dart';
+import '../models/client.dart';
+
 
 abstract class DatabaseRepository {
-
   //DATABASE
   Future<void> init();
   void close();
+
+  //SYNC FEATURES
+  Future<List<Feature>> getFeatures();
+  Future<void> insertFeatures(List<Feature> features);
+  Future<int> updateFeatures(Feature client);
+  Future<void> emptyFeatures();
 
   //PROCESSING QUEUE
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue);
   Future<void> insertProcessingQueue(ProcessingQueue processingQueue);
   Future<void> emptyProcessingQueues();
-
-  //CATEGORIES
-  Future<List<Category>> getAllCategoriesWithProducts();
-  Future<Category?> getCategoryWithProducts(int categoryId);
-  Future<int> updateCategory(Category category);
-  Future<int> insertCategory(Category category);
-  Future<void> emptyCategories();
-
-  //PRODUCTS
-  Future<List<Product>> getAllProducts();
-  Future<Product> getProduct(int productId);
-  Future<int> updateProduct(Product product);
-  Future<int> insertProduct(Product product);
-  Future<void> insertProducts(List<Product> products);
-  Future<void> emptyProducts();
-
-
 }

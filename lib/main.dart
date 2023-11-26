@@ -1,3 +1,6 @@
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -18,16 +21,15 @@ import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
 
 import 'src/presentation/cubits/login/login_cubit.dart';
-import 'src/presentation/cubits/home/home_cubit.dart';
-import 'src/presentation/cubits/category/category_cubit.dart';
-import 'src/presentation/cubits/product/product_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
+import 'src/presentation/cubits/home/home_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/location/location_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
+import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'src/presentation/blocs/splash/splash_bloc.dart';
 
 //utils
@@ -36,6 +38,7 @@ import 'src/utils/bloc/bloc_observer.dart';
 
 //service
 import 'src/locator.dart';
+import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 
 //router
@@ -80,6 +83,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         //BLOC PROVIDERS
+        BlocProvider(
+            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
@@ -98,19 +103,12 @@ class _MyAppState extends State<MyApp> {
             create: (context) => LoginCubit(
                   locator<ApiRepository>(),
                   locator<DatabaseRepository>(),
+                  locator<LocalStorageService>(),
+                  locator<NavigationService>(),
+                  locator<LocationRepository>(),
                 )),
         BlocProvider(
-            create: (context) => HomeCubit(
-                  locator<DatabaseRepository>(),
-                )),
-        BlocProvider(
-            create: (context) => CategoryCubit(
-                  locator<DatabaseRepository>(),
-                )),
-        BlocProvider(
-            create: (context) => ProductCubit(
-                  locator<DatabaseRepository>(),
-                )),
+            create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -135,6 +133,8 @@ class _MyAppState extends State<MyApp> {
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
+        /* child: MultiProvider(
+          providers: [], */
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: appTitle,
@@ -169,6 +169,7 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: router.generateRoute,
         ),
       ),
+      //  ),
     );
   }
 }
