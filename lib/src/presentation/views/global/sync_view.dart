@@ -71,14 +71,18 @@ class _SyncViewState extends State<SyncView> {
         ...?features,
         BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
             selector: (state) => state is SyncFeaturesFailure,
-            builder: (BuildContext context, booleanState) => _buildError())
+            builder: (BuildContext context, booleanState) => booleanState ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(theme.primaryColor),
+            ) : _buildError(state))
       ],
     );
   }
 
-  Widget _buildError() {
-    return const Column(
-      children: [],
+  Widget _buildError(SyncFeaturesState state) {
+    return Column(
+      children: [
+        Text(state.error!)
+      ],
     );
   }
 }

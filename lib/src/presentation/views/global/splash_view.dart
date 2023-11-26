@@ -27,7 +27,7 @@ class SplashView extends StatelessWidget {
         }
       },
       child: UpgradeAlert(upgrader: Upgrader(
-        debugDisplayAlways: true,
+        debugDisplayAlways: false,
         debugLogging: true
       ), child: const SplashScreenWidget()),
     );

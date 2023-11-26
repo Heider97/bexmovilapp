@@ -100,6 +100,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               : null));
 
       try {
+
         final response = await _apiRepository.login(
           request: loginRequest,
         );
