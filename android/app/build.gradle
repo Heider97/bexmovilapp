@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.bexsoluciones.bexdeliveries"
+        applicationId "com.bexsoluciones.bexmovil"
         minSdkVersion 19
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()

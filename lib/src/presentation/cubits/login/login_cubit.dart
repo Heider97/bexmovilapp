@@ -55,15 +55,14 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   Future<void> getConfigs() async {
     final response = await _apiRepository.configs();
 
-    if(response is DataSuccess) {
+    if (response is DataSuccess) {
       await _databaseRepository.init(null);
       await _databaseRepository.insertConfigs(response.data!.configs);
     } else {
       emit(LoginFailed(
           error: 'configs-${response.data!.message}',
           enterprise: _storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(
-              _storageService!.getObject('enterprise')!)
+              ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
               : null));
     }
   }
@@ -71,14 +70,13 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   Future<void> getFeatures() async {
     final response = await _apiRepository.features();
 
-    if(response is DataSuccess) {
+    if (response is DataSuccess) {
       await _databaseRepository.insertFeatures(response.data!.features);
     } else {
       emit(LoginFailed(
           error: 'features-${response.data!.message}',
           enterprise: _storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(
-              _storageService!.getObject('enterprise')!)
+              ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
               : null));
     }
   }
@@ -140,7 +138,6 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               : null));
 
       try {
-
         final response = await _apiRepository.login(
           request: loginRequest,
         );
@@ -156,7 +153,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
 
             var functions = [getConfigs, getFeatures];
 
-            var isolateModel = IsolateModel(functions, 3);
+            var isolateModel = IsolateModel(functions, 2);
             await heavyTask(isolateModel);
           }
 
@@ -165,9 +162,8 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
               login: login,
               enterprise: _storageService!.getObject('enterprise') != null
                   ? Enterprise.fromMap(
-                  _storageService!.getObject('enterprise')!)
+                      _storageService!.getObject('enterprise')!)
                   : null));
-
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,

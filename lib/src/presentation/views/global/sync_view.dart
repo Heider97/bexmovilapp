@@ -52,13 +52,6 @@ class _SyncViewState extends State<SyncView> {
   }
 
   Widget _buildBody(Size size, ThemeData theme, SyncFeaturesState state) {
-
-    List<Widget>? features = state.features?.map((e) =>
-      CustomCard(
-          text: e.description!,
-          color: Colors.orange),
-    ).toList(growable: false);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,9 +60,15 @@ class _SyncViewState extends State<SyncView> {
           'Sincronizado',
           style: TextStyle(fontSize: 22),
         ),
-        const Text('Mientras esperas, conoce nuestras ultimas novedades. ', textAlign: TextAlign.center),
+        const Text('Mientras esperas, conoce nuestras ultimas novedades. ',
+            textAlign: TextAlign.center),
         const SizedBox(height: 40),
-        ...?features,
+        Expanded(
+            child: ListView.builder(
+                itemCount: state.features?.length,
+                itemBuilder: (BuildContext context, int index) => CustomCard(
+                    text: state.features![index].descripcion!,
+                    color: Colors.orange))),
         // BlocSelector<SyncFeaturesBloc, SyncFeaturesState, bool>(
         //     selector: (state) => state is SyncFeaturesFailure,
         //     builder: (BuildContext context, booleanState) => booleanState ? CircularProgressIndicator(
@@ -81,9 +80,7 @@ class _SyncViewState extends State<SyncView> {
 
   Widget _buildError(SyncFeaturesState state) {
     return Column(
-      children: [
-        Text(state.error!)
-      ],
+      children: [Text(state.error!)],
     );
   }
 }

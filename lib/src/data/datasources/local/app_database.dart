@@ -71,7 +71,7 @@ class AppDatabase {
       CREATE TABLE $tableFeature (
         ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
         ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
-        ${FeaturesFields.description} TEXT DEFAULT NULL,
+        ${FeaturesFields.descripcion} TEXT DEFAULT NULL,
         ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
         ${FeaturesFields.categoria} TEXT DEFAULT NULL,
         ${FeaturesFields.codcliente} TEXT DEFAULT NULL,

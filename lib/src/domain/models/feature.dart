@@ -4,7 +4,7 @@ class FeaturesFields{
   static final List<String> values = [
     coddashboard,
     codvendedor,
-    description,
+    descripcion,
     urldesc,
     categoria,
     codcliente,
@@ -20,7 +20,7 @@ class FeaturesFields{
 
   static const String coddashboard = 'coddashboard';
   static const String codvendedor = 'codvendedor';
-  static const String description = 'description';
+  static const String descripcion = 'descripcion';
   static const String urldesc = 'urldesc';
   static const String categoria = 'categoria';
   static const String codcliente = 'codcliente';
@@ -38,7 +38,7 @@ class FeaturesFields{
 class Feature {
     late int coddashboard;
     String? codvendedor;
-    String? description;
+    String? descripcion;
     String? urldesc;
     String? categoria;
     String? codcliente;
@@ -54,7 +54,7 @@ class Feature {
   Feature({
     required this.coddashboard,
     this.codvendedor,
-    this.description,
+    this.descripcion,
     this.urldesc,
     this.categoria,
     this.codcliente,
@@ -72,7 +72,7 @@ class Feature {
       return Feature(
           coddashboard: map['coddashboard'],
           codvendedor: map['codvendedor'],
-          description: map['description'],
+          descripcion: map['descripcion'],
           urldesc: map['urldesc'],
           categoria: map['categoria'],
           codcliente: map['codcliente'],
@@ -91,7 +91,7 @@ class Feature {
     final data = <String, dynamic>{};
     data['coddashboard'] = coddashboard;
     data['codvendedor'] = codvendedor;
-    data['description'] = description;
+    data['description'] = descripcion;
     data['urldesc'] = urldesc;
     data['categoria'] = categoria;
     data['codcliente'] = codcliente;
