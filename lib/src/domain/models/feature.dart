@@ -91,7 +91,7 @@ class Feature {
     final data = <String, dynamic>{};
     data['coddashboard'] = coddashboard;
     data['codvendedor'] = codvendedor;
-    data['description'] = descripcion;
+    data['descripcion'] = descripcion;
     data['urldesc'] = urldesc;
     data['categoria'] = categoria;
     data['codcliente'] = codcliente;

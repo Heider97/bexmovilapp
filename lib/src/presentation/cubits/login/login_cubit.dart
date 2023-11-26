@@ -190,10 +190,10 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     _storageService!.remove('company_name');
     _storageService!.remove('enterprise');
 
-    _navigationService!.replaceTo(Routes.companyRoute);
+    _navigationService!.replaceTo(Routes.selectEnterpriseRoute);
   }
 
   void goToForget() {
-    _navigationService!.replaceTo(Routes.companyRoute);
+    _navigationService!.replaceTo(Routes.selectEnterpriseRoute);
   }
 }
