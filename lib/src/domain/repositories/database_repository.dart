@@ -5,7 +5,7 @@ import '../models/config.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
-  Future<void> init(String? version);
+  Future<void> init(String? version, List<String> migrations);
   void close();
 
   //CONFIGS
