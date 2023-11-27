@@ -8,13 +8,14 @@ import 'package:sqlbrite/sqlbrite.dart';
 SharedPreferences? _preferences;
 
 class DatabaseHelper {
-  Future<Database?> getDataBase({int? version, String? onUpdate}) async {
+  Future<Database?> getDataBase(
+      {int? version, List<String>? migrations}) async {
     _preferences ??= await SharedPreferences.getInstance();
     return await openDatabase(
       path.join(
-          /*  await getDatabasesPath(), '${_preferences!.getString('te')}.db'), */
-          await getDatabasesPath(),
-          'test.db'),
+          await getDatabasesPath(), '${_preferences!.getString('te')}.db'),
+      /*   await getDatabasesPath(),
+          'test.db'), */
       version: version,
       onCreate: (db, version) async {
         await db.execute('''
@@ -45,28 +46,30 @@ class DatabaseHelper {
     ''');
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion <= 5) {
-          try {
-            String sqlScriptWithoutEscapes =
-                onUpdate!.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-
-            List<String> scriptsSeparados =
-                sqlScriptWithoutEscapes.split('CREATE');
-
-            scriptsSeparados.removeAt(0);
-
-            for (String createTableScript in scriptsSeparados) {
+        if (oldVersion <= 2) {
+          if (migrations != null) {
+            for (var migration in migrations) {
               try {
-                String scriptCompleto = 'CREATE $createTableScript';
-                await db.execute(scriptCompleto);
+                String sqlScriptWithoutEscapes =
+                    migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
 
-                print('Script ejecutado con éxito:\n');
+                List<String> scriptsSeparados =
+                    sqlScriptWithoutEscapes.split('CREATE');
+
+                for (String createTableScript in scriptsSeparados) {
+                  try {
+                    String scriptCompleto = 'CREATE $createTableScript';
+                    await db.execute(scriptCompleto);
+
+                    print('Script ejecutado con éxito:\n');
+                  } catch (ex) {
+                    print('Error al ejecutar el script:\n$ex');
+                  }
+                }
               } catch (ex) {
-                print('Error al ejecutar el script:\n$ex');
+                print('Error $ex');
               }
             }
-          } catch (ex) {
-            print('Error $ex');
           }
         }
       },

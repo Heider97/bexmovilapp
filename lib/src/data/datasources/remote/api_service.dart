@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/sync_priorities_response.dart';
 import 'package:dio/dio.dart';
 
 //models
@@ -178,6 +179,41 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DatabaseResponse.fromMap(result.data!);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<SyncPrioritiesResponse>> syncPriorities(
+      {required String date, required String count}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'date': date, r'count': count};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/priorities',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = SyncPrioritiesResponse.fromJson(result.data!);
 
     return Response(
         data: value,
