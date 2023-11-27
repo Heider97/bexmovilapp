@@ -7,8 +7,8 @@ import '../../../utils/constants/nums.dart';
 import '../../../utils/constants/strings.dart';
 
 //domain
-import '../../../domain/models/category.dart';
 import '../../../domain/models/user.dart';
+import '../../../domain/models/feature.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //service
@@ -26,17 +26,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   HomeCubit(this._databaseRepository) : super(const HomeLoading());
 
-
   Future<void> init() async {
     final user = User.fromMap(_storageService.getObject('user')!);
+    var features = await _databaseRepository.getFeatures();
 
-    debugPrint(user.toString());
-
-    emit(HomeSuccess(
-        user: user,
-    ));
+    emit(HomeSuccess(user: user, features: features));
   }
-
 
   void dispose() {
     emit(const HomeLoading());

@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
-import '../../../domain/models/enterprise_config.dart';
 
 //interceptor
 import 'interceptor_api_service.dart';
@@ -12,36 +10,37 @@ import 'interceptor_api_service.dart';
 //response
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
-import '../../../domain/models/responses/database_response.dart';
-import '../../../domain/models/responses/enterprise_config_response.dart';
+import '../../../domain/models/responses/change_password_response.dart';
+import '../../../domain/models/responses/recovery_code_response.dart';
+import '../../../domain/models/responses/validate_recovery_code_response.dart';
+import '../../../domain/models/responses/config_response.dart';
+import '../../../domain/models/responses/sync_response.dart';
 
 //services
-import '../../../locator.dart';
 import '../../../services/storage.dart';
-
-final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class ApiService {
   late Dio dio;
+  late LocalStorageService storageService;
+  late bool testing;
 
   String? get url {
-    var company = _storageService.getString('company_name');
+    var company = storageService.getString('company_name');
     if (company == null) return null;
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService() {
-    dio = Dio(
-      BaseOptions(
-          baseUrl: url ?? 'https://pandapan.bexmovil.com/api',
-          connectTimeout: const Duration(seconds: 5000),
-          receiveTimeout: const Duration(seconds: 3000),
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
-    );
-
-    dio.interceptors.add(Logging(dio: dio));
+  ApiService(
+      {required this.dio,
+      required this.storageService,
+      required this.testing}) {
+    url != null
+        ? dio.options.baseUrl = url!
+        : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+    !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
+  //ENTERPRISES.
   Future<Response<EnterpriseResponse>> getEnterprise(String company) async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
@@ -74,27 +73,26 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<EnterpriseConfigResponse>> getConfigEnterprise() async {
+  Future<Response<ConfigResponse>> configs() async {
     const extra = <String, dynamic>{};
     final headers = <String, dynamic>{};
     final data = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<EnterpriseConfigResponse>>(Options(
+        _setStreamType<Response<ConfigResponse>>(Options(
       method: 'GET',
       headers: headers,
       extra: extra,
     )
             .compose(
               dio.options,
-              '/auth/config',
+              '/auth/enterprise/configs',
               queryParameters: queryParameters,
               data: data,
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    final value = EnterpriseConfigResponse(
-        enterpriseConfig: EnterpriseConfig.fromMap(result.data!));
+    final value = ConfigResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -107,8 +105,7 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<LoginResponse>> login(
-      {username, password, deviceId, model, date, latitude, longitude}) async {
+  Future<Response<LoginResponse>> login({loginRequest}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -116,13 +113,14 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
     final data = <String, dynamic>{
-      r'email': username,
-      r'password': password,
-      r'device_id': deviceId,
-      r'phonetype': model,
-      r'date': date,
-      r'latitude': latitude,
-      r'longitude': longitude,
+      r'email': loginRequest.username,
+      r'password': loginRequest.password,
+      r'udid': loginRequest.deviceId,
+      r'phonetype': loginRequest.model,
+      r'date': loginRequest.date,
+      r'version': loginRequest.version,
+      r'latitude': loginRequest.latitude,
+      r'longitude': loginRequest.longitude,
     };
 
     data.removeWhere((k, v) => v == null);
@@ -141,10 +139,7 @@ class ApiService {
             )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = LoginResponse(
-        status: result.data!['status'],
-        message: result.data!['message'],
-        login: Login.fromMap(result.data!));
+    final value = LoginResponse.fromMap(result.data!);
 
     return Response(
         data: value,
@@ -157,7 +152,7 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<SyncResponse>> syncfeatures()async{
+  Future<Response<SyncResponse>> features() async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -169,15 +164,15 @@ class ApiService {
     };
 
     final result = await dio.fetch<Map<String, dynamic>>(
-      _setStreamType<Response<SyncResponse>>(Options(
-        method: 'GET',
-        headers: headers,
-        extra: extra,
-      )
-            .compose(dio.options, 'sync/features',
-              queryParameters: queryParameters, data: data)
-              .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-    
+        _setStreamType<Response<SyncResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/features',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
     final value = SyncResponse.fromMap(result.data!);
 
     return Response(
@@ -192,28 +187,120 @@ class ApiService {
     );
   }
 
-  Future<Response<DatabaseResponse>> database({path}) async {
+  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
+      {required String email}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-
-    final data = <String, dynamic>{'path': path};
-
     final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.contentTypeHeader: 'application/json'
     };
+    final data = <String, dynamic>{r'email': email};
+
+    data.removeWhere((k, v) => v == null);
 
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<DatabaseResponse>>(Options(
+        _setStreamType<Response<RecoveryCodeResponse>>(Options(
       method: 'POST',
       headers: headers,
       extra: extra,
     )
-            .compose(dio.options, '/database/send',
-                queryParameters: queryParameters, data: data)
+            .compose(
+              dio.options,
+              '/password/email',
+              queryParameters: queryParameters,
+              data: data,
+            )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = DatabaseResponse.fromMap(result.data!);
+    final value = RecoveryCodeResponse(
+      status: result.data!['status'],
+      message: result.data!['message'],
+    );
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<ValidateRecoveryCodeResponse>> validateRecoveryCode(
+      {required String code}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{r'code': code};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<ValidateRecoveryCodeResponse>>(Options(
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(
+              dio.options,
+              '/password/code/check',
+              queryParameters: queryParameters,
+              data: data,
+            )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = ValidateRecoveryCodeResponse(
+        status: result.data!['status'],
+        message: result.data!['message'],
+        code: result.data!['code']);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<ChangePasswordResponse>> changePassword(
+      {required String code, required String password}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{r'code': code, r'password': password};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<ChangePasswordResponse>>(Options(
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(
+              dio.options,
+              '/password/reset',
+              queryParameters: queryParameters,
+              data: data,
+            )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = ChangePasswordResponse(
+      status: result.data!['status'],
+      message: result.data!['message'],
+    );
 
     return Response(
         data: value,

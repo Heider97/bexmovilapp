@@ -32,7 +32,7 @@ class CustomSliderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 240,
       child: Column(
@@ -47,7 +47,7 @@ class CustomSliderCard extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
+                  return SizedBox(
                     width: 250,
                     child: Card(
                       elevation: 10,
@@ -60,10 +60,10 @@ class CustomSliderCard extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 text,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -77,13 +77,13 @@ class CustomSliderCard extends StatelessWidget {
                               ),
                               Text(
                                 value.toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 40,
                               ),
-                              Container(
+                              SizedBox(
                                 height: 40,
                                 child: Image.asset(
                                   'assets/arrow.jpg',
@@ -105,20 +105,20 @@ class CustomSliderCard extends StatelessWidget {
                             height: 30,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   text2,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 40,
                                 ),
                                 Text(value3),
                                 Text(
                                   simbol,
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                                 Text(value4.toString())
                               ],
@@ -130,7 +130,7 @@ class CustomSliderCard extends StatelessWidget {
                             endIndent: 10,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 7),
+                            padding: const EdgeInsets.only(left: 7),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -143,7 +143,7 @@ class CustomSliderCard extends StatelessWidget {
                                 Text(value5.toString()),
                                 Text(
                                   simbol,
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 ),
                                 Text(value6.toString())
                               ],

@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/clients.dart';
+import 'package:bexmovil/src/domain/models/feature.dart';
 import 'package:equatable/equatable.dart';
 
 class SyncResponse extends Equatable {
@@ -13,8 +13,8 @@ class SyncResponse extends Equatable {
     return SyncResponse(
         status: map['status'],
         message: map['message'],
-        features: List<Feature>.from(['features']
-            .map((e) => Feature.fromMap(e as Map<String, dynamic>))));
+        features: List<Feature>.from(map['features']
+            .map((e) => Feature.fromMap(e))));
   }
 
   @override

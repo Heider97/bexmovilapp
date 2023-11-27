@@ -5,12 +5,13 @@ import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../domain/models/clients.dart';
+import '../../../domain/models/feature.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
+import '../../../domain/models/config.dart';
 
 
 //services
@@ -20,8 +21,9 @@ import '../../../services/storage.dart';
 
 //daos
 part '../local/dao/location_dao.dart';
+part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
-part '../local/dao/sync_features_dao.dart';
+part '../local/dao/feature_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -61,15 +63,18 @@ class AppDatabase {
         ${ProcessingQueueFields.createdAt} TEXT DEFAULT NULL,
         ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
       )
-    ''',
+    '''
+  ];
+
+  final migrations = [
     '''
       CREATE TABLE $tableFeature (
         ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
-        ${FeaturesFields.codvendedor} INTEGER DEFAULT NULL,
-        ${FeaturesFields.description} TEXT DEFAULT NULL,
+        ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
+        ${FeaturesFields.descripcion} TEXT DEFAULT NULL,
         ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
-        ${FeaturesFields.categoria} INTEGER DEFAULT NULL,
-        ${FeaturesFields.codcliente} INTEGER DEFAULT NULL,
+        ${FeaturesFields.categoria} TEXT DEFAULT NULL,
+        ${FeaturesFields.codcliente} TEXT DEFAULT NULL,
         ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
         ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
         ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
@@ -77,25 +82,32 @@ class AppDatabase {
         ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
         ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
         ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
-        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL,
+        ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
+      )
+    ''',
+    '''
+      CREATE TABLE $tableConfig (
+        ${ConfigFields.id} INTEGER PRIMARY KEY,
+        ${ConfigFields.name} TEXT DEFAULT NULL,
+        ${ConfigFields.type} TEXT DEFAULT NULL,
+        ${ConfigFields.value} TEXT DEFAULT NULL,
+        ${ConfigFields.module} TEXT DEFAULT NULL
       )
     '''
   ];
-
-  final migrations = [];
 
    Future<Database> _initDatabase(databaseName) async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
      final config = MigrationConfig(
-        initializationScript: initialScript, migrationScripts: []);
+        initializationScript: initialScript, migrationScripts: migrations);
 
     final path = join(documentsDirectory.path, databaseName);
 
      return await openDatabaseWithMigration(path, config);
   }
 
-   Future<Database?> get database async {
+   Future<Database?> database(String? version) async {
     var dbName = _storageService.getString('company_name');
 
     if (_database != null) return _database;
@@ -110,7 +122,7 @@ class AppDatabase {
   }
 
   Future<BriteDatabase?> get streamDatabase async {
-    await database;
+    await database(null);
     return _streamDatabase;
   }
 
@@ -135,7 +147,9 @@ class AppDatabase {
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
-  SyncFeaturesDao get syncfeaturesDao => SyncFeaturesDao(instance);
+  FeatureDao get featureDao => FeatureDao(instance);
+
+  ConfigDao get configDao => ConfigDao(instance);
 
   void close() {
     _database = null;

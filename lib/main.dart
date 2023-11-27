@@ -1,4 +1,7 @@
-import 'package:bexmovil/src/presentation/blocs/splash/splash_bloc.dart';
+
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:location_repository/location_repository.dart';
@@ -17,15 +20,19 @@ import 'src/domain/repositories/database_repository.dart';
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
-import 'src/presentation/cubits/location/location_bloc.dart';
+
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
 
 //blocs
+import 'src/presentation/blocs/location/location_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
+import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
+import 'src/presentation/blocs/splash/splash_bloc.dart';
+import 'src/presentation/blocs/sync_features/sync_features_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -33,6 +40,7 @@ import 'src/utils/bloc/bloc_observer.dart';
 
 //service
 import 'src/locator.dart';
+import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 
 //router
@@ -43,14 +51,7 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Only call clearSavedSettings() during testing to reset internal values.
   await Upgrader.clearSavedSettings(); // REMOVE this for release builds
-
-  // On Android, the default behavior will be to use the Google Play Store
-  // version of the app.
-  // On iOS, the default behavior will be to use the App Store version of
-  // the app, so update the Bundle Identifier in example/ios/Runner with a
-  // valid identifier already in the App Store.
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
@@ -77,6 +78,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         //BLOC PROVIDERS
+        BlocProvider(
+            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
@@ -91,12 +94,20 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(create: (context) => PermissionCubit()),
         BlocProvider(create: (context) => PoliticsCubit()),
-        BlocProvider(create: (context) => LoginCubit(
-            locator<ApiRepository>(), locator<DatabaseRepository>()
-        )),
-        BlocProvider(create: (context) => HomeCubit(
-            locator<DatabaseRepository>()
-        )),
+        BlocProvider(
+            create: (context) => LoginCubit(
+                  locator<ApiRepository>(),
+                  locator<DatabaseRepository>(),
+                  locator<LocalStorageService>(),
+                  locator<NavigationService>(),
+                  locator<LocationRepository>(),
+                )),
+        BlocProvider(
+            create: (context) => SyncFeaturesBloc(
+              locator<DatabaseRepository>(),
+            )),
+        BlocProvider(
+            create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -105,9 +116,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
-
         //REPOSITORY PROVIDER.
-
         RepositoryProvider(
             create: (_) => LocationRepository(),
             child: BlocProvider(
@@ -155,6 +164,7 @@ class _MyAppState extends State<MyApp> {
           onGenerateRoute: router.generateRoute,
         ),
       ),
+      //  ),
     );
   }
 }

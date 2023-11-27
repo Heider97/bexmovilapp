@@ -27,9 +27,6 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       } else {
         var token = _storageService.getString('token');
         var company = _storageService.getObject('enterprise');
-
-        print(company);
-
         if (token != null) {
           emit(const Loaded(route: Routes.homeRoute));
         } else if (company != null) {

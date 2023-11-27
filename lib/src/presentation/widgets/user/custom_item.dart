@@ -10,7 +10,7 @@ class CustomItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Image.asset(imagePath), Text(iconName)],
+      children: [Image.asset(imagePath, width: 60, height: 60), Text(iconName)],
     );
   }
 }
