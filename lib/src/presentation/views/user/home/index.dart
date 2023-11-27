@@ -113,6 +113,7 @@ class HomeViewState extends State<HomeView>
             gapH16,
             const Text('Estadisticas',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            gapH16,
             SizedBox(
               width: size.width,
               height: 80,
@@ -142,54 +143,20 @@ class HomeViewState extends State<HomeView>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        Container(
-                          color: Colors.grey,
-                          child: Column(
-                            children: [
-                              Row(),
-                              Row()
-                            ],
-                          ),
-                        ),
-                        Container(
-                          color: Colors.grey,
-                          child: Column(
-                            children: [
-                              Row(),
-                              Row()
-                            ],
-                          ),
-                        ),
+
                       ],
                     ),
                   ),
                 ],
               ),
             ),
+            gapH16,
             const Text('Tus aplicaciones',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(
-              width: size.width,
-              height: size.height / 6.2,
-              child: const Column(
+            gapH16,
+            const Expanded(
+              child: Column(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomItem(
-                          iconName: 'Vender',
-                          imagePath: 'assets/icons/vender.png'),
-                      CustomItem(
-                          iconName: 'Cartera',
-                          imagePath: 'assets/icons/cartera.png'),
-                      CustomItem(
-                          iconName: 'Mercadeo',
-                          imagePath: 'assets/icons/mercadeo.png'),
-                      CustomItem(
-                          iconName: 'PQRS', imagePath: 'assets/icons/pqrs.png')
-                    ],
-                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

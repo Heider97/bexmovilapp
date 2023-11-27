@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
     super.key,
-    this.message = 'Please Wait...',
+    this.message = 'Porfavor espere...',
   });
 
   final String message;
