@@ -45,7 +45,7 @@ class _SyncViewState extends State<SyncView> {
 
   void buildBlocListener(context, state) {
     if (state is SyncFeaturesSuccess) {
-      // loginCubit.goToHome();
+      syncFeaturesBloc.goToHome();
     }
   }
 
@@ -117,6 +117,17 @@ class _SyncViewState extends State<SyncView> {
           onTap: () => syncFeaturesBloc.add(SyncFeatureGet()),
           child: Text(
             'Reintentar',
+            style: theme.textTheme.bodyLarge!
+                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+        gapH8,
+        CustomElevatedButton(
+          width: 150,
+          height: 50,
+          onTap: () => syncFeaturesBloc.add(SyncFeatureLeave()),
+          child: Text(
+            'Inicio',
             style: theme.textTheme.bodyLarge!
                 .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
           ),

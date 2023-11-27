@@ -1,24 +1,19 @@
-import 'package:bexmovil/src/presentation/widgets/user/custom_item.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_navbar.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
 import '../../../cubits/home/home_cubit.dart';
 
 //utils
-import '../../../../utils/constants/strings.dart';
 import '../../../../utils/constants/gaps.dart';
-import '../../../../utils/constants/strings.dart';
 
 //widgets
-
+import '../../../widgets/user/custom_item.dart';
+import '../../../widgets/user/custom_search_bar.dart';
+import '../../../widgets/custom_card_widget.dart';
 //services
 import '../../../../locator.dart';
 import '../../../../services/storage.dart';
-import '../../../widgets/custom_card_widget.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -142,7 +137,7 @@ class HomeViewState extends State<HomeView>
                   Expanded(
                     child: TabBarView(
                       controller: _tabController,
-                      children: [
+                      children: const [
 
                       ],
                     ),
