@@ -6,9 +6,11 @@ class LocalStorageService {
   static LocalStorageService? _instance;
   static SharedPreferences? _preferences;
 
-  static Future<LocalStorageService?> getInstance() async {
+  static Future<LocalStorageService?> getInstance({ bool testing  = false}) async {
     _instance ??= LocalStorageService();
+    if(testing) SharedPreferences.setMockInitialValues({});
     _preferences ??= await SharedPreferences.getInstance();
+
     return _instance;
   }
 

@@ -8,8 +8,7 @@ import 'package:sqlbrite/sqlbrite.dart';
 SharedPreferences? _preferences;
 
 class DatabaseHelper {
-  Future<Database?> getDataBase(
-      {int? version, List<String>? migrations}) async {
+  Future<Database?> getDataBase({int? version, List<String>? migrations}) async {
     _preferences ??= await SharedPreferences.getInstance();
     return await openDatabase(
       path.join(

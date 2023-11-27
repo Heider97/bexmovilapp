@@ -1,7 +1,7 @@
 part of 'cart_cubit.dart';
 
 abstract class CartState extends Equatable {
-  final List<Product>? products;
+  final List? products;
   final String? error;
 
   const CartState({

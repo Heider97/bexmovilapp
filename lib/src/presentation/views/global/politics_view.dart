@@ -1,3 +1,4 @@
+//TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,12 +17,10 @@ import 'package:lottie/lottie.dart';
 //services
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
-import '../../../services/storage.dart';
 
 //widgets
 
 final NavigationService _navigationService = locator<NavigationService>();
-final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class PoliticsView extends StatefulWidget {
   const PoliticsView({super.key});
