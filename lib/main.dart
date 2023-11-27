@@ -91,12 +91,11 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(create: (context) => PermissionCubit()),
         BlocProvider(create: (context) => PoliticsCubit()),
-        BlocProvider(create: (context) => LoginCubit(
-            locator<ApiRepository>(), locator<DatabaseRepository>()
-        )),
-        BlocProvider(create: (context) => HomeCubit(
-            locator<DatabaseRepository>()
-        )),
+        BlocProvider(
+            create: (context) => LoginCubit(
+                locator<ApiRepository>(), locator<DatabaseRepository>())),
+        BlocProvider(
+            create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),

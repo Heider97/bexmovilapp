@@ -5,35 +5,31 @@ import '../datasources/local/app_database.dart';
 import '../../domain/models/processing_queue.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
-  final AppDatabase _appDatabase;
+  final DatabaseHelper _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
 
-  //PROCESSING QUEUE
   @override
-  Future<int> updateProcessingQueue(ProcessingQueue processingQueue) async {
-    return _appDatabase.processingQueueDao.updateProcessingQueue(processingQueue);
+  Future<void> emptyProcessingQueues() {
+    // TODO: implement emptyProcessingQueues
+    throw UnimplementedError();
   }
 
   @override
-  Future<int> insertProcessingQueue(ProcessingQueue processingQueue) async {
-    return _appDatabase.processingQueueDao.insertProcessingQueue(processingQueue);
+  Future<void> init() {
+    // TODO: implement init
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> emptyProcessingQueues() async {
-    return _appDatabase.processingQueueDao.emptyProcessingQueue();
-  }
-
-  // initialize and close methods go here
-  @override
-  Future<void> init() async {
-    await _appDatabase.database;
-    return Future.value();
+  Future<void> insertProcessingQueue(ProcessingQueue processingQueue) {
+    // TODO: implement insertProcessingQueue
+    throw UnimplementedError();
   }
 
   @override
-  void close() {
-    _appDatabase.close();
+  Future<int> updateProcessingQueue(ProcessingQueue processingQueue) {
+    // TODO: implement updateProcessingQueue
+    throw UnimplementedError();
   }
 }
