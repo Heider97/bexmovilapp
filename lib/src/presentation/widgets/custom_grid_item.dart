@@ -19,96 +19,96 @@ class CustomGridItem extends StatelessWidget {
             children: [
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
               ),
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
               ),
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
               ),
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
               ),
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),
               ),
               Card(
                 shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.orange),
+                    side: const BorderSide(color: Colors.orange),
                     borderRadius: BorderRadius.circular(10)),
                 elevation: 8,
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Icon(Icons.alarm, size: 50,),
-                    SizedBox(height: 40,),
+                    const Icon(Icons.alarm, size: 50,),
+                    const SizedBox(height: 40,),
                     Text(text),
                   ],
                 ),

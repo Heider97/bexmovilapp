@@ -29,8 +29,10 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => HomeViewState();
 }
 
-class HomeViewState extends State<HomeView> {
+class HomeViewState extends State<HomeView>
+    with SingleTickerProviderStateMixin {
   late HomeCubit homeCubit;
+  late TabController _tabController;
 
   final TextEditingController searchController = TextEditingController();
 
@@ -38,7 +40,14 @@ class HomeViewState extends State<HomeView> {
   void initState() {
     homeCubit = BlocProvider.of<HomeCubit>(context);
     homeCubit.init();
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -106,9 +115,55 @@ class HomeViewState extends State<HomeView> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(
               width: size.width,
-              height: size.height / 7,
-              child: Container(
-                color: Colors.red,
+              height: 80,
+              child: Column(
+                children: [
+                  TabBar(
+                    controller: _tabController,
+                    indicatorSize: TabBarIndicatorSize.values.first,
+                    indicator: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                      color: Colors.grey[100],
+                    ),
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.black,
+                    tabs: const [
+                      Tab(
+                        text: 'KPI',
+                      ),
+                      Tab(
+                        text: 'Informes',
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        Container(
+                          color: Colors.grey,
+                          child: Column(
+                            children: [
+                              Row(),
+                              Row()
+                            ],
+                          ),
+                        ),
+                        Container(
+                          color: Colors.grey,
+                          child: Column(
+                            children: [
+                              Row(),
+                              Row()
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             const Text('Tus aplicaciones',
