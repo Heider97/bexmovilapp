@@ -1,8 +1,10 @@
-//TODO [Heider Zapa] Organize
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+
+//utils
+import '../../../utils/constants/strings.dart';
+//services
+import '../../../locator.dart';
+import '../../../services/navigation.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 

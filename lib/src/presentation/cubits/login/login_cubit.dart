@@ -84,43 +84,51 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   Future<void> differenceHours(username, password) async {
     if (isBusy) return;
 
-    emit(LoginLoading(
-        enterprise: _storageService!.getObject('enterprise') != null
-            ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
-            : null));
+    try {
+      emit(LoginLoading(
+          enterprise: _storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
+              : null));
 
-    final response = await Dio().get('https://worldtimeapi.org/api/ip');
+      final response = await Dio().get('https://worldtimeapi.org/api/ip');
 
-    String? localHour;
-    String? webHour;
+      String? localHour;
+      String? webHour;
 
-    if (response.statusCode == 200) {
-      localHour = DateFormat("HH:mm").format(DateTime.now());
-      webHour = DateFormat("HH:mm")
-          .format(DateTime.parse(response.data!['datetime']).toLocal());
-    }
+      if (response.statusCode == 200) {
+        localHour = DateFormat("HH:mm").format(DateTime.now());
+        webHour = DateFormat("HH:mm")
+            .format(DateTime.parse(response.data!['datetime']).toLocal());
+      }
 
-    if (localHour == webHour) {
-      var location = await _locationRepository?.getCurrentLocation();
-      var device = await _helperFunction.getDevice();
-      var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
-      var version = yaml['version'];
+      if (localHour == webHour) {
+        var location = await _locationRepository?.getCurrentLocation();
+        var device = await _helperFunction.getDevice();
+        var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
+        var version = yaml['version'];
 
-      var loginRequest = LoginRequest(
-          username,
-          password,
-          device!['id'],
-          device['model'],
-          version,
-          now(),
-          location?.latitude.toString(),
-          location?.longitude.toString());
+        var loginRequest = LoginRequest(
+            username,
+            password,
+            device!['id'],
+            device['model'],
+            version,
+            now(),
+            location?.latitude.toString(),
+            location?.longitude.toString());
 
-      await onPressedLogin(loginRequest);
-    } else {
+        await onPressedLogin(loginRequest);
+      } else {
+        emit(LoginFailed(
+            error:
+                'Las horas no son iguales porfavor actualiza la hora de tu dispositivo a la hora correcta.',
+            enterprise: _storageService!.getObject('enterprise') != null
+                ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
+                : null));
+      }
+    } catch (e) {
       emit(LoginFailed(
-          error:
-              'Las horas no son iguales porfavor actualiza la hora de tu dispositivo a la hora correcta.',
+          error: e.toString(),
           enterprise: _storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
               : null));
@@ -132,12 +140,12 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(LoginLoading(
-          enterprise: _storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
-              : null));
-
       try {
+        emit(LoginLoading(
+            enterprise: _storageService!.getObject('enterprise') != null
+                ? Enterprise.fromMap(_storageService!.getObject('enterprise')!)
+                : null));
+
         final response = await _apiRepository.login(
           request: loginRequest,
         );
