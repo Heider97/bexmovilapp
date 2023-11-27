@@ -1,4 +1,3 @@
-
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
 
@@ -92,22 +91,35 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
               child: SizedBox(
                 width: 150,
                 height: 50,
-                child: CustomElevatedButton(
-                  onTap: () =>
-                      initialCubit.getEnterprise(companyNameController),
-                  child: Text(
-                    'Siguiente',
-                    style: theme.textTheme.bodyLarge!.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                ),
+                child: BlocSelector<InitialCubit, InitialState, bool>(
+                    selector: (state) => state is InitialLoading ? true : false,
+                    builder: (context, booleanState) => CustomElevatedButton(
+                          width: 150,
+                          height: 50,
+                          onTap: () => booleanState
+                              ? null
+                              : initialCubit
+                                  .getEnterprise(companyNameController),
+                          child: booleanState
+                              ? const CircularProgressIndicator(
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                )
+                              : Text(
+                                  'Siguiente',
+                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                        )),
               ),
             ),
           ),
           if (state.error != null)
             Expanded(
               child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 22, right: 22),
                   child: Text(state.error!, textAlign: TextAlign.center)),
             ),
           const Expanded(child: VersionWidget())
