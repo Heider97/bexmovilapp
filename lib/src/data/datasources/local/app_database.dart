@@ -124,49 +124,16 @@ class AppDatabase {
           }
         }
       },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        print('************');
-        print(newVersion);
-        print(oldVersion);
-
-        if (migrations != null) {
-          for (var migration in migrations) {
-            try {
-              String sqlScriptWithoutEscapes =
-              migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-
-              List<String> scriptsSeparados = sqlScriptWithoutEscapes.split('CREATE');
-
-              for (String createTableScript in scriptsSeparados) {
-                try {
-                  String scriptCompleto = 'CREATE $createTableScript';
-                  await db.execute(scriptCompleto);
-
-                  print('Script ejecutado con éxito:\n');
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            } catch (ex) {
-              print('Error $ex');
-            }
-          }
-        }
-      },
     );
   }
 
   Future<Database?> database(int? version, List<String>? migrations) async {
     var dbName = _storageService.getString('company_name');
-    if (_database != null &&
-        version == await _database!.database.getVersion()) {
-      return _database;
-    }
+    if (_database != null) return _database;
     await lock.synchronized(() async {
       if (_database == null ||
           await _database!.database.getVersion() != version) {
         dbName ??= databaseName;
-        print('initializing database with $version');
         _database = await _initDatabase('$dbName.db', version, migrations);
         _streamDatabase = BriteDatabase(_database!);
       }
@@ -180,14 +147,11 @@ class AppDatabase {
   }
 
   //SCRIPTING
-
   Future<void> runMigrations(List<String> migrations) async {
     final db = await _instance?.streamDatabase;
     try {
       await db?.transaction((db) async {
         for (var migration in migrations) {
-          print(migration);
-
           await db.execute(migration);
         }
       });
@@ -209,12 +173,13 @@ class AppDatabase {
     try {
       await db?.transaction((db) async {
         for (var object in objects) {
-          var id = await db.insert(table, object.toJson());
+          var id = await db.insert(table, object);
           results.add(id);
         }
       });
       return results;
     } catch (er) {
+      print(er);
       return null;
     }
   }

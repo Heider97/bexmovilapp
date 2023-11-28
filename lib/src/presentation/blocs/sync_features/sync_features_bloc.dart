@@ -41,15 +41,17 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
       var version = configs.firstWhere((element) => element.module == 'login');
 
       var response = await _apiRepository.priorities(
-          request: SyncPrioritiesRequest(date: now(), count: version.value!));
+          request: SyncPrioritiesRequest(date: now(), count: version.value ?? "0"));
+
+      print(response is DataSuccess);
 
       if (response is DataSuccess) {
         var migrations = <String>[];
         for (var migration in response.data!.priorities!) {
           try {
-            if(migration.schema != ""){
+            if(migration.schema != null){
               String sqlScriptWithoutEscapes =
-              migration.schema.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+              migration.schema!.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
               List<String> scriptsSeparated =
               sqlScriptWithoutEscapes.split('CREATE');
               for (String createTableScript in scriptsSeparated) {
@@ -69,13 +71,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         migrations.removeWhere((element) => element == 'CREATE ');
         await _databaseRepository.runMigrations(migrations);
         var prioritiesAsync = response.data!.priorities!.where((element) => element.runBackground == 1);
+        print(prioritiesAsync.length);
         //TODO: [Heider Zapa] run with isolate
         var prioritiesSync =  response.data!.priorities!.where((element) => element.runBackground == 0);
-        Future.forEach(prioritiesSync.toList(), (priority)  async {
+        print(prioritiesAsync.length);
+        await Future.forEach(prioritiesSync.toList(), (priority)  async {
           try {
             print('getting ${priority.name}');
             final response = await _apiRepository.syncDynamic(request: DynamicRequest(priority.name));
             if(response is DataSuccess) {
+              print(response.data!.data);
               //TODO: [Heider Zapa] capture api with error and should be request when retry
               if(response.data!.data != null){
                 await _databaseRepository.insertAll(priority.name, response.data!.data!);
@@ -87,11 +92,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             print(e);
           }
 
-        }).then((value) => emit(SyncFeaturesSuccess(features: features)));
+        }).whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
+      print(e.toString());
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }

@@ -5,7 +5,7 @@ class Priority {
   int runBackground;
   DateTime? createdAt;
   DateTime? updatedAt;
-  String schema;
+  String? schema;
   int version;
 
   Priority({
@@ -15,7 +15,7 @@ class Priority {
     required this.runBackground,
     required this.createdAt,
     required this.updatedAt,
-    required this.schema,
+    this.schema,
     required this.version,
   });
 
