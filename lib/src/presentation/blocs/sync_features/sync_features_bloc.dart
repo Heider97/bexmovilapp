@@ -66,20 +66,17 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             print('Error $ex');
           }
         }
-
+        migrations.removeWhere((element) => element == 'CREATE ');
         await _databaseRepository.runMigrations(migrations);
-
         var prioritiesAsync = response.data!.priorities!.where((element) => element.runBackground == 1);
-
         //TODO: [Heider Zapa] run with isolate
-
         var prioritiesSync =  response.data!.priorities!.where((element) => element.runBackground == 0);
-
         Future.forEach(prioritiesSync.toList(), (priority)  async {
           try {
             print('getting ${priority.name}');
             final response = await _apiRepository.syncDynamic(request: DynamicRequest(priority.name));
             if(response is DataSuccess) {
+              //TODO: [Heider Zapa] capture api with error and should be request when retry
               if(response.data!.data != null){
                 await _databaseRepository.insertAll(priority.name, response.data!.data!);
               }
@@ -89,6 +86,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           } catch (e) {
             print(e);
           }
+
         }).then((value) => emit(SyncFeaturesSuccess(features: features)));
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
