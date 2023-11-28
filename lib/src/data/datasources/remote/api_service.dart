@@ -359,6 +359,7 @@ class ApiService {
 
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'text/plain'
     };
 
     final result = await dio.fetch<Map<String, dynamic>>(

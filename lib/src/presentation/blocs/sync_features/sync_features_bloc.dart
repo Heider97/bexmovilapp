@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
+import 'package:bexmovil/src/domain/models/requests/dynamic_request.dart';
 import 'package:bexmovil/src/domain/models/requests/sync_priorities_request.dart';
 import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
@@ -34,15 +35,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     var features = await _databaseRepository.getFeatures();
     var configs = await _databaseRepository.getConfigs();
 
-    print('*********');
-    print(configs);
-
     try {
       emit(SyncFeaturesLoading(features: features));
 
       var version = configs.firstWhere((element) => element.module == 'login');
 
-      var response = await _apiRepository.syncPriorities(
+      var response = await _apiRepository.priorities(
           request: SyncPrioritiesRequest(date: now(), count: version.value!));
 
       if (response is DataSuccess) {
@@ -52,12 +50,25 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var v = version.value != null ? int.parse(version.value!) : 1;
         await _databaseRepository.init(v, migrations);
 
+        var prioritiesAsync = response.data!.priorities!.where((element) => element.runBackground == 1);
+
+        //TODO: [Heider Zapa] run with isolate
 
 
 
+        var prioritiesSync =  response.data!.priorities!.where((element) => element.runBackground == 0);
 
-        emit(SyncFeaturesSuccess(features: features));
+        Future.forEach(prioritiesSync.toList(), (priority)  async {
+          print('getting ${priority.name}');
+          final response = await _apiRepository.syncDynamic(request: DynamicRequest(priority.name));
+          if(response is DataSuccess) {
+            print(response.data!.data);
+            // if(response.data!.data != null){
+            //   await _databaseRepository.insertAll(priority.name, response.data!.data!);
+            // }
 
+          }
+        }).then((value) => emit(SyncFeaturesSuccess(features: features)));
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }

@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class DynamicResponse extends Equatable {
   final bool status;
   final String message;
-  final List<Map<String, dynamic>>? data;
+  final List<dynamic>? data;
 
   const DynamicResponse({
     required this.status,

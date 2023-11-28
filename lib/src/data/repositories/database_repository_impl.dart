@@ -68,6 +68,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.featureDao.emptyFeature();
   }
 
+  @override
+  Future<void> insertAll(String table, List<dynamic> objects) {
+    return _appDatabase.insertAll(table, objects);
+  }
+
   // initialize and close methods go here
   @override
   Future<void> init(int? version, List<String> migrations) async {
