@@ -71,7 +71,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   // initialize and close methods go here
   @override
   Future<void> init(String? version, List<String> migrations) async {
-    await _appDatabase.database(version, migrations);
+    await _appDatabase.database;
     return Future.value();
   }
 

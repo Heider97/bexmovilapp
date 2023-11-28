@@ -1,6 +1,10 @@
+import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
+import 'package:bexmovil/src/domain/models/requests/sync_priorities_request.dart';
+import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //repositories
+import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 //domain
 import '../../../domain/models/feature.dart';
@@ -15,23 +19,40 @@ part 'sync_features_state.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
-class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState> {
+class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
+    with FormatDate {
   final DatabaseRepository _databaseRepository;
+  final ApiRepository _apiRepository;
 
-  SyncFeaturesBloc(this._databaseRepository) : super(SyncFeaturesInitial()) {
+  SyncFeaturesBloc(this._databaseRepository, this._apiRepository)
+      : super(SyncFeaturesInitial()) {
     on<SyncFeatureGet>(_observe);
     on<SyncFeatureLeave>(_go);
   }
 
   void _observe(event, emit) async {
     var features = await _databaseRepository.getFeatures();
+    var configs = await _databaseRepository.getConfigs();
+
+    print('*********');
+    print(configs);
+
     try {
       emit(SyncFeaturesLoading(features: features));
 
-      Future.delayed(const Duration(seconds: 5));
+      var version = configs.firstWhere((element) => element.module == 'login');
 
-      throw ArgumentError(
-          'Parece que algo salió mal realizando la sincronización');
+      var response = await _apiRepository.syncPriorities(
+          request: SyncPrioritiesRequest(date: now(), count: version.value!));
+
+      if (response is DataSuccess) {
+        var migrations =
+            List<String>.from(response.data!.priorities!.map((e) => e.schema));
+        await _databaseRepository.init(version.value!, migrations);
+
+      } else {
+        emit(SyncFeaturesFailure(features: features, error: response.error));
+      }
     } catch (e) {
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }

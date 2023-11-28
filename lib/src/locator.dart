@@ -34,7 +34,7 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<NavigationService>(navigation);
 
     final db = AppDatabase.instance;
-    locator.registerSingleton<AppDatabase>(db);
+    locator.registerSingleton<AppDatabase>(db!);
 
     locator.registerSingleton<ApiService>(
       ApiService(testing: true, dio: dio!, storageService: locator<LocalStorageService>()),
