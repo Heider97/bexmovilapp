@@ -9,7 +9,10 @@ import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_resp
 
 import '../../utils/resources/data_state.dart';
 
+import '../models/requests/dynamic_request.dart';
 import '../models/requests/enterprise_request.dart';
+import '../models/requests/sync_priorities_request.dart';
+import '../models/responses/dynamic_response.dart';
 import '../models/responses/enterprise_response.dart';
 
 import '../models/requests/login_request.dart';
@@ -17,6 +20,7 @@ import '../models/responses/login_response.dart';
 
 
 import '../models/responses/config_response.dart';
+import '../models/responses/sync_priorities_response.dart';
 import '../models/responses/sync_response.dart';
 
 abstract class ApiRepository {
@@ -43,4 +47,10 @@ abstract class ApiRepository {
   Future<DataState<ChangePasswordResponse>> changePassword({
     required ChangePasswordRequest request
   });
+
+  Future<DataState<SyncPrioritiesResponse>> priorities(
+      {required SyncPrioritiesRequest request});
+
+  Future<DataState<DynamicResponse>> syncDynamic(
+      {required DynamicRequest request});
 }

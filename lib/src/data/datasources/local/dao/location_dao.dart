@@ -25,7 +25,7 @@ class LocationDao {
     final db = await _appDatabase.streamDatabase;
 
     final locationList =
-        await db!.rawQuery('SELECT * FROM locations ORDER BY _id desc LIMIT 1');
+    await db!.rawQuery('SELECT * FROM locations ORDER BY _id desc LIMIT 1');
 
     final locations = parseLocations(locationList);
 

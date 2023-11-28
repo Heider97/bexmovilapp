@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/sync_priorities_response.dart';
 import 'package:dio/dio.dart';
 
 //models
 import '../../../domain/models/login.dart';
 
 //interceptor
+import '../../../domain/models/responses/dynamic_response.dart';
 import 'interceptor_api_service.dart';
 
 //response
@@ -301,6 +303,76 @@ class ApiService {
       status: result.data!['status'],
       message: result.data!['message'],
     );
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<SyncPrioritiesResponse>> priorities(
+      {required String date, required String count}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'date': date, r'count': count};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/priorities',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = SyncPrioritiesResponse.fromJson(result.data!);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<DynamicResponse>> syncDynamic({required String table}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'table': table};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptHeader: 'text/plain'
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+          method: 'GET',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(dio.options, '/sync/dynamic',
+            queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = DynamicResponse.fromMap(result.data!, table);
 
     return Response(
         data: value,

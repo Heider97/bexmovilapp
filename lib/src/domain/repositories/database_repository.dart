@@ -5,8 +5,10 @@ import '../models/config.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
-  Future<void> init(String? version);
+  Future<void> init(int? version, List<String> migrations);
   void close();
+  Future<void> runMigrations(List<String> migrations);
+  Future<void> insertAll(String table, List<dynamic> objects);
 
   //CONFIGS
   Future<List<Config>> getConfigs();

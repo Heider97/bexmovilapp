@@ -72,7 +72,7 @@ class Logging extends Interceptor {
     //TODO:: [Sebastian Monroy] Always try to verify that contains variables to do correct validations
     if (err.type == DioExceptionType.badResponse &&
         !err.requestOptions.uri.toString().contains('auth') &&
-        err.message!.contains('401')) {
+        err.message != null && err.message!.contains('401')) {
       Future.value(helperFunction.login());
     }
     return err.type == DioExceptionType.unknown &&

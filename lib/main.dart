@@ -105,6 +105,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
               locator<DatabaseRepository>(),
+              locator<ApiRepository>(),
             )),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),

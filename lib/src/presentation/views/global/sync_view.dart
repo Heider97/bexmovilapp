@@ -2,6 +2,7 @@ import 'package:bexmovil/src/presentation/blocs/sync_features/sync_features_bloc
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 //widgets
 import '../../../presentation/widgets/custom_card_widget.dart';
@@ -91,13 +92,10 @@ class _SyncViewState extends State<SyncView> {
   }
 
   Widget _buildLoading(SyncFeaturesState state, theme) {
-    return Column(
-      children: [
-        const Text("Porfavor espere..."),
-        gapH8,
-        CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(theme.primaryColor))
-      ],
+    return CountDown(
+      target: DateTime.now().add(
+        const Duration(minutes: 2),
+      ),
     );
   }
 
@@ -109,7 +107,7 @@ class _SyncViewState extends State<SyncView> {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         gapH16,
-        Text(state.error!, textAlign: TextAlign.center),
+        Text(state.error ?? "Error", textAlign: TextAlign.center),
         gapH16,
         CustomElevatedButton(
           width: 150,
@@ -121,18 +119,39 @@ class _SyncViewState extends State<SyncView> {
                 .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
-        gapH8,
-        CustomElevatedButton(
-          width: 150,
-          height: 50,
-          onTap: () => syncFeaturesBloc.add(SyncFeatureLeave()),
-          child: Text(
-            'Inicio',
-            style: theme.textTheme.bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        )
       ],
+    );
+  }
+}
+
+class CountDown extends StatelessWidget {
+  final DateTime target;
+
+  const CountDown({
+    Key? key,
+    required this.target,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: Stream.periodic(const Duration(seconds: 1)),
+      builder: (context, snapshot) {
+        return Column(
+          children: [
+            Text('Espere hasta ${DateFormat.Hms().format(target)}'),
+            gapH24,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 20),
+            //   child: LinearProgressIndicator(
+            //     value: (value++ *  diffDate.inSeconds) * 100,
+            //   ),
+            // ),
+            // gapH24,
+            Text(target.difference(DateTime.now()).toString().split('.')[0]),
+          ],
+        );
+      },
     );
   }
 }
