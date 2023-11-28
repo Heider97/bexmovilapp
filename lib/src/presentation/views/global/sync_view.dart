@@ -94,7 +94,7 @@ class _SyncViewState extends State<SyncView> {
   Widget _buildLoading(SyncFeaturesState state, theme) {
     return CountDown(
       target: DateTime.now().add(
-        const Duration(minutes: 5),
+        const Duration(minutes: 2),
       ),
     );
   }
@@ -139,8 +139,15 @@ class CountDown extends StatelessWidget {
       builder: (context, snapshot) {
         return Column(
           children: [
-            Text('Time until ${DateFormat.Hms().format(target)}'),
-            const SizedBox(height: 24.0),
+            Text('Espere hasta ${DateFormat.Hms().format(target)}'),
+            gapH24,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 20),
+            //   child: LinearProgressIndicator(
+            //     value: (value++ *  diffDate.inSeconds) * 100,
+            //   ),
+            // ),
+            // gapH24,
             Text(target.difference(DateTime.now()).toString().split('.')[0]),
           ],
         );

@@ -25,16 +25,19 @@ class SyncPrioritiesResponse {
     this.priorities,
   });
 
-  factory SyncPrioritiesResponse.fromJson(Map<String, dynamic> json) =>
-      SyncPrioritiesResponse(
-        status: json["status"],
-        message: json["message"],
-        version: json["version"],
-        priorities: json["priorities"] != null
-            ? List<Priority>.from(
-                json["priorities"].map((x) => Priority.fromJson(x)))
-            : null,
-      );
+  factory SyncPrioritiesResponse.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return SyncPrioritiesResponse(
+      status: json["status"],
+      message: json["message"],
+      version: json["version"],
+      priorities: json["priorities"] != null
+          ? List<Priority>.from(
+          json["priorities"].map((x) => Priority.fromJson(x)))
+          : null,
+    );
+  }
+
 
   Map<String, dynamic> toJson() => {
         "status": status,
