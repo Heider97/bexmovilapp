@@ -1,4 +1,3 @@
-
 import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
 import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 
@@ -10,9 +9,10 @@ import 'package:bexmovil/src/domain/models/responses/change_password_response.da
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
 
-
+import '../../domain/models/requests/dynamic_request.dart';
 import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/requests/sync_priorities_request.dart';
+import '../../domain/models/responses/dynamic_response.dart';
 import '../../domain/models/responses/login_response.dart';
 
 import '../../domain/models/requests/enterprise_request.dart';
@@ -40,15 +40,13 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required EnterpriseRequest request,
   }) {
     return getStateOf<EnterpriseResponse>(
-        request: () => _apiService.getEnterprise(request.company),
-        );
+      request: () => _apiService.getEnterprise(request.company),
+    );
   }
 
   @override
   Future<DataState<ConfigResponse>> configs() {
-    return getStateOf<ConfigResponse>(
-      request: () => _apiService.configs()
-    );
+    return getStateOf<ConfigResponse>(request: () => _apiService.configs());
   }
 
   @override
@@ -56,8 +54,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required LoginRequest request,
   }) {
     return getStateOf<LoginResponse>(
-        request: () => _apiService.login(loginRequest: request)
-        );
+        request: () => _apiService.login(loginRequest: request));
   }
 
   @override
@@ -70,25 +67,34 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
-        request: () => _apiService.requestRecoveryCode(email: request.email),
-        );
+      request: () => _apiService.requestRecoveryCode(email: request.email),
+    );
   }
 
   @override
   Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode(
       {required request}) {
     return getStateOf<ValidateRecoveryCodeResponse>(
-        request: () => _apiService.validateRecoveryCode(code: request.code),
-        );
+      request: () => _apiService.validateRecoveryCode(code: request.code),
+    );
   }
 
   @override
   Future<DataState<ChangePasswordResponse>> changePassword(
       {required ChangePasswordRequest request}) {
     return getStateOf<ChangePasswordResponse>(
-        request: () => _apiService.changePassword(
-            code: request.code, password: request.password),
-        );
+      request: () => _apiService.changePassword(
+          code: request.code, password: request.password),
+    );
+  }
+
+  @override
+  Future<DataState<SyncPrioritiesResponse>> priorities(
+      {required SyncPrioritiesRequest request}) {
+    return getStateOf<SyncPrioritiesResponse>(
+      request: () =>
+          _apiService.priorities(count: request.count, date: request.date),
+    );
   }
 
   @override
@@ -96,7 +102,15 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
       {required SyncPrioritiesRequest request}) {
     return getStateOf<SyncPrioritiesResponse>(
       request: () =>
-          _apiService.syncPriorities(count: request.count, date: request.date),
+          _apiService.priorities(count: request.count, date: request.date),
+    );
+  }
+
+  @override
+  Future<DataState<DynamicResponse>> syncDynamic(
+      {required DynamicRequest request}) {
+    return getStateOf<DynamicResponse>(
+      request: () => _apiService.syncDynamic(table: request.table),
     );
   }
 }

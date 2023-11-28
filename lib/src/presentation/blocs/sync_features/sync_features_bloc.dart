@@ -52,6 +52,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var v = version.value != null ? int.parse(version.value!) : 1;
         await _databaseRepository.init(v, migrations);
 
+
+
+
+
+        emit(SyncFeaturesSuccess(features: features));
+
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
