@@ -26,25 +26,19 @@ part '../local/dao/feature_dao.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class AppDatabase {
-  late int version;
-  late List<String> migrations;
-
-  static AppDatabase? instance;
+  static var lock = Lock();
+  static AppDatabase? _instance;
   static BriteDatabase? _streamDatabase;
   Database? _database;
 
-  AppDatabase({required this.version, required this.migrations});
-
   Future<AppDatabase?> getInstance() async {
-    instance ??= AppDatabase(version: version, migrations: migrations);
-    _database ??= await database;
-    return instance;
+    _instance ??= AppDatabase();
+    _database ??= await database(1, null);
+    return _instance;
   }
 
-  static var lock = Lock();
-
   Future<Database> _initDatabase(
-      databaseName, int version, List<String>? migrations) async {
+      databaseName, int? version, List<String>? migrations) async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
     final path = join(documentsDirectory.path, databaseName);
@@ -108,59 +102,78 @@ class AppDatabase {
             ${ConfigFields.module} TEXT DEFAULT NULL
           )
         ''');
+        if (migrations != null) {
+          for (var migration in migrations) {
+            try {
+              String sqlScriptWithoutEscapes =
+                  migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+
+              List<String> scriptsSeparados =
+                  sqlScriptWithoutEscapes.split('CREATE');
+
+              for (String createTableScript in scriptsSeparados) {
+                try {
+                  String scriptCompleto = 'CREATE $createTableScript';
+                  await db.execute(scriptCompleto);
+
+                  print('Script ejecutado con éxito:\n');
+                } catch (ex) {
+                  print('Error al ejecutar el script:\n$ex');
+                }
+              }
+            } catch (ex) {
+              print('Error $ex');
+            }
+          }
+        }
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         print('************');
         print(newVersion);
         print(oldVersion);
 
-        // for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
-        //   if (migrations != null) {
-        //     for (var migration in migrations) {
-        //       try {
-        //         String sqlScriptWithoutEscapes =
-        //             migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-        //
-        //         List<String> scriptsSeparados =
-        //             sqlScriptWithoutEscapes.split('CREATE');
-        //
-        //         for (String createTableScript in scriptsSeparados) {
-        //           try {
-        //             String scriptCompleto = 'CREATE $createTableScript';
-        //             await db.execute(scriptCompleto);
-        //
-        //             print('Script ejecutado con éxito:\n');
-        //           } catch (ex) {
-        //             print('Error al ejecutar el script:\n$ex');
-        //           }
-        //         }
-        //       } catch (ex) {
-        //         print('Error $ex');
-        //       }
-        //     }
-        //   }
-        // }
+        if (migrations != null) {
+          for (var migration in migrations) {
+            try {
+              String sqlScriptWithoutEscapes =
+              migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+
+              List<String> scriptsSeparados =
+              sqlScriptWithoutEscapes.split('CREATE');
+
+              for (String createTableScript in scriptsSeparados) {
+                try {
+                  String scriptCompleto = 'CREATE $createTableScript';
+                  await db.execute(scriptCompleto);
+
+                  print('Script ejecutado con éxito:\n');
+                } catch (ex) {
+                  print('Error al ejecutar el script:\n$ex');
+                }
+              }
+            } catch (ex) {
+              print('Error $ex');
+            }
+          }
+        }
       },
     );
   }
 
-  Future<Database?> get database async {
+  Future<Database?> database(int? version, List<String>? migrations) async {
     var dbName = _storageService.getString('company_name');
-    if (_database != null) {
-      var currentVersion = await _database!.database.getVersion();
 
-      print(currentVersion);
 
-      if (version != null && currentVersion != version) {
-        print('inicializando database');
-        _database = await _initDatabase('$dbName.db', version, migrations);
-      }
+    if (_database != null &&
+        version == await _database!.database.getVersion()) {
       return _database;
     }
     await lock.synchronized(() async {
-      if (_database == null) {
+      if (_database == null ||
+          await _database!.database.getVersion() != version) {
         dbName ??= databaseName;
-        _database = await _initDatabase('$dbName.db', version ?? 1, migrations);
+        print('initializing database with $version');
+        _database = await _initDatabase('$dbName.db', version, migrations);
         _streamDatabase = BriteDatabase(_database!);
       }
     });
@@ -168,34 +181,50 @@ class AppDatabase {
   }
 
   Future<BriteDatabase?> get streamDatabase async {
-    await database;
+    await database(null, null);
     return _streamDatabase;
   }
 
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = await instance?.streamDatabase;
+    final db = await _instance?.streamDatabase;
     return db!.insert(table, row);
   }
 
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await instance?.streamDatabase;
+    final db = await _instance?.streamDatabase;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
+    final db = await _instance?.streamDatabase;
+    var results = <int>[];
+    try {
+      await db?.transaction((db) async {
+        for (var object in objects) {
+          var id = await db.insert(table, object.toJson());
+          results.add(id);
+        }
+      });
+      return results;
+    } catch (er) {
+      return null;
+    }
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = await instance?.streamDatabase;
+    final db = await _instance?.streamDatabase;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance!);
+  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(_instance!);
 
-  FeatureDao get featureDao => FeatureDao(instance!);
+  FeatureDao get featureDao => FeatureDao(_instance!);
 
-  ConfigDao get configDao => ConfigDao(instance!);
+  ConfigDao get configDao => ConfigDao(_instance!);
 
   void close() {
     _database = null;

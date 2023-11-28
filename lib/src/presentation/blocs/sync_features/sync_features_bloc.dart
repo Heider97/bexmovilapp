@@ -48,7 +48,9 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
       if (response is DataSuccess) {
         var migrations =
             List<String>.from(response.data!.priorities!.map((e) => e.schema));
-        await _databaseRepository.init(version.value!, migrations);
+
+        var v = version.value != null ? int.parse(version.value!) : 1;
+        await _databaseRepository.init(v, migrations);
 
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));

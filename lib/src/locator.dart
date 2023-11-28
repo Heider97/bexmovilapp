@@ -33,7 +33,7 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     final navigation = NavigationService();
     locator.registerSingleton<NavigationService>(navigation);
 
-    final db = AppDatabase.instance;
+    final db = await AppDatabase().getInstance();
     locator.registerSingleton<AppDatabase>(db!);
 
     locator.registerSingleton<ApiService>(
@@ -64,8 +64,8 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     final platform = await PlatformService.getInstance();
     locator.registerSingleton<PlatformService>(platform!);
 
-    final db = AppDatabase.instance;
-    locator.registerSingleton<AppDatabase>(db);
+    final db = await AppDatabase().getInstance();
+    locator.registerSingleton<AppDatabase>(db!);
 
     locator.registerSingleton<ApiService>(
       ApiService(dio: Dio(
