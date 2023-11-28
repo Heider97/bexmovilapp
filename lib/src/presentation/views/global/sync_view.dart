@@ -107,7 +107,7 @@ class _SyncViewState extends State<SyncView> {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
         gapH16,
-        Text(state.error!, textAlign: TextAlign.center),
+        Text(state.error ?? "Error", textAlign: TextAlign.center),
         gapH16,
         CustomElevatedButton(
           width: 150,
