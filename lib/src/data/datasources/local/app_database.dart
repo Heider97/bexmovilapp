@@ -43,9 +43,6 @@ class AppDatabase {
 
     final path = join(documentsDirectory.path, databaseName);
 
-    print('incoming version');
-    print(version);
-
     return await openDatabase(
       path,
       version: version,
@@ -138,8 +135,7 @@ class AppDatabase {
               String sqlScriptWithoutEscapes =
               migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
 
-              List<String> scriptsSeparados =
-              sqlScriptWithoutEscapes.split('CREATE');
+              List<String> scriptsSeparados = sqlScriptWithoutEscapes.split('CREATE');
 
               for (String createTableScript in scriptsSeparados) {
                 try {
@@ -162,8 +158,6 @@ class AppDatabase {
 
   Future<Database?> database(int? version, List<String>? migrations) async {
     var dbName = _storageService.getString('company_name');
-
-
     if (_database != null &&
         version == await _database!.database.getVersion()) {
       return _database;
@@ -185,17 +179,28 @@ class AppDatabase {
     return _streamDatabase;
   }
 
+  //SCRIPTING
+
+  Future<void> runMigrations(List<String> migrations) async {
+    final db = await _instance?.streamDatabase;
+    try {
+      await db?.transaction((db) async {
+        for (var migration in migrations) {
+          print(migration);
+
+          await db.execute(migration);
+        }
+      });
+      return;
+    } catch (er) {
+      return;
+    }
+  }
+
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
     final db = await _instance?.streamDatabase;
     return db!.insert(table, row);
-  }
-
-  //UPDATE METHOD
-  Future<int> update(
-      String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await _instance?.streamDatabase;
-    return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
@@ -213,6 +218,14 @@ class AppDatabase {
       return null;
     }
   }
+
+  //UPDATE METHOD
+  Future<int> update(
+      String table, Map<String, dynamic> value, String columnId, int id) async {
+    final db = await _instance?.streamDatabase;
+    return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
+  }
+
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {

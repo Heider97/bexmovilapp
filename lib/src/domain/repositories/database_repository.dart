@@ -7,6 +7,7 @@ abstract class DatabaseRepository {
   //DATABASE
   Future<void> init(int? version, List<String> migrations);
   void close();
+  Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
 
   //CONFIGS

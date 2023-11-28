@@ -44,29 +44,50 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           request: SyncPrioritiesRequest(date: now(), count: version.value!));
 
       if (response is DataSuccess) {
-        var migrations =
-            List<String>.from(response.data!.priorities!.map((e) => e.schema));
+        var migrations = <String>[];
+        for (var migration in response.data!.priorities!) {
+          try {
+            if(migration.schema != ""){
+              String sqlScriptWithoutEscapes =
+              migration.schema.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+              List<String> scriptsSeparated =
+              sqlScriptWithoutEscapes.split('CREATE');
+              for (String createTableScript in scriptsSeparated) {
+                try {
+                  String scriptCompleted = 'CREATE $createTableScript'.replaceAll(';', '');
+                  migrations.add(scriptCompleted);
+                } catch (ex) {
+                  print('Error al ejecutar el script:\n$ex');
+                }
+              }
+            }
 
-        var v = version.value != null ? int.parse(version.value!) : 1;
-        await _databaseRepository.init(v, migrations);
+          } catch (ex) {
+            print('Error $ex');
+          }
+        }
+
+        await _databaseRepository.runMigrations(migrations);
 
         var prioritiesAsync = response.data!.priorities!.where((element) => element.runBackground == 1);
 
         //TODO: [Heider Zapa] run with isolate
 
-
-
         var prioritiesSync =  response.data!.priorities!.where((element) => element.runBackground == 0);
 
         Future.forEach(prioritiesSync.toList(), (priority)  async {
-          print('getting ${priority.name}');
-          final response = await _apiRepository.syncDynamic(request: DynamicRequest(priority.name));
-          if(response is DataSuccess) {
-            print(response.data!.data);
-            // if(response.data!.data != null){
-            //   await _databaseRepository.insertAll(priority.name, response.data!.data!);
-            // }
-
+          try {
+            print('getting ${priority.name}');
+            final response = await _apiRepository.syncDynamic(request: DynamicRequest(priority.name));
+            if(response is DataSuccess) {
+              if(response.data!.data != null){
+                await _databaseRepository.insertAll(priority.name, response.data!.data!);
+              }
+            } else {
+              print(response.data!.message);
+            }
+          } catch (e) {
+            print(e);
           }
         }).then((value) => emit(SyncFeaturesSuccess(features: features)));
       } else {
