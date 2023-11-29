@@ -1,7 +1,3 @@
-
-
-
-// import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bloc/bloc.dart';
@@ -18,8 +14,9 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   // final DatabaseRepository _databaseRepository;
 
   GoogleAccountBloc() : super(GoogleAccountInitial()){}
-  //esta es la logica, esta en el bloc
-  Future<UserCredential> signInWithGoogle()async{
+
+
+  Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
