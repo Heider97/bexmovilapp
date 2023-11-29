@@ -37,7 +37,7 @@ dependencies:
   hive: ^2.2.3
   intl: ^0.18.0
   latlong2: ^0.8.1
-  location: ^4.4.0
+  geolocator: ^10.1.0
   location_repository:
     path: packages/location_repository
   lottie: ^2.3.0
