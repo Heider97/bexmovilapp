@@ -2,10 +2,13 @@
 
 
 
+import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sqlbrite/sqlbrite.dart';
 import 'package:upgrader/upgrader.dart';
 
 //theme
@@ -51,6 +54,10 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Firebase.initializeApp().then; // inicializando firebase dentro de la app
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Upgrader.clearSavedSettings(); // REMOVE this for release builds
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
@@ -107,6 +114,9 @@ class _MyAppState extends State<MyApp> {
               locator<DatabaseRepository>(),
               locator<ApiRepository>(),
             )),
+        BlocProvider(
+          create: (context) => GoogleAccountBloc()
+        ),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
