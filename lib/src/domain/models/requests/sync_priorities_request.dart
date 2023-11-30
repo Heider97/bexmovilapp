@@ -1,5 +1,5 @@
 class SyncPrioritiesRequest {
   final String date;
-  final String count;
-  SyncPrioritiesRequest({required this.date, required this.count});
+  final String version;
+  SyncPrioritiesRequest({required this.date, required this.version});
 }
