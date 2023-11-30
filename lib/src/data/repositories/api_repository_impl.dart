@@ -93,18 +93,10 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
       {required SyncPrioritiesRequest request}) {
     return getStateOf<SyncPrioritiesResponse>(
       request: () =>
-          _apiService.priorities(count: request.count, date: request.date),
+          _apiService.priorities(version: request.version, date: request.date),
     );
   }
 
-  @override
-  Future<DataState<SyncPrioritiesResponse>> syncPriorities(
-      {required SyncPrioritiesRequest request}) {
-    return getStateOf<SyncPrioritiesResponse>(
-      request: () =>
-          _apiService.priorities(count: request.count, date: request.date),
-    );
-  }
 
   @override
   Future<DataState<DynamicResponse>> syncDynamic(
