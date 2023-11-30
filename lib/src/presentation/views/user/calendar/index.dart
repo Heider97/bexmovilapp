@@ -1,7 +1,8 @@
+import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 //services
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
@@ -16,6 +17,22 @@ class CalendarPage extends StatefulWidget {
 }
 
 class CalendarPageState extends State<CalendarPage> {
+
+  late GoogleAccountBloc googleaccountbloc;
+  
+  GoogleAccountBloc calendarClient = GoogleAccountBloc();
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now().add(Duration(days: 1));
+  TextEditingController _eventName = TextEditingController();
+
+  @override
+  void initState() {
+
+    googleaccountbloc = BlocProvider.of<GoogleAccountBloc>(context);
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

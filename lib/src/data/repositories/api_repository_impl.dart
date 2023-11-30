@@ -10,9 +10,11 @@ import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
 
 import '../../domain/models/requests/dynamic_request.dart';
+import '../../domain/models/requests/google_request.dart';
 import '../../domain/models/requests/login_request.dart';
 import '../../domain/models/requests/sync_priorities_request.dart';
 import '../../domain/models/responses/dynamic_response.dart';
+import '../../domain/models/responses/google_response.dart';
 import '../../domain/models/responses/login_response.dart';
 
 import '../../domain/models/requests/enterprise_request.dart';
@@ -55,6 +57,15 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }) {
     return getStateOf<LoginResponse>(
         request: () => _apiService.login(loginRequest: request));
+  }
+
+  @override
+  Future<DataState<GoogleResponse>> googleCount({
+    required GoogleRequest request
+  }) {
+    return getStateOf<GoogleResponse>(
+      request: () => _apiService.googleCount()
+    );
   }
 
   @override
