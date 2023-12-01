@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 //services
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
+import '../../../widgets/custom_button_navigationbar.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -19,7 +21,9 @@ class CalendarPage extends StatefulWidget {
 class CalendarPageState extends State<CalendarPage> {
 
   late GoogleAccountBloc googleaccountbloc;
-  
+
+  TextEditingController calendarcontroller = TextEditingController();
+
   GoogleAccountBloc calendarClient = GoogleAccountBloc();
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(Duration(days: 1));
@@ -36,41 +40,50 @@ class CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          actions: [
-            Builder(
-                builder: (context) => CircleAvatar(
+
+        body: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
                       radius: 22,
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new),
-                        onPressed: () =>
-                            _navigationService.replaceTo(Routes.homeRoute),
-                      ),
-                    )),
-            const Spacer(),
-            Builder(
-              builder: (context) => const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 22,
-                  child: Badge(
-                    alignment: AlignmentDirectional.topEnd,
-                    label: Text('2'),
-                    child: IconButton(
-                      icon: Icon(Icons.notifications),
-                      onPressed: null,
+                      backgroundColor: Colors.orange,
+                      child: Icon(Icons.email),
                     ),
-                  )),
-            ),
+                    SizedBox(
+                      width: 230,
+                      child: CustomTextFormField(
+                        controller: calendarcontroller, 
+                        hintText: '¿ Que estas buscando ?'
+                      )
+                    )
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20,),  
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SfCalendar(
+                    view: CalendarView.month,
+                    dataSource: MeetingDataSource(_getDataSource()),
+                    monthViewSettings: const MonthViewSettings(
+                    appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
+                  ),
+              ),
+              ],
+            )
           ],
         ),
-        body: SfCalendar(
-          view: CalendarView.month,
-          dataSource: MeetingDataSource(_getDataSource()),
-          monthViewSettings: const MonthViewSettings(
-              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-        ));
+        bottomNavigationBar: CustomButtonNavigationBar()
+      );
   }
 
   List<Meeting> _getDataSource() {
