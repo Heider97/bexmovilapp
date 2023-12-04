@@ -1,18 +1,22 @@
 
 
 
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unrelated_type_equality_checks
 
 // import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/blocs/network/network_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,7 +63,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
-  
+  //calendar event 1
   Future<void> createEvents(title, startTime, endTime) async {
     var clientID =  ClientId("YOUR_CLIENT_ID", "");
     clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client){
@@ -109,13 +113,58 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
-  //actualizar eventos
-  // Future<void> updateEvents() async {
+    List <Meeting> meetings = [
+    Meeting('Confernece 1', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
+    const Color(0xFF0F8644), false),
+    Meeting('Confernece 2', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
+    const Color(0xFF0F8644), false),
+    Meeting('Confernece 3', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
+    const Color(0xFF0F8644), false),
+  ];
 
-  // }
+  //addmeeting
+  void addMeeting(){
+    meetings.add(
+      Meeting('Confernece 5', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
+      const Color(0xFF0F8644), false),
+    );
+    NetworkNotify();
+  }
 
-  //eliminar eventos
-  // Future<void> deleteEvents(String eventId) async {
+  //editar evento
+  void editMeeting(int index){
+    meetings[index].eventName = 'Con $index $index';
+    NetworkNotify();
+  }
 
-  // }
+  //actualizar un evento
+  void updateEvent(){
+    Meeting updateMeeting = Meeting(
+      'Nueva Reunion', 
+      DateTime.now(), 
+      DateTime.now().add(const Duration(hours: 2)),
+      const Color(0xFF0F8644), 
+      false
+    );
+
+    int index = meetings.indexWhere((meeting) => 
+      meeting == 'reunion de trabajo' &&
+      meeting == DateTime.now());
+    if(index != -1){
+      meetings[index] = updateMeeting;
+    }
+    NetworkNotify();
+  }
+
+  //eliminar evento
+  void deleteEvent() {
+    int index = meetings.indexWhere((meeting) => 
+      meeting == 'reunion de trabajo' &&
+      meeting == DateTime.now());
+
+    if(index != -1){
+      meetings.removeAt(index);
+    }
+    NetworkNotify();
+  }
 }
