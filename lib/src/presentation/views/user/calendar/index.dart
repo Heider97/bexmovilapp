@@ -75,14 +75,14 @@ class CalendarPageState extends State<CalendarPage> {
                 child: SfCalendar(
                   onTap: (calendarTapDetails) { //agregando un evento por medio del ontap
                     setState(() {
-                      googleaccountbloc.addMeeting();
+                      googleaccountbloc.createEvent();
                       // googleaccountbloc.close();
                     });
                   },
                     view: CalendarView.month,
                     initialSelectedDate: DateTime.now(),
                     controller: calendarController,
-                    dataSource: MeetingDataSource(googleaccountbloc.meetings),
+                    dataSource: MeetingDataSource(googleaccountbloc.appointments),
                     selectionDecoration: BoxDecoration(
                       color: Colors.transparent,
                       border: Border.all(color: Colors.orange, width: 2),
@@ -105,7 +105,15 @@ class CalendarPageState extends State<CalendarPage> {
             )
           ],
         ),
-
+        floatingActionButton: IconButton(
+          color: Colors.orange,
+          onPressed: (){
+            setState(() {
+              googleaccountbloc.editEvent();
+            });
+          }, 
+          icon: const Icon(Icons.edit)
+        ),
         bottomNavigationBar: const CustomButtonNavigationBar()
       );
   }
@@ -132,7 +140,7 @@ class CalendarPageState extends State<CalendarPage> {
 }
 
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Meeting> source) {
+  MeetingDataSource(List<Appointment> source) {
     appointments = source;
   }
 

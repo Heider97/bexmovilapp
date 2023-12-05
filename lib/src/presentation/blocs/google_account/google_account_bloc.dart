@@ -4,6 +4,7 @@
 // ignore_for_file: avoid_print, unrelated_type_equality_checks
 
 // import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -12,7 +13,7 @@ import 'package:bexmovil/src/presentation/blocs/network/network_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +32,14 @@ final NavigationService _navigationService = locator<NavigationService>();
 
 class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
 
-  static const scopes = [CalendarApi.calendarScope];
+  static const scopes =  [CalendarApi.calendarScope];
+  
   Event event = Event();
 
-  GoogleAccountBloc() : super(GoogleAccountInitial()){}
+  GoogleAccountBloc() : super(GoogleAccountInitial());
   
   //esta es la logica, esta en el bloc
   Future<UserCredential> signInWithGoogle()async{
-
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
@@ -63,7 +64,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
-  //calendar event 1
+  //calendar event 1 with google api
   Future<void> createEvents(title, startTime, endTime) async {
     var clientID =  ClientId("YOUR_CLIENT_ID", "");
     clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client){
@@ -102,7 +103,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   }
 
   void prompt(String url) async {
-    print("Please go to the following URL and grant access:");
+    print("Vaya a la siguiente URL y conceda acceso:");
     print("  => $url");
     print("");
 
@@ -113,58 +114,82 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
-    List <Meeting> meetings = [
-    Meeting('Confernece 1', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
-    const Color(0xFF0F8644), false),
-    Meeting('Confernece 2', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
-    const Color(0xFF0F8644), false),
-    Meeting('Confernece 3', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
-    const Color(0xFF0F8644), false),
+  //lista que agrega una nueva reunion de trabajo
+  List<Appointment> appointments = <Appointment>[
+    Appointment(
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(const Duration(hours: 1)),
+      subject: 'Reunión de trabajo',
+      color: const Color(0xFF0F8644)
+    ),
   ];
 
-  //addmeeting
-  void addMeeting(){
-    meetings.add(
-      Meeting('Confernece 5', DateTime.now(), DateTime.now().add(const Duration(hours: 2)),
-      const Color(0xFF0F8644), false),
+  //plan B crear evento usando el listado appointment
+  void createEvent() {
+    Appointment newAppointment = Appointment(
+      startTime: DateTime.now(),
+      endTime: DateTime.now().add(const Duration(hours: 1)),
+      subject: 'Nuevo evento',
+      color: const Color(0xFF0F8644),
     );
+
+    // Agregar el nuevo evento a la lista de eventos
+    appointments.add(newAppointment);
     NetworkNotify();
   }
 
-  //editar evento
-  void editMeeting(int index){
-    meetings[index].eventName = 'Con $index $index';
+  //editar evento plan b usando el listado appointment
+  void editEvent(){
+    Appointment editedAppointment = Appointment(
+      startTime: DateTime.now(), 
+      endTime: DateTime.now().add(const Duration(hours: 2)),
+      subject: 'Reunion de trabajo actualizada',
+      color: const Color(0xFF0F8644),
+    );
+
+    int index = appointments.indexWhere((appointment) => 
+      appointment.subject == 'Nuevo evento' &&
+      appointment.startTime == DateTime.now());
+    if(index != -1) {
+      appointments[index] = editedAppointment;
+    }
     NetworkNotify();
   }
 
   //actualizar un evento
   void updateEvent(){
-    Meeting updateMeeting = Meeting(
-      'Nueva Reunion', 
-      DateTime.now(), 
-      DateTime.now().add(const Duration(hours: 2)),
-      const Color(0xFF0F8644), 
-      false
+    Appointment updatedAppointment = Appointment(
+      startTime: DateTime.now().add(const Duration(days: 1)), 
+      endTime: DateTime.now().add(const Duration(days: 1, hours: 1)),
+      subject: 'Reunion de trabajo actualizada',
+      color: const Color(0xFF0F8644),
     );
 
-    int index = meetings.indexWhere((meeting) => 
-      meeting == 'reunion de trabajo' &&
-      meeting == DateTime.now());
-    if(index != -1){
-      meetings[index] = updateMeeting;
+
+    //encontrar y reemplazar el evento en la lista de eventos
+    int index = appointments.indexWhere((appointment) => 
+      appointment.subject == 'Nuevo evento' &&
+      appointment.startTime == DateTime.now());
+    if(index != -1) {
+      appointments[index] = updatedAppointment;
     }
     NetworkNotify();
   }
 
   //eliminar evento
-  void deleteEvent() {
-    int index = meetings.indexWhere((meeting) => 
-      meeting == 'reunion de trabajo' &&
-      meeting == DateTime.now());
+ void deleteEvent() {
+    // Encontrar el índice del evento que deseas eliminar
+    int index = appointments.indexWhere((appointment) =>
+        appointment.subject == 'Nuevo evento' &&
+        appointment.startTime == DateTime.now());
 
-    if(index != -1){
-      meetings.removeAt(index);
+    // Verificar si el evento se encontró
+    if (index != -1) {
+      // Eliminar el evento de la lista de eventos
+      appointments.removeAt(index);
     }
     NetworkNotify();
   }
+
+
 }
