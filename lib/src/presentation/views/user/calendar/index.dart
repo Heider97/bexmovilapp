@@ -75,14 +75,22 @@ class CalendarPageState extends State<CalendarPage> {
                 child: SfCalendar(
                   onTap: (calendarTapDetails) { //agregando un evento por medio del ontap
                     setState(() {
-                      googleaccountbloc.createEvent();
+                      // googleaccountbloc.createEvent();
                       // googleaccountbloc.close();
                     });
                   },
                     view: CalendarView.month,
+                    showDatePickerButton: true,
+                    allowViewNavigation: true,
+                    timeSlotViewSettings: TimeSlotViewSettings(
+                      startHour: 9,
+                      endHour: 16,
+                      nonWorkingDays: <int>[DateTime.friday, DateTime.saturday]
+                    ),
                     initialSelectedDate: DateTime.now(),
                     controller: calendarController,
                     dataSource: MeetingDataSource(googleaccountbloc.appointments),
+                    // appointmentBuilder: ,
                     selectionDecoration: BoxDecoration(
                       color: Colors.transparent,
                       border: Border.all(color: Colors.orange, width: 2),
@@ -105,14 +113,17 @@ class CalendarPageState extends State<CalendarPage> {
             )
           ],
         ),
-        floatingActionButton: IconButton(
-          color: Colors.orange,
-          onPressed: (){
-            setState(() {
-              googleaccountbloc.editEvent();
-            });
-          }, 
-          icon: const Icon(Icons.edit)
+        floatingActionButton: CircleAvatar(
+          backgroundColor: Colors.orange,
+          child: IconButton(
+            color: Colors.white,
+            onPressed: (){
+              setState(() {
+                googleaccountbloc.createEvent();
+              });
+            }, 
+            icon: const Icon(Icons.add)
+          ),
         ),
         bottomNavigationBar: const CustomButtonNavigationBar()
       );

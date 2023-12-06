@@ -129,7 +129,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     Appointment newAppointment = Appointment(
       startTime: DateTime.now(),
       endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Nuevo evento',
+      subject: 'Nueva reunion',
       color: const Color(0xFF0F8644),
     );
 
@@ -148,7 +148,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     );
 
     int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nuevo evento' &&
+      appointment.subject == 'Nueva reunion' &&
       appointment.startTime == DateTime.now());
     if(index != -1) {
       appointments[index] = editedAppointment;
@@ -168,7 +168,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
 
     //encontrar y reemplazar el evento en la lista de eventos
     int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nuevo evento' &&
+      appointment.subject == 'Nueva reunion' &&
       appointment.startTime == DateTime.now());
     if(index != -1) {
       appointments[index] = updatedAppointment;
@@ -180,7 +180,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
  void deleteEvent() {
     // Encontrar el índice del evento que deseas eliminar
     int index = appointments.indexWhere((appointment) =>
-        appointment.subject == 'Nuevo evento' &&
+        appointment.subject == 'Nueva reunion' &&
         appointment.startTime == DateTime.now());
 
     // Verificar si el evento se encontró
