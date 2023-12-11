@@ -316,11 +316,11 @@ class ApiService {
   }
 
   Future<Response<SyncPrioritiesResponse>> priorities(
-      {required String date, required String count}) async {
+      {required String date, required String version}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-
+    
     final data = <String, dynamic>{r'date': date, r'version': count};
 
     final headers = <String, dynamic>{

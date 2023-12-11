@@ -175,6 +175,15 @@ class AppDatabase {
     try {
       await db?.transaction((db) async {
         for (var object in objects) {
+          var primary = await db.rawQuery('SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
+
+          print(primary);
+
+          //
+          // var exists = await db.query(table, '${primary[0]} = ?',  object[primary[0]);
+          //
+          // //ipdate
+
           var id = await db.insert(table, object);
           results.add(id);
         }

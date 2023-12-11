@@ -43,7 +43,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
       var response = await _apiRepository.priorities(
           request:
-              SyncPrioritiesRequest(date: now(), count: version.value ?? "0"));
+              SyncPrioritiesRequest(date: now(), version: version.value ?? "0"));
 
       if (response is DataSuccess) {
         var migrations = <String>[];
@@ -77,7 +77,9 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
         List<String> tables = [];
+
         List<Future<DataState<DynamicResponse>>> futures = [];
+
         for (var priority in prioritiesSync) {
           futures.add(_apiRepository.syncDynamic(
               request: DynamicRequest(priority.name)));
@@ -98,9 +100,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           }
         }
 
-        await Future.wait(futureInserts);
-
-        emit(SyncFeaturesSuccess(features: features));
+        await Future.wait(futureInserts).then((value) => emit(SyncFeaturesSuccess(features: features)));
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
