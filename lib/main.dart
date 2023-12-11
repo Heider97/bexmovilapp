@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,12 +107,10 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
-              locator<DatabaseRepository>(),
-              locator<ApiRepository>(),
-            )),
-        BlocProvider(
-          create: (context) => GoogleAccountBloc()
-        ),
+                  locator<DatabaseRepository>(),
+                  locator<ApiRepository>(),
+                )),
+        BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
@@ -172,6 +166,7 @@ class _MyAppState extends State<MyApp> {
                     name: settings.name,
                   )),
           initialRoute: '/splash',
+          //  initialRoute: Routes.searchPage,
           onGenerateRoute: router.generateRoute,
         ),
       ),

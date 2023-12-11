@@ -10,8 +10,9 @@ final NavigationService _navigationService = locator<NavigationService>();
 
 class CustomBackButton extends StatelessWidget {
   final VoidCallback? onTap;
+  final int? mode;
 
-  const CustomBackButton({super.key, this.onTap});
+  const CustomBackButton({super.key, this.onTap, this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +26,15 @@ class CustomBackButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Const.radius),
-            color: theme.colorScheme.secondary),
+            color: (mode != null)
+                ? theme.colorScheme.primary
+                : theme.colorScheme.secondary),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Icon(
             Icons.arrow_back_ios_new_rounded,
-            color: theme.colorScheme.onSecondary,
+            color:
+                (mode != null) ? Colors.white : theme.colorScheme.onSecondary,
             size: 18,
           ),
         ),

@@ -18,10 +18,6 @@ import '../../domain/models/responses/login_response.dart';
 import '../../domain/models/requests/enterprise_request.dart';
 import '../../domain/models/responses/enterprise_response.dart';
 
-import '../../domain/models/requests/database_request.dart';
-import '../../domain/models/responses/database_response.dart';
-
-import '../../domain/models/requests/enterprise_config_request.dart';
 import '../../domain/models/responses/config_response.dart';
 
 import '../../domain/models/responses/sync_priorities_response.dart';
@@ -64,6 +60,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
+  @override
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
