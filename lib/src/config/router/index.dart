@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:flutter/material.dart';
 
 //config
@@ -48,15 +49,22 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => const RequestPermissionView());
     case Routes.selectEnterpriseRoute:
       return MaterialPageRoute(
-        builder: (context) => const GlobalBackground(child: SelectEnterpriseView()));
+          builder: (context) =>
+              const GlobalBackground(child: SelectEnterpriseView()));
     case Routes.syncRoute:
       return MaterialPageRoute(
-        builder: (context) => const GlobalBackground(child: SyncView()));
+          builder: (context) => const GlobalBackground(child: SyncView()));
     case Routes.loginRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackground(child: LoginView()));
     case Routes.homeRoute:
-     return MaterialPageRoute(builder: (context) =>  const GlobalBackground(child: HomeView()));
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackground(child: HomeView()));
+    case Routes.searchPage:
+      return MaterialPageRoute(
+          builder: (context) =>
+              const GlobalBackgroundSquare(opacity: 0.1, child: SearchView()));
+
     //  case Routes.categoryRoute:
     //   return MaterialPageRoute(
     //       builder: (context) =>

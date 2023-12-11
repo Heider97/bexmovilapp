@@ -1,6 +1,7 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_migration/sqflite_migration.dart';
+
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -22,6 +23,7 @@ part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/feature_dao.dart';
+part '../local/dao/client_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -191,7 +193,6 @@ class AppDatabase {
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
-
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
     final db = await _instance?.streamDatabase;
@@ -203,6 +204,8 @@ class AppDatabase {
   FeatureDao get featureDao => FeatureDao(_instance!);
 
   ConfigDao get configDao => ConfigDao(_instance!);
+
+  ClientDao get clientDao => ClientDao(_instance!);
 
   void close() {
     _database = null;

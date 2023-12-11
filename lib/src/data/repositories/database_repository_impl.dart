@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/domain/models/client.dart';
+
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
@@ -13,12 +15,14 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   //PROCESSING QUEUE
   @override
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue) async {
-    return _appDatabase.processingQueueDao.updateProcessingQueue(processingQueue);
+    return _appDatabase.processingQueueDao
+        .updateProcessingQueue(processingQueue);
   }
 
   @override
   Future<int> insertProcessingQueue(ProcessingQueue processingQueue) async {
-    return _appDatabase.processingQueueDao.insertProcessingQueue(processingQueue);
+    return _appDatabase.processingQueueDao
+        .insertProcessingQueue(processingQueue);
   }
 
   @override
@@ -48,6 +52,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //FEATURES
+
   @override
   Future<List<Feature>> getFeatures() {
     return _appDatabase.featureDao.getAllFeature();
@@ -68,8 +73,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.featureDao.emptyFeature();
   }
 
-
-
   // initialize and close methods go here
   @override
   Future<void> init(int? version, List<String> migrations) async {
@@ -85,6 +88,27 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> runMigrations(List<String> migrations) {
     return _appDatabase.runMigrations(migrations);
+  }
+
+  //CLIENTS
+  @override
+  Future<List<Client>> getClients() async {
+    return await _appDatabase.clientDao.getAllClients();
+  }
+
+  @override
+  Future<int> updateClient(Client client) async {
+    return _appDatabase.clientDao.updateClient(client);
+  }
+
+  @override
+  Future<int> insertClient(Client client) async {
+    return _appDatabase.clientDao.insertClient(client);
+  }
+
+  @override
+  Future<void> emptyClient() async {
+    _appDatabase.clientDao.emptyClients();
   }
 
   @override

@@ -321,7 +321,7 @@ class ApiService {
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
 
-    final data = <String, dynamic>{r'date': date, r'count': count};
+    final data = <String, dynamic>{r'date': date, r'version': count};
 
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json',
@@ -364,12 +364,12 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<SyncPrioritiesResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, '/sync/dynamic',
-            queryParameters: queryParameters, data: data)
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DynamicResponse.fromMap(result.data!, table);
