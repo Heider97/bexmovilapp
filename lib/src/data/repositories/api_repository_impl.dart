@@ -20,10 +20,6 @@ import '../../domain/models/responses/login_response.dart';
 import '../../domain/models/requests/enterprise_request.dart';
 import '../../domain/models/responses/enterprise_response.dart';
 
-import '../../domain/models/requests/database_request.dart';
-import '../../domain/models/responses/database_response.dart';
-
-import '../../domain/models/requests/enterprise_config_request.dart';
 import '../../domain/models/responses/config_response.dart';
 
 import '../../domain/models/responses/sync_priorities_response.dart';
@@ -75,6 +71,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
+  @override
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
@@ -104,18 +101,10 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
       {required SyncPrioritiesRequest request}) {
     return getStateOf<SyncPrioritiesResponse>(
       request: () =>
-          _apiService.priorities(count: request.count, date: request.date),
+          _apiService.priorities(version: request.version, date: request.date),
     );
   }
 
-  @override
-  Future<DataState<SyncPrioritiesResponse>> syncPriorities(
-      {required SyncPrioritiesRequest request}) {
-    return getStateOf<SyncPrioritiesResponse>(
-      request: () =>
-          _apiService.priorities(count: request.count, date: request.date),
-    );
-  }
 
   @override
   Future<DataState<DynamicResponse>> syncDynamic(

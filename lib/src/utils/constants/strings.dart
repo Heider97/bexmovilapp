@@ -18,6 +18,7 @@ class Routes {
   static const companyRoute = '/company';
   static const permissionRoute = '/permission';
   static const loginRoute = '/login';
+  static const searchPage = '/search';
 
   static const codeFormRequest = '/code-form-request';
   static const codeValidation = '/code-validation';
