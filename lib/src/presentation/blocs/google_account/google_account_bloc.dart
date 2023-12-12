@@ -120,7 +120,9 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
       startTime: DateTime.now(),
       endTime: DateTime.now().add(const Duration(hours: 1)),
       subject: 'Reunión de trabajo',
-      color: const Color(0xFF0F8644)
+      color: const Color(0xFF0F8644),
+      recurrenceRule: 'FREQ=DAILY;INTERVAL=2;COUNT=10',
+      notes: 'notas'
     ),
   ];
 
@@ -130,6 +132,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
       startTime: DateTime.now(),
       endTime: DateTime.now().add(const Duration(hours: 1)),
       subject: 'Nueva reunion',
+      
       color: const Color(0xFF0F8644),
     );
 
@@ -190,6 +193,4 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
     NetworkNotify();
   }
-
-
 }

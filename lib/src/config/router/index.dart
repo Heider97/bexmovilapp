@@ -1,6 +1,8 @@
+import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:flutter/material.dart';
 
 //config
+import '../../presentation/views/global/code_create_meet.dart';
 import '../../utils/constants/strings.dart';
 
 //SCREENS
@@ -41,6 +43,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
               opacity: 0.1, child: RecoverPasswordView()));
+    case Routes.codecreatemeet:
+    return MaterialPageRoute(
+      builder: (_) =>  CodeCreateMeet()
+    );          
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:

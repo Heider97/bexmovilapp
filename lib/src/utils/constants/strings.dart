@@ -23,6 +23,8 @@ class Routes {
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
 
+  static const codecreatemeet = '/code-create-meet';
+
   static const homeRoute = '/home';
   static const syncRoute = '/sync';
   static const categoryRoute = '/category';
