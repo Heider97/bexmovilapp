@@ -30,6 +30,7 @@ abstract class DatabaseRepository {
   Future<void> emptyClient();
 
   //PROCESSING QUEUE
+  Future<List<ProcessingQueue>> getAllProcessingQueues();
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue);
   Future<void> insertProcessingQueue(ProcessingQueue processingQueue);
   Future<void> emptyProcessingQueues();

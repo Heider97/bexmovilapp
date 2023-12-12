@@ -14,6 +14,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //PROCESSING QUEUE
   @override
+  Future<List<ProcessingQueue>> getAllProcessingQueues() async {
+    return _appDatabase.processingQueueDao.getAllProcessingQueues();
+  }
+
+
+  @override
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue) async {
     return _appDatabase.processingQueueDao
         .updateProcessingQueue(processingQueue);

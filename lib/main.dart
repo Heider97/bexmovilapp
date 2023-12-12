@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
+              locator<ApiRepository>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
         ),
