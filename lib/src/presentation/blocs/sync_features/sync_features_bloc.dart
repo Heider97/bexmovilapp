@@ -40,7 +40,13 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
-      await model.functions[i]();
+
+      if(model.arguments![i].isNotEmpty) {
+        await model.functions[i](model.arguments![i]);
+      } else {
+        await model.functions[i]();
+      }
+
     }
   }
 
@@ -50,7 +56,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           'table_name': tableName,
         }),
         task: 'incomplete',
-        code: 'get_api_dynamic',
+        code: 'store_dynamic_data',
         createdAt: now(),
         updatedAt: now());
     _processingQueueBloc.addProcessingQueue(processingQueue);
@@ -101,14 +107,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
 
+        var functions = <Function>[];
+        var arguments = <String>[];
+
         for (var priority in prioritiesAsync) {
-
-
-
+          functions.add(insertDynamicData);
+          arguments.add(priority.name);
         }
 
-        // var isolateModel = IsolateModel(functions, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
+        var isolateModel = IsolateModel(functions, arguments, prioritiesAsync.length);
+        await heavyTask(isolateModel);
 
         List<String> tables = [];
 

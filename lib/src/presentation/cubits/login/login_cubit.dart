@@ -161,7 +161,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
 
             var functions = [getConfigs, getFeatures];
 
-            var isolateModel = IsolateModel(functions, 2);
+            var isolateModel = IsolateModel(functions, null, 2);
             await heavyTask(isolateModel);
           }
 

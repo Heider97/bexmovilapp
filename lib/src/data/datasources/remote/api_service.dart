@@ -40,7 +40,6 @@ class ApiService {
     url != null
         ? dio.options.baseUrl = url!
         : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
-          dio.options.baseUrl = 'https://identitytoolkit.googleapis.com';
     !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
