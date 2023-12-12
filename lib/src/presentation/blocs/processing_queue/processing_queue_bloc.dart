@@ -11,7 +11,7 @@ import '../network/network_bloc.dart';
 part 'processing_queue_event.dart';
 part 'processing_queue_state.dart';
 
-class ProcessingQueueCubit extends Bloc<ProcessingQueueEvent, ProcessingQueueState> {
+class ProcessingQueueBloc extends Bloc<ProcessingQueueEvent, ProcessingQueueState> {
 
   final DatabaseRepository _databaseRepository;
 
@@ -19,7 +19,7 @@ class ProcessingQueueCubit extends Bloc<ProcessingQueueEvent, ProcessingQueueSta
   StreamSubscription? networkSubscription;
   bool? isConnected;
 
-  ProcessingQueueCubit(this._databaseRepository, this.networkBloc) : super(ProcessingQueueInitial()) {
+  ProcessingQueueBloc(this._databaseRepository, this.networkBloc) : super(ProcessingQueueInitial()) {
     on<ProcessingQueueObserve>(_observe);
     on<ProcessingQueueNotify>(_notifyStatus);
     if (networkBloc == null) return;

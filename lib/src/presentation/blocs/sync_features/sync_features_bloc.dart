@@ -1,14 +1,19 @@
+import 'dart:convert';
+
 import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
 import 'package:bexmovil/src/domain/models/requests/dynamic_request.dart';
 import 'package:bexmovil/src/domain/models/requests/sync_priorities_request.dart';
 import 'package:bexmovil/src/domain/models/responses/dynamic_response.dart';
+import 'package:bexmovil/src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //repositories
+import '../../../domain/models/processing_queue.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 //domain
+import '../../../domain/models/isolate.dart';
 import '../../../domain/models/feature.dart';
 //utils
 import '../../../utils/constants/strings.dart';
@@ -25,11 +30,30 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     with FormatDate {
   final DatabaseRepository _databaseRepository;
   final ApiRepository _apiRepository;
+  final ProcessingQueueBloc _processingQueueBloc;
 
-  SyncFeaturesBloc(this._databaseRepository, this._apiRepository)
+  SyncFeaturesBloc(this._databaseRepository, this._apiRepository, this._processingQueueBloc)
       : super(SyncFeaturesInitial()) {
     on<SyncFeatureGet>(_observe);
     on<SyncFeatureLeave>(_go);
+  }
+
+  Future<void> heavyTask(IsolateModel model) async {
+    for (var i = 0; i < model.iteration; i++) {
+      await model.functions[i]();
+    }
+  }
+
+  Future<void> insertDynamicData(String tableName) async {
+    var processingQueue = ProcessingQueue(
+        body: jsonEncode({
+          'table_name': tableName,
+        }),
+        task: 'incomplete',
+        code: 'get_api_dynamic',
+        createdAt: now(),
+        updatedAt: now());
+    _processingQueueBloc.addProcessingQueue(processingQueue);
   }
 
   void _observe(event, emit) async {
@@ -76,6 +100,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         //TODO: [Heider Zapa] run with isolate
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
+
+        for (var priority in prioritiesAsync) {
+
+
+
+        }
+
+        // var isolateModel = IsolateModel(functions, prioritiesAsync.length);
+        // await heavyTask(isolateModel);
+
         List<String> tables = [];
 
         List<Future<DataState<DynamicResponse>>> futures = [];
@@ -100,7 +134,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           }
         }
 
-        await Future.wait(futureInserts).then((value) => emit(SyncFeaturesSuccess(features: features)));
+        await Future.wait(futureInserts).whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }

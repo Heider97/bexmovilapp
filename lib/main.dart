@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
         BlocProvider(
-          create: (context) => ProcessingQueueCubit(
+          create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
@@ -109,6 +109,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SyncFeaturesBloc(
                   locator<DatabaseRepository>(),
                   locator<ApiRepository>(),
+                  BlocProvider.of<ProcessingQueueBloc>(context)
                 )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(

@@ -367,7 +367,7 @@ class ApiService {
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     
-    final data = <String, dynamic>{r'date': date, r'version': count};
+    final data = <String, dynamic>{r'date': date, r'version': version};
 
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json',
