@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +6,16 @@ class CustomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return MediaQuery(
+      data: const MediaQueryData(
+        padding: EdgeInsets.all(0)
+      ),
       child: DotNavigationBar(
-        marginR: const EdgeInsets.symmetric(
-            horizontal: Const.margin, vertical: Const.space25),
+        marginR: const  EdgeInsets.all(0),
+        backgroundColor: const Color.fromARGB(255, 255, 254, 253),
         selectedItemColor: const Color(0xFFF27114),
         unselectedItemColor: const Color(0xFFF69B5B),
+        splashBorderRadius: 80,
         currentIndex: 0,
         onTap: (p0) {},
         items: [

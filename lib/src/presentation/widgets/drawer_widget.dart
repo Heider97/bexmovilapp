@@ -1,4 +1,5 @@
-/* import 'package:flutter/material.dart';
+import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yaml/yaml.dart';
@@ -20,124 +21,87 @@ import '../../services/storage.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
+// ignore: must_be_immutable
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key, this.user, this.companyName}) : super(key: key);
+  DrawerWidget({Key? key, this.user, this.companyName}) : super(key: key);
 
   final String? companyName;
   final User? user;
-
+  
+  late HomeCubit homeCubit;
   @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(user != null ? user!.name! : 'No user'),
-            accountEmail: Text(user != null ? user!.email! : 'No email'),
-            currentAccountPicture: CircleAvatar(
-              
-              child: Text(
-                user != null ? user!.name! : 'S',
-                style: const TextStyle(fontSize: 40.0, color: Colors.white),
+  Widget build(BuildContext context) {    
+    return Drawer(       
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children:[
+            gapH28,           
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => homeCubit.logout(),
+                    child: CircleAvatar(
+                      radius: 25,
+                      child: user != null && user!.name != null
+                          ? Text(user!.name![0])
+                          : const Text('U'),
+                    )),
+                ],
               ),
             ),
-          ),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.business,
-              text: companyName != null
-                  ? companyName!.toUpperCase()
-                  : 'Not found',
-              onTap: null, 
-              image: ''),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.help_center,
-              text: 'Ver tutorial.',
-              onTap: () {
-                _storageService.setBool('home-is-init', false);
-                _storageService.setBool('work-is-init', false);
-                _storageService.setBool('navigation-is-init', false);
-                _storageService.setBool('summary-is-init', false);
-                _storageService.setBool('inventory-is-init', false);
-              }, 
-              image: ''),
-          // _createDrawerItem(
-          //     context: context,
-          //     icon: Icons.bookmark_border,
-          //     text: 'Mis pedidos',
-          //     onTap: null),
-          // _createDrawerItem(
-          //     context: context,
-          //     icon: Icons.money,
-          //     text: 'Billetera',
-          //     onTap: null),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.notification_add,
-              text: 'Notificaciones',
-              onTap: () => _navigationService.goTo(Routes.calendarRoute), 
-              image: ''),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.sell,
-              text: 'Vender',
-              onTap: () => _navigationService.goTo(Routes.productivityRoute), 
-              image: ''),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.business_center,
-              text: 'Cartera',
-              onTap: null, 
-              image: ''
+            gapH68,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.notification_add,
+                text: 'Notificaciones',
+                onTap: () => _navigationService.goTo(Routes.calendarRoute), 
+                image: 'assets/icons/cartera.png',
+                countNotifications: 222
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.sell,
+                text: 'Vender',
+                onTap: () => _navigationService.goTo(Routes.productivityRoute), 
+                image: 'assets/icons/vender.png',
+                countNotifications: 0
             ),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.settings,
-              text: 'Mercadeo',
-              onTap: null, 
-              image: ''
-            ),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.message,
-              text: 'PQRS',
-              onTap: null, 
-              image: ''
-            ),
-          _createDrawerItem(
-              context: context,
-              icon: Icons.logout,
-              text: 'Salir',
-              onTap: () async => await context.read<HomeCubit>().logout(), 
-              image: ''
-            ),
-          const Divider(),
-          FutureBuilder(
-              future: rootBundle.loadString('pubspec.yaml'),
-              builder: (context, snapshot) {
-                var version = 'Unknown';
-                if (snapshot.hasData) {
-                  var yaml = loadYaml(snapshot.data as String);
-                  version = yaml['version'];
-                }
-
-                return AboutListTile(
-                  icon: const Icon(
-                    Icons.info,
-                  ),
-                  applicationIcon: const Icon(
-                    Icons.local_play,
-                  ),
-                  applicationName: 'Bex movil',
-                  applicationVersion: version,
-                  applicationLegalese: '© 2023 Company',
-                  child: const Text('Sobre la aplicación'),
-                );
-              }),
-        ],
-      ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.business_center,
+                text: 'Cartera',
+                onTap: null, 
+                image: 'assets/icons/cartera.png',
+                countNotifications: 0
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.settings,
+                text: 'Mercadeo',
+                onTap: null, 
+                image: 'assets/icons/mercadeo.png',
+                countNotifications: 0
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.message,
+                text: 'PQRS',
+                onTap: null, 
+                image: "assets/icons/pqrs.png",
+                countNotifications: 0
+              ),
+            
+            
+          ],
+        ),
+      
     );
   }
 
@@ -146,19 +110,30 @@ class DrawerWidget extends StatelessWidget {
       required IconData icon,
       required String image,
       required String text,
+      int? countNotifications,
       GestureTapCallback? onTap}) {
     return ListTile(
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Icon(icon),
+          Image(image: AssetImage(image)),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(text),
-          )
+          ),
+          if (countNotifications! > 0) ...[
+             Container(
+              margin: const EdgeInsets.only(bottom: 1, left: 20),
+               child: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 238, 39, 24),
+                  radius: 16,
+                  child:  Text('$countNotifications'),
+                ),
+             )
+          ] 
         ],
       ),
       onTap: onTap,
     );
   }
 }
- */
