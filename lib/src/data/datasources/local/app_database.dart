@@ -1,6 +1,7 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:sqflite_migration/sqflite_migration.dart';
+
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -22,6 +23,7 @@ part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/feature_dao.dart';
+part '../local/dao/client_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -174,20 +176,34 @@ class AppDatabase {
       await db?.transaction((db) async {
         for (var object in objects) {
           var primary = await db.rawQuery('SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
+          if(primary.isNotEmpty){
+            var key = object.containsKey(primary.first['name']);
+            if(key) {
+              var value = object[primary.first['name']];
+              var exists = await db.query(table, where: '${primary.first['name']} = ?', whereArgs: [value]);
+              if(exists.isNotEmpty){
+                var id = await db.update(table, object, where: '${primary.first['name']} = ?', whereArgs: [value]);
+                results.add(id);
+              } else {
+                var id = await db.insert(table, object);
+                results.add(id);
+              }
+            } else {
+              var id = await db.insert(table, object);
+              results.add(id);
+            }
+          } else {
+            print('paso aqui 1');
+            var id = await db.insert(table, object);
+            results.add(id);
+          }
 
-          print(primary);
-
-          //
-          // var exists = await db.query(table, '${primary[0]} = ?',  object[primary[0]);
-          //
-          // //ipdate
-
-          var id = await db.insert(table, object);
-          results.add(id);
         }
       });
       return results;
     } catch (er) {
+      print('aqui esta el error');
+      print(table);
       print(er);
       return null;
     }
@@ -200,7 +216,6 @@ class AppDatabase {
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
-
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
     final db = await _instance?.streamDatabase;
@@ -212,6 +227,8 @@ class AppDatabase {
   FeatureDao get featureDao => FeatureDao(_instance!);
 
   ConfigDao get configDao => ConfigDao(_instance!);
+
+  ClientDao get clientDao => ClientDao(_instance!);
 
   void close() {
     _database = null;

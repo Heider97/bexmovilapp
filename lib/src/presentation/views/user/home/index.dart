@@ -1,7 +1,3 @@
-import 'package:bexmovil/src/presentation/widgets/card_kpi.dart';
-import 'package:bexmovil/src/presentation/widgets/card_reports.dart';
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,16 +6,24 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
+import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/user/custom_item.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import '../../../widgets/custom_card_widget.dart';
+import '../../../widgets/card_kpi.dart';
+import '../../../widgets/card_reports.dart';
+import '../../../widgets/drawer_widget.dart';
+import '../../../widgets/user/custom_navbar.dart';
+import '../../../widgets/user/my_search_delegate.dart';
 //services
 import '../../../../locator.dart';
 import '../../../../services/storage.dart';
+import '../../../../services/navigation.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
+final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -58,6 +62,7 @@ class HomeViewState extends State<HomeView>
       builder: (context, state) => _buildBody(size, theme, state, context),
     );
   }
+
 
   Widget _buildBody(Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(

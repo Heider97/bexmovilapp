@@ -7,6 +7,7 @@ import '../../../domain/models/login.dart';
 
 //interceptor
 import '../../../domain/models/responses/dynamic_response.dart';
+import '../../../domain/models/responses/google_response.dart';
 import 'interceptor_api_service.dart';
 
 //response
@@ -39,6 +40,7 @@ class ApiService {
     url != null
         ? dio.options.baseUrl = url!
         : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+    dio.options.validateStatus = (_) => true;
     !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
@@ -152,6 +154,48 @@ class ApiService {
         redirects: result.redirects,
         extra: result.extra,
         headers: result.headers);
+  }
+
+  Future<Response<GoogleResponse>> googleCount()async{
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+
+    final data = <String, dynamic>{
+      
+    };
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+      _setStreamType<Response<GoogleResponse>>(Options(
+        method: 'POST',
+        headers: headers,
+        extra: extra
+      )
+        .compose(
+          dio.options,
+          '/v1/accounts:signUp',
+          queryParameters: queryParameters,
+          data: data,
+        )
+        .copyWith(baseUrl: 'https://identitytoolkit.googleapis.com')));
+    
+    final value = GoogleResponse.fromMap(result.data!);
+
+    return Response(
+      data: value,
+      requestOptions: result.requestOptions,
+      statusCode: result.statusCode,
+      statusMessage: result.statusMessage,
+      isRedirect: result.isRedirect,
+      redirects: result.redirects,
+      extra: result.extra,
+      headers: result.headers
+    );
   }
 
   Future<Response<SyncResponse>> features() async {
@@ -315,12 +359,14 @@ class ApiService {
         headers: result.headers);
   }
 
+
+
   Future<Response<SyncPrioritiesResponse>> priorities(
       {required String date, required String version}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-
+    
     final data = <String, dynamic>{r'date': date, r'version': version};
 
     final headers = <String, dynamic>{
@@ -350,26 +396,27 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DynamicResponse>> syncDynamic({required String table}) async {
+  Future<Response<DynamicResponse>> syncDynamic({required String table, required String content}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
 
-    final data = <String, dynamic>{r'table': table};
+    final data = <String, dynamic>{r'table': table, 'content': content};
 
     final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptHeader: 'text/plain'
+      HttpHeaders.contentTypeHeader: content,
     };
+
+    print(data);
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<SyncPrioritiesResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, '/sync/dynamic',
-            queryParameters: queryParameters, data: data)
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DynamicResponse.fromMap(result.data!, table);

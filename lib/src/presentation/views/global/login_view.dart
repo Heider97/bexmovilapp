@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -233,6 +234,12 @@ class LoginViewState extends State<LoginView> {
                     decorationColor: theme.primaryColor),
               ),
             ),
+          ),
+          TextButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()));
+            }, 
+            child: const Text('ir al calendar')
           ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(

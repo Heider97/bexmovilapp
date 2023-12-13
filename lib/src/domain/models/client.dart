@@ -1,20 +1,39 @@
 class Client {
-  final DateTime? startTimeOfMeeting;
-  final DateTime? endTimeOfMeeting;
-  final double? averageSales;
-  final bool? salesEffectiveness;
-  final DateTime? lastVisited;
-  final String name;
-  final String? phone;
-  final bool? isBooked;
+  String? nitCliente;
+  String? nomCliente;
+  String? dirCliente;
+  String? telCliente;
+  String? email;
+  String? estadoCliente;
 
-  Client(
-      {this.startTimeOfMeeting,
-      this.endTimeOfMeeting,
-      this.averageSales,
-      this.salesEffectiveness,
-      this.lastVisited,
-      required this.name,
-      this.phone,
-      this.isBooked});
+  Client({
+    this.nitCliente,
+    this.nomCliente,
+    this.dirCliente,
+    this.telCliente,
+    this.email,
+    this.estadoCliente,
+  });
+
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
+      nitCliente: json['NITCLIENTE'],
+      nomCliente: json['NOMCLIENTE'],
+      dirCliente: json['DIRCLIENTE'],
+      telCliente: json['TELCLIENTE'],
+      email: json['EMAIL'],
+      estadoCliente: json['estadocliente'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'NITCLIENTE': nitCliente,
+      'NOMCLIENTE': nomCliente,
+      'DIRCLIENTE': dirCliente,
+      'TELCLIENTE': telCliente,
+      'EMAIL': email,
+      'estadocliente': estadoCliente,
+    };
+  }
 }

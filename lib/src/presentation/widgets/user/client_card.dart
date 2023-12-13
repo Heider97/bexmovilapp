@@ -1,8 +1,8 @@
-import 'package:bexmovil/src/domain/models/client.dart';
+/* import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/date_time_extenstion.dart';
+
 import 'package:flutter/material.dart';
 
 class ClientCard extends StatelessWidget {
@@ -108,3 +108,4 @@ class ClientCard extends StatelessWidget {
     );
   }
 }
+ */

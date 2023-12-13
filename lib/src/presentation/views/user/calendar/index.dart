@@ -1,10 +1,13 @@
+import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 //services
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
+import '../../../widgets/custom_button_navigationbar.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -16,59 +19,139 @@ class CalendarPage extends StatefulWidget {
 }
 
 class CalendarPageState extends State<CalendarPage> {
+
+  late GoogleAccountBloc googleaccountbloc;
+
+  TextEditingController calendarcontroller = TextEditingController();
+
+  GoogleAccountBloc calendarClient = GoogleAccountBloc();
+  DateTime startTime = DateTime.now();
+  DateTime endTime = DateTime.now().add(const Duration(days: 1));
+  TextEditingController _eventName = TextEditingController();
+  CalendarController calendarController = CalendarController();
+  
+
+  @override
+  void initState() {
+    calendarController = CalendarController();
+    googleaccountbloc = BlocProvider.of<GoogleAccountBloc>(context);
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-          actions: [
-            Builder(
-                builder: (context) => CircleAvatar(
+        body: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const CircleAvatar(
                       radius: 22,
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new),
-                        onPressed: () =>
-                            _navigationService.replaceTo(Routes.homeRoute),
-                      ),
-                    )),
-            const Spacer(),
-            Builder(
-              builder: (context) => const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 22,
-                  child: Badge(
-                    alignment: AlignmentDirectional.topEnd,
-                    label: Text('2'),
-                    child: IconButton(
-                      icon: Icon(Icons.notifications),
-                      onPressed: null,
+                      backgroundColor: Colors.orange,
+                      child: Text('D'),
                     ),
-                  )),
-            ),
+                    SizedBox(
+                      width: 230,
+                      child: CustomTextFormField(
+                        controller: calendarcontroller, 
+                        hintText: '¿ Que estas buscando ?'
+                      )
+                    )
+                  ],
+                ),
+              ),
+
+              // const SizedBox(height: 20,),  
+
+              SizedBox(
+                height: 500,
+                child: SfCalendar(
+                  onTap: (calendarTapDetails) { //agregando un evento por medio del ontap
+                    setState(() {
+                      // googleaccountbloc.createEvent();
+                      // googleaccountbloc.close();
+                    });
+                  },
+                    view: CalendarView.month,
+                    showDatePickerButton: true,
+                    allowViewNavigation: true,
+                    timeSlotViewSettings: TimeSlotViewSettings(
+                      startHour: 9,
+                      endHour: 16,
+                      nonWorkingDays: <int>[DateTime.friday, DateTime.saturday]
+                    ),
+                    initialSelectedDate: DateTime.now(),
+                    controller: calendarController,
+                    dataSource: MeetingDataSource(googleaccountbloc.appointments),
+                    // appointmentBuilder: ,
+                    selectionDecoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: Colors.orange, width: 2),
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
+                      shape: BoxShape.rectangle
+                    ),
+              
+                    blackoutDates: [
+                      DateTime.now().subtract(const Duration(hours: 48)),
+                      DateTime.now().subtract(const Duration(hours: 24))
+                    ],
+                    
+                    monthViewSettings: const MonthViewSettings(
+                      appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                      showAgenda: true
+                    ),
+                  ),
+              ),
+              ],
+            )
           ],
         ),
-        body: SfCalendar(
-          view: CalendarView.month,
-          dataSource: MeetingDataSource(_getDataSource()),
-          monthViewSettings: const MonthViewSettings(
-              appointmentDisplayMode: MonthAppointmentDisplayMode.appointment),
-        ));
+        floatingActionButton: CircleAvatar(
+          backgroundColor: Colors.orange,
+          child: IconButton(
+            color: Colors.white,
+            onPressed: (){
+              setState(() {
+                googleaccountbloc.createEvent();
+              });
+            }, 
+            icon: const Icon(Icons.add)
+          ),
+        ),
+        bottomNavigationBar: const CustomButtonNavigationBar()
+      );
   }
 
-  List<Meeting> _getDataSource() {
-    final List<Meeting> meetings = <Meeting>[];
-    final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 9);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
-    meetings.add(Meeting(
-        'Conference', startTime, endTime, const Color(0xFF0F8644), false));
-    return meetings;
-  }
+  // List<Meeting> _getDataSource() {
+  //   final List<Meeting> meetings = <Meeting>[];
+  //   final DateTime today = DateTime.now();
+  //   final DateTime startTime = DateTime(today.year, today.month, today.day, 9);
+  //   final DateTime endTime = startTime.add(const Duration(hours: 2));
+  //   meetings.add(Meeting(
+  //       'Conference 1', startTime, endTime, const Color(0xFF0F8644), false
+  //       ),
+  //     );
+  //   meetings.add(Meeting(
+  //       'Conference 2', startTime.add(Duration(hours: 3)), endTime.add(Duration(hours: 3)), const Color(0xFF0F8644), false
+  //       ),
+  //     );
+  //   meetings.add(Meeting(
+  //       'Conference 3', startTime, endTime, const Color(0xFF0F8644), false
+  //       ),
+  //     );
+  //   return meetings;
+  // }
 }
 
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Meeting> source) {
+  MeetingDataSource(List<Appointment> source) {
     appointments = source;
   }
 
