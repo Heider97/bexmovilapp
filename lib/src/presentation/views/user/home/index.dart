@@ -96,8 +96,8 @@ class HomeViewState extends State<HomeView>
                       return GestureDetector(
                         onTap: () => Scaffold.of(context).openDrawer(),
                         child: const SizedBox(
-                          width: 40,
-                          height: 40,
+                          width: 35,
+                          height: 45,
                           child: Icon(
                             Icons.list
                           ),
