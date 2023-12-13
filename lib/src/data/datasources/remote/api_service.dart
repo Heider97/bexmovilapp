@@ -40,6 +40,7 @@ class ApiService {
     url != null
         ? dio.options.baseUrl = url!
         : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+    dio.options.validateStatus = (_) => true;
     !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
   }
 
@@ -395,17 +396,18 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DynamicResponse>> syncDynamic({required String table}) async {
+  Future<Response<DynamicResponse>> syncDynamic({required String table, required String content}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
 
-    final data = <String, dynamic>{r'table': table};
+    final data = <String, dynamic>{r'table': table, 'content': content};
 
     final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptHeader: 'text/plain'
+      HttpHeaders.contentTypeHeader: content,
     };
+
+    print(data);
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<SyncPrioritiesResponse>>(Options(

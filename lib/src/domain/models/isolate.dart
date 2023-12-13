@@ -1,6 +1,6 @@
 class IsolateModel {
   final List<Function> functions;
-  final List<String>? arguments;
+  final List<Map<String, dynamic>>? arguments;
   final int iteration;
 
   IsolateModel(this.functions, this.arguments, this.iteration);

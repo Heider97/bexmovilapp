@@ -110,7 +110,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request}) {
     return getStateOf<DynamicResponse>(
-      request: () => _apiService.syncDynamic(table: request.table),
+      request: () => _apiService.syncDynamic(table: request.table, content: request.content),
     );
   }
 }

@@ -55,10 +55,11 @@ class ProcessingQueueBloc extends Bloc<ProcessingQueueEvent, ProcessingQueueStat
           try {
             var body = jsonDecode(queue.body);
             var table = body['table_name'];
+            var content = body['content'];
             queue.task = 'processing';
             await _databaseRepository.updateProcessingQueue(queue);
             var response =
-            await _apiRepository.syncDynamic(request: DynamicRequest(table));
+            await _apiRepository.syncDynamic(request: DynamicRequest(table, content));
             if (response is DataSuccess) {
               queue.task = 'done';
               await _databaseRepository.insertAll(table, response.data!.data!);

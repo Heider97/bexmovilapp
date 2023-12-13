@@ -176,20 +176,34 @@ class AppDatabase {
       await db?.transaction((db) async {
         for (var object in objects) {
           var primary = await db.rawQuery('SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
+          if(primary.isNotEmpty){
+            var key = object.containsKey(primary.first['name']);
+            if(key) {
+              var value = object[primary.first['name']];
+              var exists = await db.query(table, where: '${primary.first['name']} = ?', whereArgs: [value]);
+              if(exists.isNotEmpty){
+                var id = await db.update(table, object, where: '${primary.first['name']} = ?', whereArgs: [value]);
+                results.add(id);
+              } else {
+                var id = await db.insert(table, object);
+                results.add(id);
+              }
+            } else {
+              var id = await db.insert(table, object);
+              results.add(id);
+            }
+          } else {
+            print('paso aqui 1');
+            var id = await db.insert(table, object);
+            results.add(id);
+          }
 
-          print(primary);
-
-          //
-          // var exists = await db.query(table, '${primary[0]} = ?',  object[primary[0]);
-          //
-          // //ipdate
-
-          var id = await db.insert(table, object);
-          results.add(id);
         }
       });
       return results;
     } catch (er) {
+      print('aqui esta el error');
+      print(table);
       print(er);
       return null;
     }
