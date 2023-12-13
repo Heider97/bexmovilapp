@@ -17,6 +17,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +25,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import "package:googleapis_auth/auth_io.dart";
+
+import '../../../domain/models/requests/event.dart';
+
+
 
 part 'google_account_event.dart';
 part 'google_account_state.dart';
@@ -33,6 +38,10 @@ final NavigationService _navigationService = locator<NavigationService>();
 class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
 
   static const scopes =  [CalendarApi.calendarScope];
+
+  final List<Eventos> events = [];
+
+  List<Eventos> get eventos => events;
   
   Event event = Event();
 
@@ -62,6 +71,11 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
         ""
       );
     }
+  }
+
+  void addEvent(Eventos event){
+    events.add(event);
+    NetworkNotify();
   }
 
   //calendar event 1 with google api
@@ -100,6 +114,25 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
         log('Error Error creating event $e');
       }
     });
+  }
+
+  static String toDateTime(DateTime dateTime) {
+    final date = DateFormat.yMMMEd().format(dateTime);
+    final time = DateFormat.Hm().format(dateTime);
+
+    return '$date $time';
+  }
+
+  static String toDate(DateTime dateTime){
+    final date = DateFormat.yMMMEd().format(dateTime);
+
+    return '$date';
+  }
+
+  static String toTime(DateTime dateTime){
+    final time = DateFormat.Hm().format(dateTime);
+
+    return '$time';
   }
 
   void prompt(String url) async {

@@ -113,7 +113,7 @@ class CalendarPageState extends State<CalendarPage> {
   void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
-      final Appointment meeting = details.appointments![0];
+     
 
       showModalBottomSheet(
         shape: const LinearBorder(),

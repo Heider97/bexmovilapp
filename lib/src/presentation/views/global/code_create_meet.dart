@@ -7,7 +7,7 @@ import '../../../domain/models/requests/event.dart';
 
 class CodeCreateMeet extends StatefulWidget {
 
-  final Event? event;
+  final Eventos? event;
 
   const CodeCreateMeet({super.key, this.event});
 
@@ -56,9 +56,9 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               primary: Colors.transparent,
               shadowColor: Colors.transparent
             ),
-            onPressed: (){}, 
+            onPressed: saveForm, 
             icon: const Icon(Icons.done), 
-            label: const Text('Save')
+            label: const Text('Guardar')
           )
          ],
       ),
@@ -75,19 +75,19 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                   border: UnderlineInputBorder(),
                   hintText: 'Agregue titulo'
                 ),
-                onFieldSubmitted: (_){},
+                onFieldSubmitted: (_) => saveForm(),
                 validator: (title) => 
                     title!= null && title.isEmpty ? 'El titulo no puede estar vacio' : null,
                 controller: titleController,
               ),
               const SizedBox(height: 12,),
-
+              Text('From'),
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: ListTile(
-                      title: const Text('fromDate'),
+                      title: Text(GoogleAccountBloc.toDate(fromDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: (){
                         pickFromDateTime(pickDate: true);
@@ -96,7 +96,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('data'),
+                      title: Text(GoogleAccountBloc.toTime(fromDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: (){
                         setState(() {
@@ -108,25 +108,27 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                 ],
               ),
 
+              Text('To'),
+
               Row(
                 children: [
                   Expanded(
                     flex: 2,
                     child: ListTile(
-                      title: const Text('To'),
+                      title: Text(GoogleAccountBloc.toDate(toDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: () {
-                        pickFromDateTime(pickDate: true);
+                        pickToDateTime(pickDate: true);
                       },
                     ),
                   ),
                   Expanded(
                     child: ListTile(
-                      title: const Text('data'),
+                      title: Text(GoogleAccountBloc.toTime(fromDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: (){
                         setState(() {
-                          pickFromDateTime(pickDate: false);
+                          pickToDateTime(pickDate: false);
                         });
                       },
                     ),
@@ -149,6 +151,35 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
     }
 
     setState(()=> fromDate = date);
+  }
+
+  Future pickToDateTime({required bool pickDate})async {
+    final date = await pickDateTime(
+      toDate, 
+      pickDate: pickDate
+    );
+    if (date == null) return;
+
+    setState(()=> toDate = date);
+  }
+
+  Future saveForm() async {
+    final isValid = formkey.currentState!.validate();
+
+    if(isValid){
+      final event = Eventos(
+        title: titleController.text,
+        description: 'Description',
+        from: fromDate,
+        to: toDate,
+        isAllDay: false
+      );
+
+      final google = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
+      google.addEvent(event);
+
+      Navigator.of(context).pop();
+    }
   }
 
   Future<DateTime?> pickDateTime(
