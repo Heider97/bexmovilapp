@@ -1,6 +1,3 @@
-import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,14 +6,21 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
+import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/user/custom_item.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import '../../../widgets/custom_card_widget.dart';
+import '../../../widgets/card_kpi.dart';
+import '../../../widgets/card_reports.dart';
+import '../../../widgets/drawer_widget.dart';
+import '../../../widgets/user/custom_navbar.dart';
+import '../../../widgets/user/my_search_delegate.dart';
 //services
 import '../../../../locator.dart';
 import '../../../../services/storage.dart';
+import '../../../../services/navigation.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
@@ -55,23 +59,25 @@ class HomeViewState extends State<HomeView>
     ThemeData theme = Theme.of(context);
 
     return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) => _buildBody(size, theme, state),
+      builder: (context, state) => _buildBody(size, theme, state, context),
     );
   }
 
-  Widget _buildBody(Size size, ThemeData theme, HomeState state) {
-    return SafeArea(
-      child: SizedBox(
+
+  Widget _buildBody(Size size, ThemeData theme, HomeState state, BuildContext context) {
+    return Scaffold(
+      drawer:  DrawerWidget(),
+      body: SizedBox(
         width: size.width,
         height: size.height,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: size.width,
-                height: 80,
+                height: 65,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -87,23 +93,30 @@ class HomeViewState extends State<HomeView>
                     SizedBox(
                       width: size.width / 1.4,
                       height: size.height / 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          _navigationService.goTo(Routes.searchPage);
-                        },
-                        child: Text(
-                            'search delegate') /*  CustomSearchBar(
-                            controller: searchController,
-                            hintText: '¿Que estas buscando?') */
-                        ,
-                      ),
+                      child: CustomSearchBar(
+                          controller: searchController,
+                          hintText: '¿Qué estás buscando?'),
+                    ),
+                    Builder(builder: (context){
+                      return GestureDetector(
+                        onTap: () => Scaffold.of(context).openDrawer(),
+                        child: const SizedBox(
+                          width: 35,
+                          height: 45,
+                          child: Icon(
+                            Icons.list
+                          ),
+                        ),
+                      );
+                     }
                     )
+                    
                   ],
                 ),
               ),
               SizedBox(
-                  height: 100,
-                  width: double.infinity,
+                  height: 120,
+                  width: 500,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount:
@@ -117,13 +130,13 @@ class HomeViewState extends State<HomeView>
                           color: index / 2 == 0 ? Colors.orange : Colors.green),
                     ),
                   )),
-              gapH16,
-              const Text('Estadisticas',
+              gapH12,
+              const Text('Estadísticas',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              gapH16,
+              gapH4,
               SizedBox(
                 width: size.width,
-                height: 80,
+                height: 280,
                 child: Column(
                   children: [
                     TabBar(
@@ -146,48 +159,104 @@ class HomeViewState extends State<HomeView>
                         ),
                       ],
                     ),
+                    gapH8,
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
-                        children: [Container(), Container()],
+                        children: [ 
+                          Container(
+                            height: 220,
+                            width: 500,
+                            color: Colors.grey[100],
+                            child: Column(
+                              children: [                                    
+                                Expanded(
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          10,
+                                      itemBuilder: (BuildContext context, int index) => Padding(
+                                        padding: const EdgeInsets.only(right: 9),
+                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
+                                      ),
+                                    ),
+                                ),
+                                
+                                Expanded(
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount:
+                                          10,
+                                      itemBuilder: (BuildContext context, int index) => Padding(
+                                        padding: const EdgeInsets.only(right: 9),
+                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Prospectos", eventCard: (){}, quantity: 80,percentage: 20.5, valueCard: 2)
+                                      ),
+                                    ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color:Colors.grey[100],
+                            child: Column(
+                              children: [
+                                gapH12,
+                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Mi\nPresupuesto", eventCard: (){}),
+                                gapH12,
+                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/mercadeo.png", tittle: "Mis\nestadísticas", eventCard: (){}),
+                              ],
+                            ),
+                          )
+                          
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-              gapH16,
+              gapH4,
               const Text('Tus aplicaciones',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              gapH16,
-              const Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomItem(
-                            iconName: 'Vender',
-                            imagePath: 'assets/icons/vender.png'),
-                        CustomItem(
-                            iconName: 'Cartera',
-                            imagePath: 'assets/icons/cartera.png'),
-                        CustomItem(
-                            iconName: 'Mercadeo',
-                            imagePath: 'assets/icons/mercadeo.png'),
-                        CustomItem(
-                            iconName: 'PQRS',
-                            imagePath: 'assets/icons/pqrs.png')
-                      ],
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: 90,
+                width: size.width,
+                child: const Column(
+                  children: [                              
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomItem(
+                                  iconName: 'Vender',
+                                  imagePath: 'assets/icons/vender.png'),
+                              CustomItem(
+                                  iconName: 'Cartera',
+                                  imagePath: 'assets/icons/cartera.png'),
+                              CustomItem(
+                                  iconName: 'Mercadeo',
+                                  imagePath: 'assets/icons/mercadeo.png'),
+                              CustomItem(
+                                  iconName: 'PQRS', 
+                                  imagePath: 'assets/icons/pqrs.png'),
+                            ],
+                          ),                        
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              // SizedBox(
-              //   height: 170,
-              //   width: size.width,
-              //   child: const CustomNavbar(),
-              // )
+              gapH8,
+              /*Expanded(
+                child:  SizedBox(
+                   width: size.width,
+                      height: size.height,
+                  child: const CustomNavbar()
+                  )
+              )*/
             ],
           ),
         ),
@@ -195,3 +264,4 @@ class HomeViewState extends State<HomeView>
     );
   }
 }
+
