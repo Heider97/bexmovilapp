@@ -1,4 +1,3 @@
-
 //TODO [Heider Zapa] Organize
 
 import 'package:bexmovil/src/utils/constants/screens.dart';
@@ -25,7 +24,7 @@ class CustomPromotionCard extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(Assets.background1),
+          image: AssetImage("assets/images/bg-prom-card.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -45,7 +44,9 @@ class CustomPromotionCard extends StatelessWidget {
                   children: [
                     Opacity(
                       opacity: 0.2,
-                      child: Image.asset(Assets.background1, fit: BoxFit.cover),
+                      child: Image.asset(
+                          "assets/images/bg-prom-card.png" /* Assets.background1 */,
+                          fit: BoxFit.cover),
                     ),
                     Padding(
                         padding: const EdgeInsets.all(Const.padding),
@@ -83,7 +84,8 @@ class CustomPromotionCard extends StatelessWidget {
                 children: [
                   Opacity(
                     opacity: 0.2,
-                    child: Image.asset(Assets.background1, fit: BoxFit.cover),
+                    child: Image.asset("assets/images/bg-prom-card.png",
+                        fit: BoxFit.cover),
                   ),
                   Padding(
                       padding: const EdgeInsets.all(Const.padding),

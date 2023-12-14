@@ -67,6 +67,9 @@ class Assets {
       'assets/icons/BEX-background-white.png';
   static const String bgSquare = 'assets/images/bg-square.png';
 
+  static const String bgPromCardGreen = "assets/images/bg-prom-card.png";
+  static const String bgPromCardOrange = "assets/images/bg-prom-card-2.png";
+
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';
   static const String coloring = 'assets/coloring.svg';

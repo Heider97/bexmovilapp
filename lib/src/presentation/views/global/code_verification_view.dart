@@ -82,8 +82,8 @@ class _CodeVerificationViewState extends State<CodeVerificationView> {
               children: [
                 Text(
                   'Verificación',
-                  style: theme.textTheme.titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold, color: theme.primaryColor),
                 ),
                 gapH16,
                 (state.type == 'SMS')

@@ -33,7 +33,9 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.codeFormRequest:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-              opacity: 0.1, child: CodeFormRequestView()));
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: CodeFormRequestView()));
     case Routes.codeValidation:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
@@ -59,11 +61,16 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => const GlobalBackground(child: LoginView()));
     case Routes.homeRoute:
       return MaterialPageRoute(
-          builder: (context) => const GlobalBackground(child: HomeView()));
+          builder: (context) =>
+              const GlobalBackgroundSquare(opacity: 0.1, child: HomeView()));
     case Routes.searchPage:
       return MaterialPageRoute(
-          builder: (context) =>
-              const GlobalBackgroundSquare(opacity: 0.1, child: SearchView()));
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: SearchView(
+                tables: ['tblmproducto', 'tblmcliente'],
+              )));
 
     //  case Routes.categoryRoute:
     //   return MaterialPageRoute(

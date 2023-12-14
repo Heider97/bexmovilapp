@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/global/custom_promotion_card.dart';
 import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -71,13 +72,13 @@ class HomeViewState extends State<HomeView>
             children: [
               SizedBox(
                 width: size.width,
-                height: 80,
+                height: 50,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => homeCubit.logout(),
+                        onTap: () => Scaffold.of(context).openDrawer(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null
@@ -86,21 +87,35 @@ class HomeViewState extends State<HomeView>
                         )),
                     SizedBox(
                       width: size.width / 1.4,
-                      height: size.height / 1,
+                      height: size.height * 0.2,
                       child: GestureDetector(
-                        onTap: () {
-                          _navigationService.goTo(Routes.searchPage);
-                        },
-                        child: Text(
-                            'search delegate') /*  CustomSearchBar(
-                            controller: searchController,
-                            hintText: '¿Que estas buscando?') */
-                        ,
-                      ),
+                          onTap: () {
+                            _navigationService.goTo(Routes.searchPage);
+                          },
+                          child: Material(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(50),
+                              elevation: 5,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  gapW20,
+                                  Icon(
+                                    Icons.search_outlined,
+                                    color: theme.primaryColor,
+                                  ),
+                                  gapW20,
+                                  Expanded(
+                                      child: Text('¿Qué estás buscando? ')),
+                                  gapW20
+                                ],
+                              ))),
                     )
                   ],
                 ),
               ),
+              gapH20,
               SizedBox(
                   height: 100,
                   width: double.infinity,
@@ -110,11 +125,16 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: CustomCard(
-                          axis: Axis.horizontal,
-                          text: state.features![index].descripcion!,
-                          url: state.features![index].urldesc,
-                          color: index / 2 == 0 ? Colors.orange : Colors.green),
+                      child: /*  CustomPromotionCard(
+                          cardText: "Notification Test ",
+                        ) */
+                          CustomCard(
+                              axis: Axis.horizontal,
+                              text: state.features![index].descripcion!,
+                              url: state.features![index].urldesc,
+                              color: index / 2 == 0
+                                  ? Colors.orange
+                                  : Colors.green),
                     ),
                   )),
               gapH16,
