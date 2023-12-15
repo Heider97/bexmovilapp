@@ -42,6 +42,10 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   final List<Eventos> events = [];
 
   List<Eventos> get eventos => events;
+
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
   
   Event event = Event();
 
@@ -72,6 +76,10 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
       );
     }
   }
+
+  void setState(DateTime date) => _selectedDate = date;
+
+  List<Eventos> get eventsOfSelectedDate => events;
 
   void addEvent(Eventos event){
     events.add(event);
@@ -175,55 +183,34 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   }
 
   //editar evento plan b usando el listado appointment
-  void editEvent(){
-    Appointment editedAppointment = Appointment(
-      startTime: DateTime.now(), 
-      endTime: DateTime.now().add(const Duration(hours: 2)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
+  // void editEvent(){
+  //   Appointment editedAppointment = Appointment(
+  //     startTime: DateTime.now(), 
+  //     endTime: DateTime.now().add(const Duration(hours: 2)),
+  //     subject: 'Reunion de trabajo actualizada',
+  //     color: const Color(0xFF0F8644),
+  //   );
 
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = editedAppointment;
-    }
-    NetworkNotify();
-  }
+  //   int index = appointments.indexWhere((appointment) => 
+  //     appointment.subject == 'Nueva reunion' &&
+  //     appointment.startTime == DateTime.now());
+  //   if(index != -1) {
+  //     appointments[index] = editedAppointment;
+  //   }
+  //   NetworkNotify();
+  // }
 
   //actualizar un evento
-  void updateEvent(){
-    Appointment updatedAppointment = Appointment(
-      startTime: DateTime.now().add(const Duration(days: 1)), 
-      endTime: DateTime.now().add(const Duration(days: 1, hours: 1)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
-
-
-    //encontrar y reemplazar el evento en la lista de eventos
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = updatedAppointment;
-    }
+  void editEvent(Eventos newEvent, Eventos oldEvent){
+    final index  = events.indexOf(oldEvent);
+    events[index] = newEvent;
     NetworkNotify();
   }
 
   //eliminar evento
- void deleteEvent() {
-    // Encontrar el índice del evento que deseas eliminar
-    int index = appointments.indexWhere((appointment) =>
-        appointment.subject == 'Nueva reunion' &&
-        appointment.startTime == DateTime.now());
+  void deleteEvent(Eventos event){
+    events.remove(event);
 
-    // Verificar si el evento se encontró
-    if (index != -1) {
-      // Eliminar el evento de la lista de eventos
-      appointments.removeAt(index);
-    }
     NetworkNotify();
   }
 }

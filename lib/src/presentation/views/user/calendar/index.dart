@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 //services
+import '../../../../domain/models/requests/event.dart';
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
 import '../../../widgets/custom_button_navigationbar.dart';
@@ -39,6 +40,9 @@ class CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    final events = BlocProvider.of<GoogleAccountBloc>(context).events;
+
     return Scaffold(
         body: Stack(
           children: [
@@ -56,10 +60,11 @@ class CalendarPageState extends State<CalendarPage> {
                         child: Text('D'),
                       ),
                       SizedBox(
-                          width: 230,
-                          child: CustomTextFormField(
-                              controller: calendarcontroller,
-                              hintText: '¿ Que estas buscando ?'))
+                        width: 230,
+                      child: CustomTextFormField(
+                          controller: calendarcontroller,
+                          hintText: '¿ Que estas buscando ?'
+                      ))
                     ],
                   ),
                 ),
@@ -73,17 +78,23 @@ class CalendarPageState extends State<CalendarPage> {
                     view: CalendarView.month,
                     showDatePickerButton: true,
                     allowViewNavigation: true,
-                    timeSlotViewSettings: TimeSlotViewSettings(
+                    timeSlotViewSettings: const TimeSlotViewSettings(
                         startHour: 9,
                         endHour: 16,
                         nonWorkingDays: <int>[
                           DateTime.friday,
                           DateTime.saturday
                         ]),
+
                     initialSelectedDate: DateTime.now(),
+
+                    onLongPress: (details){
+                      final provider = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
+
+                      provider.setState(details.date!);
+                    },
                     controller: calendarController,
-                    dataSource:
-                        MeetingDataSource(googleaccountbloc.appointments),
+                    dataSource:MeetingDataSource(events),
                     // appointmentBuilder: ,
                     selectionDecoration: BoxDecoration(
                         color: Colors.transparent,
@@ -107,6 +118,12 @@ class CalendarPageState extends State<CalendarPage> {
             )
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+          setState(() {
+            calendarTapped;
+          });
+        }),
         bottomNavigationBar: const CustomButtonNavigationBar());
   }
 
@@ -142,20 +159,20 @@ class CalendarPageState extends State<CalendarPage> {
                     //aqui va la otra vista para crear la nueva reunion
                     _navigationService.goTo(Routes.codecreatemeet);
                   },
-                  title: Text(
+                  title: const Text(
                     'Nueva Reunion',
                   ),
-                  subtitle: Text(
+                  subtitle: const Text(
                     'Crea una nueva reunion de trabajo',
                   ),
                 ),
                 ListTile(
                   onTap: () {
-                    _navigationService.goTo(Routes.codeFormRequest);
+                    // _navigationService.goTo(Routes.codeFormRequest);
                     // recoveryBloc
                     //     .add(const StartRecovery(type: 'SMS'));
                   },
-                  title: Text(
+                  title: const Text(
                     'Actualizar Reunion',
                   ),
                   subtitle: const Text(
@@ -171,49 +188,27 @@ class CalendarPageState extends State<CalendarPage> {
 }
 
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Appointment> source) {
-    appointments = source;
+  MeetingDataSource(List<Eventos> appointments) {
+    this.appointments = appointments;
   }
+
+  Eventos getEvent(int index) => appointments![index] as Eventos;
 
   @override
-  DateTime getStartTime(int index) {
-    return _getMeetingData(index).from;
-  }
+  DateTime getStartTime(int index) => getEvent(index).from;
 
   @override
-  DateTime getEndTime(int index) {
-    return _getMeetingData(index).to;
-  }
+  DateTime getEndTime(int index) => getEvent(index).to;
 
   @override
-  String getSubject(int index) {
-    return _getMeetingData(index).eventName;
-  }
+  String getSubject(int index) => getEvent(index).title;
 
   @override
-  Color getColor(int index) {
-    return _getMeetingData(index).background;
-  }
+  Color getColor(int index) => getEvent(index).backgroundColor;
 
   @override
-  bool isAllDay(int index) {
-    return _getMeetingData(index).isAllDay;
-  }
+  bool isAllDay(int index) => getEvent(index).isAllDay;
 
-  @override
-  String getRecurrenceRule(int index) {
-    return appointments![index].recurrenceRule;
-  }
-
-  Meeting _getMeetingData(int index) {
-    final dynamic meeting = appointments![index];
-    late final Meeting meetingData;
-    if (meeting is Meeting) {
-      meetingData = meeting;
-    }
-
-    return meetingData;
-  }
 }
 
 class Meeting {

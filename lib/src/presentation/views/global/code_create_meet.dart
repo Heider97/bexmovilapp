@@ -35,6 +35,12 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
     if (widget.event == null){
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 2));
+    } else {
+      final event = widget.event!;
+
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
     }
   }
 
@@ -175,9 +181,14 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
         isAllDay: false
       );
 
+      final isEditing = widget.event != null;
       final google = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
-      google.addEvent(event);
 
+      if(isEditing){
+        google.editEvent(event, widget.event!);
+      } else {
+        google.addEvent(event);
+      }
       Navigator.of(context).pop();
     }
   }
