@@ -59,7 +59,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
          actions: [
           ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
+              backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent
             ),
             onPressed: saveForm, 
@@ -87,7 +87,14 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                 controller: titleController,
               ),
               const SizedBox(height: 12,),
-              Text('From'),
+
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('From', style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
+
               Row(
                 children: [
                   Expanded(
@@ -114,7 +121,12 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                 ],
               ),
 
-              Text('To'),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('To', style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
 
               Row(
                 children: [
@@ -123,7 +135,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                     child: ListTile(
                       title: Text(GoogleAccountBloc.toDate(toDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
-                      onTap: () {
+                      onTap: () { 
                         pickToDateTime(pickDate: true);
                       },
                     ),
@@ -162,7 +174,8 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   Future pickToDateTime({required bool pickDate})async {
     final date = await pickDateTime(
       toDate, 
-      pickDate: pickDate
+      pickDate: pickDate,
+      firstDate: pickDate ? fromDate : null
     );
     if (date == null) return;
 
@@ -194,7 +207,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   }
 
   Future<DateTime?> pickDateTime(
-    DateTime initialDate, {
+      DateTime initialDate, {
       required bool pickDate,
       DateTime? firstDate,
     }) async{

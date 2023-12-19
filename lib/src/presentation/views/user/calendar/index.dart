@@ -1,6 +1,6 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/views/global/code_create_meet.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
-import 'package:bexmovil/src/presentation/widgets/global/error_alert_dialog.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,7 @@ class CalendarPageState extends State<CalendarPage> {
   GoogleAccountBloc calendarClient = GoogleAccountBloc();
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(const Duration(days: 1));
-  TextEditingController _eventName = TextEditingController();
+  // TextEditingController _eventName = TextEditingController();
   CalendarController calendarController = CalendarController();
 
   @override
@@ -74,7 +74,15 @@ class CalendarPageState extends State<CalendarPage> {
                 SizedBox(
                   height: 500,
                   child: SfCalendar(  
-                    onTap: calendarTapped,
+                    onTap: (details){
+                      if(details.appointments == null) return;
+
+                      final event = details.appointments!.first;
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CodeCreateMeet(event: event)  
+                      ));
+                    },
                     view: CalendarView.month,
                     showDatePickerButton: true,
                     allowViewNavigation: true,
@@ -87,6 +95,7 @@ class CalendarPageState extends State<CalendarPage> {
                         ]),
 
                     initialSelectedDate: DateTime.now(),
+                    headerHeight: 0,
 
                     onLongPress: (details){
                       final provider = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
@@ -119,13 +128,63 @@ class CalendarPageState extends State<CalendarPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
           onPressed: (){
-          setState(() {
-            calendarTapped;
-          });
-        }),
+        showModalBottomSheet(
+        shape: const LinearBorder(),
+        context: context,
+        builder: (BuildContext context) {
+          return SizedBox(
+            height: 200,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Container(
+                      width: 80,
+                      height: 5,
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(50)),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    //aqui va la otra vista para crear la nueva reunion
+                    _navigationService.goTo(Routes.codecreatemeet);
+                  },
+                  title: const Text(
+                    'Nueva Reunion',
+                  ),
+                  subtitle: const Text(
+                    'Crea una nueva reunion de trabajo',
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    // _navigationService.goTo(Routes.codeFormRequest);
+                    // recoveryBloc
+                    //     .add(const StartRecovery(type: 'SMS'));
+                  },
+                  title: const Text(
+                    'Actualizar Reunion',
+                  ),
+                  subtitle: const Text(
+                      'Actualiza tu reunion de trabajo si tienes algun imprevisto'),
+                )
+              ],
+            ),
+          );
+        },
+      );
+    }
+  ),
         bottomNavigationBar: const CustomButtonNavigationBar());
-  }
+}
 
   void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment ||

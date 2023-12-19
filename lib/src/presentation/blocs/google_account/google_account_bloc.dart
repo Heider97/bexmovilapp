@@ -87,7 +87,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   }
 
   //calendar event 1 with google api
-  Future<void> createEvents(title, startTime, endTime) async {
+  createEvents(title, startTime, endTime) {
     var clientID =  ClientId("YOUR_CLIENT_ID", "");
     clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client){
        var calendar = CalendarApi(client);
@@ -124,6 +124,18 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     });
   }
 
+  void prompt(String url) async {
+    print("Vaya a la siguiente URL y conceda acceso:");
+    print("  => $url");
+    print("");
+
+    if(await canLaunchUrl(Uri.parse(url))){
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   static String toDateTime(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     final time = DateFormat.Hm().format(dateTime);
@@ -143,17 +155,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     return '$time';
   }
 
-  void prompt(String url) async {
-    print("Vaya a la siguiente URL y conceda acceso:");
-    print("  => $url");
-    print("");
 
-    if(await canLaunchUrl(Uri.parse(url))){
-      await launchUrl(Uri.parse(url));
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   //lista que agrega una nueva reunion de trabajo
   List<Appointment> appointments = <Appointment>[
@@ -200,7 +202,7 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   //   NetworkNotify();
   // }
 
-  //actualizar un evento
+  //editar un evento
   void editEvent(Eventos newEvent, Eventos oldEvent){
     final index  = events.indexOf(oldEvent);
     events[index] = newEvent;
