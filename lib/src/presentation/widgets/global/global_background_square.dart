@@ -17,7 +17,7 @@ class GlobalBackgroundSquare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(),
       //  backgroundColor: Colors.white,
       extendBody: true,
       body: Stack(fit: StackFit.expand, children: [
