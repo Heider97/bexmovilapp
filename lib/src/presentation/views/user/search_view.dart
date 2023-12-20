@@ -22,6 +22,7 @@ class SearchView extends StatefulWidget {
 
 late TextEditingController searchController;
 late SearchBloc searchBloc;
+late FocusNode searchFocusNode;
 List<SearchResult> itemsToSearch = [];
 List<SearchResult> itemsFounded = [];
 
@@ -31,7 +32,15 @@ class _SearchViewState extends State<SearchView> {
     super.initState();
     searchController = TextEditingController();
     searchBloc = BlocProvider.of<SearchBloc>(context);
+    searchFocusNode = FocusNode();
+
     fillRegisters(tables: widget.tables);
+  }
+
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -47,6 +56,7 @@ class _SearchViewState extends State<SearchView> {
                 gapW20,
                 Expanded(
                   child: TextField(
+                    focusNode: searchFocusNode,
                     controller: searchController,
                     onChanged: (value) async {
                       setState(() {
@@ -86,6 +96,13 @@ class _SearchViewState extends State<SearchView> {
         ],
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Puedes usar esta función para activar el foco en el TextField cuando se inicia la vista.
+    searchFocusNode.requestFocus();
   }
 }
 

@@ -39,11 +39,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.codeValidation:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-              opacity: 0.1, child: CodeVerificationView()));
+                opacity: 0.1,
+                child: CodeVerificationView(),
+                hideBottomNavigationBar: true,
+              ));
     case Routes.recoverPassword:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-              opacity: 0.1, child: RecoverPasswordView()));
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: RecoverPasswordView(),
+              ));
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:

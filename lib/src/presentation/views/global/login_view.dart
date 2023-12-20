@@ -240,13 +240,6 @@ class LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-          Switch(
-            value: context.watch<ThemeProvider>().isDarkTheme,
-            activeColor: theme.primaryColor,
-            onChanged: (value) {
-              context.read<ThemeProvider>().changeTheme();
-            },
-          ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,

@@ -1,5 +1,6 @@
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
+import 'package:bexmovil/src/utils/validators.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,10 @@ class EnterpriseForm extends StatefulWidget {
 
 class _EnterpriseFormState extends State<EnterpriseForm> {
   final companyNameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormAutovalidateState> _formAutoValidateState =
+      GlobalKey<FormAutovalidateState>();
+
   late InitialCubit initialCubit;
 
   @override
@@ -58,72 +63,87 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
   }
 
   Widget _buildBody(Size size, InitialState state, ThemeData theme) {
-    return SizedBox(
-      height: size.height * 0.52,
-      width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, top: 30),
-                  child: Text(
-                    'Seleccione la empresa',
-                    style: theme.textTheme.displayLarge!.copyWith(fontSize: 15),
+    return FormAutovalidate(
+      keyForm: _formKey,
+      key: _formAutoValidateState,
+      child: SizedBox(
+        height: size.height * 0.52,
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30.0, top: 30),
+                    child: Text(
+                      'Seleccione la empresa',
+                      style:
+                          theme.textTheme.displayLarge!.copyWith(fontSize: 15),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                  child: CustomTextFormField(
-                    controller: companyNameController,
-                    hintText: 'Nombre de la empresa',
-                  ),
-                )
-              ],
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                width: 150,
-                height: 50,
-                child: BlocSelector<InitialCubit, InitialState, bool>(
-                    selector: (state) => state is InitialLoading ? true : false,
-                    builder: (context, booleanState) => CustomElevatedButton(
-                          width: 150,
-                          height: 50,
-                          onTap: () => booleanState
-                              ? null
-                              : initialCubit
-                                  .getEnterprise(companyNameController),
-                          child: booleanState
-                              ? const CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Colors.white),
-                                )
-                              : Text(
-                                  'Siguiente',
-                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                        )),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                    child: CustomTextFormField(
+                      controller: companyNameController,
+                      hintText: 'Nombre de la empresa',
+                      validator: Validator().name,
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-          if (state.error != null)
             Expanded(
-              child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                  child: Text(state.error!, textAlign: TextAlign.center)),
+              child: Center(
+                child: SizedBox(
+                  width: 150,
+                  height: 50,
+                  child: BlocSelector<InitialCubit, InitialState, bool>(
+                      selector: (state) =>
+                          state is InitialLoading ? true : false,
+                      builder: (context, booleanState) => CustomElevatedButton(
+                            width: 150,
+                            height: 50,
+                            onTap: () {
+                              if (booleanState) {
+                                null;
+                              } else {
+                                if (_formAutoValidateState.currentState!
+                                    .validateForm()) {
+                                  initialCubit
+                                      .getEnterprise(companyNameController);
+                                }
+                              }
+                            },
+                            child: booleanState
+                                ? const CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  )
+                                : Text(
+                                    'Siguiente',
+                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                          )),
+                ),
+              ),
             ),
-          const Expanded(child: VersionWidget())
-        ],
+
+            /*  if (state.error != null)
+              Expanded(
+                child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                    child: Text(state.error!, textAlign: TextAlign.center)),
+              ), */
+            const Expanded(child: VersionWidget())
+          ],
+        ),
       ),
     );
   }
