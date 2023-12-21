@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ import '../../domain/models/user.dart';
 import '../../locator.dart';
 import '../../services/navigation.dart';
 import '../../services/storage.dart';
+import '../views/user/sale/history_sales.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 final LocalStorageService _storageService = locator<LocalStorageService>();
@@ -66,7 +68,7 @@ class DrawerWidget extends StatelessWidget {
                 context: context,
                 icon: Icons.sell,
                 text: 'Vender',
-                onTap: () => _navigationService.goTo(Routes.productivityRoute), 
+                onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const HistorySale())), 
                 image: 'assets/icons/vender.png',
                 countNotifications: 0
             ),
