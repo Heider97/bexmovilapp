@@ -32,6 +32,7 @@ class Routes {
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
+  static const wallet = '/wallet';
 }
 
 // Form Error
