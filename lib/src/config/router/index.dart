@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 //config
@@ -77,15 +78,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               child: SearchView(
                 tables: ['tblmproducto', 'tblmcliente'],
               )));
+    case Routes.wallet:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: WalletDashboardView()));
 
-    //  case Routes.categoryRoute:
-    //   return MaterialPageRoute(
-    //       builder: (context) =>
-    //           CategoryView(categoryId: settings.arguments as int));
-    // case Routes.productRoute:
-    //   return MaterialPageRoute(
-    //       builder: (context) =>
-    //           ProductView(productId: settings.arguments as int));
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const ScheduleView());
     /*  case Routes.productivityRoute:
