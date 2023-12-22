@@ -2,7 +2,6 @@
 
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:googleapis/cloudsearch/v1.dart';
 
 class CardSale extends StatelessWidget {
   String state;

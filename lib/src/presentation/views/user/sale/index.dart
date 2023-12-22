@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //cubit
 import '../../../cubits/home/home_cubit.dart';
 import '../../../widgets/global/custom_elevated_button.dart';
-import '../../../widgets/sales/card_client.dart';
+import '../../../widgets/sales/card_client_sale.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -46,6 +46,17 @@ class _SalePageState extends State<SalePage> {
       Employee(10010, 'Grimes', 'Developer', 15000,'')
     ];
   }
+  List<StepData> steps = [
+      StepData("Seleccionar \nCliente", 'assets/icons/ProfileEnable.png',
+          const Color(0xFFF4F4F4), 'assets/icons/ProfileDisable.png'),
+      StepData(
+          "Seleccionar \n Productos",
+          'assets/icons/seleccionarFacturaEnable.png',
+          const Color(0xFFF4F4F4),
+          'assets/icons/seleccionarFacturaDisable.png'),
+      StepData('Detalles de \n la orden', 'assets/icons/realizarAccionEnable.png',
+          const Color(0xFFF4F4F4), 'assets/icons/realizarAccionDisable.png'),
+    ]; 
 
   @override
   Widget build(BuildContext context) {
@@ -60,242 +71,140 @@ class _SalePageState extends State<SalePage> {
 
   Widget _buildBody(Size size, ThemeData theme, HomeState state, BuildContext context) {
     final borderRadius = BorderRadius.circular(15);
-    return Scaffold(
-    drawer: DrawerWidget(),
-    body: SizedBox(
-      width: size.width,
-      height: size.height,
-      child: Padding(
-        padding: const  EdgeInsets.only(bottom: 20, right: 20, left: 20, top: 38),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () => '',
-                  child: Container(
-                    padding: const EdgeInsets.all(2), // Border width
-                    decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
-                    child: ClipRRect(
-                      borderRadius: borderRadius,
-                      child: const Icon(Icons.close, color: Colors.white, size: 35),
-                    ),
-                  )
-                ),
-                Builder(builder: (context){
-                  return GestureDetector(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: Container(
-                      padding: const EdgeInsets.all(2), // Border width
-                      decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
-                      child: ClipRRect(
-                        borderRadius: borderRadius,
-                        child: const Icon(Icons.list, color: Colors.white, size: 35),
-                      ),
-                    )
-                  );
-                 }
+    return Container(
+      margin: const  EdgeInsets.all(0),
+      child: Stack(
+        children: [
+          Positioned(
+            left: -size.width*0.125,
+            right: -size.width*0.125,
+            child: const Image(
+                color: Colors.orangeAccent,
+                image: AssetImage(
+                  'assets/images/bg-prom-card.png',
                 )
-              ],
-            ),
-            //StepperWidget(currentStep: 0, steps: []),
-            gapH8,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+          ),
+          Scaffold(
+          drawer: DrawerWidget(),
+          body: SizedBox(
+            width: double.infinity,
+            child: Stack(
               children: [
                 SizedBox(
-                  width: 260,
-                  height: 50,
-                  child: CustomSearchBar(
-                      controller: searchController,
-                      hintText: 'Nombre de la empresa'),
-                ),
-                GestureDetector(
-                  onTap: () => '',
-                  child: const  CircleAvatar(
-                    backgroundColor: Color.fromRGBO(253, 241, 231, 1),                    
-                    child:  Icon(Icons.location_on_rounded, color: Colors.orange,),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => '',
-                  child: Container(
-                      padding: const EdgeInsets.all(10), // Border width
-                      decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
-                      child: ClipRRect(
-                        borderRadius: borderRadius,
-                        child: const Icon(Icons.filter_alt_outlined, color: Colors.white, size: 20),
-                      ),
-                    )
-                )
-              ],
-            ),
-            gapH16,
-            Column(
-              children: [                
-                const Center(
-                  child: Text("Editar Pedido", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                ),
-                gapH20,
-                Container(
-                  alignment: Alignment.bottomLeft,
-                  child: const  Text("Comprador: ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
-                ),
-                gapH20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Italcol", style: TextStyle(fontSize: 12)),
-                    Text("Pedido No.20585557939", style: TextStyle(fontSize: 12))
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      alignment: Alignment.bottomLeft,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                width: size.width,
+                height: size.height,
+                child: Padding(
+                  padding: const  EdgeInsets.only(bottom: 20, right: 16, left: 16, top: 38),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("San Antonio de Prado", style: TextStyle(fontSize: 12)),
-                          IconButton(
-                            onPressed: () => '', 
-                            icon: const  Icon(Icons.edit, size: 16)
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.zero,
-                      alignment: Alignment.bottomRight,
-                      child: Row(
-                        children: [
-                          Text("Fecha: 18/12/2023", style: TextStyle(fontSize: 12)),
-                          IconButton(
-                            onPressed: () => '', 
-                            icon: const Icon(Icons.edit, size: 16)
-                          )
-                        ],
-                      ),
-                    )
-                    
-                   
-                  ],
-                ),
-                gapH12,
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: size.width,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: SfDataGrid( 
-                                    allowSorting: true, 
-                                    allowMultiColumnSorting: true,                                    
-                                    headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                                    gridLinesVisibility: GridLinesVisibility.both,                              
-                                    source: employeeDataSource,
-                                    columnWidthMode: ColumnWidthMode.fitByColumnName,
-                                    columns: <GridColumn>[
-                                      GridColumn(
-                                        columnName: 'product',
-                                        label: Container(
-                                            padding: const EdgeInsets.all(10.0),
-                                            alignment: Alignment.center,
-                                            child: const Text(
-                                              'Producto', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-                                            ))),
-                                      GridColumn(
-                                            columnName: 'price',
-                                            label: Container(
-                                                padding: const EdgeInsets.all(10.0),
-                                                alignment: Alignment.center,
-                                                child: const  Text('Precio',style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)))),
-                                      GridColumn(
-                                            columnName: 'quantity',
-                                            label: Container(
-                                                padding: const EdgeInsets.all(10.0),
-                                                alignment: Alignment.center,
-                                                child: const Text(
-                                                  'Cantidad', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)
-                                                ))),
-                                      GridColumn(
-                                              columnName: 'total',
-                                              label: Container(
-                                                  padding: const EdgeInsets.all(10.0),
-                                                  alignment: Alignment.center,
-                                                  child: const Text('Total', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)))),
-                                      GridColumn(
-                                              columnName: 'actions',
-                                              label: Container(
-                                                  padding: const EdgeInsets.all(10.0),
-                                                  alignment: Alignment.center,
-                                                  child: const Text("",style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),)),
-                                    ],
-                                  ),
-                            ),
-                            SizedBox(
-                              height: 60,
-                              width: constraints.maxWidth,
-                              child: SfDataPager(
-                                pageCount: (employees.length / 5).ceilToDouble(),
-                                delegate: employeeDataSource,
-                                direction: Axis.horizontal,
+                          GestureDetector(
+                            onTap: () => '',
+                            child: Container(
+                              padding: const EdgeInsets.all(2), // Border width
+                              decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
+                              child: ClipRRect(
+                                borderRadius: borderRadius,
+                                child: const Icon(Icons.close, color: Colors.white, size: 35),
                               ),
                             )
+                          ),
+                          Builder(builder: (context){
+                            return GestureDetector(
+                              onTap: () => Scaffold.of(context).openDrawer(),
+                              child: Container(
+                                padding: const EdgeInsets.all(2), // Border width
+                                decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
+                                child: ClipRRect(
+                                  borderRadius: borderRadius,
+                                  child: const Icon(Icons.list, color: Colors.white, size: 35),
+                                ),
+                              )
+                            );
+                          }
+                          )
+                        ],
+                      ),
+                      StepperWidget(currentStep: 0, steps: steps),
+                      gapH4,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 260,
+                            height: 50,
+                            child: CustomSearchBar(
+                                controller: searchController,
+                                hintText: 'Nombre de la empresa'),
+                          ),
+                          GestureDetector(
+                            onTap: () => '',
+                            child: const  CircleAvatar(
+                              backgroundColor: Color.fromRGBO(253, 241, 231, 1),                    
+                              child:  Icon(Icons.location_on_rounded, color: Colors.orange,),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => '',
+                            child: Container(
+                                padding: const EdgeInsets.all(10), // Border width
+                                decoration: BoxDecoration(color: const Color.fromARGB(255, 243, 119, 24), borderRadius: borderRadius),
+                                child: ClipRRect(
+                                  borderRadius: borderRadius,
+                                  child: const Icon(Icons.filter_alt_outlined, color: Colors.white, size: 20),
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 450,
+                        width: 500,
+                        child: Column(
+                          children: [                                    
+                            Expanded(
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount:
+                                      10,
+                                  itemBuilder: (BuildContext context, int index) => Padding(
+                                    padding: const EdgeInsets.only(right: 9),
+                                    child: CardClient(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
+                                  ),
+                                ),
+                            ),
                           ],
-                        );
-                      }
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            
-            SizedBox(
-              height: 480,
-              width: 500,
-              child: Column(
-                children: [                                    
-                  Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount:
-                            10,
-                        itemBuilder: (BuildContext context, int index) => Padding(
-                          padding: const EdgeInsets.only(right: 9),
-                          child: CardClient(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
                         ),
                       ),
+                      gapH8,
+                      CustomElevatedButton(
+                        width: 330,
+                        height: 50,
+                        onTap: () => '',
+                        child:
+                              Text(
+                                'Siguiente',
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                      )
+                    ],
                   ),
-                  
-                  
-                ],
-              ),
+                ),
+                )
+              ],
+              
             ),
-            gapH28,
-            CustomElevatedButton(
-              width: 330,
-              height: 50,
-              onTap: () => '',
-              child:
-                    Text(
-                      'Siguiente',
-                      style: theme.textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-            )
-          ],
-        ),
+          ),
+         ),
+        ],
+        
       ),
-    ),
-   );
+    );
   }
 }
 
