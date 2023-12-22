@@ -40,92 +40,109 @@ class CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final events = BlocProvider.of<GoogleAccountBloc>(context).events;
 
     return Scaffold(
-        body: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircleAvatar(
-                        radius: 22,
-                        backgroundColor: Colors.orange,
-                        child: Text('D'),
+        body: SafeArea(
+          child: Stack(
+            
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const CircleAvatar(
+                            radius: 22,
+                            backgroundColor: Colors.orange,
+                            child: Text('D'),
+                          ),
+                          SizedBox(
+                            width: 230,
+                            child: TextFormField(
+                              controller: calendarcontroller,
+                              decoration: InputDecoration(
+                                hintText: '¿ Que estas buscando ?',
+                                hintStyle: TextStyle(color: Colors.orange.shade300),
+                                prefixIcon: const Icon(Icons.search, color: Color(0xFFf44336),),
+                                filled: true,
+                                fillColor: Colors.orange.shade50,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(50)
+                                )
+                              ),
+                            )
+                          )
+                        ],
                       ),
-                      SizedBox(
-                        width: 230,
-                      child: CustomTextFormField(
-                          controller: calendarcontroller,
-                          hintText: '¿ Que estas buscando ?'
-                      ))
-                    ],
-                  ),
+                    ),
+                          
+                    // const SizedBox(height: 20,),
+                          
+                    SizedBox(
+                      height: 500,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: SfCalendar(  
+                          onTap: (details){
+                            if(details.appointments == null) return;
+                          
+                            final event = details.appointments!.first;
+                          
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CodeCreateMeet(event: event)  
+                            ));
+                          },
+                          view: CalendarView.month,
+                          // showDatePickerButton: true,
+                          // allowViewNavigation: true,
+                          timeSlotViewSettings: const TimeSlotViewSettings(
+                              startHour: 9,
+                              endHour: 16,
+                              nonWorkingDays: <int>[
+                                DateTime.friday,
+                                DateTime.saturday
+                              ]),
+                          
+                          initialSelectedDate: DateTime.now(),
+                          headerHeight: 0,
+                          
+                          onLongPress: (details){
+                            final provider = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
+                          
+                            provider.setState(details.date!);
+                          },
+                          controller: calendarController,
+                          dataSource:MeetingDataSource(events),
+                          selectionDecoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(color: Colors.orange, width: 2),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4)),
+                              shape: BoxShape.rectangle),
+                          
+                          blackoutDates: [
+                            DateTime.now().subtract(const Duration(hours: 48)),
+                            DateTime.now().subtract(const Duration(hours: 24))
+                          ],
+                          
+                          monthViewSettings: const MonthViewSettings(
+                              appointmentDisplayMode:
+                                  MonthAppointmentDisplayMode.indicator,
+                              showAgenda: true),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-
-                // const SizedBox(height: 20,),
-
-                SizedBox(
-                  height: 500,
-                  child: SfCalendar(  
-                    onTap: (details){
-                      if(details.appointments == null) return;
-
-                      final event = details.appointments!.first;
-
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CodeCreateMeet(event: event)  
-                      ));
-                    },
-                    view: CalendarView.month,
-                    showDatePickerButton: true,
-                    allowViewNavigation: true,
-                    timeSlotViewSettings: const TimeSlotViewSettings(
-                        startHour: 9,
-                        endHour: 16,
-                        nonWorkingDays: <int>[
-                          DateTime.friday,
-                          DateTime.saturday
-                        ]),
-
-                    initialSelectedDate: DateTime.now(),
-                    headerHeight: 0,
-
-                    onLongPress: (details){
-                      final provider = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
-
-                      provider.setState(details.date!);
-                    },
-                    controller: calendarController,
-                    dataSource:MeetingDataSource(events),
-                    // appointmentBuilder: ,
-                    selectionDecoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: Colors.orange, width: 2),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(4)),
-                        shape: BoxShape.rectangle),
-
-                    blackoutDates: [
-                      DateTime.now().subtract(const Duration(hours: 48)),
-                      DateTime.now().subtract(const Duration(hours: 24))
-                    ],
-
-                    monthViewSettings: const MonthViewSettings(
-                        appointmentDisplayMode:
-                            MonthAppointmentDisplayMode.indicator,
-                        showAgenda: true),
-                  ),
-                ),
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -182,7 +199,7 @@ class CalendarPageState extends State<CalendarPage> {
         },
       );
     }
-  ),
+    ),
         bottomNavigationBar: const CustomButtonNavigationBar());
 }
 
