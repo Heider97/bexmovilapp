@@ -146,61 +146,14 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
   static String toDate(DateTime dateTime){
     final date = DateFormat.yMMMEd().format(dateTime);
 
-    return '$date';
+    return date;
   }
 
   static String toTime(DateTime dateTime){
     final time = DateFormat.Hm().format(dateTime);
 
-    return '$time';
+    return time;
   }
-
-
-
-  //lista que agrega una nueva reunion de trabajo
-  List<Appointment> appointments = <Appointment>[
-    Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Reunión de trabajo',
-      color: const Color(0xFF0F8644),
-      recurrenceRule: 'FREQ=DAILY;INTERVAL=2;COUNT=10',
-      notes: 'notas'
-    ),
-  ];
-
-  //plan B crear evento usando el listado appointment
-  void createEvent() {
-    Appointment newAppointment = Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Nueva reunion',
-      
-      color: const Color(0xFF0F8644),
-    );
-
-    // Agregar el nuevo evento a la lista de eventos
-    appointments.add(newAppointment);
-    NetworkNotify();
-  }
-
-  //editar evento plan b usando el listado appointment
-  // void editEvent(){
-  //   Appointment editedAppointment = Appointment(
-  //     startTime: DateTime.now(), 
-  //     endTime: DateTime.now().add(const Duration(hours: 2)),
-  //     subject: 'Reunion de trabajo actualizada',
-  //     color: const Color(0xFF0F8644),
-  //   );
-
-  //   int index = appointments.indexWhere((appointment) => 
-  //     appointment.subject == 'Nueva reunion' &&
-  //     appointment.startTime == DateTime.now());
-  //   if(index != -1) {
-  //     appointments[index] = editedAppointment;
-  //   }
-  //   NetworkNotify();
-  // }
 
   //editar un evento
   void editEvent(Eventos newEvent, Eventos oldEvent){

@@ -7,6 +7,7 @@ class Eventos {
   final DateTime to;
   final Color backgroundColor;
   final bool isAllDay;
+  final Icon icon;
 
   const Eventos({
     required this.title,
@@ -14,6 +15,7 @@ class Eventos {
     required this.from,
     required this.to,
     this.backgroundColor = const Color(0xFF0F8644),
-    this.isAllDay = false
+    this.isAllDay = false,
+    required this.icon
   });
 }

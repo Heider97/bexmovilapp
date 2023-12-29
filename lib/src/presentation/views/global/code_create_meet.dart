@@ -45,6 +45,11 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     titleController.dispose();
     super.dispose();
@@ -88,10 +93,9 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               ),
               const SizedBox(height: 12,),
 
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const Row(
                 children: [
-                  Text('From', style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text('From', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                 ],
               ),
 
@@ -109,7 +113,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: Text(GoogleAccountBloc.toTime(fromDate)),
+                      title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: (){
                         setState(() {
@@ -121,10 +125,9 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                 ],
               ),
 
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              const Row(
                 children: [
-                  Text('To', style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text('To', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                 ],
               ),
 
@@ -142,7 +145,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: Text(GoogleAccountBloc.toTime(fromDate)),
+                      title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
                       trailing: const Icon(Icons.arrow_drop_down),
                       onTap: (){
                         setState(() {
@@ -191,7 +194,8 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
         description: 'Description',
         from: fromDate,
         to: toDate,
-        isAllDay: false
+        isAllDay: false,
+        icon: Icon(Icons.delete)
       );
 
       final isEditing = widget.event != null;

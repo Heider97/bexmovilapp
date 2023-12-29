@@ -1,6 +1,5 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
 import 'package:bexmovil/src/presentation/views/global/code_create_meet.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +13,10 @@ import '../../../widgets/custom_button_navigationbar.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
+
+  final Eventos? event;
+
+  const CalendarPage({Key? key, this.event}) : super(key: key);
 
   @override
   CalendarPageState createState() => CalendarPageState();
@@ -39,13 +41,17 @@ class CalendarPageState extends State<CalendarPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final events = BlocProvider.of<GoogleAccountBloc>(context).events;
 
     return Scaffold(
         body: SafeArea(
-          child: Stack(
-            
+          child: Stack(           
             children: [
               SingleChildScrollView(
                 child: Column(
@@ -77,7 +83,7 @@ class CalendarPageState extends State<CalendarPage> {
                                 )
                               ),
                             )
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -99,8 +105,8 @@ class CalendarPageState extends State<CalendarPage> {
                             ));
                           },
                           view: CalendarView.month,
-                          // showDatePickerButton: true,
-                          // allowViewNavigation: true,
+                          showDatePickerButton: false,
+                          
                           timeSlotViewSettings: const TimeSlotViewSettings(
                               startHour: 9,
                               endHour: 16,
@@ -119,6 +125,8 @@ class CalendarPageState extends State<CalendarPage> {
                           },
                           controller: calendarController,
                           dataSource:MeetingDataSource(events),
+                          initialDisplayDate: googleaccountbloc.selectedDate,
+                          appointmentBuilder: appointmentBuilder,
                           selectionDecoration: BoxDecoration(
                               color: Colors.transparent,
                               border: Border.all(color: Colors.orange, width: 2),
@@ -145,14 +153,14 @@ class CalendarPageState extends State<CalendarPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
           onPressed: (){
         showModalBottomSheet(
         shape: const LinearBorder(),
         context: context,
         builder: (BuildContext context) {
           return SizedBox(
-            height: 200,
+            height: 100,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -181,86 +189,69 @@ class CalendarPageState extends State<CalendarPage> {
                     'Crea una nueva reunion de trabajo',
                   ),
                 ),
-                ListTile(
-                  onTap: () {
-                    // _navigationService.goTo(Routes.codeFormRequest);
-                    // recoveryBloc
-                    //     .add(const StartRecovery(type: 'SMS'));
-                  },
-                  title: const Text(
-                    'Actualizar Reunion',
-                  ),
-                  subtitle: const Text(
-                      'Actualiza tu reunion de trabajo si tienes algun imprevisto'),
-                )
               ],
             ),
           );
         },
       );
     }
-    ),
-        bottomNavigationBar: const CustomButtonNavigationBar());
+  ),
+        bottomNavigationBar: const CustomButtonNavigationBar(),
+  );
 }
 
-  void calendarTapped(CalendarTapDetails details) {
-    if (details.targetElement == CalendarElement.appointment ||
-        details.targetElement == CalendarElement.agenda) {
-     
+Widget appointmentBuilder(
+  BuildContext context,
+  CalendarAppointmentDetails details,
+){
+  final event = details.appointments.first;
 
-      showModalBottomSheet(
-        shape: const LinearBorder(),
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      width: 80,
-                      height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
-                  ),
+  return Container(
+    height: details.bounds.height,
+    width: details.bounds.width,
+    decoration: BoxDecoration(
+      color: Colors.green,
+      borderRadius: BorderRadius.circular(12)
+    ),
+    child: SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                event.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
-                ListTile(
-                  onTap: () {
-                    //aqui va la otra vista para crear la nueva reunion
-                    _navigationService.goTo(Routes.codecreatemeet);
-                  },
-                  title: const Text(
-                    'Nueva Reunion',
-                  ),
-                  subtitle: const Text(
-                    'Crea una nueva reunion de trabajo',
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    // _navigationService.goTo(Routes.codeFormRequest);
-                    // recoveryBloc
-                    //     .add(const StartRecovery(type: 'SMS'));
-                  },
-                  title: const Text(
-                    'Actualizar Reunion',
-                  ),
-                  subtitle: const Text(
-                      'Actualiza tu reunion de trabajo si tienes algun imprevisto'),
-                )
-              ],
+              ),
+    
+              IconButton(
+                onPressed: (){
+                  setState(() {
+                    final google = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
+                    google.deleteEvent(event);
+                  });
+                }, 
+                icon: const Icon(Icons.delete, color: Colors.white,)
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              event.from.toString(), 
+              style: const TextStyle(color: Colors.white),
             ),
-          );
-        },
-      );
-    }
-  }
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 }
 
 class MeetingDataSource extends CalendarDataSource {
@@ -296,4 +287,5 @@ class Meeting {
   Color background;
   bool isAllDay;
   String? recurrenceRule;
+
 }
