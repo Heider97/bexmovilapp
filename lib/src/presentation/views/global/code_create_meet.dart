@@ -46,6 +46,18 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
   @override
   void didChangeDependencies() {
+
+    if (widget.event == null){
+      fromDate = DateTime.now();
+      toDate = DateTime.now().add(const Duration(hours: 2));
+    } else {
+      final event = widget.event!;
+
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
+    }
+
     super.didChangeDependencies();
   }
 
@@ -67,7 +79,11 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent
             ),
-            onPressed: saveForm, 
+            onPressed: (){
+              setState(() {
+                saveForm();
+              });
+            }, 
             icon: const Icon(Icons.done), 
             label: const Text('Guardar')
           )
@@ -195,7 +211,6 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
         from: fromDate,
         to: toDate,
         isAllDay: false,
-        icon: Icon(Icons.delete)
       );
 
       final isEditing = widget.event != null;

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 //services
+import '../../../../domain/models/meeting_data_source.dart';
 import '../../../../domain/models/requests/event.dart';
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
@@ -30,7 +31,6 @@ class CalendarPageState extends State<CalendarPage> {
   GoogleAccountBloc calendarClient = GoogleAccountBloc();
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(const Duration(days: 1));
-  // TextEditingController _eventName = TextEditingController();
   CalendarController calendarController = CalendarController();
 
   @override
@@ -105,8 +105,8 @@ class CalendarPageState extends State<CalendarPage> {
                             ));
                           },
                           view: CalendarView.month,
-                          showDatePickerButton: false,
-                          
+                          showDatePickerButton: true,
+                          allowViewNavigation: true,
                           timeSlotViewSettings: const TimeSlotViewSettings(
                               startHour: 9,
                               endHour: 16,
@@ -142,7 +142,8 @@ class CalendarPageState extends State<CalendarPage> {
                           monthViewSettings: const MonthViewSettings(
                               appointmentDisplayMode:
                                   MonthAppointmentDisplayMode.indicator,
-                              showAgenda: true),
+                              showAgenda: true
+                          ),
                         ),
                       ),
                     ),
@@ -194,6 +195,7 @@ class CalendarPageState extends State<CalendarPage> {
           );
         },
       );
+      // Navigator.of(context).pop();
     }
   ),
         bottomNavigationBar: const CustomButtonNavigationBar(),
@@ -227,7 +229,6 @@ Widget appointmentBuilder(
                   color: Colors.white,
                 ),
               ),
-    
               IconButton(
                 onPressed: (){
                   setState(() {
@@ -251,41 +252,5 @@ Widget appointmentBuilder(
     ),
   );
 }
-
 }
 
-class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Eventos> appointments) {
-    this.appointments = appointments;
-  }
-
-  Eventos getEvent(int index) => appointments![index] as Eventos;
-
-  @override
-  DateTime getStartTime(int index) => getEvent(index).from;
-
-  @override
-  DateTime getEndTime(int index) => getEvent(index).to;
-
-  @override
-  String getSubject(int index) => getEvent(index).title;
-
-  @override
-  Color getColor(int index) => getEvent(index).backgroundColor;
-
-  @override
-  bool isAllDay(int index) => getEvent(index).isAllDay;
-
-}
-
-class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay, this.recurrenceRule);
-
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color background;
-  bool isAllDay;
-  String? recurrenceRule;
-
-}
