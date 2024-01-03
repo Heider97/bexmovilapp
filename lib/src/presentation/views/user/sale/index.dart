@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
+import 'package:bexmovil/src/presentation/widgets/sales/card_product_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +173,15 @@ class _SalePageState extends State<SalePage> {
                                       10,
                                   itemBuilder: (BuildContext context, int index) => Padding(
                                     padding: const EdgeInsets.only(right: 9),
-                                    child: CardClient(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
+                                    child: CardProductSale(
+                                      birthPlace: "Medellin", 
+                                      code: "345345435", 
+                                      image: "assets/images/super_pollito.png",
+                                      lastQuantitySale: 90,
+                                      quantityAvailable: 120,
+                                      lastVisit: "29/Dic/2023",
+                                      priceSale: 30000,
+                                    )
                                   ),
                                 ),
                             ),

@@ -1,9 +1,6 @@
 import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yaml/yaml.dart';
 
 //cubit
 import '../../presentation/cubits/home/home_cubit.dart';
@@ -18,7 +15,6 @@ import '../../domain/models/user.dart';
 import '../../locator.dart';
 import '../../services/navigation.dart';
 import '../../services/storage.dart';
-import '../views/user/sale/history_sales.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 final LocalStorageService _storageService = locator<LocalStorageService>();
