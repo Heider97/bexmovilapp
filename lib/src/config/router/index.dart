@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
 import 'package:flutter/material.dart';
 
@@ -87,6 +88,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
 
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const ScheduleView());
+
+    case Routes.charDetailsRoute:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: CharDetails(),
+              ));
+
     /*  case Routes.productivityRoute:
       return MaterialPageRoute(builder: (context) => ProductivityView()); */
     default:

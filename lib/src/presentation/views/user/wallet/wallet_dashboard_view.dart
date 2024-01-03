@@ -1,5 +1,7 @@
+import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -33,6 +35,8 @@ class _WalletDashboardViewState extends State<WalletDashboardView>
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
+
+  final NavigationService _navigationService = locator<NavigationService>();
 
   @override
   Widget build(BuildContext context) {
@@ -129,14 +133,20 @@ class _WalletDashboardViewState extends State<WalletDashboardView>
                         child: Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(right: 15.0, top: 10),
+                              padding:
+                                  const EdgeInsets.only(right: 10.0, top: 10),
                               child: Align(
                                   alignment: Alignment.topRight,
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _navigationService
+                                          .goTo(Routes.charDetailsRoute);
+                                    },
                                     icon: Icon(
-                                      Icons.open_in_full,
+                                      FontAwesomeIcons
+                                          .upRightAndDownLeftFromCenter,
                                       color: theme.primaryColor,
+                                      size: 18,
                                     ),
                                   )),
                             ),
@@ -149,18 +159,49 @@ class _WalletDashboardViewState extends State<WalletDashboardView>
                                   xValueMapper: (ChartData data, _) => data.x,
                                   yValueMapper: (ChartData data, _) => data.y)
                             ]),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text('Edad mas alta'),
+                                      const Text('80'),
+                                      Text('Italcol',
+                                          style: theme.textTheme.bodyLarge!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      const Text('Frecuencia más alta'),
+                                      const Text('50'),
+                                      Text(
+                                        'Pandapan',
+                                        style: theme.textTheme.bodyLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            gapH16
                           ],
                         ),
                       ),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
+                      const Icon(Icons.directions_car),
+                      const Icon(Icons.directions_car),
+                      const Icon(Icons.directions_car),
+                      const Icon(Icons.directions_car),
                     ],
                   ),
                 ),
-                Icon(Icons.directions_transit),
-                Icon(Icons.directions_bike),
+                const Icon(Icons.directions_transit),
+                const Icon(Icons.directions_bike),
               ],
             ),
           )
