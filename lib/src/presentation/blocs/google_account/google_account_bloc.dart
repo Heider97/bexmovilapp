@@ -17,6 +17,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +25,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import "package:googleapis_auth/auth_io.dart";
+
+import '../../../domain/models/requests/event.dart';
+
+
 
 part 'google_account_event.dart';
 part 'google_account_state.dart';
@@ -33,6 +38,14 @@ final NavigationService _navigationService = locator<NavigationService>();
 class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
 
   static const scopes =  [CalendarApi.calendarScope];
+
+  final List<Eventos> events = [];
+
+  List<Eventos> get eventos => events;
+
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
   
   Event event = Event();
 
@@ -64,8 +77,17 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
+  void setState(DateTime date) => _selectedDate = date;
+
+  List<Eventos> get eventsOfSelectedDate => events;
+
+  void addEvent(Eventos event){
+    events.add(event);
+    NetworkNotify();
+  }
+
   //calendar event 1 with google api
-  Future<void> createEvents(title, startTime, endTime) async {
+  createEvents(title, startTime, endTime) {
     var clientID =  ClientId("YOUR_CLIENT_ID", "");
     clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client){
        var calendar = CalendarApi(client);
@@ -114,82 +136,36 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     }
   }
 
-  //lista que agrega una nueva reunion de trabajo
-  List<Appointment> appointments = <Appointment>[
-    Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Reunión de trabajo',
-      color: const Color(0xFF0F8644)
-    ),
-  ];
+  static String toDateTime(DateTime dateTime) {
+    final date = DateFormat.yMMMEd().format(dateTime);
+    final time = DateFormat.Hm().format(dateTime);
 
-  //plan B crear evento usando el listado appointment
-  void createEvent() {
-    Appointment newAppointment = Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Nueva reunion',
-      color: const Color(0xFF0F8644),
-    );
-
-    // Agregar el nuevo evento a la lista de eventos
-    appointments.add(newAppointment);
-    NetworkNotify();
+    return '$date $time';
   }
 
-  //editar evento plan b usando el listado appointment
-  void editEvent(){
-    Appointment editedAppointment = Appointment(
-      startTime: DateTime.now(), 
-      endTime: DateTime.now().add(const Duration(hours: 2)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
+  static String toDate(DateTime dateTime){
+    final date = DateFormat.yMMMEd().format(dateTime);
 
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = editedAppointment;
-    }
-    NetworkNotify();
+    return date;
   }
 
-  //actualizar un evento
-  void updateEvent(){
-    Appointment updatedAppointment = Appointment(
-      startTime: DateTime.now().add(const Duration(days: 1)), 
-      endTime: DateTime.now().add(const Duration(days: 1, hours: 1)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
+  static String toTime(DateTime dateTime){
+    final time = DateFormat.Hm().format(dateTime);
 
+    return time;
+  }
 
-    //encontrar y reemplazar el evento en la lista de eventos
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = updatedAppointment;
-    }
+  //editar un evento
+  void editEvent(Eventos newEvent, Eventos oldEvent){
+    final index  = events.indexOf(oldEvent);
+    events[index] = newEvent;
     NetworkNotify();
   }
 
   //eliminar evento
- void deleteEvent() {
-    // Encontrar el índice del evento que deseas eliminar
-    int index = appointments.indexWhere((appointment) =>
-        appointment.subject == 'Nueva reunion' &&
-        appointment.startTime == DateTime.now());
+  void deleteEvent(Eventos event){
+    events.remove(event);
 
-    // Verificar si el evento se encontró
-    if (index != -1) {
-      // Eliminar el evento de la lista de eventos
-      appointments.removeAt(index);
-    }
     NetworkNotify();
   }
-
-
 }

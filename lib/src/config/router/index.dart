@@ -1,9 +1,11 @@
+import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 //config
+import '../../presentation/views/global/code_create_meet.dart';
 import '../../utils/constants/strings.dart';
 
 //SCREENS
@@ -48,10 +50,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.recoverPassword:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-                opacity: 0.1,
-                hideBottomNavigationBar: true,
-                child: RecoverPasswordView(),
-              ));
+              opacity: 0.1, 
+              hideBottomNavigationBar: true,
+              child: RecoverPasswordView()));
+    case Routes.codecreatemeet:
+      return MaterialPageRoute(
+        builder: (_) =>  CodeCreateMeet()
+      );          
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:
