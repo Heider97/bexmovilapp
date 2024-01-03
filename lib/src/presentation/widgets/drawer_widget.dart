@@ -1,8 +1,6 @@
+import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yaml/yaml.dart';
 
 //cubit
 import '../../presentation/cubits/home/home_cubit.dart';
@@ -66,7 +64,7 @@ class DrawerWidget extends StatelessWidget {
                 context: context,
                 icon: Icons.sell,
                 text: 'Vender',
-                onTap: () => _navigationService.goTo(Routes.productivityRoute), 
+                onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const SalePage())), 
                 image: 'assets/icons/vender.png',
                 countNotifications: 0
             ),
