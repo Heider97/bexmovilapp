@@ -1,4 +1,6 @@
 //TODO [Heider Zapa] Organize
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
@@ -29,11 +31,34 @@ class CodeVerificationView extends StatefulWidget {
 
 class _CodeVerificationViewState extends State<CodeVerificationView> {
   late RecoveryPasswordBloc recoveryPasswordBloc;
+  late Timer timer;
+  TextEditingController pinPutController = TextEditingController();
+  int _counter = 30;
 
   @override
   void initState() {
     recoveryPasswordBloc = BlocProvider.of<RecoveryPasswordBloc>(context);
+    _startTimer();
+
     super.initState();
+  }
+
+  void _startTimer() {
+    const oneSec = Duration(seconds: 1);
+    timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_counter == 0) {
+          // Temporizador completado, realiza la lógica que necesites
+          timer.cancel();
+        } else {
+          // Actualiza el estado para reflejar el nuevo valor del contador
+          setState(() {
+            _counter--;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -82,8 +107,8 @@ class _CodeVerificationViewState extends State<CodeVerificationView> {
               children: [
                 Text(
                   'Verificación',
-                  style: theme.textTheme.titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.bold, color: theme.primaryColor),
                 ),
                 gapH16,
                 (state.type == 'SMS')
@@ -106,6 +131,7 @@ class _CodeVerificationViewState extends State<CodeVerificationView> {
             Column(
               children: [
                 Pinput(
+                  controller: pinPutController,
                   length: 6,
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: focusedPinTheme,
@@ -128,10 +154,40 @@ class _CodeVerificationViewState extends State<CodeVerificationView> {
                   gapH36,
                   const Text('No recibió el código?'),
                   gapH12,
-                  Text(
-                    'Reenviar',
-                    style: theme.textTheme.bodyMedium!
-                        .copyWith(color: theme.primaryColor),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Opacity(
+                        opacity: (_counter != 0) ? 0.5 : 1,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_counter == 0) {
+                              pinPutController.text = "";
+                              setState(() {
+                                _counter = 30;
+                              });
+                              _startTimer();
+                              recoveryPasswordBloc.add(RetryCode(
+                                  recoveryMethod: (state.type == 'SMS')
+                                      ? state.phone!
+                                      : state.email!));
+                            }
+                          },
+                          child: Text(
+                            'Reenviar',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: theme.primaryColor),
+                          ),
+                        ),
+                      ),
+                      (_counter != 0)
+                          ? Text(
+                              ' (Espera $_counter segundos) ',
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(color: theme.primaryColor),
+                            )
+                          : Container()
+                    ],
                   ),
                 ],
               ),

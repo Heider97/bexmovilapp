@@ -1,4 +1,5 @@
 class DynamicRequest {
   final String table;
-  DynamicRequest(this.table);
+  final String content;
+  DynamicRequest(this.table, this.content);
 }
