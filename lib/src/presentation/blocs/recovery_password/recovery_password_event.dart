@@ -34,3 +34,8 @@ class ChangePassword extends RecoveryPasswordEvent {
 class ClearErrors extends RecoveryPasswordEvent {
   const ClearErrors();
 }
+
+class RetryCode extends RecoveryPasswordEvent {
+  final String recoveryMethod;
+  const RetryCode({required this.recoveryMethod});
+}

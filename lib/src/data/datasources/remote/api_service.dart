@@ -156,7 +156,7 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<GoogleResponse>> googleCount()async{
+  Future<Response<GoogleResponse>> googleCount() async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -164,38 +164,32 @@ class ApiService {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
 
-    final data = <String, dynamic>{
-      
-    };
+    final data = <String, dynamic>{};
 
     data.removeWhere((k, v) => v == null);
 
     final result = await dio.fetch<Map<String, dynamic>>(
-      _setStreamType<Response<GoogleResponse>>(Options(
-        method: 'POST',
-        headers: headers,
-        extra: extra
-      )
-        .compose(
-          dio.options,
-          '/v1/accounts:signUp',
-          queryParameters: queryParameters,
-          data: data,
-        )
-        .copyWith(baseUrl: 'https://identitytoolkit.googleapis.com')));
-    
+        _setStreamType<Response<GoogleResponse>>(
+            Options(method: 'POST', headers: headers, extra: extra)
+                .compose(
+                  dio.options,
+                  '/v1/accounts:signUp',
+                  queryParameters: queryParameters,
+                  data: data,
+                )
+                .copyWith(baseUrl: 'https://identitytoolkit.googleapis.com')));
+
     final value = GoogleResponse.fromMap(result.data!);
 
     return Response(
-      data: value,
-      requestOptions: result.requestOptions,
-      statusCode: result.statusCode,
-      statusMessage: result.statusMessage,
-      isRedirect: result.isRedirect,
-      redirects: result.redirects,
-      extra: result.extra,
-      headers: result.headers
-    );
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
   }
 
   Future<Response<SyncResponse>> features() async {
@@ -359,14 +353,12 @@ class ApiService {
         headers: result.headers);
   }
 
-
-
   Future<Response<SyncPrioritiesResponse>> priorities(
       {required String date, required String version}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-    
+
     final data = <String, dynamic>{r'date': date, r'version': version};
 
     final headers = <String, dynamic>{
@@ -396,7 +388,8 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DynamicResponse>> syncDynamic({required String table, required String content}) async {
+  Future<Response<DynamicResponse>> syncDynamic(
+      {required String table, required String content}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);

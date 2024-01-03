@@ -25,21 +25,21 @@ class DrawerWidget extends StatelessWidget {
 
   final String? companyName;
   final User? user;
-  
+
   late HomeCubit homeCubit;
   @override
-  Widget build(BuildContext context) {    
-    return Drawer(       
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children:[
-            gapH28,           
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          gapH28,
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
                     onTap: () => homeCubit.logout(),
                     child: CircleAvatar(
                       radius: 25,
@@ -47,8 +47,7 @@ class DrawerWidget extends StatelessWidget {
                           ? Text(user!.name![0])
                           : const Text('U'),
                     )),
-                ],
-              ),
+              ],
             ),
             gapH68,
             _createDrawerItem(
@@ -99,7 +98,6 @@ class DrawerWidget extends StatelessWidget {
             
           ],
         ),
-      
     );
   }
 
@@ -120,15 +118,15 @@ class DrawerWidget extends StatelessWidget {
             child: Text(text),
           ),
           if (countNotifications! > 0) ...[
-             Container(
+            Container(
               margin: const EdgeInsets.only(bottom: 1, left: 20),
-               child: CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 238, 39, 24),
-                  radius: 16,
-                  child:  Text('$countNotifications'),
-                ),
-             )
-          ] 
+              child: CircleAvatar(
+                backgroundColor: const Color.fromARGB(255, 238, 39, 24),
+                radius: 16,
+                child: Text('$countNotifications'),
+              ),
+            )
+          ]
         ],
       ),
       onTap: onTap,

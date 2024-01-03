@@ -1,3 +1,7 @@
+import 'package:bexmovil/src/presentation/widgets/global/custom_promotion_card.dart';
+import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,10 +67,10 @@ class HomeViewState extends State<HomeView>
     );
   }
 
-
-  Widget _buildBody(Size size, ThemeData theme, HomeState state, BuildContext context) {
+  Widget _buildBody(
+      Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(
-      drawer:  DrawerWidget(),
+      drawer: DrawerWidget(),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -77,13 +81,13 @@ class HomeViewState extends State<HomeView>
             children: [
               SizedBox(
                 width: size.width,
-                height: 65,
+                height: 50,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => homeCubit.logout(),
+                        onTap: () => Scaffold.of(context).openDrawer(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null
@@ -92,28 +96,35 @@ class HomeViewState extends State<HomeView>
                         )),
                     SizedBox(
                       width: size.width / 1.4,
-                      height: size.height / 1,
-                      child: CustomSearchBar(
-                          controller: searchController,
-                          hintText: '¿Qué estás buscando?'),
-                    ),
-                    Builder(builder: (context){
-                      return GestureDetector(
-                        onTap: () => Scaffold.of(context).openDrawer(),
-                        child: const SizedBox(
-                          width: 35,
-                          height: 45,
-                          child: Icon(
-                            Icons.list
-                          ),
-                        ),
-                      );
-                     }
+                      height: size.height * 0.2,
+                      child: GestureDetector(
+                          onTap: () {
+                            _navigationService.goTo(Routes.searchPage);
+                          },
+                          child: Material(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(50),
+                              elevation: 5,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  gapW20,
+                                  Icon(
+                                    Icons.search_outlined,
+                                    color: theme.primaryColor,
+                                  ),
+                                  gapW20,
+                                  Expanded(
+                                      child: Text('¿Qué estás buscando? ')),
+                                  gapW20
+                                ],
+                              ))),
                     )
-                    
                   ],
                 ),
               ),
+              gapH20,
               SizedBox(
                   height: 120,
                   width: 500,
@@ -123,11 +134,16 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: CustomCard(
-                          axis: Axis.horizontal,
-                          text: state.features![index].descripcion!,
-                          url: state.features![index].urldesc,
-                          color: index / 2 == 0 ? Colors.orange : Colors.green),
+                      child: /*  CustomPromotionCard(
+                          cardText: "Notification Test ",
+                        ) */
+                          CustomCard(
+                              axis: Axis.horizontal,
+                              text: state.features![index].descripcion!,
+                              url: state.features![index].urldesc,
+                              color: index / 2 == 0
+                                  ? Colors.orange
+                                  : Colors.green),
                     ),
                   )),
               gapH12,
@@ -163,51 +179,77 @@ class HomeViewState extends State<HomeView>
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
-                        children: [ 
+                        children: [
                           Container(
                             height: 220,
                             width: 500,
                             color: Colors.grey[100],
                             child: Column(
-                              children: [                                    
+                              children: [
                                 Expanded(
                                   child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          10,
-                                      itemBuilder: (BuildContext context, int index) => Padding(
-                                        padding: const EdgeInsets.only(right: 9),
-                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
-                                      ),
-                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 10,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 9),
+                                            child: CardKpi(
+                                                iconCard:
+                                                    Icons.star_rate_rounded,
+                                                urlIcon:
+                                                    "assets/icons/vender.png",
+                                                tittle: "Ventas.",
+                                                eventCard: () {},
+                                                quantity: 9,
+                                                percentage: -20.5,
+                                                valueCard: 1)),
+                                  ),
                                 ),
-                                
                                 Expanded(
                                   child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          10,
-                                      itemBuilder: (BuildContext context, int index) => Padding(
-                                        padding: const EdgeInsets.only(right: 9),
-                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Prospectos", eventCard: (){}, quantity: 80,percentage: 20.5, valueCard: 2)
-                                      ),
-                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 10,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 9),
+                                            child: CardKpi(
+                                                iconCard:
+                                                    Icons.star_rate_rounded,
+                                                urlIcon:
+                                                    "assets/icons/vender.png",
+                                                tittle: "Prospectos",
+                                                eventCard: () {},
+                                                quantity: 80,
+                                                percentage: 20.5,
+                                                valueCard: 2)),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            color:Colors.grey[100],
+                            color: Colors.grey[100],
                             child: Column(
                               children: [
                                 gapH12,
-                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Mi\nPresupuesto", eventCard: (){}),
+                                CardReports(
+                                    iconCard: Icons.star_rate_rounded,
+                                    urlIcon: "assets/icons/vender.png",
+                                    tittle: "Mi\nPresupuesto",
+                                    eventCard: () {}),
                                 gapH12,
-                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/mercadeo.png", tittle: "Mis\nestadísticas", eventCard: (){}),
+                                CardReports(
+                                    iconCard: Icons.star_rate_rounded,
+                                    urlIcon: "assets/icons/mercadeo.png",
+                                    tittle: "Mis\nestadísticas",
+                                    eventCard: () {}),
                               ],
                             ),
                           )
-                          
                         ],
                       ),
                     ),
@@ -216,12 +258,12 @@ class HomeViewState extends State<HomeView>
               ),
               gapH4,
               const Text('Tus aplicaciones',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 90,
                 width: size.width,
                 child: const Column(
-                  children: [                              
+                  children: [
                     Expanded(
                       child: Column(
                         children: [
@@ -239,10 +281,10 @@ class HomeViewState extends State<HomeView>
                                   iconName: 'Mercadeo',
                                   imagePath: 'assets/icons/mercadeo.png'),
                               CustomItem(
-                                  iconName: 'PQRS', 
+                                  iconName: 'PQRS',
                                   imagePath: 'assets/icons/pqrs.png'),
                             ],
-                          ),                        
+                          ),
                         ],
                       ),
                     ),
@@ -264,4 +306,3 @@ class HomeViewState extends State<HomeView>
     );
   }
 }
-

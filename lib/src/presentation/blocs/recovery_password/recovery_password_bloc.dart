@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
@@ -31,6 +32,7 @@ class RecoveryPasswordBloc
     on<ClearErrors>(
       (event, emit) => emit(state.copyWith(error: null)),
     );
+    on<RetryCode>(_retryCode);
     on<ChangePassword>(_changePassword);
   }
 
@@ -60,6 +62,24 @@ class RecoveryPasswordBloc
         context: event.context,
         error: response.data?.message,
       );
+    }
+  }
+
+  Future<void> _retryCode(RetryCode event, Emitter emit) async {
+    final DataState<RecoveryCodeResponse> response;
+    if (state.type == 'SMS') {
+      emit(state.copyWith(phone: event.recoveryMethod));
+      response = await _apiRepository.requestRecoveryCode(
+          request: RecoveryCodeRequest(event.recoveryMethod));
+    } else {
+      emit(state.copyWith(email: event.recoveryMethod));
+      response = await _apiRepository.requestRecoveryCode(
+          request: RecoveryCodeRequest(event.recoveryMethod));
+    }
+    if (response is DataSuccess) {
+      print("Se reenvio el código");
+    } else {
+      print("error reenviando el código");
     }
   }
 
