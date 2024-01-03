@@ -26,6 +26,8 @@ class CalendarPage extends StatefulWidget {
 class CalendarPageState extends State<CalendarPage> {
   late GoogleAccountBloc googleaccountbloc;
 
+  late DateTime fromDate;
+
   TextEditingController calendarcontroller = TextEditingController();
 
   GoogleAccountBloc calendarClient = GoogleAccountBloc();
@@ -37,6 +39,15 @@ class CalendarPageState extends State<CalendarPage> {
   void initState() {
     calendarController = CalendarController();
     googleaccountbloc = BlocProvider.of<GoogleAccountBloc>(context);
+
+    if(widget.event == null ){
+      fromDate = DateTime.now();
+    } else {
+      final event = widget.event!;
+
+      fromDate = event.from;
+    }
+
     super.initState();
   }
 
@@ -106,7 +117,6 @@ class CalendarPageState extends State<CalendarPage> {
                           },
                           view: CalendarView.month,
                           showDatePickerButton: true,
-                          allowViewNavigation: true,
                           timeSlotViewSettings: const TimeSlotViewSettings(
                               startHour: 9,
                               endHour: 16,
@@ -219,8 +229,9 @@ Widget appointmentBuilder(
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(width: 10,),
               Text(
                 event.title,
                 maxLines: 2,
@@ -229,6 +240,9 @@ Widget appointmentBuilder(
                   color: Colors.white,
                 ),
               ),
+
+              const SizedBox(width: 140, height: 55,),
+
               IconButton(
                 onPressed: (){
                   setState(() {
@@ -240,12 +254,16 @@ Widget appointmentBuilder(
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              event.from.toString(), 
-              style: const TextStyle(color: Colors.white),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 10,),
+              Text(
+                GoogleAccountBloc.toTime(fromDate),
+                // event.from.toString(), 
+                style: const TextStyle(color: Colors.white),
+              ),
+            ],
           )
         ],
       ),
