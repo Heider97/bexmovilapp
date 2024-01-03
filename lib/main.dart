@@ -1,13 +1,12 @@
-
-
-
-
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
+import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:sqlbrite/sqlbrite.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -88,12 +87,14 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
         BlocProvider(create: (_) => SplashScreenBloc()),
+        BlocProvider(create: (_) => SearchBloc()),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
         BlocProvider(
-          create: (context) => ProcessingQueueCubit(
+          create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
+              locator<ApiRepository>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
         ),
@@ -111,12 +112,10 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
-              locator<DatabaseRepository>(),
-              locator<ApiRepository>(),
-            )),
-        BlocProvider(
-          create: (context) => GoogleAccountBloc()
-        ),
+                locator<DatabaseRepository>(),
+                locator<ApiRepository>(),
+                BlocProvider.of<ProcessingQueueBloc>(context))),
+        BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),
         BlocProvider(
@@ -136,43 +135,55 @@ class _MyAppState extends State<MyApp> {
                 ..add(GetLocation()),
             )),
       ],
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: appTitle,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            AppLocalization.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'), // English
-            Locale('es'), // Spanish
-          ],
-          localeResolutionCallback: (deviceLocale, supportedLocales) {
-            for (var locale in supportedLocales) {
-              if (locale.languageCode == deviceLocale!.languageCode &&
-                  locale.countryCode == deviceLocale.countryCode) {
-                return deviceLocale;
-              }
-            }
-            return supportedLocales.first;
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ],
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, snapshot) {
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: appTitle,
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  AppLocalization.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en'), // English
+                  Locale('es'), // Spanish
+                ],
+                localeResolutionCallback: (deviceLocale, supportedLocales) {
+                  for (var locale in supportedLocales) {
+                    if (locale.languageCode == deviceLocale!.languageCode &&
+                        locale.countryCode == deviceLocale.countryCode) {
+                      return deviceLocale;
+                    }
+                  }
+                  return supportedLocales.first;
+                },
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: (themeProvider.isDarkTheme == true)
+                    ? ThemeMode.dark
+                    : ThemeMode.light,
+                navigatorKey: locator<NavigationService>().navigatorKey,
+                onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
+                    builder: (BuildContext context) => UndefinedView(
+                          name: settings.name,
+                        )),
+                initialRoute: Routes.wallet,
+                //  initialRoute: Routes.searchPage,
+                onGenerateRoute: router.generateRoute,
+              ),
+            );
           },
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
-          navigatorKey: locator<NavigationService>().navigatorKey,
-          onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
-              builder: (BuildContext context) => UndefinedView(
-                    name: settings.name,
-                  )),
-          initialRoute: '/splash',
-          onGenerateRoute: router.generateRoute,
         ),
       ),
       //  ),

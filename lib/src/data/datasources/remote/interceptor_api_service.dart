@@ -70,11 +70,12 @@ class Logging extends Interceptor {
 
   bool _shouldRetryOnHttpException(DioException err) {
     //TODO:: [Sebastian Monroy] Always try to verify that contains variables to do correct validations
-    if (err.type == DioExceptionType.badResponse &&
-        !err.requestOptions.uri.toString().contains('auth') &&
-        err.message != null && err.message!.contains('401')) {
-      Future.value(helperFunction.login());
-    }
+    // if (err.type == DioExceptionType.badResponse &&
+    //     !err.requestOptions.uri.toString().contains('auth') &&
+    //     err.message != null && err.message!.contains('401')) {
+    //   print('esta entrando aqui por error');
+    //   Future.value(helperFunction.login());
+    // }
     return err.type == DioExceptionType.unknown &&
         ((err.error is HttpException &&
             err.message!.contains(

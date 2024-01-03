@@ -1,4 +1,4 @@
-/* part of '../app_database.dart';
+part of '../app_database.dart';
 
 class ClientDao {
   final AppDatabase _appDatabase;
@@ -16,31 +16,30 @@ class ClientDao {
 
   Future<List<Client>> getAllClients() async {
     final db = await _appDatabase.streamDatabase;
-    final clientList = await db!.query(tableClients);
+    final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     return clients;
   }
 
   Stream<List<Client>> watchAllClients() async* {
     final db = await _appDatabase.streamDatabase;
-    final clientList = await db!.query(tableClients);
+    final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     yield clients;
   }
 
   Future<int> insertClient(Client client) {
-    return _appDatabase.insert(tableClients, client.toJson());
+    return _appDatabase.insert('tblmcliente', client.toJson());
   }
 
   Future<int> updateClient(Client client) {
-    return _appDatabase.update(
-        tableClients, client.toJson(), 'id', client.id!);
+    return _appDatabase.update('tblmcliente', client.toJson(), 'NITCLIENTE',
+        int.parse(client.nitCliente!));
   }
 
   Future<void> emptyClients() async {
     final db = await _appDatabase.streamDatabase;
-    await db!.delete(tableClients);
+    await db!.delete('tblmcliente');
     return Future.value();
   }
 }
- */

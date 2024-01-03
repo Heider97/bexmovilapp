@@ -1,4 +1,3 @@
-
 //TODO [Heider Zapa] Organize
 
 import 'package:bexmovil/src/utils/constants/screens.dart';
@@ -37,12 +36,9 @@ errorAlertDialog(
                       height: 20,
                     ),
                     Text(
-                      textAlign: TextAlign.center,
-                      error ?? '',
-                      style: TextStyle(
-                        color: theme.primaryColor,
-                      ),
-                    ),
+                        textAlign: TextAlign.center,
+                        error ?? '',
+                        style: theme.textTheme.bodyMedium),
                     const SizedBox(
                       height: 20,
                     ),

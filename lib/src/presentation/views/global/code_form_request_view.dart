@@ -123,8 +123,7 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                         child: Text(
                           'Restablecer',
                           style: theme.textTheme.bodyMedium!.copyWith(
-                              color: theme.cardColor,
-                              fontWeight: FontWeight.w500),
+                              color: Colors.white, fontWeight: FontWeight.w500),
                         ),
                       ),
                     )

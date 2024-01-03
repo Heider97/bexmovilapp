@@ -6,6 +6,7 @@ class Priority {
   DateTime? createdAt;
   DateTime? updatedAt;
   String? schema;
+  String? content;
   int version;
 
   Priority({
@@ -16,6 +17,7 @@ class Priority {
     required this.createdAt,
     required this.updatedAt,
     this.schema,
+    this.content,
     required this.version,
   });
 
@@ -31,6 +33,7 @@ class Priority {
             ? DateTime.parse(json["updated_at"])
             : null,
         schema: json["schema"],
+        content: json["contentType"] ?? json["content"],
         version: json["version"],
       );
 
@@ -42,6 +45,7 @@ class Priority {
         "created_at": createdAt!.toIso8601String(),
         "updated_at": updatedAt!.toIso8601String(),
         "schema": schema,
+        "content": content,
         "version": version,
       };
 }

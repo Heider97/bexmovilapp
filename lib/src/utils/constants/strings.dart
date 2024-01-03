@@ -18,6 +18,7 @@ class Routes {
   static const companyRoute = '/company';
   static const permissionRoute = '/permission';
   static const loginRoute = '/login';
+  static const searchPage = '/search';
 
   static const codeFormRequest = '/code-form-request';
   static const codeValidation = '/code-validation';
@@ -30,9 +31,12 @@ class Routes {
   static const categoryRoute = '/category';
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';
+  static const charDetailsRoute = '/charDetailsRoute';
+  static const saleRoute = '/sale';
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
+  static const wallet = '/wallet';
 }
 
 // Form Error
@@ -67,6 +71,9 @@ class Assets {
   static const String bexBackgroundWhite =
       'assets/icons/BEX-background-white.png';
   static const String bgSquare = 'assets/images/bg-square.png';
+
+  static const String bgPromCardGreen = "assets/images/bg-prom-card.png";
+  static const String bgPromCardOrange = "assets/images/bg-prom-card-2.png";
 
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';
@@ -112,6 +119,7 @@ class Const {
   static const double space8 = 8;
   static const double space12 = 12;
   static const double space15 = 15;
+  static const double space18 = 18;
   static const double space25 = 25;
   static const double space40 = 40;
   static const double space50 = 50;
