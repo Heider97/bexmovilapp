@@ -178,7 +178,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (BuildContext context) => UndefinedView(
                           name: settings.name,
                         )),
-                initialRoute: '/splash',
+                initialRoute: Routes.wallet,
                 //  initialRoute: Routes.searchPage,
                 onGenerateRoute: router.generateRoute,
               ),

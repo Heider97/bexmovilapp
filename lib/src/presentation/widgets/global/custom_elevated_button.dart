@@ -1,4 +1,3 @@
-
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/utils/constants/colors.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -44,10 +43,6 @@ class CustomElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    Color buttonColor = enable == false
-        ? ColorLight.disabledButton
-        : color ?? theme.primaryColor;
 
     return Container(
       width: width,
