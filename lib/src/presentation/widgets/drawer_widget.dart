@@ -1,8 +1,6 @@
+import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yaml/yaml.dart';
 
 //cubit
 import '../../presentation/cubits/home/home_cubit.dart';
@@ -51,49 +49,55 @@ class DrawerWidget extends StatelessWidget {
                     )),
               ],
             ),
-          ),
-          gapH68,
-          _createDrawerItem(
-              context: context,
-              icon: Icons.notification_add,
-              text: 'Notificaciones',
-              onTap: () => _navigationService.goTo(Routes.calendarRoute),
-              image: 'assets/icons/cartera.png',
-              countNotifications: 222),
-          gapH12,
-          _createDrawerItem(
-              context: context,
-              icon: Icons.sell,
-              text: 'Vender',
-              onTap: () => _navigationService.goTo(Routes.productivityRoute),
-              image: 'assets/icons/vender.png',
-              countNotifications: 0),
-          gapH12,
-          _createDrawerItem(
-              context: context,
-              icon: Icons.business_center,
-              text: 'Cartera',
-              onTap: null,
-              image: 'assets/icons/cartera.png',
-              countNotifications: 0),
-          gapH12,
-          _createDrawerItem(
-              context: context,
-              icon: Icons.settings,
-              text: 'Mercadeo',
-              onTap: null,
-              image: 'assets/icons/mercadeo.png',
-              countNotifications: 0),
-          gapH12,
-          _createDrawerItem(
-              context: context,
-              icon: Icons.message,
-              text: 'PQRS',
-              onTap: null,
-              image: "assets/icons/pqrs.png",
-              countNotifications: 0),
-        ],
-      ),
+            gapH68,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.notification_add,
+                text: 'Notificaciones',
+                onTap: () => _navigationService.goTo(Routes.calendarRoute), 
+                image: 'assets/icons/cartera.png',
+                countNotifications: 222
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.sell,
+                text: 'Vender',
+                onTap: () =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const SalePage())), 
+                image: 'assets/icons/vender.png',
+                countNotifications: 0
+            ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.business_center,
+                text: 'Cartera',
+                onTap: null, 
+                image: 'assets/icons/cartera.png',
+                countNotifications: 0
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.settings,
+                text: 'Mercadeo',
+                onTap: null, 
+                image: 'assets/icons/mercadeo.png',
+                countNotifications: 0
+              ),
+            gapH12,
+            _createDrawerItem(
+                context: context,
+                icon: Icons.message,
+                text: 'PQRS',
+                onTap: null, 
+                image: "assets/icons/pqrs.png",
+                countNotifications: 0
+              ),
+            
+            
+          ],
+        ),
     );
   }
 
