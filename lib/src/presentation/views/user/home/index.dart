@@ -1,6 +1,9 @@
+import 'package:bexmovil/src/presentation/widgets/global/custom_promotion_card.dart';
+import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
 import '../../../cubits/home/home_cubit.dart';
@@ -78,13 +81,13 @@ class HomeViewState extends State<HomeView>
             children: [
               SizedBox(
                 width: size.width,
-                height: 65,
+                height: 50,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => homeCubit.logout(),
+                        onTap: () => Scaffold.of(context).openDrawer(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null
@@ -93,24 +96,35 @@ class HomeViewState extends State<HomeView>
                         )),
                     SizedBox(
                       width: size.width / 1.4,
-                      height: size.height / 1,
-                      child: CustomSearchBar(
-                          controller: searchController,
-                          hintText: '¿Qué estás buscando?'),
-                    ),
-                    Builder(builder: (context) {
-                      return GestureDetector(
-                        onTap: () => Scaffold.of(context).openDrawer(),
-                        child: const SizedBox(
-                          width: 35,
-                          height: 45,
-                          child: Icon(Icons.list),
-                        ),
-                      );
-                    })
+                      height: size.height * 0.2,
+                      child: GestureDetector(
+                          onTap: () {
+                            _navigationService.goTo(Routes.searchPage);
+                          },
+                          child: Material(
+                              color: theme.cardColor,
+                              borderRadius: BorderRadius.circular(50),
+                              elevation: 5,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  gapW20,
+                                  Icon(
+                                    Icons.search_outlined,
+                                    color: theme.primaryColor,
+                                  ),
+                                  gapW20,
+                                  Expanded(
+                                      child: Text('¿Qué estás buscando? ')),
+                                  gapW20
+                                ],
+                              ))),
+                    )
                   ],
                 ),
               ),
+              gapH20,
               SizedBox(
                   height: 120,
                   width: 500,
@@ -120,11 +134,16 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: CustomCard(
-                          axis: Axis.horizontal,
-                          text: state.features![index].descripcion!,
-                          url: state.features![index].urldesc,
-                          color: index / 2 == 0 ? Colors.orange : Colors.green),
+                      child: /*  CustomPromotionCard(
+                          cardText: "Notification Test ",
+                        ) */
+                          CustomCard(
+                              axis: Axis.horizontal,
+                              text: state.features![index].descripcion!,
+                              url: state.features![index].urldesc,
+                              color: index / 2 == 0
+                                  ? Colors.orange
+                                  : Colors.green),
                     ),
                   )),
               gapH12,
@@ -162,7 +181,7 @@ class HomeViewState extends State<HomeView>
                         controller: _tabController,
                         children: [
                           Container(
-                            height: 300,
+                            height: 220,
                             width: 500,
                             color: Colors.grey[100],
                             child: Column(
@@ -179,7 +198,8 @@ class HomeViewState extends State<HomeView>
                                             child: CardKpi(
                                                 iconCard:
                                                     Icons.star_rate_rounded,
-                                                urlIcon: "assets/svg/sell.svg",
+                                                urlIcon:
+                                                    "assets/icons/vender.png",
                                                 tittle: "Ventas.",
                                                 eventCard: () {},
                                                 quantity: 9,
@@ -199,7 +219,8 @@ class HomeViewState extends State<HomeView>
                                             child: CardKpi(
                                                 iconCard:
                                                     Icons.star_rate_rounded,
-                                                urlIcon: "assets/svg/sell.svg",
+                                                urlIcon:
+                                                    "assets/icons/vender.png",
                                                 tittle: "Prospectos",
                                                 eventCard: () {},
                                                 quantity: 80,
@@ -217,13 +238,13 @@ class HomeViewState extends State<HomeView>
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/svg/sell.svg",
+                                    urlIcon: "assets/icons/vender.png",
                                     tittle: "Mi\nPresupuesto",
                                     eventCard: () {}),
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/svg/mercadeo.svg",
+                                    urlIcon: "assets/icons/mercadeo.png",
                                     tittle: "Mis\nestadísticas",
                                     eventCard: () {}),
                               ],
@@ -239,45 +260,37 @@ class HomeViewState extends State<HomeView>
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(
-                height: 100,
-                width: 100,
-                child: SvgPicture.asset('assets/svg/image-74.svg',
-                    width: 100,
-                    height: 100,
-                    semanticsLabel: 'wallet svg'),
+                height: 90,
+                width: size.width,
+                child: const Column(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomItem(
+                                  iconName: 'Vender',
+                                  imagePath: 'assets/icons/vender.png'),
+                              CustomItem(
+                                  iconName: 'Cartera',
+                                  imagePath: 'assets/icons/cartera.png'),
+                              CustomItem(
+                                  iconName: 'Mercadeo',
+                                  imagePath: 'assets/icons/mercadeo.png'),
+                              CustomItem(
+                                  iconName: 'PQRS',
+                                  imagePath: 'assets/icons/pqrs.png'),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              // SizedBox(
-              //   height: 90,
-              //   width: size.width,
-              //   child: const Column(
-              //     children: [
-              //       Expanded(
-              //         child: Column(
-              //           children: [
-              //             Row(
-              //               crossAxisAlignment: CrossAxisAlignment.start,
-              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //               children: [
-              //                 CustomItem(
-              //                     iconName: 'Vender',
-              //                     imagePath: 'assets/svg/sell.svg'),
-              //                 CustomItem(
-              //                     iconName: 'Cartera',
-              //                     imagePath: 'assets/svg/wallet.svg'),
-              //                 CustomItem(
-              //                     iconName: 'Mercadeo',
-              //                     imagePath: 'assets/svg/mercadeo.svg'),
-              //                 CustomItem(
-              //                     iconName: 'PQRS',
-              //                     imagePath: 'assets/svg/pqrs.svg'),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               gapH8,
               /*Expanded(
                 child:  SizedBox(

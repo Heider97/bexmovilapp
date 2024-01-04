@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
-//services
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
-
-class CustomBackButton extends StatelessWidget {
+class CustomMenuButton extends StatelessWidget {
   final VoidCallback? onTap;
   final bool? primaryColorBackgroundMode;
 
-  const CustomBackButton(
+  const CustomMenuButton(
       {super.key, this.onTap, this.primaryColorBackgroundMode});
 
   @override
@@ -25,15 +20,11 @@ class CustomBackButton extends StatelessWidget {
               ? theme.colorScheme.primary
               : theme.colorScheme.secondary),
       child: InkWell(
-        onTap: (onTap == null)
-            ? () {
-                _navigationService.goBack();
-              }
-            : onTap,
+        onTap: () {},
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Icon(
-            Icons.arrow_back_ios_new_rounded,
+            Icons.menu_rounded,
             color: (primaryColorBackgroundMode == true)
                 ? theme.colorScheme.onPrimary
                 : theme.colorScheme.onSecondary,

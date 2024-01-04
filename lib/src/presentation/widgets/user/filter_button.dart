@@ -22,31 +22,27 @@ class _FilterButtonState extends State<FilterButton> {
     ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(Const.padding),
-      child: InkWell(
-        onTap: widget.onTap,
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Const.radius),
-              color: widget.enable
-                  ? theme.primaryColor
-                  : theme.colorScheme.secondary,
-              border: Border.all(
-                color: theme.scaffoldBackgroundColor, // Color del borde
-                width: 2.0, // Ancho del borde
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(Const.space18),
+            color: widget.enable
+                ? theme.primaryColor
+                : theme.colorScheme.secondary,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // Color de la sombra
+                blurRadius: 5, // Radio de difuminado de la sombra
+                offset: const Offset(0, 3), // Desplazamiento de la sombra
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2), // Color de la sombra
-                  blurRadius: 5, // Radio de difuminado de la sombra
-                  offset: const Offset(0, 3), // Desplazamiento de la sombra
-                ),
-              ]),
+            ]),
+        child: InkWell(
+          onTap: widget.onTap,
           child: Padding(
             padding: const EdgeInsets.only(
-                top: Const.padding,
-                bottom: Const.padding,
-                left: Const.space15,
-                right: Const.space15),
+                top: Const.space5,
+                bottom: Const.space5,
+                left: Const.space25,
+                right: Const.space25),
             child: Text(
               widget.textButton,
               style: theme.textTheme.bodyMedium!.copyWith(
