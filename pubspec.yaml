@@ -66,7 +66,7 @@ dependencies:
   validators: ^3.0.0
   vibration: ^1.7.6
   yaml: ^3.1.1
-  syncfusion_flutter_datagrid: ^21.2.10
+  syncfusion_flutter_datagrid: ^24.1.44
 
 dev_dependencies:
   bloc_test: ^9.1.5
