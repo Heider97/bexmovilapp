@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_product_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
@@ -11,6 +12,8 @@ import '../../../widgets/global/custom_elevated_button.dart';
 import '../../../widgets/sales/card_client_sale.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../widgets/user/product_card.dart';
 
 class SalePage extends StatefulWidget {
   const SalePage({super.key});
@@ -173,15 +176,17 @@ class _SalePageState extends State<SalePage> {
                                       10,
                                   itemBuilder: (BuildContext context, int index) => Padding(
                                     padding: const EdgeInsets.only(right: 9),
-                                    child: CardProductSale(
-                                      birthPlace: "Medellin", 
-                                      code: "345345435", 
-                                      image: "assets/images/super_pollito.png",
-                                      lastQuantitySale: 90,
-                                      quantityAvailable: 120,
-                                      lastVisit: "29/Dic/2023",
-                                      priceSale: 30000,
-                                    )
+                                    child: ProductCard(product: Product(
+                                      lastSoldOn: DateTime.now(),
+                                      lastQuantitySold: 5,
+                                      code: 'XYZ789',
+                                      name: 'Product 2',
+                                      sellingPrice: 29.99,
+                                      discount: 2.5,
+                                      availableUnits: 50,
+                                      quantity: 15,
+                                      originLocation: OriginLocation(name: 'Product 2', availableQuantity: 20, isSelected: true),
+                                    ),)
                                   ),
                                 ),
                             ),
