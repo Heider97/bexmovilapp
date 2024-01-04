@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomItem extends StatelessWidget {
   final String iconName;
@@ -10,7 +11,7 @@ class CustomItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Image.asset(imagePath, width: 60, height: 60), Text(iconName)],
+      children: [SvgPicture.asset(imagePath, width: 60, height: 60), Text(iconName)],
     );
   }
 }

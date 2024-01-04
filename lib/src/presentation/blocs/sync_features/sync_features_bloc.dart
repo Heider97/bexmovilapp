@@ -118,9 +118,9 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               {'table_name': priority.name, 'content': 'application/json'});
         }
 
-        // var isolateModel =
-        //     IsolateModel(functions, arguments, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
+        var isolateModel =
+            IsolateModel(functions, arguments, prioritiesAsync.length);
+        await heavyTask(isolateModel);
 
         List<String> tables = [];
 
