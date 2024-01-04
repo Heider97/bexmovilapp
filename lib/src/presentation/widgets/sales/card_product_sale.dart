@@ -117,7 +117,7 @@ class CardProductSale extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   child: Container(
-                                      padding: const  EdgeInsets.all(8),
+                                      padding: const  EdgeInsets.all(6),
                                       decoration: const ShapeDecoration(
                                           shape: CircleBorder(), color:  Color.fromARGB(255, 243, 119, 24)),
                                       child: const Text("+", style: TextStyle(color: Colors.white),)),
