@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,7 @@ class CardKpi extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
           width: 145,
-          height: 190,
+          height: 200,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -31,14 +30,12 @@ class CardKpi extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
-              Text(tittle, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.bold)),
+              Text(tittle, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
               gapH4,
               Row(
                 children: [
-                  Text(quantity.toString(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),               
-                                      
+                  Text(quantity.toString(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                   if (percentage < 0) ...[
                     const Icon( Icons.arrow_circle_down_sharp, size: 20, color: Colors.redAccent),
                     Text(" ${percentage.toString()}%", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.redAccent)),
@@ -53,7 +50,6 @@ class CardKpi extends StatelessWidget {
                 children: [
                   valueCard == 1 ? const Text("Ventas pendientes", style: TextStyle(fontSize: 7)) : const Text("Prospectos creados", style: TextStyle(fontSize: 7)),
                 ],
-                
               ),
               Container(
                 decoration: BoxDecoration(
@@ -62,11 +58,11 @@ class CardKpi extends StatelessWidget {
                   ),
                 ),
               ) ,
-              Row(
-                children: [
-                  valueCard == 1 ? const Text("Ventas totales", style: TextStyle(fontSize: 7)) : const Text("Prospectos visitados", style: TextStyle(fontSize: 7)),
-                ],                
-              ),             
+              // Row(
+              //   children: [
+              //     valueCard == 1 ? const Text("Ventas totales", style: TextStyle(fontSize: 7)) : const Text("Prospectos visitados", style: TextStyle(fontSize: 7)),
+              //   ],
+              // ),
             ],
           )
         ),

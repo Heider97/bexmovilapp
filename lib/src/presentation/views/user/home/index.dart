@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
 import '../../../cubits/home/home_cubit.dart';
@@ -63,10 +64,10 @@ class HomeViewState extends State<HomeView>
     );
   }
 
-
-  Widget _buildBody(Size size, ThemeData theme, HomeState state, BuildContext context) {
+  Widget _buildBody(
+      Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(
-      drawer:  DrawerWidget(),
+      drawer: DrawerWidget(),
       body: SizedBox(
         width: size.width,
         height: size.height,
@@ -97,20 +98,16 @@ class HomeViewState extends State<HomeView>
                           controller: searchController,
                           hintText: '¿Qué estás buscando?'),
                     ),
-                    Builder(builder: (context){
+                    Builder(builder: (context) {
                       return GestureDetector(
                         onTap: () => Scaffold.of(context).openDrawer(),
                         child: const SizedBox(
                           width: 35,
                           height: 45,
-                          child: Icon(
-                            Icons.list
-                          ),
+                          child: Icon(Icons.list),
                         ),
                       );
-                     }
-                    )
-                    
+                    })
                   ],
                 ),
               ),
@@ -163,51 +160,75 @@ class HomeViewState extends State<HomeView>
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
-                        children: [ 
+                        children: [
                           Container(
-                            height: 220,
+                            height: 300,
                             width: 500,
                             color: Colors.grey[100],
                             child: Column(
-                              children: [                                    
+                              children: [
                                 Expanded(
                                   child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          10,
-                                      itemBuilder: (BuildContext context, int index) => Padding(
-                                        padding: const EdgeInsets.only(right: 9),
-                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Ventas.", eventCard: (){}, quantity: 9,percentage: -20.5, valueCard: 1)
-                                      ),
-                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 10,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 9),
+                                            child: CardKpi(
+                                                iconCard:
+                                                    Icons.star_rate_rounded,
+                                                urlIcon: "assets/svg/sell.svg",
+                                                tittle: "Ventas.",
+                                                eventCard: () {},
+                                                quantity: 9,
+                                                percentage: -20.5,
+                                                valueCard: 1)),
+                                  ),
                                 ),
-                                
                                 Expanded(
                                   child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount:
-                                          10,
-                                      itemBuilder: (BuildContext context, int index) => Padding(
-                                        padding: const EdgeInsets.only(right: 9),
-                                        child: CardKpi(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Prospectos", eventCard: (){}, quantity: 80,percentage: 20.5, valueCard: 2)
-                                      ),
-                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 10,
+                                    itemBuilder: (BuildContext context,
+                                            int index) =>
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(right: 9),
+                                            child: CardKpi(
+                                                iconCard:
+                                                    Icons.star_rate_rounded,
+                                                urlIcon: "assets/svg/sell.svg",
+                                                tittle: "Prospectos",
+                                                eventCard: () {},
+                                                quantity: 80,
+                                                percentage: 20.5,
+                                                valueCard: 2)),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            color:Colors.grey[100],
+                            color: Colors.grey[100],
                             child: Column(
                               children: [
                                 gapH12,
-                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/vender.png", tittle: "Mi\nPresupuesto", eventCard: (){}),
+                                CardReports(
+                                    iconCard: Icons.star_rate_rounded,
+                                    urlIcon: "assets/svg/sell.svg",
+                                    tittle: "Mi\nPresupuesto",
+                                    eventCard: () {}),
                                 gapH12,
-                                CardReports(iconCard: Icons.star_rate_rounded, urlIcon: "assets/icons/mercadeo.png", tittle: "Mis\nestadísticas", eventCard: (){}),
+                                CardReports(
+                                    iconCard: Icons.star_rate_rounded,
+                                    urlIcon: "assets/svg/mercadeo.svg",
+                                    tittle: "Mis\nestadísticas",
+                                    eventCard: () {}),
                               ],
                             ),
                           )
-                          
                         ],
                       ),
                     ),
@@ -216,39 +237,47 @@ class HomeViewState extends State<HomeView>
               ),
               gapH4,
               const Text('Tus aplicaciones',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(
-                height: 90,
-                width: size.width,
-                child: const Column(
-                  children: [                              
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomItem(
-                                  iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
-                              CustomItem(
-                                  iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
-                              CustomItem(
-                                  iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
-                              CustomItem(
-                                  iconName: 'PQRS', 
-                                  imagePath: 'assets/icons/pqrs.png'),
-                            ],
-                          ),                        
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                height: 100,
+                width: 100,
+                child: SvgPicture.asset('assets/svg/image-74.svg',
+                    width: 100,
+                    height: 100,
+                    semanticsLabel: 'wallet svg'),
               ),
+              // SizedBox(
+              //   height: 90,
+              //   width: size.width,
+              //   child: const Column(
+              //     children: [
+              //       Expanded(
+              //         child: Column(
+              //           children: [
+              //             Row(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //               children: [
+              //                 CustomItem(
+              //                     iconName: 'Vender',
+              //                     imagePath: 'assets/svg/sell.svg'),
+              //                 CustomItem(
+              //                     iconName: 'Cartera',
+              //                     imagePath: 'assets/svg/wallet.svg'),
+              //                 CustomItem(
+              //                     iconName: 'Mercadeo',
+              //                     imagePath: 'assets/svg/mercadeo.svg'),
+              //                 CustomItem(
+              //                     iconName: 'PQRS',
+              //                     imagePath: 'assets/svg/pqrs.svg'),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               gapH8,
               /*Expanded(
                 child:  SizedBox(
@@ -264,4 +293,3 @@ class HomeViewState extends State<HomeView>
     );
   }
 }
-
