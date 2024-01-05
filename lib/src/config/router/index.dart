@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_process_view.dart';
 import 'package:flutter/material.dart';
 
 //config
@@ -95,6 +96,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
                 opacity: 0.1,
                 hideBottomNavigationBar: true,
                 child: CharDetails(),
+              ));
+    case Routes.walletprocess:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: WalletProcessView(),
               ));
 
     /*  case Routes.productivityRoute:
