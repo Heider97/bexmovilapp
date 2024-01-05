@@ -11,18 +11,6 @@ class StepperWidget extends StatefulWidget {
   StepperWidgetState createState() => StepperWidgetState();
 }
 
-/*   List<StepData> steps = [
-      StepData("Seleccionar \nCliente", 'assets/icons/ProfileEnable.png',
-          const Color(0xFFF4F4F4), 'assets/icons/ProfileDisable.png'),
-      StepData(
-          "Seleccionar \n Facturas",
-          'assets/icons/seleccionarFacturaEnable.png',
-          const Color(0xFFF4F4F4),
-          'assets/icons/seleccionarFacturaDisable.png'),
-      StepData('Realizar \n Acción', 'assets/icons/realizarAccionEnable.png',
-          const Color(0xFFF4F4F4), 'assets/icons/realizarAccionDisable.png'),
-    ]; */
-
 class StepperWidgetState extends State<StepperWidget> {
   @override
   Widget build(BuildContext context) {
