@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
+import 'package:bexmovil/src/presentation/views/user/prospect/index.dart';
 import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';

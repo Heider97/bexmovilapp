@@ -115,7 +115,7 @@ class HomeViewState extends State<HomeView>
                                     color: theme.primaryColor,
                                   ),
                                   gapW20,
-                                  Expanded(
+                                  const Expanded(
                                       child: Text('¿Qué estás buscando? ')),
                                   gapW20
                                 ],
