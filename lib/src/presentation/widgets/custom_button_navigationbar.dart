@@ -20,7 +20,7 @@ class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
 
     final screens = [
       const CalendarPage(),
-      const ProspectSheduleView()
+       ProspectSheduleView()
     ];
 
     int selectedIndex = 0;

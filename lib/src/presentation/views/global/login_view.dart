@@ -241,6 +241,12 @@ class LoginViewState extends State<LoginView> {
               ),
             ),
           ),
+          TextButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProspectSheduleView()));
+            }, 
+            child: const Text('ir al calendar')
+          ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,
