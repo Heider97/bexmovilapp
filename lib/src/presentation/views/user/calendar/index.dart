@@ -60,6 +60,9 @@ class CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     final events = BlocProvider.of<GoogleAccountBloc>(context).events;
 
+    final Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
+
     return Scaffold(
         body: SafeArea(
           child: Stack(           
@@ -68,26 +71,29 @@ class CalendarPageState extends State<CalendarPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 40,),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const CircleAvatar(
-                            radius: 22,
-                            backgroundColor: Colors.orange,
-                            child: Text('D'),
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundColor: theme.colorScheme.primary,
+                            child: const Text('D'),
                           ),
                           SizedBox(
-                            width: 230,
+                            width: size.width / 1.3,
+                            height: size.height * 0.1,
                             child: TextFormField(
                               controller: calendarcontroller,
                               decoration: InputDecoration(
                                 hintText: '¿ Que estas buscando ?',
-                                hintStyle: TextStyle(color: Colors.orange.shade300),
-                                prefixIcon: const Icon(Icons.search, color: Color(0xFFf44336),),
+                                hintStyle: TextStyle(color: theme.colorScheme.tertiary),
+                                prefixIcon: Icon(Icons.search, color: theme.colorScheme.error,),
                                 filled: true,
-                                fillColor: Colors.orange.shade50,
+                                fillColor: theme.colorScheme.secondary,
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(50)
@@ -109,7 +115,7 @@ class CalendarPageState extends State<CalendarPage> {
                           onTap: (details){
                             if(details.appointments == null) return;
                           
-                            final event = details.appointments!.first;
+                            final event = details.appointments!.firstOrNull;
                           
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => CodeCreateMeet(event: event)  
@@ -139,7 +145,7 @@ class CalendarPageState extends State<CalendarPage> {
                           appointmentBuilder: appointmentBuilder,
                           selectionDecoration: BoxDecoration(
                               color: Colors.transparent,
-                              border: Border.all(color: Colors.orange, width: 2),
+                              border: Border.all(color: theme.colorScheme.primary, width: 2),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(4)),
                               shape: BoxShape.rectangle),

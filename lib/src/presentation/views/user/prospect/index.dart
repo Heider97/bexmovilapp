@@ -4,6 +4,8 @@ import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dar
 import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets/user/custom_item.dart';
+
 class ProspectSheduleView extends StatefulWidget {
   ProspectSheduleView({super.key});
 
@@ -29,6 +31,10 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
 
   @override
   Widget build(BuildContext context) {
+
+    final Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -36,34 +42,38 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
           children: [
             Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [CustomCloseButton(), CustomCheckButton()],
+                    children: [
+                      CustomCloseButton(), 
+                      CustomCheckButton()
+                    ],
                   ),
                 ),
                 CircleAvatar(
                   radius: 50,
-                  backgroundColor: Colors.grey,
+                  backgroundColor: theme.disabledColor,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text(
+                const Text(
                   'Nombre del cliente',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('Cargo u ocupacion del cliente'),
-                SizedBox(height: 20),
+                const Text('Cargo u ocupacion del cliente'),
+                const SizedBox(height: 20),
                 Container(
                   height: 50.0,
+                  width: size.width,
                   child: Column(
                     children: [
                       Expanded(
@@ -73,7 +83,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                             itemBuilder: ((context, index) {
                               return Container(
                                 width: 130,
-                                height: 190,
+                                height: 180,
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
                                 child: const Icon(
@@ -120,6 +130,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                                     ),
                                     SizedBox(height: 10,),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Nombre'),
                                         Text('Nombre del cliente')
@@ -127,6 +138,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                                     ),
                                     SizedBox(height: 10,),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Telefono'),
                                         Text('3007239603')
@@ -138,13 +150,16 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                                         Text('Informacion de encuentro', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
                                       ],
                                     ),
+                                    SizedBox(height: 10,),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Jueves, Oct 19 2023'),
                                         Text('3:00 AM')
                                       ],
                                     ),
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Jueves, Oct 19 2023'),
                                         Text('4:00 AM')

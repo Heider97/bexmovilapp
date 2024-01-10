@@ -22,8 +22,8 @@ class CustomCloseButton extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Const.radius),
           color: (primaryColorBackgroundMode == true)
-              ? theme.colorScheme.primary
-              : theme.colorScheme.secondary),
+              ? theme.colorScheme.secondary
+              : theme.colorScheme.primary),
       child: InkWell(
         onTap: (onTap == null)
             ? () {
@@ -35,8 +35,8 @@ class CustomCloseButton extends StatelessWidget {
           child: Icon(
             Icons.close,
             color: (primaryColorBackgroundMode == true)
-                ? theme.colorScheme.onPrimary
-                : theme.colorScheme.onSecondary,
+                ? theme.colorScheme.onSecondary
+                : theme.colorScheme.onPrimary,
             size: 18,
           ),
         ),

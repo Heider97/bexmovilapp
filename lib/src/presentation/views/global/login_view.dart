@@ -79,7 +79,7 @@ class LoginViewState extends State<LoginView> {
     });
   }
 
-  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method
+  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method (ya esta implementado)
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -241,12 +241,12 @@ class LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-          TextButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProspectSheduleView()));
-            }, 
-            child: const Text('ir al calendar')
-          ),
+          // TextButton(
+          //   onPressed: (){
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProspectSheduleView()));
+          //   }, 
+          //   child: const Text('ir al calendar')
+          // ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,

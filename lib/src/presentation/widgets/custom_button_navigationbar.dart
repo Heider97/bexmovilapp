@@ -18,6 +18,8 @@ class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
   @override
   Widget build(BuildContext context) {
 
+    ThemeData theme = Theme.of(context);
+
     final screens = [
       const CalendarPage(),
        ProspectSheduleView()
@@ -27,8 +29,8 @@ class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
 
     return GNav(
       color: Colors.orange.shade300,
-      activeColor: Colors.orange.shade300,
-      tabBackgroundColor: Colors.orange.shade50,
+      activeColor: theme.colorScheme.primary,
+      tabBackgroundColor: theme.colorScheme.secondary,
       gap: 8,
       onTabChange: (index){
         setState(() {
@@ -36,18 +38,18 @@ class _CustomButtonNavigationBarState extends State<CustomButtonNavigationBar> {
         });
       },
       padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 20),
-      tabs: const [
+      tabs: [
         GButton(
-          icon: Icons.home_filled, iconColor: Colors.orange,
-          text: 'Home', textColor: Colors.black,
+          icon: Icons.home_filled, iconColor: theme.colorScheme.tertiary,
+          text: 'Home', textColor: theme.colorScheme.onBackground,
         ),
         GButton(
-          icon: Icons.calendar_month_outlined, iconColor: Colors.orange,
-          text: 'Agenda', textColor: Colors.black,
+          icon: Icons.calendar_month_outlined, iconColor: theme.colorScheme.tertiary,
+          text: 'Agenda', textColor: theme.colorScheme.onBackground,
         ),
         GButton(
-          icon: Icons.person, iconColor: Colors.orange,
-          text: 'Clientes', textColor: Colors.black,
+          icon: Icons.person, iconColor: theme.colorScheme.tertiary,
+          text: 'Clientes', textColor: theme.colorScheme.onBackground,
         ),
       ]
     );
