@@ -77,21 +77,15 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                   child: Column(
                     children: [
                       Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 10,
-                            itemBuilder: ((context, index) {
-                              return Container(
-                                width: 130,
-                                height: 180,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 10),
-                                child: const Icon(
-                                  Icons.star,
-                                  size: 30,
-                                ),
-                              );
-                            })),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset('assets/icons/zonas.png'),
+                            Image.asset('assets/icons/rutero.png'),
+                            Image.asset('assets/icons/no_visitado.png'),
+                            Image.asset('assets/icons/pqrs.png')
+                          ],
+                        ),
                       ),
                     ],
                   ),
