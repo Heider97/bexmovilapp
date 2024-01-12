@@ -49,6 +49,7 @@ class CalendarPageState extends State<CalendarPage> {
     final events = BlocProvider.of<GoogleAccountBloc>(context).events;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -71,7 +72,7 @@ class CalendarPageState extends State<CalendarPage> {
                             child: TextFormField(
                               controller: calendarcontroller,
                               decoration: InputDecoration(
-                                  hintText: '¿ Que estas buscando ?',
+                                  hintText: '¿Que estas buscando?',
                                   hintStyle:
                                       TextStyle(color: Colors.orange.shade300),
                                   prefixIcon: const Icon(
@@ -177,7 +178,6 @@ class CalendarPageState extends State<CalendarPage> {
                       ),
                       ListTile(
                         onTap: () {
-                          //aqui va la otra vista para crear la nueva reunion
                           _navigationService.goTo(Routes.codecreatemeet);
                         },
                         title: const Text(

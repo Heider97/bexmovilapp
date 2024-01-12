@@ -256,7 +256,7 @@ class HomeViewState extends State<HomeView>
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(
-                height: 90,
+                height: 164,
                 width: size.width,
                 child: Column(
                   children: [
@@ -295,6 +295,26 @@ class HomeViewState extends State<HomeView>
                           ),
                         ],
                       ),
+
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomItem(
+                                  iconName: 'No compra',
+                                  imagePath: 'assets/svg/no-buy.svg',
+                                  onTap: () {
+                                    _navigationService.goTo(Routes.saleRoute);
+                                  }),
+                            ],
+                          ),
+                        ],
+                      ),
+
                     ),
                   ],
                 ),

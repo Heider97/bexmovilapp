@@ -45,7 +45,6 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState> {
 
   GoogleAccountBloc() : super(GoogleAccountInitial());
 
-  //esta es la logica, esta en el bloc
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication googleAuth =
@@ -148,14 +147,12 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState> {
     return time;
   }
 
-  //editar un evento
   void editEvent(Eventos newEvent, Eventos oldEvent) {
     final index = events.indexOf(oldEvent);
     events[index] = newEvent;
     NetworkNotify();
   }
 
-  //eliminar evento
   void deleteEvent(Eventos event) {
     events.remove(event);
 

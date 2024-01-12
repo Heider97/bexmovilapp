@@ -157,8 +157,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
-      print('el error esta aqui');
-      print(e.toString());
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }
