@@ -238,13 +238,13 @@ class HomeViewState extends State<HomeView>
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/vender.png",
+                                    urlIcon: "assets/svg/wallet-money.svg",
                                     tittle: "Mi\nPresupuesto",
                                     eventCard: () {}),
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/mercadeo.png",
+                                    urlIcon: "assets/svg/graphic.svg",
                                     tittle: "Mis\nestadísticas",
                                     eventCard: () {}),
                               ],
@@ -262,7 +262,7 @@ class HomeViewState extends State<HomeView>
               SizedBox(
                 height: 90,
                 width: size.width,
-                child: const Column(
+                child: Column(
                   children: [
                     Expanded(
                       child: Column(
@@ -273,16 +273,24 @@ class HomeViewState extends State<HomeView>
                             children: [
                               CustomItem(
                                   iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
+                                  imagePath: 'assets/svg/sell.svg', onTap: () {
+                                    _navigationService.goTo(Routes.saleRoute);
+                              }),
                               CustomItem(
                                   iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
+                                  imagePath: 'assets/svg/wallet.svg', onTap: () {
+                                _navigationService.goTo(Routes.wallet);
+                              }),
                               CustomItem(
                                   iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
+                                  imagePath: 'assets/svg/mercadeo.svg', onTap: () {
+                                // _navigationService.goTo(Routes.mercadeo);
+                              }),
                               CustomItem(
                                   iconName: 'PQRS',
-                                  imagePath: 'assets/icons/pqrs.png'),
+                                  imagePath: 'assets/svg/pqrs.svg', onTap: () {
+                                // _navigationService.goTo(Routes.pqrs);
+                              }),
                             ],
                           ),
                         ],
@@ -291,14 +299,6 @@ class HomeViewState extends State<HomeView>
                   ],
                 ),
               ),
-              gapH8,
-              /*Expanded(
-                child:  SizedBox(
-                   width: size.width,
-                      height: size.height,
-                  child: const CustomNavbar()
-                  )
-              )*/
             ],
           ),
         ),

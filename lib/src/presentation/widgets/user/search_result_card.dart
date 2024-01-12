@@ -160,30 +160,33 @@ class _SearchResultCardState extends State<SearchResultCard> {
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
+                                  imagePath: 'assets/icons/vender.png',
+                                  onTap: () {}),
                             )),
                       ),
                       Expanded(
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
+                                  imagePath: 'assets/icons/mercadeo.png',
+                                  onTap: () {}),
                             )),
                       ),
                       Expanded(
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
+                                  imagePath: 'assets/icons/cartera.png',
+                                  onTap: () {}),
                             )),
                       ),
                     ],

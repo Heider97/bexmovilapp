@@ -2,6 +2,8 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../../../utils/constants/strings.dart';
+
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar({super.key});
 
@@ -15,7 +17,20 @@ class CustomBottomNavigationBar extends StatelessWidget {
       marginR: EdgeInsets.zero,
       paddingR: EdgeInsets.zero,
       currentIndex: 0,
-      onTap: (p0) {},
+      onTap: (p0) {
+        print(p0);
+        //TODO: [Heider Zapa ] remove this logic
+        switch(p0){
+          case 0:
+            Navigator.of(context).pushNamed(Routes.homeRoute);
+            break;
+          case 1:
+            Navigator.of(context).pushNamed(Routes.calendarRoute);
+            break;
+          case 2:
+            break;
+        }
+      },
       items: [
         /// Home
         DotNavigationBarItem(
@@ -23,7 +38,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             children: [
               Icon(Icons.home),
               gapW12,
-              Text('Home'),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Home',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
             ],
           ),
         ),
@@ -32,7 +53,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             children: [
               Icon(Icons.calendar_month),
               gapW12,
-              Text('Agenda'),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Agenda',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
             ],
           ),
         ),
@@ -41,7 +68,13 @@ class CustomBottomNavigationBar extends StatelessWidget {
             children: [
               Icon(Icons.person),
               gapW12,
-              Text('Clientes'),
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Clientes',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
             ],
           ),
         ),

@@ -44,8 +44,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
                 opacity: 0.1,
-                child: CodeVerificationView(),
                 hideBottomNavigationBar: true,
+                child: CodeVerificationView(),
               ));
     case Routes.recoverPassword:
       return MaterialPageRoute(
@@ -92,7 +92,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               child: WalletDashboardView()));
 
     case Routes.calendarRoute:
-      return MaterialPageRoute(builder: (context) => const ScheduleView());
+      return MaterialPageRoute(builder: (context) => const CalendarPage());
 
     case Routes.charDetailsRoute:
       return MaterialPageRoute(
