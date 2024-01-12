@@ -14,7 +14,6 @@ import '../../../widgets/custom_button_navigationbar.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CalendarPage extends StatefulWidget {
-
   final Eventos? event;
 
   const CalendarPage({Key? key, this.event}) : super(key: key);
@@ -50,207 +49,205 @@ class CalendarPageState extends State<CalendarPage> {
     final events = BlocProvider.of<GoogleAccountBloc>(context).events;
 
     return Scaffold(
-        body: SafeArea(
-          child: Stack(           
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const CircleAvatar(
-                            radius: 22,
-                            backgroundColor: Colors.orange,
-                            child: Text('D'),
-                          ),
-                          SizedBox(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const CircleAvatar(
+                          radius: 22,
+                          backgroundColor: Colors.orange,
+                          child: Text('D'),
+                        ),
+                        SizedBox(
                             width: 230,
                             child: TextFormField(
                               controller: calendarcontroller,
                               decoration: InputDecoration(
-                                hintText: '¿ Que estas buscando ?',
-                                hintStyle: TextStyle(color: Colors.orange.shade300),
-                                prefixIcon: const Icon(Icons.search, color: Color(0xFFf44336),),
-                                filled: true,
-                                fillColor: Colors.orange.shade50,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(50)
-                                )
-                              ),
-                            )
-                          ),
+                                  hintText: '¿ Que estas buscando ?',
+                                  hintStyle:
+                                      TextStyle(color: Colors.orange.shade300),
+                                  prefixIcon: const Icon(
+                                    Icons.search,
+                                    color: Color(0xFFf44336),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.orange.shade50,
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(50))),
+                            )),
+                      ],
+                    ),
+                  ),
+
+                  // const SizedBox(height: 20,),
+
+                  SizedBox(
+                    height: 500,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SfCalendar(
+                        onTap: (details) {
+                          if (details.appointments == null) return;
+
+                          final event = details.appointments!.first;
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  CodeCreateMeet(event: event)));
+                        },
+                        view: CalendarView.month,
+                        showDatePickerButton: true,
+                        allowViewNavigation: true,
+                        timeSlotViewSettings: const TimeSlotViewSettings(
+                            startHour: 9,
+                            endHour: 16,
+                            nonWorkingDays: <int>[
+                              DateTime.friday,
+                              DateTime.saturday
+                            ]),
+                        initialSelectedDate: DateTime.now(),
+                        headerHeight: 0,
+                        onLongPress: (details) {
+                          final provider = BlocProvider.of<GoogleAccountBloc>(
+                              context,
+                              listen: false);
+
+                          provider.setState(details.date!);
+                        },
+                        controller: calendarController,
+                        dataSource: MeetingDataSource(events),
+                        initialDisplayDate: googleaccountbloc.selectedDate,
+                        appointmentBuilder: appointmentBuilder,
+                        selectionDecoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: Colors.orange, width: 2),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
+                            shape: BoxShape.rectangle),
+                        blackoutDates: [
+                          DateTime.now().subtract(const Duration(hours: 48)),
+                          DateTime.now().subtract(const Duration(hours: 24))
                         ],
+                        monthViewSettings: const MonthViewSettings(
+                            appointmentDisplayMode:
+                                MonthAppointmentDisplayMode.indicator,
+                            showAgenda: true),
                       ),
                     ),
-                          
-                    // const SizedBox(height: 20,),
-                          
-                    SizedBox(
-                      height: 500,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SfCalendar(  
-                          onTap: (details){
-                            if(details.appointments == null) return;
-                          
-                            final event = details.appointments!.first;
-                          
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CodeCreateMeet(event: event)  
-                            ));
-                          },
-                          view: CalendarView.month,
-                          showDatePickerButton: true,
-                          allowViewNavigation: true,
-                          timeSlotViewSettings: const TimeSlotViewSettings(
-                              startHour: 9,
-                              endHour: 16,
-                              nonWorkingDays: <int>[
-                                DateTime.friday,
-                                DateTime.saturday
-                              ]),
-                          
-                          initialSelectedDate: DateTime.now(),
-                          headerHeight: 0,
-                          
-                          onLongPress: (details){
-                            final provider = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
-                          
-                            provider.setState(details.date!);
-                          },
-                          controller: calendarController,
-                          dataSource:MeetingDataSource(events),
-                          initialDisplayDate: googleaccountbloc.selectedDate,
-                          appointmentBuilder: appointmentBuilder,
-                          selectionDecoration: BoxDecoration(
-                              color: Colors.transparent,
-                              border: Border.all(color: Colors.orange, width: 2),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4)),
-                              shape: BoxShape.rectangle),
-                          
-                          blackoutDates: [
-                            DateTime.now().subtract(const Duration(hours: 48)),
-                            DateTime.now().subtract(const Duration(hours: 24))
-                          ],
-                          
-                          monthViewSettings: const MonthViewSettings(
-                              appointmentDisplayMode:
-                                  MonthAppointmentDisplayMode.indicator,
-                              showAgenda: true
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              shape: const LinearBorder(),
+              context: context,
+              builder: (BuildContext context) {
+                return SizedBox(
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Container(
+                            width: 80,
+                            height: 5,
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(50)),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: (){
-        showModalBottomSheet(
-        shape: const LinearBorder(),
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-            height: 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+                      ListTile(
+                        onTap: () {
+                          //aqui va la otra vista para crear la nueva reunion
+                          _navigationService.goTo(Routes.codecreatemeet);
+                        },
+                        title: const Text(
+                          'Nueva Reunion',
+                        ),
+                        subtitle: const Text(
+                          'Crea una nueva reunion de trabajo',
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+            // Navigator.of(context).pop();
+          }),
+      bottomNavigationBar: const CustomButtonNavigationBar(),
+    );
+  }
+
+  Widget appointmentBuilder(
+    BuildContext context,
+    CalendarAppointmentDetails details,
+  ) {
+    final event = details.appointments.first;
+
+    return Container(
+      height: details.bounds.height,
+      width: details.bounds.width,
+      decoration: BoxDecoration(
+          color: Colors.green, borderRadius: BorderRadius.circular(12)),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Container(
-                      width: 80,
-                      height: 5,
-                      decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
+                Text(
+                  event.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-                ListTile(
-                  onTap: () {
-                    //aqui va la otra vista para crear la nueva reunion
-                    _navigationService.goTo(Routes.codecreatemeet);
-                  },
-                  title: const Text(
-                    'Nueva Reunion',
-                  ),
-                  subtitle: const Text(
-                    'Crea una nueva reunion de trabajo',
-                  ),
-                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        final google = BlocProvider.of<GoogleAccountBloc>(
+                            context,
+                            listen: false);
+                        google.deleteEvent(event);
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ))
               ],
             ),
-          );
-        },
-      );
-      // Navigator.of(context).pop();
-    }
-  ),
-        bottomNavigationBar: const CustomButtonNavigationBar(),
-  );
-}
-
-Widget appointmentBuilder(
-  BuildContext context,
-  CalendarAppointmentDetails details,
-){
-  final event = details.appointments.first;
-
-  return Container(
-    height: details.bounds.height,
-    width: details.bounds.width,
-    decoration: BoxDecoration(
-      color: Colors.green,
-      borderRadius: BorderRadius.circular(12)
-    ),
-    child: SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                event.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                event.from.toString(),
+                style: const TextStyle(color: Colors.white),
               ),
-              IconButton(
-                onPressed: (){
-                  setState(() {
-                    final google = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
-                    google.deleteEvent(event);
-                  });
-                }, 
-                icon: const Icon(Icons.delete, color: Colors.white,)
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              event.from.toString(), 
-              style: const TextStyle(color: Colors.white),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
-}
-

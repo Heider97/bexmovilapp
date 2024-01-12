@@ -1,9 +1,11 @@
 //TODO [Heider Zapa] Organize
 
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_navbar.dart';
+
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+
+import '../custom_button_navigationbar.dart';
 
 class GlobalBackgroundSquare extends StatelessWidget {
   final Widget child;
@@ -18,7 +20,6 @@ class GlobalBackgroundSquare extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerWidget(),
-      //  backgroundColor: Colors.white,
       extendBody: true,
       body: Stack(fit: StackFit.expand, children: [
         Positioned(
@@ -39,7 +40,7 @@ class GlobalBackgroundSquare extends StatelessWidget {
       ]),
       bottomNavigationBar: (hideBottomNavigationBar == true)
           ? null
-          : const CustomBottomNavigationBar(),
+          : const CustomButtonNavigationBar(),
     );
   }
 }
