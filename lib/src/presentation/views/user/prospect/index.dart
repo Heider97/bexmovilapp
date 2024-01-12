@@ -71,7 +71,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                 ),
                 const Text('Cargo u ocupacion del cliente'),
                 const SizedBox(height: 20),
-                Container(
+                SizedBox(
                   height: 50.0,
                   width: size.width,
                   child: Column(
