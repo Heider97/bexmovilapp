@@ -70,6 +70,7 @@ class HomeViewState extends State<HomeView>
   Widget _buildBody(
       Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(),
       body: SizedBox(
         width: size.width,
@@ -87,7 +88,7 @@ class HomeViewState extends State<HomeView>
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => Scaffold.of(context).openDrawer(),
+                        onTap: () => homeCubit.logout(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null
@@ -115,7 +116,7 @@ class HomeViewState extends State<HomeView>
                                     color: theme.primaryColor,
                                   ),
                                   gapW20,
-                                  Expanded(
+                                  const Expanded(
                                       child: Text('¿Qué estás buscando? ')),
                                   gapW20
                                 ],
@@ -134,16 +135,11 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: /*  CustomPromotionCard(
-                          cardText: "Notification Test ",
-                        ) */
-                          CustomCard(
-                              axis: Axis.horizontal,
-                              text: state.features![index].descripcion!,
-                              url: state.features![index].urldesc,
-                              color: index / 2 == 0
-                                  ? Colors.orange
-                                  : Colors.green),
+                      child: CustomCard(
+                          axis: Axis.horizontal,
+                          text: state.features![index].descripcion!,
+                          url: state.features![index].urldesc,
+                          color: index / 2 == 0 ? Colors.orange : Colors.green),
                     ),
                   )),
               gapH12,
