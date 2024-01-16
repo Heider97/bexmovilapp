@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:bexmovil/src/presentation/widgets/custom_button_navigationbar.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
@@ -80,10 +81,30 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Image.asset('assets/icons/zonas.png'),
-                            Image.asset('assets/icons/rutero.png'),
-                            Image.asset('assets/icons/no_visitado.png'),
-                            Image.asset('assets/icons/pqrs.png')
+                            Column(
+                              children: [
+                                Image.asset('assets/icons/zonas.png', width: 30, height: 30,),
+                                const Text('Zonas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Image.asset('assets/icons/rutero.png', width: 30, height: 30,),
+                                const Text('Rutero', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Image.asset('assets/icons/no_visitado.png', width: 30, height: 30,),
+                                const Text('No visitado', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Image.asset('assets/icons/pqrs.png', width: 30, height: 30,),
+                                const Text('PQRS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -92,9 +113,10 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                 ),
                 SizedBox(
                   width: 400,
-                  height: 280,
+                  height: 380,
                   child: Column(
                     children: [
+                      const SizedBox(height: 30,),
                       TabBar(
                         controller: _tabcontroller, 
                         tabs: const [
@@ -135,7 +157,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Telefono'),
-                                        Text('3007239603')
+                                        Align(alignment: Alignment.topLeft,child: Text('3007239603'))
                                       ],
                                     ),
                                     SizedBox(height: 10,),
@@ -192,6 +214,7 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
             ),
           ],
         ),
+        bottomNavigationBar: const CustomButtonNavigationBar(),
       ),
     );
   }
