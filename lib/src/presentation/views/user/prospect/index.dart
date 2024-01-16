@@ -120,11 +120,17 @@ class _ProspectSheduleViewState extends State<ProspectSheduleView>
                       TabBar(
                         controller: _tabcontroller, 
                         tabs: const [
-                          Tab(
-                            text: 'Informacion',
+                          SizedBox(
+                            width: 200,
+                            child: Tab(
+                              text: 'Informacion',
+                            ),
                           ),
-                          Tab(
-                            text: 'Estadistica',
+                          SizedBox(
+                            width: 200,
+                            child: Tab(
+                              text: 'Estadistica',
+                            ),
                           )
                         ]
                       ),
