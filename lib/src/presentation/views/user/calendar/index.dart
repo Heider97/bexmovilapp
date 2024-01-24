@@ -19,7 +19,6 @@ class CalendarPage extends StatefulWidget {
 }
 
 class CalendarPageState extends State<CalendarPage> {
-
   late GoogleAccountBloc googleaccountbloc;
 
   TextEditingController calendarcontroller = TextEditingController();
@@ -29,7 +28,6 @@ class CalendarPageState extends State<CalendarPage> {
   DateTime endTime = DateTime.now().add(const Duration(days: 1));
   TextEditingController _eventName = TextEditingController();
   CalendarController calendarController = CalendarController();
-  
 
   @override
   void initState() {
@@ -37,7 +35,6 @@ class CalendarPageState extends State<CalendarPage> {
     googleaccountbloc = BlocProvider.of<GoogleAccountBloc>(context);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,68 +44,70 @@ class CalendarPageState extends State<CalendarPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const CircleAvatar(
-                      radius: 22,
-                      backgroundColor: Colors.orange,
-                      child: Text('D'),
-                    ),
-                    SizedBox(
-                      width: 230,
-                      child: CustomTextFormField(
-                        controller: calendarcontroller, 
-                        hintText: '¿ Que estas buscando ?'
-                      )
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const CircleAvatar(
+                        radius: 22,
+                        backgroundColor: Colors.orange,
+                        child: Text('D'),
+                      ),
+                      SizedBox(
+                          width: 230,
+                          child: CustomTextFormField(
+                              controller: calendarcontroller,
+                              hintText: '¿ Que estas buscando ?'))
+                    ],
+                  ),
                 ),
-              ),
 
-              // const SizedBox(height: 20,),  
+                // const SizedBox(height: 20,),
 
-              SizedBox(
-                height: 500,
-                child: SfCalendar(
-                  onTap: (calendarTapDetails) { //agregando un evento por medio del ontap
-                    setState(() {
-                      // googleaccountbloc.createEvent();
-                      // googleaccountbloc.close();
-                    });
-                  },
+                SizedBox(
+                  height: 500,
+                  child: SfCalendar(
+                    onTap: (calendarTapDetails) {
+                      //agregando un evento por medio del ontap
+                      setState(() {
+                        // googleaccountbloc.createEvent();
+                        // googleaccountbloc.close();
+                      });
+                    },
                     view: CalendarView.month,
                     showDatePickerButton: true,
                     allowViewNavigation: true,
                     timeSlotViewSettings: TimeSlotViewSettings(
-                      startHour: 9,
-                      endHour: 16,
-                      nonWorkingDays: <int>[DateTime.friday, DateTime.saturday]
-                    ),
+                        startHour: 9,
+                        endHour: 16,
+                        nonWorkingDays: <int>[
+                          DateTime.friday,
+                          DateTime.saturday
+                        ]),
                     initialSelectedDate: DateTime.now(),
                     controller: calendarController,
-                    dataSource: MeetingDataSource(googleaccountbloc.appointments),
+                    dataSource:
+                        MeetingDataSource(googleaccountbloc.appointments),
                     // appointmentBuilder: ,
                     selectionDecoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: Colors.orange, width: 2),
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                      shape: BoxShape.rectangle
-                    ),
-              
+                        color: Colors.transparent,
+                        border: Border.all(color: Colors.orange, width: 2),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4)),
+                        shape: BoxShape.rectangle),
+
                     blackoutDates: [
                       DateTime.now().subtract(const Duration(hours: 48)),
                       DateTime.now().subtract(const Duration(hours: 24))
                     ],
-                    
+
                     monthViewSettings: const MonthViewSettings(
-                      appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
-                      showAgenda: true
-                    ),
+                        appointmentDisplayMode:
+                            MonthAppointmentDisplayMode.indicator,
+                        showAgenda: true),
                   ),
-              ),
+                ),
               ],
             )
           ],
@@ -116,17 +115,15 @@ class CalendarPageState extends State<CalendarPage> {
         floatingActionButton: CircleAvatar(
           backgroundColor: Colors.orange,
           child: IconButton(
-            color: Colors.white,
-            onPressed: (){
-              setState(() {
-                googleaccountbloc.createEvent();
-              });
-            }, 
-            icon: const Icon(Icons.add)
-          ),
+              color: Colors.white,
+              onPressed: () {
+                setState(() {
+                  googleaccountbloc.createEvent();
+                });
+              },
+              icon: const Icon(Icons.add)),
         ),
-        bottomNavigationBar: const CustomButtonNavigationBar()
-      );
+        bottomNavigationBar: const CustomButtonNavigationBar());
   }
 
   // List<Meeting> _getDataSource() {

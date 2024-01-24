@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
@@ -7,6 +8,7 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class WalletProcessView extends StatefulWidget {
   const WalletProcessView({super.key});
@@ -16,21 +18,6 @@ class WalletProcessView extends StatefulWidget {
 }
 
 class _WalletProcessViewState extends State<WalletProcessView> {
-  List<DataRow> _dataRows = List.generate(
-    10,
-    (index) => DataRow(
-      cells: [
-        DataCell(Text('Factura $index')),
-        DataCell(Text('Estado $index')),
-        DataCell(Text('Vencimiento $index')),
-        DataCell(Text('Valor $index')),
-      ],
-    ),
-  );
-
-  bool _sortAscending = true;
-  int _sortColumnIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -97,94 +84,8 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               gapW8,
             ],
           ),
-          SizedBox(
-            height: Screens.heigth(context) * 0.6,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Scrollable(
-                viewportBuilder: (BuildContext context, position) {
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      showBottomBorder: true,
-                      sortColumnIndex: _sortColumnIndex,
-                      sortAscending: _sortAscending,
-                      dataRowMinHeight: 1,                      
-                      columns: [
-                        DataColumn(
-                          label: Row(
-                            children: [
-                              Text('Factura'),
-                            ],
-                          ),
-
-                          onSort: (columnIndex, ascending) {
-                            setState(() {
-                              _sortColumnIndex = columnIndex;
-                              _sortAscending = ascending;
-                              // Ordenar la lista de filas según la columna Factura
-                              if (ascending) {
-                                // Orden ascendente
-                                _dataRows.sort((a, b) => a
-                                    .cells[columnIndex].child
-                                    .toString()
-                                    .compareTo(
-                                        b.cells[columnIndex].child.toString()));
-                              } else {
-                                // Orden descendente
-                                _dataRows.sort((a, b) => b
-                                    .cells[columnIndex].child
-                                    .toString()
-                                    .compareTo(
-                                        a.cells[columnIndex].child.toString()));
-                              }
-                            });
-                          },
-                        ),
-                        DataColumn(
-                          label: Row(
-                            children: [
-                              Text('Estado'),
-                            ],
-                          ),
-                          onSort: (columnIndex, ascending) {
-                            // Lógica de ordenamiento para la columna Estado
-                            print('Ordenar por Estado $ascending');
-                          },
-                        ),
-                        DataColumn(
-                          label: Row(
-                            children: [
-                              Text('Vencimiento'),
-                              Icon(Icons.sort),
-                            ],
-                          ),
-                          onSort: (columnIndex, ascending) {
-                            // Lógica de ordenamiento para la columna Vencimiento
-                            print('Ordenar por Vencimiento $ascending');
-                          },
-                        ),
-                        DataColumn(
-                          label: Row(
-                            children: [
-                              Text('Valor'),
-                              Icon(Icons.sort),
-                            ],
-                          ),
-                          onSort: (columnIndex, ascending) {
-                            // Lógica de ordenamiento para la columna Valor
-                            print('Ordenar por Valor $ascending');
-                          },
-                        ),
-                      ],
-                      rows: _dataRows,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(child: Text('asdasd'))
+          DataGridCheckBox(),
+          const Expanded(child: Text('asdasd'))
         ],
       ),
     );
