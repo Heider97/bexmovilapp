@@ -129,36 +129,28 @@ class CardProductSale extends StatelessWidget {
                                       keyboardType: TextInputType.number,
                                     ),
                                   ),
-                                  GestureDetector(
-                                    child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: const ShapeDecoration(
-                                            shape: CircleBorder(),
-                                            color: Color.fromARGB(
-                                                255, 243, 119, 24)),
-                                        child: const Text(
-                                          "+",
-                                          style: TextStyle(color: Colors.white),
-                                        )),
-                                    onTap: () {
-                                      int currentValue =
-                                          int.tryParse(controller.text) ?? 0;
-                                      controller.text = "${currentValue + 1}";
-                                    },
-                                  ),
-                                ],
-                              ),
-                              // Text("Lugar Origen: $birthPlace",
-                              //     style: const TextStyle(
-                              //         fontSize: 12,
-                              //         fontWeight: FontWeight.bold))
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                                ),
+                                GestureDetector(
+                                  child: Container(
+                                      padding: const  EdgeInsets.all(6),
+                                      decoration: const ShapeDecoration(
+                                          shape: CircleBorder(), color:  Color.fromARGB(255, 243, 119, 24)),
+                                      child: const Text("+", style: TextStyle(color: Colors.white),)),
+                                  onTap: () {
+                                    int currentValue = int.tryParse(controller.text) ?? 0;
+                                    controller.text = "${currentValue + 1}" ;
+                                  },
+                                ),
+                              ],
+                            ),
+                            Text("Lugar Origen: $birthPlace", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))
+                                      
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ],
           )),

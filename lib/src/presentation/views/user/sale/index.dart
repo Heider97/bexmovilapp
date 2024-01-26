@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_product_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
@@ -14,6 +15,8 @@ import '../../../widgets/global/custom_elevated_button.dart';
 import '../../../widgets/sales/card_client_sale.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../widgets/user/product_card.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -236,10 +239,53 @@ class _SalePageState extends State<SalePage> {
                           )
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      SizedBox(
+                        height: 450,
+                        width: 500,
+                        child: Column(
+                          children: [                                    
+                            Expanded(
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount:
+                                      10,
+                                  itemBuilder: (BuildContext context, int index) => Padding(
+                                    padding: const EdgeInsets.only(right: 9),
+                                    child: ProductCard(product: Product(
+                                      lastSoldOn: DateTime.now(),
+                                      lastQuantitySold: 5,
+                                      code: 'XYZ789',
+                                      name: 'Product 2',
+                                      sellingPrice: 29.99,
+                                      discount: 2.5,
+                                      availableUnits: 50,
+                                      quantity: 15,
+                                      originLocation: OriginLocation(name: 'Product 2', availableQuantity: 20, isSelected: true),
+                                    ),)
+                                  ),
+                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      gapH8,
+                      CustomElevatedButton(
+                        width: 330,
+                        height: 50,
+                        onTap: () => '',
+                        child:
+                              Text(
+                                'Siguiente',
+                                style: theme.textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                      )
+                    ],
+                  ),
+                ),
+                )
+              ],
             ),
           ),
         ],
