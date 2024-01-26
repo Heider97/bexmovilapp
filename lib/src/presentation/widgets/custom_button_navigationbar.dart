@@ -3,6 +3,13 @@ import 'package:bexmovil/src/presentation/views/user/prospect/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+//utils
+import '../../utils/constants/strings.dart';
+
+import '../../locator.dart';
+import '../../services/navigation.dart';
+
+final NavigationService navigationService = locator<NavigationService>();
 
 class CustomButtonNavigationBar extends StatefulWidget {
   const CustomButtonNavigationBar({super.key});

@@ -70,6 +70,7 @@ class HomeViewState extends State<HomeView>
   Widget _buildBody(
       Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(),
       body: SizedBox(
         width: size.width,
@@ -87,7 +88,7 @@ class HomeViewState extends State<HomeView>
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => Scaffold.of(context).openDrawer(),
+                        onTap: () => homeCubit.logout(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null
@@ -134,16 +135,11 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: /*  CustomPromotionCard(
-                          cardText: "Notification Test ",
-                        ) */
-                          CustomCard(
-                              axis: Axis.horizontal,
-                              text: state.features![index].descripcion!,
-                              url: state.features![index].urldesc,
-                              color: index / 2 == 0
-                                  ? Colors.orange
-                                  : Colors.green),
+                      child: CustomCard(
+                          axis: Axis.horizontal,
+                          text: state.features![index].descripcion!,
+                          url: state.features![index].urldesc,
+                          color: index / 2 == 0 ? Colors.orange : Colors.green),
                     ),
                   )),
               gapH12,
@@ -238,13 +234,13 @@ class HomeViewState extends State<HomeView>
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/vender.png",
+                                    urlIcon: "assets/svg/wallet-money.svg",
                                     tittle: "Mi\nPresupuesto",
                                     eventCard: () {}),
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/mercadeo.png",
+                                    urlIcon: "assets/svg/graphic.svg",
                                     tittle: "Mis\nestadísticas",
                                     eventCard: () {}),
                               ],
@@ -260,9 +256,9 @@ class HomeViewState extends State<HomeView>
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(
-                height: 90,
+                height: 164,
                 width: size.width,
-                child: const Column(
+                child: Column(
                   children: [
                     Expanded(
                       child: Column(
@@ -273,32 +269,56 @@ class HomeViewState extends State<HomeView>
                             children: [
                               CustomItem(
                                   iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
+                                  imagePath: 'assets/svg/sell.svg',
+                                  onTap: () {
+                                    _navigationService.goTo(Routes.saleRoute);
+                                  }),
                               CustomItem(
                                   iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
+                                  imagePath: 'assets/svg/wallet.svg',
+                                  onTap: () {
+                                    _navigationService.goTo(Routes.wallet);
+                                  }),
                               CustomItem(
                                   iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
+                                  imagePath: 'assets/svg/mercadeo.svg',
+                                  onTap: () {
+                                    // _navigationService.goTo(Routes.mercadeo);
+                                  }),
                               CustomItem(
                                   iconName: 'PQRS',
-                                  imagePath: 'assets/icons/pqrs.png'),
+                                  imagePath: 'assets/svg/pqrs.svg',
+                                  onTap: () {
+                                    // _navigationService.goTo(Routes.pqrs);
+                                  }),
                             ],
                           ),
                         ],
                       ),
+
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomItem(
+                                  iconName: 'No compra',
+                                  imagePath: 'assets/svg/no-buy.svg',
+                                  onTap: () {
+                                    _navigationService.goTo(Routes.saleRoute);
+                                  }),
+                            ],
+                          ),
+                        ],
+                      ),
+
                     ),
                   ],
                 ),
               ),
-              gapH8,
-              /*Expanded(
-                child:  SizedBox(
-                   width: size.width,
-                      height: size.height,
-                  child: const CustomNavbar()
-                  )
-              )*/
             ],
           ),
         ),

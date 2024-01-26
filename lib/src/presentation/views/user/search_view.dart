@@ -101,7 +101,6 @@ class _SearchViewState extends State<SearchView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Puedes usar esta función para activar el foco en el TextField cuando se inicia la vista.
     searchFocusNode.requestFocus();
   }
 }
