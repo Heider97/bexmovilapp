@@ -111,7 +111,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
               const Row(
                 children: [
-                  Text('From', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text('Desde', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                 ],
               ),
 
@@ -143,7 +143,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
               const Row(
                 children: [
-                  Text('To', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text('Hasta', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                 ],
               ),
 
