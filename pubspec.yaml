@@ -59,6 +59,8 @@ dependencies:
   sqlbrite: ^2.6.0
   syncfusion_flutter_calendar: ^24.1.41
   syncfusion_flutter_charts: ^24.1.41
+  syncfusion_flutter_datagrid: 24.1.41
+  syncfusion_localizations: ^24.1.45
   synchronized: ^3.0.1
   universal_platform: ^1.0.0+1
   upgrader: ^7.0.2

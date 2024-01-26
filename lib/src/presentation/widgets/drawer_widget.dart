@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

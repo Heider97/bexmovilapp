@@ -1492,7 +1492,15 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: "083d4a0ddb25435d267328a30c3938d09599f7578f5f0d28fbd9fd5424c1cd51"
+      sha256: ed8527189f874b9d07f78f2f4306739ce003e8baccfdd7453c0098beef16428f
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.47"
+  syncfusion_flutter_datagrid:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datagrid
+      sha256: "5c60ef4c600599c44023f36d56620c331341849db30974bccc2e4bb993ca9e8c"
       url: "https://pub.dev"
     source: hosted
     version: "24.1.44"
@@ -1512,6 +1520,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "24.1.41"
+  syncfusion_localizations:
+    dependency: "direct main"
+    description:
+      name: syncfusion_localizations
+      sha256: "9e70cfc48817dafc08b9f5bb16c4f2e680fd266d5db2b578cbf193c5474e77e5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.1.47"
   synchronized:
     dependency: "direct main"
     description:
