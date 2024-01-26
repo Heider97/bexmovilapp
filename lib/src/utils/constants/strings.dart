@@ -13,6 +13,7 @@ const String databaseName = 'app_database';
 //routes\
 
 class Routes {
+  //
   static const splashRoute = '/splash';
   static const politicsRoute = '/politics';
   static const companyRoute = '/company';
@@ -24,6 +25,8 @@ class Routes {
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
 
+  static const codecreatemeet = '/code-create-meet';
+
   static const homeRoute = '/home';
   static const syncRoute = '/sync';
   static const categoryRoute = '/category';
@@ -31,6 +34,8 @@ class Routes {
   static const calendarRoute = '/calendar';
   static const charDetailsRoute = '/charDetailsRoute';
   static const saleRoute = '/sale';
+  static const detailSaleRoute = '/detail-sale';
+  static const historySaleRoute = '/history';
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';

@@ -1,10 +1,12 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
+import 'package:bexmovil/src/presentation/views/global/code_create_meet.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 //services
+import '../../../../domain/models/meeting_data_source.dart';
+import '../../../../domain/models/requests/event.dart';
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
 import '../../../widgets/custom_button_navigationbar.dart';
@@ -12,7 +14,9 @@ import '../../../widgets/custom_button_navigationbar.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CalendarPage extends StatefulWidget {
-  const CalendarPage({Key? key}) : super(key: key);
+  final Eventos? event;
+
+  const CalendarPage({Key? key, this.event}) : super(key: key);
 
   @override
   CalendarPageState createState() => CalendarPageState();
@@ -26,7 +30,6 @@ class CalendarPageState extends State<CalendarPage> {
   GoogleAccountBloc calendarClient = GoogleAccountBloc();
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now().add(const Duration(days: 1));
-  TextEditingController _eventName = TextEditingController();
   CalendarController calendarController = CalendarController();
 
   @override
@@ -37,9 +40,18 @@ class CalendarPageState extends State<CalendarPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final events = BlocProvider.of<GoogleAccountBloc>(context).events;
+
     return Scaffold(
-        body: Stack(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -177,23 +189,56 @@ class MeetingDataSource extends CalendarDataSource {
     return _getMeetingData(index).isAllDay;
   }
 
-  Meeting _getMeetingData(int index) {
-    final dynamic meeting = appointments![index];
-    late final Meeting meetingData;
-    if (meeting is Meeting) {
-      meetingData = meeting;
-    }
+  Widget appointmentBuilder(
+    BuildContext context,
+    CalendarAppointmentDetails details,
+  ) {
+    final event = details.appointments.first;
 
-    return meetingData;
+    return Container(
+      height: details.bounds.height,
+      width: details.bounds.width,
+      decoration: BoxDecoration(
+          color: Colors.green, borderRadius: BorderRadius.circular(12)),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  event.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        final google = BlocProvider.of<GoogleAccountBloc>(
+                            context,
+                            listen: false);
+                        google.deleteEvent(event);
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                event.from.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
-}
-
-class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
-
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color background;
-  bool isAllDay;
 }
