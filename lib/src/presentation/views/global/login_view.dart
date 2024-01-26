@@ -1,5 +1,8 @@
+import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
+import 'package:bexmovil/src/presentation/views/user/prospect/index.dart';
 import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -76,7 +79,7 @@ class LoginViewState extends State<LoginView> {
     });
   }
 
-  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method
+  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method (ya esta implementado)
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -169,11 +172,12 @@ class LoginViewState extends State<LoginView> {
             child: GestureDetector(
               onTap: () {
                 showModalBottomSheet(
+                  backgroundColor: theme.cardColor,
                   shape: const LinearBorder(),
                   context: context,
                   builder: (BuildContext context) {
                     return SizedBox(
-                      height: 200,
+                      height: Screens.heigth(context) * 0.25,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -185,7 +189,7 @@ class LoginViewState extends State<LoginView> {
                                 width: 80,
                                 height: 5,
                                 decoration: BoxDecoration(
-                                    color: Colors.grey,
+                                    color: theme.primaryColor,
                                     borderRadius: BorderRadius.circular(50)),
                               ),
                             ),
@@ -216,8 +220,10 @@ class LoginViewState extends State<LoginView> {
                               style: theme.textTheme.bodyMedium!
                                   .copyWith(color: theme.primaryColor),
                             ),
-                            subtitle: const Text(
-                                'Obten tu código de verificación por mensaje de texto'),
+                            subtitle: Text(
+                              'Obten tu código de verificación por mensaje de texto',
+                              style: theme.textTheme.bodyMedium!,
+                            ),
                           )
                         ],
                       ),
@@ -235,12 +241,12 @@ class LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-          TextButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarPage()));
-            }, 
-            child: const Text('ir al calendar')
-          ),
+          // TextButton(
+          //   onPressed: (){
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProspectSheduleView()));
+          //   }, 
+          //   child: const Text('ir al calendar')
+          // ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,

@@ -1,21 +1,20 @@
 import 'package:bexmovil/src/data/datasources/local/app_database.dart';
-import 'package:bexmovil/src/domain/models/client.dart';
+
 import 'package:bexmovil/src/domain/models/search_result.dart';
-import 'package:bexmovil/src/domain/repositories/database_repository.dart';
-import 'package:bexmovil/src/locator.dart';
+
 import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_item.dart';
+
+import 'package:bexmovil/src/presentation/widgets/user/search_result_card.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
+
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
-
 class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+  final List<String> tables;
+  const SearchView({super.key, required this.tables});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -23,42 +22,26 @@ class SearchView extends StatefulWidget {
 
 late TextEditingController searchController;
 late SearchBloc searchBloc;
+late FocusNode searchFocusNode;
 List<SearchResult> itemsToSearch = [];
+List<SearchResult> itemsFounded = [];
 
 class _SearchViewState extends State<SearchView> {
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     searchController = TextEditingController();
     searchBloc = BlocProvider.of<SearchBloc>(context);
+    searchFocusNode = FocusNode();
 
-    /*  
-   await inserRegisters() */
-
-    await fillRegisters(tables: searchBloc.state.tables!);
+    fillRegisters(tables: widget.tables);
   }
 
-  Future<void> fillRegisters({required List<String> tables}) async {
-    itemsToSearch.clear();
-
-    final AppDatabase appDatabase = AppDatabase();
-
-    for (String table in tables) {
-      final db = await appDatabase.streamDatabase;
-      final resultList = await db!.query(table);
-      for (var result in resultList) {
-        SearchResult item = SearchResult.fromJson(result, table);
-        itemsToSearch.add(item);
-      }
-    }
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    super.dispose();
   }
-
-/*     Future<void> inserRegisters() async {
-
-    final AppDatabase appDatabase = AppDatabase();
-    appDatabase.insert('tblmcliente', {''>});
-   
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -66,128 +49,73 @@ class _SearchViewState extends State<SearchView> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(Const.padding),
+            padding: const EdgeInsets.all(Const.padding),
             child: Row(
               children: [
-                CustomBackButton(mode: 1),
+                const CustomBackButton(primaryColorBackgroundMode: true),
                 gapW20,
                 Expanded(
                   child: TextField(
+                    focusNode: searchFocusNode,
                     controller: searchController,
                     onChanged: (value) async {
-                      //TODO HACER LA VALIDACION DE CONTAIN CON EL LISTADO DE itemsToSearch
-
-                      /*        List<Client> clients =
-                          await _databaseRepository.getClients(); */
-
-                      setState(() {});
+                      setState(() {
+                        itemsFounded = itemsToSearch
+                            .where((product) =>
+                                product.name!.toLowerCase().contains(
+                                    searchController.text.toLowerCase()) ||
+                                product.code.toString().toLowerCase().contains(
+                                    searchController.text.toLowerCase()))
+                            .toList();
+                      });
                     },
                   ),
                 )
               ],
             ),
           ),
-          Expanded(
-            child: searchController.text.isEmpty
-                ? Center(
+          searchController.text.isEmpty
+              ? const Expanded(
+                  child: Center(
                     child: Text("No hay resultados disponibles"),
-                  )
-                : ListView.builder(
-                    //TODO: LEER EL LISTADO DE OBJETOS DE TIPO ITEM SEARCH Y DIBUJARLOS.
-                    itemCount: 2,
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: itemsFounded.length,
+                    shrinkWrap: true,
                     itemBuilder: (_, index) {
-                      return _builUserCard(context);
+                      final product = itemsFounded[index];
+
+                      return SearchResultCard(
+                        searchResult: product,
+                      );
                     },
                   ),
-          ),
+                ),
         ],
       ),
     );
   }
 
-  Widget _builUserCard(BuildContext context) {
-    //TODO : UBICAR EL SWITCH CASE AQUI ....
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: Screens.heigth(context) * 0.25,
-        child: Card(
-          surfaceTintColor: Colors.white,
-          color: Colors.white,
-          margin: EdgeInsets.zero,
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('asdasd'),
-                          Text('asdasd'),
-                          Text('asdasd'),
-                          Text('asdasd')
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.green.shade50,
-                          borderRadius: BorderRadius.circular(Const.space8)),
-                      child: const Padding(
-                        padding: EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 4, bottom: 4),
-                        child: Center(
-                          child: Text('Cliente'),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Card(
-                          margin: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: CustomItem(
-                                iconName: 'Vender',
-                                imagePath: 'assets/icons/vender.png'),
-                          )),
-                    ),
-                    Expanded(
-                      child: Card(
-                          margin: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: CustomItem(
-                                iconName: 'Mercadeo',
-                                imagePath: 'assets/icons/mercadeo.png'),
-                          )),
-                    ),
-                    Expanded(
-                      child: Card(
-                          margin: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: CustomItem(
-                                iconName: 'Cartera',
-                                imagePath: 'assets/icons/cartera.png'),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    searchFocusNode.requestFocus();
+  }
+}
+
+Future<void> fillRegisters({required List<String> tables}) async {
+  itemsToSearch.clear();
+
+  final AppDatabase appDatabase = AppDatabase();
+
+  for (String table in tables) {
+    final db = await appDatabase.streamDatabase;
+    final resultList = await db!.query(table);
+    for (var result in resultList) {
+      SearchResult item = SearchResult.fromJson(result, table);
+      itemsToSearch.add(item);
+    }
   }
 }

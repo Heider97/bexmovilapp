@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class ImagesWithShadow extends StatelessWidget {
   final String image;
   final double gap;
-  const ImagesWithShadow({super.key, required this.image, required this.gap});
+  final bool? fromNetwork;
+  const ImagesWithShadow(
+      {super.key, required this.image, required this.gap, this.fromNetwork});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,15 @@ class ImagesWithShadow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Image.asset(
-                    image,
-                    // Alto de la imagen
-                    fit: BoxFit.contain, // Ajuste de la imagen
-                  ),
-                ),
+                    child: (fromNetwork == null || fromNetwork == false)
+                        ? Image.asset(
+                            image,
+                            fit: BoxFit.contain, // Ajuste de la imagen
+                          )
+                        : Image.network(
+                            image,
+                            fit: BoxFit.contain,
+                          )),
                 SizedBox(height: gap),
                 Image.asset(
                   Assets.shadow,

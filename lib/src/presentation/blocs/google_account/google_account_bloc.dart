@@ -1,6 +1,3 @@
-
-
-
 // ignore_for_file: avoid_print, unrelated_type_equality_checks
 
 // import 'package:bexmovil/src/domain/repositories/database_repository.dart';
@@ -17,6 +14,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -25,23 +23,32 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart';
 import "package:googleapis_auth/auth_io.dart";
 
+import '../../../domain/models/requests/event.dart';
+
 part 'google_account_event.dart';
 part 'google_account_state.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
-class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
+class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState> {
+  static const scopes = [CalendarApi.calendarScope];
 
-  static const scopes =  [CalendarApi.calendarScope];
-  
+  final List<Eventos> events = [];
+
+  List<Eventos> get eventos => events;
+
+  DateTime _selectedDate = DateTime.now();
+
+  DateTime get selectedDate => _selectedDate;
+
   Event event = Event();
 
   GoogleAccountBloc() : super(GoogleAccountInitial());
-  
-  //esta es la logica, esta en el bloc
-  Future<UserCredential> signInWithGoogle()async{
+
+  Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
@@ -49,48 +56,55 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<void> createID() async {
-    var credentials;
-    if(Platform.isAndroid){
-      credentials =  ClientId(
-        '509826364584-aurod6st47hiekgdo2agg0tfnep4q40t.apps.googleusercontent.com',
-        ""
-      );
-    } else if (Platform.isIOS){
-      credentials =  ClientId(
-        'YOUR_CLIENT_ID_FOR_IOS_APP_RETRIEVED_FROM_Google_Console_Project_EARLIER',
-        ""
-      );
+  ClientId createID() {
+    if (Platform.isAndroid) {
+      return ClientId(
+          '509826364584-aurod6st47hiekgdo2agg0tfnep4q40t.apps.googleusercontent.com',
+          "");
+    } else {
+      return ClientId(
+          'YOUR_CLIENT_ID_FOR_IOS_APP_RETRIEVED_FROM_Google_Console_Project_EARLIER',
+          "");
     }
   }
 
+  void setState(DateTime date) => _selectedDate = date;
+
+  List<Eventos> get eventsOfSelectedDate => events;
+
+  void addEvent(Eventos event) {
+    events.add(event);
+    createEvents(event.title, event.from, event.to);
+    // NetworkNotify();
+  }
+
   //calendar event 1 with google api
-  Future<void> createEvents(title, startTime, endTime) async {
-    var clientID =  ClientId("YOUR_CLIENT_ID", "");
-    clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client){
-       var calendar = CalendarApi(client);
-       calendar.calendarList.list().then((value) => print("VAL________$value"));
+  createEvents(title, startTime, endTime) async {
+    var clientID = createID();
+    clientViaUserConsent(clientID, scopes, prompt).then((AuthClient client) {
+      var calendar = CalendarApi(client);
+      calendar.calendarList.list().then((value) => print("VAL________$value"));
 
-       String calendarId = "primary";
-       Event event = Event(); //create object of event
+      String calendarId = "primary";
+      Event event = Event(); //create object of event
 
-       event.summary = title;
+      event.summary = title;
 
-      EventDateTime start =  EventDateTime();
+      EventDateTime start = EventDateTime();
       start.dateTime = startTime;
       start.timeZone = "GMT+05:00";
       event.start = start;
 
-      EventDateTime end =  EventDateTime();
+      EventDateTime end = EventDateTime();
       end.timeZone = "GMT+05:00";
       end.dateTime = endTime;
       event.end = end;
 
       //insertEvent
-      try{
+      try {
         calendar.events.insert(event, calendarId).then((value) {
           print("ADDEDDD_________________${value.status}");
-          if(value.status == "confirmed"){
+          if (value.status == "confirmed") {
             log('Event added in google calendar');
           } else {
             log("Unable to add event in google calendar");
@@ -107,89 +121,41 @@ class GoogleAccountBloc extends Bloc<GoogleAccountEvent, GoogleAccountState>{
     print("  => $url");
     print("");
 
-    if(await canLaunchUrl(Uri.parse(url))){
+    if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
   }
 
-  //lista que agrega una nueva reunion de trabajo
-  List<Appointment> appointments = <Appointment>[
-    Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Reunión de trabajo',
-      color: const Color(0xFF0F8644)
-    ),
-  ];
+  static String toDateTime(DateTime dateTime) {
+    final date = DateFormat.yMMMEd().format(dateTime);
+    final time = DateFormat.Hm().format(dateTime);
 
-  //plan B crear evento usando el listado appointment
-  void createEvent() {
-    Appointment newAppointment = Appointment(
-      startTime: DateTime.now(),
-      endTime: DateTime.now().add(const Duration(hours: 1)),
-      subject: 'Nueva reunion',
-      color: const Color(0xFF0F8644),
-    );
+    return '$date $time';
+  }
 
-    // Agregar el nuevo evento a la lista de eventos
-    appointments.add(newAppointment);
+  static String toDate(DateTime dateTime) {
+    final date = DateFormat.yMMMEd().format(dateTime);
+
+    return date;
+  }
+
+  static String toTime(DateTime dateTime) {
+    final time = DateFormat.Hm().format(dateTime);
+
+    return time;
+  }
+
+  void editEvent(Eventos newEvent, Eventos oldEvent) {
+    final index = events.indexOf(oldEvent);
+    events[index] = newEvent;
     NetworkNotify();
   }
 
-  //editar evento plan b usando el listado appointment
-  void editEvent(){
-    Appointment editedAppointment = Appointment(
-      startTime: DateTime.now(), 
-      endTime: DateTime.now().add(const Duration(hours: 2)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
+  void deleteEvent(Eventos event) {
+    events.remove(event);
 
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = editedAppointment;
-    }
     NetworkNotify();
   }
-
-  //actualizar un evento
-  void updateEvent(){
-    Appointment updatedAppointment = Appointment(
-      startTime: DateTime.now().add(const Duration(days: 1)), 
-      endTime: DateTime.now().add(const Duration(days: 1, hours: 1)),
-      subject: 'Reunion de trabajo actualizada',
-      color: const Color(0xFF0F8644),
-    );
-
-
-    //encontrar y reemplazar el evento en la lista de eventos
-    int index = appointments.indexWhere((appointment) => 
-      appointment.subject == 'Nueva reunion' &&
-      appointment.startTime == DateTime.now());
-    if(index != -1) {
-      appointments[index] = updatedAppointment;
-    }
-    NetworkNotify();
-  }
-
-  //eliminar evento
- void deleteEvent() {
-    // Encontrar el índice del evento que deseas eliminar
-    int index = appointments.indexWhere((appointment) =>
-        appointment.subject == 'Nueva reunion' &&
-        appointment.startTime == DateTime.now());
-
-    // Verificar si el evento se encontró
-    if (index != -1) {
-      // Eliminar el evento de la lista de eventos
-      appointments.removeAt(index);
-    }
-    NetworkNotify();
-  }
-
-
 }

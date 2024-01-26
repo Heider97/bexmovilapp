@@ -34,7 +34,8 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
                     : null),
             null);
 
-  Future<void> getEnterprise(TextEditingController companyNameController) async {
+  Future<void> getEnterprise(
+      TextEditingController companyNameController) async {
     if (isBusy) return;
 
     await run(() async {

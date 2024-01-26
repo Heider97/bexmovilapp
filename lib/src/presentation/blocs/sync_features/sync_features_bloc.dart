@@ -118,9 +118,9 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               {'table_name': priority.name, 'content': 'application/json'});
         }
 
-        // var isolateModel =
-        //     IsolateModel(functions, arguments, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
+        var isolateModel =
+            IsolateModel(functions, arguments, prioritiesAsync.length);
+        await heavyTask(isolateModel);
 
         List<String> tables = [];
 
@@ -157,8 +157,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
-      print('el error esta aqui');
-      print(e.toString());
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }

@@ -1,51 +1,84 @@
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-class CustomNavbar extends StatelessWidget {
-  const CustomNavbar({super.key});
+import '../../../utils/constants/strings.dart';
+
+class CustomBottomNavigationBar extends StatelessWidget {
+  const CustomBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: const MediaQueryData(
-        padding: EdgeInsets.all(0)
-      ),
-      child: DotNavigationBar(
-        marginR: const  EdgeInsets.all(0),
-        backgroundColor: const Color.fromARGB(255, 255, 254, 253),
-        selectedItemColor: const Color(0xFFF27114),
-        unselectedItemColor: const Color(0xFFF69B5B),
-        splashBorderRadius: 80,
-        currentIndex: 0,
-        onTap: (p0) {},
-        items: [
-          /// Home
-          DotNavigationBarItem(
-            icon: const Row(
-              children: [
-                Icon(Icons.home),
-                Text('Home'),
-              ],
-            ),
+    ThemeData theme = Theme.of(context);
+    return DotNavigationBar(
+      backgroundColor: theme.cardColor,
+      selectedItemColor: theme.primaryColor,
+      unselectedItemColor: theme.colorScheme.tertiary,
+      marginR: EdgeInsets.zero,
+      paddingR: EdgeInsets.zero,
+      currentIndex: 0,
+      onTap: (p0) {
+        print(p0);
+        //TODO: [Heider Zapa ] remove this logic
+        switch(p0){
+          case 0:
+            Navigator.of(context).pushNamed(Routes.homeRoute);
+            break;
+          case 1:
+            Navigator.of(context).pushNamed(Routes.calendarRoute);
+            break;
+          case 2:
+            break;
+        }
+      },
+      items: [
+        /// Home
+        DotNavigationBarItem(
+          icon: const Row(
+            children: [
+              Icon(Icons.home),
+              gapW12,
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Home',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
           ),
-          DotNavigationBarItem(
-            icon: const Row(
-              children: [
-                Icon(Icons.calendar_month),
-                Text('Agenda'),
-              ],
-            ),
+        ),
+        DotNavigationBarItem(
+          icon: const Row(
+            children: [
+              Icon(Icons.calendar_month),
+              gapW12,
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Agenda',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
           ),
-          DotNavigationBarItem(
-            icon: const Row(
-              children: [
-                Icon(Icons.person),
-                Text('Clientes'),
-              ],
-            ),
+        ),
+        DotNavigationBarItem(
+          icon: const Row(
+            children: [
+              Icon(Icons.person),
+              gapW12,
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  'Clientes',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

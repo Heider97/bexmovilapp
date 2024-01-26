@@ -13,6 +13,7 @@ const String databaseName = 'app_database';
 //routes\
 
 class Routes {
+  //
   static const splashRoute = '/splash';
   static const politicsRoute = '/politics';
   static const companyRoute = '/company';
@@ -24,15 +25,22 @@ class Routes {
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
 
+  static const codecreatemeet = '/code-create-meet';
+
   static const homeRoute = '/home';
   static const syncRoute = '/sync';
   static const categoryRoute = '/category';
   static const productRoute = '/product';
   static const calendarRoute = '/calendar';
+  static const charDetailsRoute = '/charDetailsRoute';
   static const saleRoute = '/sale';
+  static const detailSaleRoute = '/detail-sale';
+  static const historySaleRoute = '/history';
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
+  static const wallet = '/wallet';
+  static const walletprocess = '/wallet-process';
 }
 
 // Form Error
@@ -67,6 +75,19 @@ class Assets {
   static const String bexBackgroundWhite =
       'assets/icons/BEX-background-white.png';
   static const String bgSquare = 'assets/images/bg-square.png';
+
+  static const String bgPromCardGreen = "assets/images/bg-prom-card.png";
+  static const String bgPromCardOrange = "assets/images/bg-prom-card-2.png";
+
+//STEPPER ICONS
+  static const String actionEnable = "assets/icons/actionEnable.png";
+  static const String actionDisable = "assets/icons/actionDisable.png";
+  static const String invoiceDisable =
+      "assets/icons/seleccionarFacturaDisable.png";
+  static const String invoiceEnable =
+      "assets/icons/seleccionarFacturaEnable.png";
+  static const String profileEnable = "assets/icons/ProfileEnable.png";
+  static const String profileDisable = "assets/icons/ProfileDisable.png";
 
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';
@@ -112,6 +133,7 @@ class Const {
   static const double space8 = 8;
   static const double space12 = 12;
   static const double space15 = 15;
+  static const double space18 = 18;
   static const double space25 = 25;
   static const double space40 = 40;
   static const double space50 = 50;
