@@ -2,9 +2,6 @@ import 'dart:io';
 import 'package:bexmovil/src/domain/models/responses/sync_priorities_response.dart';
 import 'package:dio/dio.dart';
 
-//models
-import '../../../domain/models/login.dart';
-
 //interceptor
 import '../../../domain/models/responses/dynamic_response.dart';
 import '../../../domain/models/responses/google_response.dart';
@@ -399,8 +396,6 @@ class ApiService {
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: content,
     };
-
-    print(data);
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<SyncPrioritiesResponse>>(Options(

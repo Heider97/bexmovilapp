@@ -26,7 +26,6 @@ import '../../presentation/views/global/politics_view.dart';
 
 //user
 import '../../presentation/views/user/home/index.dart';
-import '../../presentation/views/user/schedule/index.dart';
 
 //widgets
 import '../../presentation/widgets/global/global_background.dart';
@@ -53,13 +52,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case Routes.recoverPassword:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-              opacity: 0.1, 
+              opacity: 0.1,
               hideBottomNavigationBar: true,
               child: RecoverPasswordView()));
     case Routes.codecreatemeet:
-      return MaterialPageRoute(
-        builder: (_) =>  const CodeCreateMeet()
-      );          
+      return MaterialPageRoute(builder: (_) => const CodeCreateMeet());
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:
@@ -106,9 +103,15 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               ));
 
     case Routes.saleRoute:
-      return MaterialPageRoute(builder: (context) => const SalePage());
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: SalePage(),
+              ));
     case Routes.detailSaleRoute:
-      return MaterialPageRoute(builder: (context) => DetailsSale(dataSales: []));
+      return MaterialPageRoute(
+          builder: (context) => DetailsSale(dataSales: []));
     case Routes.historySaleRoute:
       return MaterialPageRoute(builder: (context) => const HistorySale());
     default:

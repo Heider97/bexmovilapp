@@ -1,17 +1,22 @@
+import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_product_sale.dart';
+
+import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
+
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 //cubit
 import '../../../../locator.dart';
 import '../../../../utils/constants/strings.dart';
 import '../../../cubits/home/home_cubit.dart';
 import '../../../widgets/global/custom_elevated_button.dart';
-import '../../../widgets/sales/card_client_sale.dart';
+
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -24,18 +29,59 @@ class SalePage extends StatefulWidget {
   State<SalePage> createState() => _SalePageState();
 }
 
+late SaleStepperBloc saleStepperBloc;
+
 class _SalePageState extends State<SalePage> {
   final TextEditingController searchController = TextEditingController();
+  final formatCurrency = NumberFormat.simpleCurrency();
+
   List<Employee> employees = <Employee>[];
   late EmployeeDataSource employeeDataSource;
 
   @override
   void initState() {
     super.initState();
-    employees = getEmployeeData();
+    saleStepperBloc = BlocProvider.of(context);
     employeeDataSource = EmployeeDataSource(employeeData: employees);
+    employees = getEmployeeData();
   }
 
+  Product product1 = Product(
+    lastSoldOn: DateTime.now(),
+    lastQuantitySold: 10,
+    code: 'ABC123',
+    name: 'Product 1',
+    sellingPrice: 19.99,
+    discount: 5.0,
+    availableUnits: 100,
+    quantity: 20,
+    originLocation:
+        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+  );
+  Product product2 = Product(
+    lastSoldOn: DateTime.now(),
+    lastQuantitySold: 5,
+    code: 'XYZ789',
+    name: 'Product 2',
+    sellingPrice: 29.99,
+    discount: 2.5,
+    availableUnits: 50,
+    quantity: 15,
+    originLocation:
+        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+  );
+  Product product3 = Product(
+    lastSoldOn: DateTime.now(),
+    lastQuantitySold: 8,
+    code: 'DEF456',
+    name: 'Product 3',
+    sellingPrice: 14.99,
+    discount: 7.5,
+    availableUnits: 75,
+    quantity: 25,
+    originLocation:
+        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+  );
   List<Employee> getEmployeeData() {
     return [
       Employee(
@@ -57,194 +103,307 @@ class _SalePageState extends State<SalePage> {
   }
 
   List<StepData> steps = [
-    StepData("Seleccionar \nCliente", 'assets/icons/ProfileEnable.png',
-        const Color(0xFFF4F4F4), 'assets/icons/ProfileDisable.png'),
+    StepData(
+        "Seleccionar \nCliente",
+        'assets/icons/ProfileEnable.png',
+        const Color(0xFFF4F4F4),
+        'assets/icons/ProfileDisable.png',
+        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
     StepData(
         "Seleccionar \n Productos",
         'assets/icons/seleccionarFacturaEnable.png',
         const Color(0xFFF4F4F4),
-        'assets/icons/seleccionarFacturaDisable.png'),
-    StepData('Detalles de \n la orden', 'assets/icons/realizarAccionEnable.png',
-        const Color(0xFFF4F4F4), 'assets/icons/realizarAccionDisable.png'),
+        'assets/icons/seleccionarFacturaDisable.png',
+        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
+    StepData(
+        'Detalles de \n la orden',
+        'assets/icons/realizarAccionEnable.png',
+        const Color(0xFFF4F4F4),
+        'assets/icons/realizarAccionDisable.png',
+        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
+    BorderRadius borderRadius = BorderRadius.circular(Const.radius);
 
     return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) => _buildBody(size, theme, state, context),
-    );
-  }
-
-  Widget _buildBody(
-      Size size, ThemeData theme, HomeState state, BuildContext context) {
-    final borderRadius = BorderRadius.circular(15);
-    return Container(
-      margin: const EdgeInsets.all(0),
-      child: Stack(
-        children: [
-          Positioned(
-            left: -size.width * 0.125,
-            right: -size.width * 0.125,
-            child: const Image(
-                color: Colors.orangeAccent,
-                image: AssetImage(
-                  'assets/images/bg-prom-card.png',
-                )),
-          ),
-          Scaffold(
-            resizeToAvoidBottomInset: false,
-            drawer: DrawerWidget(),
-            body: SizedBox(
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  SizedBox(
-                    width: size.width,
-                    height: size.height,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 20, right: 16, left: 16, top: 38),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                  onTap: () {
-                                    navigationService.goBack();
-                                  },
+        builder: (context, state) => Stack(
+              children: [
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(Const.space15),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  navigationService.goBack();
+                                },
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.all(2), // Border width
+                                  decoration: BoxDecoration(
+                                      color: theme.primaryColor,
+                                      borderRadius: borderRadius),
+                                  child: ClipRRect(
+                                    borderRadius: borderRadius,
+                                    child: const Icon(Icons.close,
+                                        color: Colors.white, size: 35),
+                                  ),
+                                )),
+                            Builder(builder: (context) {
+                              return GestureDetector(
+                                  onTap: () =>
+                                      Scaffold.of(context).openDrawer(),
                                   child: Container(
                                     padding:
                                         const EdgeInsets.all(2), // Border width
                                     decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 243, 119, 24),
+                                        color: theme.primaryColor,
                                         borderRadius: borderRadius),
                                     child: ClipRRect(
                                       borderRadius: borderRadius,
-                                      child: const Icon(Icons.close,
+                                      child: const Icon(Icons.list,
                                           color: Colors.white, size: 35),
                                     ),
-                                  )),
-                              Builder(builder: (context) {
-                                return GestureDetector(
-                                    onTap: () =>
-                                        Scaffold.of(context).openDrawer(),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(
-                                          2), // Border width
-                                      decoration: BoxDecoration(
-                                          color: const Color.fromARGB(
-                                              255, 243, 119, 24),
-                                          borderRadius: borderRadius),
-                                      child: ClipRRect(
-                                        borderRadius: borderRadius,
-                                        child: const Icon(Icons.list,
-                                            color: Colors.white, size: 35),
+                                  ));
+                            })
+                          ],
+                        ),
+                        StepperWidget(currentStep: 0, steps: steps),
+                        gapH4,
+                        BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                          builder: (context, state) {
+                            if (state is SalesStepperClientSelection) {
+                              return CustomSearchBar(
+                                  controller: searchController,
+                                  hintText: 'Nombre del cliente');
+                            } else if (state is SalesStepperProductsSelection) {
+                              return CustomSearchBar(
+                                  controller: searchController,
+                                  hintText: 'Nombre o código del producto');
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
+                        BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                          builder: (context, state) {
+                            if (state is SalesStepperClientSelection) {
+                              return Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                        child: Center(
+                                            child: Text("Client Selection"))),
+                                    gapH8,
+                                    CustomElevatedButton(
+                                      width: 330,
+                                      height: 50,
+                                      onTap: () {
+                                        navigationService
+                                            .goTo(Routes.detailSaleRoute);
+                                      },
+                                      child: Text(
+                                        'Siguiente',
+                                        style: theme.textTheme.bodyLarge!
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
                                       ),
-                                    ));
-                              })
-                            ],
-                          ),
-                          StepperWidget(currentStep: 0, steps: steps),
-                          gapH4,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 260,
-                                height: 50,
-                                child: CustomSearchBar(
-                                    controller: searchController,
-                                    hintText: 'Nombre de la empresa'),
-                              ),
-                              GestureDetector(
-                                onTap: () => '',
-                                child: const CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromRGBO(253, 241, 231, 1),
-                                  child: Icon(
-                                    Icons.location_on_rounded,
-                                    color: Colors.orange,
-                                  ),
+                                    )
+                                  ],
                                 ),
-                              ),
-                              GestureDetector(
-                                  onTap: () => '',
-                                  child: Container(
-                                    padding: const EdgeInsets.all(
-                                        10), // Border width
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                            255, 243, 119, 24),
-                                        borderRadius: borderRadius),
-                                    child: ClipRRect(
-                                      borderRadius: borderRadius,
-                                      child: const Icon(
-                                          Icons.filter_alt_outlined,
-                                          color: Colors.white,
-                                          size: 20),
+                              );
+                            } else if (state is SalesStepperProductsSelection) {
+                              return Expanded(
+                                child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: 10,
+                                  itemBuilder:
+                                      (BuildContext context, int index) =>
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 9, bottom: 10),
+                                              child: ProductCard(
+                                                product: product1,
+                                              )),
+                                ),
+                              );
+                            } else if (state is SalesStepperOrderDetails) {
+                              return Expanded(
+                                child: Column(
+                                  children: [
+                                    gapH44,
+                                    Container(
+                                        alignment: Alignment.bottomLeft,
+                                        child: const Text("Comprador: ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16))),
+                                    gapH20,
+                                    const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Italcol",
+                                            style: TextStyle(fontSize: 12)),
+                                        Text("Pedido No.20585557939",
+                                            style: TextStyle(fontSize: 12)),
+                                      ],
                                     ),
-                                  ))
-                            ],
-                          ),
-                          SizedBox(
-                            height: 450,
-                            width: 500,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: 10,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 9),
-                                            child: CardProductSale(
-                                              birthPlace: "Medellin",
-                                              code: "345345435",
-                                              image:
-                                                  "assets/images/super_pollito.png",
-                                              lastQuantitySale: 90,
-                                              quantityAvailable: 120,
-                                              lastVisit: "29/Dic/2023",
-                                              priceSale: 30000,
-                                            )),
-                                  ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.bottomLeft,
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text("San Antonio de Prado",
+                                                  style:
+                                                      TextStyle(fontSize: 12)),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.zero,
+                                          alignment: Alignment.bottomRight,
+                                          child: const Row(
+                                            children: [
+                                              Text("Fecha: 18/12/2023",
+                                                  style:
+                                                      TextStyle(fontSize: 12)),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    gapH32,
+                                    SingleChildScrollView(
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: LayoutBuilder(
+                                            builder: (context, constraints) {
+                                          return Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 440,
+                                                child: SfDataGrid(
+                                                  gridLinesVisibility:
+                                                      GridLinesVisibility.both,
+                                                  source: employeeDataSource,
+                                                  columnWidthMode:
+                                                      ColumnWidthMode.fill,
+                                                  shrinkWrapRows: true,
+                                                  columnWidthCalculationRange:
+                                                      ColumnWidthCalculationRange
+                                                          .allRows,
+                                                  columns: <GridColumn>[
+                                                    GridColumn(
+                                                        columnName: 'product',
+                                                        label: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10.0),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: const Text(
+                                                              'Producto',
+                                                              style: TextStyle(
+                                                                  fontSize: 11,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ))),
+                                                    GridColumn(
+                                                        columnName: 'price',
+                                                        label: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10.0),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: const Text(
+                                                                'Precio',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)))),
+                                                    GridColumn(
+                                                        columnName: 'quantity',
+                                                        label: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10.0),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: const Text(
+                                                                'Cantidad',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)))),
+                                                    GridColumn(
+                                                        columnName: 'total',
+                                                        label: Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10.0),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: const Text(
+                                                                'Total',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        11,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)))),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                    gapH24,
+                                    Container(
+                                        alignment: Alignment.bottomRight,
+                                        child: Text(
+                                            "Gran Total: ${formatCurrency.format(564456)}",
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16))),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          gapH8,
-                          CustomElevatedButton(
-                            width: 330,
-                            height: 50,
-                            onTap: () {
-                              navigationService.goTo(Routes.detailSaleRoute);
-                            },
-                            child: Text(
-                              'Siguiente',
-                              style: theme.textTheme.bodyLarge!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )
-                        ],
-                      ),
+                              );
+                            } else {
+                              return const Expanded(
+                                child: Center(child: Text('404 Not found')),
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                  ),
+                )
+              ],
+            ));
   }
 }
 
