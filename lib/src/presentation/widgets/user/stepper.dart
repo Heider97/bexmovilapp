@@ -82,7 +82,8 @@ class StepperWidgetState extends State<StepperWidget> {
                     ),
               ],
               shape: BoxShape.circle,
-              color: index == widget.currentStep ? step.color : theme.cardColor,
+              color:
+                  index == widget.currentStep ? step.color : Colors.grey[200],
             ),
             child: Center(
               child: ClipOval(
