@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 
@@ -117,9 +118,9 @@ class _SalePageState extends State<SalePage> {
         () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
     StepData(
         'Detalles de \n la orden',
-        'assets/icons/realizarAccionEnable.png',
+        'assets/icons/actionEnable.png',
         const Color(0xFFF4F4F4),
-        'assets/icons/realizarAccionDisable.png',
+        'assets/icons/actionDisable.png',
         () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
 
@@ -179,13 +180,47 @@ class _SalePageState extends State<SalePage> {
                         BlocBuilder<SaleStepperBloc, SalesStepperState>(
                           builder: (context, state) {
                             if (state is SalesStepperClientSelection) {
-                              return CustomSearchBar(
-                                  controller: searchController,
-                                  hintText: 'Nombre del cliente');
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomSearchBar(
+                                          prefixIcon: Icon(
+                                            Icons.search,
+                                            color: theme.primaryColor,
+                                          ),
+                                          controller: searchController,
+                                          hintText: 'Nombre del cliente'),
+                                    ),
+                                  ),
+                                  const CustomFrameButtom(
+                                    icon: Icons.location_on,
+                                  ),
+                                  gapW12,
+                                  const CustomFrameButtom(
+                                    icon: Icons.tune,
+                                  )
+                                ],
+                              );
                             } else if (state is SalesStepperProductsSelection) {
-                              return CustomSearchBar(
-                                  controller: searchController,
-                                  hintText: 'Nombre o código del producto');
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomSearchBar(
+                                        controller: searchController,
+                                        hintText:
+                                            'Nombre o código del producto'),
+                                  ),
+                                  const CustomFrameButtom(
+                                    icon: Icons.location_on,
+                                  ),
+                                  gapW12,
+                                  const CustomFrameButtom(
+                                    icon: Icons.tune,
+                                  )
+                                ],
+                              );
                             } else {
                               return Container();
                             }
@@ -198,7 +233,7 @@ class _SalePageState extends State<SalePage> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Expanded(
+                                    const Expanded(
                                         child: Center(
                                             child: Text("Client Selection"))),
                                     gapH8,
