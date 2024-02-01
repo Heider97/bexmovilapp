@@ -1,5 +1,5 @@
 import 'package:bexmovil/src/domain/models/porduct.dart';
-import 'package:bexmovil/src/presentation/widgets/user/ammount.dart';
+
 import 'package:bexmovil/src/presentation/widgets/user/custom_paint.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_text_editing.dart';
 import 'package:bexmovil/src/presentation/widgets/user/expanded_section.dart';
@@ -12,14 +12,43 @@ import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
-  const ProductCard({super.key, required this.product});
+  final VoidCallback refresh;
+
+  const ProductCard({super.key, required this.product, required this.refresh});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
 }
 
 class _ProductCardState extends State<ProductCard> {
-  bool expand = true;
+  bool expand = false;
+  late int cantidad;
+
+  @override
+  void initState() {
+    cantidad = widget.product.quantity;
+    super.initState();
+  }
+
+  void reducirCantidad() {
+    if (cantidad > 0) {
+      setState(() {
+        widget.product.quantity--;
+        cantidad--;
+        widget.refresh();
+      });
+    }
+  }
+
+  void aumentarCantidad() {
+    if (cantidad < widget.product.availableUnits) {
+      setState(() {
+        widget.product.quantity++;
+        cantidad++;
+        widget.refresh();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +245,63 @@ class _ProductCardState extends State<ProductCard> {
                                             Text('Cantidad:  ',
                                                 style: theme
                                                     .textTheme.labelMedium!),
-                                            const Expanded(child: Ammount()),
+                                            Expanded(
+                                                child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    reducirCantidad();
+                                                  },
+                                                  child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            Const.radius),
+                                                    elevation: Const.elevation,
+                                                    color: theme
+                                                        .colorScheme.secondary,
+                                                    child: SizedBox(
+                                                        height: 30,
+                                                        width: 30,
+                                                        child: Icon(
+                                                            Icons.remove,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .onSecondary)),
+                                                  ),
+                                                ),
+                                                gapW4,
+                                                Text(
+                                                  '$cantidad',
+                                                  style: const TextStyle(
+                                                      fontSize: 18.0,
+                                                      color: Colors.black),
+                                                ),
+                                                gapW4,
+                                                InkWell(
+                                                  onTap: () {
+                                                    aumentarCantidad();
+                                                  },
+                                                  child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            Const.radius),
+                                                    elevation: Const.elevation,
+                                                    color: theme.primaryColor,
+                                                    child: SizedBox(
+                                                        height: 30,
+                                                        width: 30,
+                                                        child: Icon(Icons.add,
+                                                            color: theme
+                                                                .colorScheme
+                                                                .onPrimary)),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
                                           ],
                                         ),
                                         ExpandedSection(

@@ -12,6 +12,7 @@ class SaleStepperBloc extends Bloc<SaleStepperEvent, SalesStepperState> {
     switch (event.index) {
       case 0:
         emit(SalesStepperClientSelection());
+
         break;
       case 1:
         emit(SalesStepperProductsSelection());

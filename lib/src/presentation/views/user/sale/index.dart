@@ -1,7 +1,10 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
+import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 
@@ -32,22 +35,8 @@ class SalePage extends StatefulWidget {
 
 late SaleStepperBloc saleStepperBloc;
 
-class _SalePageState extends State<SalePage> {
-  final TextEditingController searchController = TextEditingController();
-  final formatCurrency = NumberFormat.simpleCurrency();
-
-  List<Employee> employees = <Employee>[];
-  late EmployeeDataSource employeeDataSource;
-
-  @override
-  void initState() {
-    super.initState();
-    saleStepperBloc = BlocProvider.of(context);
-    employeeDataSource = EmployeeDataSource(employeeData: employees);
-    employees = getEmployeeData();
-  }
-
-  Product product1 = Product(
+List<Product> products = [
+  Product(
     lastSoldOn: DateTime.now(),
     lastQuantitySold: 10,
     code: 'ABC123',
@@ -58,8 +47,8 @@ class _SalePageState extends State<SalePage> {
     quantity: 20,
     originLocation:
         OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  );
-  Product product2 = Product(
+  ),
+  Product(
     lastSoldOn: DateTime.now(),
     lastQuantitySold: 5,
     code: 'XYZ789',
@@ -70,8 +59,8 @@ class _SalePageState extends State<SalePage> {
     quantity: 15,
     originLocation:
         OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  );
-  Product product3 = Product(
+  ),
+  Product(
     lastSoldOn: DateTime.now(),
     lastQuantitySold: 8,
     code: 'DEF456',
@@ -82,7 +71,31 @@ class _SalePageState extends State<SalePage> {
     quantity: 25,
     originLocation:
         OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  );
+  )
+];
+
+class _SalePageState extends State<SalePage> {
+  final TextEditingController searchController = TextEditingController();
+  final Map<Product, int> selectedQuantities = {};
+
+  final formatCurrency = NumberFormat.simpleCurrency();
+
+  List<Employee> employees = <Employee>[];
+  late EmployeeDataSource employeeDataSource;
+
+  @override
+  void initState() {
+    super.initState();
+
+    saleStepperBloc = BlocProvider.of(context);
+    employeeDataSource = EmployeeDataSource(employeeData: employees);
+    employees = getEmployeeData();
+  }
+
+  _refresh() {
+    setState(() {});
+  }
+
   List<Employee> getEmployeeData() {
     return [
       Employee(
@@ -102,6 +115,63 @@ class _SalePageState extends State<SalePage> {
       Employee(10010, 'Grimes', 'Developer', 15000, '')
     ];
   }
+
+  List<Client> clientes = [
+    Client(
+      name: "Juan Garcia",
+      email: "juan@example.com",
+      dirCliente: "Calle 123, Ciudad",
+      telCliente: "+123456789",
+      isBooked: true,
+      nitCliente: "123456-7",
+      nomCliente: "Empresa XYZ",
+      estadoCliente: "Activo",
+      startTimeOfMeeting:
+          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      endTimeOfMeeting:
+          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      lastVisited:
+          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      averageSales: "\$5000000000000000000000000",
+      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
+    ),
+    Client(
+      name: "Pepito Perez",
+      email: "juan@example.com",
+      dirCliente: "Calle 123, Ciudad",
+      telCliente: "+123456789",
+      isBooked: true,
+      nitCliente: "123456-7",
+      nomCliente: "Empresa XYZ",
+      estadoCliente: "Activo",
+      startTimeOfMeeting:
+          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      endTimeOfMeeting:
+          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      lastVisited:
+          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      averageSales: "\$5000000000000000000000000",
+      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
+    ),
+    Client(
+      name: "Jairo Grande",
+      email: "juan@example.com",
+      dirCliente: "Calle 123, Ciudad",
+      telCliente: "+123456789",
+      isBooked: true,
+      nitCliente: "123456-7",
+      nomCliente: "Empresa XYZ",
+      estadoCliente: "Activo",
+      startTimeOfMeeting:
+          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      endTimeOfMeeting:
+          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      lastVisited:
+          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      averageSales: "\$5000000000000000000000000",
+      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
+    )
+  ];
 
   List<StepData> steps = [
     StepData(
@@ -207,10 +277,17 @@ class _SalePageState extends State<SalePage> {
                               return Row(
                                 children: [
                                   Expanded(
-                                    child: CustomSearchBar(
-                                        controller: searchController,
-                                        hintText:
-                                            'Nombre o código del producto'),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CustomSearchBar(
+                                          prefixIcon: Icon(
+                                            Icons.search,
+                                            color: theme.primaryColor,
+                                          ),
+                                          controller: searchController,
+                                          hintText:
+                                              'Nombre o código del producto'),
+                                    ),
                                   ),
                                   const CustomFrameButtom(
                                     icon: Icons.location_on,
@@ -233,41 +310,90 @@ class _SalePageState extends State<SalePage> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    const Expanded(
-                                        child: Center(
-                                            child: Text("Client Selection"))),
-                                    gapH8,
-                                    CustomElevatedButton(
-                                      width: 330,
-                                      height: 50,
-                                      onTap: () {
-                                        navigationService
-                                            .goTo(Routes.detailSaleRoute);
+                                    Expanded(
+                                        child: ListView.builder(
+                                      itemCount: clientes.length,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ClientCard(
+                                              client: clientes[index]),
+                                        );
                                       },
-                                      child: Text(
-                                        'Siguiente',
-                                        style: theme.textTheme.bodyLarge!
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                      ),
+                                    )),
+                                    gapH8,
+                                    BlocBuilder<SaleBloc, SaleState>(
+                                      builder: (context, saleState) {
+                                        if (saleState is SaleClienteSelected) {
+                                          return CustomElevatedButton(
+                                            width: double.infinity,
+                                            height: 50,
+                                            onTap: () {
+                                              saleStepperBloc.add(
+                                                  ChangeStepEvent(index: 1));
+                                              /*  navigationService
+                                                  .goTo(Routes.detailSaleRoute); */
+                                            },
+                                            child: Text(
+                                              'Siguiente',
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
                                     )
                                   ],
                                 ),
                               );
                             } else if (state is SalesStepperProductsSelection) {
                               return Expanded(
-                                child: ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: 10,
-                                  itemBuilder:
-                                      (BuildContext context, int index) =>
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 9, bottom: 10),
-                                              child: ProductCard(
-                                                product: product1,
-                                              )),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: products.length,
+                                        itemBuilder: (BuildContext context,
+                                                int index) =>
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 9, bottom: 10),
+                                                child: ProductCard(
+                                                  product: products[index],
+                                                  refresh: _refresh,
+                                                )),
+                                      ),
+                                    ),
+
+//Verifica que almenos un producto tenga un quantity.
+                                    (products.any(
+                                            (product) => product.quantity > 0))
+                                        ? CustomElevatedButton(
+                                            width: double.infinity,
+                                            height: 50,
+                                            onTap: () {
+                                              saleStepperBloc.add(
+                                                  ChangeStepEvent(index: 2));
+                                              /* navigationService
+                                                  .goTo(Routes.detailSaleRoute); */
+                                            },
+                                            child: Text(
+                                              'Siguiente',
+                                              style: theme.textTheme.bodyLarge!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                            ),
+                                          )
+                                        : Container()
+                                  ],
                                 ),
                               );
                             } else if (state is SalesStepperOrderDetails) {

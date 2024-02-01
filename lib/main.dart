@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
@@ -87,9 +88,12 @@ class _MyAppState extends State<MyApp> {
         //BLOC PROVIDERS
         BlocProvider(
             create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
+
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(create: (_) => SearchBloc()),
         BlocProvider(create: (_) => SaleStepperBloc()),
+        BlocProvider(create: (_) => SaleBloc()),
+
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
