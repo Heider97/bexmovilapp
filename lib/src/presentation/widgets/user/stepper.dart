@@ -34,11 +34,11 @@ class StepperWidgetState extends State<StepperWidget> {
             height: 20,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            buildStep(0, widget.steps[0]),
+            buildStep(0, widget.steps[0], widget.steps[0].onPressed),
             const SizedBox(),
-            buildStep(1, widget.steps[1]),
+            buildStep(1, widget.steps[1], widget.steps[1].onPressed),
             const SizedBox(),
-            buildStep(2, widget.steps[2])
+            buildStep(2, widget.steps[2], widget.steps[2].onPressed)
           ]),
         ]),
         const SizedBox(height: 16),
@@ -46,17 +46,20 @@ class StepperWidgetState extends State<StepperWidget> {
     );
   }
 
-  Widget buildStep(int index, StepData step) {
+  Widget buildStep(int index, StepData step, Function onPressed) {
     ThemeData theme = Theme.of(context);
     index == widget.currentStep
         ? widget.steps[widget.currentStep].color = theme.primaryColor
         : widget.steps[widget.currentStep].color = theme.cardColor;
+
+//TODO CONDICION PARA MOSTRAR DIFERENTES STEPS SEGUN EL ESTADO DEL BLOC.....
 
     return Column(
       children: [
         InkResponse(
           radius: 15,
           onTap: () {
+            onPressed();
             if (index != widget.currentStep) {
               setState(() {
                 widget.steps[widget.currentStep].color =
@@ -130,8 +133,10 @@ class StepData {
   String image;
   String onDisableImage;
   Color color;
+  VoidCallback onPressed;
 
-  StepData(this.label, this.image, this.color, this.onDisableImage);
+  StepData(
+      this.label, this.image, this.color, this.onDisableImage, this.onPressed);
 }
 
 class DashedLinePainter extends CustomPainter {

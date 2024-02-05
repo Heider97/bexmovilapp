@@ -170,6 +170,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                                   iconName: 'Vender',
                                   imagePath: 'assets/svg/sell.svg',
                                   onTap: () {
+                                    //TODO FUNCION PARA AVERIGUAR EN QUE PARTE DEL PROCESO SE ENCUENTRA Y SI TIENE UNA TRANSACCION PENDIENTE..
                                     _navigationService.goTo(Routes.saleRoute);
                                   }),
                             )),
@@ -183,7 +184,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                                   iconName: 'Mercadeo',
                                   imagePath: 'assets/svg/mercadeo.svg',
                                   onTap: () {
-                                      //TODO::[Heider Zapa] GO TO MERCADEO
+                                    //TODO::[Heider Zapa] GO TO MERCADEO
                                   }),
                             )),
                       ),

@@ -1,9 +1,7 @@
-import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
 import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
-import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
-import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
+
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
@@ -56,12 +54,9 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<GoogleResponse>> googleCount({
-    required GoogleRequest request
-  }) {
-    return getStateOf<GoogleResponse>(
-      request: () => _apiService.googleCount()
-    );
+  Future<DataState<GoogleResponse>> googleCount(
+      {required GoogleRequest request}) {
+    return getStateOf<GoogleResponse>(request: () => _apiService.googleCount());
   }
 
   @override
@@ -105,12 +100,12 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
-
   @override
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request}) {
     return getStateOf<DynamicResponse>(
-      request: () => _apiService.syncDynamic(table: request.table, content: request.content),
+      request: () => _apiService.syncDynamic(
+          table: request.table, content: request.content),
     );
   }
 }

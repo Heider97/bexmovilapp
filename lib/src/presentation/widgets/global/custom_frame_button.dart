@@ -29,7 +29,7 @@ class CustomFrameButtom extends StatelessWidget {
             color: (primaryColorBackgroundMode == true)
                 ? theme.colorScheme.onPrimary
                 : theme.colorScheme.onSecondary,
-            size: 18,
+            size: 22,
           ),
         ),
       ),

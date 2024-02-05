@@ -40,11 +40,16 @@ class _WalletProcessViewState extends State<WalletProcessView> {
             currentStep: 1,
             steps: [
               StepData("Seleccionar Cliente", Assets.profileEnable,
-                  theme.primaryColor, Assets.profileDisable),
+                  theme.primaryColor, Assets.profileDisable, () {}),
               StepData("Seleccionar facturas", Assets.invoiceEnable,
-                  theme.primaryColor, Assets.invoiceDisable),
-              StepData("Realizar Acción", Assets.actionEnable,
-                  theme.primaryColor, Assets.actionDisable)
+                  theme.primaryColor, Assets.invoiceDisable, () {}),
+              StepData(
+                "Realizar Acción",
+                Assets.actionEnable,
+                theme.primaryColor,
+                Assets.actionDisable,
+                () {},
+              )
             ],
           ),
           Row(
