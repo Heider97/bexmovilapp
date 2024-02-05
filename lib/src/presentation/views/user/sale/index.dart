@@ -24,6 +24,8 @@ import '../../../widgets/global/custom_elevated_button.dart';
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../../widgets/user/product_card.dart';
+
 final NavigationService navigationService = locator<NavigationService>();
 
 class SalePage extends StatefulWidget {
