@@ -1,5 +1,4 @@
-import 'package:bexmovil/src/presentation/widgets/global/custom_promotion_card.dart';
-import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
+import 'package:bexmovil/src/domain/models/kpi_data.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -10,23 +9,18 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
-import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/user/custom_item.dart';
-import '../../../widgets/user/custom_search_bar.dart';
+
 import '../../../widgets/custom_card_widget.dart';
 import '../../../widgets/card_kpi.dart';
 import '../../../widgets/card_reports.dart';
 import '../../../widgets/drawer_widget.dart';
-import '../../../widgets/user/custom_navbar.dart';
-import '../../../widgets/user/my_search_delegate.dart';
+
 //services
 import '../../../../locator.dart';
-import '../../../../services/storage.dart';
-import '../../../../services/navigation.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeView extends StatefulWidget {
@@ -72,11 +66,9 @@ class HomeViewState extends State<HomeView>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(),
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -186,42 +178,55 @@ class HomeViewState extends State<HomeView>
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 10,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 9),
-                                            child: CardKpi(
-                                                iconCard:
-                                                    Icons.star_rate_rounded,
-                                                urlIcon:
-                                                    "assets/icons/vender.png",
-                                                tittle: "Ventas.",
-                                                eventCard: () {},
-                                                quantity: 9,
-                                                percentage: -20.5,
-                                                valueCard: 1)),
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            CardKpi(
+                                      tittle: 'Valor de las ventas',
+                                      mainData: KpiData(
+                                        propertie: 'Ventas parciales',
+                                        percent: -5.2,
+                                        value: 30,
+                                      ),
+                                      kpiData: [
+                                        KpiData(
+                                          propertie: 'Ventas pendientes.',
+                                          percent: -0.1,
+                                          value: 95,
+                                        ),
+                                        KpiData(
+                                          propertie: 'Ventas totales',
+                                          percent: 0.1,
+                                          value: 80,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Expanded(
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 10,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 9),
-                                            child: CardKpi(
-                                                iconCard:
-                                                    Icons.star_rate_rounded,
-                                                urlIcon:
-                                                    "assets/icons/vender.png",
-                                                tittle: "Prospectos",
-                                                eventCard: () {},
-                                                quantity: 80,
-                                                percentage: 20.5,
-                                                valueCard: 2)),
+                                    itemBuilder:
+                                        (BuildContext context, int index) =>
+                                            CardKpi(
+                                      tittle: 'Prospectos',
+                                      mainData: KpiData(
+                                        percent: 25.5,
+                                        value: 80,
+                                      ),
+                                      kpiData: [
+                                        KpiData(
+                                          propertie: 'Prospectos creados.',
+                                          percent: 10,
+                                          value: 6,
+                                        ),
+                                        KpiData(
+                                          propertie: 'Prospectos visitados',
+                                          percent: 50,
+                                          value: 2,
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -255,70 +260,74 @@ class HomeViewState extends State<HomeView>
               gapH4,
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 164,
-                width: size.width,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomItem(
-                                  iconName: 'Vender',
-                                  imagePath: 'assets/svg/sell.svg',
-                                  onTap: () {
-                                    _navigationService.goTo(Routes.saleRoute);
-                                  }),
-                              CustomItem(
-                                  iconName: 'Cartera',
-                                  imagePath: 'assets/svg/wallet.svg',
-                                  onTap: () {
-                                    _navigationService.goTo(Routes.wallet);
-                                  }),
-                              CustomItem(
-                                  iconName: 'Mercadeo',
-                                  imagePath: 'assets/svg/mercadeo.svg',
-                                  onTap: () {
-                                    // _navigationService.goTo(Routes.mercadeo);
-                                  }),
-                              CustomItem(
-                                  iconName: 'PQRS',
-                                  imagePath: 'assets/svg/pqrs.svg',
-                                  onTap: () {
-                                    // _navigationService.goTo(Routes.pqrs);
-                                  }),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomItem(
-                                  iconName: 'No compra',
-                                  imagePath: 'assets/svg/no-buy.svg',
-                                  onTap: () {
-                                    _navigationService.goTo(Routes.saleRoute);
-                                  }),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomItem(
+                          iconName: 'Vender',
+                          imagePath: 'assets/svg/sell.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.saleRoute);
+                          }),
+                      CustomItem(
+                          iconName: 'Cartera',
+                          imagePath: 'assets/svg/wallet.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.wallet);
+                          }),
+                      CustomItem(
+                          iconName: 'Mercadeo',
+                          imagePath: 'assets/svg/mercadeo.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.mercadeo);
+                          }),
+                      CustomItem(
+                          iconName: 'PQRS',
+                          imagePath: 'assets/svg/pqrs.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.pqrs);
+                          }),
+                    ],
+                  ),
                 ),
               ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomItem(
+                          iconName: 'Vender',
+                          imagePath: 'assets/svg/sell.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.saleRoute);
+                          }),
+                      CustomItem(
+                          iconName: 'Cartera',
+                          imagePath: 'assets/svg/wallet.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.wallet);
+                          }),
+                      CustomItem(
+                          iconName: 'Mercadeo',
+                          imagePath: 'assets/svg/mercadeo.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.mercadeo);
+                          }),
+                      CustomItem(
+                          iconName: 'PQRS',
+                          imagePath: 'assets/svg/pqrs.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.pqrs);
+                          }),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
