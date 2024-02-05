@@ -69,6 +69,10 @@ const String displayMessagePermanentlydenied =
     "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos, pero parece que lo denegó permanentemente. Vaya a la configuración y actívela manualmente para continuar.";
 
 class Assets {
+  //ICONS
+  static const String arrowDown = 'assets/icons/arrow_down.png';
+  static const String arrowUp = 'assets/icons/arrow_up.png';
+
   static const String bgPattern = 'assets/images/bg-pattern.png';
   static const String shadow = 'assets/images/shadow.png';
   static const String bexBackgroundWhite =
