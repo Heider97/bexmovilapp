@@ -2,7 +2,7 @@ import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
-import 'package:sqlbrite/sqlbrite.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
@@ -30,7 +30,6 @@ final LocalStorageService _storageService = locator<LocalStorageService>();
 class AppDatabase {
   static var lock = Lock();
   static AppDatabase? _instance;
-  static BriteDatabase? _streamDatabase;
   Database? _database;
 
   Future<AppDatabase?> getInstance() async {
@@ -137,20 +136,14 @@ class AppDatabase {
           await _database!.database.getVersion() != version) {
         dbName ??= databaseName;
         _database = await _initDatabase('$dbName.db', version, migrations);
-        _streamDatabase = BriteDatabase(_database!);
       }
     });
     return _database;
   }
 
-  Future<BriteDatabase?> get streamDatabase async {
-    await database(null, null);
-    return _streamDatabase;
-  }
-
   //SCRIPTING
   Future<void> runMigrations(List<String> migrations) async {
-    final db = await _instance?.streamDatabase;
+    final db = await _instance?._database;
     try {
       await db?.transaction((db) async {
         for (var migration in migrations) {
@@ -165,40 +158,47 @@ class AppDatabase {
 
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = await _instance?.streamDatabase;
+    final db = await _instance?._database;
     return db!.insert(table, row);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
-    final db = await _instance?.streamDatabase;
+    final db = await _instance?._database;
     var results = <int>[];
     try {
       await db?.transaction((db) async {
+        final batch = db.batch();
+
         for (var object in objects) {
-          var primary = await db.rawQuery('SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
-          if(primary.isNotEmpty){
+          var primary = await db.rawQuery(
+              'SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
+          if (primary.isNotEmpty) {
             var key = object.containsKey(primary.first['name']);
-            if(key) {
+            if (key) {
               var value = object[primary.first['name']];
-              var exists = await db.query(table, where: '${primary.first['name']} = ?', whereArgs: [value]);
-              if(exists.isNotEmpty){
-                var id = await db.update(table, object, where: '${primary.first['name']} = ?', whereArgs: [value]);
-                results.add(id);
+              var exists = await db.query(table,
+                  where: '${primary.first['name']} = ?', whereArgs: [value]);
+              if (exists.isNotEmpty) {
+                batch.update(table, object,
+                    where: '${primary.first['name']} = ?',
+                    whereArgs: [value],
+                    conflictAlgorithm: ConflictAlgorithm.ignore);
               } else {
-                var id = await db.insert(table, object);
-                results.add(id);
+                batch.insert(table, object,
+                    conflictAlgorithm: ConflictAlgorithm.ignore);
               }
             } else {
-              var id = await db.insert(table, object);
-              results.add(id);
+              batch.insert(table, object,
+                  conflictAlgorithm: ConflictAlgorithm.ignore);
             }
           } else {
             print('paso aqui 1');
             var id = await db.insert(table, object);
             results.add(id);
           }
-
         }
+
+        await batch.commit(continueOnError: true);
       });
       return results;
     } catch (er) {
@@ -212,13 +212,13 @@ class AppDatabase {
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await _instance?.streamDatabase;
+    final db = await _instance?._database;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = await _instance?.streamDatabase;
+    final db = await _instance?._database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
@@ -231,7 +231,7 @@ class AppDatabase {
   ClientDao get clientDao => ClientDao(_instance!);
 
   void close() {
+    _database!.close();
     _database = null;
-    _streamDatabase!.close();
   }
 }

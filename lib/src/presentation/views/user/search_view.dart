@@ -110,12 +110,12 @@ Future<void> fillRegisters({required List<String> tables}) async {
 
   final AppDatabase appDatabase = AppDatabase();
 
-  for (String table in tables) {
-    final db = await appDatabase.streamDatabase;
-    final resultList = await db!.query(table);
-    for (var result in resultList) {
-      SearchResult item = SearchResult.fromJson(result, table);
-      itemsToSearch.add(item);
-    }
-  }
+  // for (String table in tables) {
+  //   final db = await appDatabase;
+  //   final resultList = await db!.query(table);
+  //   for (var result in resultList) {
+  //     SearchResult item = SearchResult.fromJson(result, table);
+  //     itemsToSearch.add(item);
+  //   }
+  // }
 }

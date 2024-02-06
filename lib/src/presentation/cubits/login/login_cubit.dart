@@ -181,6 +181,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
                   : null));
         }
       } catch (e) {
+
+        print(e);
+
         emit(LoginFailed(
             error: e.toString(),
             enterprise: _storageService!.getObject('enterprise') != null

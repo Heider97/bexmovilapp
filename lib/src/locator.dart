@@ -73,7 +73,7 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
             baseUrl: 'https://pandapan.bexmovil.com/api',
             persistentConnection: true,
             connectTimeout: const Duration(minutes: 1),
-            receiveTimeout: const Duration(minutes: 3),
+            receiveTimeout: const Duration(minutes: 1),
             headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
       ), storageService: locator<LocalStorageService>(), testing: false),
     );

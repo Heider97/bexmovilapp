@@ -13,9 +13,9 @@ String updateUserResponseToJson(SyncPrioritiesResponse data) =>
     json.encode(data.toJson());
 
 class SyncPrioritiesResponse {
-  bool status;
-  String message;
-  int version;
+  bool? status;
+  String? message;
+  int? version;
   List<Priority>? priorities;
 
   SyncPrioritiesResponse({

@@ -102,25 +102,26 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         migrations.removeWhere((element) => element == 'CREATE ');
         await _databaseRepository.runMigrations(migrations);
 
-        var prioritiesAsync = response.data!.priorities!
-            .where((element) => element.runBackground == 1);
+        // var prioritiesAsync = response.data!.priorities!
+        //     .where((element) => element.runBackground == 1);
 
         //TODO: [Heider Zapa] run with isolate
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
 
-        var functions = <Function>[];
-        var arguments = <Map<String, dynamic>>[];
+        // var functions = <Function>[];
+        // var arguments = <Map<String, dynamic>>[];
+        //
+        // for (var priority in prioritiesAsync) {
+        //   print(priority.toJson());
+        //   functions.add(insertDynamicData);
+        //   arguments.add(
+        //       {'table_name': priority.name, 'content': 'application/json'});
+        // }
 
-        for (var priority in prioritiesAsync) {
-          functions.add(insertDynamicData);
-          arguments.add(
-              {'table_name': priority.name, 'content': 'application/json'});
-        }
-
-        var isolateModel =
-            IsolateModel(functions, arguments, prioritiesAsync.length);
-        await heavyTask(isolateModel);
+        // var isolateModel =
+        //     IsolateModel(functions, arguments, prioritiesAsync.length);
+        // await heavyTask(isolateModel);
 
         List<String> tables = [];
 
@@ -131,6 +132,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               request: DynamicRequest(priority.name, 'application/json')));
           tables.add(priority.name);
         }
+
         List<DataState<DynamicResponse>> responses = await Future.wait(futures);
 
         List<Future<dynamic>> futureInserts = [];
@@ -140,10 +142,13 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           if (response is DataSuccess) {
             print('started table');
             print(tables[i]);
-            //TODO: [Heider Zapa] capture api with error and should be request when retry
             if (response.data != null && response.data!.data != null) {
+              print('**********');
+              print(response.data!.data!.length);
               futureInserts.add(_databaseRepository.insertAll(
                   tables[i], response.data!.data!));
+            } else {
+              print('no hay data');
             }
           } else {
             print(response.error);
@@ -154,9 +159,13 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         await Future.wait(futureInserts)
             .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
       } else {
+        print('************1');
+        print(response.data);
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
+      print('************2');
+      print(e);
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }

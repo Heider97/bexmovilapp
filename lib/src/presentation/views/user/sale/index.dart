@@ -2,7 +2,6 @@ import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
 
@@ -23,8 +22,6 @@ import '../../../widgets/global/custom_elevated_button.dart';
 
 import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
-import '../../../widgets/user/product_card.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -48,7 +45,7 @@ List<Product> products = [
     availableUnits: 100,
     quantity: 20,
     originLocation:
-        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
   ),
   Product(
     lastSoldOn: DateTime.now(),
@@ -60,7 +57,7 @@ List<Product> products = [
     availableUnits: 50,
     quantity: 15,
     originLocation:
-        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
   ),
   Product(
     lastSoldOn: DateTime.now(),
@@ -72,7 +69,7 @@ List<Product> products = [
     availableUnits: 75,
     quantity: 25,
     originLocation:
-        OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
+    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
   )
 ];
 
@@ -129,11 +126,11 @@ class _SalePageState extends State<SalePage> {
       nomCliente: "Empresa XYZ",
       estadoCliente: "Activo",
       startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
       endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
       lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
       averageSales: "\$5000000000000000000000000",
       salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
     ),
@@ -147,11 +144,11 @@ class _SalePageState extends State<SalePage> {
       nomCliente: "Empresa XYZ",
       estadoCliente: "Activo",
       startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
       endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
       lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
       averageSales: "\$5000000000000000000000000",
       salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
     ),
@@ -165,11 +162,11 @@ class _SalePageState extends State<SalePage> {
       nomCliente: "Empresa XYZ",
       estadoCliente: "Activo",
       startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
+      DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
       endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
+      DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
       lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
+      DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
       averageSales: "\$5000000000000000000000000",
       salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
     )
@@ -181,19 +178,19 @@ class _SalePageState extends State<SalePage> {
         'assets/icons/ProfileEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/ProfileDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
+            () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
     StepData(
         "Seleccionar \n Productos",
         'assets/icons/seleccionarFacturaEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/seleccionarFacturaDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
+            () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
     StepData(
         'Detalles de \n la orden',
         'assets/icons/actionEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/actionDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
+            () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
 
   @override
@@ -203,117 +200,117 @@ class _SalePageState extends State<SalePage> {
 
     return BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) => Stack(
-              children: [
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(Const.space15),
-                    child: Column(
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(Const.space15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  navigationService.goBack();
-                                },
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.all(2), // Border width
-                                  decoration: BoxDecoration(
-                                      color: theme.primaryColor,
-                                      borderRadius: borderRadius),
-                                  child: ClipRRect(
-                                    borderRadius: borderRadius,
-                                    child: const Icon(Icons.close,
-                                        color: Colors.white, size: 35),
-                                  ),
-                                )),
-                            Builder(builder: (context) {
-                              return GestureDetector(
-                                  onTap: () =>
-                                      Scaffold.of(context).openDrawer(),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.all(2), // Border width
-                                    decoration: BoxDecoration(
+                        GestureDetector(
+                            onTap: () {
+                              navigationService.goBack();
+                            },
+                            child: Container(
+                              padding:
+                              const EdgeInsets.all(2), // Border width
+                              decoration: BoxDecoration(
+                                  color: theme.primaryColor,
+                                  borderRadius: borderRadius),
+                              child: ClipRRect(
+                                borderRadius: borderRadius,
+                                child: const Icon(Icons.close,
+                                    color: Colors.white, size: 35),
+                              ),
+                            )),
+                        Builder(builder: (context) {
+                          return GestureDetector(
+                              onTap: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Container(
+                                padding:
+                                const EdgeInsets.all(2), // Border width
+                                decoration: BoxDecoration(
+                                    color: theme.primaryColor,
+                                    borderRadius: borderRadius),
+                                child: ClipRRect(
+                                  borderRadius: borderRadius,
+                                  child: const Icon(Icons.list,
+                                      color: Colors.white, size: 35),
+                                ),
+                              ));
+                        })
+                      ],
+                    ),
+                    StepperWidget(currentStep: 0, steps: steps),
+                    gapH4,
+                    BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                      builder: (context, state) {
+                        if (state is SalesStepperClientSelection) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomSearchBar(
+                                      prefixIcon: Icon(
+                                        Icons.search,
                                         color: theme.primaryColor,
-                                        borderRadius: borderRadius),
-                                    child: ClipRRect(
-                                      borderRadius: borderRadius,
-                                      child: const Icon(Icons.list,
-                                          color: Colors.white, size: 35),
-                                    ),
-                                  ));
-                            })
-                          ],
-                        ),
-                        StepperWidget(currentStep: 0, steps: steps),
-                        gapH4,
-                        BlocBuilder<SaleStepperBloc, SalesStepperState>(
-                          builder: (context, state) {
-                            if (state is SalesStepperClientSelection) {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CustomSearchBar(
-                                          prefixIcon: Icon(
-                                            Icons.search,
-                                            color: theme.primaryColor,
-                                          ),
-                                          controller: searchController,
-                                          hintText: 'Nombre del cliente'),
-                                    ),
-                                  ),
-                                  const CustomFrameButtom(
-                                    icon: Icons.location_on,
-                                  ),
-                                  gapW12,
-                                  const CustomFrameButtom(
-                                    icon: Icons.tune,
-                                  )
-                                ],
-                              );
-                            } else if (state is SalesStepperProductsSelection) {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CustomSearchBar(
-                                          prefixIcon: Icon(
-                                            Icons.search,
-                                            color: theme.primaryColor,
-                                          ),
-                                          controller: searchController,
-                                          hintText:
-                                              'Nombre o código del producto'),
-                                    ),
-                                  ),
-                                  const CustomFrameButtom(
-                                    icon: Icons.location_on,
-                                  ),
-                                  gapW12,
-                                  const CustomFrameButtom(
-                                    icon: Icons.tune,
-                                  )
-                                ],
-                              );
-                            } else {
-                              return Container();
-                            }
-                          },
-                        ),
-                        BlocBuilder<SaleStepperBloc, SalesStepperState>(
-                          builder: (context, state) {
-                            if (state is SalesStepperClientSelection) {
-                              return Expanded(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                        child: ListView.builder(
+                                      ),
+                                      controller: searchController,
+                                      hintText: 'Nombre del cliente'),
+                                ),
+                              ),
+                              const CustomFrameButtom(
+                                icon: Icons.location_on,
+                              ),
+                              gapW12,
+                              const CustomFrameButtom(
+                                icon: Icons.tune,
+                              )
+                            ],
+                          );
+                        } else if (state is SalesStepperProductsSelection) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomSearchBar(
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: theme.primaryColor,
+                                      ),
+                                      controller: searchController,
+                                      hintText:
+                                      'Nombre o código del producto'),
+                                ),
+                              ),
+                              const CustomFrameButtom(
+                                icon: Icons.location_on,
+                              ),
+                              gapW12,
+                              const CustomFrameButtom(
+                                icon: Icons.tune,
+                              )
+                            ],
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                    BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                      builder: (context, state) {
+                        if (state is SalesStepperClientSelection) {
+                          return Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                    child: ListView.builder(
                                       itemCount: clientes.length,
                                       itemBuilder: (context, index) {
                                         return Padding(
@@ -323,160 +320,160 @@ class _SalePageState extends State<SalePage> {
                                         );
                                       },
                                     )),
-                                    gapH8,
-                                    BlocBuilder<SaleBloc, SaleState>(
-                                      builder: (context, saleState) {
-                                        if (saleState is SaleClienteSelected) {
-                                          return CustomElevatedButton(
-                                            width: double.infinity,
-                                            height: 50,
-                                            onTap: () {
-                                              saleStepperBloc.add(
-                                                  ChangeStepEvent(index: 1));
-                                              /*  navigationService
+                                gapH8,
+                                BlocBuilder<SaleBloc, SaleState>(
+                                  builder: (context, saleState) {
+                                    if (saleState is SaleClienteSelected) {
+                                      return CustomElevatedButton(
+                                        width: double.infinity,
+                                        height: 50,
+                                        onTap: () {
+                                          saleStepperBloc.add(
+                                              ChangeStepEvent(index: 1));
+                                          /*  navigationService
                                                   .goTo(Routes.detailSaleRoute); */
-                                            },
-                                            child: Text(
-                                              'Siguiente',
-                                              style: theme.textTheme.bodyLarge!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                            ),
-                                          );
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
+                                        },
+                                        child: Text(
+                                          'Siguiente',
+                                          style: theme.textTheme.bodyLarge!
+                                              .copyWith(
+                                              fontWeight:
+                                              FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                        } else if (state is SalesStepperProductsSelection) {
+                          return Expanded(
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: products.length,
+                                    itemBuilder: (BuildContext context,
+                                        int index) =>
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 9, bottom: 10),
+                                            child: ProductCard(
+                                              product: products[index],
+                                              refresh: _refresh,
+                                            )),
+                                  ),
+                                ),
+
+//Verifica que almenos un producto tenga un quantity.
+                                (products.any(
+                                        (product) => product.quantity > 0))
+                                    ? CustomElevatedButton(
+                                  width: double.infinity,
+                                  height: 50,
+                                  onTap: () {
+                                    saleStepperBloc.add(
+                                        ChangeStepEvent(index: 2));
+                                    /* navigationService
+                                                  .goTo(Routes.detailSaleRoute); */
+                                  },
+                                  child: Text(
+                                    'Siguiente',
+                                    style: theme.textTheme.bodyLarge!
+                                        .copyWith(
+                                        fontWeight:
+                                        FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                )
+                                    : Container()
+                              ],
+                            ),
+                          );
+                        } else if (state is SalesStepperOrderDetails) {
+                          return Expanded(
+                            child: Column(
+                              children: [
+                                gapH44,
+                                Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: const Text("Comprador: ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16))),
+                                gapH20,
+                                const Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Italcol",
+                                        style: TextStyle(fontSize: 12)),
+                                    Text("Pedido No.20585557939",
+                                        style: TextStyle(fontSize: 12)),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.bottomLeft,
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        children: [
+                                          Text("San Antonio de Prado",
+                                              style:
+                                              TextStyle(fontSize: 12)),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.zero,
+                                      alignment: Alignment.bottomRight,
+                                      child: const Row(
+                                        children: [
+                                          Text("Fecha: 18/12/2023",
+                                              style:
+                                              TextStyle(fontSize: 12)),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
-                              );
-                            } else if (state is SalesStepperProductsSelection) {
-                              return Expanded(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: products.length,
-                                        itemBuilder: (BuildContext context,
-                                                int index) =>
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 9, bottom: 10),
-                                                child: ProductCard(
-                                                  product: products[index],
-                                                  refresh: _refresh,
-                                                )),
-                                      ),
-                                    ),
-
-//Verifica que almenos un producto tenga un quantity.
-                                    (products.any(
-                                            (product) => product.quantity > 0))
-                                        ? CustomElevatedButton(
-                                            width: double.infinity,
-                                            height: 50,
-                                            onTap: () {
-                                              saleStepperBloc.add(
-                                                  ChangeStepEvent(index: 2));
-                                              /* navigationService
-                                                  .goTo(Routes.detailSaleRoute); */
-                                            },
-                                            child: Text(
-                                              'Siguiente',
-                                              style: theme.textTheme.bodyLarge!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                            ),
-                                          )
-                                        : Container()
-                                  ],
-                                ),
-                              );
-                            } else if (state is SalesStepperOrderDetails) {
-                              return Expanded(
-                                child: Column(
-                                  children: [
-                                    gapH44,
-                                    Container(
-                                        alignment: Alignment.bottomLeft,
-                                        child: const Text("Comprador: ",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16))),
-                                    gapH20,
-                                    const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("Italcol",
-                                            style: TextStyle(fontSize: 12)),
-                                        Text("Pedido No.20585557939",
-                                            style: TextStyle(fontSize: 12)),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.bottomLeft,
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text("San Antonio de Prado",
-                                                  style:
-                                                      TextStyle(fontSize: 12)),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.zero,
-                                          alignment: Alignment.bottomRight,
-                                          child: const Row(
-                                            children: [
-                                              Text("Fecha: 18/12/2023",
-                                                  style:
-                                                      TextStyle(fontSize: 12)),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    gapH32,
-                                    SingleChildScrollView(
-                                      child: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
+                                gapH32,
+                                SingleChildScrollView(
+                                  child: SizedBox(
+                                    width:
+                                    MediaQuery.of(context).size.width,
+                                    child: LayoutBuilder(
+                                        builder: (context, constraints) {
                                           return Column(
                                             children: [
                                               SizedBox(
                                                 height: 440,
                                                 child: SfDataGrid(
                                                   gridLinesVisibility:
-                                                      GridLinesVisibility.both,
+                                                  GridLinesVisibility.both,
                                                   source: employeeDataSource,
                                                   columnWidthMode:
-                                                      ColumnWidthMode.fill,
+                                                  ColumnWidthMode.fill,
                                                   shrinkWrapRows: true,
                                                   columnWidthCalculationRange:
-                                                      ColumnWidthCalculationRange
-                                                          .allRows,
+                                                  ColumnWidthCalculationRange
+                                                      .allRows,
                                                   columns: <GridColumn>[
                                                     GridColumn(
                                                         columnName: 'product',
                                                         label: Container(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .all(10.0),
+                                                            const EdgeInsets
+                                                                .all(10.0),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
@@ -484,89 +481,89 @@ class _SalePageState extends State<SalePage> {
                                                               style: TextStyle(
                                                                   fontSize: 11,
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                                  FontWeight
+                                                                      .bold),
                                                             ))),
                                                     GridColumn(
                                                         columnName: 'price',
                                                         label: Container(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .all(10.0),
+                                                            const EdgeInsets
+                                                                .all(10.0),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
                                                                 'Precio',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        11,
+                                                                    11,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .bold)))),
+                                                                    FontWeight
+                                                                        .bold)))),
                                                     GridColumn(
                                                         columnName: 'quantity',
                                                         label: Container(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .all(10.0),
+                                                            const EdgeInsets
+                                                                .all(10.0),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
                                                                 'Cantidad',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        11,
+                                                                    11,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .bold)))),
+                                                                    FontWeight
+                                                                        .bold)))),
                                                     GridColumn(
                                                         columnName: 'total',
                                                         label: Container(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .all(10.0),
+                                                            const EdgeInsets
+                                                                .all(10.0),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
                                                                 'Total',
                                                                 style: TextStyle(
                                                                     fontSize:
-                                                                        11,
+                                                                    11,
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .bold)))),
+                                                                    FontWeight
+                                                                        .bold)))),
                                                   ],
                                                 ),
                                               ),
                                             ],
                                           );
                                         }),
-                                      ),
-                                    ),
-                                    gapH24,
-                                    Container(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(
-                                            "Gran Total: ${formatCurrency.format(564456)}",
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16))),
-                                  ],
+                                  ),
                                 ),
-                              );
-                            } else {
-                              return const Expanded(
-                                child: Center(child: Text('404 Not found')),
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                                gapH24,
+                                Container(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                        "Gran Total: ${formatCurrency.format(564456)}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16))),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return const Expanded(
+                            child: Center(child: Text('404 Not found')),
+                          );
+                        }
+                      },
                     ),
-                  ),
-                )
-              ],
-            ));
+                  ],
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -599,13 +596,13 @@ class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List<Employee> employeeData}) {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'id', value: e.id),
-              DataGridCell<String>(columnName: 'name', value: e.name),
-              DataGridCell<String>(
-                  columnName: 'designation', value: e.designation),
-              DataGridCell<int>(columnName: 'salary', value: e.salary),
-              DataGridCell<String>(columnName: 'actions', value: e.action),
-            ]))
+      DataGridCell<int>(columnName: 'id', value: e.id),
+      DataGridCell<String>(columnName: 'name', value: e.name),
+      DataGridCell<String>(
+          columnName: 'designation', value: e.designation),
+      DataGridCell<int>(columnName: 'salary', value: e.salary),
+      DataGridCell<String>(columnName: 'actions', value: e.action),
+    ]))
         .toList();
   }
 
@@ -618,20 +615,20 @@ class EmployeeDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
-      return e.columnName == "actions"
-          ? Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(9.0),
-              child: IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-            )
-          : Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(9.0),
-              child: Text(
-                e.value.toString(),
-                style: const TextStyle(fontSize: 9),
-              ),
-            );
-    }).toList());
+          return e.columnName == "actions"
+              ? Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(9.0),
+            child: IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+          )
+              : Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(9.0),
+            child: Text(
+              e.value.toString(),
+              style: const TextStyle(fontSize: 9),
+            ),
+          );
+        }).toList());
   }
 }

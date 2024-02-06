@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class DynamicResponse extends Equatable {
-  final bool status;
-  final String message;
+  final bool? status;
+  final String? message;
   final List<dynamic>? data;
 
   const DynamicResponse({
@@ -23,5 +23,5 @@ class DynamicResponse extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [status, message, data!];
+  List<Object?> get props => [status, message, data];
 }

@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay, this.recurrenceRule);
+  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay,
+      this.recurrenceRule);
 
   String eventName;
   DateTime from;
@@ -9,5 +10,4 @@ class Meeting {
   Color background;
   bool isAllDay;
   String? recurrenceRule;
-
 }
