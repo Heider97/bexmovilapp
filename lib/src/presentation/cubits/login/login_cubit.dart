@@ -37,8 +37,8 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   final LocationRepository? locationRepository;
   final _helperFunction = HelperFunctions();
 
-  LoginCubit(this.apiRepository, this.databaseRepository,
-      this.storageService, this.navigationService, this.locationRepository)
+  LoginCubit(this.apiRepository, this.databaseRepository, this.storageService,
+      this.navigationService, this.locationRepository)
       : super(
             LoginInitial(
                 enterprise: storageService!.getObject('enterprise') != null
@@ -83,7 +83,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
   }
 
   Future<void> getKpis() async {
-    final response = await apiRepository.kpis(request: KpiRequest(codvendedor: storageService!.getString('username')!));
+    final response = await apiRepository.kpis(
+        request:
+            KpiRequest(codvendedor: storageService!.getString('username')!));
 
     if (response is DataSuccess) {
       await databaseRepository.insertKpis(response.data!.kpis);
@@ -183,15 +185,13 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
           emit(LoginSuccess(
               login: login,
               enterprise: storageService!.getObject('enterprise') != null
-                  ? Enterprise.fromMap(
-                      storageService!.getObject('enterprise')!)
+                  ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
                   : null));
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
               enterprise: storageService!.getObject('enterprise') != null
-                  ? Enterprise.fromMap(
-                      storageService!.getObject('enterprise')!)
+                  ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
                   : null));
         }
       } catch (e) {
