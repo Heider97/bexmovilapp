@@ -15,14 +15,14 @@ class ClientDao {
   }
 
   Future<List<Client>> getAllClients() async {
-    final db =  _appDatabase._database;
+    final db =  await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     return clients;
   }
 
   Stream<List<Client>> watchAllClients() async* {
-    final db =  _appDatabase._database;
+    final db =  await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     yield clients;

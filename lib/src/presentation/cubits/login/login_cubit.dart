@@ -57,7 +57,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     final response = await apiRepository.configs();
 
     if (response is DataSuccess) {
-      await databaseRepository.init(1, []);
+      await databaseRepository.init();
       await databaseRepository.insertConfigs(response.data!.configs);
     } else {
       emit(LoginFailed(

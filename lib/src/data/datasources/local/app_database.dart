@@ -30,25 +30,21 @@ part '../local/dao/kpi_dao.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class AppDatabase {
+
   static var lock = Lock();
-  static AppDatabase? _instance;
+  AppDatabase._privateConstructor();
+  static final AppDatabase instance = AppDatabase._privateConstructor();
+
   Database? _database;
 
-  Future<AppDatabase?> getInstance() async {
-    _instance ??= AppDatabase();
-    _database ??= await database(1, null);
-    return _instance;
-  }
-
-  Future<Database> _initDatabase(
-      databaseName, int? version, List<String>? migrations) async {
+  Future<Database> _initDatabase(databaseName) async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
     final path = join(documentsDirectory.path, databaseName);
 
     return await openDatabase(
       path,
-      version: version,
+      version: 2,
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE $tableLocations (
@@ -110,28 +106,6 @@ class AppDatabase {
             ${KpiFields.percent} FLOAT DEFAULT NULL
           )
         ''');
-        if (migrations != null) {
-          for (var migration in migrations) {
-            try {
-              String sqlScriptWithoutEscapes =
-                  migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-
-              List<String> scriptsSeparados =
-                  sqlScriptWithoutEscapes.split('CREATE');
-
-              for (String createTableScript in scriptsSeparados) {
-                try {
-                  String scriptCompleto = 'CREATE $createTableScript';
-                  await db.execute(scriptCompleto);
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            } catch (ex) {
-              print('Error $ex');
-            }
-          }
-        }
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         await db.execute('''
@@ -146,14 +120,13 @@ class AppDatabase {
     );
   }
 
-  Future<Database?> database(int? version, List<String>? migrations) async {
+  Future<Database?> get database async {
     var dbName = _storageService.getString('company_name');
     if (_database != null) return _database;
     await lock.synchronized(() async {
-      if (_database == null ||
-          await _database!.database.getVersion() != version) {
+      if (_database == null) {
         dbName ??= databaseName;
-        _database = await _initDatabase('$dbName.db', version, migrations);
+        _database = await _initDatabase('$dbName.db');
       }
     });
     return _database;
@@ -161,7 +134,7 @@ class AppDatabase {
 
   //SCRIPTING
   Future<void> runMigrations(List<String> migrations) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     try {
       await db?.transaction((database) async {
         for (var migration in migrations) {
@@ -175,18 +148,18 @@ class AppDatabase {
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     return await db!.query(table);
   }
 
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     return db!.insert(table, row);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     var results = <int>[];
     try {
       await db?.transaction((database) async {
@@ -205,25 +178,25 @@ class AppDatabase {
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = _instance?._database;
+    final db = await instance.database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(_instance!);
+  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
-  FeatureDao get featureDao => FeatureDao(_instance!);
+  FeatureDao get featureDao => FeatureDao(instance);
 
-  ConfigDao get configDao => ConfigDao(_instance!);
+  ConfigDao get configDao => ConfigDao(instance);
 
-  ClientDao get clientDao => ClientDao(_instance!);
+  ClientDao get clientDao => ClientDao(instance);
 
-  KpiDao get kpiDao => KpiDao(_instance!);
+  KpiDao get kpiDao => KpiDao(instance);
 
   void close() {
     _database!.close();

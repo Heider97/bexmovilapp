@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location_repository/location_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //data
 import 'core/cache/cache_manager.dart';
@@ -33,12 +32,12 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     final navigation = NavigationService();
     locator.registerSingleton<NavigationService>(navigation);
 
-    final db = await AppDatabase().getInstance();
-    locator.registerSingleton<AppDatabase>(db!);
-
     locator.registerSingleton<ApiService>(
       ApiService(testing: true, dio: dio!, storageService: locator<LocalStorageService>()),
     );
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
 
     locator.registerSingleton<ApiRepository>(
       ApiRepositoryImpl(locator<ApiService>()),
@@ -64,9 +63,6 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     final platform = await PlatformService.getInstance();
     locator.registerSingleton<PlatformService>(platform!);
 
-    final db = await AppDatabase().getInstance();
-    locator.registerSingleton<AppDatabase>(db!);
-
     locator.registerSingleton<ApiService>(
       ApiService(dio: Dio(
         BaseOptions(
@@ -77,6 +73,9 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
             headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
       ), storageService: locator<LocalStorageService>(), testing: false),
     );
+
+    final db = AppDatabase.instance;
+    locator.registerSingleton<AppDatabase>(db);
 
     locator.registerSingleton<ApiRepository>(
       ApiRepositoryImpl(locator<ApiService>()),

@@ -7,7 +7,7 @@ import '../models/kpi.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
-  Future<void> init(int? version, List<String> migrations);
+  Future<void> init();
   void close();
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
