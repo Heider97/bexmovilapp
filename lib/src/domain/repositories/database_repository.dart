@@ -31,14 +31,6 @@ abstract class DatabaseRepository {
   Future<int> updateKpi(Kpi kpi);
   Future<void> emptyKpis();
 
-  //CLIENTS
-  // Future<List<Client>> getClients();
-  // Future<void> insertClient(Client features);
-  // Future<int> updateClient(Client feature);
-  // Future<void> emptyClient();
-
-
-
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue);

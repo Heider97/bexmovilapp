@@ -121,27 +121,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.runMigrations(migrations);
   }
 
-  //CLIENTS
-  @override
-  Future<List<Client>> getClients() async {
-    return await _appDatabase.clientDao.getAllClients();
-  }
-
-  @override
-  Future<int> updateClient(Client client) async {
-    return _appDatabase.clientDao.updateClient(client);
-  }
-
-  @override
-  Future<int> insertClient(Client client) async {
-    return _appDatabase.clientDao.insertClient(client);
-  }
-
-  @override
-  Future<void> emptyClient() async {
-    _appDatabase.clientDao.emptyClients();
-  }
-
   @override
   void close() {
     _appDatabase.close();
