@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-import 'package:bexmovil/src/domain/models/kpi_data.dart';
+import 'package:bexmovil/src/domain/models/kpi.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 
 class CardKpi extends StatelessWidget {
   String tittle;
-  KpiData mainData;
-  List<KpiData> kpiData;
+  Kpi mainData;
+  List<Kpi> kpiData;
   CardKpi(
       {super.key,
       required this.tittle,
@@ -86,8 +86,7 @@ class CardKpi extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                                child: Text('${kpiData[index].propertie}')),
+                            Expanded(child: Text('${kpiData[index].title}')),
                             gapW12,
                             Text('${kpiData[index].value!.toInt()}'),
                             gapW12,

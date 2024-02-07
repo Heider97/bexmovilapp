@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/kpi_data.dart';
+import 'package:bexmovil/src/domain/models/kpi.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -182,19 +182,19 @@ class HomeViewState extends State<HomeView>
                                         (BuildContext context, int index) =>
                                             CardKpi(
                                       tittle: 'Valor de las ventas',
-                                      mainData: KpiData(
-                                        propertie: 'Ventas parciales',
+                                      mainData: Kpi(
+                                        title: 'Ventas parciales',
                                         percent: -5.2,
                                         value: 30,
                                       ),
                                       kpiData: [
-                                        KpiData(
-                                          propertie: 'Ventas pendientes.',
+                                        Kpi(
+                                          title: 'Ventas pendientes.',
                                           percent: -0.1,
                                           value: 95,
                                         ),
-                                        KpiData(
-                                          propertie: 'Ventas totales',
+                                        Kpi(
+                                          title: 'Ventas totales',
                                           percent: 0.1,
                                           value: 80,
                                         )
@@ -210,18 +210,18 @@ class HomeViewState extends State<HomeView>
                                         (BuildContext context, int index) =>
                                             CardKpi(
                                       tittle: 'Prospectos',
-                                      mainData: KpiData(
+                                      mainData: Kpi(
                                         percent: 25.5,
                                         value: 80,
                                       ),
                                       kpiData: [
-                                        KpiData(
-                                          propertie: 'Prospectos creados.',
+                                        Kpi(
+                                          title: 'Prospectos creados.',
                                           percent: 10,
                                           value: 6,
                                         ),
-                                        KpiData(
-                                          propertie: 'Prospectos visitados',
+                                        Kpi(
+                                          title: 'Prospectos visitados',
                                           percent: 50,
                                           value: 2,
                                         )

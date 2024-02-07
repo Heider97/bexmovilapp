@@ -13,6 +13,7 @@ import '../../../utils/constants/strings.dart';
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
+import '../../../domain/models/kpi.dart';
 
 //services
 import '../../../locator.dart';
@@ -24,6 +25,7 @@ part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
+part '../local/dao/kpi_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -113,8 +115,6 @@ class AppDatabase {
                 try {
                   String scriptCompleto = 'CREATE $createTableScript';
                   await db.execute(scriptCompleto);
-
-                  print('Script ejecutado con éxito:\n');
                 } catch (ex) {
                   print('Error al ejecutar el script:\n$ex');
                 }
@@ -143,11 +143,11 @@ class AppDatabase {
 
   //SCRIPTING
   Future<void> runMigrations(List<String> migrations) async {
-    final db = await _instance?._database;
+    final db = _instance?._database;
     try {
-      await db?.transaction((db) async {
+      await db?.transaction((database) async {
         for (var migration in migrations) {
-          await db.execute(migration);
+          await database.execute(migration);
         }
       });
       return;
@@ -158,53 +158,23 @@ class AppDatabase {
 
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = await _instance?._database;
+    final db = _instance?._database;
     return db!.insert(table, row);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
-    final db = await _instance?._database;
+    final db = _instance?._database;
     var results = <int>[];
     try {
-      await db?.transaction((db) async {
-        final batch = db.batch();
-
+      await db?.transaction((database) async {
+        final batch = database.batch();
         for (var object in objects) {
-          var primary = await db.rawQuery(
-              'SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
-          if (primary.isNotEmpty) {
-            var key = object.containsKey(primary.first['name']);
-            if (key) {
-              var value = object[primary.first['name']];
-              var exists = await db.query(table,
-                  where: '${primary.first['name']} = ?', whereArgs: [value]);
-              if (exists.isNotEmpty) {
-                batch.update(table, object,
-                    where: '${primary.first['name']} = ?',
-                    whereArgs: [value],
-                    conflictAlgorithm: ConflictAlgorithm.ignore);
-              } else {
-                batch.insert(table, object,
-                    conflictAlgorithm: ConflictAlgorithm.ignore);
-              }
-            } else {
-              batch.insert(table, object,
-                  conflictAlgorithm: ConflictAlgorithm.ignore);
-            }
-          } else {
-            print('paso aqui 1');
-            var id = await db.insert(table, object);
-            results.add(id);
-          }
+          batch.insert(table, object);
         }
-
-        await batch.commit(continueOnError: true);
+        await batch.commit(continueOnError: false);
       });
       return results;
     } catch (er) {
-      print('aqui esta el error');
-      print(table);
-      print(er);
       return null;
     }
   }
@@ -212,13 +182,13 @@ class AppDatabase {
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await _instance?._database;
+    final db = _instance?._database;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = await _instance?._database;
+    final db = _instance?._database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
@@ -229,6 +199,8 @@ class AppDatabase {
   ConfigDao get configDao => ConfigDao(_instance!);
 
   ClientDao get clientDao => ClientDao(_instance!);
+
+  KpiDao get kpiDao => KpiDao(_instance!);
 
   void close() {
     _database!.close();

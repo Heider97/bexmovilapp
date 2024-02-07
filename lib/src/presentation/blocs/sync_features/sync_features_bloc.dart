@@ -140,18 +140,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var i = 0;
         for (var response in responses) {
           if (response is DataSuccess) {
-            print('started table');
-            print(tables[i]);
             if (response.data != null && response.data!.data != null) {
-              print('**********');
-              print(response.data!.data!.length);
               futureInserts.add(_databaseRepository.insertAll(
                   tables[i], response.data!.data!));
             } else {
               print('no hay data');
             }
-          } else {
-            print(response.error);
           }
           i++;
         }
@@ -159,13 +153,9 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         await Future.wait(futureInserts)
             .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
       } else {
-        print('************1');
-        print(response.data);
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
-      print('************2');
-      print(e);
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }
