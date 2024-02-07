@@ -102,6 +102,14 @@ class AppDatabase {
             ${ConfigFields.module} TEXT DEFAULT NULL
           )
         ''');
+        await db.execute('''
+          CREATE TABLE $tableKpis (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL,
+            ${KpiFields.percent} FLOAT DEFAULT NULL,
+          )
+        ''');
         if (migrations != null) {
           for (var migration in migrations) {
             try {

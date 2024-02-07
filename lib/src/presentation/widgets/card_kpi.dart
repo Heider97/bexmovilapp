@@ -33,7 +33,7 @@ class CardKpi extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '${mainData.value!.toInt()}',
+                  mainData.value!,
                   style: theme.textTheme.bodyMedium!
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
@@ -88,7 +88,7 @@ class CardKpi extends StatelessWidget {
                           children: [
                             Expanded(child: Text('${kpiData[index].title}')),
                             gapW12,
-                            Text('${kpiData[index].value!.toInt()}'),
+                            Text(kpiData[index].value!),
                             gapW12,
                             RichText(
                               text: TextSpan(

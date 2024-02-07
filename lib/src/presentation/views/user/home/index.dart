@@ -185,18 +185,18 @@ class HomeViewState extends State<HomeView>
                                       mainData: Kpi(
                                         title: 'Ventas parciales',
                                         percent: -5.2,
-                                        value: 30,
+                                        value: "30",
                                       ),
                                       kpiData: [
                                         Kpi(
                                           title: 'Ventas pendientes.',
                                           percent: -0.1,
-                                          value: 95,
+                                          value: "95",
                                         ),
                                         Kpi(
                                           title: 'Ventas totales',
                                           percent: 0.1,
-                                          value: 80,
+                                          value: "80",
                                         )
                                       ],
                                     ),
@@ -212,18 +212,18 @@ class HomeViewState extends State<HomeView>
                                       tittle: 'Prospectos',
                                       mainData: Kpi(
                                         percent: 25.5,
-                                        value: 80,
+                                        value: "80",
                                       ),
                                       kpiData: [
                                         Kpi(
                                           title: 'Prospectos creados.',
                                           percent: 10,
-                                          value: 6,
+                                          value: "6",
                                         ),
                                         Kpi(
                                           title: 'Prospectos visitados',
                                           percent: 50,
-                                          value: 2,
+                                          value: "2",
                                         )
                                       ],
                                     ),

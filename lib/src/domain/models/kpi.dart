@@ -15,7 +15,7 @@ class KpiFields {
 class Kpi extends Equatable {
   int? id;
   String? title;
-  double? value;
+  String? value;
   double? percent;
 
   Kpi({this.id, this.title, this.value, this.percent});
