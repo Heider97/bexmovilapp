@@ -3,6 +3,7 @@ import 'package:bexmovil/src/domain/models/client.dart';
 import '../models/feature.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
+import '../models/kpi.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -13,21 +14,30 @@ abstract class DatabaseRepository {
 
   //CONFIGS
   Future<List<Config>> getConfigs();
-  Future<void> insertConfigs(List<Config> features);
+  Future<void> insertConfigs(List<Config> configs);
   Future<int> updateConfig(Config config);
   Future<void> emptyConfigs();
 
   //FEATURES
-  Future<List<Feature>> getFeatures();
+  Future<List<Feature>> getAllFeatures();
   Future<void> insertFeatures(List<Feature> features);
   Future<int> updateFeature(Feature feature);
   Future<void> emptyFeatures();
 
+  //KPIS
+  Future<List<Kpi>> getAllKpis();
+  Future<void> insertKpis(List<Kpi> kpis);
+  Future<void> insertKpi(Kpi kpi);
+  Future<int> updateKpi(Kpi kpi);
+  Future<void> emptyKpis();
+
   //CLIENTS
-  Future<List<Client>> getClients();
-  Future<void> insertClient(Client features);
-  Future<int> updateClient(Client feature);
-  Future<void> emptyClient();
+  // Future<List<Client>> getClients();
+  // Future<void> insertClient(Client features);
+  // Future<int> updateClient(Client feature);
+  // Future<void> emptyClient();
+
+
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

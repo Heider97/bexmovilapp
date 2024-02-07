@@ -16,17 +16,35 @@ class KpiDao {
 
   Future<List<Kpi>> getAllKpis() async {
     final db = _appDatabase._database;
-    final kpiList = await db!.query('app_kpis');
+    final kpiList = await db!.query(tableKpis);
     final kpis = parseKpis(kpiList);
     return kpis;
   }
 
+  Future<void> insertKpis(List<Kpi> kpis) async {
+    final db = _appDatabase._database;
+    var batch = db!.batch();
+
+    await Future.forEach(kpis, (feature) async {
+      var foundProduct = await db.query(tableKpis, where: 'id = ?', whereArgs: [feature.id]);
+
+      if(foundProduct.isNotEmpty){
+        batch.update(tableKpis, feature.toJson(), where: 'id = ?', whereArgs: [feature.id]);
+      } else {
+        batch.insert(tableKpis, feature.toJson());
+      }
+    });
+
+
+    batch.commit(noResult: true, continueOnError: true);
+  }
+
   Future<int> insertKpi(Kpi kpi) {
-    return _appDatabase.insert('app_kpis', kpi.toJson());
+    return _appDatabase.insert(tableKpis, kpi.toJson());
   }
 
   Future<int> updateKpi(Kpi kpi) {
-    return _appDatabase.update('app_kpis', kpi.toJson(), 'id', kpi.id!);
+    return _appDatabase.update(tableKpis, kpi.toJson(), 'id', kpi.id!);
   }
 
   Future<void> emptyKpis() async {

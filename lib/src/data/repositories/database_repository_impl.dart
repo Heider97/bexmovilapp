@@ -6,6 +6,7 @@ import '../../domain/repositories/database_repository.dart';
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
+import '../../domain/models/kpi.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -58,10 +59,9 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //FEATURES
-
   @override
-  Future<List<Feature>> getFeatures() {
-    return _appDatabase.featureDao.getAllFeature();
+  Future<List<Feature>> getAllFeatures() {
+    return _appDatabase.featureDao.getAllFeatures();
   }
 
   @override
@@ -79,6 +79,31 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.featureDao.emptyFeature();
   }
 
+  //KPIS
+  @override
+  Future<List<Kpi>> getAllKpis() {
+    return _appDatabase.kpiDao.getAllKpis();
+  }
+
+  @override
+  Future<void> insertKpis(List<Kpi> kpis) async {
+    return _appDatabase.kpiDao.insertKpis(kpis);
+  }
+
+  @override
+  Future<int> insertKpi(Kpi kpi) async {
+    return _appDatabase.kpiDao.insertKpi(kpi);
+  }
+
+  @override
+  Future<int> updateKpi(Kpi kpi) async {
+    return _appDatabase.kpiDao.updateKpi(kpi);
+  }
+
+  @override
+  Future<void> emptyKpis() {
+    return _appDatabase.kpiDao.emptyKpis();
+  }
   // initialize and close methods go here
   @override
   Future<void> init(int? version, List<String> migrations) async {

@@ -65,7 +65,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void _observe(event, emit) async {
-    var features = await databaseRepository.getFeatures();
+    var features = await databaseRepository.getAllFeatures();
     var configs = await databaseRepository.getConfigs();
 
     try {

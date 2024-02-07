@@ -28,7 +28,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> init() async {
     final user = User.fromMap(_storageService.getObject('user')!);
-    var features = await _databaseRepository.getFeatures();
+    var features = await _databaseRepository.getAllFeatures();
 
     emit(HomeSuccess(user: user, features: features));
   }

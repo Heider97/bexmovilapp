@@ -15,15 +15,15 @@ class FeatureDao {
       return features;
   }
 
-  Future<List<Feature>> getAllFeature() async {
-    final db = await _appDatabase._database;
+  Future<List<Feature>> getAllFeatures() async {
+    final db = _appDatabase._database;
     final featureList = await db!.query(tableFeature);
     final feature = parseFeature(featureList);
     return feature;
   }
 
   Future<void> insertFeatures(List<Feature> features) async {
-    final db = await _appDatabase._database;
+    final db = _appDatabase._database;
     var batch = db!.batch();
 
     await Future.forEach(features, (feature) async {
