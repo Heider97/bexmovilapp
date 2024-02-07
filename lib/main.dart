@@ -90,7 +90,9 @@ class _MyAppState extends State<MyApp> {
             create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
 
         BlocProvider(create: (_) => SplashScreenBloc()),
-        BlocProvider(create: (_) => SearchBloc()),
+        BlocProvider(create: (_) => SearchBloc(
+          locator<DatabaseRepository>()
+        )),
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(create: (_) => SaleBloc()),
 

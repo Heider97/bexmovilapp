@@ -112,6 +112,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<List<Map<String, Object?>>> search(String table) async {
+    return await _appDatabase.search(table);
+  }
+
+  @override
   Future<void> insertAll(String table, List<dynamic> objects) {
     return _appDatabase.insertAll(table, objects);
   }

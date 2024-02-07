@@ -108,14 +108,12 @@ class _SearchViewState extends State<SearchView> {
 Future<void> fillRegisters({required List<String> tables}) async {
   itemsToSearch.clear();
 
-  final AppDatabase appDatabase = AppDatabase();
+  for (String table in tables) {
+    final resultList = await searchBloc.search(table);
 
-  // for (String table in tables) {
-  //   final db = await appDatabase;
-  //   final resultList = await db!.query(table);
-  //   for (var result in resultList) {
-  //     SearchResult item = SearchResult.fromJson(result, table);
-  //     itemsToSearch.add(item);
-  //   }
-  // }
+    for (var result in resultList) {
+      SearchResult item = SearchResult.fromJson(result, table);
+      itemsToSearch.add(item);
+    }
+  }
 }

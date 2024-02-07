@@ -11,6 +11,7 @@ abstract class DatabaseRepository {
   void close();
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
+  Future<List<Map<String, Object?>>> search(String table);
 
   //CONFIGS
   Future<List<Config>> getConfigs();

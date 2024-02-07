@@ -174,6 +174,11 @@ class AppDatabase {
     }
   }
 
+  Future<List<Map<String, Object?>>> search(String table) async {
+    final db = _instance?._database;
+    return await db!.query(table);
+  }
+
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
     final db = _instance?._database;
