@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/domain/models/requests/kpi_request.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
 
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
@@ -106,6 +108,14 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     return getStateOf<DynamicResponse>(
       request: () => _apiService.syncDynamic(
           table: request.table, content: request.content),
+    );
+  }
+
+  @override
+  Future<DataState<KpiResponse>> kpis(
+      {required KpiRequest request}) {
+    return getStateOf<KpiResponse>(
+      request: () => _apiService.kpis(codvendedor: request.codvendedor),
     );
   }
 }

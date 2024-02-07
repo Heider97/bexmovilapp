@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:bexmovil/src/domain/models/responses/sync_priorities_response.dart';
 import 'package:dio/dio.dart';
 
@@ -408,6 +409,38 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DynamicResponse.fromMap(result.data!, table);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<KpiResponse>> kpis({required String codvendedor}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'codvendedor': codvendedor};
+
+    final headers = <String, dynamic>{};
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/kpis',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = KpiResponse.fromMap(result.data!);
 
     return Response(
         data: value,

@@ -118,9 +118,12 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
-                locator<DatabaseRepository>(),
-                locator<ApiRepository>(),
-                BlocProvider.of<ProcessingQueueBloc>(context))),
+                  locator<DatabaseRepository>(),
+                  locator<ApiRepository>(),
+                  BlocProvider.of<ProcessingQueueBloc>(context),
+                  locator<NavigationService>(),
+                  locator<LocalStorageService>(),
+                )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),

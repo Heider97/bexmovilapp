@@ -1,4 +1,18 @@
-class Kpi {
+import 'package:equatable/equatable.dart';
+
+const String tableKpis = 'kpis';
+
+class KpiFields {
+  static final List<String> values = [id, title, value, percent];
+
+  static const String id = 'id';
+  static const String title = 'title';
+  static const String type = 'type';
+  static const String value = 'value';
+  static const String percent = 'percent';
+}
+
+class Kpi extends Equatable {
   int? id;
   String? title;
   double? value;
@@ -23,4 +37,10 @@ class Kpi {
       'percent': percent,
     };
   }
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object?> get props => [id, title, value, percent];
 }
