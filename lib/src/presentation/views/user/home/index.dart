@@ -177,15 +177,15 @@ class HomeViewState extends State<HomeView>
                                 Expanded(
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
+                                    itemCount: state.kpis != null ? state.kpis!.length : 0,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
                                             CardKpi(
-                                      tittle: 'Valor de las ventas',
+                                      tittle: state.kpis![index].title!,
                                       mainData: Kpi(
                                         title: 'Ventas parciales',
                                         percent: -5.2,
-                                        value: "30",
+                                        value: state.kpis![index].value!,
                                       ),
                                       kpiData: [
                                         Kpi(

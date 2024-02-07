@@ -4,12 +4,13 @@ part of 'home_cubit.dart';
 abstract class HomeState extends Equatable {
   final User? user;
   final List<Feature>? features;
+  final List<Kpi>? kpis;
   final String? error;
 
-  const HomeState({this.user, this.features, this.error});
+  const HomeState({this.user, this.features, this.kpis, this.error});
 
   @override
-  List<Object?> get props => [user, error];
+  List<Object?> get props => [user, kpis, error];
 }
 
 class HomeLoading extends HomeState {
@@ -17,7 +18,7 @@ class HomeLoading extends HomeState {
 }
 
 class HomeSuccess extends HomeState {
-  const HomeSuccess({super.user, super.features});
+  const HomeSuccess({super.user, super.features, super.kpis});
 }
 
 class HomeFailed extends HomeState {

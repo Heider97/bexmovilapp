@@ -176,9 +176,9 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
             storageService!.setString('token', login?.token);
             storageService!.setObject('user', login?.user!.toMap());
 
-            var functions = [getConfigs, getFeatures];
+            var functions = [getConfigs, getFeatures, getKpis];
 
-            var isolateModel = IsolateModel(functions, null, 2);
+            var isolateModel = IsolateModel(functions, null, 3);
             await heavyTask(isolateModel);
           }
 

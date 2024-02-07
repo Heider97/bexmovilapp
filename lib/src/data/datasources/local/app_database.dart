@@ -103,11 +103,11 @@ class AppDatabase {
           )
         ''');
         await db.execute('''
-          CREATE TABLE $tableKpis (
+          CREATE TABLE IF NOT EXISTS $tableKpis (
             ${KpiFields.id} INTEGER PRIMARY KEY,
             ${KpiFields.title} TEXT DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL,
-            ${KpiFields.percent} FLOAT DEFAULT NULL,
+            ${KpiFields.percent} FLOAT DEFAULT NULL
           )
         ''');
         if (migrations != null) {
@@ -133,6 +133,16 @@ class AppDatabase {
           }
         }
       },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableKpis (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL,
+            ${KpiFields.percent} FLOAT DEFAULT NULL
+          )
+        ''');
+      }
     );
   }
 
