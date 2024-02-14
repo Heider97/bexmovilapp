@@ -1,6 +1,10 @@
+import 'dart:html';
+
 import 'package:bexmovil/src/domain/models/kpi.dart';
 import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +18,7 @@ import '../../../../utils/constants/gaps.dart';
 import '../../../widgets/user/custom_item.dart';
 
 import '../../../widgets/custom_card_widget.dart';
-import '../../../widgets/card_kpi.dart';
+import '../../../widgets/user/kpi_cards/card_kpi.dart';
 import '../../../widgets/card_reports.dart';
 import '../../../widgets/drawer_widget.dart';
 
@@ -36,6 +40,67 @@ class HomeViewState extends State<HomeView>
   late TabController _tabController;
 
   final TextEditingController searchController = TextEditingController();
+  List<Widget> kpiWalletList = [
+    CardKpi(
+      tittle: 'state.kpis![index].title!',
+      mainData: Kpi(
+        title: 'Ventas parciales',
+        percent: -5.2,
+        value: '25',
+      ),
+      kpiData: [
+        Kpi(
+          title: 'Ventas pendientes.',
+          percent: -0.1,
+          value: "95",
+        ),
+        Kpi(
+          title: 'Ventas totales',
+          percent: 0.1,
+          value: "80",
+        )
+      ],
+    ),
+    CardKpi(
+      tittle: 'Prospectos',
+      mainData: Kpi(
+        percent: 25.5,
+        value: "80",
+      ),
+      kpiData: [
+        Kpi(
+          title: 'Prospectos creados.',
+          percent: 10,
+          value: "6",
+        ),
+        Kpi(
+          title: 'Prospectos visitados',
+          percent: 50,
+          value: "2",
+        )
+      ],
+    ),
+    CardKpi(
+      tittle: 'state.kpis![index].title!',
+      mainData: Kpi(
+        title: 'Ventas parciales',
+        percent: -5.2,
+        value: '25',
+      ),
+      kpiData: [
+        Kpi(
+          title: 'Ventas pendientes.',
+          percent: -0.1,
+          value: "95",
+        ),
+        Kpi(
+          title: 'Ventas totales',
+          percent: 0.1,
+          value: "80",
+        )
+      ],
+    )
+  ];
 
   @override
   void initState() {
@@ -163,46 +228,39 @@ class HomeViewState extends State<HomeView>
                         ),
                       ],
                     ),
-                    gapH8,
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
                         children: [
                           Container(
-                            height: 220,
-                            width: 500,
+                            width: Screens.width(context) / 2,
                             color: Colors.grey[100],
                             child: Column(
                               children: [
                                 Expanded(
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: state.kpis != null ? state.kpis!.length : 0,
+                                    itemCount: state.kpis != null
+                                        ? state.kpis!.length
+                                        : 0,
                                     itemBuilder:
                                         (BuildContext context, int index) =>
-                                            CardKpi(
-                                      tittle: state.kpis![index].title!,
-                                      mainData: Kpi(
-                                        title: 'Ventas parciales',
-                                        percent: -5.2,
-                                        value: state.kpis![index].value!,
+                                            CarouselSlider(
+                                      options: CarouselOptions(
+                                        autoPlayInterval:
+                                            const Duration(seconds: 4),
+                                        aspectRatio: 2,
+                                        enlargeCenterPage: true,
+                                        scrollDirection: Axis.vertical,
+                                        autoPlay: true,
+                                        viewportFraction: 1,
                                       ),
-                                      kpiData: [
-                                        Kpi(
-                                          title: 'Ventas pendientes.',
-                                          percent: -0.1,
-                                          value: "95",
-                                        ),
-                                        Kpi(
-                                          title: 'Ventas totales',
-                                          percent: 0.1,
-                                          value: "80",
-                                        )
-                                      ],
+                                      items: kpiWalletList,
                                     ),
                                   ),
                                 ),
-                                Expanded(
+                                SizedBox(
+                                  width: Screens.width(context) / 2,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 10,
