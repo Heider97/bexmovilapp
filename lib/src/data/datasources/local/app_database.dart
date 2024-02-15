@@ -101,7 +101,7 @@ class AppDatabase {
             ${KpiFields.title} TEXT DEFAULT NULL,
             ${KpiFields.sql} TEXT DEFAULT NULL,
             ${KpiFields.type} TEXT DEFAULT NULL,
-             ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');
@@ -112,7 +112,7 @@ class AppDatabase {
             ${KpiFields.title} TEXT DEFAULT NULL,
             ${KpiFields.sql} TEXT DEFAULT NULL,
             ${KpiFields.type} TEXT DEFAULT NULL,
-             ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');

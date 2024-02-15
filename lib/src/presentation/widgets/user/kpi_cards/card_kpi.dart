@@ -35,13 +35,6 @@ class _CardKpiState extends State<CardKpi> {
                     style: theme.textTheme.bodyMedium!
                         .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
-                  /*        SizedBox(
-                    width: 20,
-                    child: Image.asset(
-                      Assets.arrowDown,
-                      fit: BoxFit.cover,
-                    ),
-                  ) */
                 ],
               ),
             ],

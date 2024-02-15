@@ -19,7 +19,6 @@ import '../../../domain/models/feature.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 //services
-import '../../../locator.dart';
 import '../../../services/navigation.dart';
 
 part 'sync_features_event.dart';

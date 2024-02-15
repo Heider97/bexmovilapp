@@ -69,19 +69,19 @@ class HomeViewState extends State<HomeView>
       Size size, ThemeData theme, HomeState state, BuildContext context) {
     //LINE 1
     int length1line = 0;
-    int ammountWalletKpi1line = 0;
+    int amountWalletKpi1line = 0;
     List<Kpi> othersKpi1Line = [];
 
     //LINE 2
     int length2line = 0;
-    int ammountWalletKpi2line = 0;
+    int amountWalletKpi2line = 0;
     List<Kpi> othersKpi2Line = [];
 
     if (state.kpis != null) {
       //la longitud de la linea 1
       length1line = state.kpis!.where((kpi) => kpi.line == 1).toList().length;
       //wallet kpi line 1
-      ammountWalletKpi1line = state.kpis!
+      amountWalletKpi1line = state.kpis!
           .where((kpi) => kpi.line == 1 && kpi.type == 'wallet')
           .toList()
           .length;
@@ -90,14 +90,14 @@ class HomeViewState extends State<HomeView>
           .where((kpi) => kpi.type != 'wallet' && kpi.line == 1)
           .toList();
 
-      if (ammountWalletKpi1line != 0) {
-        length1line = length1line - ammountWalletKpi1line + 1;
+      if (amountWalletKpi1line != 0) {
+        length1line = length1line - amountWalletKpi1line + 1;
       }
 
       //la longitud de la linea 2
       length2line = state.kpis!.where((kpi) => kpi.line == 2).toList().length;
       //wallet kpi line 2
-      ammountWalletKpi2line = state.kpis!
+      amountWalletKpi2line = state.kpis!
           .where((kpi) => kpi.line == 2 && kpi.type == 'wallet')
           .toList()
           .length;
@@ -106,8 +106,8 @@ class HomeViewState extends State<HomeView>
           .where((kpi) => kpi.type != 'wallet' && kpi.line == 2)
           .toList();
 
-      if (ammountWalletKpi2line != 0) {
-        length2line = length2line - ammountWalletKpi2line + 1;
+      if (amountWalletKpi2line != 0) {
+        length2line = length2line - amountWalletKpi2line + 1;
       }
     }
 
@@ -226,7 +226,7 @@ class HomeViewState extends State<HomeView>
                                       itemCount: length1line,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        if (ammountWalletKpi1line != 0 &&
+                                        if (amountWalletKpi1line != 0 &&
                                             index == 0) {
                                           return SizedBox(
                                               width:
@@ -259,7 +259,7 @@ class HomeViewState extends State<HomeView>
                                         if (index == 0) {
                                           return CardKpi(
                                               kpi: othersKpi1Line[index]);
-                                        } else if (ammountWalletKpi1line != 0) {
+                                        } else if (amountWalletKpi1line != 0) {
                                           return CardKpi(
                                               kpi: othersKpi1Line[index - 1]);
                                         } else {
@@ -275,7 +275,7 @@ class HomeViewState extends State<HomeView>
                                       itemCount: length2line,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        if (ammountWalletKpi2line != 0 &&
+                                        if (amountWalletKpi2line != 0 &&
                                             index == 0) {
                                           return SizedBox(
                                               width:
@@ -301,6 +301,8 @@ class HomeViewState extends State<HomeView>
                                                         .map((kpi) =>
                                                             WalletKpi(kpi: kpi))
                                                         .toList()
+                                                        .reversed
+                                                        .toList()
                                                     : [],
                                               ));
                                         }
@@ -308,7 +310,7 @@ class HomeViewState extends State<HomeView>
                                         if (index == 0) {
                                           return CardKpi(
                                               kpi: othersKpi2Line[index]);
-                                        } else if (ammountWalletKpi2line != 0) {
+                                        } else if (amountWalletKpi2line != 0) {
                                           return CardKpi(
                                               kpi: othersKpi2Line[index - 1]);
                                         } else {
@@ -388,30 +390,30 @@ class HomeViewState extends State<HomeView>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomItem(
-                          iconName: 'Vender',
-                          imagePath: 'assets/svg/sell.svg',
-                          onTap: () {
-                            _navigationService.goTo(Routes.saleRoute);
-                          }),
-                      CustomItem(
-                          iconName: 'Cartera',
-                          imagePath: 'assets/svg/wallet.svg',
-                          onTap: () {
-                            _navigationService.goTo(Routes.wallet);
-                          }),
-                      CustomItem(
-                          iconName: 'Mercadeo',
-                          imagePath: 'assets/svg/mercadeo.svg',
-                          onTap: () {
-                            // _navigationService.goTo(Routes.mercadeo);
-                          }),
-                      CustomItem(
-                          iconName: 'PQRS',
-                          imagePath: 'assets/svg/pqrs.svg',
-                          onTap: () {
-                            // _navigationService.goTo(Routes.pqrs);
-                          }),
+                      // CustomItem(
+                      //     iconName: 'Vender',
+                      //     imagePath: 'assets/svg/sell.svg',
+                      //     onTap: () {
+                      //       _navigationService.goTo(Routes.saleRoute);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'Cartera',
+                      //     imagePath: 'assets/svg/wallet.svg',
+                      //     onTap: () {
+                      //       _navigationService.goTo(Routes.wallet);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'Mercadeo',
+                      //     imagePath: 'assets/svg/mercadeo.svg',
+                      //     onTap: () {
+                      //       // _navigationService.goTo(Routes.mercadeo);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'PQRS',
+                      //     imagePath: 'assets/svg/pqrs.svg',
+                      //     onTap: () {
+                      //       // _navigationService.goTo(Routes.pqrs);
+                      //     }),
                     ],
                   ),
                 ),
