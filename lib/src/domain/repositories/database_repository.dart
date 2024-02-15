@@ -1,9 +1,8 @@
-import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../models/feature.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
-import '../models/kpi.dart';
 
 abstract class DatabaseRepository {
   //DATABASE

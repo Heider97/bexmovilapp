@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
@@ -18,7 +19,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<List<ProcessingQueue>> getAllProcessingQueues() async {
     return _appDatabase.processingQueueDao.getAllProcessingQueues();
   }
-
 
   @override
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue) async {
@@ -104,6 +104,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyKpis() {
     return _appDatabase.kpiDao.emptyKpis();
   }
+
   // initialize and close methods go here
   @override
   Future<void> init() async {
