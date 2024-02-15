@@ -1,20 +1,12 @@
-// ignore_for_file: must_be_immutable
-import 'package:bexmovil/src/domain/models/kpi.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 
 import 'package:flutter/material.dart';
 
 class CardKpi extends StatefulWidget {
-  String tittle;
-  Kpi mainData;
-  List<Kpi> kpiData;
-  CardKpi(
-      {super.key,
-      required this.tittle,
-      required this.kpiData,
-      required this.mainData});
+  final Kpi kpi;
+
+  const CardKpi({super.key, required this.kpi});
 
   @override
   State<CardKpi> createState() => _CardKpiState();
@@ -32,53 +24,24 @@ class _CardKpiState extends State<CardKpi> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.tittle,
+                widget.kpi.title ?? "N/A",
                 style: theme.textTheme.bodyMedium!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
                   Text(
-                    widget.mainData.value!,
+                    widget.kpi.value ?? "N/A",
                     style: theme.textTheme.bodyMedium!
                         .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
-                  (widget.mainData.percent != null &&
-                          widget.mainData.percent! < 0)
-                      ? SizedBox(
-                          width: 20,
-                          child: Image.asset(
-                            Assets.arrowDown,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : SizedBox(
-                          width: 20,
-                          child: Image.asset(
-                            Assets.arrowUp,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                  gapW12,
-                  RichText(
-                    text: TextSpan(
-                      style: theme.textTheme.bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: widget.mainData.percent! < 0
-                              ? '- ${widget.mainData.percent!.abs()} %'
-                              : '+ ${widget.mainData.percent!.abs()} %', // Signo menos si el número es negativo
-                          style: TextStyle(
-                            color: widget.mainData.percent! < 0
-                                ? const Color(0XFFED1F23)
-                                : const Color(
-                                    0XFFC2D953), // Color rojo si es negativo
-                          ),
-                        ),
-                      ],
+                  /*        SizedBox(
+                    width: 20,
+                    child: Image.asset(
+                      Assets.arrowDown,
+                      fit: BoxFit.cover,
                     ),
-                  )
+                  ) */
                 ],
               ),
             ],

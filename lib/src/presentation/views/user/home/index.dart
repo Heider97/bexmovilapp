@@ -1,6 +1,5 @@
-import 'dart:html';
-
-import 'package:bexmovil/src/domain/models/kpi.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
+import 'package:bexmovil/src/presentation/widgets/user/kpi_cards/wallet_kpi.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -40,67 +39,7 @@ class HomeViewState extends State<HomeView>
   late TabController _tabController;
 
   final TextEditingController searchController = TextEditingController();
-  List<Widget> kpiWalletList = [
-    CardKpi(
-      tittle: 'state.kpis![index].title!',
-      mainData: Kpi(
-        title: 'Ventas parciales',
-        percent: -5.2,
-        value: '25',
-      ),
-      kpiData: [
-        Kpi(
-          title: 'Ventas pendientes.',
-          percent: -0.1,
-          value: "95",
-        ),
-        Kpi(
-          title: 'Ventas totales',
-          percent: 0.1,
-          value: "80",
-        )
-      ],
-    ),
-    CardKpi(
-      tittle: 'Prospectos',
-      mainData: Kpi(
-        percent: 25.5,
-        value: "80",
-      ),
-      kpiData: [
-        Kpi(
-          title: 'Prospectos creados.',
-          percent: 10,
-          value: "6",
-        ),
-        Kpi(
-          title: 'Prospectos visitados',
-          percent: 50,
-          value: "2",
-        )
-      ],
-    ),
-    CardKpi(
-      tittle: 'state.kpis![index].title!',
-      mainData: Kpi(
-        title: 'Ventas parciales',
-        percent: -5.2,
-        value: '25',
-      ),
-      kpiData: [
-        Kpi(
-          title: 'Ventas pendientes.',
-          percent: -0.1,
-          value: "95",
-        ),
-        Kpi(
-          title: 'Ventas totales',
-          percent: 0.1,
-          value: "80",
-        )
-      ],
-    )
-  ];
+  List<Widget?>? kpiWalletList;
 
   @override
   void initState() {
@@ -128,6 +67,50 @@ class HomeViewState extends State<HomeView>
 
   Widget _buildBody(
       Size size, ThemeData theme, HomeState state, BuildContext context) {
+    //LINE 1
+    int length1line = 0;
+    int ammountWalletKpi1line = 0;
+    List<Kpi> othersKpi1Line = [];
+
+    //LINE 2
+    int length2line = 0;
+    int ammountWalletKpi2line = 0;
+    List<Kpi> othersKpi2Line = [];
+
+    if (state.kpis != null) {
+      //la longitud de la linea 1
+      length1line = state.kpis!.where((kpi) => kpi.line == 1).toList().length;
+      //wallet kpi line 1
+      ammountWalletKpi1line = state.kpis!
+          .where((kpi) => kpi.line == 1 && kpi.type == 'wallet')
+          .toList()
+          .length;
+
+      othersKpi1Line = state.kpis!
+          .where((kpi) => kpi.type != 'wallet' && kpi.line == 1)
+          .toList();
+
+      if (ammountWalletKpi1line != 0) {
+        length1line = length1line - ammountWalletKpi1line + 1;
+      }
+
+      //la longitud de la linea 2
+      length2line = state.kpis!.where((kpi) => kpi.line == 2).toList().length;
+      //wallet kpi line 2
+      ammountWalletKpi2line = state.kpis!
+          .where((kpi) => kpi.line == 2 && kpi.type == 'wallet')
+          .toList()
+          .length;
+
+      othersKpi2Line = state.kpis!
+          .where((kpi) => kpi.type != 'wallet' && kpi.line == 2)
+          .toList();
+
+      if (ammountWalletKpi2line != 0) {
+        length2line = length2line - ammountWalletKpi2line + 1;
+      }
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(),
@@ -239,53 +222,100 @@ class HomeViewState extends State<HomeView>
                               children: [
                                 Expanded(
                                   child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: state.kpis != null
-                                        ? state.kpis!.length
-                                        : 0,
-                                    itemBuilder:
-                                        (BuildContext context, int index) =>
-                                            CarouselSlider(
-                                      options: CarouselOptions(
-                                        autoPlayInterval:
-                                            const Duration(seconds: 4),
-                                        aspectRatio: 2,
-                                        enlargeCenterPage: true,
-                                        scrollDirection: Axis.vertical,
-                                        autoPlay: true,
-                                        viewportFraction: 1,
-                                      ),
-                                      items: kpiWalletList,
-                                    ),
-                                  ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: length1line,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        if (ammountWalletKpi1line != 0 &&
+                                            index == 0) {
+                                          return SizedBox(
+                                              width:
+                                                  Screens.width(context) / 1.6,
+                                              child: CarouselSlider(
+                                                options: CarouselOptions(
+                                                  autoPlayInterval:
+                                                      const Duration(
+                                                          seconds: 4),
+                                                  aspectRatio: 2,
+                                                  enlargeCenterPage: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  autoPlay: true,
+                                                  viewportFraction: 1,
+                                                ),
+                                                items: (state.kpis != null)
+                                                    ? state.kpis!
+                                                        .where((kpi) =>
+                                                            kpi.type ==
+                                                                "wallet" &&
+                                                            kpi.line == 1)
+                                                        .map((kpi) =>
+                                                            WalletKpi(kpi: kpi))
+                                                        .toList()
+                                                    : [],
+                                              ));
+                                        }
+
+                                        if (index == 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index]);
+                                        } else if (ammountWalletKpi1line != 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index - 1]);
+                                        } else {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index]);
+                                        }
+                                      }),
                                 ),
-                                SizedBox(
-                                  width: Screens.width(context) / 2,
+                                Expanded(
+                                  //LINE 2 LIST
                                   child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
-                                    itemBuilder:
-                                        (BuildContext context, int index) =>
-                                            CardKpi(
-                                      tittle: 'Prospectos',
-                                      mainData: Kpi(
-                                        percent: 25.5,
-                                        value: "80",
-                                      ),
-                                      kpiData: [
-                                        Kpi(
-                                          title: 'Prospectos creados.',
-                                          percent: 10,
-                                          value: "6",
-                                        ),
-                                        Kpi(
-                                          title: 'Prospectos visitados',
-                                          percent: 50,
-                                          value: "2",
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: length2line,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        if (ammountWalletKpi2line != 0 &&
+                                            index == 0) {
+                                          return SizedBox(
+                                              width:
+                                                  Screens.width(context) / 1.6,
+                                              child: CarouselSlider(
+                                                options: CarouselOptions(
+                                                  autoPlayInterval:
+                                                      const Duration(
+                                                          seconds: 4),
+                                                  aspectRatio: 2,
+                                                  enlargeCenterPage: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  autoPlay: true,
+                                                  viewportFraction: 1,
+                                                ),
+                                                items: (state.kpis != null)
+                                                    ? state.kpis!
+                                                        .where((kpi) =>
+                                                            kpi.type ==
+                                                                "wallet" &&
+                                                            kpi.line == 2)
+                                                        .map((kpi) =>
+                                                            WalletKpi(kpi: kpi))
+                                                        .toList()
+                                                    : [],
+                                              ));
+                                        }
+
+                                        if (index == 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index]);
+                                        } else if (ammountWalletKpi2line != 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index - 1]);
+                                        } else {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index]);
+                                        }
+                                      }),
                                 ),
                               ],
                             ),

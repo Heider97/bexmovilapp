@@ -440,7 +440,7 @@ class ApiService {
                 queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-    final value = KpiResponse.fromMap(result.data!);
+    final value = KpiResponse.fromJson(result.data!);
 
     return Response(
         data: value,
