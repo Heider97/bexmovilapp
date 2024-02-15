@@ -49,6 +49,10 @@ class ApiService {
     final data = <String, dynamic>{r'name': company};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
+
+    print(url);
+    print(dio.options.baseUrl);
+
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<EnterpriseResponse>>(Options(
       method: 'GET',
