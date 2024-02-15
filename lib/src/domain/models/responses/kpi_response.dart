@@ -1,29 +1,74 @@
-import 'package:equatable/equatable.dart';
+// To parse this JSON data, do
+//
+//     final kpiResponse = kpiResponseFromJson(jsonString);
 
-import '../kpi.dart';
+import 'dart:convert';
 
-class KpiResponse extends Equatable {
-  final bool status;
-  final String message;
-  final List<Kpi> kpis;
+KpiResponse kpiResponseFromJson(String str) =>
+    KpiResponse.fromJson(json.decode(str));
 
-  const KpiResponse({
-    required this.status,
-    required this.message,
-    required this.kpis,
+String kpiResponseToJson(KpiResponse data) => json.encode(data.toJson());
+
+class KpiResponse {
+  bool? status;
+  String? message;
+  List<Kpi>? kpis;
+
+  KpiResponse({
+    this.status,
+    this.message,
+    this.kpis,
   });
 
-  factory KpiResponse.fromMap(Map<String, dynamic> map) {
-    return KpiResponse(
-      status: map['status'],
-      message: map['message'],
-      kpis: List<Kpi>.from(map['kpis'].map((e) => Kpi.fromJson(e))),
-    );
-  }
+  factory KpiResponse.fromJson(Map<String, dynamic> json) => KpiResponse(
+        status: json["status"],
+        message: json["message"],
+        kpis: json["kpis"] == null
+            ? []
+            : List<Kpi>.from(json["kpis"]!.map((x) => Kpi.fromJson(x))),
+      );
 
-  @override
-  bool get stringify => true;
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "kpis": kpis == null
+            ? []
+            : List<dynamic>.from(kpis!.map((x) => x.toJson())),
+      };
+}
 
-  @override
-  List<Object> get props => [status, message, kpis];
+class Kpi {
+  int? id;
+  String? title;
+  String? sql;
+  String? type;
+  int? line;
+  String? value;
+
+  Kpi({
+    this.id,
+    this.title,
+    this.sql,
+    this.type,
+    this.line,
+    this.value,
+  });
+
+  factory Kpi.fromJson(Map<String, dynamic> json) => Kpi(
+        id: json["id"],
+        title: json["title"],
+        sql: json["sql"],
+        type: json["type"],
+        line: json["line"],
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "sql": sql,
+        "type": type,
+        "line": line,
+        "value": value,
+      };
 }

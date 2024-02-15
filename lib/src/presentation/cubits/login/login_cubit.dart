@@ -88,7 +88,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
             KpiRequest(codvendedor: storageService!.getString('username')!));
 
     if (response is DataSuccess) {
-      await databaseRepository.insertKpis(response.data!.kpis);
+      await databaseRepository.insertKpis(response.data!.kpis!);
     } else {
       emit(LoginFailed(
           error: 'kpis-${response.data!.message}',

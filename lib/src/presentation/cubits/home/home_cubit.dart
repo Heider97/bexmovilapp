@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
@@ -30,7 +31,6 @@ part '../local/dao/kpi_dao.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class AppDatabase {
-
   static var lock = Lock();
   AppDatabase._privateConstructor();
   static final AppDatabase instance = AppDatabase._privateConstructor();
@@ -42,11 +42,8 @@ class AppDatabase {
 
     final path = join(documentsDirectory.path, databaseName);
 
-    return await openDatabase(
-      path,
-      version: 2,
-      onCreate: (db, version) async {
-        await db.execute('''
+    return await openDatabase(path, version: 2, onCreate: (db, version) async {
+      await db.execute('''
           CREATE TABLE $tableLocations (
             ${LocationFields.id} INTEGER PRIMARY KEY,
             ${LocationFields.latitude} REAL DEFAULT NULL,
@@ -60,7 +57,7 @@ class AppDatabase {
             ${LocationFields.createdAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableProcessingQueues (
             ${ProcessingQueueFields.id} INTEGER PRIMARY KEY,
             ${ProcessingQueueFields.body} TEXT DEFAULT NULL,
@@ -71,7 +68,7 @@ class AppDatabase {
             ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableFeature (
             ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
             ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
@@ -89,7 +86,7 @@ class AppDatabase {
             ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableConfig (
             ${ConfigFields.id} INTEGER PRIMARY KEY,
             ${ConfigFields.name} TEXT DEFAULT NULL,
@@ -98,26 +95,28 @@ class AppDatabase {
             ${ConfigFields.module} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableKpis (
             ${KpiFields.id} INTEGER PRIMARY KEY,
             ${KpiFields.title} TEXT DEFAULT NULL,
-            ${KpiFields.value} TEXT DEFAULT NULL,
-            ${KpiFields.percent} FLOAT DEFAULT NULL
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+             ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        await db.execute('''
-          CREATE TABLE IF NOT EXISTS $tableKpis (
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      await db.execute('''
+           CREATE TABLE IF NOT EXISTS $tableKpis (
             ${KpiFields.id} INTEGER PRIMARY KEY,
             ${KpiFields.title} TEXT DEFAULT NULL,
-            ${KpiFields.value} TEXT DEFAULT NULL,
-            ${KpiFields.percent} FLOAT DEFAULT NULL
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+             ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');
-      }
-    );
+    });
   }
 
   Future<Database?> get database async {
