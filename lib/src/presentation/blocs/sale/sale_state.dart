@@ -1,32 +1,38 @@
 part of 'sale_bloc.dart';
 
-abstract class SaleState {}
+abstract class SaleState {
+  List<Router> routers;
 
-class SaleInitial extends SaleState {}
+  SaleState(this.routers);
+}
+
+class SaleInitial extends SaleState {
+  SaleInitial(super.routers);
+}
 
 class SaleClienteSelected extends SaleState {
   Client client;
-  SaleClienteSelected({required this.client});
+  SaleClienteSelected(super.routers, {required this.client});
 }
 
 class SaleProductSelected extends SaleState {
   List<Product> listOfProducst;
-  SaleProductSelected({required this.listOfProducst});
+  SaleProductSelected(super.routers, {required this.listOfProducst});
 }
 
 class SaleProductConfirm extends SaleState {
   List<Product> listOfProducst;
-  SaleProductConfirm({required this.listOfProducst});
+  SaleProductConfirm(super.routers, {required this.listOfProducst});
 }
 
 class SaleOrderPreview extends SaleState {
   List<Product> listOfProducst;
   Client client;
-  SaleOrderPreview({required this.listOfProducst, required this.client});
+  SaleOrderPreview(super.routers, {required this.listOfProducst, required this.client});
 }
 
 class SaleOrderConfirm extends SaleState {
   List<Product> listOfProducst;
   Client client;
-  SaleOrderConfirm({required this.listOfProducst, required this.client});
+  SaleOrderConfirm(super.routers, {required this.listOfProducst, required this.client});
 }

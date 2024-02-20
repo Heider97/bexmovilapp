@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/domain/models/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/database_repository.dart';
@@ -12,7 +13,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   final DatabaseRepository databaseRepository;
 
-  SaleBloc(this.databaseRepository) : super(SaleInitial()) {
+  SaleBloc(this.databaseRepository) : super(SaleInitial([])) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClients);
     on<SelectClient>(_selectClient);
@@ -23,7 +24,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var routers = await databaseRepository.getAllRoutersGroupByClient('09');
-    print(routers.length);
+    emit(SaleInitial(routers));
 
   }
 
@@ -37,10 +38,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     if (state is SaleClienteSelected) {
       SaleClienteSelected currentState = state as SaleClienteSelected;
       (event.client != currentState.client)
-          ? emit(SaleClienteSelected(client: event.client))
-          : emit(SaleInitial());
+          ? emit(SaleClienteSelected(state.routers, client: event.client))
+          : emit(SaleInitial(state.routers));
     } else {
-      emit(SaleClienteSelected(client: event.client));
+      emit(SaleClienteSelected(state.routers, client: event.client));
     }
   }
 
@@ -52,12 +53,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   _confirmProducts(ConfirmProducts event, Emitter emit) {
     //TODO Agregar logica de creacion de la orden con el estado = productsConfirmed y guardado en BD
-    emit(SaleProductConfirm(listOfProducst: event.products));
+    emit(SaleProductConfirm(state.routers, listOfProducst: event.products));
   }
 
   _confirmOrder(ConfirmOrder event, Emitter emit) {
     //TODO Agregar logica de creacion de la orden con el estado = orderConfirmed y guardado en BD
     emit(
-        SaleOrderConfirm(listOfProducst: event.products, client: event.client));
+        SaleOrderConfirm(state.routers, listOfProducst: event.products, client: event.client));
   }
 }

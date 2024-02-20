@@ -217,8 +217,15 @@ class _SalePageState extends State<SalePage> {
                     StepperWidget(currentStep: 0, steps: steps),
                     gapH4,
                     BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                      if(state is LoadRouters) {
-                        return const Center(child: Text('informacion cargada'));
+                      if(state is SaleInitial) {
+                        return Expanded(
+                          child: ListView.builder(
+                              itemCount: state.routers.length,
+                              itemBuilder: (context, index) {
+                                print(state.routers[index].toJson().toString());
+                            return Text(state.routers[index].dayRouter ?? "N/A");
+                          }),
+                        );
                       } else {
                         return const Center(child: Text('Cargando'));
                       }

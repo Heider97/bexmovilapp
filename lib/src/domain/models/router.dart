@@ -15,7 +15,7 @@ class Router {
 
   Router.fromJson(Map<String, dynamic> json) {
     seller = json['codvendedor'];
-    dayRouter = json['diarutero'];
+    dayRouter = json['DIARUTERO'];
     secuenceRouter = json['bank_id'];
     client = json['account_number'];
     quota = json['cupo'];
