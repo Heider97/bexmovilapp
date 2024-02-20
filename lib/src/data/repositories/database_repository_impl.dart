@@ -8,18 +8,23 @@ import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
 import '../../domain/models/kpi.dart';
+import '../../domain/models/router.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
 
-  //GLOBAL
+  //ROUTER
   @override
-  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
-    return _appDatabase.findGlobal(table, condition, value);
+  Future<List<Router>> getAllRoutersGroupByClient(String seller) async {
+    return _appDatabase.routerDao.getAllRoutersGroupByClient(seller);
   }
 
+  @override
+  Future<List<Router>> getAllRouters(String seller) async {
+    return _appDatabase.routerDao.getAllRouters(seller);
+  }
 
   //PROCESSING QUEUE
   @override

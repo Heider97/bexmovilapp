@@ -3,6 +3,7 @@ import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import '../models/feature.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
+import '../models/router.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -11,8 +12,10 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
-  Future<List<Map<String, Object?>>> findGlobal(
-      String table, String condition, String value);
+
+  //ROUTERS
+  Future<List<Router>> getAllRoutersGroupByClient(String seller);
+  Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS
   Future<List<Config>> getConfigs();

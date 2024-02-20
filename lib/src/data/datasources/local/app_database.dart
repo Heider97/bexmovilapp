@@ -15,6 +15,7 @@ import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
 import '../../../domain/models/kpi.dart';
+import '../../../domain/models/router.dart';
 
 //services
 import '../../../locator.dart';
@@ -27,6 +28,7 @@ part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
 part '../local/dao/kpi_dao.dart';
+part '../local/dao/routers_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -201,6 +203,8 @@ class AppDatabase {
   ClientDao get clientDao => ClientDao(instance);
 
   KpiDao get kpiDao => KpiDao(instance);
+
+  RouterDao get routerDao => RouterDao(instance);
 
   void close() {
     _database!.close();

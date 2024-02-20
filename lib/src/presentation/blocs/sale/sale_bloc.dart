@@ -1,7 +1,6 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 
 import '../../../domain/repositories/database_repository.dart';
 
@@ -23,7 +22,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
-    var routers = await databaseRepository.findGlobal('tblmruteros', 'codvendedor', '09');
+    var routers = await databaseRepository.getAllRoutersGroupByClient('09');
     print(routers.length);
 
   }

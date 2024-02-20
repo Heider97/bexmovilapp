@@ -13,6 +13,7 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:pinput/pinput.dart';
 
 //cubit
 import '../../../../locator.dart';
@@ -34,46 +35,8 @@ class SalePage extends StatefulWidget {
 
 late SaleStepperBloc saleStepperBloc;
 
-List<Product> products = [
-  Product(
-    lastSoldOn: DateTime.now(),
-    lastQuantitySold: 10,
-    code: 'ABC123',
-    name: 'Product 1',
-    sellingPrice: 19.99,
-    discount: 5.0,
-    availableUnits: 100,
-    quantity: 20,
-    originLocation:
-    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  ),
-  Product(
-    lastSoldOn: DateTime.now(),
-    lastQuantitySold: 5,
-    code: 'XYZ789',
-    name: 'Product 2',
-    sellingPrice: 29.99,
-    discount: 2.5,
-    availableUnits: 50,
-    quantity: 15,
-    originLocation:
-    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  ),
-  Product(
-    lastSoldOn: DateTime.now(),
-    lastQuantitySold: 8,
-    code: 'DEF456',
-    name: 'Product 3',
-    sellingPrice: 14.99,
-    discount: 7.5,
-    availableUnits: 75,
-    quantity: 25,
-    originLocation:
-    OriginLocation(availableQuantity: 0, isSelected: false, name: "asd"),
-  )
-];
-
 class _SalePageState extends State<SalePage> {
+
   final TextEditingController searchController = TextEditingController();
   final Map<Product, int> selectedQuantities = {};
 
@@ -82,11 +45,18 @@ class _SalePageState extends State<SalePage> {
   List<Employee> employees = <Employee>[];
   late EmployeeDataSource employeeDataSource;
 
+  late SaleBloc saleBloc;
+
   @override
   void initState() {
     super.initState();
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+
+    saleBloc.add(LoadRouters());
 
     saleStepperBloc = BlocProvider.of(context);
+
+
     employeeDataSource = EmployeeDataSource(employeeData: employees);
     employees = getEmployeeData();
   }
@@ -246,318 +216,323 @@ class _SalePageState extends State<SalePage> {
                     ),
                     StepperWidget(currentStep: 0, steps: steps),
                     gapH4,
-                    BlocBuilder<SaleStepperBloc, SalesStepperState>(
-                      builder: (context, state) {
-                        if (state is SalesStepperClientSelection) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CustomSearchBar(
-                                      prefixIcon: Icon(
-                                        Icons.search,
-                                        color: theme.primaryColor,
-                                      ),
-                                      controller: searchController,
-                                      hintText: 'Nombre del cliente'),
-                                ),
-                              ),
-                              const CustomFrameButtom(
-                                icon: Icons.location_on,
-                              ),
-                              gapW12,
-                              const CustomFrameButtom(
-                                icon: Icons.tune,
-                              )
-                            ],
-                          );
-                        } else if (state is SalesStepperProductsSelection) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CustomSearchBar(
-                                      prefixIcon: Icon(
-                                        Icons.search,
-                                        color: theme.primaryColor,
-                                      ),
-                                      controller: searchController,
-                                      hintText:
-                                      'Nombre o código del producto'),
-                                ),
-                              ),
-                              const CustomFrameButtom(
-                                icon: Icons.location_on,
-                              ),
-                              gapW12,
-                              const CustomFrameButtom(
-                                icon: Icons.tune,
-                              )
-                            ],
-                          );
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
-                    BlocBuilder<SaleStepperBloc, SalesStepperState>(
-                      builder: (context, state) {
-                        if (state is SalesStepperClientSelection) {
-                          return Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                    child: ListView.builder(
-                                      itemCount: clientes.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ClientCard(
-                                              client: clientes[index]),
-                                        );
-                                      },
-                                    )),
-                                gapH8,
-                                BlocBuilder<SaleBloc, SaleState>(
-                                  builder: (context, saleState) {
-                                    if (saleState is SaleClienteSelected) {
-                                      return CustomElevatedButton(
-                                        width: double.infinity,
-                                        height: 50,
-                                        onTap: () {
-                                          saleStepperBloc.add(
-                                              ChangeStepEvent(index: 1));
-                                          /*  navigationService
-                                                  .goTo(Routes.detailSaleRoute); */
-                                        },
-                                        child: Text(
-                                          'Siguiente',
-                                          style: theme.textTheme.bodyLarge!
-                                              .copyWith(
-                                              fontWeight:
-                                              FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                          );
-                        } else if (state is SalesStepperProductsSelection) {
-                          return Expanded(
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: products.length,
-                                    itemBuilder: (BuildContext context,
-                                        int index) =>
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 9, bottom: 10),
-                                            child: ProductCard(
-                                              product: products[index],
-                                              refresh: _refresh,
-                                            )),
-                                  ),
-                                ),
-
-//Verifica que almenos un producto tenga un quantity.
-                                (products.any(
-                                        (product) => product.quantity > 0))
-                                    ? CustomElevatedButton(
-                                  width: double.infinity,
-                                  height: 50,
-                                  onTap: () {
-                                    saleStepperBloc.add(
-                                        ChangeStepEvent(index: 2));
-                                    /* navigationService
-                                                  .goTo(Routes.detailSaleRoute); */
-                                  },
-                                  child: Text(
-                                    'Siguiente',
-                                    style: theme.textTheme.bodyLarge!
-                                        .copyWith(
-                                        fontWeight:
-                                        FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                )
-                                    : Container()
-                              ],
-                            ),
-                          );
-                        } else if (state is SalesStepperOrderDetails) {
-                          return Expanded(
-                            child: Column(
-                              children: [
-                                gapH44,
-                                Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: const Text("Comprador: ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16))),
-                                gapH20,
-                                const Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Italcol",
-                                        style: TextStyle(fontSize: 12)),
-                                    Text("Pedido No.20585557939",
-                                        style: TextStyle(fontSize: 12)),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      alignment: Alignment.bottomLeft,
-                                      child: const Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Text("San Antonio de Prado",
-                                              style:
-                                              TextStyle(fontSize: 12)),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.zero,
-                                      alignment: Alignment.bottomRight,
-                                      child: const Row(
-                                        children: [
-                                          Text("Fecha: 18/12/2023",
-                                              style:
-                                              TextStyle(fontSize: 12)),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                gapH32,
-                                SingleChildScrollView(
-                                  child: SizedBox(
-                                    width:
-                                    MediaQuery.of(context).size.width,
-                                    child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                          return Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 440,
-                                                child: SfDataGrid(
-                                                  gridLinesVisibility:
-                                                  GridLinesVisibility.both,
-                                                  source: employeeDataSource,
-                                                  columnWidthMode:
-                                                  ColumnWidthMode.fill,
-                                                  shrinkWrapRows: true,
-                                                  columnWidthCalculationRange:
-                                                  ColumnWidthCalculationRange
-                                                      .allRows,
-                                                  columns: <GridColumn>[
-                                                    GridColumn(
-                                                        columnName: 'product',
-                                                        label: Container(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: const Text(
-                                                              'Producto',
-                                                              style: TextStyle(
-                                                                  fontSize: 11,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                            ))),
-                                                    GridColumn(
-                                                        columnName: 'price',
-                                                        label: Container(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: const Text(
-                                                                'Precio',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                    11,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .bold)))),
-                                                    GridColumn(
-                                                        columnName: 'quantity',
-                                                        label: Container(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: const Text(
-                                                                'Cantidad',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                    11,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .bold)))),
-                                                    GridColumn(
-                                                        columnName: 'total',
-                                                        label: Container(
-                                                            padding:
-                                                            const EdgeInsets
-                                                                .all(10.0),
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: const Text(
-                                                                'Total',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                    11,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .bold)))),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                ),
-                                gapH24,
-                                Container(
-                                    alignment: Alignment.bottomRight,
-                                    child: Text(
-                                        "Gran Total: ${formatCurrency.format(564456)}",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16))),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const Expanded(
-                            child: Center(child: Text('404 Not found')),
-                          );
-                        }
-                      },
-                    ),
+                    BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                      if(state is LoadRouters) {
+                        return const Center(child: Text('informacion cargada'));
+                      } else {
+                        return const Center(child: Text('Cargando'));
+                      }
+                    }),
+                    // BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                    //   builder: (context, state) {
+                    //     if (state is SalesStepperClientSelection) {
+                    //       return Row(
+                    //         children: [
+                    //           Expanded(
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: CustomSearchBar(
+                    //                   prefixIcon: Icon(
+                    //                     Icons.search,
+                    //                     color: theme.primaryColor,
+                    //                   ),
+                    //                   controller: searchController,
+                    //                   hintText: 'Nombre del cliente'),
+                    //             ),
+                    //           ),
+                    //           const CustomFrameButtom(
+                    //             icon: Icons.location_on,
+                    //           ),
+                    //           gapW12,
+                    //           const CustomFrameButtom(
+                    //             icon: Icons.tune,
+                    //           )
+                    //         ],
+                    //       );
+                    //     } else if (state is SalesStepperProductsSelection) {
+                    //       return Row(
+                    //         children: [
+                    //           Expanded(
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: CustomSearchBar(
+                    //                   prefixIcon: Icon(
+                    //                     Icons.search,
+                    //                     color: theme.primaryColor,
+                    //                   ),
+                    //                   controller: searchController,
+                    //                   hintText:
+                    //                   'Nombre o código del producto'),
+                    //             ),
+                    //           ),
+                    //           const CustomFrameButtom(
+                    //             icon: Icons.location_on,
+                    //           ),
+                    //           gapW12,
+                    //           const CustomFrameButtom(
+                    //             icon: Icons.tune,
+                    //           )
+                    //         ],
+                    //       );
+                    //     } else {
+                    //       return Container();
+                    //     }
+                    //   },
+                    // ),
+                    // BlocBuilder<SaleStepperBloc, SalesStepperState>(
+                    //   builder: (context, state) {
+                    //     if (state is SalesStepperClientSelection) {
+                    //       return Expanded(
+                    //         child: Column(
+                    //           mainAxisSize: MainAxisSize.max,
+                    //           children: [
+                    //             Expanded(
+                    //                 child: ListView.builder(
+                    //                   itemCount: clientes.length,
+                    //                   itemBuilder: (context, index) {
+                    //                     return Padding(
+                    //                       padding: const EdgeInsets.all(8.0),
+                    //                       child: ClientCard(
+                    //                           client: clientes[index]),
+                    //                     );
+                    //                   },
+                    //                 )),
+                    //             gapH8,
+                    //             BlocBuilder<SaleBloc, SaleState>(
+                    //               builder: (context, saleState) {
+                    //                 if (saleState is SaleClienteSelected) {
+                    //                   return CustomElevatedButton(
+                    //                     width: double.infinity,
+                    //                     height: 50,
+                    //                     onTap: () {
+                    //                       saleStepperBloc.add(
+                    //                           ChangeStepEvent(index: 1));
+                    //                       /*  navigationService
+                    //                               .goTo(Routes.detailSaleRoute); */
+                    //                     },
+                    //                     child: Text(
+                    //                       'Siguiente',
+                    //                       style: theme.textTheme.bodyLarge!
+                    //                           .copyWith(
+                    //                           fontWeight:
+                    //                           FontWeight.bold,
+                    //                           color: Colors.white),
+                    //                     ),
+                    //                   );
+                    //                 } else {
+                    //                   return Container();
+                    //                 }
+                    //               },
+                    //             )
+                    //           ],
+                    //         ),
+                    //       );
+                    //     } else if (state is SalesStepperProductsSelection) {
+                    //       return Expanded(
+                    //         child: Column(
+                    //           children: [
+                    //             Expanded(
+                    //               child: ListView.builder(
+                    //                 scrollDirection: Axis.vertical,
+                    //                 itemCount: products.length,
+                    //                 itemBuilder: (BuildContext context,
+                    //                     int index) =>
+                    //                     Padding(
+                    //                         padding: const EdgeInsets.only(
+                    //                             right: 9, bottom: 10),
+                    //                         child: ProductCard(
+                    //                           product: products[index],
+                    //                           refresh: _refresh,
+                    //                         )),
+                    //               ),
+                    //             ),
+                    //             (products.any(
+                    //                     (product) => product.quantity > 0))
+                    //                 ? CustomElevatedButton(
+                    //               width: double.infinity,
+                    //               height: 50,
+                    //               onTap: () {
+                    //                 saleStepperBloc.add(
+                    //                     ChangeStepEvent(index: 2));
+                    //                 /* navigationService
+                    //                               .goTo(Routes.detailSaleRoute); */
+                    //               },
+                    //               child: Text(
+                    //                 'Siguiente',
+                    //                 style: theme.textTheme.bodyLarge!
+                    //                     .copyWith(
+                    //                     fontWeight:
+                    //                     FontWeight.bold,
+                    //                     color: Colors.white),
+                    //               ),
+                    //             )
+                    //                 : Container()
+                    //           ],
+                    //         ),
+                    //       );
+                    //     } else if (state is SalesStepperOrderDetails) {
+                    //       return Expanded(
+                    //         child: Column(
+                    //           children: [
+                    //             gapH44,
+                    //             Container(
+                    //                 alignment: Alignment.bottomLeft,
+                    //                 child: const Text("Comprador: ",
+                    //                     style: TextStyle(
+                    //                         fontWeight: FontWeight.bold,
+                    //                         fontSize: 16))),
+                    //             gapH20,
+                    //             const Row(
+                    //               mainAxisAlignment:
+                    //               MainAxisAlignment.spaceBetween,
+                    //               children: [
+                    //                 Text("Italcol",
+                    //                     style: TextStyle(fontSize: 12)),
+                    //                 Text("Pedido No.20585557939",
+                    //                     style: TextStyle(fontSize: 12)),
+                    //               ],
+                    //             ),
+                    //             Row(
+                    //               mainAxisAlignment:
+                    //               MainAxisAlignment.spaceBetween,
+                    //               children: [
+                    //                 Container(
+                    //                   alignment: Alignment.bottomLeft,
+                    //                   child: const Row(
+                    //                     mainAxisAlignment:
+                    //                     MainAxisAlignment.start,
+                    //                     children: [
+                    //                       Text("San Antonio de Prado",
+                    //                           style:
+                    //                           TextStyle(fontSize: 12)),
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //                 Container(
+                    //                   margin: EdgeInsets.zero,
+                    //                   alignment: Alignment.bottomRight,
+                    //                   child: const Row(
+                    //                     children: [
+                    //                       Text("Fecha: 18/12/2023",
+                    //                           style:
+                    //                           TextStyle(fontSize: 12)),
+                    //                     ],
+                    //                   ),
+                    //                 )
+                    //               ],
+                    //             ),
+                    //             gapH32,
+                    //             SingleChildScrollView(
+                    //               child: SizedBox(
+                    //                 width:
+                    //                 MediaQuery.of(context).size.width,
+                    //                 child: LayoutBuilder(
+                    //                     builder: (context, constraints) {
+                    //                       return Column(
+                    //                         children: [
+                    //                           SizedBox(
+                    //                             height: 440,
+                    //                             child: SfDataGrid(
+                    //                               gridLinesVisibility:
+                    //                               GridLinesVisibility.both,
+                    //                               source: employeeDataSource,
+                    //                               columnWidthMode:
+                    //                               ColumnWidthMode.fill,
+                    //                               shrinkWrapRows: true,
+                    //                               columnWidthCalculationRange:
+                    //                               ColumnWidthCalculationRange
+                    //                                   .allRows,
+                    //                               columns: <GridColumn>[
+                    //                                 GridColumn(
+                    //                                     columnName: 'product',
+                    //                                     label: Container(
+                    //                                         padding:
+                    //                                         const EdgeInsets
+                    //                                             .all(10.0),
+                    //                                         alignment: Alignment
+                    //                                             .center,
+                    //                                         child: const Text(
+                    //                                           'Producto',
+                    //                                           style: TextStyle(
+                    //                                               fontSize: 11,
+                    //                                               fontWeight:
+                    //                                               FontWeight
+                    //                                                   .bold),
+                    //                                         ))),
+                    //                                 GridColumn(
+                    //                                     columnName: 'price',
+                    //                                     label: Container(
+                    //                                         padding:
+                    //                                         const EdgeInsets
+                    //                                             .all(10.0),
+                    //                                         alignment: Alignment
+                    //                                             .center,
+                    //                                         child: const Text(
+                    //                                             'Precio',
+                    //                                             style: TextStyle(
+                    //                                                 fontSize:
+                    //                                                 11,
+                    //                                                 fontWeight:
+                    //                                                 FontWeight
+                    //                                                     .bold)))),
+                    //                                 GridColumn(
+                    //                                     columnName: 'quantity',
+                    //                                     label: Container(
+                    //                                         padding:
+                    //                                         const EdgeInsets
+                    //                                             .all(10.0),
+                    //                                         alignment: Alignment
+                    //                                             .center,
+                    //                                         child: const Text(
+                    //                                             'Cantidad',
+                    //                                             style: TextStyle(
+                    //                                                 fontSize:
+                    //                                                 11,
+                    //                                                 fontWeight:
+                    //                                                 FontWeight
+                    //                                                     .bold)))),
+                    //                                 GridColumn(
+                    //                                     columnName: 'total',
+                    //                                     label: Container(
+                    //                                         padding:
+                    //                                         const EdgeInsets
+                    //                                             .all(10.0),
+                    //                                         alignment: Alignment
+                    //                                             .center,
+                    //                                         child: const Text(
+                    //                                             'Total',
+                    //                                             style: TextStyle(
+                    //                                                 fontSize:
+                    //                                                 11,
+                    //                                                 fontWeight:
+                    //                                                 FontWeight
+                    //                                                     .bold)))),
+                    //                               ],
+                    //                             ),
+                    //                           ),
+                    //                         ],
+                    //                       );
+                    //                     }),
+                    //               ),
+                    //             ),
+                    //             gapH24,
+                    //             Container(
+                    //                 alignment: Alignment.bottomRight,
+                    //                 child: Text(
+                    //                     "Gran Total: ${formatCurrency.format(564456)}",
+                    //                     style: const TextStyle(
+                    //                         fontWeight: FontWeight.bold,
+                    //                         fontSize: 16))),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       return const Expanded(
+                    //         child: Center(child: Text('404 Not found')),
+                    //       );
+                    //     }
+                    //   },
+                    // ),
                   ],
                 ),
               ),
