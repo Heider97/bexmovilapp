@@ -14,6 +14,13 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   DatabaseRepositoryImpl(this._appDatabase);
 
+  //GLOBAL
+  @override
+  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
+    return _appDatabase.findGlobal(table, condition, value);
+  }
+
+
   //PROCESSING QUEUE
   @override
   Future<List<ProcessingQueue>> getAllProcessingQueues() async {

@@ -4,6 +4,11 @@ class SaleEvent {
   const SaleEvent();
 }
 
+
+class LoadRouters extends SaleEvent {}
+
+class LoadClients extends SaleEvent {}
+
 class SelectClient extends SaleEvent {
   final Client client;
   SelectClient({required this.client});

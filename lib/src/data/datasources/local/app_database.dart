@@ -146,6 +146,11 @@ class AppDatabase {
     }
   }
 
+  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
+    final db = await instance.database;
+    return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
+  }
+
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;
     return await db!.query(table);
