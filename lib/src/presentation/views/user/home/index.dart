@@ -128,7 +128,7 @@ class HomeViewState extends State<HomeView>
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () => homeCubit.logout(),
+                        onTap: () => Scaffold.of(context).openDrawer(),
                         child: CircleAvatar(
                           radius: 25,
                           child: state.user != null && state.user!.name != null

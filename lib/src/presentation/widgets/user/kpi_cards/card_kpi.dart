@@ -1,5 +1,4 @@
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,26 +17,32 @@ class _CardKpiState extends State<CardKpi> {
     ThemeData theme = Theme.of(context);
     return Card(
         surfaceTintColor: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                widget.kpi.title ?? "N/A",
-                style: theme.textTheme.bodyMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: [
-                  Text(
-                    widget.kpi.value ?? "N/A",
+        child: SizedBox(
+          width: 230,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.kpi.title ?? "N/A",
+                    maxLines: 2,
                     style: theme.textTheme.bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-            ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      widget.kpi.value ?? "N/A",
+                      style: theme.textTheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }

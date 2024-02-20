@@ -2,6 +2,7 @@ import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
@@ -66,8 +67,6 @@ class DrawerWidget extends StatelessWidget {
               icon: Icons.sell,
               text: 'Vender',
               onTap: () => _navigationService.goTo(Routes.saleRoute),
-              /*  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const SalePage())), */
               image: 'assets/svg/sell.svg',
               countNotifications: 0),
           gapH12,
@@ -93,6 +92,14 @@ class DrawerWidget extends StatelessWidget {
               text: 'PQRS',
               onTap: null,
               image: "assets/svg/pqrs.svg",
+              countNotifications: 0),
+          gapH12,
+          _createDrawerItem(
+              context: context,
+              icon: Icons.business_center,
+              text: 'Salir',
+              onTap: () => context.read<HomeCubit>().logout(),
+              image: 'assets/svg/logout.svg',
               countNotifications: 0),
         ],
       ),
