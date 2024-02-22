@@ -15,14 +15,14 @@ class ConfigDao {
   }
 
   Future<List<Config>> getAllConfigs() async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase.database;
     final configList = await db!.query(tableConfig);
     final configs = parseConfigs(configList);
     return configs;
   }
 
   Future<void> insertConfigs(List<Config> configs) async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase.database;
     var batch = db!.batch();
 
     await Future.forEach(configs, (config) async {
@@ -48,7 +48,7 @@ class ConfigDao {
   }
 
   Future<void> emptyConfigs() async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase.database;
     await db!.delete(tableConfig);
     return Future.value();
   }

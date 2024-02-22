@@ -15,14 +15,14 @@ class LocationDao {
   }
 
   Future<List<Location>> getAllLocations() async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase._database;
     final locationList = await db!.query(tableLocations);
     final locations = parseLocations(locationList);
     return locations;
   }
 
   Future<Location?> getLastLocation() async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase._database;
 
     final locationList =
     await db!.rawQuery('SELECT * FROM locations ORDER BY _id desc LIMIT 1');

@@ -1,8 +1,9 @@
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
-import 'package:sqlbrite/sqlbrite.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
@@ -13,6 +14,8 @@ import '../../../utils/constants/strings.dart';
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
+import '../../../domain/models/kpi.dart';
+import '../../../domain/models/router.dart';
 
 //services
 import '../../../locator.dart';
@@ -24,32 +27,25 @@ part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
 part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
+part '../local/dao/kpi_dao.dart';
+part '../local/dao/routers_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class AppDatabase {
   static var lock = Lock();
-  static AppDatabase? _instance;
-  static BriteDatabase? _streamDatabase;
+  AppDatabase._privateConstructor();
+  static final AppDatabase instance = AppDatabase._privateConstructor();
+
   Database? _database;
 
-  Future<AppDatabase?> getInstance() async {
-    _instance ??= AppDatabase();
-    _database ??= await database(1, null);
-    return _instance;
-  }
-
-  Future<Database> _initDatabase(
-      databaseName, int? version, List<String>? migrations) async {
+  Future<Database> _initDatabase(databaseName) async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
 
     final path = join(documentsDirectory.path, databaseName);
 
-    return await openDatabase(
-      path,
-      version: version,
-      onCreate: (db, version) async {
-        await db.execute('''
+    return await openDatabase(path, version: 2, onCreate: (db, version) async {
+      await db.execute('''
           CREATE TABLE $tableLocations (
             ${LocationFields.id} INTEGER PRIMARY KEY,
             ${LocationFields.latitude} REAL DEFAULT NULL,
@@ -63,7 +59,7 @@ class AppDatabase {
             ${LocationFields.createdAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableProcessingQueues (
             ${ProcessingQueueFields.id} INTEGER PRIMARY KEY,
             ${ProcessingQueueFields.body} TEXT DEFAULT NULL,
@@ -74,7 +70,7 @@ class AppDatabase {
             ${ProcessingQueueFields.updatedAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableFeature (
             ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
             ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
@@ -92,7 +88,7 @@ class AppDatabase {
             ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
           )
         ''');
-        await db.execute('''
+      await db.execute('''
           CREATE TABLE $tableConfig (
             ${ConfigFields.id} INTEGER PRIMARY KEY,
             ${ConfigFields.name} TEXT DEFAULT NULL,
@@ -101,60 +97,49 @@ class AppDatabase {
             ${ConfigFields.module} TEXT DEFAULT NULL
           )
         ''');
-        if (migrations != null) {
-          for (var migration in migrations) {
-            try {
-              String sqlScriptWithoutEscapes =
-                  migration.replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-
-              List<String> scriptsSeparados =
-                  sqlScriptWithoutEscapes.split('CREATE');
-
-              for (String createTableScript in scriptsSeparados) {
-                try {
-                  String scriptCompleto = 'CREATE $createTableScript';
-                  await db.execute(scriptCompleto);
-
-                  print('Script ejecutado con éxito:\n');
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            } catch (ex) {
-              print('Error $ex');
-            }
-          }
-        }
-      },
-    );
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableKpis (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
+          )
+        ''');
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      await db.execute('''
+           CREATE TABLE IF NOT EXISTS $tableKpis (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
+          )
+        ''');
+    });
   }
 
-  Future<Database?> database(int? version, List<String>? migrations) async {
+  Future<Database?> get database async {
     var dbName = _storageService.getString('company_name');
     if (_database != null) return _database;
     await lock.synchronized(() async {
-      if (_database == null ||
-          await _database!.database.getVersion() != version) {
+      if (_database == null) {
         dbName ??= databaseName;
-        _database = await _initDatabase('$dbName.db', version, migrations);
-        _streamDatabase = BriteDatabase(_database!);
+        _database = await _initDatabase('$dbName.db');
       }
     });
     return _database;
   }
 
-  Future<BriteDatabase?> get streamDatabase async {
-    await database(null, null);
-    return _streamDatabase;
-  }
-
   //SCRIPTING
   Future<void> runMigrations(List<String> migrations) async {
-    final db = await _instance?.streamDatabase;
+    final db = await instance.database;
     try {
-      await db?.transaction((db) async {
+      await db?.transaction((database) async {
         for (var migration in migrations) {
-          await db.execute(migration);
+          await database.execute(migration);
         }
       });
       return;
@@ -163,48 +148,35 @@ class AppDatabase {
     }
   }
 
+  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
+    final db = await instance.database;
+    return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
+  }
+
+  Future<List<Map<String, Object?>>> search(String table) async {
+    final db = await instance.database;
+    return await db!.query(table);
+  }
+
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = await _instance?.streamDatabase;
+    final db = await instance.database;
     return db!.insert(table, row);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
-    final db = await _instance?.streamDatabase;
+    final db = await instance.database;
     var results = <int>[];
     try {
-      await db?.transaction((db) async {
+      await db?.transaction((database) async {
+        final batch = database.batch();
         for (var object in objects) {
-          var primary = await db.rawQuery('SELECT l.name FROM pragma_table_info("$table") as l WHERE l.pk = 1');
-          if(primary.isNotEmpty){
-            var key = object.containsKey(primary.first['name']);
-            if(key) {
-              var value = object[primary.first['name']];
-              var exists = await db.query(table, where: '${primary.first['name']} = ?', whereArgs: [value]);
-              if(exists.isNotEmpty){
-                var id = await db.update(table, object, where: '${primary.first['name']} = ?', whereArgs: [value]);
-                results.add(id);
-              } else {
-                var id = await db.insert(table, object);
-                results.add(id);
-              }
-            } else {
-              var id = await db.insert(table, object);
-              results.add(id);
-            }
-          } else {
-            print('paso aqui 1');
-            var id = await db.insert(table, object);
-            results.add(id);
-          }
-
+          batch.insert(table, object);
         }
+        await batch.commit(continueOnError: false);
       });
       return results;
     } catch (er) {
-      print('aqui esta el error');
-      print(table);
-      print(er);
       return null;
     }
   }
@@ -212,26 +184,30 @@ class AppDatabase {
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await _instance?.streamDatabase;
+    final db = await instance.database;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = await _instance?.streamDatabase;
+    final db = await instance.database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
-  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(_instance!);
+  ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
-  FeatureDao get featureDao => FeatureDao(_instance!);
+  FeatureDao get featureDao => FeatureDao(instance);
 
-  ConfigDao get configDao => ConfigDao(_instance!);
+  ConfigDao get configDao => ConfigDao(instance);
 
-  ClientDao get clientDao => ClientDao(_instance!);
+  ClientDao get clientDao => ClientDao(instance);
+
+  KpiDao get kpiDao => KpiDao(instance);
+
+  RouterDao get routerDao => RouterDao(instance);
 
   void close() {
+    _database!.close();
     _database = null;
-    _streamDatabase!.close();
   }
 }

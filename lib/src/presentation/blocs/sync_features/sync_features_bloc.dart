@@ -5,6 +5,7 @@ import 'package:bexmovil/src/domain/models/requests/dynamic_request.dart';
 import 'package:bexmovil/src/domain/models/requests/sync_priorities_request.dart';
 import 'package:bexmovil/src/domain/models/responses/dynamic_response.dart';
 import 'package:bexmovil/src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,22 +19,21 @@ import '../../../domain/models/feature.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 //services
-import '../../../locator.dart';
 import '../../../services/navigation.dart';
 
 part 'sync_features_event.dart';
 part 'sync_features_state.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
-
 class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     with FormatDate {
-  final DatabaseRepository _databaseRepository;
-  final ApiRepository _apiRepository;
-  final ProcessingQueueBloc _processingQueueBloc;
+  final DatabaseRepository databaseRepository;
+  final ApiRepository apiRepository;
+  final ProcessingQueueBloc processingQueueBloc;
+  final NavigationService navigationService;
+  final LocalStorageService storageService;
 
-  SyncFeaturesBloc(
-      this._databaseRepository, this._apiRepository, this._processingQueueBloc)
+  SyncFeaturesBloc(this.databaseRepository, this.apiRepository,
+      this.processingQueueBloc, this.navigationService, this.storageService)
       : super(SyncFeaturesInitial()) {
     on<SyncFeatureGet>(_observe);
     on<SyncFeatureLeave>(_go);
@@ -60,19 +60,19 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         code: 'store_dynamic_data',
         createdAt: now(),
         updatedAt: now());
-    _processingQueueBloc.addProcessingQueue(processingQueue);
+    processingQueueBloc.addProcessingQueue(processingQueue);
   }
 
   void _observe(event, emit) async {
-    var features = await _databaseRepository.getFeatures();
-    var configs = await _databaseRepository.getConfigs();
+    var features = await databaseRepository.getAllFeatures();
+    var configs = await databaseRepository.getConfigs();
 
     try {
       emit(SyncFeaturesLoading(features: features));
 
       var version = configs.firstWhere((element) => element.module == 'login');
 
-      var response = await _apiRepository.priorities(
+      var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(
               date: now(), version: version.value ?? "0"));
 
@@ -100,37 +100,39 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
           }
         }
         migrations.removeWhere((element) => element == 'CREATE ');
-        await _databaseRepository.runMigrations(migrations);
+        await databaseRepository.runMigrations(migrations);
 
-        var prioritiesAsync = response.data!.priorities!
-            .where((element) => element.runBackground == 1);
+        // var prioritiesAsync = response.data!.priorities!
+        //     .where((element) => element.runBackground == 1);
 
         //TODO: [Heider Zapa] run with isolate
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
 
-        var functions = <Function>[];
-        var arguments = <Map<String, dynamic>>[];
+        // var functions = <Function>[];
+        // var arguments = <Map<String, dynamic>>[];
+        //
+        // for (var priority in prioritiesAsync) {
+        //   print(priority.toJson());
+        //   functions.add(insertDynamicData);
+        //   arguments.add(
+        //       {'table_name': priority.name, 'content': 'application/json'});
+        // }
 
-        for (var priority in prioritiesAsync) {
-          functions.add(insertDynamicData);
-          arguments.add(
-              {'table_name': priority.name, 'content': 'application/json'});
-        }
-
-        var isolateModel =
-            IsolateModel(functions, arguments, prioritiesAsync.length);
-        await heavyTask(isolateModel);
+        // var isolateModel =
+        //     IsolateModel(functions, arguments, prioritiesAsync.length);
+        // await heavyTask(isolateModel);
 
         List<String> tables = [];
 
         List<Future<DataState<DynamicResponse>>> futures = [];
 
         for (var priority in prioritiesSync) {
-          futures.add(_apiRepository.syncDynamic(
+          futures.add(apiRepository.syncDynamic(
               request: DynamicRequest(priority.name, 'application/json')));
           tables.add(priority.name);
         }
+
         List<DataState<DynamicResponse>> responses = await Future.wait(futures);
 
         List<Future<dynamic>> futureInserts = [];
@@ -138,15 +140,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var i = 0;
         for (var response in responses) {
           if (response is DataSuccess) {
-            print('started table');
-            print(tables[i]);
-            //TODO: [Heider Zapa] capture api with error and should be request when retry
             if (response.data != null && response.data!.data != null) {
-              futureInserts.add(_databaseRepository.insertAll(
+              futureInserts.add(databaseRepository.insertAll(
                   tables[i], response.data!.data!));
+            } else {
+              print('no hay data');
             }
-          } else {
-            print(response.error);
           }
           i++;
         }
@@ -157,8 +156,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
-      print('el error esta aqui');
-      print(e.toString());
       emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }
@@ -168,6 +165,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void goToHome() {
-    _navigationService.goTo(Routes.homeRoute);
+    navigationService.goTo(Routes.homeRoute);
   }
 }

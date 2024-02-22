@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
@@ -6,18 +7,30 @@ import '../../domain/repositories/database_repository.dart';
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
+import '../../domain/models/kpi.dart';
+import '../../domain/models/router.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
 
+  //ROUTER
+  @override
+  Future<List<Router>> getAllRoutersGroupByClient(String seller) async {
+    return _appDatabase.routerDao.getAllRoutersGroupByClient(seller);
+  }
+
+  @override
+  Future<List<Router>> getAllRouters(String seller) async {
+    return _appDatabase.routerDao.getAllRouters(seller);
+  }
+
   //PROCESSING QUEUE
   @override
   Future<List<ProcessingQueue>> getAllProcessingQueues() async {
     return _appDatabase.processingQueueDao.getAllProcessingQueues();
   }
-
 
   @override
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue) async {
@@ -58,10 +71,9 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //FEATURES
-
   @override
-  Future<List<Feature>> getFeatures() {
-    return _appDatabase.featureDao.getAllFeature();
+  Future<List<Feature>> getAllFeatures() {
+    return _appDatabase.featureDao.getAllFeatures();
   }
 
   @override
@@ -79,11 +91,42 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.featureDao.emptyFeature();
   }
 
+  //KPIS
+  @override
+  Future<List<Kpi>> getAllKpis() {
+    return _appDatabase.kpiDao.getAllKpis();
+  }
+
+  @override
+  Future<void> insertKpis(List<Kpi> kpis) async {
+    return _appDatabase.kpiDao.insertKpis(kpis);
+  }
+
+  @override
+  Future<int> insertKpi(Kpi kpi) async {
+    return _appDatabase.kpiDao.insertKpi(kpi);
+  }
+
+  @override
+  Future<int> updateKpi(Kpi kpi) async {
+    return _appDatabase.kpiDao.updateKpi(kpi);
+  }
+
+  @override
+  Future<void> emptyKpis() {
+    return _appDatabase.kpiDao.emptyKpis();
+  }
+
   // initialize and close methods go here
   @override
-  Future<void> init(int? version, List<String> migrations) async {
-    await _appDatabase.database(version, migrations);
+  Future<void> init() async {
+    await _appDatabase.database;
     return Future.value();
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> search(String table) async {
+    return await _appDatabase.search(table);
   }
 
   @override
@@ -94,27 +137,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> runMigrations(List<String> migrations) {
     return _appDatabase.runMigrations(migrations);
-  }
-
-  //CLIENTS
-  @override
-  Future<List<Client>> getClients() async {
-    return await _appDatabase.clientDao.getAllClients();
-  }
-
-  @override
-  Future<int> updateClient(Client client) async {
-    return _appDatabase.clientDao.updateClient(client);
-  }
-
-  @override
-  Future<int> insertClient(Client client) async {
-    return _appDatabase.clientDao.insertClient(client);
-  }
-
-  @override
-  Future<void> emptyClient() async {
-    _appDatabase.clientDao.emptyClients();
   }
 
   @override

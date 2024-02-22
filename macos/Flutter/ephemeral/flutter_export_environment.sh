@@ -1,6 +1,6 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\flutter_windows_3.16.1-stable\flutter"
+export "FLUTTER_ROOT=C:\flutter_windows_3.16.3-stable\flutter"
 export "FLUTTER_APPLICATION_PATH=C:\Users\Jairo\Desktop\flutter\bexmovil"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"

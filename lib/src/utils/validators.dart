@@ -38,7 +38,7 @@ class Validator {
   }
 
   String? name(String? value) {
-    Pattern pattern = r'^.{6,50}$';
+    Pattern pattern = r'^.{4,50}$';
     // Pattern pattern = RegExHelpers.name;
     RegExp regex = RegExp(pattern.toString());
     if (!regex.hasMatch(value!)) {

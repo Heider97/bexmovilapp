@@ -13,6 +13,7 @@ const String databaseName = 'app_database';
 //routes\
 
 class Routes {
+  //
   static const splashRoute = '/splash';
   static const politicsRoute = '/politics';
   static const companyRoute = '/company';
@@ -33,10 +34,13 @@ class Routes {
   static const calendarRoute = '/calendar';
   static const charDetailsRoute = '/charDetailsRoute';
   static const saleRoute = '/sale';
+  static const detailSaleRoute = '/detail-sale';
+  static const historySaleRoute = '/history';
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
   static const wallet = '/wallet';
+  static const walletprocess = '/wallet-process';
 }
 
 // Form Error
@@ -66,6 +70,10 @@ const String displayMessagePermanentlydenied =
     "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos, pero parece que lo denegó permanentemente. Vaya a la configuración y actívela manualmente para continuar.";
 
 class Assets {
+  //ICONS
+  static const String arrowDown = 'assets/icons/arrow_down.png';
+  static const String arrowUp = 'assets/icons/arrow_up.png';
+
   static const String bgPattern = 'assets/images/bg-pattern.png';
   static const String shadow = 'assets/images/shadow.png';
   static const String bexBackgroundWhite =
@@ -74,6 +82,16 @@ class Assets {
 
   static const String bgPromCardGreen = "assets/images/bg-prom-card.png";
   static const String bgPromCardOrange = "assets/images/bg-prom-card-2.png";
+
+//STEPPER ICONS
+  static const String actionEnable = "assets/icons/actionEnable.png";
+  static const String actionDisable = "assets/icons/actionDisable.png";
+  static const String invoiceDisable =
+      "assets/icons/seleccionarFacturaDisable.png";
+  static const String invoiceEnable =
+      "assets/icons/seleccionarFacturaEnable.png";
+  static const String profileEnable = "assets/icons/ProfileEnable.png";
+  static const String profileDisable = "assets/icons/ProfileDisable.png";
 
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';

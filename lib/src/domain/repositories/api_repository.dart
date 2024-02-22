@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/domain/models/requests/sync_request.dart';
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
@@ -11,11 +10,13 @@ import '../../utils/resources/data_state.dart';
 
 import '../models/requests/dynamic_request.dart';
 import '../models/requests/enterprise_request.dart';
+import '../models/requests/kpi_request.dart';
 import '../models/requests/sync_priorities_request.dart';
 import '../models/responses/dynamic_response.dart';
 import '../models/responses/enterprise_response.dart';
 
 import '../models/requests/login_request.dart';
+import '../models/responses/kpi_response.dart';
 import '../models/responses/login_response.dart';
 
 
@@ -53,4 +54,7 @@ abstract class ApiRepository {
 
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request});
+
+  Future<DataState<KpiResponse>> kpis(
+      {required KpiRequest request});
 }

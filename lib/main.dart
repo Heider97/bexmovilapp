@@ -1,4 +1,6 @@
 import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:sqlbrite/sqlbrite.dart';
+
 import 'package:upgrader/upgrader.dart';
 
 //theme
@@ -86,8 +88,13 @@ class _MyAppState extends State<MyApp> {
         //BLOC PROVIDERS
         BlocProvider(
             create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
+
         BlocProvider(create: (_) => SplashScreenBloc()),
-        BlocProvider(create: (_) => SearchBloc()),
+        BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
+        BlocProvider(create: (_) => SaleStepperBloc()),
+        BlocProvider(
+            create: (_) =>
+                SaleBloc(locator<DatabaseRepository>())..add(LoadRouters())),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
@@ -112,9 +119,12 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
-                locator<DatabaseRepository>(),
-                locator<ApiRepository>(),
-                BlocProvider.of<ProcessingQueueBloc>(context))),
+                  locator<DatabaseRepository>(),
+                  locator<ApiRepository>(),
+                  BlocProvider.of<ProcessingQueueBloc>(context),
+                  locator<NavigationService>(),
+                  locator<LocalStorageService>(),
+                )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
             create: (context) => HomeCubit(locator<DatabaseRepository>())),
@@ -126,6 +136,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
+
         //REPOSITORY PROVIDER.
         RepositoryProvider(
             create: (_) => LocationRepository(),
@@ -178,8 +189,7 @@ class _MyAppState extends State<MyApp> {
                     builder: (BuildContext context) => UndefinedView(
                           name: settings.name,
                         )),
-                initialRoute: Routes.wallet,
-                //  initialRoute: Routes.searchPage,
+                initialRoute: Routes.splashRoute,
                 onGenerateRoute: router.generateRoute,
               ),
             );

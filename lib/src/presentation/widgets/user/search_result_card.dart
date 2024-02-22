@@ -2,11 +2,16 @@ import 'package:bexmovil/src/domain/models/search_result.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_item.dart';
 import 'package:bexmovil/src/presentation/widgets/user/image_with_shadow.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../locator.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class SearchResultCard extends StatefulWidget {
   final SearchResult? searchResult;
@@ -160,30 +165,40 @@ class _SearchResultCardState extends State<SearchResultCard> {
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
+                                  imagePath: 'assets/svg/sell.svg',
+                                  onTap: () {
+                                    //TODO FUNCION PARA AVERIGUAR EN QUE PARTE DEL PROCESO SE ENCUENTRA Y SI TIENE UNA TRANSACCION PENDIENTE..
+                                    _navigationService.goTo(Routes.saleRoute);
+                                  }),
                             )),
                       ),
                       Expanded(
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
+                                  imagePath: 'assets/svg/mercadeo.svg',
+                                  onTap: () {
+                                    //TODO::[Heider Zapa] GO TO MERCADEO
+                                  }),
                             )),
                       ),
                       Expanded(
                         child: Card(
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
-                            child: const Center(
+                            child: Center(
                               child: CustomItem(
                                   iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
+                                  imagePath: 'assets/svg/wallet.svg',
+                                  onTap: () {
+                                    _navigationService.goTo(Routes.wallet);
+                                  }),
                             )),
                       ),
                     ],

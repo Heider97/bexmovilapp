@@ -13,10 +13,6 @@ abstract class BaseApiRepository {
   }) async {
     try {
       final httpResponse = await request();
-
-      print(httpResponse.statusCode);
-      print(httpResponse.data);
-
       if (httpResponse.statusCode == HttpStatus.ok || httpResponse.statusCode == HttpStatus.created) {
         return DataSuccess(httpResponse.data as T);
       } else {

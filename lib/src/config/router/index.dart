@@ -1,11 +1,15 @@
 import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_process_view.dart';
 import 'package:flutter/material.dart';
 
 //config
 import '../../presentation/views/global/code_create_meet.dart';
+import '../../presentation/views/user/sale/history_sales.dart';
 import '../../utils/constants/strings.dart';
 
 //SCREENS
@@ -23,7 +27,6 @@ import '../../presentation/views/global/politics_view.dart';
 
 //user
 import '../../presentation/views/user/home/index.dart';
-import '../../presentation/views/user/schedule/index.dart';
 
 //widgets
 import '../../presentation/widgets/global/global_background.dart';
@@ -44,19 +47,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
                 opacity: 0.1,
-                child: CodeVerificationView(),
                 hideBottomNavigationBar: true,
+                child: CodeVerificationView(),
               ));
     case Routes.recoverPassword:
       return MaterialPageRoute(
           builder: (_) => const GlobalBackgroundSquare(
-              opacity: 0.1, 
+              opacity: 0.1,
               hideBottomNavigationBar: true,
               child: RecoverPasswordView()));
     case Routes.codecreatemeet:
-      return MaterialPageRoute(
-        builder: (_) =>  CodeCreateMeet()
-      );          
+      return MaterialPageRoute(builder: (_) => const CodeCreateMeet());
     case Routes.politicsRoute:
       return MaterialPageRoute(builder: (context) => const PoliticsView());
     case Routes.permissionRoute:
@@ -92,7 +93,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               child: WalletDashboardView()));
 
     case Routes.calendarRoute:
-      return MaterialPageRoute(builder: (context) => const ScheduleView());
+      return MaterialPageRoute(builder: (context) => const CalendarPage());
 
     case Routes.charDetailsRoute:
       return MaterialPageRoute(
@@ -101,9 +102,26 @@ Route<dynamic> generateRoute(RouteSettings settings) {
                 hideBottomNavigationBar: true,
                 child: CharDetails(),
               ));
+    case Routes.walletprocess:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: WalletProcessView(),
+              ));
 
-    /*  case Routes.productivityRoute:
-      return MaterialPageRoute(builder: (context) => ProductivityView()); */
+    case Routes.saleRoute:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: SalePage(),
+              ));
+    case Routes.detailSaleRoute:
+      return MaterialPageRoute(
+          builder: (context) => DetailsSale(dataSales: []));
+    case Routes.historySaleRoute:
+      return MaterialPageRoute(builder: (context) => const HistorySale());
     default:
       return MaterialPageRoute(
           builder: (context) => UndefinedView(

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../../utils/constants/strings.dart';
 //domain
 import '../../../domain/models/user.dart';
 import '../../../domain/models/feature.dart';
+import '../../../domain/models/kpi.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //service
@@ -28,9 +30,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> init() async {
     final user = User.fromMap(_storageService.getObject('user')!);
-    var features = await _databaseRepository.getFeatures();
+    var features = await _databaseRepository.getAllFeatures();
+    var kpis = await _databaseRepository.getAllKpis();
+    print('estoy aquiiiii');
+    print(kpis.length);
 
-    emit(HomeSuccess(user: user, features: features));
+    emit(HomeSuccess(user: user, features: features, kpis: kpis));
   }
 
   void dispose() {

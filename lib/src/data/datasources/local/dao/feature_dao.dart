@@ -15,15 +15,15 @@ class FeatureDao {
       return features;
   }
 
-  Future<List<Feature>> getAllFeature() async {
-    final db = await _appDatabase.streamDatabase;
+  Future<List<Feature>> getAllFeatures() async {
+    final db = await _appDatabase.database;
     final featureList = await db!.query(tableFeature);
     final feature = parseFeature(featureList);
     return feature;
   }
 
   Future<void> insertFeatures(List<Feature> features) async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase.database;
     var batch = db!.batch();
 
     await Future.forEach(features, (feature) async {
@@ -46,7 +46,7 @@ class FeatureDao {
   }
 
   Future<void> emptyFeature() async {
-    final db = await _appDatabase.streamDatabase;
+    final db = await _appDatabase.database;
     await db!.delete(tableFeature);
     return Future.value();
   }

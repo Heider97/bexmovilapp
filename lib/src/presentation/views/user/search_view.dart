@@ -101,7 +101,6 @@ class _SearchViewState extends State<SearchView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Puedes usar esta función para activar el foco en el TextField cuando se inicia la vista.
     searchFocusNode.requestFocus();
   }
 }
@@ -109,11 +108,9 @@ class _SearchViewState extends State<SearchView> {
 Future<void> fillRegisters({required List<String> tables}) async {
   itemsToSearch.clear();
 
-  final AppDatabase appDatabase = AppDatabase();
-
   for (String table in tables) {
-    final db = await appDatabase.streamDatabase;
-    final resultList = await db!.query(table);
+    final resultList = await searchBloc.search(table);
+
     for (var result in resultList) {
       SearchResult item = SearchResult.fromJson(result, table);
       itemsToSearch.add(item);

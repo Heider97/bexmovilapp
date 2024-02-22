@@ -1,7 +1,9 @@
-import 'package:bexmovil/src/presentation/widgets/global/custom_promotion_card.dart';
-import 'package:bexmovil/src/presentation/widgets/user/my_search_delegate.dart';
+import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
+import 'package:bexmovil/src/presentation/widgets/user/kpi_cards/wallet_kpi.dart';
 import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,23 +12,18 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
-import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/user/custom_item.dart';
-import '../../../widgets/user/custom_search_bar.dart';
+
 import '../../../widgets/custom_card_widget.dart';
-import '../../../widgets/card_kpi.dart';
+import '../../../widgets/user/kpi_cards/card_kpi.dart';
 import '../../../widgets/card_reports.dart';
 import '../../../widgets/drawer_widget.dart';
-import '../../../widgets/user/custom_navbar.dart';
-import '../../../widgets/user/my_search_delegate.dart';
+
 //services
 import '../../../../locator.dart';
-import '../../../../services/storage.dart';
-import '../../../../services/navigation.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
 
 class HomeView extends StatefulWidget {
@@ -42,6 +39,7 @@ class HomeViewState extends State<HomeView>
   late TabController _tabController;
 
   final TextEditingController searchController = TextEditingController();
+  List<Widget?>? kpiWalletList;
 
   @override
   void initState() {
@@ -69,13 +67,56 @@ class HomeViewState extends State<HomeView>
 
   Widget _buildBody(
       Size size, ThemeData theme, HomeState state, BuildContext context) {
+    //LINE 1
+    int length1line = 0;
+    int amountWalletKpi1line = 0;
+    List<Kpi> othersKpi1Line = [];
+
+    //LINE 2
+    int length2line = 0;
+    int amountWalletKpi2line = 0;
+    List<Kpi> othersKpi2Line = [];
+
+    if (state.kpis != null) {
+      //la longitud de la linea 1
+      length1line = state.kpis!.where((kpi) => kpi.line == 1).toList().length;
+      //wallet kpi line 1
+      amountWalletKpi1line = state.kpis!
+          .where((kpi) => kpi.line == 1 && kpi.type == 'wallet')
+          .toList()
+          .length;
+
+      othersKpi1Line = state.kpis!
+          .where((kpi) => kpi.type != 'wallet' && kpi.line == 1)
+          .toList();
+
+      if (amountWalletKpi1line != 0) {
+        length1line = length1line - amountWalletKpi1line + 1;
+      }
+
+      //la longitud de la linea 2
+      length2line = state.kpis!.where((kpi) => kpi.line == 2).toList().length;
+      //wallet kpi line 2
+      amountWalletKpi2line = state.kpis!
+          .where((kpi) => kpi.line == 2 && kpi.type == 'wallet')
+          .toList()
+          .length;
+
+      othersKpi2Line = state.kpis!
+          .where((kpi) => kpi.type != 'wallet' && kpi.line == 2)
+          .toList();
+
+      if (amountWalletKpi2line != 0) {
+        length2line = length2line - amountWalletKpi2line + 1;
+      }
+    }
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       drawer: DrawerWidget(),
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -115,7 +156,7 @@ class HomeViewState extends State<HomeView>
                                     color: theme.primaryColor,
                                   ),
                                   gapW20,
-                                  Expanded(
+                                  const Expanded(
                                       child: Text('¿Qué estás buscando? ')),
                                   gapW20
                                 ],
@@ -134,16 +175,11 @@ class HomeViewState extends State<HomeView>
                         state.features != null ? state.features!.length : 0,
                     itemBuilder: (BuildContext context, int index) => Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: /*  CustomPromotionCard(
-                          cardText: "Notification Test ",
-                        ) */
-                          CustomCard(
-                              axis: Axis.horizontal,
-                              text: state.features![index].descripcion!,
-                              url: state.features![index].urldesc,
-                              color: index / 2 == 0
-                                  ? Colors.orange
-                                  : Colors.green),
+                      child: CustomCard(
+                          axis: Axis.horizontal,
+                          text: state.features![index].descripcion!,
+                          url: state.features![index].urldesc,
+                          color: index / 2 == 0 ? Colors.orange : Colors.green),
                     ),
                   )),
               gapH12,
@@ -175,58 +211,113 @@ class HomeViewState extends State<HomeView>
                         ),
                       ],
                     ),
-                    gapH8,
                     Expanded(
                       child: TabBarView(
                         controller: _tabController,
                         children: [
                           Container(
-                            height: 220,
-                            width: 500,
+                            width: Screens.width(context) / 2,
                             color: Colors.grey[100],
                             child: Column(
                               children: [
                                 Expanded(
                                   child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 9),
-                                            child: CardKpi(
-                                                iconCard:
-                                                    Icons.star_rate_rounded,
-                                                urlIcon:
-                                                    "assets/icons/vender.png",
-                                                tittle: "Ventas.",
-                                                eventCard: () {},
-                                                quantity: 9,
-                                                percentage: -20.5,
-                                                valueCard: 1)),
-                                  ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: length1line,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        if (amountWalletKpi1line != 0 &&
+                                            index == 0) {
+                                          return SizedBox(
+                                              width:
+                                                  Screens.width(context) / 1.6,
+                                              child: CarouselSlider(
+                                                options: CarouselOptions(
+                                                  autoPlayInterval:
+                                                      const Duration(
+                                                          seconds: 4),
+                                                  aspectRatio: 2,
+                                                  enlargeCenterPage: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  autoPlay: true,
+                                                  viewportFraction: 1,
+                                                ),
+                                                items: (state.kpis != null)
+                                                    ? state.kpis!
+                                                        .where((kpi) =>
+                                                            kpi.type ==
+                                                                "wallet" &&
+                                                            kpi.line == 1)
+                                                        .map((kpi) =>
+                                                            WalletKpi(kpi: kpi))
+                                                        .toList()
+                                                    : [],
+                                              ));
+                                        }
+
+                                        if (index == 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index]);
+                                        } else if (amountWalletKpi1line != 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index - 1]);
+                                        } else {
+                                          return CardKpi(
+                                              kpi: othersKpi1Line[index]);
+                                        }
+                                      }),
                                 ),
                                 Expanded(
+                                  //LINE 2 LIST
                                   child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: 10,
-                                    itemBuilder: (BuildContext context,
-                                            int index) =>
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(right: 9),
-                                            child: CardKpi(
-                                                iconCard:
-                                                    Icons.star_rate_rounded,
-                                                urlIcon:
-                                                    "assets/icons/vender.png",
-                                                tittle: "Prospectos",
-                                                eventCard: () {},
-                                                quantity: 80,
-                                                percentage: 20.5,
-                                                valueCard: 2)),
-                                  ),
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: length2line,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        if (amountWalletKpi2line != 0 &&
+                                            index == 0) {
+                                          return SizedBox(
+                                              width:
+                                                  Screens.width(context) / 1.6,
+                                              child: CarouselSlider(
+                                                options: CarouselOptions(
+                                                  autoPlayInterval:
+                                                      const Duration(
+                                                          seconds: 4),
+                                                  aspectRatio: 2,
+                                                  enlargeCenterPage: true,
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  autoPlay: true,
+                                                  viewportFraction: 1,
+                                                ),
+                                                items: (state.kpis != null)
+                                                    ? state.kpis!
+                                                        .where((kpi) =>
+                                                            kpi.type ==
+                                                                "wallet" &&
+                                                            kpi.line == 2)
+                                                        .map((kpi) =>
+                                                            WalletKpi(kpi: kpi))
+                                                        .toList()
+                                                        .reversed
+                                                        .toList()
+                                                    : [],
+                                              ));
+                                        }
+
+                                        if (index == 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index]);
+                                        } else if (amountWalletKpi2line != 0) {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index - 1]);
+                                        } else {
+                                          return CardKpi(
+                                              kpi: othersKpi2Line[index]);
+                                        }
+                                      }),
                                 ),
                               ],
                             ),
@@ -238,13 +329,13 @@ class HomeViewState extends State<HomeView>
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/vender.png",
+                                    urlIcon: "assets/svg/wallet-money.svg",
                                     tittle: "Mi\nPresupuesto",
                                     eventCard: () {}),
                                 gapH12,
                                 CardReports(
                                     iconCard: Icons.star_rate_rounded,
-                                    urlIcon: "assets/icons/mercadeo.png",
+                                    urlIcon: "assets/svg/graphic.svg",
                                     tittle: "Mis\nestadísticas",
                                     eventCard: () {}),
                               ],
@@ -259,46 +350,74 @@ class HomeViewState extends State<HomeView>
               gapH4,
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 90,
-                width: size.width,
-                child: const Column(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomItem(
-                                  iconName: 'Vender',
-                                  imagePath: 'assets/icons/vender.png'),
-                              CustomItem(
-                                  iconName: 'Cartera',
-                                  imagePath: 'assets/icons/cartera.png'),
-                              CustomItem(
-                                  iconName: 'Mercadeo',
-                                  imagePath: 'assets/icons/mercadeo.png'),
-                              CustomItem(
-                                  iconName: 'PQRS',
-                                  imagePath: 'assets/icons/pqrs.png'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomItem(
+                          iconName: 'Vender',
+                          imagePath: 'assets/svg/sell.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.saleRoute);
+                          }),
+                      CustomItem(
+                          iconName: 'Cartera',
+                          imagePath: 'assets/svg/wallet.svg',
+                          onTap: () {
+                            _navigationService.goTo(Routes.wallet);
+                          }),
+                      CustomItem(
+                          iconName: 'Mercadeo',
+                          imagePath: 'assets/svg/mercadeo.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.mercadeo);
+                          }),
+                      CustomItem(
+                          iconName: 'PQRS',
+                          imagePath: 'assets/svg/pqrs.svg',
+                          onTap: () {
+                            // _navigationService.goTo(Routes.pqrs);
+                          }),
+                    ],
+                  ),
                 ),
               ),
-              gapH8,
-              /*Expanded(
-                child:  SizedBox(
-                   width: size.width,
-                      height: size.height,
-                  child: const CustomNavbar()
-                  )
-              )*/
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // CustomItem(
+                      //     iconName: 'Vender',
+                      //     imagePath: 'assets/svg/sell.svg',
+                      //     onTap: () {
+                      //       _navigationService.goTo(Routes.saleRoute);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'Cartera',
+                      //     imagePath: 'assets/svg/wallet.svg',
+                      //     onTap: () {
+                      //       _navigationService.goTo(Routes.wallet);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'Mercadeo',
+                      //     imagePath: 'assets/svg/mercadeo.svg',
+                      //     onTap: () {
+                      //       // _navigationService.goTo(Routes.mercadeo);
+                      //     }),
+                      // CustomItem(
+                      //     iconName: 'PQRS',
+                      //     imagePath: 'assets/svg/pqrs.svg',
+                      //     onTap: () {
+                      //       // _navigationService.goTo(Routes.pqrs);
+                      //     }),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

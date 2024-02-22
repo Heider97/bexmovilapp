@@ -14,12 +14,13 @@ import 'package:path_provider/path_provider.dart';
 import '../locator.dart';
 import '../services/storage.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
-final ApiRepository _apiRepository = locator<ApiRepository>();
-final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
-final LocationRepository _locationRepository = locator<LocationRepository>();
-
 class HelperFunctions with FormatDate {
+
+  final LocalStorageService _storageService = locator<LocalStorageService>();
+  final ApiRepository _apiRepository = locator<ApiRepository>();
+  final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
+  final LocationRepository _locationRepository = locator<LocationRepository>();
+
   Future<Map<String, dynamic>?> getDevice() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     const storage = FlutterSecureStorage();

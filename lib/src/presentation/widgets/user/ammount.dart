@@ -1,6 +1,8 @@
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Ammount extends StatefulWidget {
   const Ammount({super.key});
@@ -10,10 +12,17 @@ class Ammount extends StatefulWidget {
 }
 
 class AmmountState extends State<Ammount> {
-  int cantidad = 1;
+  late SaleBloc saleBloc;
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
+  }
+
+  int cantidad = 0;
 
   void reducirCantidad() {
-    if (cantidad > 1) {
+    if (cantidad > 0) {
       setState(() {
         cantidad--;
       });
