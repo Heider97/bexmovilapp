@@ -223,10 +223,10 @@ class _SalePageState extends State<SalePage> {
                                   itemBuilder: (context, index) {
                                     return CardRouter(
                                       quantityClients: state
-                                            .routers[index].active
+                                            .routers[index].quantityClient
                                             .toString(),
                                         priceList: state
-                                            .routers[index].secuenceRouter
+                                            .routers[index].price
                                             .toString(),
                                         dayRouter: state
                                             .routers[index].dayRouter
