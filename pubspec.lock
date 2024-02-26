@@ -1532,10 +1532,10 @@ packages:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: c0693d88cbdef2af5da286c605e5e8f33216c8f6cb3bc92a88a51decfb62bace
+      sha256: "9f98e2726af42967497eaef68f3373261700bbfcd33bd97da4ec85cb56fcdaf7"
       url: "https://pub.dev"
     source: hosted
-    version: "24.2.3"
+    version: "24.2.7"
   syncfusion_flutter_datagrid:
     dependency: "direct main"
     description:
@@ -1552,6 +1552,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "24.2.3"
+  syncfusion_flutter_signaturepad:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_signaturepad
+      sha256: d51d5e346c70b938a8e1f2318a073213172aea7b99e33073c379657b1066c001
+      url: "https://pub.dev"
+    source: hosted
+    version: "24.2.7"
   syncfusion_localizations:
     dependency: "direct main"
     description:

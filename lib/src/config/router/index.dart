@@ -4,6 +4,8 @@ import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_details_screen.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_notification_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_process_view.dart';
 import 'package:flutter/material.dart';
 
@@ -91,6 +93,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               hideBottomNavigationBar: true,
               opacity: 0.1,
               child: WalletDashboardView()));
+
+    case Routes.walletDetailsScreen:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: WalletDetailsScreen()));
+
+    case Routes.walletNotificationView:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: WalletNotificationView()));
 
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const CalendarPage());
