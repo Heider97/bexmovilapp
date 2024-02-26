@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/constants/gaps.dart';
 
-class CardClient extends StatelessWidget {
+class CardRouter extends StatelessWidget {
   
   String quantityClients;
   String dayRouter;
   String priceList;
 
-  CardClient({super.key,  required this.quantityClients,  required this.dayRouter, required this.priceList});
+  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter, required this.priceList});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_client_sale.dart';
+import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
