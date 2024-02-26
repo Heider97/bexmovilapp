@@ -10,8 +10,6 @@ import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:upgrader/upgrader.dart';
-
 //theme
 import 'app_localizations.dart';
 import 'src/config/theme/index.dart';
@@ -55,11 +53,8 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then;
 
-  Firebase.initializeApp().then; // inicializando firebase dentro de la app
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
@@ -93,8 +88,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(
-            create: (_) =>
-                SaleBloc(locator<DatabaseRepository>())..add(LoadRouters())),
+            create: (_) => SaleBloc(
+                locator<DatabaseRepository>(), locator<LocalStorageService>())
+              ..add(LoadRouters())),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
@@ -136,7 +132,6 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
-
         //REPOSITORY PROVIDER.
         RepositoryProvider(
             create: (_) => LocationRepository(),

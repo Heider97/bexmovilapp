@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/domain/models/router.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/repositories/database_repository.dart';
@@ -12,8 +13,9 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   List<Product> selectedProducts = [];
 
   final DatabaseRepository databaseRepository;
+  final LocalStorageService storageService;
 
-  SaleBloc(this.databaseRepository) : super(SaleInitial([])) {
+  SaleBloc(this.databaseRepository, this.storageService) : super(SaleInitial([])) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClients);
     on<SelectClient>(_selectClient);
@@ -23,7 +25,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
-    var routers = await databaseRepository.getAllRoutersGroupByClient('09');
+    var codvendedor = storageService.getString('username');
+    var routers = await databaseRepository.getAllRoutersGroupByClient(codvendedor!);
     emit(SaleInitial(routers));
 
   }

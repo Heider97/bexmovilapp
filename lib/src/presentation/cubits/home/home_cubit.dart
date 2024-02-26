@@ -32,8 +32,6 @@ class HomeCubit extends Cubit<HomeState> {
     final user = User.fromMap(_storageService.getObject('user')!);
     var features = await _databaseRepository.getAllFeatures();
     var kpis = await _databaseRepository.getAllKpis();
-    print('estoy aquiiiii');
-    print(kpis.length);
 
     emit(HomeSuccess(user: user, features: features, kpis: kpis));
   }
