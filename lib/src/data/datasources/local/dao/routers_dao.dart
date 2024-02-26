@@ -16,8 +16,7 @@ class RouterDao {
 
   Future<List<Router>> getAllRoutersGroupByClient(String seller) async {
     final db = await _appDatabase.database;
-    final routerList = await db!.query(tableRouter,
-        where: 'codvendedor = ?', whereArgs: [seller], groupBy: 'codvendedor');
+    final routerList = await db!.rawQuery("SELECT *, COUNT(DISTINCT CODCLIENTE)  AS CANTIDADCLIENTES FROM tblmrutero WHERE CODVENDEDOR = '$seller' GROUP BY DIARUTERO");
     final routers = parseRouters(routerList);
     return routers;
   }
