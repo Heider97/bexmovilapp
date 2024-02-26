@@ -36,20 +36,18 @@ class _DetailsSaleState extends State<DetailsSale> {
 
   List<Employee> getEmployeeData() {
     return [
-      Employee(10001, 'James', 'Cerdo levante y engorde  Preiniciador', 20000),
-      Employee(10002, 'Kathryn', 'Cerdito Preiniciador', 30000),
-      Employee(10003, 'Lara', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(
-          10004, 'Michael', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(10005, 'Martin', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(
-          10006, 'Newberry', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(10007, 'Balnc', 'Developer', 15000),
-      Employee(10008, 'Perry', 'Developer', 15000),
-      Employee(10009, 'Gable', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 80000)
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 20000, "Other"),
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 30000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 800, "Other")
     ];
   }
 
@@ -234,10 +232,10 @@ class _DetailsSaleState extends State<DetailsSale> {
 /// information about the employee which will be rendered in datagrid.
 class Employee {
   /// Creates the employee class with required details.
-  Employee(this.id, this.name, this.designation, this.salary);
+  Employee(this.id, this.name, this.designation, this.salary, this.other);
 
   /// Id of an employee.
-  final int id;
+  final String id;
 
   /// Name of an employee.
   final String name;
@@ -247,6 +245,10 @@ class Employee {
 
   /// Salary of an employee.
   final int salary;
+
+  ///OTHER OF AN employee
+  ///
+  final String other;
 }
 
 /// An object to set the employee collection data source to the datagrid. This
@@ -256,11 +258,12 @@ class EmployeeDataSource extends DataGridSource {
   EmployeeDataSource({required List<Employee> employeeData}) {
     _employeeData = employeeData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'id', value: e.id),
+              DataGridCell<String>(columnName: 'id', value: e.id),
               DataGridCell<String>(columnName: 'name', value: e.name),
               DataGridCell<String>(
                   columnName: 'designation', value: e.designation),
               DataGridCell<int>(columnName: 'salary', value: e.salary),
+              DataGridCell<String>(columnName: 'other', value: e.other),
             ]))
         .toList();
   }
@@ -274,12 +277,36 @@ class EmployeeDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
+      if (e.columnName == 'id') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(9.0),
+          child: Text(
+            e.value.toString(),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      if (e.columnName == 'name') {
+        return Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(9.0),
+          child: Text(
+            e.value.toString(),
+            style: TextStyle(
+                fontSize: 15,
+                color:
+                    (e.value == 'Mora') ? Colors.red[700] : Colors.green[400]),
+          ),
+        );
+      }
+
       return Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(9.0),
         child: Text(
           e.value.toString(),
-          style: const TextStyle(fontSize: 9),
+          style: const TextStyle(fontSize: 15),
         ),
       );
     }).toList());
