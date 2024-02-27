@@ -57,7 +57,8 @@ class _CharDetailsState extends State<CharDetails> {
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
                     dataLabelMapper: (ChartData data, _) => data.x,
-                    dataLabelSettings: DataLabelSettings(isVisible: true)),
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: true)),
               ]))
         ],
       ),

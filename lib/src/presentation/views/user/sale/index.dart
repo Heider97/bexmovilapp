@@ -214,29 +214,29 @@ class _SalePageState extends State<SalePage> {
                         ),
                         StepperWidget(currentStep: 0, steps: steps),
                         gapH4,
-                        BlocBuilder<SaleBloc, SaleState>(
-                            builder: (context, state) {
-                          if (state is SaleInitial) {
-                            return Expanded(
-                              child: ListView.builder(
-                                  itemCount: state.routers.length,
-                                  itemBuilder: (context, index) {
-                                    return CardRouter(
-                                      quantityClients: state
-                                            .routers[index].quantityClient
-                                            .toString(),
-                                        priceList: state
-                                            .routers[index].price
-                                            .toString(),
-                                        dayRouter: state
-                                            .routers[index].dayRouter
-                                            .toString());
-                                  }),
-                            );
-                          } else {
-                            return const Center(child: Text('Cargando'));
-                          }
-                        }),
+                        // BlocBuilder<SaleBloc, SaleState>(
+                        //     builder: (context, state) {
+                        //   if (state is SaleInitial) {
+                        //     return Expanded(
+                        //       child: ListView.builder(
+                        //           itemCount: state.routers.length,
+                        //           itemBuilder: (context, index) {
+                        //             return CardRouter(
+                        //               quantityClients: state
+                        //                     .routers[index].quantityClient
+                        //                     .toString(),
+                        //                 priceList: state
+                        //                     .routers[index].price
+                        //                     .toString(),
+                        //                 dayRouter: state
+                        //                     .routers[index].dayRouter
+                        //                     .toString());
+                        //           }),
+                        //     );
+                        //   } else {
+                        //     return const Center(child: Text('Cargando'));
+                        //   }
+                        // }),
                         // BlocBuilder<SaleStepperBloc, SalesStepperState>(
                         //   builder: (context, state) {
                         //     if (state is SalesStepperClientSelection) {

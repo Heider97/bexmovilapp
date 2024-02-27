@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class DataGridCheckBox extends StatefulWidget {
-  DataGridCheckBox({super.key});
+  const DataGridCheckBox({super.key});
 
   @override
   State<DataGridCheckBox> createState() => _DataGridCheckBoxState();
@@ -47,7 +47,6 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         Expanded(
           child: SfDataGrid(
             gridLinesVisibility: GridLinesVisibility.both,
-            //  stackedHeaderRows: [StackedHeaderRow(cells: Stac)],
             rowHeight: 50,
             frozenColumnsCount: 1,
             frozenRowsCount: 0,
