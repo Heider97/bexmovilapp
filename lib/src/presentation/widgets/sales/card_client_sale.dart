@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/constants/gaps.dart';
 
-class CardRouter extends StatelessWidget {
+class CardClient extends StatelessWidget {
   
   String quantityClients;
   String dayRouter;
   String priceList;
 
-  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter, required this.priceList});
+  CardClient({super.key,  required this.quantityClients,  required this.dayRouter, required this.priceList});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CardRouter extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
           width: double.infinity,
-          height: 130,
+          height: 100,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -43,12 +43,10 @@ class CardRouter extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(dayRouter, style: const TextStyle(color: Colors.orange, fontSize: 18)),
+                      Text("Número del rutero: $dayRouter", style: const TextStyle(color: Colors.orange, fontSize: 18)),
                       gapH4,
                       Text("Cantidad clientes: $quantityClients", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      Text("Efectividad: $priceList %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      Text("Cobertura: $priceList %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      
+                      Text("Lista de precio: $priceList", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
                       
                     ],
                   ),                

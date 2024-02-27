@@ -229,7 +229,7 @@ class _SalePageState extends State<SalePage> {
                                             .routers[index].price
                                             .toString(),
                                         dayRouter: state
-                                            .routers[index].dayRouter
+                                            .routers[index].nameDayRouter
                                             .toString());
                                   }),
                             );
