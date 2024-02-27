@@ -384,40 +384,6 @@ class HomeViewState extends State<HomeView>
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // CustomItem(
-                      //     iconName: 'Vender',
-                      //     imagePath: 'assets/svg/sell.svg',
-                      //     onTap: () {
-                      //       _navigationService.goTo(Routes.saleRoute);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'Cartera',
-                      //     imagePath: 'assets/svg/wallet.svg',
-                      //     onTap: () {
-                      //       _navigationService.goTo(Routes.wallet);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'Mercadeo',
-                      //     imagePath: 'assets/svg/mercadeo.svg',
-                      //     onTap: () {
-                      //       // _navigationService.goTo(Routes.mercadeo);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'PQRS',
-                      //     imagePath: 'assets/svg/pqrs.svg',
-                      //     onTap: () {
-                      //       // _navigationService.goTo(Routes.pqrs);
-                      //     }),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
         ),
