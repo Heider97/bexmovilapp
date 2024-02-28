@@ -125,7 +125,9 @@ class HomeViewState extends State<HomeView>
               gapH4,
               HomeStatistics(
                   kpisOneLine: state.kpisOneLine ?? [],
+                  kpisSlidableOneLine: state.kpisSlidableOneLine ?? [],
                   kpisSecondLine: state.kpisSecondLine ?? [],
+                  kpisSlidableSecondLine: state.kpisSlidableSecondLine ?? [],
                   forms: [],
                   tabController: _tabController),
               gapH4,

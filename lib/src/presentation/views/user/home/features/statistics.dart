@@ -9,18 +9,23 @@ import '../../../../../utils/constants/screens.dart';
 //widgets
 import '../widgets/card_reports.dart';
 import '../widgets/card_kpi.dart';
+import '../widgets/slide_kpi.dart';
 
 class HomeStatistics extends StatelessWidget {
   final TabController tabController;
 
   final List<Kpi> kpisOneLine;
+  final List<List<Kpi>> kpisSlidableOneLine;
   final List<Kpi> kpisSecondLine;
+  final List<List<Kpi>> kpisSlidableSecondLine;
   final List<Form> forms;
 
   const HomeStatistics(
       {super.key,
       required this.kpisOneLine,
+      required this.kpisSlidableOneLine,
       required this.kpisSecondLine,
+      required this.kpisSlidableSecondLine,
       required this.forms,
       required this.tabController});
 
@@ -71,8 +76,13 @@ class HomeStatistics extends StatelessWidget {
                       Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: kpisSecondLine.length,
+                            itemCount: kpisSlidableSecondLine.length +
+                                kpisSecondLine.length,
                             itemBuilder: (BuildContext context, int index) {
+                              if (kpisSlidableSecondLine.isNotEmpty) {
+                                return SlidableKpi(
+                                    kpis: kpisSlidableSecondLine[index]);
+                              }
                               final kpi = kpisSecondLine[index];
                               return CardKpi(kpi: kpi);
                             }),

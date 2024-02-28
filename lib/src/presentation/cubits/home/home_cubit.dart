@@ -1,7 +1,6 @@
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
-import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
 import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
+import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
@@ -11,6 +10,7 @@ import '../../../domain/models/user.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
+import '../../../domain/models/responses/kpi_response.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //service
@@ -36,13 +36,54 @@ class HomeCubit extends BaseCubit<HomeState> {
       var features = await databaseRepository.getAllFeatures();
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+      List<List<Kpi>> kpisSlidableOneLine = [];
+      List<List<Kpi>> kpisSlidableSecondLine = [];
 
+      final duplicatesOneLine = groupBy(
+        kpisOneLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      final duplicatesSecondLine = groupBy(
+        kpisSecondLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      if (duplicatesOneLine.isNotEmpty) {
+        for (var dsl in duplicatesOneLine) {
+          kpisOneLine.removeWhere((element) => element.type == dsl);
+          kpisSlidableOneLine
+              .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+        }
+      }
+
+      if (duplicatesSecondLine.isNotEmpty) {
+        for (var dsl in duplicatesSecondLine) {
+          kpisSlidableSecondLine
+              .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+          kpisSecondLine.removeWhere((element) => element.type == dsl);
+        }
+
+      }
+
+      print(kpisSlidableSecondLine);
 
       emit(HomeSuccess(
-          user: user,
-          features: features,
-          kpisOneLine: kpisOneLine,
-          kpisSecondLine: kpisSecondLine));
+        user: user,
+        features: features,
+        kpisOneLine: kpisOneLine,
+        kpisSlidableOneLine: kpisSlidableOneLine,
+        kpisSecondLine: kpisSecondLine,
+        kpisSlidableSecondLine: kpisSlidableSecondLine,
+      ));
     });
   }
 
