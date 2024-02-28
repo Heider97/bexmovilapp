@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final kpiResponse = kpiResponseFromJson(jsonString);
-
 import 'dart:convert';
 
 KpiResponse kpiResponseFromJson(String str) =>

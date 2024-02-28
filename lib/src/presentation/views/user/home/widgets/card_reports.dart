@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -8,6 +6,7 @@ class CardReports extends StatelessWidget {
   String tittle;
   String urlIcon;
   final Function eventCard;
+
   CardReports(
       {super.key,
       required this.iconCard,

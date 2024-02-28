@@ -23,7 +23,7 @@ part 'initial_state.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 final NavigationService _navigationService = locator<NavigationService>();
 
-class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
+class InitialCubit extends BaseCubit<InitialState> {
   final ApiRepository _apiRepository;
   InitialCubit(this._apiRepository)
       : super(
@@ -31,8 +31,7 @@ class InitialCubit extends BaseCubit<InitialState, Enterprise?> {
                 enterprise: _storageService.getObject('enterprise') != null
                     ? Enterprise.fromMap(
                         _storageService.getObject('enterprise')!)
-                    : null),
-            null);
+                    : null));
 
   Future<void> getEnterprise(
       TextEditingController companyNameController) async {

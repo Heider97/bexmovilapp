@@ -123,7 +123,8 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
-            create: (context) => HomeCubit(locator<DatabaseRepository>())),
+            create: (context) => HomeCubit(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),

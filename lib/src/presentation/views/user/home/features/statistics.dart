@@ -6,15 +6,17 @@ import '../../../../../domain/models/responses/kpi_response.dart';
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/screens.dart';
 
-class StatisticsHomeFeature extends StatelessWidget {
+class HomeStatistics extends StatelessWidget {
   final TabController tabController;
 
-  final List<Kpi> kpis;
+  final List<Kpi> kpisOneLine;
+  final List<Kpi> kpisSecondLine;
   final List<Form> forms;
 
-  const StatisticsHomeFeature(
+  const HomeStatistics(
       {super.key,
-      required this.kpis,
+      required this.kpisOneLine,
+      required this.kpisSecondLine,
       required this.forms,
       required this.tabController});
 

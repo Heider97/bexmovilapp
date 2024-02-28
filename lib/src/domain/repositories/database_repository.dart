@@ -30,7 +30,7 @@ abstract class DatabaseRepository {
   Future<void> emptyFeatures();
 
   //KPIS
-  Future<List<Kpi>> getAllKpis();
+  Future<List<Kpi>> getKpisByLine(String line);
   Future<void> insertKpis(List<Kpi> kpis);
   Future<void> insertKpi(Kpi kpi);
   Future<int> updateKpi(Kpi kpi);
