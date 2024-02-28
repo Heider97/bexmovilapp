@@ -35,24 +35,33 @@ class CartesianChart extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
               width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Cartera por edad',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Cartera por edad',
+                        style: theme.textTheme.bodyLarge!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          _navigationService.goTo(Routes.charDetailsRoute);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.upRightAndDownLeftFromCenter,
+                          color: theme.primaryColor,
+                          size: 18,
+                        ),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      _navigationService.goTo(Routes.charDetailsRoute);
-                    },
-                    icon: Icon(
-                      FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                      color: theme.primaryColor,
-                      size: 18,
-                    ),
-                  ),
+                  const Text('Cartera Total'),
+                  Text('\$211M',
+                      style: theme.textTheme.bodyLarge!
+                          .copyWith(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -85,40 +94,12 @@ class CartesianChart extends StatelessWidget {
                     print(details.seriesIndex);
                   },
                   dataSource: data,
-                  xValueMapper: (_SalesData sales, _) => sales.year,
-                  yValueMapper: (_SalesData sales, _) => sales.sales,
+                  xValueMapper: (_SalesData sales, _) => sales.x,
+                  yValueMapper: (_SalesData sales, _) => sales.y,
                   borderRadius: BorderRadius.circular(15),
                   isTrackVisible: true,
                   trackColor: const Color(0XFFC6C9D0),
                   dataLabelSettings: const DataLabelSettings(isVisible: true))
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Edad mas alta'),
-                    const Text('Cartera Total'),
-                    Text('\$211M',
-                        style: theme.textTheme.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Cliente más alto'),
-                    const Text('\$50M'),
-                    Text(
-                      'Pandapan',
-                      style: theme.textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
           gapH12
@@ -129,8 +110,8 @@ class CartesianChart extends StatelessWidget {
 }
 
 class _SalesData {
-  _SalesData(this.year, this.sales);
+  _SalesData(this.x, this.y);
 
-  final String year;
-  final double sales;
+  final String x;
+  final double y;
 }
