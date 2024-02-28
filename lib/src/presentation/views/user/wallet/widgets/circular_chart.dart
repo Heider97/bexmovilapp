@@ -1,5 +1,5 @@
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -15,10 +15,11 @@ class CircularChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData('David', 25),
-      ChartData('Steve', 38),
-      ChartData('Jack', 34),
-      ChartData('Others', 52)
+      ChartData('Lunes', 20),
+      ChartData('Martes', 20),
+      ChartData('Miercoles', 20),
+      ChartData('Jueves', 20),
+      ChartData('Viernes', 20)
     ];
 
     ThemeData theme = Theme.of(context);
@@ -36,7 +37,7 @@ class CircularChart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Edad',
+                    'Cartera por agenda',
                     style: theme.textTheme.bodyLarge!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -57,19 +58,23 @@ class CircularChart extends StatelessWidget {
           SfCircularChart(series: <CircularSeries>[
             // Render pie chart
             PieSeries<ChartData, String>(
+                onPointTap: (args) {
+                  print('****************');
+                },
                 dataSource: chartData,
                 pointColorMapper: (ChartData data, _) => data.color,
                 xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y)
+                yValueMapper: (ChartData data, _) => data.y),
+
           ]),
           Row(
             children: [
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Edad mas alta'),
-                    const Text('80'),
-                    Text('Italcol',
+                    const Text('Agenda mas alta'),
+                    const Text('\$80M'),
+                    Text('Lunes',
                         style: theme.textTheme.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold)),
                   ],
@@ -78,8 +83,8 @@ class CircularChart extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Frecuencia más alta'),
-                    const Text('50'),
+                    const Text('Cliente más alto'),
+                    const Text('\$55M'),
                     Text(
                       'Pandapan',
                       style: theme.textTheme.bodyLarge!

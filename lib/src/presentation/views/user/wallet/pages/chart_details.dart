@@ -1,7 +1,8 @@
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'dashboard.dart';
 
 class CharDetails extends StatefulWidget {
   const CharDetails({super.key});
@@ -57,7 +58,8 @@ class _CharDetailsState extends State<CharDetails> {
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
                     dataLabelMapper: (ChartData data, _) => data.x,
-                    dataLabelSettings: DataLabelSettings(isVisible: true)),
+                    dataLabelSettings:
+                        const DataLabelSettings(isVisible: true)),
               ]))
         ],
       ),

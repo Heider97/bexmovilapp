@@ -98,8 +98,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //KPIS
   @override
-  Future<List<Kpi>> getAllKpis() {
-    return _appDatabase.kpiDao.getAllKpis();
+  Future<List<Kpi>> getKpisByLine(String line) {
+    return _appDatabase.kpiDao.getKpisByLine(line);
   }
 
   @override
