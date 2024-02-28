@@ -5,7 +5,7 @@ import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dar
 import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widgets/user/custom_item.dart';
+import '../home/widgets/app_item.dart';
 
 class ProspectScheduleView extends StatefulWidget {
   const ProspectScheduleView({super.key});

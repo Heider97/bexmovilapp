@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CustomItem extends StatelessWidget {
+class AppItem extends StatelessWidget {
   final String iconName;
   final String imagePath;
   final Function() onTap;
-  const CustomItem(
+  const AppItem(
       {super.key,
       required this.iconName,
       required this.imagePath,
