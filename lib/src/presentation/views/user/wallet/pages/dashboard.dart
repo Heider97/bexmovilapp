@@ -11,8 +11,6 @@ import '../../../../widgets/global/custom_menu_button.dart';
 import '../widgets/cartesian_chart.dart';
 import '../widgets/circular_chart.dart';
 
-
-
 class WalletDashboardView extends StatefulWidget {
   const WalletDashboardView({super.key});
 

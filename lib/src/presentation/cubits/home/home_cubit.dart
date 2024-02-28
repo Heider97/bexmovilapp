@@ -36,6 +36,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       var features = await databaseRepository.getAllFeatures();
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
 

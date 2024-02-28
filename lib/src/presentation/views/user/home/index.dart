@@ -65,7 +65,8 @@ class HomeViewState extends State<HomeView>
       Size size, ThemeData theme, HomeState state, BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(
+          companyName: homeCubit.storageService.getString('company_name')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
