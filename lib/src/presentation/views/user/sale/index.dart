@@ -1,13 +1,8 @@
-import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
-import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
 import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
-
-import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -20,10 +15,11 @@ import 'package:intl/intl.dart';
 import '../../../../locator.dart';
 import '../../../../utils/constants/strings.dart';
 import '../../../cubits/home/home_cubit.dart';
-import '../../../widgets/global/custom_elevated_button.dart';
 
-import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../widgets/atoms/app_back_button.dart';
+import '../../../widgets/atoms/app_icon_button.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -51,95 +47,13 @@ class _SalePageState extends State<SalePage> {
   void initState() {
     super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
-
     saleBloc.add(LoadRouters());
-
     saleStepperBloc = BlocProvider.of(context);
-
-    employeeDataSource = EmployeeDataSource(employeeData: employees);
-    employees = getEmployeeData();
   }
 
   _refresh() {
     setState(() {});
   }
-
-  List<Employee> getEmployeeData() {
-    return [
-      Employee(
-          10001, 'James', 'Cerdo levante y engorde  Preiniciador', 20000, ''),
-      Employee(10002, 'Kathryn', 'Cerdito Preiniciador', 30000, ''),
-      Employee(
-          10003, 'Lara', 'Cerdo levante y engorde  Preiniciador', 15000, ''),
-      Employee(
-          10004, 'Michael', 'Cerdo levante y engorde  Preiniciador', 15000, ''),
-      Employee(
-          10005, 'Martin', 'Cerdo levante y engorde  Preiniciador', 15000, ''),
-      Employee(10006, 'Newberry', 'Cerdo levante y engorde  Preiniciador',
-          15000, ''),
-      Employee(10007, 'Balnc', 'Developer', 15000, ''),
-      Employee(10008, 'Perry', 'Developer', 15000, ''),
-      Employee(10009, 'Gable', 'Developer', 15000, ''),
-      Employee(10010, 'Grimes', 'Developer', 15000, '')
-    ];
-  }
-
-  List<Client> clientes = [
-    Client(
-      name: "Juan Garcia",
-      email: "juan@example.com",
-      dirCliente: "Calle 123, Ciudad",
-      telCliente: "+123456789",
-      isBooked: true,
-      nitCliente: "123456-7",
-      nomCliente: "Empresa XYZ",
-      estadoCliente: "Activo",
-      startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
-      endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
-      lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
-      averageSales: "\$5000000000000000000000000",
-      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
-    ),
-    Client(
-      name: "Pepito Perez",
-      email: "juan@example.com",
-      dirCliente: "Calle 123, Ciudad",
-      telCliente: "+123456789",
-      isBooked: true,
-      nitCliente: "123456-7",
-      nomCliente: "Empresa XYZ",
-      estadoCliente: "Activo",
-      startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
-      endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
-      lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
-      averageSales: "\$5000000000000000000000000",
-      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
-    ),
-    Client(
-      name: "Jairo Grande",
-      email: "juan@example.com",
-      dirCliente: "Calle 123, Ciudad",
-      telCliente: "+123456789",
-      isBooked: true,
-      nitCliente: "123456-7",
-      nomCliente: "Empresa XYZ",
-      estadoCliente: "Activo",
-      startTimeOfMeeting:
-          DateTime(2024, 1, 29, 9, 0), // 29 de enero de 2024, 9:00 AM
-      endTimeOfMeeting:
-          DateTime(2024, 1, 29, 11, 0), // 29 de enero de 2024, 11:00 AM
-      lastVisited:
-          DateTime(2024, 1, 25), // Última visita el 25 de enero de 2024
-      averageSales: "\$5000000000000000000000000",
-      salesEffectiveness: "Altoooo oooooooooooooooooooooooooooooooooo",
-    )
-  ];
 
   List<StepData> steps = [
     StepData(
@@ -165,8 +79,6 @@ class _SalePageState extends State<SalePage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    BorderRadius borderRadius = BorderRadius.circular(Const.radius);
-
     return BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) => Stack(
               children: [
@@ -178,87 +90,63 @@ class _SalePageState extends State<SalePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                                onTap: () {
-                                  navigationService.goBack();
-                                },
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.all(2), // Border width
-                                  decoration: BoxDecoration(
-                                      color: theme.primaryColor,
-                                      borderRadius: borderRadius),
-                                  child: ClipRRect(
-                                    borderRadius: borderRadius,
-                                    child: const Icon(Icons.close,
-                                        color: Colors.white, size: 35),
-                                  ),
-                                )),
-                            Builder(builder: (context) {
-                              return GestureDetector(
-                                  onTap: () =>
-                                      Scaffold.of(context).openDrawer(),
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.all(2), // Border width
-                                    decoration: BoxDecoration(
-                                        color: theme.primaryColor,
-                                        borderRadius: borderRadius),
-                                    child: ClipRRect(
-                                      borderRadius: borderRadius,
-                                      child: const Icon(Icons.list,
-                                          color: Colors.white, size: 35),
-                                    ),
-                                  ));
-                            })
+                            const AppBackButton(needPrimary: true),
+                            AppIconButton(
+                                onPressed: () =>
+                                    Scaffold.of(context).openDrawer(),
+                                child: Icon(Icons.menu,
+                                    color:
+                                        theme.colorScheme.onPrimaryContainer)),
                           ],
                         ),
                         StepperWidget(currentStep: 0, steps: steps),
                         Padding(
-                          padding: const EdgeInsets.all(Const.padding),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: theme.colorScheme.secondary,
-                                borderRadius: BorderRadius.circular(Const.space15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(Const.padding),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                    color: theme.colorScheme.tertiary,
-                                  ),
-                                  gapW24,
-                                  Text(
-                                    'Búsqueda por nombre rutero',
-                                    style: TextStyle(color: theme.colorScheme.tertiary),
-                                  )
-                                ],
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.space15)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(Const.padding),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.search,
+                                      color: theme.colorScheme.tertiary,
+                                    ),
+                                    gapW24,
+                                    Text(
+                                      'Búsqueda por nombre rutero',
+                                      style: TextStyle(
+                                          color: theme.colorScheme.tertiary),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            FilterButton(
-                              enable: true,
-                              onTap: (() {}),
-                              textButton: 'Visitados',
-                            ),
-                            FilterButton(
-                              enable: false,
-                              onTap: (() {}),
-                              textButton: 'No visitados',
-                            ),
-                            FilterButton(
-                              enable: false,
-                              onTap: (() {}),
-                              textButton: 'Todos',
-                            ),
-                          ],
+                            )),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              FilterButton(
+                                enable: true,
+                                onTap: (() {}),
+                                textButton: 'Visitados',
+                              ),
+                              FilterButton(
+                                enable: false,
+                                onTap: (() {}),
+                                textButton: 'No visitados',
+                              ),
+                              FilterButton(
+                                enable: false,
+                                onTap: (() {}),
+                                textButton: 'Todos',
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                         gapH4,
                         BlocBuilder<SaleBloc, SaleState>(
                             builder: (context, state) {
@@ -268,7 +156,7 @@ class _SalePageState extends State<SalePage> {
                                   itemCount: state.routers.length,
                                   itemBuilder: (context, index) {
                                     return CardRouter(
-                                      quantityClients: state
+                                        quantityClients: state
                                             .routers[index].quantityClient
                                             .toString(),
                                         dayRouter: state
