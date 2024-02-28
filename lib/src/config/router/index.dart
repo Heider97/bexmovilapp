@@ -123,7 +123,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => const GlobalBackgroundSquare(
                 opacity: 0.1,
                 hideBottomNavigationBar: true,
-                child: WalletProcessView(),
+                child: WalletDashboardView(),
               ));
 
     case Routes.saleRoute:

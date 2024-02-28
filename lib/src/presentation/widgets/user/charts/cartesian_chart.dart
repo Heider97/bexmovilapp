@@ -4,6 +4,7 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
@@ -16,12 +17,12 @@ class CartesianChart extends StatelessWidget {
     ThemeData theme = Theme.of(context);
 
     List<_SalesData> data = [
-      _SalesData('10', 0),
-      _SalesData('20', 20),
-      _SalesData('30', 40),
-      _SalesData('40', 60),
-      _SalesData('50', 80),
-      _SalesData('50', 100)
+      _SalesData('CT', 210868261),
+      _SalesData('CC', 0),
+      _SalesData('0-30', 32865663),
+      _SalesData('31-60', 53882318),
+      _SalesData('61-90', 33469262),
+      _SalesData('90+', 13560337)
     ];
 
     return Card(
@@ -38,7 +39,7 @@ class CartesianChart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Edad',
+                    'Cartera por edad',
                     style: theme.textTheme.bodyLarge!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -61,6 +62,22 @@ class CartesianChart extends StatelessWidget {
             legend: const Legend(
               isVisible: false,
             ),
+            primaryYAxis: NumericAxis(
+              // Applies currency format for y axis labels and also for data labels
+                numberFormat: NumberFormat.compactCurrency(symbol: '\$')
+            ),
+            onDataLabelTapped: (args) {
+              print('********************');
+              print(args.toString());
+              print(args.pointIndex);
+            },
+            onAxisLabelTapped: (args) {
+              print('********************');
+              print(args.toString());
+              print(args.axisName);
+              print(args.value);
+              print(args.text);
+            },
             series: <CartesianSeries<_SalesData, String>>[
               ColumnSeries<_SalesData, String>(
                   dataSource: data,
@@ -78,8 +95,8 @@ class CartesianChart extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text('Edad mas alta'),
-                    const Text('80'),
-                    Text('Italcol',
+                    const Text('Cartera Total'),
+                    Text('\$211M',
                         style: theme.textTheme.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold)),
                   ],
@@ -88,8 +105,8 @@ class CartesianChart extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Frecuencia más alta'),
-                    const Text('50'),
+                    const Text('Cliente más alto'),
+                    const Text('\$50M'),
                     Text(
                       'Pandapan',
                       style: theme.textTheme.bodyLarge!

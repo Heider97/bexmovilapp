@@ -34,105 +34,60 @@ class _WalletDashboardViewState extends State<WalletDashboardView>
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    return SafeArea(
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(Const.padding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomBackButton(
-                  primaryColorBackgroundMode: true,
-                ),
-                CustomMenuButton(
-                  primaryColorBackgroundMode: true,
-                )
-              ],
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(Const.padding),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: theme.colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(Const.space15)),
-                child: Padding(
-                  padding: const EdgeInsets.all(Const.padding),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.search,
-                        color: theme.colorScheme.tertiary,
-                      ),
-                      gapW24,
-                      Text(
-                        'Busqueda por cliente',
-                        style: TextStyle(color: theme.colorScheme.tertiary),
-                      )
-                    ],
+    return const SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomBackButton(
+                    primaryColorBackgroundMode: true,
                   ),
-                ),
-              )),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                FilterButton(
-                  enable: true,
-                  onTap: (() {}),
-                  textButton: 'Edades',
-                ),
-                FilterButton(
-                  enable: false,
-                  onTap: (() {}),
-                  textButton: 'Zona',
-                ),
-                FilterButton(
-                  enable: false,
-                  onTap: (() {}),
-                  textButton: 'Proximidad',
-                ),
-                FilterButton(
-                  enable: false,
-                  onTap: (() {}),
-                  textButton: 'Agenda',
-                )
-              ],
+                  CustomMenuButton(
+                    primaryColorBackgroundMode: true,
+                  )
+                ],
+              ),
             ),
-          ),
-          TabBar(
-            controller: _tabController,
-            tabs: const [
-              Tab(text: "Semanal"),
-              Tab(text: "Mensual"),
-              Tab(text: "3 Meses"),
-            ],
-            indicatorSize: TabBarIndicatorSize.tab,
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CartesianChart(),
-                      CircularChart(),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
-                      Icon(Icons.directions_car),
-                    ],
-                  ),
-                ),
-                Icon(Icons.directions_transit),
-                Icon(Icons.directions_bike),
-              ],
+            Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: CartesianChart(),
             ),
-          )
-        ],
+            Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: CircularChart(),
+            ),
+            // TabBar(
+            //   controller: _tabController,
+            //   tabs: const [
+            //     Tab(text: "Semanal"),
+            //     Tab(text: "Mensual"),
+            //     Tab(text: "3 Meses"),
+            //   ],
+            //   indicatorSize: TabBarIndicatorSize.tab,
+            // ),
+        
+        
+            // Expanded(
+            //   child: TabBarView(
+            //     controller: _tabController,
+            //     children: const [
+            //       SingleChildScrollView(
+            //         child: Column(
+            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //           children: [
+            //
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // )
+          ],
+        ),
       ),
     );
   }
