@@ -17,6 +17,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   SaleBloc(this.databaseRepository, this.storageService) : super(SaleInitial([])) {
     on<LoadRouters>(_onLoadRouters);
+    //on<LoadRouters>(_onLoadClientsRouter);
     on<LoadClients>(_onLoadClients);
     on<SelectClient>(_selectClient);
     on<SelectProducts>(_selectProducts);
@@ -31,8 +32,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   }
 
-  Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
+  Future<void> _onLoadClientsRouter(LoadRouters event, Emitter emit) async {
+    var routers = await databaseRepository.getAllClientsRouter('09', '0901');
+    emit(SaleInitial(routers));
+  }
 
+  Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
+    
   }
 
 

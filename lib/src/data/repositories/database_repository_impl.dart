@@ -22,6 +22,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter ) async {
+    return _appDatabase.routerDao.getAllClientsRouter(seller, dayRouter);
+  }
+
+  @override
   Future<List<Router>> getAllRouters(String seller) async {
     return _appDatabase.routerDao.getAllRouters(seller);
   }

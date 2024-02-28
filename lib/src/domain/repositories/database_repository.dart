@@ -15,6 +15,7 @@ abstract class DatabaseRepository {
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
+  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter);
   Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS

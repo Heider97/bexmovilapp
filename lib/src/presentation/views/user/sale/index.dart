@@ -5,6 +5,7 @@ import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.d
 import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
+import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 
@@ -213,30 +214,72 @@ class _SalePageState extends State<SalePage> {
                           ],
                         ),
                         StepperWidget(currentStep: 0, steps: steps),
+                        Padding(
+                          padding: const EdgeInsets.all(Const.padding),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: theme.colorScheme.secondary,
+                                borderRadius: BorderRadius.circular(Const.space15)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(Const.padding),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: theme.colorScheme.tertiary,
+                                  ),
+                                  gapW24,
+                                  Text(
+                                    'Búsqueda por nombre rutero',
+                                    style: TextStyle(color: theme.colorScheme.tertiary),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            FilterButton(
+                              enable: true,
+                              onTap: (() {}),
+                              textButton: 'Visitados',
+                            ),
+                            FilterButton(
+                              enable: false,
+                              onTap: (() {}),
+                              textButton: 'No visitados',
+                            ),
+                            FilterButton(
+                              enable: false,
+                              onTap: (() {}),
+                              textButton: 'Todos',
+                            ),
+                          ],
+                        ),
+                      ),
                         gapH4,
-                        // BlocBuilder<SaleBloc, SaleState>(
-                        //     builder: (context, state) {
-                        //   if (state is SaleInitial) {
-                        //     return Expanded(
-                        //       child: ListView.builder(
-                        //           itemCount: state.routers.length,
-                        //           itemBuilder: (context, index) {
-                        //             return CardRouter(
-                        //               quantityClients: state
-                        //                     .routers[index].quantityClient
-                        //                     .toString(),
-                        //                 priceList: state
-                        //                     .routers[index].price
-                        //                     .toString(),
-                        //                 dayRouter: state
-                        //                     .routers[index].dayRouter
-                        //                     .toString());
-                        //           }),
-                        //     );
-                        //   } else {
-                        //     return const Center(child: Text('Cargando'));
-                        //   }
-                        // }),
+                        BlocBuilder<SaleBloc, SaleState>(
+                            builder: (context, state) {
+                          if (state is SaleInitial) {
+                            return Expanded(
+                              child: ListView.builder(
+                                  itemCount: state.routers.length,
+                                  itemBuilder: (context, index) {
+                                    return CardRouter(
+                                      quantityClients: state
+                                            .routers[index].quantityClient
+                                            .toString(),
+                                        dayRouter: state
+                                            .routers[index].nameDayRouter
+                                            .toString());
+                                  }),
+                            );
+                          } else {
+                            return const Center(child: Text('Cargando'));
+                          }
+                        }),
                         // BlocBuilder<SaleStepperBloc, SalesStepperState>(
                         //   builder: (context, state) {
                         //     if (state is SalesStepperClientSelection) {
