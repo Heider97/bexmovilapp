@@ -37,53 +37,6 @@ class HomeCubit extends BaseCubit<HomeState> {
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
-      print('**********');
-      print(kpisOneLine);
-      print(kpisSecondLine);
-
-      // //LINE 1
-      // int length1line = 0;
-      // int amountWalletKpi1line = 0;
-      // List<Kpi> othersKpi1Line = [];
-      //
-      // //LINE 2
-      // int length2line = 0;
-      // int amountWalletKpi2line = 0;
-      // List<Kpi> othersKpi2Line = [];
-      //
-      // if (state.kpis != null) {
-      //   //la longitud de la linea 1
-      //   length1line = state.kpis!.where((kpi) => kpi.line == 1).toList().length;
-      //   //wallet kpi line 1
-      //   amountWalletKpi1line = state.kpis!
-      //       .where((kpi) => kpi.line == 1 && kpi.type == 'wallet')
-      //       .toList()
-      //       .length;
-      //
-      //   othersKpi1Line = state.kpis!
-      //       .where((kpi) => kpi.type != 'wallet' && kpi.line == 1)
-      //       .toList();
-      //
-      //   if (amountWalletKpi1line != 0) {
-      //     length1line = length1line - amountWalletKpi1line + 1;
-      //   }
-      //
-      //   //la longitud de la linea 2
-      //   length2line = state.kpis!.where((kpi) => kpi.line == 2).toList().length;
-      //   //wallet kpi line 2
-      //   amountWalletKpi2line = state.kpis!
-      //       .where((kpi) => kpi.line == 2 && kpi.type == 'wallet')
-      //       .toList()
-      //       .length;
-      //
-      //   othersKpi2Line = state.kpis!
-      //       .where((kpi) => kpi.type != 'wallet' && kpi.line == 2)
-      //       .toList();
-      //
-      //   if (amountWalletKpi2line != 0) {
-      //     length2line = length2line - amountWalletKpi2line + 1;
-      //   }
-      // }
 
       emit(HomeSuccess(
           user: user,

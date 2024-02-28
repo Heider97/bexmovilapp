@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CardReports extends StatelessWidget {
-  IconData iconCard;
-  String tittle;
-  String urlIcon;
+  final IconData iconCard;
+  final String title;
+  final String urlIcon;
   final Function eventCard;
 
-  CardReports(
+  const CardReports(
       {super.key,
       required this.iconCard,
-      required this.tittle,
+      required this.title,
       required this.urlIcon,
       required this.eventCard});
 
@@ -39,7 +39,7 @@ class CardReports extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SvgPicture.asset(urlIcon, width: 40, height: 40),
-                    Text(tittle,
+                    Text(title,
                         style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black87,

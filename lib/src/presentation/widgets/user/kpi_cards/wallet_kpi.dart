@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class WalletKpi extends StatefulWidget {
   final Kpi kpi;
+
   const WalletKpi({
     super.key,
     required this.kpi,

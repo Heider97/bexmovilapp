@@ -7,7 +7,6 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
-import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/drawer_widget.dart';
