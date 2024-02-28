@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

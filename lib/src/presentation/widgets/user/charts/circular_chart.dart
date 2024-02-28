@@ -1,5 +1,5 @@
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
