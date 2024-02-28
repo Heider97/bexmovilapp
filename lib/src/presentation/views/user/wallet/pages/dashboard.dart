@@ -1,14 +1,17 @@
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
-import 'package:bexmovil/src/presentation/widgets/user/charts/cartesian_chart.dart';
-import 'package:bexmovil/src/presentation/widgets/user/charts/circular_chart.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-
-import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+
+//utils
+import '../../../../../utils/constants/strings.dart';
+
+//atoms
+import '../../../../widgets/global/custom_back_button.dart';
+import '../../../../widgets/global/custom_menu_button.dart';
+
+//widgets
+import '../widgets/cartesian_chart.dart';
+import '../widgets/circular_chart.dart';
+
+
 
 class WalletDashboardView extends StatefulWidget {
   const WalletDashboardView({super.key});
@@ -17,23 +20,16 @@ class WalletDashboardView extends StatefulWidget {
   State<WalletDashboardView> createState() => _WalletDashboardViewState();
 }
 
-class _WalletDashboardViewState extends State<WalletDashboardView>
-    with SingleTickerProviderStateMixin {
+class _WalletDashboardViewState extends State<WalletDashboardView> {
   TextEditingController searchController = TextEditingController();
-  late TabController _tabController;
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
     super.initState();
   }
 
-  final NavigationService _navigationService = locator<NavigationService>();
-
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
     return const SafeArea(
       child: SingleChildScrollView(
         child: Column(
