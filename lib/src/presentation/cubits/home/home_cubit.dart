@@ -75,8 +75,6 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       }
 
-      print(kpisSlidableSecondLine);
-
       emit(HomeSuccess(
         user: user,
         features: features,

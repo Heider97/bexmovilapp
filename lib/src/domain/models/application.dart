@@ -1,27 +1,27 @@
-const String tableKpis = 'applications';
+const String tableApplications = 'app_functionalities';
 
 class ApplicationFields {
-  static final List<String> values = [id, title, svg, status, route];
+  static final List<String> values = [id, title, svg, enabled, route];
 
   static const String id = 'id';
   static const String title = 'title';
   static const String svg = 'svg';
-  static const String status = 'status';
   static const String route = 'route';
+  static const String enabled = 'enabled';
 }
 
 class Application {
   int? id;
   String? title;
   String? svg;
-  bool? status;
+  bool? enabled;
   String? route;
 
   Application({
     this.id,
     this.title,
     this.svg,
-    this.status,
+    this.enabled,
     this.route,
   });
 
@@ -29,7 +29,7 @@ class Application {
     id: json["id"],
     title: json["title"],
     svg: json["svg"],
-    status: json["status"],
+    enabled: json["enabled"],
     route: json["route"],
   );
 
@@ -37,7 +37,7 @@ class Application {
     "id": id,
     "title": title,
     "svg": svg,
-    "status": status,
+    "enabled": enabled,
     "route": route,
   };
 }

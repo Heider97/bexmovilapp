@@ -7,6 +7,7 @@ import '../../../cubits/home/home_cubit.dart';
 
 //utils
 import '../../../../utils/constants/gaps.dart';
+import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/drawer_widget.dart';
@@ -92,9 +93,8 @@ class HomeViewState extends State<HomeView>
                       width: size.width / 1.4,
                       height: size.height * 0.2,
                       child: GestureDetector(
-                          onTap: () {
-                            // _navigationService.goTo(Routes.searchPage);
-                          },
+                          onTap: () => homeCubit.navigationService
+                              .goTo(Routes.searchPage),
                           child: Material(
                               color: theme.cardColor,
                               borderRadius: BorderRadius.circular(50),
