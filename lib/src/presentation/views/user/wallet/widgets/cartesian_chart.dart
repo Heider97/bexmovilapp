@@ -17,7 +17,6 @@ class CartesianChart extends StatelessWidget {
     ThemeData theme = Theme.of(context);
 
     List<_SalesData> data = [
-      _SalesData('CT', 210868261),
       _SalesData('CC', 0),
       _SalesData('0-30', 32865663),
       _SalesData('31-60', 53882318),
@@ -42,7 +41,7 @@ class CartesianChart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Cartera por edad',
+                        'Cartera por edades',
                         style: theme.textTheme.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -72,9 +71,8 @@ class CartesianChart extends StatelessWidget {
               isVisible: false,
             ),
             primaryYAxis: NumericAxis(
-              // Applies currency format for y axis labels and also for data labels
-                numberFormat: NumberFormat.compactCurrency(symbol: '\$')
-            ),
+                // Applies currency format for y axis labels and also for data labels
+                numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
               print('********************');
               print(args.toString());

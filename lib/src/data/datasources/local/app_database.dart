@@ -175,6 +175,10 @@ class AppDatabase {
     return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
   }
 
+  Future<List<Map<String, Object?>>> createChart() async {
+
+  }
+
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;
     return await db!.query(table);
