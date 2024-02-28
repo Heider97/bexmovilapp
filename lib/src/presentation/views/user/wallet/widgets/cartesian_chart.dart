@@ -80,6 +80,10 @@ class CartesianChart extends StatelessWidget {
             },
             series: <CartesianSeries<_SalesData, String>>[
               ColumnSeries<_SalesData, String>(
+                  onPointTap: (ChartPointDetails details) {
+                    print(details.pointIndex);
+                    print(details.seriesIndex);
+                  },
                   dataSource: data,
                   xValueMapper: (_SalesData sales, _) => sales.year,
                   yValueMapper: (_SalesData sales, _) => sales.sales,
