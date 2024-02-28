@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //atoms
-import '../../../../widgets/global/custom_menu_button.dart';
 import '../../../../widgets/atomsbox.dart';
 
 //widgets
@@ -38,7 +37,12 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const AppBackButton(needPrimary: true),
-                  AppIconButton(onPressed: null, child: const Icon(Icons.menu)),
+                  AppIconButton(
+                      onPressed: null,
+                      child: Icon(Icons.menu,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onPrimaryContainer)),
                 ],
               ),
             ),

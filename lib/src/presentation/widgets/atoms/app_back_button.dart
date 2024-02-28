@@ -50,7 +50,7 @@ class AppBackButton extends StatelessWidget {
                 : Theme.of(context).colorScheme.secondary,
           ),
           icon: const BackButtonIcon(),
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
           tooltip: MaterialLocalizations.of(context).backButtonTooltip,
           onPressed: () {
             if (onPressed != null) {
