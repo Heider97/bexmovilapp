@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/constants/strings.dart';
 
 /// A customizable back button for the atomsbox library
 ///
@@ -20,7 +21,7 @@ class AppBackButton extends StatelessWidget {
   ///
   /// The [onPressed] callback is optional. If omitted, the button will use the
   /// [Navigator.maybePop] method to determine the appropriate action.
-  const AppBackButton({super.key, this.onPressed});
+  const AppBackButton({super.key, this.onPressed, this.needPrimary });
 
   /// A callback that is called when the button is tapped or otherwise activated.
   ///
@@ -30,24 +31,34 @@ class AppBackButton extends StatelessWidget {
   /// If this callback is null, the button will use the [Navigator.maybePop]
   /// method to determine the appropriate action.
   final VoidCallback? onPressed;
+  final bool? needPrimary;
 
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
-    return IconButton(
-      style: IconButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-      ),
-      icon: const BackButtonIcon(),
-      color: Theme.of(context).colorScheme.onSurface,
-      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-      onPressed: () {
-        if (onPressed != null) {
-          onPressed!();
-        } else {
-          Navigator.maybePop(context);
-        }
-      },
-    );
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Const.radius),
+          color: (needPrimary == true)
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.secondary
+        ),
+        child: IconButton(
+          style: IconButton.styleFrom(
+            backgroundColor: (needPrimary == true)
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.secondary,
+          ),
+          icon: const BackButtonIcon(),
+          color: Theme.of(context).colorScheme.onSurface,
+          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+          onPressed: () {
+            if (onPressed != null) {
+              onPressed!();
+            } else {
+              Navigator.maybePop(context);
+            }
+          },
+        ));
   }
 }

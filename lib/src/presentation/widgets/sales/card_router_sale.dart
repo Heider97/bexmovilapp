@@ -24,7 +24,6 @@ class CardRouter extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
           width: double.infinity,
-          height: 140,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -54,8 +53,6 @@ class CardRouter extends StatelessWidget {
                       Text("Con venta: ${withSale ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
                       Text("Efectividad: ${effectiveness ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
                       Text("Cobertura: ${coverage ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      
-                      
                     ],
                   ),                
                 ],

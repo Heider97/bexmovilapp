@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //atoms
-import '../../../../widgets/global/custom_back_button.dart';
 import '../../../../widgets/global/custom_menu_button.dart';
+import '../../../../widgets/atomsbox.dart';
 
 //widgets
 import '../widgets/cartesian_chart.dart';
@@ -28,58 +28,28 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(Const.padding),
+              padding: const EdgeInsets.all(Const.padding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBackButton(
-                    primaryColorBackgroundMode: true,
-                  ),
-                  CustomMenuButton(
-                    primaryColorBackgroundMode: true,
-                  )
+                  const AppBackButton(needPrimary: true),
+                  AppIconButton(onPressed: null, child: const Icon(Icons.menu)),
                 ],
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(Const.padding),
               child: CartesianChart(),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(Const.padding),
               child: CircularChart(),
             ),
-            // TabBar(
-            //   controller: _tabController,
-            //   tabs: const [
-            //     Tab(text: "Semanal"),
-            //     Tab(text: "Mensual"),
-            //     Tab(text: "3 Meses"),
-            //   ],
-            //   indicatorSize: TabBarIndicatorSize.tab,
-            // ),
-        
-        
-            // Expanded(
-            //   child: TabBarView(
-            //     controller: _tabController,
-            //     children: const [
-            //       SingleChildScrollView(
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // )
           ],
         ),
       ),

@@ -121,7 +121,7 @@ class CartesianChart extends StatelessWidget {
               )
             ],
           ),
-          gapH16
+          gapH12
         ],
       ),
     );
