@@ -15,7 +15,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   SaleBloc(this.databaseRepository) : super(SaleInitial([])) {
     on<LoadRouters>(_onLoadRouters);
-    on<LoadRouters>(_onLoadClientsRouter);
+    //on<LoadRouters>(_onLoadClientsRouter);
     on<LoadClients>(_onLoadClients);
     on<SelectClient>(_selectClient);
     on<SelectProducts>(_selectProducts);

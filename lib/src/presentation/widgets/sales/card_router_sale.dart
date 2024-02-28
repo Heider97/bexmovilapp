@@ -8,19 +8,23 @@ class CardRouter extends StatelessWidget {
   
   String quantityClients;
   String dayRouter;
-  String priceList;
+  int? visited;
+  int? withSale;
+  int? coverage;
+  int? effectiveness;
 
-  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter, required this.priceList});
+
+  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter});
 
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
-      onTap: () => print("Hola card Ruter"),
+      onTap: () => {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
           width: double.infinity,
-          height: 130,
+          height: 140,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -46,8 +50,10 @@ class CardRouter extends StatelessWidget {
                       Text(dayRouter, style: const TextStyle(color: Colors.orange, fontSize: 18)),
                       gapH4,
                       Text("Cantidad clientes: $quantityClients", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      Text("Efectividad: $priceList %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
-                      Text("Cobertura: $priceList %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+                      Text("Visitados: ${visited ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+                      Text("Con venta: ${withSale ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+                      Text("Efectividad: ${effectiveness ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
+                      Text("Cobertura: ${coverage ?? '0'} %", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),),
                       
                       
                     ],
