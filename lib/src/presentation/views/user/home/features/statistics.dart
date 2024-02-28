@@ -8,8 +8,7 @@ import '../../../../../utils/constants/screens.dart';
 
 //widgets
 import '../widgets/card_reports.dart';
-import 'package:bexmovil/src/presentation/widgets/user/kpi_cards/card_kpi.dart';
-import 'package:bexmovil/src/presentation/widgets/user/kpi_cards/wallet_kpi.dart';
+import '../widgets/card_kpi.dart';
 
 class HomeStatistics extends StatelessWidget {
   final TabController tabController;
@@ -70,7 +69,6 @@ class HomeStatistics extends StatelessWidget {
                             }),
                       ),
                       Expanded(
-                        //LINE 2 LIST
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: kpisSecondLine.length,
