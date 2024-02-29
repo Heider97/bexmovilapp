@@ -11,6 +11,7 @@ import '../../domain/models/requests/sync_priorities_request.dart';
 import '../../domain/models/requests/functionality_request.dart';
 import '../../domain/models/requests/dynamic_request.dart';
 import '../../domain/models/requests/google_request.dart';
+import '../../domain/models/requests/graphic_request.dart';
 
 
 //responses
@@ -24,6 +25,7 @@ import '../../domain/models/responses/google_response.dart';
 import '../../domain/models/responses/sync_priorities_response.dart';
 import '../../domain/models/responses/sync_response.dart';
 import '../../domain/models/responses/functionality_response.dart';
+import '../../domain/models/responses/graphic_response.dart';
 
 
 import '../../domain/models/responses/config_response.dart';
@@ -126,6 +128,13 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<FunctionalityResponse>> functionalities({required FunctionalityRequest request}) {
     return getStateOf<FunctionalityResponse>(
       request: () => _apiService.functionalities(codvendedor: request.codvendedor),
+    );
+  }
+
+  @override
+  Future<DataState<GraphicResponse>> graphics({required GraphicRequest request}) {
+    return getStateOf<GraphicResponse>(
+      request: () => _apiService.graphics(codvendedor: request.codvendedor),
     );
   }
 }
