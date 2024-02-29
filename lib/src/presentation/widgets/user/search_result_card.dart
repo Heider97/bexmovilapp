@@ -1,6 +1,6 @@
 import 'package:bexmovil/src/domain/models/search_result.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_item.dart';
+import 'package:bexmovil/src/presentation/views/user/home/widgets/app_item.dart';
 import 'package:bexmovil/src/presentation/widgets/user/image_with_shadow.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -166,7 +166,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
-                              child: CustomItem(
+                              child: AppItem(
                                   iconName: 'Vender',
                                   imagePath: 'assets/svg/sell.svg',
                                   onTap: () {
@@ -180,7 +180,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
-                              child: CustomItem(
+                              child: AppItem(
                                   iconName: 'Mercadeo',
                                   imagePath: 'assets/svg/mercadeo.svg',
                                   onTap: () {
@@ -193,7 +193,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             color: theme.scaffoldBackgroundColor,
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
-                              child: CustomItem(
+                              child: AppItem(
                                   iconName: 'Cartera',
                                   imagePath: 'assets/svg/wallet.svg',
                                   onTap: () {

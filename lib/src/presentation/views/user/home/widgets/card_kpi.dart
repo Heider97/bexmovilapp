@@ -2,36 +2,37 @@ import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import 'package:flutter/material.dart';
 
-class WalletKpi extends StatefulWidget {
+class CardKpi extends StatefulWidget {
   final Kpi kpi;
-  const WalletKpi({
-    super.key,
-    required this.kpi,
-  });
+
+  const CardKpi({super.key, required this.kpi});
 
   @override
-  State<WalletKpi> createState() => _WalletKpiState();
+  State<CardKpi> createState() => _CardKpiState();
 }
 
-class _WalletKpiState extends State<WalletKpi> {
+class _CardKpiState extends State<CardKpi> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+
     return Card(
         surfaceTintColor: Colors.white,
         child: SizedBox(
-          height: 230,
+          width: 230,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                    child: Text(
-                  widget.kpi.title ?? "N/A",
-                  style: theme.textTheme.bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold),
-                )),
+                  child: Text(
+                    widget.kpi.title ?? "N/A",
+                    maxLines: 2,
+                    style: theme.textTheme.bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
                 Row(
                   children: [
                     Text(

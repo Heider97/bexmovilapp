@@ -14,6 +14,7 @@ import '../../../core/abstracts/FormatAbstract.dart';
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
+import '../../../domain/models/requests/functionality_request.dart';
 import '../../../domain/models/requests/login_request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -29,7 +30,7 @@ import '../base/base_cubit.dart';
 
 part 'login_state.dart';
 
-class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
+class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   final ApiRepository apiRepository;
   final DatabaseRepository databaseRepository;
   final LocalStorageService? storageService;
@@ -39,13 +40,10 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
 
   LoginCubit(this.apiRepository, this.databaseRepository, this.storageService,
       this.navigationService, this.locationRepository)
-      : super(
-            LoginInitial(
-                enterprise: storageService!.getObject('enterprise') != null
-                    ? Enterprise.fromMap(
-                        storageService.getObject('enterprise')!)
-                    : null),
-            null);
+      : super(LoginInitial(
+            enterprise: storageService!.getObject('enterprise') != null
+                ? Enterprise.fromMap(storageService.getObject('enterprise')!)
+                : null));
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
@@ -92,6 +90,23 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
     } else {
       emit(LoginFailed(
           error: 'kpis-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
+  Future<void> getFunctionalities() async {
+    final response = await apiRepository.functionalities(
+        request: FunctionalityRequest(
+            codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository
+          .insertApplications(response.data!.functionalities!);
+    } else {
+      emit(LoginFailed(
+          error: 'functionalities-${response.data!.message}',
           enterprise: storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
               : null));

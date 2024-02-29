@@ -1,8 +1,12 @@
-import 'package:bexmovil/src/presentation/blocs/sync_features/sync_features_bloc.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
+//utils
+import '../../../utils/constants/gaps.dart';
+
+//blocs
+import '../../blocs/sync_features/sync_features_bloc.dart';
 
 //widgets
 import '../../../presentation/widgets/custom_card_widget.dart';
@@ -141,13 +145,6 @@ class CountDown extends StatelessWidget {
           children: [
             Text('Espere hasta ${DateFormat.Hms().format(target)}'),
             gapH24,
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 20),
-            //   child: LinearProgressIndicator(
-            //     value: (value++ *  diffDate.inSeconds) * 100,
-            //   ),
-            // ),
-            // gapH24,
             Text(target.difference(DateTime.now()).toString().split('.')[0]),
           ],
         );

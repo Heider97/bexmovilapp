@@ -11,19 +11,23 @@ class Router {
       this.price,
       this.city,
       this.groupDiscount,
-      this.active});
+      this.active,
+      this.quantityClient,
+      this.nameDayRouter});
 
   Router.fromJson(Map<String, dynamic> json) {
-    seller = json['codvendedor'];
+    seller = json['CODVENDEDOR'];
     dayRouter = json['DIARUTERO'];
     secuenceRouter = json['bank_id'];
     client = json['account_number'];
     quota = json['cupo'];
     discount = json['coddescuento'];
-    price = json['codprecio'];
+    price = json['CODPRECIO'];
     city = json['ciudad'];
     groupDiscount = json['codgrupodcto'];
     active = json['inactivo'];
+    quantityClient = json['CANTIDADCLIENTES'];
+    nameDayRouter = json['NOMDIARUTERO'];
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +42,8 @@ class Router {
     data['ciudad'] = city;
     data['codgrupodcto'] = groupDiscount;
     data['inactivo'] = active;
+    data['cantidadclientes'] = quantityClient;
+    data['nomdiarutero'] = nameDayRouter;
     return data;
   }
 
@@ -51,4 +57,6 @@ class Router {
   String? city;
   String? groupDiscount;
   String? active;
+  int? quantityClient;
+  String? nameDayRouter;
 }

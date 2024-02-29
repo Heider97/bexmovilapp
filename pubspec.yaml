@@ -11,6 +11,7 @@ dependencies:
   cached_network_image: ^3.3.0
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.13.2
+  collection: ^1.18.0
   connectivity_plus: ^3.0.3
   cupertino_icons: ^1.0.2
   dart_ping: ^8.0.1

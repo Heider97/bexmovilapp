@@ -4,6 +4,7 @@ import '../models/feature.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
+import '../models/application.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -15,6 +16,7 @@ abstract class DatabaseRepository {
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
+  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter);
   Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS
@@ -30,11 +32,18 @@ abstract class DatabaseRepository {
   Future<void> emptyFeatures();
 
   //KPIS
-  Future<List<Kpi>> getAllKpis();
+  Future<List<Kpi>> getKpisByLine(String line);
   Future<void> insertKpis(List<Kpi> kpis);
   Future<void> insertKpi(Kpi kpi);
   Future<int> updateKpi(Kpi kpi);
   Future<void> emptyKpis();
+
+  //APPLICATIONS
+  Future<List<Application>> getAllApplications();
+  Future<void> insertApplications(List<Application> applications);
+  Future<void> insertApplication(Application application);
+  Future<int> updateApplication(Application application);
+  Future<void> emptyApplications();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();
