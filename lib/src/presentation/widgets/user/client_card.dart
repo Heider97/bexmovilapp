@@ -1,10 +1,9 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/date_time_extenstion.dart';
+import 'package:bexmovil/src/utils/extensions/date_time_extension.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

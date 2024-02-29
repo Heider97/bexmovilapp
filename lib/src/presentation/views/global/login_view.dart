@@ -1,35 +1,25 @@
-import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
-import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
-import 'package:bexmovil/src/presentation/views/user/prospect/index.dart';
-import 'package:bexmovil/src/presentation/widgets/version_widget.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
 import '../../cubits/login/login_cubit.dart';
+
 //blocs
 import '../../blocs/recovery_password/recovery_password_bloc.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
 import '../../../utils/constants/gaps.dart';
+import '../../../utils/constants/screens.dart';
 
 //widgets
 import '../../widgets/global/custom_back_button.dart';
 import '../../widgets/global/custom_elevated_button.dart';
 import '../../widgets/global/custom_textformfield.dart';
-
-//services
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
-import '../../../services/storage.dart';
+import '../../widgets/version_widget.dart';
 
 part '../../widgets/global/form_login.dart';
-
-final LocalStorageService _storageService = locator<LocalStorageService>();
-final NavigationService _navigationService = locator<NavigationService>();
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -55,8 +45,8 @@ class LoginViewState extends State<LoginView> {
   }
 
   void rememberSession() {
-    var usernameStorage = _storageService.getString('username');
-    var passwordStorage = _storageService.getString('password');
+    var usernameStorage = loginCubit.storageService?.getString('username');
+    var passwordStorage = loginCubit.storageService?.getString('password');
 
     if (usernameStorage != null) {
       setState(() {
@@ -196,7 +186,7 @@ class LoginViewState extends State<LoginView> {
                           ),
                           ListTile(
                             onTap: () {
-                              _navigationService.goTo(Routes.codeFormRequest);
+                              loginCubit.navigationService?.goTo(Routes.codeFormRequest);
                               recoveryBloc
                                   .add(const StartRecovery(type: 'Email'));
                             },
@@ -211,7 +201,7 @@ class LoginViewState extends State<LoginView> {
                           ),
                           ListTile(
                             onTap: () {
-                              _navigationService.goTo(Routes.codeFormRequest);
+                              loginCubit.navigationService?.goTo(Routes.codeFormRequest);
                               // recoveryBloc
                               //     .add(const StartRecovery(type: 'SMS'));
                             },
@@ -241,12 +231,6 @@ class LoginViewState extends State<LoginView> {
               ),
             ),
           ),
-          // TextButton(
-          //   onPressed: (){
-          //     Navigator.push(context, MaterialPageRoute(builder: (context) =>  ProspectSheduleView()));
-          //   }, 
-          //   child: const Text('ir al calendar')
-          // ),
           gapH36,
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,
