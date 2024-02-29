@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import '../../../../utils/constants/gaps.dart';
 import '../../../../utils/constants/strings.dart';
 
 //widgets
+import '../../../widgets/atoms/app_text.dart';
 import '../../../widgets/drawer_widget.dart';
 
 //features
@@ -81,16 +83,16 @@ class HomeViewState extends State<HomeView>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    GestureDetector(
-                        onTap: () => Scaffold.of(context).openDrawer(),
-                        child: CircleAvatar(
-                          radius: 25,
-                          child: state.user != null && state.user!.name != null
-                              ? Text(state.user!.name![0])
-                              : const Text('U'),
-                        )),
+                    AppIconButton(
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        child: state.user != null && state.user!.name != null
+                            ? AppText(state.user!.name![0], color: Colors.white)
+                            : AppText('B')),
+                    AppIconButton(
+                        onPressed: () => homeCubit.sync(),
+                        child: const Icon(Icons.sync, color: Colors.white)),
                     SizedBox(
-                      width: size.width / 1.4,
+                      width: size.width / 1.6,
                       height: size.height * 0.2,
                       child: GestureDetector(
                           onTap: () => homeCubit.navigationService
@@ -109,8 +111,9 @@ class HomeViewState extends State<HomeView>
                                     color: theme.primaryColor,
                                   ),
                                   gapW20,
-                                  const Expanded(
-                                      child: Text('¿Qué estás buscando? ')),
+                                  Flexible(
+                                      child: AppText('¿Qué estás buscando? ',
+                                          fontSize: 13)),
                                   gapW20
                                 ],
                               ))),

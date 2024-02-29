@@ -143,8 +143,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             if (response.data != null && response.data!.data != null) {
               futureInserts.add(databaseRepository.insertAll(
                   tables[i], response.data!.data!));
-            } else {
-              print('no hay data');
             }
           }
           i++;

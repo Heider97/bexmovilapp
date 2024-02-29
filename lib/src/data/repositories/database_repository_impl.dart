@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../datasources/local/app_database.dart';
@@ -9,6 +8,7 @@ import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
 import '../../domain/models/kpi.dart';
 import '../../domain/models/router.dart';
+import '../../domain/models/application.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -22,7 +22,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter ) async {
+  Future<List<Router>> getAllClientsRouter(
+      String seller, String dayRouter) async {
     return _appDatabase.routerDao.getAllClientsRouter(seller, dayRouter);
   }
 
@@ -120,6 +121,32 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyKpis() {
     return _appDatabase.kpiDao.emptyKpis();
+  }
+
+  //APPLICATIONS
+  @override
+  Future<List<Application>> getAllApplications() {
+    return _appDatabase.applicationDao.getAllApplications();
+  }
+
+  @override
+  Future<void> insertApplications(List<Application> applications) async {
+    return _appDatabase.applicationDao.insertApplications(applications);
+  }
+
+  @override
+  Future<int> insertApplication(Application kpi) async {
+    return _appDatabase.applicationDao.insertApplication(kpi);
+  }
+
+  @override
+  Future<int> updateApplication(Application kpi) async {
+    return _appDatabase.applicationDao.updateApplication(kpi);
+  }
+
+  @override
+  Future<void> emptyApplications() {
+    return _appDatabase.applicationDao.emptyApplications();
   }
 
   // initialize and close methods go here
