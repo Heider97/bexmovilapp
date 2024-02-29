@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -8,22 +9,20 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
-class CartesianChart extends StatelessWidget {
-  const CartesianChart({super.key});
+class CircularChart extends StatelessWidget {
+  const CircularChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
-    List<_SalesData> data = [
-      _SalesData('10', 0),
-      _SalesData('20', 20),
-      _SalesData('30', 40),
-      _SalesData('40', 60),
-      _SalesData('50', 80),
-      _SalesData('50', 100)
+    final List<ChartData> chartData = [
+      ChartData('Lunes', 20),
+      ChartData('Martes', 20),
+      ChartData('Miercoles', 20),
+      ChartData('Jueves', 20),
+      ChartData('Viernes', 20)
     ];
 
+    ThemeData theme = Theme.of(context);
     return Card(
       color: theme.colorScheme.onPrimary,
       surfaceTintColor: theme.colorScheme.onPrimary,
@@ -38,7 +37,7 @@ class CartesianChart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Edad',
+                    'Cartera por agenda',
                     style: theme.textTheme.bodyLarge!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -56,32 +55,26 @@ class CartesianChart extends StatelessWidget {
               ),
             ),
           ),
-          SfCartesianChart(
-            primaryXAxis: const CategoryAxis(),
-            legend: const Legend(
-              isVisible: false,
-            ),
-            series: <CartesianSeries<_SalesData, String>>[
-              ColumnSeries<_SalesData, String>(
-                  dataSource: data,
-                  xValueMapper: (_SalesData sales, _) => sales.year,
-                  yValueMapper: (_SalesData sales, _) => sales.sales,
-                  borderRadius: BorderRadius.circular(15),
-                  isTrackVisible: true,
-                  trackColor: Color(0XFFC6C9D0),
+          SfCircularChart(series: <CircularSeries>[
+            // Render pie chart
+            PieSeries<ChartData, String>(
+                onPointTap: (args) {
+                  print('****************');
+                },
+                dataSource: chartData,
+                pointColorMapper: (ChartData data, _) => data.color,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y),
 
-                  // Enable data label
-                  dataLabelSettings: const DataLabelSettings(isVisible: true))
-            ],
-          ),
+          ]),
           Row(
             children: [
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Edad mas alta'),
-                    const Text('80'),
-                    Text('Italcol',
+                    const Text('Agenda mas alta'),
+                    const Text('\$80M'),
+                    Text('Lunes',
                         style: theme.textTheme.bodyLarge!
                             .copyWith(fontWeight: FontWeight.bold)),
                   ],
@@ -90,8 +83,8 @@ class CartesianChart extends StatelessWidget {
               Expanded(
                 child: Column(
                   children: [
-                    const Text('Frecuencia más alta'),
-                    const Text('50'),
+                    const Text('Cliente más alto'),
+                    const Text('\$55M'),
                     Text(
                       'Pandapan',
                       style: theme.textTheme.bodyLarge!
@@ -107,11 +100,4 @@ class CartesianChart extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SalesData {
-  _SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
 }

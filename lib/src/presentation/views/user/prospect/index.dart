@@ -5,16 +5,16 @@ import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dar
 import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../../widgets/user/custom_item.dart';
+import '../home/widgets/app_item.dart';
 
-class ProspectSheduleView extends StatefulWidget {
-  ProspectSheduleView({super.key});
+class ProspectScheduleView extends StatefulWidget {
+  const ProspectScheduleView({super.key});
 
   @override
-  State<ProspectSheduleView> createState() => _ProspectSheduleViewState();
+  State<ProspectScheduleView> createState() => _ProspectScheduleViewState();
 }
 
-class _ProspectSheduleViewState extends State<ProspectSheduleView>
+class _ProspectScheduleViewState extends State<ProspectScheduleView>
     with SingleTickerProviderStateMixin {
   late TabController _tabcontroller;
 

@@ -47,7 +47,6 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         Expanded(
           child: SfDataGrid(
             gridLinesVisibility: GridLinesVisibility.both,
-            //  stackedHeaderRows: [StackedHeaderRow(cells: Stac)],
             rowHeight: 50,
             frozenColumnsCount: 1,
             frozenRowsCount: 0,

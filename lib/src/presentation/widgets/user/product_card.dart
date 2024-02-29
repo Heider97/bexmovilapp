@@ -7,7 +7,7 @@ import 'package:bexmovil/src/presentation/widgets/user/image_with_shadow.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/date_time_extenstion.dart';
+import 'package:bexmovil/src/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatefulWidget {
@@ -236,7 +236,7 @@ class _ProductCardState extends State<ProductCard> {
                                                     TextEditingController(),
                                               ),
                                             ),
-                                            SizedBox()
+                                            const SizedBox()
                                           ],
                                         ),
                                         gapH4,

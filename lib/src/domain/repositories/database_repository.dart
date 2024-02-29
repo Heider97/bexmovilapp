@@ -15,6 +15,7 @@ abstract class DatabaseRepository {
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
+  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter);
   Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS
@@ -30,7 +31,7 @@ abstract class DatabaseRepository {
   Future<void> emptyFeatures();
 
   //KPIS
-  Future<List<Kpi>> getAllKpis();
+  Future<List<Kpi>> getKpisByLine(String line);
   Future<void> insertKpis(List<Kpi> kpis);
   Future<void> insertKpi(Kpi kpi);
   Future<int> updateKpi(Kpi kpi);

@@ -16,6 +16,7 @@ import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/router.dart';
+import '../../../domain/models/application.dart';
 
 //services
 import '../../../locator.dart';
@@ -29,6 +30,7 @@ part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
 part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
+part '../local/dao/application_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -107,9 +109,29 @@ class AppDatabase {
             ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableApplications (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
+          )
+        ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
+            ${KpiFields.id} INTEGER PRIMARY KEY,
+            ${KpiFields.title} TEXT DEFAULT NULL,
+            ${KpiFields.sql} TEXT DEFAULT NULL,
+            ${KpiFields.type} TEXT DEFAULT NULL,
+            ${KpiFields.line} INTEGER DEFAULT NULL,
+            ${KpiFields.value} TEXT DEFAULT NULL
+          )
+        ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableApplications (
             ${KpiFields.id} INTEGER PRIMARY KEY,
             ${KpiFields.title} TEXT DEFAULT NULL,
             ${KpiFields.sql} TEXT DEFAULT NULL,
@@ -205,6 +227,8 @@ class AppDatabase {
   KpiDao get kpiDao => KpiDao(instance);
 
   RouterDao get routerDao => RouterDao(instance);
+
+  ApplicationDao get applicationDao => ApplicationDao(instance);
 
   void close() {
     _database!.close();
