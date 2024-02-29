@@ -126,6 +126,16 @@ class Assets {
   static const String shaving = 'assets/shaving.svg';
   static const String signIn = 'assets/sign_in.jpg';
   static const String spa = 'assets/spa.svg';
+
+  //Wallet Assets
+  static const String whatsapp = 'assets/images/wallet/whatsapp.png';
+  static const String emailWallet = 'assets/images/wallet/email.png';
+  static const String textMessage = 'assets/images/wallet/text-message.png';
+
+  static const String check = 'assets/images/wallet/check.png';
+  static const String consignment = 'assets/images/wallet/consignment.png';
+  static const String cash = 'assets/images/wallet/cash.png';
+  static const String creditNote = 'assets/images/wallet/credit_note.png';
 }
 
 class Const {

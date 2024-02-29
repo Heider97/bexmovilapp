@@ -1,8 +1,15 @@
 part of 'wallet_bloc.dart';
 
-class WalletEvent extends Equatable {
-  const WalletEvent();
+class WalletEvent {}
 
-  @override
-  List<Object> get props => [];
+class SelectClientEvent extends WalletEvent {
+  SelectClientEvent();
+}
+
+class InvoiceSelectionEvent extends WalletEvent {
+  InvoiceSelectionEvent();
+}
+
+class InvoiceActionEvent extends WalletEvent {
+  InvoiceActionEvent();
 }
