@@ -49,7 +49,7 @@ class ApplicationDao {
 
   Future<void> emptyApplications() async {
     final db = _appDatabase._database;
-    db!.delete('app_functionalities');
+    db!.delete(tableApplications);
     return Future.value();
   }
 }

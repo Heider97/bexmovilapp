@@ -100,7 +100,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     await run(() async {
       final user = User.fromMap(storageService.getObject('user')!);
       var features = await databaseRepository.getAllFeatures();
-      // var applications = await databaseRepository.getAllApplications();
+      var applications = await databaseRepository.getAllApplications();
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
@@ -148,7 +148,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         kpisSlidableOneLine: kpisSlidableOneLine,
         kpisSecondLine: kpisSecondLine,
         kpisSlidableSecondLine: kpisSlidableSecondLine,
-        // applications: applications
+        applications: applications
       ));
     });
   }
@@ -159,9 +159,9 @@ class HomeCubit extends BaseCubit<HomeState> {
     await run(() async {
       emit(const HomeSynchronizing());
 
-      var functions = [getConfigs, getFeatures, getKpis];
+      var functions = [getConfigs, getFeatures, getKpis, getFunctionalities];
 
-      var isolateModel = IsolateModel(functions, null, 3);
+      var isolateModel = IsolateModel(functions, null, 4);
       await heavyTask(isolateModel);
 
       emit(HomeSuccess(
@@ -177,6 +177,9 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   Future<void> logout() async {
     await Future.wait([
+      databaseRepository.emptyFeatures(),
+      databaseRepository.emptyKpis(),
+      databaseRepository.emptyApplications()
       //DELETE  DATABASE INFORMATION
     ]);
 

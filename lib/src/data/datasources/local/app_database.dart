@@ -46,7 +46,7 @@ class AppDatabase {
 
     final path = join(documentsDirectory.path, databaseName);
 
-    return await openDatabase(path, version: 2, onCreate: (db, version) async {
+    return await openDatabase(path, version: 3, onCreate: (db, version) async {
       await db.execute('''
           CREATE TABLE $tableLocations (
             ${LocationFields.id} INTEGER PRIMARY KEY,
@@ -111,12 +111,11 @@ class AppDatabase {
         ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableApplications (
-            ${KpiFields.id} INTEGER PRIMARY KEY,
-            ${KpiFields.title} TEXT DEFAULT NULL,
-            ${KpiFields.sql} TEXT DEFAULT NULL,
-            ${KpiFields.type} TEXT DEFAULT NULL,
-            ${KpiFields.line} INTEGER DEFAULT NULL,
-            ${KpiFields.value} TEXT DEFAULT NULL
+            ${ApplicationFields.id} INTEGER PRIMARY KEY,
+            ${ApplicationFields.title} TEXT DEFAULT NULL,
+            ${ApplicationFields.svg} TEXT DEFAULT NULL,
+            ${ApplicationFields.route} TEXT DEFAULT NULL,
+            ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
           )
         ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
@@ -132,12 +131,11 @@ class AppDatabase {
         ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableApplications (
-            ${KpiFields.id} INTEGER PRIMARY KEY,
-            ${KpiFields.title} TEXT DEFAULT NULL,
-            ${KpiFields.sql} TEXT DEFAULT NULL,
-            ${KpiFields.type} TEXT DEFAULT NULL,
-            ${KpiFields.line} INTEGER DEFAULT NULL,
-            ${KpiFields.value} TEXT DEFAULT NULL
+            ${ApplicationFields.id} INTEGER PRIMARY KEY,
+            ${ApplicationFields.title} TEXT DEFAULT NULL,
+            ${ApplicationFields.svg} TEXT DEFAULT NULL,
+            ${ApplicationFields.route} TEXT DEFAULT NULL,
+            ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
           )
         ''');
     });
@@ -170,7 +168,8 @@ class AppDatabase {
     }
   }
 
-  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
+  Future<List<Map<String, Object?>>> findGlobal(
+      String table, String condition, String value) async {
     final db = await instance.database;
     return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
   }

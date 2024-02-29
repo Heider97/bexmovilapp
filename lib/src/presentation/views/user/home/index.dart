@@ -137,7 +137,7 @@ class HomeViewState extends State<HomeView>
               gapH4,
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              const HomeApplications(),
+              HomeApplications(applications: state.applications),
             ],
           ),
         ),

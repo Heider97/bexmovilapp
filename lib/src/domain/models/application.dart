@@ -26,18 +26,22 @@ class Application {
   });
 
   factory Application.fromJson(Map<String, dynamic> json) => Application(
-    id: json["id"],
-    title: json["title"],
-    svg: json["svg"],
-    enabled: json["enabled"],
-    route: json["route"],
-  );
+        id: json["id"],
+        title: json["title"],
+        svg: json["svg"],
+        enabled: json["enabled"] != null
+            ? json['enabled'] == 1
+                ? true
+                : false
+            : null,
+        route: json["route"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "svg": svg,
-    "enabled": enabled,
-    "route": route,
-  };
+        "id": id,
+        "title": title,
+        "svg": svg,
+        "enabled": enabled,
+        "route": route,
+      };
 }

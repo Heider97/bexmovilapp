@@ -16,7 +16,8 @@ class KpiDao {
 
   Future<List<Kpi>> getKpisByLine(String line) async {
     final db = _appDatabase._database;
-    final kpiList = await db!.query(tableKpis, where: 'line = ?', whereArgs: [line]);
+    final kpiList =
+        await db!.query(tableKpis, where: 'line = ?', whereArgs: [line]);
     final kpis = parseKpis(kpiList);
     return kpis;
   }
@@ -26,15 +27,16 @@ class KpiDao {
     var batch = db!.batch();
 
     await Future.forEach(kpis, (feature) async {
-      var foundProduct = await db.query(tableKpis, where: 'id = ?', whereArgs: [feature.id]);
+      var foundProduct =
+          await db.query(tableKpis, where: 'id = ?', whereArgs: [feature.id]);
 
-      if(foundProduct.isNotEmpty){
-        batch.update(tableKpis, feature.toJson(), where: 'id = ?', whereArgs: [feature.id]);
+      if (foundProduct.isNotEmpty) {
+        batch.update(tableKpis, feature.toJson(),
+            where: 'id = ?', whereArgs: [feature.id]);
       } else {
         batch.insert(tableKpis, feature.toJson());
       }
     });
-
 
     batch.commit(noResult: true, continueOnError: true);
   }
@@ -49,7 +51,7 @@ class KpiDao {
 
   Future<void> emptyKpis() async {
     final db = _appDatabase._database;
-    db!.delete('tblmkpie');
+    db!.delete(tableKpis);
     return Future.value();
   }
 }
