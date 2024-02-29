@@ -1,32 +1,36 @@
-import 'package:bexmovil/src/domain/models/requests/kpi_request.dart';
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
-import 'package:bexmovil/src/domain/models/responses/sync_response.dart';
-
-import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
-
-import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
-
-import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
-import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
-
-import '../../domain/models/requests/dynamic_request.dart';
-import '../../domain/models/requests/google_request.dart';
-import '../../domain/models/requests/login_request.dart';
-import '../../domain/models/requests/sync_priorities_request.dart';
-import '../../domain/models/responses/dynamic_response.dart';
-import '../../domain/models/responses/google_response.dart';
-import '../../domain/models/responses/login_response.dart';
-
-import '../../domain/models/requests/enterprise_request.dart';
-import '../../domain/models/responses/enterprise_response.dart';
-
-import '../../domain/models/responses/config_response.dart';
-
-import '../../domain/models/responses/sync_priorities_response.dart';
-import '../../domain/repositories/api_repository.dart';
+//utils
 import '../../utils/resources/data_state.dart';
 import '../datasources/remote/api_service.dart';
 import 'base/base_api_repository.dart';
+
+//requests
+import '../../domain/models/requests/enterprise_request.dart';
+import '../../domain/models/requests/login_request.dart';
+import '../../domain/models/requests/change_password_request.dart';
+import '../../domain/models/requests/sync_priorities_request.dart';
+import '../../domain/models/requests/functionality_request.dart';
+import '../../domain/models/requests/dynamic_request.dart';
+import '../../domain/models/requests/google_request.dart';
+
+
+//responses
+import '../../domain/models/responses/enterprise_response.dart';
+import '../../domain/models/responses/recovery_code_response.dart';
+import '../../domain/models/responses/validate_recovery_code_response.dart';
+import '../../domain/models/responses/change_password_response.dart';
+import '../../domain/models/responses/login_response.dart';
+import '../../domain/models/responses/dynamic_response.dart';
+import '../../domain/models/responses/google_response.dart';
+import '../../domain/models/responses/sync_priorities_response.dart';
+import '../../domain/models/responses/sync_response.dart';
+import '../../domain/models/responses/functionality_response.dart';
+
+
+import '../../domain/models/responses/config_response.dart';
+import '../../domain/models/requests/kpi_request.dart';
+import '../../domain/models/responses/kpi_response.dart';
+//repository
+import '../../domain/repositories/api_repository.dart';
 
 class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   final ApiService _apiService;
@@ -112,10 +116,16 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<KpiResponse>> kpis(
-      {required KpiRequest request}) {
+  Future<DataState<KpiResponse>> kpis({required KpiRequest request}) {
     return getStateOf<KpiResponse>(
       request: () => _apiService.kpis(codvendedor: request.codvendedor),
+    );
+  }
+
+  @override
+  Future<DataState<FunctionalityResponse>> functionalities({required FunctionalityRequest request}) {
+    return getStateOf<FunctionalityResponse>(
+      request: () => _apiService.functionalities(codvendedor: request.codvendedor),
     );
   }
 }
