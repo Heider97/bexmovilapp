@@ -98,7 +98,7 @@ class CarouselCustomItem extends StatelessWidget {
                   color: theme.primaryColor,
                   borderRadius: BorderRadius.circular(Const.radius)),
               width: Screens.width(context) * 0.85,
-              height: Screens.heigth(context) * 0.13,
+              height: Screens.height(context) * 0.13,
               child: Center(
                   child: Padding(
                 padding: const EdgeInsets.all(Const.padding),
@@ -127,7 +127,7 @@ class CarouselCustomItem extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.circular(Const.radius)),
                               width: Screens.width(context) * 0.15,
-                              height: Screens.heigth(context) * 0.005,
+                              height: Screens.height(context) * 0.005,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -140,7 +140,7 @@ class CarouselCustomItem extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.circular(Const.radius)),
                                 width: Screens.width(context) * 0.15,
-                                height: Screens.heigth(context) * 0.005,
+                                height: Screens.height(context) * 0.005,
                               ),
                             ),
                             Container(
@@ -151,7 +151,7 @@ class CarouselCustomItem extends StatelessWidget {
                                   borderRadius:
                                       BorderRadius.circular(Const.radius)),
                               width: Screens.width(context) * 0.15,
-                              height: Screens.heigth(context) * 0.005,
+                              height: Screens.height(context) * 0.005,
                             )
                           ]),
                     )

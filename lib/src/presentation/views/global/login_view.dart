@@ -167,7 +167,7 @@ class LoginViewState extends State<LoginView> {
                   context: context,
                   builder: (BuildContext context) {
                     return SizedBox(
-                      height: Screens.heigth(context) * 0.25,
+                      height: Screens.height(context) * 0.25,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
