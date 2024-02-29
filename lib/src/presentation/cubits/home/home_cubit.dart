@@ -100,6 +100,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     await run(() async {
       final user = User.fromMap(storageService.getObject('user')!);
       var features = await databaseRepository.getAllFeatures();
+      // var applications = await databaseRepository.getAllApplications();
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
@@ -147,6 +148,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         kpisSlidableOneLine: kpisSlidableOneLine,
         kpisSecondLine: kpisSecondLine,
         kpisSlidableSecondLine: kpisSlidableSecondLine,
+        // applications: applications
       ));
     });
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../widgets/atoms/app_text.dart';
+
 class AppItem extends StatelessWidget {
   final String iconName;
   final String imagePath;
@@ -25,7 +27,7 @@ class AppItem extends StatelessWidget {
               height: 40,
             ),
           ),
-          Text(iconName)
+          AppText(iconName)
         ],
       ),
     );

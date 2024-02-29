@@ -1,4 +1,7 @@
+import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_shimmer_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import '../../../../../domain/models/feature.dart';
 //widgets
@@ -11,20 +14,25 @@ class HomeFeatures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 120,
-        width: 500,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: features != null ? features!.length : 0,
-          itemBuilder: (BuildContext context, int index) => Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: CustomCard(
-                axis: Axis.horizontal,
-                text: features![index].descripcion!,
-                url: features![index].urldesc,
-                color: index / 2 == 0 ? Colors.orange : Colors.green),
-          ),
-        ));
+    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+      return SizedBox(
+          height: 120,
+          width: 500,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: features != null ? features!.length : 0,
+            itemBuilder: (BuildContext context, int index) => Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: AppShimmerLoading(
+                isLoading: state is HomeSynchronizing,
+                child: CustomCard(
+                    axis: Axis.horizontal,
+                    text: features![index].descripcion!,
+                    url: features![index].urldesc,
+                    color: index / 2 == 0 ? Colors.orange : Colors.green),
+              ),
+            ),
+          ));
+    });
   }
 }
