@@ -2,12 +2,9 @@ import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
-import 'package:bexmovil/src/presentation/widgets/user/client_card.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
+import 'package:bexmovil/src/presentation/widgets/sales/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
-
-import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -20,9 +17,7 @@ import 'package:intl/intl.dart';
 import '../../../../locator.dart';
 import '../../../../utils/constants/strings.dart';
 import '../../../cubits/home/home_cubit.dart';
-import '../../../widgets/global/custom_elevated_button.dart';
 
-import '../../../widgets/user/custom_search_bar.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
@@ -51,8 +46,7 @@ class _SalePageState extends State<SalePage> {
   void initState() {
     super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
-
-    saleBloc.add(LoadRouters());
+    saleBloc.add(LoadClients());
 
     saleStepperBloc = BlocProvider.of(context);
 
@@ -180,7 +174,7 @@ class _SalePageState extends State<SalePage> {
                           children: [
                             GestureDetector(
                                 onTap: () {
-                                  navigationService.goBack();
+                                  navigationService.goTo(Routes.routerRoute);
                                 },
                                 child: Container(
                                   padding:
@@ -190,8 +184,10 @@ class _SalePageState extends State<SalePage> {
                                       borderRadius: borderRadius),
                                   child: ClipRRect(
                                     borderRadius: borderRadius,
-                                    child: const Icon(Icons.close,
-                                        color: Colors.white, size: 35),
+                                    child: const Icon(
+                                        Icons.keyboard_arrow_left_rounded,
+                                        color: Colors.white,
+                                        size: 35),
                                   ),
                                 )),
                             Builder(builder: (context) {
@@ -215,71 +211,82 @@ class _SalePageState extends State<SalePage> {
                         ),
                         StepperWidget(currentStep: 0, steps: steps),
                         Padding(
-                          padding: const EdgeInsets.all(Const.padding),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: theme.colorScheme.secondary,
-                                borderRadius: BorderRadius.circular(Const.space15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(Const.padding),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.search,
-                                    color: theme.colorScheme.tertiary,
-                                  ),
-                                  gapW24,
-                                  Text(
-                                    'Búsqueda por nombre rutero',
-                                    style: TextStyle(color: theme.colorScheme.tertiary),
-                                  )
-                                ],
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.space15)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(Const.padding),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.search,
+                                      color: theme.colorScheme.tertiary,
+                                    ),
+                                    gapW24,
+                                    Text(
+                                      'Búsqueda por nombre rutero',
+                                      style: TextStyle(
+                                          color: theme.colorScheme.tertiary),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            FilterButton(
-                              enable: true,
-                              onTap: (() {}),
-                              textButton: 'Visitados',
-                            ),
-                            FilterButton(
-                              enable: false,
-                              onTap: (() {}),
-                              textButton: 'No visitados',
-                            ),
-                            FilterButton(
-                              enable: false,
-                              onTap: (() {}),
-                              textButton: 'Todos',
-                            ),
-                          ],
+                            )),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              FilterButton(
+                                enable: true,
+                                onTap: (() {}),
+                                textButton: 'Visitados',
+                              ),
+                              FilterButton(
+                                enable: false,
+                                onTap: (() {}),
+                                textButton: 'No visitados',
+                              ),
+                              FilterButton(
+                                enable: false,
+                                onTap: (() {}),
+                                textButton: 'Todos',
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                         gapH4,
                         BlocBuilder<SaleBloc, SaleState>(
-                            builder: (context, state) {
-                          if (state is SaleInitial) {
-                            return Expanded(
+                          builder: (context, saleState) {
+                            if (saleState is SaleInitial) {
+                              print(saleState.clients.length);
+                              return Expanded(
                               child: ListView.builder(
-                                  itemCount: state.routers.length,
+                                  itemCount: saleState.clients.length,
                                   itemBuilder: (context, index) {
-                                    return CardRouter(
-                                      quantityClients: state
-                                            .routers[index].quantityClient
+                                    return CardClientRouter(
+                                      nit: saleState
+                                            .clients[index].nitCliente
                                             .toString(),
-                                        dayRouter: state
-                                            .routers[index].nameDayRouter
-                                            .toString());
+                                      addressClient: saleState
+                                            .clients[index].dirCliente
+                                            .toString(),
+                                      branchClient: saleState
+                                            .clients[index].estadoCliente
+                                            .toString(),
+                                      nameClient: saleState
+                                            .clients[index].nomCliente
+                                            .toString(),
+                                    );
                                   }),
                             );
-                          } else {
-                            return const Center(child: Text('Cargando'));
-                          }
-                        }),
+                            } else {
+                              return const Center(child: Text("Not Found"));
+                            }
+                          },
+                        ),
                         // BlocBuilder<SaleStepperBloc, SalesStepperState>(
                         //   builder: (context, state) {
                         //     if (state is SalesStepperClientSelection) {

@@ -360,7 +360,7 @@ class HomeViewState extends State<HomeView>
                           iconName: 'Vender',
                           imagePath: 'assets/svg/sell.svg',
                           onTap: () {
-                            _navigationService.goTo(Routes.saleRoute);
+                            _navigationService.goTo(Routes.routerRoute);
                           }),
                       CustomItem(
                           iconName: 'Cartera',

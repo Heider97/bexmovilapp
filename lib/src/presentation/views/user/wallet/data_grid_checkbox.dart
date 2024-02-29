@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 

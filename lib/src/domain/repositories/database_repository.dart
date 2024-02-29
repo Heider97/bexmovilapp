@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../models/feature.dart';
@@ -15,7 +16,7 @@ abstract class DatabaseRepository {
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
-  Future<List<Router>> getAllClientsRouter(String seller, String dayRouter);
+  Future<List<Client>> getAllClientsRouter(String seller, String dayRouter);
   Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS

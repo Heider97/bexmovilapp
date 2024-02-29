@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(
             create: (_) =>
-                SaleBloc(locator<DatabaseRepository>())..add(LoadRouters())),
+                SaleBloc(locator<DatabaseRepository>(), locator<LocalStorageService>())..add(LoadRouters())),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),

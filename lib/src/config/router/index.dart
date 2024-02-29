@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/router/index.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/presentation/views/user/search_view.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 
 //config
 import '../../presentation/views/global/code_create_meet.dart';
-import '../../presentation/views/user/sale/history_sales.dart';
+import '../../presentation/views/user/sale/history.dart';
 import '../../utils/constants/strings.dart';
 
 //SCREENS
@@ -117,6 +118,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
                 hideBottomNavigationBar: true,
                 child: SalePage(),
               ));
+    case Routes.routerRoute:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: RouterPage(),
+              ));          
     case Routes.detailSaleRoute:
       return MaterialPageRoute(
           builder: (context) => DetailsSale(dataSales: []));

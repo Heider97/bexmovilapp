@@ -1,8 +1,13 @@
  // ignore_for_file: must_be_immutable
 
+import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/gaps.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class CardRouter extends StatelessWidget {
   
@@ -19,7 +24,7 @@ class CardRouter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
-      onTap: () => {},
+      onTap: () => { _navigationService.goTo(Routes.saleRoute) },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(

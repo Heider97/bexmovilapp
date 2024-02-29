@@ -34,6 +34,7 @@ class Routes {
   static const calendarRoute = '/calendar';
   static const charDetailsRoute = '/charDetailsRoute';
   static const saleRoute = '/sale';
+  static const routerRoute = '/router';
   static const detailSaleRoute = '/detail-sale';
   static const historySaleRoute = '/history';
   static const productivityRoute = '/productivity';

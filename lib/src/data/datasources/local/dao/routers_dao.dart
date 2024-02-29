@@ -22,15 +22,6 @@ class RouterDao {
     return routers;
   }
 
-  Future<List<Router>> getAllClientsRouter(
-      String seller, String dayRouter) async {
-    final db = await _appDatabase.database;
-    final routerList = await db!.rawQuery(
-        "SELECT tr.codprecio, tr.inactivo, c.razcliente, tr.diarutero FROM tblmrutero tr INNER JOIN tblmdiarutero tdr ON tr.diarutero = tdr.diarutero INNER JOIN tblmcliente c ON tr.codcliente = c.codcliente WHERE tr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' GROUP BY tr.CODCLIENTE");
-    final routers = parseRouters(routerList);
-    return routers;
-  }
-
   Future<List<Router>> getAllRouters(String seller) async {
     final db = await _appDatabase.database;
     final routerList = await db!
