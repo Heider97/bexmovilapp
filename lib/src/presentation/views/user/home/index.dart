@@ -372,7 +372,7 @@ class HomeViewState extends State<HomeView>
                           iconName: 'Mercadeo',
                           imagePath: 'assets/svg/mercadeo.svg',
                           onTap: () {
-                            // _navigationService.goTo(Routes.mercadeo);
+                            _navigationService.goTo(Routes.wallet);
                           }),
                       CustomItem(
                           iconName: 'PQRS',

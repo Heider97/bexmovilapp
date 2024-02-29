@@ -197,6 +197,7 @@ class WalletDetailsScreen extends StatelessWidget {
                                       width: 1, // Ancho del borde
                                       style:
                                           BorderStyle.solid, // Estilo del borde
+                                          
                                     ),
                                   ),
                                   child: ElevatedButton(
