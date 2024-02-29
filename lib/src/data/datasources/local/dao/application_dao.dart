@@ -16,7 +16,7 @@ class ApplicationDao {
 
   Future<List<Application>> getAllApplications() async {
     final db = _appDatabase._database;
-    final applicationList = await db!.query(tableApplications, where: 'enabled = ?', whereArgs: [1]);
+    final applicationList = await db!.query(tableApplications);
     final applications = parseApplications(applicationList);
     return applications;
   }

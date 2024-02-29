@@ -23,18 +23,21 @@ class HomeApplications extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-          return ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: applications?.length ?? 0,
-            itemBuilder: (context, index) => AppShimmerLoading(
-                isLoading: state is HomeSynchronizing,
-                child: AppItem(
-                    iconName: applications![index].title!,
-                    imagePath: applications![index].svg!,
-                    onTap: () {
-                      navigationService.goTo(applications![index].route!);
-                    })),
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...state.applications != null
+                  ? state.applications!.map((app) => AppShimmerLoading(
+                      isLoading: state is HomeSynchronizing,
+                      child: AppItem(
+                          enabled: app.enabled ?? false,
+                          iconName: app.title!,
+                          imagePath: app.svg!,
+                          onTap: () {
+                            navigationService.goTo(app.route!);
+                          })))
+                  : []
+            ],
           );
         }),
       ),
