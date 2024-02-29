@@ -2,7 +2,8 @@ import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'dashboard.dart';
+//domain
+import '../../../../../domain/models/graphic.dart';
 
 class CharDetails extends StatefulWidget {
   const CharDetails({super.key});

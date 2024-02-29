@@ -142,14 +142,13 @@ class HomeCubit extends BaseCubit<HomeState> {
       }
 
       emit(HomeSuccess(
-        user: user,
-        features: features,
-        kpisOneLine: kpisOneLine,
-        kpisSlidableOneLine: kpisSlidableOneLine,
-        kpisSecondLine: kpisSecondLine,
-        kpisSlidableSecondLine: kpisSlidableSecondLine,
-        applications: applications
-      ));
+          user: user,
+          features: features,
+          kpisOneLine: kpisOneLine,
+          kpisSlidableOneLine: kpisSlidableOneLine,
+          kpisSecondLine: kpisSecondLine,
+          kpisSlidableSecondLine: kpisSlidableSecondLine,
+          applications: applications));
     });
   }
 
@@ -157,21 +156,64 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeSynchronizing());
+      emit(const HomeLoading());
 
       var functions = [getConfigs, getFeatures, getKpis, getFunctionalities];
 
       var isolateModel = IsolateModel(functions, null, 4);
       await heavyTask(isolateModel);
 
+      final user = User.fromMap(storageService.getObject('user')!);
+      var features = await databaseRepository.getAllFeatures();
+      var applications = await databaseRepository.getAllApplications();
+      var kpisOneLine = await databaseRepository.getKpisByLine('1');
+      var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+
+      List<List<Kpi>> kpisSlidableOneLine = [];
+      List<List<Kpi>> kpisSlidableSecondLine = [];
+
+      final duplicatesOneLine = groupBy(
+        kpisOneLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      final duplicatesSecondLine = groupBy(
+        kpisSecondLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      if (duplicatesOneLine.isNotEmpty) {
+        for (var dsl in duplicatesOneLine) {
+          kpisOneLine.removeWhere((element) => element.type == dsl);
+          kpisSlidableOneLine
+              .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+        }
+      }
+
+      if (duplicatesSecondLine.isNotEmpty) {
+        for (var dsl in duplicatesSecondLine) {
+          kpisSlidableSecondLine
+              .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+          kpisSecondLine.removeWhere((element) => element.type == dsl);
+        }
+      }
+
       emit(HomeSuccess(
-        user: state.user,
-        features: state.features,
-        kpisOneLine: state.kpisOneLine,
-        kpisSlidableOneLine: state.kpisSlidableOneLine,
-        kpisSecondLine: state.kpisSecondLine,
-        kpisSlidableSecondLine: state.kpisSlidableSecondLine,
-      ));
+          user: user,
+          features: features,
+          kpisOneLine: kpisOneLine,
+          kpisSlidableOneLine: kpisSlidableOneLine,
+          kpisSecondLine: kpisSecondLine,
+          kpisSlidableSecondLine: kpisSlidableSecondLine,
+          applications: applications));
     });
   }
 

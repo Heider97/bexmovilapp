@@ -1,11 +1,13 @@
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+//domain
+import '../../../../../domain/models/graphic.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
