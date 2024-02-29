@@ -2,6 +2,7 @@ import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bl
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -92,6 +93,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
         BlocProvider(create: (_) => SaleStepperBloc()),
+        BlocProvider(create: (_) => WalletBloc()),
+
         BlocProvider(
             create: (_) =>
                 SaleBloc(locator<DatabaseRepository>())..add(LoadRouters())),

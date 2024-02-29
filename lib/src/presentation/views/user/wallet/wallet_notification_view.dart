@@ -1,4 +1,6 @@
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/user/wallet/check_image.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
@@ -31,7 +33,7 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
     return SafeArea(
       child: Column(
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,26 +46,64 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
           Expanded(
             child: Container(
               width: Screens.width(context),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: Screens.width(context),
+                      child: Card(
+                        surfaceTintColor: theme.primaryColor,
+                        color: theme.primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            'Supermercado Exito',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Icon(FontAwesomeIcons.whatsapp),
-                        Icon(FontAwesomeIcons.solidMessage),
-                        Icon(FontAwesomeIcons.google)
+                        Expanded(
+                          child: CheckImage(
+                              imageFromAsset: Assets.whatsapp,
+                              text: "WhatsApp"),
+                        ),
+                        Expanded(
+                          child: CheckImage(
+                              imageFromAsset: Assets.textMessage,
+                              text: "Mensaje de texto"),
+                        ),
+                        Expanded(
+                          child: CheckImage(
+                              imageFromAsset: Assets.emailWallet,
+                              text: "correo electronico "),
+                        )
                       ],
                     ),
                   ),
-                  const Expanded(
+                  /* const Expanded(
                     child: SizedBox(),
+                  ), */
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text('Adjuntar Firma:'),
                   ),
                   Padding(
                       padding: const EdgeInsets.all(10),
@@ -89,7 +129,9 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                           ],
                         ),
                       )),
-                  const SizedBox(height: 10),
+                  const Expanded(
+                    child: SizedBox(),
+                  ),
                   SizedBox(
                     width: Screens.width(context),
                     child: Padding(

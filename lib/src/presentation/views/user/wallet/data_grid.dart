@@ -3,14 +3,14 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class DataGridCheckBox extends StatefulWidget {
-  const DataGridCheckBox({super.key});
+class WalletDataGrid extends StatefulWidget {
+  const WalletDataGrid({super.key});
 
   @override
-  State<DataGridCheckBox> createState() => _DataGridCheckBoxState();
+  State<WalletDataGrid> createState() => _DataGridState();
 }
 
-class _DataGridCheckBoxState extends State<DataGridCheckBox> {
+class _DataGridState extends State<WalletDataGrid> {
   final DataGridController _dataGridController = DataGridController();
 
   late EmployeeDataSource employeeDataSource;
@@ -47,7 +47,6 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         Expanded(
           child: SfDataGrid(
             gridLinesVisibility: GridLinesVisibility.both,
-            //  stackedHeaderRows: [StackedHeaderRow(cells: Stac)],
             rowHeight: 50,
             frozenColumnsCount: 1,
             frozenRowsCount: 0,
@@ -63,25 +62,13 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
             isScrollbarAlwaysShown: true,
             horizontalScrollController: ScrollController(),
             source: employeeDataSource,
-            showCheckboxColumn: true,
+            // showCheckboxColumn: true,
             //  allowFiltering: true,
-            selectionMode: SelectionMode.multiple,
+            selectionMode: SelectionMode.single,
             controller: _dataGridController,
             columns: getColumns(theme),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(),
-              Text('Gran total : \$458.592.500',
-                  style: theme.textTheme.bodyLarge!
-                      .copyWith(fontWeight: FontWeight.bold)),
-            ],
-          ),
-        )
       ],
     );
   }
