@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
+import '../../domain/models/graphic.dart';
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
@@ -147,6 +148,32 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyApplications() {
     return _appDatabase.applicationDao.emptyApplications();
+  }
+
+  //GRAPHICS
+  @override
+  Future<List<Graphic>> getAllGraphics() {
+    return _appDatabase.graphicDao.getAllGraphics();
+  }
+
+  @override
+  Future<void> insertGraphics(List<Graphic> graphics) async {
+    return _appDatabase.graphicDao.insertGraphics(graphics);
+  }
+
+  @override
+  Future<int> insertGraphic(Graphic graphic) async {
+    return _appDatabase.graphicDao.insertGraphic(graphic);
+  }
+
+  @override
+  Future<int> updateGraphic(Graphic graphic) async {
+    return _appDatabase.graphicDao.updateGraphic(graphic);
+  }
+
+  @override
+  Future<void> emptyGraphics() {
+    return _appDatabase.graphicDao.emptyGraphics();
   }
 
   // initialize and close methods go here

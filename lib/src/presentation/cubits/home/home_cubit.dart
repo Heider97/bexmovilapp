@@ -6,6 +6,7 @@ import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
 //utils
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/requests/functionality_request.dart';
+import '../../../domain/models/requests/graphic_request.dart';
 import '../../../domain/models/requests/kpi_request.dart';
 import '../../../utils/constants/strings.dart';
 
@@ -59,9 +60,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (response is DataSuccess) {
       await databaseRepository.insertFeatures(response.data!.features);
     } else {
-      emit(HomeFailed(
-        error: 'features-${response.data!.message}',
-      ));
+      emit(HomeFailed(error: 'features-${response.data!.message}'));
     }
   }
 
@@ -73,9 +72,7 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (response is DataSuccess) {
       await databaseRepository.insertKpis(response.data!.kpis!);
     } else {
-      emit(HomeFailed(
-        error: 'kpis-${response.data!.message}',
-      ));
+      emit(HomeFailed(error: 'kpis-${response.data!.message}'));
     }
   }
 
@@ -88,9 +85,19 @@ class HomeCubit extends BaseCubit<HomeState> {
       await databaseRepository
           .insertApplications(response.data!.functionalities!);
     } else {
-      emit(HomeFailed(
-        error: 'functionalities-${response.data!.message}',
-      ));
+      emit(HomeFailed(error: 'functionalities-${response.data!.message}'));
+    }
+  }
+
+  Future<void> getGraphics() async {
+    final response = await apiRepository.graphics(
+        request: GraphicRequest(
+            codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository.insertGraphics(response.data!.graphics!);
+    } else {
+      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
     }
   }
 
@@ -158,9 +165,15 @@ class HomeCubit extends BaseCubit<HomeState> {
     await run(() async {
       emit(const HomeLoading());
 
-      var functions = [getConfigs, getFeatures, getKpis, getFunctionalities];
+      var functions = [
+        getConfigs,
+        getFeatures,
+        getKpis,
+        getFunctionalities,
+        getGraphics
+      ];
 
-      var isolateModel = IsolateModel(functions, null, 4);
+      var isolateModel = IsolateModel(functions, null, 5);
       await heavyTask(isolateModel);
 
       final user = User.fromMap(storageService.getObject('user')!);

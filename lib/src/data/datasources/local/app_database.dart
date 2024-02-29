@@ -17,6 +17,7 @@ import '../../../domain/models/config.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/application.dart';
+import '../../../domain/models/graphic.dart';
 
 //services
 import '../../../locator.dart';
@@ -31,6 +32,7 @@ part '../local/dao/client_dao.dart';
 part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
+part '../local/dao/graphic_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -118,6 +120,17 @@ class AppDatabase {
             ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
           )
         ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableGraphics (
+            ${GraphicFields.id} INTEGER PRIMARY KEY,
+            ${GraphicFields.title} TEXT DEFAULT NULL,
+            ${GraphicFields.subtitle} TEXT DEFAULT NULL,
+            ${GraphicFields.conditions} TEXT DEFAULT NULL,
+            ${GraphicFields.type} TEXT DEFAULT NULL,
+            ${GraphicFields.query} TEXT DEFAULT NULL,
+            ${GraphicFields.trigger} TEXT DEFAULT NULL
+          )
+        ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -136,6 +149,17 @@ class AppDatabase {
             ${ApplicationFields.svg} TEXT DEFAULT NULL,
             ${ApplicationFields.route} TEXT DEFAULT NULL,
             ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
+          )
+        ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableGraphics (
+            ${GraphicFields.id} INTEGER PRIMARY KEY,
+            ${GraphicFields.title} TEXT DEFAULT NULL,
+            ${GraphicFields.subtitle} TEXT DEFAULT NULL,
+            ${GraphicFields.conditions} TEXT DEFAULT NULL,
+            ${GraphicFields.type} TEXT DEFAULT NULL,
+            ${GraphicFields.query} TEXT DEFAULT NULL,
+            ${GraphicFields.trigger} TEXT DEFAULT NULL
           )
         ''');
     });
@@ -228,6 +252,8 @@ class AppDatabase {
   RouterDao get routerDao => RouterDao(instance);
 
   ApplicationDao get applicationDao => ApplicationDao(instance);
+
+  GraphicDao get graphicDao => GraphicDao(instance);
 
   void close() {
     _database!.close();

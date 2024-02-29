@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../models/feature.dart';
+import '../models/graphic.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
@@ -44,6 +45,13 @@ abstract class DatabaseRepository {
   Future<void> insertApplication(Application application);
   Future<int> updateApplication(Application application);
   Future<void> emptyApplications();
+
+  //GRAPHICS
+  Future<List<Graphic>> getAllGraphics();
+  Future<void> insertGraphics(List<Graphic> graphics);
+  Future<void> insertGraphic(Graphic graphic);
+  Future<int> updateGraphic(Graphic graphic);
+  Future<void> emptyGraphics();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

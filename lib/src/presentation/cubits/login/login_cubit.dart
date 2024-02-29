@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/requests/graphic_request.dart';
 import 'package:bexmovil/src/domain/models/requests/kpi_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -113,6 +114,24 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     }
   }
 
+
+  Future<void> getGraphics() async {
+    final response = await apiRepository.graphics(
+        request: GraphicRequest(
+            codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository
+          .insertGraphics(response.data!.graphics!);
+    } else {
+      emit(LoginFailed(
+          error: 'graphics-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
   Future<void> differenceHours(username, password) async {
     if (isBusy) return;
 
@@ -195,10 +214,11 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
               getConfigs,
               getFeatures,
               getKpis,
-              getFunctionalities
+              getFunctionalities,
+              getGraphics
             ];
 
-            var isolateModel = IsolateModel(functions, null, 4);
+            var isolateModel = IsolateModel(functions, null, 5);
             await heavyTask(isolateModel);
           }
 
