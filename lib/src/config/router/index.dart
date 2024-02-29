@@ -2,9 +2,11 @@ import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
 import 'package:bexmovil/src/presentation/views/user/router/index.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
-import 'package:bexmovil/src/presentation/views/user/search_view.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/char_details_view.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_dashboard_view.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/search.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/chart_details.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/dashboard.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_details_screen.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/pages/notification.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_process_view.dart';
 import 'package:flutter/material.dart';
 
@@ -93,6 +95,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
               opacity: 0.1,
               child: WalletDashboardView()));
 
+    case Routes.walletDetailsScreen:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: WalletDetailsScreen()));
+
+    case Routes.walletNotificationView:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+              hideBottomNavigationBar: true,
+              opacity: 0.1,
+              child: WalletNotificationView()));
+
     case Routes.calendarRoute:
       return MaterialPageRoute(builder: (context) => const CalendarPage());
 
@@ -108,7 +124,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           builder: (context) => const GlobalBackgroundSquare(
                 opacity: 0.1,
                 hideBottomNavigationBar: true,
-                child: WalletProcessView(),
+                child: WalletDashboardView(),
               ));
 
     case Routes.saleRoute:

@@ -10,8 +10,6 @@ import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:upgrader/upgrader.dart';
-
 //theme
 import 'app_localizations.dart';
 import 'src/config/theme/index.dart';
@@ -55,11 +53,8 @@ import 'src/presentation/views/global/undefined_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then;
 
-  Firebase.initializeApp().then; // inicializando firebase dentro de la app
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Upgrader.clearSavedSettings(); // REMOVE this for release builds
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
@@ -127,7 +122,8 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
-            create: (context) => HomeCubit(locator<DatabaseRepository>())),
+            create: (context) => HomeCubit(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -136,7 +132,6 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
-
         //REPOSITORY PROVIDER.
         RepositoryProvider(
             create: (_) => LocationRepository(),

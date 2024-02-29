@@ -1,9 +1,10 @@
 import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class DataGridCheckBox extends StatefulWidget {
-  DataGridCheckBox({super.key});
+  const DataGridCheckBox({super.key});
 
   @override
   State<DataGridCheckBox> createState() => _DataGridCheckBoxState();
@@ -22,96 +23,174 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
 
   List<Employee> getEmployeeData() {
     return [
-      Employee(10001, 'James', 'Cerdo levante y engorde  Preiniciador', 20000),
-      Employee(10002, 'Kathryn', 'Cerdito Preiniciador', 30000),
-      Employee(10003, 'Lara', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(
-          10004, 'Michael', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(10005, 'Martin', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(
-          10006, 'Newberry', 'Cerdo levante y engorde  Preiniciador', 15000),
-      Employee(10007, 'Balnc', 'Developer', 15000),
-      Employee(10008, 'Perry', 'Developer', 15000),
-      Employee(10009, 'Gable', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 80000)
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 20000, "Other"),
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 30000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Mora', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
+      Employee('IOST415D', 'Al dia', '24/Ago/2022', 800, "Other")
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfDataGrid(
-      
-      onCellTap: (details) {},
-      columnWidthMode: ColumnWidthMode.none,
-      isScrollbarAlwaysShown: true,
-      horizontalScrollController: ScrollController(),
-      source: employeeDataSource,
-      showCheckboxColumn: true,
-      allowFiltering: true,
-      selectionMode: SelectionMode.multiple,
-      controller: _dataGridController,
-      columns: getColumns(),
+    ThemeData theme = Theme.of(context);
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: SfDataGrid(
+            gridLinesVisibility: GridLinesVisibility.both,
+            rowHeight: 50,
+            frozenColumnsCount: 1,
+            frozenRowsCount: 0,
+            onSelectionChanged: (addedRows, removedRows) {
+              for (var element in addedRows) {
+                print('added: ${element.getCells().first.value}');
+              }
+              for (var element in removedRows) {
+                print('removedRows: ${element.getCells().first.value}}');
+              }
+            },
+            onCellTap: (details) {},
+            isScrollbarAlwaysShown: true,
+            horizontalScrollController: ScrollController(),
+            source: employeeDataSource,
+            showCheckboxColumn: true,
+            //  allowFiltering: true,
+            selectionMode: SelectionMode.multiple,
+            controller: _dataGridController,
+            columns: getColumns(theme),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(),
+              Text('Gran total : \$458.592.500',
+                  style: theme.textTheme.bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold)),
+            ],
+          ),
+        )
+      ],
     );
   }
 
-  List<GridColumn> getColumns() {
+  List<GridColumn> getColumns(ThemeData theme) {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-        // filterPopupMenuOptions: FilterPopupMenuOptions(),
-        // allowFiltering: true,
-        filterPopupMenuOptions: FilterPopupMenuOptions(
-            filterMode: FilterMode.checkboxFilter,
-            showColumnName: false,
-            canShowClearFilterOption: false,
-            canShowSortingOptions: false),
+        columnWidthMode: ColumnWidthMode.fitByColumnName,
         columnName: 'id',
-        label: Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: const Text(
-            'Factura',
-            overflow: TextOverflow.clip,
+        minimumWidth: Screens.width(context) * 0.25,
+        label: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.filter_alt_outlined,
+                    color: theme.primaryColor,
+                  )),
+              const Expanded(
+                child: Text(
+                  'Factura',
+                ),
+              ),
+            ],
           ),
         ),
       ),
       GridColumn(
-        allowFiltering: true,
+        width: Screens.width(context) * 0.25,
+        // allowFiltering: true,
         columnName: 'Estado',
-        label: Container(
-          padding: const EdgeInsets.all(8),
-          alignment: Alignment.centerRight,
-          child: const Text(
-            'Estado',
-            overflow: TextOverflow.clip,
-          ),
-        ),
-      ),
-      GridColumn(
-        allowFiltering: true,
-        columnName: 'Vencimiento',
-        label: Container(
-          alignment: Alignment.centerLeft,
-          child: const Text(
-            'Vencimiento',
-            overflow: TextOverflow.clip,
-          ),
-        ),
-      ),
-      GridColumn(
-          allowFiltering: true,
-          columnName: 'Valor',
-          label: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.center,
-            child: const Text(
-              'Valor',
-              overflow: TextOverflow.clip,
+        label: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+                onPressed: () {},
+                icon:
+                    Icon(Icons.filter_alt_outlined, color: theme.primaryColor)),
+            const Expanded(
+              child: Text(
+                'Estado',
+                overflow: TextOverflow.clip,
+              ),
             ),
+          ],
+        ),
+      ),
+      GridColumn(
+        minimumWidth: Screens.width(context) * 0.34,
+        // allowFiltering: true,
+        columnName: 'Vencimiento',
+
+        label: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.filter_alt_outlined,
+                    color: theme.primaryColor,
+                  )),
+              const Expanded(
+                child: Text(
+                  'Vencimiento',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      GridColumn(
+          // allowFiltering: true,
+          minimumWidth: Screens.width(context) * 0.1,
+          columnName: 'Valor',
+          label: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.filter_alt_outlined,
+                      color: theme.primaryColor)),
+              const Expanded(
+                child: Text(
+                  'Valor',
+                ),
+              ),
+            ],
           ),
           columnWidthMode: ColumnWidthMode.lastColumnFill),
+      GridColumn(
+          //  allowFiltering: true,
+          columnName: 'Other',
+          label: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.filter_alt_outlined,
+                      color: theme.primaryColor)),
+              const Center(
+                child: Text(
+                  'Other',
+                ),
+              ),
+            ],
+          ))
     ];
     return columns;
   }

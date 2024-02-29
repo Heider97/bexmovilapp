@@ -40,8 +40,12 @@ class Routes {
   static const productivityRoute = '/productivity';
   static const selectEnterpriseRoute = '/select-enterprise';
   static const databaseRoute = '/database';
+
+  //Wallet routes
   static const wallet = '/wallet';
   static const walletprocess = '/wallet-process';
+  static const walletDetailsScreen = '/wallet-details-screen';
+  static const walletNotificationView = '/wallet-notification-screen';
 }
 
 // Form Error

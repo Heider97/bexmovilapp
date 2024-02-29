@@ -1,48 +1,91 @@
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
 
 //utils
-import '../../../utils/constants/nums.dart';
 import '../../../utils/constants/strings.dart';
 
 //domain
 import '../../../domain/models/user.dart';
+import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
+import '../../../domain/models/responses/kpi_response.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //service
-import '../../../locator.dart';
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
 
 part 'home_state.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
-final NavigationService _navigationService = locator<NavigationService>();
+class HomeCubit extends BaseCubit<HomeState> {
+  final DatabaseRepository databaseRepository;
+  final LocalStorageService storageService;
+  final NavigationService navigationService;
 
-class HomeCubit extends Cubit<HomeState> {
-  final DatabaseRepository _databaseRepository;
-
-  HomeCubit(this._databaseRepository) : super(const HomeLoading());
+  HomeCubit(
+      this.databaseRepository, this.storageService, this.navigationService)
+      : super(const HomeLoading());
 
   Future<void> init() async {
-    final user = User.fromMap(_storageService.getObject('user')!);
-    var features = await _databaseRepository.getAllFeatures();
-    var kpis = await _databaseRepository.getAllKpis();
-    print('estoy aquiiiii');
-    print(kpis.length);
+    if (isBusy) return;
 
-    emit(HomeSuccess(user: user, features: features, kpis: kpis));
-  }
+    await run(() async {
+      final user = User.fromMap(storageService.getObject('user')!);
+      var features = await databaseRepository.getAllFeatures();
+      var kpisOneLine = await databaseRepository.getKpisByLine('1');
+      var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
-  void dispose() {
-    emit(const HomeLoading());
-    // scrollController.removeListener(onScrollListener);
-    // scrollController.dispose();
-    // tabController.dispose();
+      List<List<Kpi>> kpisSlidableOneLine = [];
+      List<List<Kpi>> kpisSlidableSecondLine = [];
+
+      final duplicatesOneLine = groupBy(
+        kpisOneLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      final duplicatesSecondLine = groupBy(
+        kpisSecondLine,
+        (kpi) => kpi.type,
+      )
+          .values
+          .where((list) => list.length > 1)
+          .map((list) => list.first.type)
+          .toList();
+
+      if (duplicatesOneLine.isNotEmpty) {
+        for (var dsl in duplicatesOneLine) {
+          kpisOneLine.removeWhere((element) => element.type == dsl);
+          kpisSlidableOneLine
+              .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+        }
+      }
+
+      if (duplicatesSecondLine.isNotEmpty) {
+        for (var dsl in duplicatesSecondLine) {
+          kpisSlidableSecondLine
+              .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+          kpisSecondLine.removeWhere((element) => element.type == dsl);
+        }
+
+      }
+
+      print(kpisSlidableSecondLine);
+
+      emit(HomeSuccess(
+        user: user,
+        features: features,
+        kpisOneLine: kpisOneLine,
+        kpisSlidableOneLine: kpisSlidableOneLine,
+        kpisSecondLine: kpisSecondLine,
+        kpisSlidableSecondLine: kpisSlidableSecondLine,
+      ));
+    });
   }
 
   Future<void> logout() async {
@@ -50,7 +93,7 @@ class HomeCubit extends Cubit<HomeState> {
       //DELETE  DATABASE INFORMATION
     ]);
 
-    _storageService.remove('token');
-    _navigationService.replaceTo(Routes.loginRoute);
+    storageService.remove('token');
+    navigationService.replaceTo(Routes.loginRoute);
   }
 }

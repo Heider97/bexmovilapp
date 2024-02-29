@@ -14,9 +14,9 @@ class KpiDao {
     return kpis;
   }
 
-  Future<List<Kpi>> getAllKpis() async {
+  Future<List<Kpi>> getKpisByLine(String line) async {
     final db = _appDatabase._database;
-    final kpiList = await db!.query(tableKpis);
+    final kpiList = await db!.query(tableKpis, where: 'line = ?', whereArgs: [line]);
     final kpis = parseKpis(kpiList);
     return kpis;
   }

@@ -1,6 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +7,7 @@ import '../../presentation/cubits/home/home_cubit.dart';
 
 //utils
 import '../../utils/constants/strings.dart';
+import '../../utils/constants/gaps.dart';
 
 //domain
 import '../../domain/models/user.dart';
@@ -17,21 +15,21 @@ import '../../domain/models/user.dart';
 //services
 import '../../locator.dart';
 import '../../services/navigation.dart';
-import '../../services/storage.dart';
+
+//atoms
+import 'atoms/app_text.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
-final LocalStorageService _storageService = locator<LocalStorageService>();
 
-// ignore: must_be_immutable
 class DrawerWidget extends StatelessWidget {
-  DrawerWidget({Key? key, this.user, this.companyName}) : super(key: key);
+  const DrawerWidget({Key? key, this.companyName}) : super(key: key);
 
   final String? companyName;
-  final User? user;
 
-  late HomeCubit homeCubit;
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<HomeCubit>().state.user;
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -42,18 +40,27 @@ class DrawerWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                GestureDetector(
-                    onTap: () => homeCubit.logout(),
-                    child: CircleAvatar(
-                      radius: 25,
-                      child: user != null && user!.name != null
-                          ? Text(user!.name![0])
-                          : const Text('U'),
-                    )),
+                user != null && user.name != null
+                    ? AppText(user.name!)
+                    : const SizedBox(),
+                CircleAvatar(
+                  radius: 25,
+                  child: user != null && user.name != null
+                      ? Text(user.name![0])
+                      : const Text('U'),
+                )
               ],
             ),
           ),
           gapH68,
+          _createDrawerItem(
+              context: context,
+              icon: Icons.sell,
+              text: companyName ?? 'DEMO',
+              onTap: null,
+              image: 'assets/svg/sell.svg',
+              countNotifications: 0),
+          gapH12,
           _createDrawerItem(
               context: context,
               icon: Icons.notification_add,
@@ -120,7 +127,7 @@ class DrawerWidget extends StatelessWidget {
           SvgPicture.asset(image, height: 50, width: 50),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: Text(text),
+            child: AppText(text),
           ),
           if (countNotifications! > 0) ...[
             Container(
@@ -128,7 +135,7 @@ class DrawerWidget extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: const Color.fromARGB(255, 238, 39, 24),
                 radius: 16,
-                child: Text('$countNotifications'),
+                child: AppText('$countNotifications'),
               ),
             )
           ]

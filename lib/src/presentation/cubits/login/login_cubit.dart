@@ -29,7 +29,7 @@ import '../base/base_cubit.dart';
 
 part 'login_state.dart';
 
-class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
+class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   final ApiRepository apiRepository;
   final DatabaseRepository databaseRepository;
   final LocalStorageService? storageService;
@@ -44,8 +44,7 @@ class LoginCubit extends BaseCubit<LoginState, Login?> with FormatDate {
                 enterprise: storageService!.getObject('enterprise') != null
                     ? Enterprise.fromMap(
                         storageService.getObject('enterprise')!)
-                    : null),
-            null);
+                    : null));
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {

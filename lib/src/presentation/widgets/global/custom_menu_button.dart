@@ -24,6 +24,7 @@ class CustomMenuButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Icon(
+            weight: 40,
             Icons.menu_rounded,
             color: (primaryColorBackgroundMode == true)
                 ? theme.colorScheme.onPrimary
