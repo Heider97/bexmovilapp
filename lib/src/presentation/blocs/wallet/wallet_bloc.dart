@@ -5,16 +5,19 @@ import '../../../domain/repositories/database_repository.dart';
 
 //services
 import '../../../services/storage.dart';
+import '../../../services/navigation.dart';
 
 part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
-
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
+  final NavigationService navigationService;
 
-  WalletBloc(this.databaseRepository, this.storageService) : super(WalletInitial([])) {
+  WalletBloc(
+      this.databaseRepository, this.storageService, this.navigationService)
+      : super(WalletInitial([])) {
     on<LoadGraphics>(_onLoadGraphics);
     on<SelectClientEvent>(_selectionEvent);
     on<InvoiceSelectionEvent>(_invoiceSelectionEvent);

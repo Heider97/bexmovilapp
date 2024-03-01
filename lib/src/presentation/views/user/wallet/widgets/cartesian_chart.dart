@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+//blocs
+import '../../../../blocs/wallet/wallet_bloc.dart';
+
 //utils
 import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/strings.dart';
 //domain
 import '../../../../../domain/models/graphic.dart';
 //widgets
@@ -17,6 +22,7 @@ class CartesianChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = context.read<WalletBloc>().navigationService;
     ThemeData theme = Theme.of(context);
 
     return Card(
@@ -63,22 +69,18 @@ class CartesianChart extends StatelessWidget {
                 // Applies currency format for y axis labels and also for data labels
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
-              print('********************');
-              print(args.toString());
-              print(args.pointIndex);
-            },
-            onAxisLabelTapped: (args) {
-              print('********************');
-              print(args.toString());
-              print(args.axisName);
-              print(args.value);
-              print(args.text);
+              final data = graphic.data?.elementAt(args.pointIndex);
+              if (data != null) {
+                navigationService.goTo(AppRoutes.clientsWallet);
+              }
             },
             series: <CartesianSeries<ChartData, String>>[
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
-                    print(details.pointIndex);
-                    print(details.seriesIndex);
+                    final data = graphic.data?.elementAt(details.pointIndex!);
+                    if (data != null) {
+                      navigationService.goTo(AppRoutes.clientsWallet);
+                    }
                   },
                   dataSource: graphic.data,
                   xValueMapper: (ChartData sales, _) => sales.x,
