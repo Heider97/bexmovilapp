@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static Color primarySeedColor = const Color(0xFF192256);
+  // static Color primarySeedColor = const Color(0xFf44336);
   static Color secondarySeedColor = const Color(0xFF9C254D);
+  // static Color secondarySeedColor = const Color(0xFFFCEFE7);
 
   static final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
     brightness: Brightness.light,
