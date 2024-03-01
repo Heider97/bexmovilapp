@@ -11,6 +11,6 @@ import '../../../presentation/views/user/sale/pages/clients.dart';
 Map<String, RouteType> salesRoutes = {
   AppRoutes.routersSale: (context, settings) =>
       const GlobalBackground(child: RoutersPage()),
-  AppRoutes.clientsSale: (context, settings) =>
-      const GlobalBackground(child: ClientsPage()),
+  AppRoutes.clientsSale: (context, settings) => GlobalBackground(
+      child: ClientsPage(codeRouter: settings.arguments as String?)),
 };
