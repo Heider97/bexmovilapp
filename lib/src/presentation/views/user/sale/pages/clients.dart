@@ -27,7 +27,8 @@ import '../../../../../services/navigation.dart';
 final NavigationService navigationService = locator<NavigationService>();
 
 class ClientsPage extends StatefulWidget {
-  const ClientsPage({super.key});
+  final String? codeRouter;
+  const ClientsPage({super.key, this.codeRouter });
 
   @override
   State<ClientsPage> createState() => _ClientsPageState();
@@ -46,7 +47,7 @@ class _ClientsPageState extends State<ClientsPage> {
   void initState() {
     super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadClients());
+    saleBloc.add(LoadClients(widget.codeRouter));
 
     saleStepperBloc = BlocProvider.of(context);
   }

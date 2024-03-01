@@ -6,7 +6,10 @@ class SaleEvent {
 
 class LoadRouters extends SaleEvent {}
 
-class LoadClients extends SaleEvent {}
+class LoadClients extends SaleEvent {
+  final String? codeRouter;
+  LoadClients(this.codeRouter);
+}
 
 class SelectClient extends SaleEvent {
   final Client client;
