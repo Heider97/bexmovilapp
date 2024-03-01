@@ -57,19 +57,19 @@ class _RoutersPageState extends State<RoutersPage> {
         'assets/icons/ProfileEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/ProfileDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
+        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
     StepData(
         "Seleccionar \n Productos",
         'assets/icons/seleccionarFacturaEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/seleccionarFacturaDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
+        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
     StepData(
         'Detalles de \n la orden',
         'assets/icons/actionEnable.png',
         const Color(0xFFF4F4F4),
         'assets/icons/actionDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
+        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
 
   @override
@@ -87,11 +87,9 @@ class _RoutersPageState extends State<RoutersPage> {
                   children: [
                     const AppBackButton(needPrimary: true),
                     AppIconButton(
-                        onPressed: () =>
-                            Scaffold.of(context).openDrawer(),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
                         child: Icon(Icons.menu,
-                            color:
-                            theme.colorScheme.onPrimaryContainer)),
+                            color: theme.colorScheme.onPrimaryContainer)),
                   ],
                 ),
                 Padding(
@@ -99,8 +97,7 @@ class _RoutersPageState extends State<RoutersPage> {
                     child: Container(
                       decoration: BoxDecoration(
                           color: theme.colorScheme.secondary,
-                          borderRadius:
-                          BorderRadius.circular(Const.space15)),
+                          borderRadius: BorderRadius.circular(Const.space15)),
                       child: Padding(
                         padding: const EdgeInsets.all(Const.padding),
                         child: Row(
@@ -112,34 +109,34 @@ class _RoutersPageState extends State<RoutersPage> {
                             gapW24,
                             Text(
                               'Búsqueda por nombre rutero',
-                              style: TextStyle(
-                                  color: theme.colorScheme.tertiary),
+                              style:
+                                  TextStyle(color: theme.colorScheme.tertiary),
                             )
                           ],
                         ),
                       ),
                     )),
                 gapH4,
-                BlocBuilder<SaleBloc, SaleState>(
-                    builder: (context, state) {
-                      if (state is SaleInitial) {
-                        return Expanded(
-                          child: ListView.builder(
-                              itemCount: state.routers.length,
-                              itemBuilder: (context, index) {
-                                return CardRouter(
-                                    quantityClients: state
-                                        .routers[index].quantityClient
-                                        .toString(),
-                                    dayRouter: state
-                                        .routers[index].nameDayRouter
-                                        .toString());
-                              }),
-                        );
-                      } else {
-                        return const Center(child: Text('Cargando'));
-                      }
-                    }),
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state is SaleInitial) {
+                    return Expanded(
+                      child: ListView.builder(
+                          itemCount: state.routers.length,
+                          itemBuilder: (context, index) {
+                            return CardRouter(
+                                codeRouter:
+                                    state.routers[index].secuenceRouter!,
+                                quantityClients: state
+                                    .routers[index].quantityClient
+                                    .toString(),
+                                dayRouter: state.routers[index].nameDayRouter
+                                    .toString());
+                          }),
+                    );
+                  } else {
+                    return const Center(child: Text('Cargando'));
+                  }
+                }),
               ],
             ),
           ),

@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -7,20 +5,26 @@ import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../../utils/constants/gaps.dart';
-
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CardRouter extends StatelessWidget {
-  String quantityClients;
-  String dayRouter;
-  int? visited;
-  int? withSale;
-  int? coverage;
-  int? effectiveness;
+  final String quantityClients;
+  final String codeRouter;
+  final String dayRouter;
+  final int? visited;
+  final int? withSale;
+  final int? coverage;
+  final int? effectiveness;
 
-  CardRouter(
-      {super.key, required this.quantityClients, required this.dayRouter});
+  const CardRouter(
+      {super.key,
+      required this.codeRouter,
+      required this.quantityClients,
+      required this.dayRouter,
+      this.visited,
+      this.withSale,
+      this.coverage,
+      this.effectiveness});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,11 @@ class CardRouter extends StatelessWidget {
           ],
         ),
         child: AppListTile(
-          onTap: () => _navigationService.goTo(AppRoutes.clientsSale),
+          onTap: () {
+            print(codeRouter);
+            // _navigationService.goTo(AppRoutes.clientsSale,
+            //     arguments: codeRouter);
+          },
           title:
               AppText(dayRouter, color: Theme.of(context).colorScheme.primary),
           subtitle: Row(
