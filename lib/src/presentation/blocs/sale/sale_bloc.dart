@@ -2,9 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //domain
 import '../../../domain/models/client.dart';
-import '../../../domain/models/porduct.dart';
 import '../../../domain/models/router.dart';
-
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -14,19 +12,16 @@ part 'sale_event.dart';
 part 'sale_state.dart';
 
 class SaleBloc extends Bloc<SaleEvent, SaleState> {
-  List<Product> selectedProducts = [];
 
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
 
   SaleBloc(this.databaseRepository, this.storageService) : super(SaleInitial([], [])) {
     on<LoadRouters>(_onLoadRouters);
-    //on<LoadRouters>(_onLoadClientsRouter);
     on<LoadClients>(_onLoadClientsRouter);
     on<SelectClient>(_selectClient);
-    on<SelectProducts>(_selectProducts);
-    on<ConfirmProducts>(_confirmProducts);
-    on<ConfirmOrder>(_confirmOrder);
+    // on<ConfirmProducts>(_confirmProducts);
+    // on<ConfirmOrder>(_confirmOrder);
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -56,20 +51,14 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     }
   }
 
-  _selectProducts(SelectProducts event, Emitter emit) {
-    //TODO Agregar logica de creacion de la orden con el estado = productsSelection y guardado en BD
-    selectedProducts.add(event.product);
-    //  emit(SaleProductSelected(listOfProducst: event.products));
-  }
-
-  _confirmProducts(ConfirmProducts event, Emitter emit) {
-    //TODO Agregar logica de creacion de la orden con el estado = productsConfirmed y guardado en BD
-    emit(SaleProductConfirm(state.routers,state.clients, listOfProducst: event.products));
-  }
-
-  _confirmOrder(ConfirmOrder event, Emitter emit) {
-    //TODO Agregar logica de creacion de la orden con el estado = orderConfirmed y guardado en BD
-    emit(
-        SaleOrderConfirm(state.routers, state.clients,listOfProducst: event.products, client: event.client));
-  }
+  // _confirmProducts(ConfirmProducts event, Emitter emit) {
+  //   //TODO Agregar logica de creacion de la orden con el estado = productsConfirmed y guardado en BD
+  //   emit(SaleProductConfirm(state.routers,state.clients, listOfProducst: event.products));
+  // }
+  //
+  // _confirmOrder(ConfirmOrder event, Emitter emit) {
+  //   //TODO Agregar logica de creacion de la orden con el estado = orderConfirmed y guardado en BD
+  //   emit(
+  //       SaleOrderConfirm(state.routers, state.clients,listOfProducst: event.products, client: event.client));
+  // }
 }
