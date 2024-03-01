@@ -9,7 +9,7 @@ import '../../blocs/sync_features/sync_features_bloc.dart';
 import '../../../utils/constants/gaps.dart';
 
 //widgets
-import '../../../presentation/widgets/custom_card_widget.dart';
+import '../../../presentation/widgets/global/app_card_feature.dart';
 import '../../widgets/atoms/app_text.dart';
 import '../../widgets/atoms/app_elevated_button.dart';
 
@@ -75,7 +75,7 @@ class _SyncViewState extends State<SyncView> {
                   itemBuilder: (BuildContext context, int index) => Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
-                        child: CustomCard(
+                        child: AppCardFeature(
                             axis: Axis.vertical,
                             text: state.features![index].descripcion!,
                             url: state.features![index].urldesc,

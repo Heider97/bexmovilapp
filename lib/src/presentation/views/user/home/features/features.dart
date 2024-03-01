@@ -1,11 +1,13 @@
-import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_shimmer_loading.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+//cubits
+import '../../../../cubits/home/home_cubit.dart';
 //domain
 import '../../../../../domain/models/feature.dart';
 //widgets
-import '../../../../widgets/custom_card_widget.dart';
+import '../../../../widgets/global/app_card_feature.dart';
+import '../../../../widgets/atoms/app_shimmer_loading.dart';
 
 class HomeFeatures extends StatelessWidget {
   final List<Feature>? features;
@@ -25,7 +27,7 @@ class HomeFeatures extends StatelessWidget {
               padding: const EdgeInsets.only(right: 10),
               child: AppShimmerLoading(
                 isLoading: state is HomeSynchronizing,
-                child: CustomCard(
+                child: AppCardFeature(
                     axis: Axis.horizontal,
                     text: features![index].descripcion!,
                     url: features![index].urldesc,
