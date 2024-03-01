@@ -6,7 +6,7 @@ import '../route_type.dart';
 //views
 import '../../../presentation/widgets/global/global_background.dart';
 
-import '../../../presentation/views/global/splash_view.dart';
+import '../../../presentation/views/global/splash/index.dart';
 import '../../../presentation/views/global/permission_view.dart';
 import '../../../presentation/views/global/politics_view.dart';
 import '../../../presentation/views/global/login/index.dart';

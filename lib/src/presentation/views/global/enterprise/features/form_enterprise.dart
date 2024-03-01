@@ -10,7 +10,6 @@ import '../../../../../utils/validators.dart';
 
 //widgets
 import '../../../../widgets/atomsbox.dart';
-import '../../../../widgets/version_widget.dart';
 
 class EnterpriseForm extends StatefulWidget {
   const EnterpriseForm({super.key});
@@ -70,7 +69,8 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
             title: AppText('Seleccione la empresa'),
             formItems: [
               Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 22, right: 22),
                   child: AppTextFormField(
                     controller: companyNameController,
                   )),

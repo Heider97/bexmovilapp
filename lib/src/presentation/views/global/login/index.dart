@@ -19,7 +19,8 @@ import '../../../widgets/atoms/app_back_button.dart';
 import '../../../widgets/atoms/app_text_form_field.dart';
 import '../../../widgets/atoms/app_elevated_button.dart';
 import '../../../widgets/atoms/app_text.dart';
-import '../../../widgets/version_widget.dart';
+import '../../../widgets/molecules/app_version.dart';
+
 
 part './features/form_login.dart';
 
@@ -71,7 +72,6 @@ class LoginViewState extends State<LoginView> {
     });
   }
 
-  //TODO [Sebastian Monroy] add back button to company and onPress function call loginCubit goToCompany method (ya esta implementado)
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -250,7 +250,7 @@ class LoginViewState extends State<LoginView> {
               onPressed: () => loginCubit.differenceHours(
                   usernameController.text, passwordController.text)),
           gapH36,
-          const Expanded(child: VersionWidget()),
+          const Expanded(child: AppVersion()),
         ],
       ),
     );

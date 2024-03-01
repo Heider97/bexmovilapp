@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:yaml/yaml.dart';
 
-class VersionWidget extends StatelessWidget {
-  const VersionWidget({Key? key}) : super(key: key);
+class AppVersion extends StatelessWidget {
+  const AppVersion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

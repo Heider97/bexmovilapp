@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:upgrader/upgrader.dart';
 
 //bloc
-import '../../blocs/splash/splash_bloc.dart';
+import '../../../blocs/splash/splash_bloc.dart';
 
 //widgets
-import '../../widgets/splash_widget.dart';
+import './features/body.dart';
 
 //services
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
+import '../../../../locator.dart';
+import '../../../../services/navigation.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -27,8 +27,8 @@ class SplashView extends StatelessWidget {
         }
       },
       child: UpgradeAlert(upgrader: Upgrader(
-        debugDisplayAlways: false,
-        debugLogging: true
+          debugDisplayAlways: false,
+          debugLogging: true
       ), child: const SplashScreenWidget()),
     );
   }

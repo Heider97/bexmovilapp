@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+//bloc
+import '../../blocs/sync_features/sync_features_bloc.dart';
+
 //utils
 import '../../../utils/constants/gaps.dart';
 
-//blocs
-import '../../blocs/sync_features/sync_features_bloc.dart';
-
 //widgets
 import '../../../presentation/widgets/custom_card_widget.dart';
+import '../../widgets/atoms/app_text.dart';
+import '../../widgets/atoms/app_elevated_button.dart';
 
 class SyncView extends StatefulWidget {
   const SyncView({super.key});
@@ -61,10 +63,7 @@ class _SyncViewState extends State<SyncView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           gapH64,
-          const Text(
-            'Sincronizado',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+          AppText('Sincronizando', fontSize: 22, fontWeight: FontWeight.bold),
           const Text('Mientras esperas, conoce nuestras ultimas novedades. ',
               textAlign: TextAlign.center),
           const SizedBox(height: 40),
@@ -106,22 +105,18 @@ class _SyncViewState extends State<SyncView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('!Ups Ocurrió un Error!',
+        AppText('!Ups Ocurrió un Error!',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            fontSize: 22,
+            fontWeight: FontWeight.bold),
         gapH16,
-        Text(state.error ?? "Error", textAlign: TextAlign.center),
+        AppText(state.error ?? "Error", textAlign: TextAlign.center),
         gapH16,
-        // CustomElevatedButton(
-        //   width: 150,
-        //   height: 50,
-        //   onTap: () => syncFeaturesBloc.add(SyncFeatureGet()),
-        //   child: Text(
-        //     'Reintentar',
-        //     style: theme.textTheme.bodyLarge!
-        //         .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-        //   ),
-        // ),
+        AppElevatedButton(
+            minimumSize: const Size(150, 50),
+            onPressed: () => syncFeaturesBloc.add(SyncFeatureGet()),
+            child: AppText('Reintentar',
+                fontWeight: FontWeight.bold, color: Colors.white))
       ],
     );
   }
@@ -142,9 +137,9 @@ class CountDown extends StatelessWidget {
       builder: (context, snapshot) {
         return Column(
           children: [
-            Text('Espere hasta ${DateFormat.Hms().format(target)}'),
+            AppText('Espere hasta ${DateFormat.Hms().format(target)}'),
             gapH24,
-            Text(target.difference(DateTime.now()).toString().split('.')[0]),
+            AppText(target.difference(DateTime.now()).toString().split('.')[0])
           ],
         );
       },
