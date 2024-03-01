@@ -4,16 +4,16 @@ import '../../../utils/constants/strings.dart';
 import '../route_type.dart';
 //domain
 import '../../../domain/models/arguments.dart';
+//background
+import '../../../presentation/widgets/global/app_global_background.dart';
 //views
-import '../../../presentation/widgets/global/global_background.dart';
-import '../../../presentation/widgets/global/global_background_square.dart';
 import '../../../presentation/views/user/wallet/pages/dashboard.dart';
 import '../../../presentation/views/user/wallet/pages/clients.dart';
 
 Map<String, RouteType> walletRoutes = {
   AppRoutes.dashboardWallet: (context, settings) =>
-      const GlobalBackground(child: WalletDashboardView()),
-  AppRoutes.clientsWallet: (context, settings) => GlobalBackgroundSquare(
+      AppGlobalBackground.normal(child: const WalletDashboardView()),
+  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.squared(
       opacity: 0.1,
       hideBottomNavigationBar: true,
       child: WalletClientsView(

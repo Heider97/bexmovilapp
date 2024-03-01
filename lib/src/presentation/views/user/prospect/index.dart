@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 //widgets
 import '../../../widgets/atoms/app_back_button.dart';
-import '../../../widgets/global/custom_check_button.dart';
 
 class ProspectScheduleView extends StatefulWidget {
   const ProspectScheduleView({super.key});
@@ -45,7 +44,7 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
                   padding: EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [AppBackButton(needPrimary: true), CustomCheckButton()],
+                    children: [AppBackButton(needPrimary: true)],
                   ),
                 ),
                 CircleAvatar(
