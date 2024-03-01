@@ -1,27 +1,33 @@
-//TODO [Heider Zapa] organize
-import 'package:bexmovil/src/domain/models/porduct.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_elevated_button.dart';
-
-import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-//cubit
-import '../../../../../locator.dart';
+//utils
 import '../../../../../utils/constants/strings.dart';
+import '../../../../../utils/constants/gaps.dart';
+
+//blocs
+import '../../../../blocs/sale/sale_bloc.dart';
+import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
+
+//cubit
+
+
 import '../../../../cubits/home/home_cubit.dart';
 
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
+//widgets
 import '../../../../widgets/atoms/app_back_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
 import '../../../../widgets/atoms/app_text.dart';
+import '../../../../widgets/atoms/app_elevated_button.dart';
+import '../../../../widgets/user/stepper.dart';
+
+//features
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
+
+//services
+import '../../../../../locator.dart';
+import '../../../../../services/navigation.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -36,12 +42,8 @@ late SaleStepperBloc saleStepperBloc;
 
 class _RoutersPageState extends State<RoutersPage> {
   final TextEditingController searchController = TextEditingController();
-  final Map<Product, int> selectedQuantities = {};
 
   final formatCurrency = NumberFormat.simpleCurrency();
-
-  List<Employee> employees = <Employee>[];
-  late EmployeeDataSource employeeDataSource;
 
   late SaleBloc saleBloc;
 
@@ -51,10 +53,6 @@ class _RoutersPageState extends State<RoutersPage> {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadRouters());
     saleStepperBloc = BlocProvider.of(context);
-  }
-
-  _refresh() {
-    setState(() {});
   }
 
   List<StepData> steps = [
@@ -474,71 +472,5 @@ class _RoutersPageState extends State<RoutersPage> {
             )
           ],
         ));
-  }
-}
-
-/// Custom business object class which contains properties to hold the detailed
-/// information about the employee which will be rendered in datagrid.
-class Employee {
-  /// Creates the employee class with required details.
-  Employee(this.id, this.name, this.designation, this.salary, this.action);
-
-  /// Id of an employee.
-  final int id;
-
-  /// Name of an employee.
-  final String name;
-
-  /// Designation of an employee.
-  final String designation;
-
-  /// Salary of an employee.
-  final int salary;
-
-  /// Salary of an employee.
-  final String action;
-}
-
-/// An object to set the employee collection data source to the datagrid. This
-/// is used to map the employee data to the datagrid widget.
-class EmployeeDataSource extends DataGridSource {
-  /// Creates the employee data source class with required details.
-  EmployeeDataSource({required List<Employee> employeeData}) {
-    _employeeData = employeeData
-        .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<int>(columnName: 'id', value: e.id),
-      DataGridCell<String>(columnName: 'name', value: e.name),
-      DataGridCell<String>(
-          columnName: 'designation', value: e.designation),
-      DataGridCell<int>(columnName: 'salary', value: e.salary),
-      DataGridCell<String>(columnName: 'actions', value: e.action),
-    ]))
-        .toList();
-  }
-
-  List<DataGridRow> _employeeData = [];
-
-  @override
-  List<DataGridRow> get rows => _employeeData;
-
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((e) {
-          return e.columnName == "actions"
-              ? Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(9.0),
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-          )
-              : Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(9.0),
-            child: Text(
-              e.value.toString(),
-              style: const TextStyle(fontSize: 9),
-            ),
-          );
-        }).toList());
   }
 }
