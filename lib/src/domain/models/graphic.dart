@@ -71,7 +71,7 @@ class Graphic {
         'conditions': conditions,
         'type': type,
         'query': query,
-        'order': order,
+        '_order': order,
         'trigger': trigger,
         'data': jsonEncode(data)
       };
@@ -91,4 +91,11 @@ class ChartData {
                 ? json['y'].toDouble()
                 : json['y'],
       );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'x': x,
+      'y': y,
+    };
+  }
 }

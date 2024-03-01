@@ -55,13 +55,15 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
             BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
               if (state.graphics.isNotEmpty) {
                 return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: state.graphics.length,
                     itemBuilder: (context, index) {
                       final graphic = state.graphics[index];
-
                       if (graphic.type == 'line') {
-                        return CartesianChart(graphic: graphic);
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CartesianChart(graphic: graphic));
                       } else {
                         return const CircularChart();
                       }

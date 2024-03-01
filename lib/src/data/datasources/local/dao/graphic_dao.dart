@@ -16,7 +16,7 @@ class GraphicDao {
 
   Future<List<Graphic>> getAllGraphics() async {
     final db = _appDatabase._database;
-    final graphicList = await db!.query(tableGraphics, orderBy: '_order DESC');
+    final graphicList = await db!.query(tableGraphics, orderBy: '_order ASC');
     final graphics = parseGraphics(graphicList);
     return graphics;
   }

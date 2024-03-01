@@ -1,5 +1,3 @@
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
@@ -7,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../domain/models/feature.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -18,6 +15,8 @@ import '../../../domain/models/kpi.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/graphic.dart';
+import '../../../domain/models/feature.dart';
+import '../../../domain/models/client.dart';
 
 //services
 import '../../../locator.dart';
