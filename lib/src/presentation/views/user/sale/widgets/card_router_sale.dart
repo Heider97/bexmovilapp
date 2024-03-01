@@ -59,7 +59,7 @@ class CardRouter extends StatelessWidget {
               cardButtons(FontAwesomeIcons.usersBetweenLines,
                   "${visited ?? '0'}", context),
               cardButtons(FontAwesomeIcons.chartSimple,
-                  "${effectiveness ?? '0'} %", context),
+                  "${effectiveness ?? '0'}%", context),
             ],
           ),
         ),
@@ -78,10 +78,7 @@ class CardRouter extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.all(6.0),
-          child: Text(
-            text,
-            style: const TextStyle(color: Colors.black45, fontSize: 14.0),
-          ),
+          child: AppText(text, color: Colors.black45, fontSize: 14.0),
         )
       ],
     );
