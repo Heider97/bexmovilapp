@@ -46,7 +46,10 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                 children: [
                   const AppBackButton(needPrimary: true),
                   AppIconButton(
-                      onPressed: null,
+                      onPressed: () {
+                        print('********');
+                        Scaffold.of(context).openEndDrawer();
+                      },
                       child: Icon(Icons.menu,
                           color: Theme.of(context)
                               .colorScheme

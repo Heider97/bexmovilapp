@@ -18,7 +18,9 @@ class GlobalBackgroundSquare extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
       drawer: const DrawerWidget(),
+      endDrawer: const DrawerWidget(),
       resizeToAvoidBottomInset: false,
       backgroundColor: theme.colorScheme.background,
       extendBody: true,
