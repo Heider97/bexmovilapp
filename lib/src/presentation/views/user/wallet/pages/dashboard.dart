@@ -1,4 +1,6 @@
+import 'package:bexmovil/src/domain/models/kpi.dart';
 import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -64,6 +66,15 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                         return Padding(
                             padding: const EdgeInsets.all(Const.padding),
                             child: CartesianChart(graphic: graphic));
+                      } else if (graphic.type == 'kpi') {
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CardKpi(
+                                height: 80,
+                                kpi: Kpi(
+                                    type: graphic.data!.first.x,
+                                    title: graphic.title,
+                                    value: graphic.data!.first.y.toString())));
                       } else {
                         return Padding(
                             padding: const EdgeInsets.all(Const.padding),

@@ -48,7 +48,7 @@ class CircularChart extends StatelessWidget {
           SfCircularChart(series: <CircularSeries>[
             // Render pie chart
             PieSeries<ChartData, String>(
-                dataLabelSettings: DataLabelSettings(),
+                dataLabelSettings: const DataLabelSettings(),
                 onPointTap: (args) {
                   final data = graphic.data?.elementAt(args.pointIndex!);
                   if (data != null) {

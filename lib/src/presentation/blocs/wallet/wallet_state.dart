@@ -2,7 +2,6 @@ part of 'wallet_bloc.dart';
 
 class WalletState {
   List<Graphic> graphics;
-
   WalletState(this.graphics);
 }
 

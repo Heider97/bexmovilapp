@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:bexmovil/src/domain/models/kpi.dart';
 
+//utils
+import '../../../../../utils/extensions/string_extension.dart';
+
+//widgets
+
+import '../../../../widgets/atoms/app_text.dart';
+
 class CardKpi extends StatefulWidget {
   final Kpi kpi;
+  final double? height;
+  final bool needConverted;
 
-  const CardKpi({super.key, required this.kpi});
+  const CardKpi(
+      {super.key, required this.kpi, this.height, this.needConverted = false});
 
   @override
   State<CardKpi> createState() => _CardKpiState();
@@ -19,26 +29,20 @@ class _CardKpiState extends State<CardKpi> {
         surfaceTintColor: Colors.white,
         child: SizedBox(
           width: 230,
+          height: widget.height,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  child: Text(
-                    widget.kpi.title ?? "N/A",
-                    maxLines: 2,
-                    style: theme.textTheme.bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
+                  child: AppText(widget.kpi.title ?? "N/A",
+                      maxLines: 2, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
-                    Text(
-                      widget.kpi.value ?? "N/A",
-                      style: theme.textTheme.bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
+                    AppText(widget.needConverted == true && widget.kpi.value != null ? ''.formatted(widget.kpi.value) : widget.kpi.value ?? "N/A",
+                        fontWeight: FontWeight.bold, fontSize: 25),
                   ],
                 ),
               ],
