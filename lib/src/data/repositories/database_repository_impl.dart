@@ -23,7 +23,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Client>> getAllClientsRouter(String seller, String dayRouter ) async {
+  Future<List<Client>> getAllClientsRouter(
+      String seller, String dayRouter) async {
     return _appDatabase.clientDao.getAllClientsRouter(seller, dayRouter);
   }
 
@@ -175,7 +176,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.graphicDao.emptyGraphics();
   }
 
-
   // initialize and close methods go here
   @override
   Future<void> init() async {
@@ -201,5 +201,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   void close() {
     _appDatabase.close();
+  }
+
+  @override
+  Future<bool> listenForTableChanges(String? table) {
+    return _appDatabase.listenForTableChanges(table);
   }
 }

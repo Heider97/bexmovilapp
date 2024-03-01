@@ -14,6 +14,7 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+  Future<bool> listenForTableChanges(String? table);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);

@@ -24,6 +24,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<InvoiceActionEvent>(_invoiceActionEvent);
   }
 
+  // Stream<int> listenForTrigger = Stream.periodic(const Duration(seconds: 1), (int result) {
+  //   return databaseRepository.listenForTableChanges(null) == true ? 1 : 0;
+  // });
+
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     var graphics = await databaseRepository.getAllGraphics();
     emit(WalletInitial(graphics));

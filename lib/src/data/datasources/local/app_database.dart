@@ -197,10 +197,10 @@ class AppDatabase {
     }
   }
 
-  Future<List<Map<String, Object?>>> findGlobal(
-      String table, String condition, String value) async {
+  Future<bool> listenForTableChanges(String? table) async {
     final db = await instance.database;
-    return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
+    var result = await db!.rawQuery('SELECT changes()');
+    return result.isNotEmpty;
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
