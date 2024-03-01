@@ -1,10 +1,14 @@
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/porduct.dart';
-import 'package:bexmovil/src/domain/models/router.dart';
-import 'package:bexmovil/src/services/storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//domain
+import '../../../domain/models/client.dart';
+import '../../../domain/models/porduct.dart';
+import '../../../domain/models/router.dart';
+
 import '../../../domain/repositories/database_repository.dart';
+
+//services
+import '../../../services/storage.dart';
 
 part 'sale_event.dart';
 part 'sale_state.dart';

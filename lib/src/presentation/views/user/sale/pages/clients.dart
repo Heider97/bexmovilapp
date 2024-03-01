@@ -26,16 +26,16 @@ import '../../../../../services/navigation.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
-class SalePage extends StatefulWidget {
-  const SalePage({super.key});
+class ClientsPage extends StatefulWidget {
+  const ClientsPage({super.key});
 
   @override
-  State<SalePage> createState() => _SalePageState();
+  State<ClientsPage> createState() => _ClientsPageState();
 }
 
 late SaleStepperBloc saleStepperBloc;
 
-class _SalePageState extends State<SalePage> {
+class _ClientsPageState extends State<ClientsPage> {
   final TextEditingController searchController = TextEditingController();
 
   final formatCurrency = NumberFormat.simpleCurrency();
@@ -75,8 +75,6 @@ class _SalePageState extends State<SalePage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    BorderRadius borderRadius = BorderRadius.circular(Const.radius);
-
     return Stack(
       children: [
         SafeArea(

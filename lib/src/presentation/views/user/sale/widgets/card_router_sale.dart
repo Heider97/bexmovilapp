@@ -1,6 +1,7 @@
- // ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable
 
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../utils/constants/gaps.dart';
 
-
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CardRouter extends StatelessWidget {
-  
   String quantityClients;
   String dayRouter;
   int? visited;
@@ -20,54 +19,49 @@ class CardRouter extends StatelessWidget {
   int? coverage;
   int? effectiveness;
 
-
-  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter});
+  CardRouter(
+      {super.key, required this.quantityClients, required this.dayRouter});
 
   @override
   Widget build(BuildContext context) {
-    
-
-    return  GestureDetector(
-      onTap: () => _navigationService.goTo(AppRoutes.clientsSale),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 1,
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 1,
+            ),
+          ],
+        ),
+        child: AppListTile(
+          onTap: () => _navigationService.goTo(AppRoutes.clientsSale),
+          title:
+              AppText(dayRouter, color: Theme.of(context).colorScheme.primary),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              cardButtons(
+                  FontAwesomeIcons.peopleGroup, "${visited ?? '0'} %", context),
+              cardButtons(FontAwesomeIcons.cashRegister, "${withSale ?? '0'} %",
+                  context),
+              cardButtons(FontAwesomeIcons.usersBetweenLines,
+                  "${visited ?? '0'} %", context),
+              cardButtons(FontAwesomeIcons.chartSimple,
+                  "${effectiveness ?? '0'} %", context),
             ],
           ),
-          child:  Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(dayRouter, style: const TextStyle(color: Colors.orange, fontSize: 18)),
-              gapH12,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  gapH12,
-                  cardButtons(FontAwesomeIcons.peopleGroup, "${visited ?? '0'} %", context),
-                  cardButtons(FontAwesomeIcons.retweet, "${withSale ?? '0'} %", context),
-                  cardButtons(FontAwesomeIcons.heart, "${visited ?? '0'} %", context),
-                  cardButtons(FontAwesomeIcons.share, "${effectiveness ?? '0'} %", context),              
-                ],
-              ),    
-            ],
-          )
         ),
       ),
     );
   }
 
-  Widget cardButtons(IconData icon, String text, BuildContext context ){
+  Widget cardButtons(IconData icon, String text, BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Row(
       children: [
@@ -80,13 +74,10 @@ class CardRouter extends StatelessWidget {
           margin: const EdgeInsets.all(6.0),
           child: Text(
             text,
-            style: const TextStyle(
-              color: Colors.black45,
-              fontSize: 14.0
-            ),
+            style: const TextStyle(color: Colors.black45, fontSize: 14.0),
           ),
         )
       ],
     );
   }
-} 
+}
