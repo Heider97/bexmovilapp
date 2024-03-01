@@ -166,7 +166,7 @@ class _MyAppState extends State<MyApp> {
               },
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: appTitle,
+                title: AppConstants.appName,
                 localizationsDelegates: const [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,

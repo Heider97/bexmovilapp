@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:flutter/material.dart';
 //utils
 import '../../../utils/constants/strings.dart';
@@ -16,8 +17,26 @@ class GlobalBackgroundSquare extends StatelessWidget {
       this.hideBottomNavigationBar});
   @override
   Widget build(BuildContext context) {
+
     ThemeData theme = Theme.of(context);
     return Scaffold(
+      appBar: AppBar(
+        leading: const Padding(padding: EdgeInsets.all(7), child: AppBackButton(needPrimary: true)),
+        title: TextField(
+          style: const TextStyle(color: Colors.white),
+          cursorColor: Colors.white,
+          decoration: const InputDecoration(
+            hintText: 'Search...',
+            hintStyle: TextStyle(color: Colors.white54),
+            border: InputBorder.none,
+          ),
+          onChanged: (value) {
+            // Perform search functionality here
+          },
+        ),
+
+      ),
+      key: globalKey,
       drawerEnableOpenDragGesture: false,
       drawer: const DrawerWidget(),
       endDrawer: const DrawerWidget(),

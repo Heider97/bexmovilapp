@@ -1,17 +1,11 @@
-// App
-const String appTitle = 'Bex Movil';
+import 'package:flutter/material.dart';
 
-// Networking and APIs
-const String baseUrl = 'https://demo.bexdeliveries.com/api/v1/';
-const String defaultApiKey = 'ff957763c54c44d8b00e5e082bc76cb0';
-const String defaultSources = 'bbc-news, abc-news, al-jazeera-english';
+final GlobalKey<ScaffoldState> globalKey = GlobalKey();
 
 // Storage and Databases
-const String articlesTableName = 'articles_table';
 const String databaseName = 'app_database';
 
-//routes\
-
+//routes
 class AppRoutes {
   //auth routes
   static const splash = '/splash';
