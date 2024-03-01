@@ -3,18 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 //cubit
-import '../../presentation/cubits/home/home_cubit.dart';
+import '../../../presentation/cubits/home/home_cubit.dart';
 
 //utils
-import '../../utils/constants/strings.dart';
-import '../../utils/constants/gaps.dart';
+import '../../../utils/constants/strings.dart';
+import '../../../utils/constants/gaps.dart';
 
 //services
-import '../../locator.dart';
-import '../../services/navigation.dart';
+import '../../../locator.dart';
+import '../../../services/navigation.dart';
 
 //atoms
-import 'atoms/app_text.dart';
+import '../atoms/app_text.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -112,11 +112,11 @@ class DrawerWidget extends StatelessWidget {
 
   Widget _createDrawerItem(
       {required BuildContext context,
-      required IconData icon,
-      required String image,
-      required String text,
-      int? countNotifications,
-      GestureTapCallback? onTap}) {
+        required IconData icon,
+        required String image,
+        required String text,
+        int? countNotifications,
+        GestureTapCallback? onTap}) {
     return ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,

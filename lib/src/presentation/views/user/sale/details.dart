@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -58,9 +58,7 @@ class _DetailsSaleState extends State<DetailsSale> {
         .map((item) => item.salary)
         .reduce((value, current) => value + current);
     final formatCurrency = NumberFormat.simpleCurrency();
-    return Scaffold(
-      drawer: const DrawerWidget(),
-      body: SizedBox(
+    return SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Padding(
@@ -223,7 +221,6 @@ class _DetailsSaleState extends State<DetailsSale> {
             ],
           ),
         ),
-      ),
     );
   }
 }

@@ -1,9 +1,9 @@
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 //widgets
 import 'app_global_bottom_nav_bar.dart';
+import 'app_global_drawer.dart';
 
 enum AppGlobalBackgroundType { normal, squared, icon }
 
