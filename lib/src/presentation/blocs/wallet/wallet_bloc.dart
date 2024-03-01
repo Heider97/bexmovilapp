@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import '../../../domain/models/graphic.dart';
@@ -14,6 +16,20 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
   final NavigationService navigationService;
+
+  // Create a broadcast controller that allows this stream to be listened
+  // to multiple times. This is the primary, if not only, type of stream you'll be using.
+  final _notesController = StreamController<bool>.broadcast();
+
+  // Input stream. We add our notes to the stream using this variable.
+  StreamSink<bool> get _inNotes => _notesController.sink;
+
+  // Output stream. This one will be used within our pages to display the notes.
+  Stream<bool> get notes => _notesController.stream;
+
+  // Input stream for adding new notes. We'll call this from our pages.
+  final _addNoteController = StreamController<bool>.broadcast();
+  StreamSink<bool> get inAddNote => _addNoteController.sink;
 
   WalletBloc(
       this.databaseRepository, this.storageService, this.navigationService)
