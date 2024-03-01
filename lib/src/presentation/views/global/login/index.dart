@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/presentation/widgets/atoms/app_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,7 +16,9 @@ import '../../../../utils/constants/screens.dart';
 
 //widgets
 import '../../../widgets/atoms/app_back_button.dart';
-import '../../../widgets/global/custom_textformfield.dart';
+import '../../../widgets/atoms/app_text_form_field.dart';
+import '../../../widgets/atoms/app_elevated_button.dart';
+import '../../../widgets/atoms/app_text.dart';
 import '../../../widgets/version_widget.dart';
 
 part './features/form_login.dart';
@@ -234,26 +236,19 @@ class LoginViewState extends State<LoginView> {
             ),
           ),
           gapH36,
-          // BlocSelector<LoginCubit, LoginState, bool>(
-          //     selector: (state) => state is LoginLoading ? true : false,
-          //     builder: (context, booleanState) => CustomElevatedButton(
-          //           width: 150,
-          //           height: 50,
-          //           onTap: () => booleanState
-          //               ? null
-          //               : loginCubit.differenceHours(
-          //                   usernameController.text, passwordController.text),
-          //           child: booleanState
-          //               ? const CircularProgressIndicator(
-          //                   valueColor: AlwaysStoppedAnimation(Colors.white),
-          //                 )
-          //               : Text(
-          //                   'Iniciar',
-          //                   style: theme.textTheme.bodyLarge!.copyWith(
-          //                       fontWeight: FontWeight.bold,
-          //                       color: Colors.white),
-          //                 ),
-          //         )),
+          AppElevatedButton(
+              minimumSize: const Size(200, 50),
+              child: BlocSelector<LoginCubit, LoginState, bool>(
+                  selector: (state) => state is LoginLoading ? true : false,
+                  builder: (context, condition) {
+                    if (condition) {
+                      return const CupertinoActivityIndicator();
+                    } else {
+                      return AppText('Iniciar');
+                    }
+                  }),
+              onPressed: () => loginCubit.differenceHours(
+                  usernameController.text, passwordController.text)),
           gapH36,
           const Expanded(child: VersionWidget()),
         ],

@@ -11,7 +11,7 @@ import '../../../domain/models/requests/validate_code_request.dart';
 import '../../../utils/constants/strings.dart';
 import '../../../utils/resources/data_state.dart';
 //widgets
-import '../../../presentation/widgets/global/error_alert_dialog.dart';
+
 //services
 import '../../../locator.dart';
 import '../../../services/navigation.dart';
@@ -57,11 +57,11 @@ class RecoveryPasswordBloc
       _navigationService.goTo(AppRoutes.codeValidation);
     } else {
       // ignore: use_build_context_synchronously
-      errorAlertDialog(
-        buttonText: 'Ok',
-        context: event.context,
-        error: response.data?.message,
-      );
+      // errorAlertDialog(
+      //   buttonText: 'Ok',
+      //   context: event.context,
+      //   error: response.data?.message,
+      // );
     }
   }
 
@@ -93,11 +93,11 @@ class RecoveryPasswordBloc
         _navigationService.goTo(AppRoutes.recoverPassword);
       } else {
         // ignore: use_build_context_synchronously
-        errorAlertDialog(
-          buttonText: 'Ok',
-          context: event.context,
-          error: response.data!.message,
-        );
+        // errorAlertDialog(
+        //   buttonText: 'Ok',
+        //   context: event.context,
+        //   error: response.data!.message,
+        // );
       }
     }
   }
@@ -115,11 +115,11 @@ class RecoveryPasswordBloc
         _navigationService.goTo(AppRoutes.login);
       } else {
         // ignore: use_build_context_synchronously
-        errorAlertDialog(
-          buttonText: 'Ok',
-          context: event.context,
-          error: response.data!.message,
-        );
+        // errorAlertDialog(
+        //   buttonText: 'Ok',
+        //   context: event.context,
+        //   error: response.data!.message,
+        // );
       }
     }
   }

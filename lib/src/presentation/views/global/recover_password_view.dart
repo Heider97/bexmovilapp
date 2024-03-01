@@ -1,7 +1,6 @@
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/validators.dart';

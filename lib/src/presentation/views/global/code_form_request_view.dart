@@ -14,7 +14,6 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/validators.dart';
 //widgets
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 //services
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/navigation.dart';
