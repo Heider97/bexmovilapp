@@ -13,13 +13,15 @@ class AppCardFeature extends StatelessWidget {
   final String text;
   final Color color;
   final String? url;
+  final double? height;
 
   const AppCardFeature(
       {super.key,
       this.axis = Axis.vertical,
       required this.text,
       required this.color,
-      this.url});
+      this.url,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class AppCardFeature extends StatelessWidget {
           : theme.colorScheme.primary,
       onTap: () => _launchUrl(url),
       width: 330,
+      height: height,
       child: Stack(
         fit: StackFit.expand,
         children: [
