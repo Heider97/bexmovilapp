@@ -38,7 +38,7 @@ import 'src/presentation/blocs/google_account/google_account_bloc.dart';
 import 'src/presentation/blocs/sale/sale_bloc.dart';
 import 'src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'src/presentation/blocs/search/search_bloc.dart';
-import 'src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
+import 'src/presentation/blocs/wallet/wallet_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';

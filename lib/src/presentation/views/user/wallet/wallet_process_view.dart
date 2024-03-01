@@ -78,9 +78,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               } else if (state is WalletStepperInvoiceAction) {
                 return const WalletActionList();
               } else {
-                return Container(
-                  child: const Text("InvoiceAction"),
-                );
+                return const Text("InvoiceAction");
               }
             },
           )

@@ -59,7 +59,7 @@ class _DetailsSaleState extends State<DetailsSale> {
         .reduce((value, current) => value + current);
     final formatCurrency = NumberFormat.simpleCurrency();
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
