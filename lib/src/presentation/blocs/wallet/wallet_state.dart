@@ -1,13 +1,23 @@
 part of 'wallet_bloc.dart';
 
 class WalletState {
-  const WalletState();
+  List<Graphic> graphics;
+
+  WalletState(this.graphics);
 }
 
-class WalletInitial extends WalletState {}
+class WalletInitial extends WalletState {
+  WalletInitial(super.graphics);
+}
 
-class WalletStepperClientSelection extends WalletState {}
+class WalletStepperClientSelection extends WalletState {
+  WalletStepperClientSelection(super.graphics);
+}
 
-class WalletStepperInvoiceSelection extends WalletState {}
+class WalletStepperInvoiceSelection extends WalletState {
+  WalletStepperInvoiceSelection(super.graphics);
+}
 
-class WalletStepperInvoiceAction extends WalletState {}
+class WalletStepperInvoiceAction extends WalletState {
+  WalletStepperInvoiceAction(super.graphics);
+}

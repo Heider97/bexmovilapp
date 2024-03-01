@@ -28,12 +28,11 @@ class CardRouter extends StatelessWidget {
     
 
     return  GestureDetector(
-      onTap: () => { _navigationService.goTo(AppRoutes.routersSale) },
+      onTap: () => _navigationService.goTo(AppRoutes.clientsSale),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
           width: double.infinity,
-          height: 100,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -55,7 +54,7 @@ class CardRouter extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   gapH12,
-                  cardButtons(FontAwesomeIcons.comment, "${visited ?? '0'} %", context),
+                  cardButtons(FontAwesomeIcons.peopleGroup, "${visited ?? '0'} %", context),
                   cardButtons(FontAwesomeIcons.retweet, "${withSale ?? '0'} %", context),
                   cardButtons(FontAwesomeIcons.heart, "${visited ?? '0'} %", context),
                   cardButtons(FontAwesomeIcons.share, "${effectiveness ?? '0'} %", context),              
