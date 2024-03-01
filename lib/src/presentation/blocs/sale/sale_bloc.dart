@@ -12,11 +12,11 @@ part 'sale_event.dart';
 part 'sale_state.dart';
 
 class SaleBloc extends Bloc<SaleEvent, SaleState> {
-
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
 
-  SaleBloc(this.databaseRepository, this.storageService) : super(SaleInitial([], [])) {
+  SaleBloc(this.databaseRepository, this.storageService)
+      : super(SaleInitial([], [])) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
     on<SelectClient>(_selectClient);
@@ -26,28 +26,29 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var sellerCode = storageService.getString('username');
-    var routers = await databaseRepository.getAllRoutersGroupByClient(sellerCode!);
+    var routers =
+        await databaseRepository.getAllRoutersGroupByClient(sellerCode!);
     emit(SaleInitial(routers, []));
-
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
     var sellerCode = storageService.getString('username');
-    var clientsRouters = await databaseRepository.getAllClientsRouter(sellerCode!, '0901');
+    var clientsRouters =
+        await databaseRepository.getAllClientsRouter(sellerCode!, '0901');
     emit(SaleInitial([], clientsRouters));
   }
-
-
 
   _selectClient(SelectClient event, Emitter emit) {
     //TODO Agregar logica de creacion de la orden con el estado = clientSelected y guardado en BD
     if (state is SaleClienteSelected) {
       SaleClienteSelected currentState = state as SaleClienteSelected;
       (event.client != currentState.client)
-          ? emit(SaleClienteSelected(state.routers,state.clients, client: event.client))
+          ? emit(SaleClienteSelected(state.routers, state.clients,
+              client: event.client))
           : emit(SaleInitial(state.routers, state.clients));
     } else {
-      emit(SaleClienteSelected(state.routers, state.clients, client: event.client));
+      emit(SaleClienteSelected(state.routers, state.clients,
+          client: event.client));
     }
   }
 

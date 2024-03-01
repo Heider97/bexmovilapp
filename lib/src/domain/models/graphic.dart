@@ -32,21 +32,20 @@ class Graphic {
   String? trigger;
   List<ChartData>? data;
 
-  Graphic({
-    this.id,
-    this.title,
-    this.subtitle,
-    this.conditions,
-    this.type,
-    this.query,
-    this.data,
-    this.trigger
-  });
+  Graphic(
+      {this.id,
+      this.title,
+      this.subtitle,
+      this.conditions,
+      this.type,
+      this.query,
+      this.data,
+      this.trigger});
 
   factory Graphic.fromJson(Map<String, dynamic> json) => Graphic(
       id: json['id'],
       title: json['title'],
-      subtitle: json['svg'],
+      subtitle: json['subtitle'],
       conditions: json['conditions'],
       type: json['type'],
       query: json['query'],

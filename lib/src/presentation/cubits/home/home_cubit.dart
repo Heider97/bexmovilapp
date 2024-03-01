@@ -94,6 +94,8 @@ class HomeCubit extends BaseCubit<HomeState> {
             codvendedor: storageService.getString('username')!));
 
     if (response is DataSuccess) {
+      print('***********');
+      print(response.data!.graphics);
       await databaseRepository.insertGraphics(response.data!.graphics!);
     } else {
       emit(HomeFailed(error: 'graphics-${response.data!.message}'));
@@ -117,7 +119,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final duplicatesOneLine = groupBy(
         kpisOneLine,
-        (kpi) => kpi!.type,
+        (kpi) => kpi.type,
       )
           .values
           .where((list) => list.length > 1)
@@ -126,7 +128,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final duplicatesSecondLine = groupBy(
         kpisSecondLine,
-        (kpi) => kpi!.type,
+        (kpi) => kpi.type,
       )
           .values
           .where((list) => list.length > 1)

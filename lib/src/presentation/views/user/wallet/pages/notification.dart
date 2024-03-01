@@ -8,7 +8,8 @@ import '../../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/user/wallet/check_image.dart';
+import '../widgets/check_image.dart';
+
 
 class WalletNotificationView extends StatefulWidget {
   const WalletNotificationView({super.key});

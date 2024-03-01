@@ -1,4 +1,6 @@
+import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/strings.dart';
@@ -20,8 +22,12 @@ class WalletDashboardView extends StatefulWidget {
 class _WalletDashboardViewState extends State<WalletDashboardView> {
   TextEditingController searchController = TextEditingController();
 
+  late WalletBloc walletBloc;
+
   @override
   void initState() {
+    walletBloc = BlocProvider.of<WalletBloc>(context);
+    walletBloc.add(LoadGraphics());
     super.initState();
   }
 
@@ -46,14 +52,16 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CartesianChart(),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CircularChart(),
-            ),
+            BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+              if(state.graphics.isNotEmpty){
+                return AppText('graphics');
+              } else {
+                return const Padding(
+                  padding: EdgeInsets.all(Const.padding),
+                  child: CartesianChart(),
+                );
+              }
+            }),
           ],
         ),
       ),

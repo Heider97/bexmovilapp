@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -107,9 +106,8 @@ class _ClientsPageState extends State<ClientsPage> {
                         ),
                         gapW24,
                         Text(
-                          'Búsqueda por nombre rutero',
-                          style:
-                              TextStyle(color: theme.colorScheme.tertiary),
+                          'Búsqueda por clientes',
+                          style: TextStyle(color: theme.colorScheme.tertiary),
                         )
                       ],
                     ),
@@ -118,10 +116,11 @@ class _ClientsPageState extends State<ClientsPage> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   AppElevatedButton(child: AppText('Visitados')),
                   AppElevatedButton(child: AppText('No visitados')),
-                  AppElevatedButton(child: AppText('Todos')),
                 ],
               ),
             ),
@@ -134,16 +133,14 @@ class _ClientsPageState extends State<ClientsPage> {
                         itemCount: saleState.clients.length,
                         itemBuilder: (context, index) {
                           return CardClientRouter(
-                            nit: saleState.clients[index].nitCliente
-                                .toString(),
-                            addressClient: saleState
-                                .clients[index].dirCliente
-                                .toString(),
+                            nit: saleState.clients[index].nitCliente.toString(),
+                            addressClient:
+                                saleState.clients[index].dirCliente.toString(),
                             branchClient: saleState
                                 .clients[index].sucursalCliente
                                 .toString(),
-                            nameClient: saleState.clients[index].nomCliente
-                                .toString(),
+                            nameClient:
+                                saleState.clients[index].nomCliente.toString(),
                           );
                         }),
                   );

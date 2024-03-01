@@ -506,7 +506,7 @@ class ApiService {
           headers: headers,
           extra: extra,
         )
-            .compose(dio.options, '/sync/functionalities',
+            .compose(dio.options, '/graphics/index',
             queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 

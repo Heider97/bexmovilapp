@@ -1,5 +1,5 @@
 import 'package:bexmovil/src/presentation/widgets/user/expanded_section.dart';
-import 'package:bexmovil/src/presentation/widgets/user/wallet/wallet_action.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/widgets/wallet_action.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
