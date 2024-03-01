@@ -7,7 +7,7 @@ class AppGlobalBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBottomNavBar(
-      floating: false,
+      floating: true,
       items: [
         AppBottomNavBarItem(
           icon: Icons.home,

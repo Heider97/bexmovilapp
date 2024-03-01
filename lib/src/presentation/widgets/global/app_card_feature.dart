@@ -66,17 +66,6 @@ class AppCardFeature extends StatelessWidget {
         ],
       ),
     );
-    // return GestureDetector(
-    //   onLongPress: ,
-    //   child: Container(
-    //     width: 330,
-    //     height: axis == Axis.vertical ? 134 : 70,
-    //     decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.circular(16),
-    //         color:
-    //
-    //   ),
-    // );
   }
 
   Future<void> _launchUrl(url) async {
