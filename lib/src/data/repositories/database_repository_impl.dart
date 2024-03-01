@@ -1,6 +1,7 @@
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
+import 'package:bexmovil/src/domain/models/application.dart';
+import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/graphic.dart';
 
-import '../../domain/models/graphic.dart';
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
@@ -9,7 +10,6 @@ import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
 import '../../domain/models/kpi.dart';
 import '../../domain/models/router.dart';
-import '../../domain/models/application.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -23,9 +23,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Router>> getAllClientsRouter(
-      String seller, String dayRouter) async {
-    return _appDatabase.routerDao.getAllClientsRouter(seller, dayRouter);
+  Future<List<Client>> getAllClientsRouter(String seller, String dayRouter ) async {
+    return _appDatabase.clientDao.getAllClientsRouter(seller, dayRouter);
   }
 
   @override
@@ -131,18 +130,18 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<void> insertApplications(List<Application> applications) async {
+  Future<void> insertApplication(Application application) {
+    return _appDatabase.applicationDao.insertApplication(application);
+  }
+
+  @override
+  Future<void> insertApplications(List<Application> applications) {
     return _appDatabase.applicationDao.insertApplications(applications);
   }
 
   @override
-  Future<int> insertApplication(Application kpi) async {
-    return _appDatabase.applicationDao.insertApplication(kpi);
-  }
-
-  @override
-  Future<int> updateApplication(Application kpi) async {
-    return _appDatabase.applicationDao.updateApplication(kpi);
+  Future<int> updateApplication(Application application) {
+    return _appDatabase.applicationDao.updateApplication(application);
   }
 
   @override
@@ -157,17 +156,17 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<void> insertGraphics(List<Graphic> graphics) async {
-    return _appDatabase.graphicDao.insertGraphics(graphics);
-  }
-
-  @override
-  Future<int> insertGraphic(Graphic graphic) async {
+  Future<void> insertGraphic(Graphic graphic) {
     return _appDatabase.graphicDao.insertGraphic(graphic);
   }
 
   @override
-  Future<int> updateGraphic(Graphic graphic) async {
+  Future<void> insertGraphics(List<Graphic> graphics) {
+    return _appDatabase.graphicDao.insertGraphics(graphics);
+  }
+
+  @override
+  Future<int> updateGraphic(Graphic graphic) {
     return _appDatabase.graphicDao.updateGraphic(graphic);
   }
 
@@ -175,6 +174,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyGraphics() {
     return _appDatabase.graphicDao.emptyGraphics();
   }
+
 
   // initialize and close methods go here
   @override

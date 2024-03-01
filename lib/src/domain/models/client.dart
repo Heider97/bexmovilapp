@@ -3,6 +3,7 @@ class Client {
   String? email;
   String? dirCliente;
   String? telCliente;
+  String? sucursalCliente;
 
   bool? isBooked;
   String? nitCliente;
@@ -21,6 +22,7 @@ class Client {
     this.nomCliente,
     this.dirCliente,
     this.telCliente,
+    this.sucursalCliente,
     this.email,
     this.estadoCliente,
     this.name,
@@ -37,6 +39,7 @@ class Client {
         nomCliente: json['NOMCLIENTE'],
         dirCliente: json['DIRCLIENTE'],
         telCliente: json['TELCLIENTE'],
+        sucursalCliente: json['SUCCLIENTE'],
         email: json['EMAIL'],
         estadoCliente: json['estadocliente'],
         name: json['name'],
@@ -53,6 +56,7 @@ class Client {
       'NOMCLIENTE': nomCliente,
       'DIRCLIENTE': dirCliente,
       'TELCLIENTE': telCliente,
+      'SUCCLIENTE': sucursalCliente,
       'EMAIL': email,
       'estadocliente': estadoCliente,
     };

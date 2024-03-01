@@ -12,7 +12,6 @@ import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/isolate.dart';
-import '../../../domain/models/responses/kpi_response.dart';
 import '../../../domain/models/requests/functionality_request.dart';
 import '../../../domain/models/requests/graphic_request.dart';
 import '../../../domain/models/requests/kpi_request.dart';
@@ -118,7 +117,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final duplicatesOneLine = groupBy(
         kpisOneLine,
-        (kpi) => kpi.type,
+        (kpi) => kpi!.type,
       )
           .values
           .where((list) => list.length > 1)
@@ -127,7 +126,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final duplicatesSecondLine = groupBy(
         kpisSecondLine,
-        (kpi) => kpi.type,
+        (kpi) => kpi!.type,
       )
           .values
           .where((list) => list.length > 1)

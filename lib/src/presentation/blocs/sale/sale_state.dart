@@ -13,31 +13,27 @@ class SaleInitial extends SaleState {
 
 class SaleClienteSelected extends SaleState {
   Client client;
-  SaleClienteSelected(super.routers, super.clients, {required this.client});
+  SaleClienteSelected(super.routers,super.clients, {required this.client});
 }
 
 class SaleProductSelected extends SaleState {
-  List<Product> listOfProducts;
-  SaleProductSelected(super.routers, super.clients,
-      {required this.listOfProducts});
+  List<Product> listOfProducst;
+  SaleProductSelected(super.routers,super.clients, {required this.listOfProducst});
 }
 
 class SaleProductConfirm extends SaleState {
-  List<Product> listOfProducts;
-  SaleProductConfirm(super.routers, super.clients,
-      {required this.listOfProducts});
+  List<Product> listOfProducst;
+  SaleProductConfirm(super.routers, super.clients, {required this.listOfProducst});
 }
 
 class SaleOrderPreview extends SaleState {
-  List<Product> listOfProducts;
+  List<Product> listOfProducst;
   Client client;
-  SaleOrderPreview(super.routers, super.clients,
-      {required this.listOfProducts, required this.client});
+  SaleOrderPreview(super.routers, super.clients, {required this.listOfProducst, required this.client});
 }
 
 class SaleOrderConfirm extends SaleState {
-  List<Product> listOfProducts;
+  List<Product> listOfProducst;
   Client client;
-  SaleOrderConfirm(super.routers, super.clients,
-      {required this.listOfProducts, required this.client});
+  SaleOrderConfirm(super.routers, super.clients, {required this.listOfProducst, required this.client});
 }

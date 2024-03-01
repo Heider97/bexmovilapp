@@ -1,6 +1,5 @@
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
-
 import 'package:flutter/material.dart';
+import 'package:bexmovil/src/domain/models/kpi.dart';
 
 class CardKpi extends StatefulWidget {
   final Kpi kpi;

@@ -1,7 +1,9 @@
-import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
+
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../sale/details.dart';
 
 class WalletDataGrid extends StatefulWidget {
   const WalletDataGrid({super.key});

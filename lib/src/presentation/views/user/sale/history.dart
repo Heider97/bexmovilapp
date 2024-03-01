@@ -1,9 +1,10 @@
-import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_history_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/constants/gaps.dart';
-import 'widgets/card_history_sale.dart';
+
 import '../../../widgets/user/custom_search_bar.dart';
 
 class HistorySale extends StatefulWidget {

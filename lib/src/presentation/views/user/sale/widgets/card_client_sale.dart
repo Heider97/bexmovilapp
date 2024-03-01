@@ -25,7 +25,7 @@ class CardClientRouter extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
             width: double.infinity,
-            height: 100,
+            height: 110,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
@@ -48,12 +48,12 @@ class CardClientRouter extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(": $nameClient",
+                        Text(nameClient,
                             style: const TextStyle(
-                                color: Colors.orange, fontSize: 18)),
+                                color: Colors.orange, fontSize: 15)),
                         gapH4,
                         Text(
-                          "nit: $nit",
+                          "Nit: $nit",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 11),
                         ),
