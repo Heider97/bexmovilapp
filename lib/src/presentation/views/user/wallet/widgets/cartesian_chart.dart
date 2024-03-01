@@ -43,17 +43,6 @@ class CartesianChart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(graphic.title!, fontWeight: FontWeight.bold),
-
-                      // IconButton(
-                      //   onPressed: () {
-                      //     _navigationService.goTo(AppRoutes.detailWallet);
-                      //   },
-                      //   icon: Icon(
-                      //     FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                      //     color: theme.primaryColor,
-                      //     size: 18,
-                      //   ),
-                      // ),
                     ],
                   ),
                   if (graphic.subtitle != null) AppText(graphic.subtitle!)
@@ -71,7 +60,7 @@ class CartesianChart extends StatelessWidget {
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
               final data = graphic.data?.elementAt(args.pointIndex);
-              if (data != null) {
+              if (data != null && graphic.interactive == true) {
                 var arguments = WalletArgument(type: data.x);
                 navigationService.goTo(AppRoutes.clientsWallet,
                     arguments: arguments);
@@ -81,7 +70,7 @@ class CartesianChart extends StatelessWidget {
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
                     final data = graphic.data?.elementAt(details.pointIndex!);
-                    if (data != null) {
+                    if (data != null && graphic.interactive == true) {
                       var arguments = WalletArgument(type: data.x);
                       navigationService.goTo(AppRoutes.clientsWallet,
                           arguments: arguments);

@@ -39,28 +39,15 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(Const.padding),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       const AppBackButton(needPrimary: true),
-            //       // Builder(
-            //       //   builder: (context) {
-            //       //     return AppIconButton(
-            //       //         onPressed: () {
-            //       //           print('********');
-            //       //           Scaffold.of(context).openDrawer();
-            //       //         },
-            //       //         child: Icon(Icons.menu,
-            //       //             color: Theme.of(context)
-            //       //                 .colorScheme
-            //       //                 .onPrimaryContainer));
-            //       //   }
-            //       // ),
-            //     ],
-            //   ),
-            // ),
+            const Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppBackButton(needPrimary: true),
+                ],
+              ),
+            ),
             BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
               if (state.graphics.isNotEmpty) {
                 return ListView.builder(

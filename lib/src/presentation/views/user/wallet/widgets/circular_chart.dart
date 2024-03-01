@@ -51,7 +51,7 @@ class CircularChart extends StatelessWidget {
                 dataLabelSettings: const DataLabelSettings(),
                 onPointTap: (args) {
                   final data = graphic.data?.elementAt(args.pointIndex!);
-                  if (data != null) {
+                  if (data != null && graphic.interactive == true) {
                     var arguments = WalletArgument(type: data.x);
                     navigationService.goTo(AppRoutes.clientsWallet,
                         arguments: arguments);
