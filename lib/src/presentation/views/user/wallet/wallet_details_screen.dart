@@ -262,8 +262,9 @@ class WalletDetailsScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            _navigationService
-                                .goTo(AppRoutes.walletNotificationView);
+                            //TODO: [Heider Zapa]
+                            // _navigationService
+                            //     .goTo(AppRoutes.notificationWallet);
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

@@ -47,7 +47,7 @@ class CartesianChart extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          _navigationService.goTo(AppRoutes.charDetails);
+                          _navigationService.goTo(AppRoutes.detailWallet);
                         },
                         icon: Icon(
                           FontAwesomeIcons.upRightAndDownLeftFromCenter,

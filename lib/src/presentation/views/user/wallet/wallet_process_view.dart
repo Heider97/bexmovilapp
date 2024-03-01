@@ -1,4 +1,5 @@
-import 'package:bexmovil/src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
+//TODO [Heider Zapa] organize
+import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_client.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_invoice.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';

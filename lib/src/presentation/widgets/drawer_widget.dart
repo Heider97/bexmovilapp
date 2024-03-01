@@ -70,7 +70,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.sell,
               text: 'Vender',
-              onTap: () => _navigationService.goTo(AppRoutes.sale),
+              onTap: () => _navigationService.goTo(AppRoutes.routersSale),
               image: 'assets/svg/sell.svg',
               countNotifications: 0),
           gapH12,

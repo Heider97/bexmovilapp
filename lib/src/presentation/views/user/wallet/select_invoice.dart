@@ -109,8 +109,9 @@ class SelectInvoice extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                             onPressed: () {
-                              _navigationService
-                                  .goTo(AppRoutes.walletDetailsScreen);
+                              //TODO: [Heider Zapa]
+                              // _navigationService
+                              //     .goTo(AppRoutes.walletDetailsScreen);
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 0,

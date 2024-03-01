@@ -34,16 +34,18 @@ class AppRoutes {
   static const createMeet = '/code-create-meet';
 
   //sales routes
-  static const sale = '/sale';
-  static const detailSale = '/detail-sale';
-  static const historySale = '/history';
+  static const routersSale = '/sale-routers';
+  static const clientsSale = '/sale-clients';
+  static const productsSale = '/sale-products';
+  static const cartSale = '/sale-cart';
+  static const historySale = '/sale-history';
 
   //Wallet routes
-  static const wallet = '/wallet';
-  static const walletprocess = '/wallet-process';
-  static const walletDetailsScreen = '/wallet-details-screen';
-  static const walletNotificationView = '/wallet-notification-screen';
-  static const charDetails = '/charDetails';
+  static const dashboardWallet = '/wallet-dashboard';
+  static const clientsWallet = '/wallet-clients';
+  static const summariesWallet = '/wallet-summaries';
+  static const notificationWallet = '/wallet-notification';
+  static const detailWallet = '/wallet-detail';
 }
 
 // Form Error
