@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 const String tableGraphics = 'graphics';
@@ -20,6 +21,8 @@ class GraphicFields {
   static const String type = 'type';
   static const String query = 'query';
   static const String trigger = 'trigger';
+  static const String order = '_order';
+  static const String data = 'data';
 }
 
 class Graphic {
@@ -30,6 +33,7 @@ class Graphic {
   String? type;
   String? query;
   String? trigger;
+  int? order;
   List<ChartData>? data;
 
   Graphic(
@@ -39,6 +43,7 @@ class Graphic {
       this.conditions,
       this.type,
       this.query,
+      this.order,
       this.data,
       this.trigger});
 
@@ -50,10 +55,14 @@ class Graphic {
       type: json['type'],
       query: json['query'],
       trigger: json['trigger'],
+      order: json['_order'],
       data: json['results'] != null
           ? List<ChartData>.from(
               json['results'].map((r) => ChartData.fromJson(r)))
-          : null);
+          : json['data'] != null && json['data'] is String
+              ? List<ChartData>.from(
+                  jsonDecode(json['data']).map((r) => ChartData.fromJson(r)))
+              : null);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -62,7 +71,9 @@ class Graphic {
         'conditions': conditions,
         'type': type,
         'query': query,
+        'order': order,
         'trigger': trigger,
+        'data': jsonEncode(data)
       };
 }
 

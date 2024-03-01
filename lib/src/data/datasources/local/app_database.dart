@@ -128,7 +128,9 @@ class AppDatabase {
             ${GraphicFields.conditions} TEXT DEFAULT NULL,
             ${GraphicFields.type} TEXT DEFAULT NULL,
             ${GraphicFields.query} TEXT DEFAULT NULL,
-            ${GraphicFields.trigger} TEXT DEFAULT NULL
+            ${GraphicFields.trigger} TEXT DEFAULT NULL,
+            ${GraphicFields.order} INT DEFAULT NULL,
+            ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
@@ -159,7 +161,9 @@ class AppDatabase {
             ${GraphicFields.conditions} TEXT DEFAULT NULL,
             ${GraphicFields.type} TEXT DEFAULT NULL,
             ${GraphicFields.query} TEXT DEFAULT NULL,
-            ${GraphicFields.trigger} TEXT DEFAULT NULL
+            ${GraphicFields.trigger} TEXT DEFAULT NULL,
+            ${GraphicFields.order} INT DEFAULT NULL,
+            ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
     });
