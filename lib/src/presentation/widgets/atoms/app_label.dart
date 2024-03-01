@@ -50,10 +50,12 @@ class AppLabel extends StatelessWidget {
     if (primary) {
       themeData = Theme.of(context).extension<AppLabelThemeData>()!;
     } else {
-      themeData = Theme.of(context).extension<AppLabelThemeData>()!.copyWith(
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-        foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-      );
+      themeData = Theme.of(context).extension()!;
+      print(themeData);
+      // themeData = Theme.of(context).extension<AppLabelThemeData>()!.copyWith(
+      //   backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      //   foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+      // );
     }
 
     return Container(

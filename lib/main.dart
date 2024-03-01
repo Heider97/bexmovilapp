@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 
 //theme
 import 'app_localizations.dart';
-import 'src/config/theme/index.dart';
+// import 'src/config/theme/index.dart';
 
 //domain
 import 'src/domain/repositories/api_repository.dart';
@@ -183,11 +184,14 @@ class _MyAppState extends State<MyApp> {
                   }
                   return supportedLocales.first;
                 },
-                theme: AppTheme.light,
-                darkTheme: AppTheme.dark,
-                themeMode: (themeProvider.isDarkTheme == true)
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
+                // theme: AppTheme.light,
+                // darkTheme: AppTheme.dark,
+                // themeMode: (themeProvider.isDarkTheme == true)
+                //     ? ThemeMode.dark
+                //     : ThemeMode.light,
+                theme: AppTheme.theme,
+                darkTheme: AppTheme.darkTheme,
+                // themeMode: currentMode,
                 navigatorKey: locator<NavigationService>().navigatorKey,
                 onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
                     builder: (BuildContext context) => UndefinedView(

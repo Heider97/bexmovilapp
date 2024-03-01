@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,7 +9,7 @@ import '../../../../cubits/initial/initial_cubit.dart';
 import '../../../../../utils/validators.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_text_form_field.dart';
+import '../../../../widgets/atomsbox.dart';
 import '../../../../widgets/version_widget.dart';
 
 class EnterpriseForm extends StatefulWidget {
@@ -22,7 +23,7 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
   final companyNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormAutovalidateState> _formAutoValidateState =
-  GlobalKey<FormAutovalidateState>();
+      GlobalKey<FormAutovalidateState>();
 
   late InitialCubit initialCubit;
 
@@ -59,80 +60,37 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
   }
 
   Widget _buildBody(Size size, InitialState state, ThemeData theme) {
-    return FormAutovalidate(
-      keyForm: _formKey,
-      key: _formAutoValidateState,
-      child: SizedBox(
+    return SizedBox(
         height: size.height * 0.52,
         width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0, top: 30),
-                    child: Text(
-                      'Seleccione la empresa',
-                      style:
-                      theme.textTheme.displayLarge!.copyWith(fontSize: 15),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                    const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                    child: AppTextFormField(
-                      controller: companyNameController,
-                      labelText: 'Nombre de la empresa',
-                      // validator: Validator().name,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            // Expanded(
-            //   child: Center(
-            //     child: SizedBox(
-            //       width: 150,
-            //       height: 50,
-            //       child: BlocSelector<InitialCubit, InitialState, bool>(
-            //           selector: (state) =>
-            //           state is InitialLoading ? true : false,
-            //           builder: (context, booleanState) => CustomElevatedButton(
-            //             width: 150,
-            //             height: 50,
-            //             onTap: () {
-            //               if (booleanState) {
-            //                 null;
-            //               } else {
-            //                 if (_formAutoValidateState.currentState!
-            //                     .validateForm()) {
-            //                   initialCubit
-            //                       .getEnterprise(companyNameController);
-            //                 }
-            //               }
-            //             },
-            //             child: booleanState
-            //                 ? const CircularProgressIndicator(
-            //               valueColor:
-            //               AlwaysStoppedAnimation(Colors.white),
-            //             )
-            //                 : Text(
-            //               'Siguiente',
-            //               style: theme.textTheme.bodyLarge!.copyWith(
-            //                   fontWeight: FontWeight.bold,
-            //                   color: Colors.white),
-            //             ),
-            //           )),
-            //     ),
-            //   ),
-            // ),
-            const Expanded(child: VersionWidget())
+        child: AppForm(
+          title: AppText('Seleccione la empresa'),
+          key: _formAutoValidateState,
+          formItems: [
+            Padding(
+                padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                child: AppTextFormField(
+                  controller: companyNameController,
+                  labelText: 'Empresa',
+                )),
           ],
-        ),
-      ),
-    );
+          formItemNames: const ['Nombre de la empresa'],
+          formButton: AppElevatedButton(
+            child: BlocSelector<InitialCubit, InitialState, bool>(
+                selector: (state) => state is InitialLoading ? true : false,
+                builder: (context, condition) {
+                  if (condition) {
+                    return const CupertinoActivityIndicator();
+                  } else {
+                    return AppText('Siguiente');
+                  }
+                }),
+            onPressed: () {
+              if (_formAutoValidateState.currentState!.validateForm()) {
+                initialCubit.getEnterprise(companyNameController);
+              }
+            },
+          ),
+        ));
   }
 }
