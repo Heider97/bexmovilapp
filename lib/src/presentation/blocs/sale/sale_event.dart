@@ -4,7 +4,6 @@ class SaleEvent {
   const SaleEvent();
 }
 
-
 class LoadRouters extends SaleEvent {}
 
 class LoadClients extends SaleEvent {}

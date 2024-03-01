@@ -11,19 +11,15 @@ import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //cubit
-
-
 import '../../../../cubits/home/home_cubit.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
-import '../../../../widgets/atoms/app_text.dart';
-import '../../../../widgets/atoms/app_elevated_button.dart';
 import '../../../../widgets/user/stepper.dart';
 
 //features
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
+import '../widgets/card_router_sale.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -125,16 +121,6 @@ class _RoutersPageState extends State<RoutersPage> {
                             ),
                           ),
                         )),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          AppElevatedButton(child: AppText('Visitados')),
-                          AppElevatedButton(child: AppText('No visitados')),
-                          AppElevatedButton(child: AppText('Todos')),
-                        ],
-                      ),
-                    ),
                     gapH4,
                     BlocBuilder<SaleBloc, SaleState>(
                         builder: (context, state) {
