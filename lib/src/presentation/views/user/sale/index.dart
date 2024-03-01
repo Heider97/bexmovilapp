@@ -2,7 +2,6 @@ import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
 
@@ -274,7 +273,7 @@ class _SalePageState extends State<SalePage> {
                                             .clients[index].dirCliente
                                             .toString(),
                                       branchClient: saleState
-                                            .clients[index].estadoCliente
+                                            .clients[index].sucursalCliente
                                             .toString(),
                                       nameClient: saleState
                                             .clients[index].nomCliente

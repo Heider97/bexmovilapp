@@ -48,12 +48,12 @@ class CardClientRouter extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(": $nameClient",
+                        Text(nameClient,
                             style: const TextStyle(
-                                color: Colors.orange, fontSize: 18)),
+                                color: Colors.orange, fontSize: 15)),
                         gapH4,
                         Text(
-                          "nit: $nit",
+                          "Nit: $nit",
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 11),
                         ),

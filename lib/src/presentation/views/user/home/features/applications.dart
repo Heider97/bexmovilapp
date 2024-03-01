@@ -24,7 +24,7 @@ class HomeApplications extends StatelessWidget {
                 iconName: 'Vender',
                 imagePath: 'assets/svg/sell.svg',
                 onTap: () {
-                  navigationService.goTo(Routes.saleRoute);
+                  navigationService.goTo(Routes.routerRoute);
                 }),
             AppItem(
                 iconName: 'Cartera',
