@@ -22,5 +22,6 @@ Map<String, RouteType> authRoutes = {
       const GlobalBackground(child: SelectEnterpriseView()),
   AppRoutes.login: (context, settings) =>
       const GlobalBackground(child: LoginView()),
-  AppRoutes.sync: (context, settings) => const SyncView()
+  AppRoutes.sync: (context, settings) =>
+      const GlobalBackground(child: SyncView())
 };
