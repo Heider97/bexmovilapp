@@ -11,6 +11,7 @@ import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/strings.dart';
 //domain
 import '../../../../../domain/models/graphic.dart';
+import '../../../../../domain/models/arguments.dart';
 //widgets
 
 import '../../../../widgets/atoms/app_text.dart';
@@ -55,7 +56,7 @@ class CartesianChart extends StatelessWidget {
                       // ),
                     ],
                   ),
-                  if (graphic.subtitle != null) AppText('Cartera Total: \$211M')
+                  if (graphic.subtitle != null) AppText(graphic.subtitle!)
                 ],
               ),
             ),
@@ -71,7 +72,9 @@ class CartesianChart extends StatelessWidget {
             onDataLabelTapped: (args) {
               final data = graphic.data?.elementAt(args.pointIndex);
               if (data != null) {
-                navigationService.goTo(AppRoutes.clientsWallet);
+                var arguments = WalletArgument(type: data.x);
+                navigationService.goTo(AppRoutes.clientsWallet,
+                    arguments: arguments);
               }
             },
             series: <CartesianSeries<ChartData, String>>[
@@ -79,7 +82,9 @@ class CartesianChart extends StatelessWidget {
                   onPointTap: (ChartPointDetails details) {
                     final data = graphic.data?.elementAt(details.pointIndex!);
                     if (data != null) {
-                      navigationService.goTo(AppRoutes.clientsWallet);
+                      var arguments = WalletArgument(type: data.x);
+                      navigationService.goTo(AppRoutes.clientsWallet,
+                          arguments: arguments);
                     }
                   },
                   dataSource: graphic.data,

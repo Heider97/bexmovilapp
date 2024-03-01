@@ -8,22 +8,17 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 //domain
 import '../../../../../domain/models/graphic.dart';
+import '../../../../widgets/atoms/app_text.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CircularChart extends StatelessWidget {
-  const CircularChart({super.key});
+  final Graphic graphic;
+
+  const CircularChart({super.key, required this.graphic});
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData('Lunes', 20),
-      ChartData('Martes', 20),
-      ChartData('Miercoles', 20),
-      ChartData('Jueves', 20),
-      ChartData('Viernes', 20)
-    ];
-
     ThemeData theme = Theme.of(context);
     return Card(
       color: theme.colorScheme.onPrimary,
@@ -35,24 +30,25 @@ class CircularChart extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
               width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  Text(
-                    'Cartera por agenda',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(graphic.title!, fontWeight: FontWeight.bold),
+                      IconButton(
+                        onPressed: () {
+                          _navigationService.goTo(AppRoutes.detailWallet);
+                        },
+                        icon: Icon(
+                          FontAwesomeIcons.upRightAndDownLeftFromCenter,
+                          color: theme.primaryColor,
+                          size: 18,
+                        ),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      _navigationService.goTo(AppRoutes.detailWallet);
-                    },
-                    icon: Icon(
-                      FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                      color: theme.primaryColor,
-                      size: 18,
-                    ),
-                  ),
+                  if (graphic.subtitle != null) AppText(graphic.subtitle!)
                 ],
               ),
             ),
@@ -63,40 +59,39 @@ class CircularChart extends StatelessWidget {
                 onPointTap: (args) {
                   print('****************');
                 },
-                dataSource: chartData,
+                dataSource: graphic.data,
                 pointColorMapper: (ChartData data, _) => data.color,
                 xValueMapper: (ChartData data, _) => data.x,
                 yValueMapper: (ChartData data, _) => data.y),
-
           ]),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Agenda mas alta'),
-                    const Text('\$80M'),
-                    Text('Lunes',
-                        style: theme.textTheme.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Cliente más alto'),
-                    const Text('\$55M'),
-                    Text(
-                      'Pandapan',
-                      style: theme.textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       child: Column(
+          //         children: [
+          //           const Text('Agenda mas alta'),
+          //           const Text('\$80M'),
+          //           Text('Lunes',
+          //               style: theme.textTheme.bodyLarge!
+          //                   .copyWith(fontWeight: FontWeight.bold)),
+          //         ],
+          //       ),
+          //     ),
+          //     Expanded(
+          //       child: Column(
+          //         children: [
+          //           const Text('Cliente más alto'),
+          //           const Text('\$55M'),
+          //           Text(
+          //             'Pandapan',
+          //             style: theme.textTheme.bodyLarge!
+          //                 .copyWith(fontWeight: FontWeight.bold),
+          //           ),
+          //         ],
+          //       ),
+          //     )
+          //   ],
+          // ),
           gapH16
         ],
       ),
