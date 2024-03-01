@@ -1,11 +1,14 @@
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/user/wallet/check_image.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+
+//utils
+import '../../../../../utils/constants/screens.dart';
+import '../../../../../utils/constants/strings.dart';
+
+//widgets
+import '../../../../widgets/atoms/app_back_button.dart';
+import '../../../../widgets/user/wallet/check_image.dart';
 
 class WalletNotificationView extends StatefulWidget {
   const WalletNotificationView({super.key});
@@ -38,7 +41,7 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomBackButton(primaryColorBackgroundMode: true),
+                AppBackButton(needPrimary: true),
                 SizedBox()
               ],
             ),

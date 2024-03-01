@@ -1,20 +1,19 @@
 //TODO [Heider Zapa] Organize
 import 'dart:async';
 
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 //blocs
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 //domain
-import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 //utils
 import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
+
 //widgets
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
+
 //services
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -99,7 +98,7 @@ class _CodeVerificationViewState extends State<CodeVerificationView> {
               padding: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [CustomBackButton(), SizedBox()],
+                children: [AppBackButton(), SizedBox()],
               ),
             ),
             Expanded(

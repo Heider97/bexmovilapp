@@ -1,9 +1,11 @@
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 //domain
 import '../../../../../domain/models/graphic.dart';
+
+//widgets
+import '../../../../widgets/atoms/app_back_button.dart';
 
 class CharDetails extends StatefulWidget {
   const CharDetails({super.key});
@@ -36,9 +38,7 @@ class _CharDetailsState extends State<CharDetails> {
             padding: EdgeInsets.all(8.0),
             child: Row(
               children: [
-                CustomBackButton(
-                  primaryColorBackgroundMode: true,
-                )
+                AppBackButton(needPrimary: true)
               ],
             ),
           ),

@@ -1,6 +1,6 @@
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -54,7 +54,7 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
                   gapH12,
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [CustomBackButton(), SizedBox()],
+                    children: [AppBackButton(), SizedBox()],
                   ),
                   gapH12,
                   Text('Recupere su\nContraseña',

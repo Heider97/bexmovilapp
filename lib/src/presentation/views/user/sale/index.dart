@@ -1,7 +1,8 @@
+//TODO [Heider Zapa] organize
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';

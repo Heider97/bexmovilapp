@@ -14,7 +14,7 @@ import '../../../utils/constants/gaps.dart';
 import '../../../utils/constants/screens.dart';
 
 //widgets
-import '../../widgets/global/custom_back_button.dart';
+import '../../widgets/atoms/app_back_button.dart';
 import '../../widgets/global/custom_elevated_button.dart';
 import '../../widgets/global/custom_textformfield.dart';
 import '../../widgets/version_widget.dart';
@@ -109,8 +109,8 @@ class LoginViewState extends State<LoginView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomBackButton(
-                  onTap: () {
+                AppBackButton(
+                  onPressed: () {
                     loginCubit.goToCompany();
                   },
                 ),
@@ -186,7 +186,8 @@ class LoginViewState extends State<LoginView> {
                           ),
                           ListTile(
                             onTap: () {
-                              loginCubit.navigationService?.goTo(Routes.codeFormRequest);
+                              loginCubit.navigationService
+                                  ?.goTo(Routes.codeFormRequest);
                               recoveryBloc
                                   .add(const StartRecovery(type: 'Email'));
                             },
@@ -201,7 +202,8 @@ class LoginViewState extends State<LoginView> {
                           ),
                           ListTile(
                             onTap: () {
-                              loginCubit.navigationService?.goTo(Routes.codeFormRequest);
+                              loginCubit.navigationService
+                                  ?.goTo(Routes.codeFormRequest);
                               // recoveryBloc
                               //     .add(const StartRecovery(type: 'SMS'));
                             },

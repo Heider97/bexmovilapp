@@ -1,25 +1,15 @@
-import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_client.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_invoice.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
+
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-final NavigationService _navigationService = locator<NavigationService>();
 
 class WalletProcessView extends StatefulWidget {
   const WalletProcessView({super.key});
@@ -42,15 +32,13 @@ class _WalletProcessViewState extends State<WalletProcessView> {
     return SafeArea(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomBackButton(primaryColorBackgroundMode: true),
-                CustomMenuButton(
-                  primaryColorBackgroundMode: true,
-                )
+                const AppBackButton(needPrimary: true),
+                AppIconButton(child: const Icon(Icons.menu))
               ],
             ),
           ),
@@ -87,10 +75,10 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               } else if (state is WalletStepperInvoiceSelection) {
                 return const SelectInvoice();
               } else if (state is WalletStepperInvoiceAction) {
-                return WalletActionList();
+                return const WalletActionList();
               } else {
                 return Container(
-                  child: Text("InvoiceAction"),
+                  child: const Text("InvoiceAction"),
                 );
               }
             },

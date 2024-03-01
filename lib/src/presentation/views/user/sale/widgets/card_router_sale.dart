@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/gaps.dart';
 
 class CardRouter extends StatelessWidget {
   

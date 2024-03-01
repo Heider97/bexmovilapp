@@ -1,6 +1,8 @@
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
+
+
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/presentation/widgets/global/multi_text_form_field.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -30,14 +32,14 @@ class WalletDetailsScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomBackButton(primaryColorBackgroundMode: true),
-                            CustomMenuButton(
-                              primaryColorBackgroundMode: true,
+                            const AppBackButton(needPrimary: true),
+                            AppIconButton(
+                              child: const Icon(Icons.menu),
                             )
                           ],
                         ),
