@@ -63,33 +63,35 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
     return SizedBox(
         height: size.height * 0.52,
         width: double.infinity,
-        child: AppForm(
-          title: AppText('Seleccione la empresa'),
+        child: FormAutovalidate(
+          keyForm: _formKey,
           key: _formAutoValidateState,
-          formItems: [
-            Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                child: AppTextFormField(
-                  controller: companyNameController,
-                  labelText: 'Empresa',
-                )),
-          ],
-          formItemNames: const ['Nombre de la empresa'],
-          formButton: AppElevatedButton(
-            child: BlocSelector<InitialCubit, InitialState, bool>(
-                selector: (state) => state is InitialLoading ? true : false,
-                builder: (context, condition) {
-                  if (condition) {
-                    return const CupertinoActivityIndicator();
-                  } else {
-                    return AppText('Siguiente');
-                  }
-                }),
-            onPressed: () {
-              if (_formAutoValidateState.currentState!.validateForm()) {
-                initialCubit.getEnterprise(companyNameController);
-              }
-            },
+          child: AppForm(
+            title: AppText('Seleccione la empresa'),
+            formItems: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                  child: AppTextFormField(
+                    controller: companyNameController,
+                  )),
+            ],
+            formItemNames: const ['Empresa'],
+            formButton: AppElevatedButton(
+              child: BlocSelector<InitialCubit, InitialState, bool>(
+                  selector: (state) => state is InitialLoading ? true : false,
+                  builder: (context, condition) {
+                    if (condition) {
+                      return const CupertinoActivityIndicator();
+                    } else {
+                      return AppText('Siguiente');
+                    }
+                  }),
+              onPressed: () {
+                if (_formAutoValidateState.currentState!.validateForm()) {
+                  initialCubit.getEnterprise(companyNameController);
+                }
+              },
+            ),
           ),
         ));
   }

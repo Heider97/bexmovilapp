@@ -184,11 +184,6 @@ class _MyAppState extends State<MyApp> {
                   }
                   return supportedLocales.first;
                 },
-                // theme: AppTheme.light,
-                // darkTheme: AppTheme.dark,
-                // themeMode: (themeProvider.isDarkTheme == true)
-                //     ? ThemeMode.dark
-                //     : ThemeMode.light,
                 theme: AppTheme.theme,
                 darkTheme: AppTheme.darkTheme,
                 // themeMode: currentMode,
