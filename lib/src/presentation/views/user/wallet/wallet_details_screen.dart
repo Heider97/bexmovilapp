@@ -2,7 +2,6 @@ import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
-
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/presentation/widgets/global/multi_text_form_field.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -103,23 +102,23 @@ class WalletDetailsScreen extends StatelessWidget {
                         padding: EdgeInsets.only(left: Const.space18),
                         child: Text("Abono : "),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: Const.space18,
-                          right: Const.space18,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: Screens.width(context),
-                            child: CustomTextFormField(
-                              controller: TextEditingController(),
-                              hintText: 'Cantidad a abonar',
-                              validator: Validator().number,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //     left: Const.space18,
+                      //     right: Const.space18,
+                      //   ),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: SizedBox(
+                      //       width: Screens.width(context),
+                      //       child: CustomTextFormField(
+                      //         controller: TextEditingController(),
+                      //         hintText: 'Cantidad a abonar',
+                      //         validator: Validator().number,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const Padding(
                         padding: EdgeInsets.only(left: Const.space18),
                         child: Text("Observaciones : "),

@@ -85,18 +85,18 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                       ),
                     ),
                     gapH20,
-                    SizedBox(
-                      width: Screens.width(context) * 0.87,
-                      child: CustomTextFormField(
-                          focusNode: focusNode,
-                          validator: (state.type == 'SMS')
-                              ? Validator().number
-                              : Validator().email,
-                          controller: textController,
-                          hintText: (state.type == 'SMS')
-                              ? 'Ingrese el número de celular'
-                              : 'Dirección de correo electrónico'),
-                    ),
+                    // SizedBox(
+                    //   width: Screens.width(context) * 0.87,
+                    //   child: CustomTextFormField(
+                    //       focusNode: focusNode,
+                    //       validator: (state.type == 'SMS')
+                    //           ? Validator().number
+                    //           : Validator().email,
+                    //       controller: textController,
+                    //       hintText: (state.type == 'SMS')
+                    //           ? 'Ingrese el número de celular'
+                    //           : 'Dirección de correo electrónico'),
+                    // ),
                     gapH48,
                     // SizedBox(
                     //   width: Screens.width(context) * 0.87,

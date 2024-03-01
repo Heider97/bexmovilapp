@@ -8,7 +8,7 @@ import '../../../../cubits/initial/initial_cubit.dart';
 import '../../../../../utils/validators.dart';
 
 //widgets
-import '../../../../widgets/global/custom_textformfield.dart';
+import '../../../../widgets/atoms/app_text_form_field.dart';
 import '../../../../widgets/version_widget.dart';
 
 class EnterpriseForm extends StatefulWidget {
@@ -83,10 +83,10 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                   Padding(
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                    child: CustomTextFormField(
+                    child: AppTextFormField(
                       controller: companyNameController,
-                      hintText: 'Nombre de la empresa',
-                      validator: Validator().name,
+                      labelText: 'Nombre de la empresa',
+                      // validator: Validator().name,
                     ),
                   )
                 ],

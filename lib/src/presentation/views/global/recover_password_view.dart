@@ -62,36 +62,36 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
                   gapH12,
                   const Text('Ingrese su nueva contraseña'),
                   gapH32,
-                  CustomTextFormField(
-                      controller: passwordController,
-                      obscureText: obscureText,
-                      validator: Validator().password,
-                      hintText: 'Nueva contraseña',
-                      suffixIcon: IconButton(
-                        onPressed: togglePasswordVisibility,
-                        icon: Icon(
-                          obscureText ? Icons.visibility : Icons.visibility_off,
-                          color:
-                              theme.primaryColor, // Cambia el color del icono
-                        ),
-                      )),
-                  gapH24,
-                  CustomTextFormField(
-                      controller: passwordControllerVerification,
-                      obscureText: obscureTextPaswordConfirm,
-                      hintText: 'Verifique su nueva contraseña',
-                      validator: (value) => Validator().passwordConfirm(
-                          value: passwordController.text, confirm: value),
-                      suffixIcon: IconButton(
-                        onPressed: togglePasswordConfirmVisibility,
-                        icon: Icon(
-                          obscureTextPaswordConfirm
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color:
-                              theme.primaryColor, // Cambia el color del icono
-                        ),
-                      )),
+                  // CustomTextFormField(
+                  //     controller: passwordController,
+                  //     obscureText: obscureText,
+                  //     validator: Validator().password,
+                  //     hintText: 'Nueva contraseña',
+                  //     suffixIcon: IconButton(
+                  //       onPressed: togglePasswordVisibility,
+                  //       icon: Icon(
+                  //         obscureText ? Icons.visibility : Icons.visibility_off,
+                  //         color:
+                  //             theme.primaryColor, // Cambia el color del icono
+                  //       ),
+                  //     )),
+                  // gapH24,
+                  // CustomTextFormField(
+                  //     controller: passwordControllerVerification,
+                  //     obscureText: obscureTextPaswordConfirm,
+                  //     hintText: 'Verifique su nueva contraseña',
+                  //     validator: (value) => Validator().passwordConfirm(
+                  //         value: passwordController.text, confirm: value),
+                  //     suffixIcon: IconButton(
+                  //       onPressed: togglePasswordConfirmVisibility,
+                  //       icon: Icon(
+                  //         obscureTextPaswordConfirm
+                  //             ? Icons.visibility
+                  //             : Icons.visibility_off,
+                  //         color:
+                  //             theme.primaryColor, // Cambia el color del icono
+                  //       ),
+                  //     )),
                   gapH36,
                   // Align(
                   //     alignment: Alignment.bottomCenter,

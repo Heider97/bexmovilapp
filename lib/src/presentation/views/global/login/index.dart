@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/atoms/app_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -136,23 +137,23 @@ class LoginViewState extends State<LoginView> {
                 bottom: Const.space25,
                 left: Const.space25,
                 right: Const.space25),
-            child: CustomTextFormField(
-                controller: usernameController, hintText: 'Usuario o correo'),
+            child: AppTextFormField(
+                controller: usernameController, labelText: 'Usuario o correo'),
           ),
           Padding(
             padding: const EdgeInsets.only(
                 left: Const.space25, right: Const.space25),
-            child: CustomTextFormField(
+            child: AppTextFormField(
               controller: passwordController,
               obscureText: obscureText,
-              hintText: 'Contraseña',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: theme.primaryColor, // Cambia el color del icono
-                ),
-                onPressed: togglePasswordVisibility,
-              ),
+              labelText: 'Contraseña',
+              // suffixIcon: IconButton(
+              //   icon: Icon(
+              //     obscureText ? Icons.visibility : Icons.visibility_off,
+              //     color: theme.primaryColor, // Cambia el color del icono
+              //   ),
+              //   onPressed: togglePasswordVisibility,
+              // ),
             ),
           ),
           gapH16,

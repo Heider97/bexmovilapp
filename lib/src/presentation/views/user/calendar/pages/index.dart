@@ -10,7 +10,6 @@ import '../../../../../domain/models/meeting.dart';
 import '../../../../../domain/models/requests/event.dart';
 
 //widgets
-import '../../../../widgets/global/custom_textformfield.dart';
 
 class CalendarPage extends StatefulWidget {
   final Eventos? event;
@@ -193,11 +192,11 @@ class CalendarPageState extends State<CalendarPage> {
                                   backgroundColor: Colors.orange,
                                   child: Text('D'),
                                 ),
-                                SizedBox(
-                                    width: 230,
-                                    child: CustomTextFormField(
-                                        controller: calendarcontroller,
-                                        hintText: '¿ Que estas buscando ?'))
+                                // SizedBox(
+                                //     width: 230,
+                                //     child: CustomTextFormField(
+                                //         controller: calendarcontroller,
+                                //         hintText: '¿ Que estas buscando ?'))
                               ],
                             ),
                           ),
