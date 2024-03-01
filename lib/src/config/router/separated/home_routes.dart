@@ -4,6 +4,7 @@ import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
 //views
+import '../../../presentation/widgets/global/global_background.dart';
 import '../../../presentation/widgets/global/global_background_square.dart';
 import '../../../presentation/views/user/home/index.dart';
 

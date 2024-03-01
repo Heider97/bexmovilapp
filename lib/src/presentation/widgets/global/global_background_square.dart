@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../utils/constants/strings.dart';
 //widgets
 import '../drawer_widget.dart';
-import 'app_bottom_nav_bar.dart';
+import 'app_global_bottom_nav_bar.dart';
 
 class GlobalBackgroundSquare extends StatelessWidget {
   final Widget child;
@@ -16,8 +16,11 @@ class GlobalBackgroundSquare extends StatelessWidget {
       this.hideBottomNavigationBar});
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       drawer: const DrawerWidget(),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: theme.colorScheme.background,
       extendBody: true,
       body: Stack(fit: StackFit.expand, children: [
         Positioned(
@@ -36,9 +39,9 @@ class GlobalBackgroundSquare extends StatelessWidget {
         ),
         child
       ]),
-      bottomNavigationBar: (hideBottomNavigationBar == true)
+      bottomNavigationBar: hideBottomNavigationBar == true
           ? null
-          : const AppCustomBottomNavBar(),
+          : const AppGlobalBottomNavBar(),
     );
   }
 }
