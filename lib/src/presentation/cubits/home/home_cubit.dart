@@ -4,10 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
 
 //utils
-import '../../../domain/models/isolate.dart';
-import '../../../domain/models/requests/functionality_request.dart';
-import '../../../domain/models/requests/graphic_request.dart';
-import '../../../domain/models/requests/kpi_request.dart';
 import '../../../utils/constants/strings.dart';
 
 //domain
@@ -15,7 +11,11 @@ import '../../../domain/models/user.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
+import '../../../domain/models/isolate.dart';
 import '../../../domain/models/responses/kpi_response.dart';
+import '../../../domain/models/requests/functionality_request.dart';
+import '../../../domain/models/requests/graphic_request.dart';
+import '../../../domain/models/requests/kpi_request.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //service
@@ -92,7 +92,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> getGraphics() async {
     final response = await apiRepository.graphics(
         request: GraphicRequest(
-            codvendedor: storageService!.getString('username')!));
+            codvendedor: storageService.getString('username')!));
 
     if (response is DataSuccess) {
       await databaseRepository.insertGraphics(response.data!.graphics!);
@@ -105,6 +105,8 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (isBusy) return;
 
     await run(() async {
+      emit(const HomeLoading());
+
       final user = User.fromMap(storageService.getObject('user')!);
       var features = await databaseRepository.getAllFeatures();
       var applications = await databaseRepository.getAllApplications();

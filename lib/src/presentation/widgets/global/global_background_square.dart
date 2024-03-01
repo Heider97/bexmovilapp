@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../utils/constants/strings.dart';
 //widgets
 import '../drawer_widget.dart';
+import 'app_bottom_nav_bar.dart';
 
 class GlobalBackgroundSquare extends StatelessWidget {
   final Widget child;
@@ -16,7 +17,7 @@ class GlobalBackgroundSquare extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       extendBody: true,
       body: Stack(fit: StackFit.expand, children: [
         Positioned(
@@ -35,10 +36,9 @@ class GlobalBackgroundSquare extends StatelessWidget {
         ),
         child
       ]),
-      //TODO:: [Heider Zapa] put custom navbar
       bottomNavigationBar: (hideBottomNavigationBar == true)
           ? null
-          : null,
+          : const AppCustomBottomNavBar(),
     );
   }
 }
