@@ -1,9 +1,3 @@
-import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
-import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,6 +12,9 @@ import 'src/config/theme/index.dart';
 //domain
 import 'src/domain/repositories/api_repository.dart';
 import 'src/domain/repositories/database_repository.dart';
+
+//providers
+import 'src/presentation/providers/theme_provider.dart';
 
 //cubits
 import 'src/presentation/cubits/initial/initial_cubit.dart';
@@ -36,6 +33,11 @@ import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'src/presentation/blocs/splash/splash_bloc.dart';
 import 'src/presentation/blocs/sync_features/sync_features_bloc.dart';
+import 'src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'src/presentation/blocs/sale/sale_bloc.dart';
+import 'src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
+import 'src/presentation/blocs/search/search_bloc.dart';
+import 'src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -47,7 +49,7 @@ import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 
 //router
-import 'src/config/router/index.dart' as router;
+import 'src/config/router/routes.dart';
 
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
@@ -192,7 +194,7 @@ class _MyAppState extends State<MyApp> {
                           name: settings.name,
                         )),
                 initialRoute: AppRoutes.splash,
-                onGenerateRoute: router.generateRoute,
+                onGenerateRoute: Routes.onGenerateRoutes,
               ),
             );
           },

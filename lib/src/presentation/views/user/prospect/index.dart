@@ -1,6 +1,4 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:bexmovil/src/presentation/widgets/custom_button_navigationbar.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
@@ -281,7 +279,6 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
             ),
           ],
         ),
-        bottomNavigationBar: const CustomButtonNavigationBar(),
       ),
     );
   }
