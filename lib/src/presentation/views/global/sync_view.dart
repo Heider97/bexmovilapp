@@ -10,7 +10,6 @@ import '../../blocs/sync_features/sync_features_bloc.dart';
 
 //widgets
 import '../../../presentation/widgets/custom_card_widget.dart';
-import '../../widgets/global/custom_elevated_button.dart';
 
 class SyncView extends StatefulWidget {
   const SyncView({super.key});
@@ -113,16 +112,16 @@ class _SyncViewState extends State<SyncView> {
         gapH16,
         Text(state.error ?? "Error", textAlign: TextAlign.center),
         gapH16,
-        CustomElevatedButton(
-          width: 150,
-          height: 50,
-          onTap: () => syncFeaturesBloc.add(SyncFeatureGet()),
-          child: Text(
-            'Reintentar',
-            style: theme.textTheme.bodyLarge!
-                .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
+        // CustomElevatedButton(
+        //   width: 150,
+        //   height: 50,
+        //   onTap: () => syncFeaturesBloc.add(SyncFeatureGet()),
+        //   child: Text(
+        //     'Reintentar',
+        //     style: theme.textTheme.bodyLarge!
+        //         .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+        //   ),
+        // ),
       ],
     );
   }

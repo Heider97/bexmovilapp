@@ -14,7 +14,6 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/validators.dart';
 //widgets
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 //services
 import 'package:bexmovil/src/locator.dart';
@@ -99,34 +98,34 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                               : 'Dirección de correo electrónico'),
                     ),
                     gapH48,
-                    SizedBox(
-                      width: Screens.width(context) * 0.87,
-                      child: CustomElevatedButton(
-                        enable: true,
-                        isLoading: isloading,
-                        onTap: () async {
-                          if (_formAutoValidateState.currentState!
-                              .validateForm()) {
-                            setState(() {
-                              isloading = true;
-                            });
-                            recoveryPasswordBloc.add(RequestCode(
-                                context: context,
-                                recoveryMethod: textController.text));
-
-                            setState(() {
-                              isloading = false;
-                            });
-                          }
-                        },
-                        borderRadius: Const.space12,
-                        child: Text(
-                          'Restablecer',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    )
+                    // SizedBox(
+                    //   width: Screens.width(context) * 0.87,
+                    //   child: CustomElevatedButton(
+                    //     enable: true,
+                    //     isLoading: isloading,
+                    //     onTap: () async {
+                    //       if (_formAutoValidateState.currentState!
+                    //           .validateForm()) {
+                    //         setState(() {
+                    //           isloading = true;
+                    //         });
+                    //         recoveryPasswordBloc.add(RequestCode(
+                    //             context: context,
+                    //             recoveryMethod: textController.text));
+                    //
+                    //         setState(() {
+                    //           isloading = false;
+                    //         });
+                    //       }
+                    //     },
+                    //     borderRadius: Const.space12,
+                    //     child: Text(
+                    //       'Restablecer',
+                    //       style: theme.textTheme.bodyMedium!.copyWith(
+                    //           color: Colors.white, fontWeight: FontWeight.w500),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               )

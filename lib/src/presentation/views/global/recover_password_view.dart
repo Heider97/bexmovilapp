@@ -1,7 +1,6 @@
 //TODO [Heider Zapa] Organize
 import 'package:bexmovil/src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
 import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
@@ -94,25 +93,25 @@ class _RecoverPasswordViewState extends State<RecoverPasswordView> {
                         ),
                       )),
                   gapH36,
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomElevatedButton(
-                        onTap: () {
-                          if (_formAutoValidateState.currentState!
-                              .validateForm()) {
-                            recoveryPasswordBloc.add(ChangePassword(
-                                password: passwordController.text,
-                                confirmPassword:
-                                    passwordControllerVerification.text,
-                                context: context));
-                          }
-                        },
-                        child: Text(
-                          'Siguiente',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ))
+                  // Align(
+                  //     alignment: Alignment.bottomCenter,
+                  //     child: CustomElevatedButton(
+                  //       onTap: () {
+                  //         if (_formAutoValidateState.currentState!
+                  //             .validateForm()) {
+                  //           recoveryPasswordBloc.add(ChangePassword(
+                  //               password: passwordController.text,
+                  //               confirmPassword:
+                  //                   passwordControllerVerification.text,
+                  //               context: context));
+                  //         }
+                  //       },
+                  //       child: Text(
+                  //         'Siguiente',
+                  //         style: theme.textTheme.bodyMedium!.copyWith(
+                  //             color: Colors.white, fontWeight: FontWeight.bold),
+                  //       ),
+                  //     ))
                 ],
               ),
             ),

@@ -8,7 +8,6 @@ import '../../../../cubits/initial/initial_cubit.dart';
 import '../../../../../utils/validators.dart';
 
 //widgets
-import '../../../../widgets/global/custom_elevated_button.dart';
 import '../../../../widgets/global/custom_textformfield.dart';
 import '../../../../widgets/version_widget.dart';
 
@@ -93,51 +92,43 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                 ],
               ),
             ),
-            Expanded(
-              child: Center(
-                child: SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: BlocSelector<InitialCubit, InitialState, bool>(
-                      selector: (state) =>
-                      state is InitialLoading ? true : false,
-                      builder: (context, booleanState) => CustomElevatedButton(
-                        width: 150,
-                        height: 50,
-                        onTap: () {
-                          if (booleanState) {
-                            null;
-                          } else {
-                            if (_formAutoValidateState.currentState!
-                                .validateForm()) {
-                              initialCubit
-                                  .getEnterprise(companyNameController);
-                            }
-                          }
-                        },
-                        child: booleanState
-                            ? const CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation(Colors.white),
-                        )
-                            : Text(
-                          'Siguiente',
-                          style: theme.textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      )),
-                ),
-              ),
-            ),
-
-            /*  if (state.error != null)
-              Expanded(
-                child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                    child: Text(state.error!, textAlign: TextAlign.center)),
-              ), */
+            // Expanded(
+            //   child: Center(
+            //     child: SizedBox(
+            //       width: 150,
+            //       height: 50,
+            //       child: BlocSelector<InitialCubit, InitialState, bool>(
+            //           selector: (state) =>
+            //           state is InitialLoading ? true : false,
+            //           builder: (context, booleanState) => CustomElevatedButton(
+            //             width: 150,
+            //             height: 50,
+            //             onTap: () {
+            //               if (booleanState) {
+            //                 null;
+            //               } else {
+            //                 if (_formAutoValidateState.currentState!
+            //                     .validateForm()) {
+            //                   initialCubit
+            //                       .getEnterprise(companyNameController);
+            //                 }
+            //               }
+            //             },
+            //             child: booleanState
+            //                 ? const CircularProgressIndicator(
+            //               valueColor:
+            //               AlwaysStoppedAnimation(Colors.white),
+            //             )
+            //                 : Text(
+            //               'Siguiente',
+            //               style: theme.textTheme.bodyLarge!.copyWith(
+            //                   fontWeight: FontWeight.bold,
+            //                   color: Colors.white),
+            //             ),
+            //           )),
+            //     ),
+            //   ),
+            // ),
             const Expanded(child: VersionWidget())
           ],
         ),

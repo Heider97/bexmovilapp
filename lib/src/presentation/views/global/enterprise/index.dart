@@ -9,7 +9,7 @@ import '../../../blocs/network/network_bloc.dart';
 import 'features/form_enterprise.dart';
 
 //widgets
-import '../../../widgets/global/custom_carousel.dart';
+import 'widgets/carousel.dart';
 
 class SelectEnterpriseView extends StatefulWidget {
   const SelectEnterpriseView({super.key});
