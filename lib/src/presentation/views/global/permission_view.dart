@@ -8,7 +8,7 @@ import '../../cubits/permission/permission_cubit.dart';
 
 //widgets
 import '../../widgets/atoms/app_text.dart';
-import '../../widgets/custom_button_widget.dart';
+import '../../widgets/atoms/app_elevated_button.dart';
 
 //service
 import '../../../locator.dart';
@@ -65,17 +65,18 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                   state.permissionRepository.displayMessage ??
                       "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.",
                 ),
-                CustomMaterialButton(
-                    buttonText:
-                        state.permissionRepository.buttonText ?? "Permitir",
-                    onButtonPressed: () async {
-                      if (state.permissionRepository.isGranted != null &&
-                          state.permissionRepository.isGranted == true) {
-                        _navigationService.goTo(AppRoutes.selectEnterprise);
-                      } else {
-                        return await permissionCubit.onRequestAllPermission();
-                      }
-                    }),
+                AppElevatedButton(
+                  child: AppText(
+                      state.permissionRepository.buttonText ?? "Permitir"),
+                  onPressed: () async {
+                    if (state.permissionRepository.isGranted != null &&
+                        state.permissionRepository.isGranted == true) {
+                      _navigationService.goTo(AppRoutes.selectEnterprise);
+                    } else {
+                      return await permissionCubit.onRequestAllPermission();
+                    }
+                  },
+                ),
               ],
             );
           }),
