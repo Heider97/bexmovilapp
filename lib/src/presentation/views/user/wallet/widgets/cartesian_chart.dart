@@ -1,28 +1,23 @@
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+//utils
+import '../../../../../utils/constants/gaps.dart';
+//domain
+import '../../../../../domain/models/graphic.dart';
+//widgets
+
+import '../../../../widgets/atoms/app_text.dart';
 
 class CartesianChart extends StatelessWidget {
-  const CartesianChart({super.key});
+  final Graphic graphic;
+
+  const CartesianChart({super.key, required this.graphic});
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-
-    List<_SalesData> data = [
-      _SalesData('CC', 0),
-      _SalesData('0-30', 32865663),
-      _SalesData('31-60', 53882318),
-      _SalesData('61-90', 33469262),
-      _SalesData('90+', 13560337)
-    ];
 
     return Card(
       color: theme.colorScheme.onPrimary,
@@ -40,27 +35,21 @@ class CartesianChart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Cartera por edades',
-                        style: theme.textTheme.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          _navigationService.goTo(AppRoutes.detailWallet);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                          color: theme.primaryColor,
-                          size: 18,
-                        ),
-                      ),
+                      AppText(graphic.title!, fontWeight: FontWeight.bold),
+
+                      // IconButton(
+                      //   onPressed: () {
+                      //     _navigationService.goTo(AppRoutes.detailWallet);
+                      //   },
+                      //   icon: Icon(
+                      //     FontAwesomeIcons.upRightAndDownLeftFromCenter,
+                      //     color: theme.primaryColor,
+                      //     size: 18,
+                      //   ),
+                      // ),
                     ],
                   ),
-                  const Text('Cartera Total'),
-                  Text('\$211M',
-                      style: theme.textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold)),
+                  if (graphic.subtitle != null) AppText('Cartera Total: \$211M')
                 ],
               ),
             ),
@@ -85,15 +74,15 @@ class CartesianChart extends StatelessWidget {
               print(args.value);
               print(args.text);
             },
-            series: <CartesianSeries<_SalesData, String>>[
-              ColumnSeries<_SalesData, String>(
+            series: <CartesianSeries<ChartData, String>>[
+              ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
                     print(details.pointIndex);
                     print(details.seriesIndex);
                   },
-                  dataSource: data,
-                  xValueMapper: (_SalesData sales, _) => sales.x,
-                  yValueMapper: (_SalesData sales, _) => sales.y,
+                  dataSource: graphic.data,
+                  xValueMapper: (ChartData sales, _) => sales.x,
+                  yValueMapper: (ChartData sales, _) => sales.y,
                   borderRadius: BorderRadius.circular(15),
                   isTrackVisible: true,
                   trackColor: const Color(0XFFC6C9D0),
@@ -105,11 +94,4 @@ class CartesianChart extends StatelessWidget {
       ),
     );
   }
-}
-
-class _SalesData {
-  _SalesData(this.x, this.y);
-
-  final String x;
-  final double y;
 }

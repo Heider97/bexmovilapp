@@ -53,12 +53,22 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
               ),
             ),
             BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-              if(state.graphics.isNotEmpty){
-                return AppText('graphics');
+              if (state.graphics.isNotEmpty) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.graphics.length,
+                    itemBuilder: (context, index) {
+                      final graphic = state.graphics[index];
+
+                      if (graphic.type == 'line') {
+                        return CartesianChart(graphic: graphic);
+                      } else {
+                        return const CircularChart();
+                      }
+                    });
               } else {
-                return const Padding(
-                  padding: EdgeInsets.all(Const.padding),
-                  child: CartesianChart(),
+                return Center(
+                  child: AppText('Vendedor no tiene graphicos configurados'),
                 );
               }
             }),
