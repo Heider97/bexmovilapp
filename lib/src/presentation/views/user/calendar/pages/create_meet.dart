@@ -20,7 +20,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   late GoogleAccountBloc googleaccountbloc;
 
   final formkey = GlobalKey<FormState>();
-   GoogleAccountBloc calendarClient = GoogleAccountBloc();
+  GoogleAccountBloc calendarClient = GoogleAccountBloc();
 
   late DateTime fromDate;
   late DateTime toDate;
@@ -71,23 +71,23 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-         title: const Text('Nueva reunion'),
-         leading: const CloseButton(),
-         actions: [
+        title: const Text('Nueva reunion'),
+        leading: const CloseButton(),
+        actions: [
           ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              shadowColor: Colors.transparent
-            ),
-            onPressed: (){
-              setState(() {
-                saveForm();
-              });
-            }, 
-            icon: const Icon(Icons.done), 
-            label: const Text('Guardar')
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent
+              ),
+              onPressed: (){
+                setState(() {
+                  saveForm();
+                });
+              },
+              icon: const Icon(Icons.done),
+              label: const Text('Guardar')
           )
-         ],
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
@@ -99,12 +99,12 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               TextFormField(
                 style: const TextStyle(fontSize: 24),
                 decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'Agregue titulo'
+                    border: UnderlineInputBorder(),
+                    hintText: 'Agregue titulo'
                 ),
                 onFieldSubmitted: (_) => saveForm(),
-                validator: (title) => 
-                    title!= null && title.isEmpty ? 'El titulo no puede estar vacio' : null,
+                validator: (title) =>
+                title!= null && title.isEmpty ? 'El titulo no puede estar vacio' : null,
                 controller: titleController,
               ),
               const SizedBox(height: 12,),
@@ -118,25 +118,25 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               Row(
                 children: [
                   Expanded(
-                    flex: 2,
-                    child: ListTile(
-                      title: Text(GoogleAccountBloc.toDate(fromDate)),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                      onTap: (){
-                        pickFromDateTime(pickDate: true);
-                      },
-                    )
+                      flex: 2,
+                      child: ListTile(
+                        title: Text(GoogleAccountBloc.toDate(fromDate)),
+                        trailing: const Icon(Icons.arrow_drop_down),
+                        onTap: (){
+                          pickFromDateTime(pickDate: true);
+                        },
+                      )
                   ),
                   Expanded(
-                    child: ListTile(
-                      title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                      onTap: (){
-                        setState(() {
-                          pickFromDateTime(pickDate: false);
-                        });
-                      },
-                    )
+                      child: ListTile(
+                        title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
+                        trailing: const Icon(Icons.arrow_drop_down),
+                        onTap: (){
+                          setState(() {
+                            pickFromDateTime(pickDate: false);
+                          });
+                        },
+                      )
                   )
                 ],
               ),
@@ -154,7 +154,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                     child: ListTile(
                       title: Text(GoogleAccountBloc.toDate(toDate)),
                       trailing: const Icon(Icons.arrow_drop_down),
-                      onTap: () { 
+                      onTap: () {
                         pickToDateTime(pickDate: true);
                       },
                     ),
@@ -176,7 +176,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
           ),
         ),
       ),
-      
+
     );
   }
   Future pickFromDateTime({required bool pickDate})async {
@@ -192,9 +192,9 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
   Future pickToDateTime({required bool pickDate})async {
     final date = await pickDateTime(
-      toDate, 
-      pickDate: pickDate,
-      firstDate: pickDate ? fromDate : null
+        toDate,
+        pickDate: pickDate,
+        firstDate: pickDate ? fromDate : null
     );
     if (date == null) return;
 
@@ -227,32 +227,32 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
   Future<DateTime?> pickDateTime(
       DateTime initialDate, {
-      required bool pickDate,
-      DateTime? firstDate,
-    }) async{
-      if (pickDate) {
-        final date = await showDatePicker(
+        required bool pickDate,
+        DateTime? firstDate,
+      }) async{
+    if (pickDate) {
+      final date = await showDatePicker(
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(2015, 8),
           lastDate: DateTime(2101)
-        );
-        if (date == null) return null; 
+      );
+      if (date == null) return null;
 
-        final time = Duration(hours: initialDate.hour, minutes: initialDate.minute);
+      final time = Duration(hours: initialDate.hour, minutes: initialDate.minute);
 
-        return date.add(time);
-      } else {
-        final timeOfDay = await showTimePicker(
+      return date.add(time);
+    } else {
+      final timeOfDay = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.fromDateTime(initialDate)
-        );
-        if (timeOfDay == null) return null;
+      );
+      if (timeOfDay == null) return null;
 
-        final date = DateTime(initialDate.year, initialDate.month, initialDate.day);
-        final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
+      final date = DateTime(initialDate.year, initialDate.month, initialDate.day);
+      final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
 
-        return date.add(time); 
-      }
+      return date.add(time);
     }
+  }
 }

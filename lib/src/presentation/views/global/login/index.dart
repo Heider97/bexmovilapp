@@ -3,23 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 //cubit
-import '../../cubits/login/login_cubit.dart';
+import '../../../cubits/login/login_cubit.dart';
 
 //blocs
-import '../../blocs/recovery_password/recovery_password_bloc.dart';
+import '../../../blocs/recovery_password/recovery_password_bloc.dart';
 
 //utils
-import '../../../utils/constants/strings.dart';
-import '../../../utils/constants/gaps.dart';
-import '../../../utils/constants/screens.dart';
+import '../../../../utils/constants/strings.dart';
+import '../../../../utils/constants/gaps.dart';
+import '../../../../utils/constants/screens.dart';
 
 //widgets
-import '../../widgets/atoms/app_back_button.dart';
-import '../../widgets/global/custom_elevated_button.dart';
-import '../../widgets/global/custom_textformfield.dart';
-import '../../widgets/version_widget.dart';
+import '../../../widgets/atoms/app_back_button.dart';
+import '../../../widgets/global/custom_elevated_button.dart';
+import '../../../widgets/global/custom_textformfield.dart';
+import '../../../widgets/version_widget.dart';
 
-part '../../widgets/global/form_login.dart';
+part './features/form_login.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -128,7 +128,7 @@ class LoginViewState extends State<LoginView> {
                 ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
                 : '',
             placeholder: (context, url) =>
-                const Center(child: CircularProgressIndicator()),
+            const Center(child: CircularProgressIndicator()),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           gapH64,
@@ -237,23 +237,23 @@ class LoginViewState extends State<LoginView> {
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,
               builder: (context, booleanState) => CustomElevatedButton(
-                    width: 150,
-                    height: 50,
-                    onTap: () => booleanState
-                        ? null
-                        : loginCubit.differenceHours(
-                            usernameController.text, passwordController.text),
-                    child: booleanState
-                        ? const CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(Colors.white),
-                          )
-                        : Text(
-                            'Iniciar',
-                            style: theme.textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                  )),
+                width: 150,
+                height: 50,
+                onTap: () => booleanState
+                    ? null
+                    : loginCubit.differenceHours(
+                    usernameController.text, passwordController.text),
+                child: booleanState
+                    ? const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                )
+                    : Text(
+                  'Iniciar',
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              )),
           gapH36,
           const Expanded(child: VersionWidget()),
         ],

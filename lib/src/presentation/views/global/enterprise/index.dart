@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 //bloc
-import '../../blocs/network/network_bloc.dart';
+import '../../../blocs/network/network_bloc.dart';
+
+//features
+import 'features/form_enterprise.dart';
 
 //widgets
-import '../../widgets/global/custom_carousel.dart';
-import '../../widgets/global/enterprise_form.dart';
+import '../../../widgets/global/custom_carousel.dart';
 
 class SelectEnterpriseView extends StatefulWidget {
   const SelectEnterpriseView({super.key});
@@ -22,11 +24,11 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
     final Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-            child: SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: BlocBuilder<NetworkBloc, NetworkState>(
-                    builder: (context, networkState) {
+        child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: BlocBuilder<NetworkBloc, NetworkState>(
+                builder: (context, networkState) {
                   switch (networkState.runtimeType) {
                     case NetworkInitial:
                       return const Center(child: CupertinoActivityIndicator());

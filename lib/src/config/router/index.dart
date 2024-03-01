@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
+import 'package:bexmovil/src/presentation/views/user/calendar/pages/index.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/index.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/pages/search.dart';
