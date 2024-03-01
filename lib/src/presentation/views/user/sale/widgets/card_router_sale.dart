@@ -11,6 +11,7 @@ class CardRouter extends StatelessWidget {
   final String quantityClients;
   final String codeRouter;
   final String dayRouter;
+  final int? totalClients;
   final int? visited;
   final int? withSale;
   final int? coverage;
@@ -21,6 +22,7 @@ class CardRouter extends StatelessWidget {
       required this.codeRouter,
       required this.quantityClients,
       required this.dayRouter,
+        this.totalClients,
       this.visited,
       this.withSale,
       this.coverage,
@@ -44,22 +46,19 @@ class CardRouter extends StatelessWidget {
           ],
         ),
         child: AppListTile(
-          onTap: () {
-            print(codeRouter);
-            // _navigationService.goTo(AppRoutes.clientsSale,
-            //     arguments: codeRouter);
-          },
+          onTap: () => _navigationService.goTo(AppRoutes.clientsSale,
+              arguments: codeRouter),
           title:
               AppText(dayRouter, color: Theme.of(context).colorScheme.primary),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               cardButtons(
-                  FontAwesomeIcons.peopleGroup, "${visited ?? '0'} %", context),
-              cardButtons(FontAwesomeIcons.cashRegister, "${withSale ?? '0'} %",
+                  FontAwesomeIcons.peopleGroup, "${totalClients ?? '0'}", context),
+              cardButtons(FontAwesomeIcons.cashRegister, "${withSale ?? '0'}",
                   context),
               cardButtons(FontAwesomeIcons.usersBetweenLines,
-                  "${visited ?? '0'} %", context),
+                  "${visited ?? '0'}", context),
               cardButtons(FontAwesomeIcons.chartSimple,
                   "${effectiveness ?? '0'} %", context),
             ],

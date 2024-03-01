@@ -124,13 +124,14 @@ class _RoutersPageState extends State<RoutersPage> {
                           itemCount: state.routers.length,
                           itemBuilder: (context, index) {
                             return CardRouter(
-                                codeRouter:
-                                    state.routers[index].secuenceRouter!,
-                                quantityClients: state
-                                    .routers[index].quantityClient
-                                    .toString(),
-                                dayRouter: state.routers[index].nameDayRouter
-                                    .toString());
+                              codeRouter: state.routers[index].dayRouter!,
+                              quantityClients: state
+                                  .routers[index].quantityClient
+                                  .toString(),
+                              dayRouter:
+                                  state.routers[index].nameDayRouter.toString(),
+                              totalClients: state.routers[index].quantityClient,
+                            );
                           }),
                     );
                   } else {
