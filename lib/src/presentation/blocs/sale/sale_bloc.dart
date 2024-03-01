@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/domain/models/router.dart';
+import 'package:bexmovil/src/services/preferences.dart';
 import 'package:bexmovil/src/services/storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
     var sellerCode = storageService.getString('username');
-    var clientsRouters = await databaseRepository.getAllClientsRouter(sellerCode!, '0901');
+    var dayRouter = Preferences.dayRouter;
+    var clientsRouters = await databaseRepository.getAllClientsRouter(sellerCode!, dayRouter);
     emit(SaleInitial([], clientsRouters));
   }
 

@@ -3,6 +3,7 @@ import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
 import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
+import 'package:bexmovil/src/services/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -58,6 +59,7 @@ Future<void> main() async {
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
+  await Preferences.init();
 }
 
 class MyApp extends StatefulWidget {

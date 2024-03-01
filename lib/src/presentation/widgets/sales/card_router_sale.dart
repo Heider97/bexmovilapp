@@ -2,6 +2,8 @@
 
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/services/preferences.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +13,8 @@ import '../../../utils/constants/gaps.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CardRouter extends StatelessWidget {
+
+  final LocalStorageService? storageService;
   
   String quantityClients;
   String dayRouter;
@@ -20,14 +24,18 @@ class CardRouter extends StatelessWidget {
   int? effectiveness;
 
 
-  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter});
+  CardRouter({super.key,  required this.quantityClients,  required this.dayRouter, this.storageService});
 
   @override
   Widget build(BuildContext context) {
     
 
     return  GestureDetector(
-      onTap: () => { _navigationService.goTo(Routes.saleRoute) },
+      onTap: ()  async {
+        Preferences.dayRouter = dayRouter;
+        _navigationService.goTo(Routes.saleRoute);
+        
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
         child: Container(
