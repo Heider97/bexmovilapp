@@ -84,7 +84,7 @@ class _ClientsPageState extends State<ClientsPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const AppBackButton(),
+                const AppBackButton(needPrimary: true),
                 AppIconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
                     child: const Icon(Icons.menu))

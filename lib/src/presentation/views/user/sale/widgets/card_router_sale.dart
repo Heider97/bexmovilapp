@@ -48,8 +48,7 @@ class CardRouter extends StatelessWidget {
         child: AppListTile(
           onTap: () => _navigationService.goTo(AppRoutes.clientsSale,
               arguments: codeRouter),
-          title:
-              AppText(dayRouter, color: Theme.of(context).colorScheme.primary),
+          title: AppText(dayRouter),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -75,7 +74,7 @@ class CardRouter extends StatelessWidget {
         Icon(
           icon,
           size: 18.0,
-          color: theme.primaryColor,
+          color: theme.colorScheme.primary,
         ),
         Container(
           margin: const EdgeInsets.all(6.0),
