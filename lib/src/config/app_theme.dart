@@ -10,8 +10,8 @@ class AppTheme {
         AppColors.getMaterialColorFromColor(AppColors.primarySeedColor)
             .shade600,
     primaryColorLight:
-        AppColors.getMaterialColorFromColor(AppColors.primarySeedColor),
-            // .shade100,
+        AppColors.getMaterialColorFromColor(AppColors.primarySeedColor)
+            .shade100,
     colorScheme: AppColors.appColorSchemeLight,
     textTheme: appTextThemeLight,
     elevatedButtonTheme: appElevatedButtonThemeLight,

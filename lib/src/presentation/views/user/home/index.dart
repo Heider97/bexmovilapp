@@ -80,7 +80,7 @@ class HomeViewState extends State<HomeView>
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   AppIconButton(
-                      // onPressed: () => Scaffold.of(context).openDrawer(),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
                       child: state.user != null && state.user!.name != null
                           ? AppText(state.user!.name![0], color: Colors.white)
                           : AppText('B')),
