@@ -1,12 +1,10 @@
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -69,12 +67,12 @@ class SelectInvoice extends StatelessWidget {
                       ),
                     )),
               ),
-              const CustomFrameButtom(
-                  icon: FontAwesomeIcons.locationArrow,
-                  primaryColorBackgroundMode: true),
-              gapW8,
-              const CustomFrameButtom(
-                  icon: Icons.tune, primaryColorBackgroundMode: true),
+              // const CustomFrameButtom(
+              //     icon: FontAwesomeIcons.locationArrow,
+              //     primaryColorBackgroundMode: true),
+              // gapW8,
+              // const CustomFrameButtom(
+              //     icon: Icons.tune, primaryColorBackgroundMode: true),
               gapW8,
             ],
           ),
