@@ -1,16 +1,13 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
-
-import '../../../../../utils/constants/gaps.dart';
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 
 class CardClientRouter extends StatelessWidget {
-  String nit;
-  String nameClient;
-  String branchClient;
-  String addressClient;
+  final String nit;
+  final String nameClient;
+  final String branchClient;
+  final String addressClient;
 
-  CardClientRouter(
+  const CardClientRouter(
       {super.key,
       required this.nit,
       required this.nameClient,
@@ -22,8 +19,8 @@ class CardClientRouter extends StatelessWidget {
     return GestureDetector(
       onTap: () => {},
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
-        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+          child: Container(
             width: double.infinity,
             height: 110,
             padding: const EdgeInsets.all(15),
@@ -38,42 +35,21 @@ class CardClientRouter extends StatelessWidget {
                 ),
               ],
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(nameClient,
-                            style: const TextStyle(
-                                color: Colors.orange, fontSize: 15)),
-                        gapH4,
-                        Text(
-                          "Nit: $nit",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 11),
-                        ),
-                        Text(
-                          "SUC: $branchClient",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 11),
-                        ),
-                        Text(
-                          "Dirección: $addressClient",
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 11),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            )),
-      ),
+            child: AppListTile(
+              title: AppText(nameClient),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText("Nit: $nit",
+                      fontWeight: FontWeight.bold, fontSize: 11),
+                  AppText("SUC: $branchClient",
+                      fontWeight: FontWeight.bold, fontSize: 11),
+                  AppText("Dirección: $addressClient",
+                      fontWeight: FontWeight.bold, fontSize: 11),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }

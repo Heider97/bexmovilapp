@@ -22,7 +22,7 @@ class CardRouter extends StatelessWidget {
       required this.codeRouter,
       required this.quantityClients,
       required this.dayRouter,
-        this.totalClients,
+      this.totalClients,
       this.visited,
       this.withSale,
       this.coverage,
@@ -53,10 +53,10 @@ class CardRouter extends StatelessWidget {
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              cardButtons(FontAwesomeIcons.peopleGroup,
+                  "${totalClients ?? '0'}", context),
               cardButtons(
-                  FontAwesomeIcons.peopleGroup, "${totalClients ?? '0'}", context),
-              cardButtons(FontAwesomeIcons.cashRegister, "${withSale ?? '0'}",
-                  context),
+                  FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
               cardButtons(FontAwesomeIcons.usersBetweenLines,
                   "${visited ?? '0'}", context),
               cardButtons(FontAwesomeIcons.chartSimple,
