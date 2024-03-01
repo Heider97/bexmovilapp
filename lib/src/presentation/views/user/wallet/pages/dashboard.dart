@@ -65,7 +65,9 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                             padding: const EdgeInsets.all(Const.padding),
                             child: CartesianChart(graphic: graphic));
                       } else {
-                        return CircularChart(graphic: graphic);
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CircularChart(graphic: graphic));
                       }
                     });
               } else {

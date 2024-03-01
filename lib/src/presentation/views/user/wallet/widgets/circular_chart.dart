@@ -3,14 +3,16 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 //domain
+import '../../../../../domain/models/arguments.dart';
 import '../../../../../domain/models/graphic.dart';
+
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+final NavigationService navigationService = locator<NavigationService>();
 
 class CircularChart extends StatelessWidget {
   final Graphic graphic;
@@ -36,16 +38,6 @@ class CircularChart extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       AppText(graphic.title!, fontWeight: FontWeight.bold),
-                      IconButton(
-                        onPressed: () {
-                          _navigationService.goTo(AppRoutes.detailWallet);
-                        },
-                        icon: Icon(
-                          FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                          color: theme.primaryColor,
-                          size: 18,
-                        ),
-                      ),
                     ],
                   ),
                   if (graphic.subtitle != null) AppText(graphic.subtitle!)
@@ -57,7 +49,12 @@ class CircularChart extends StatelessWidget {
             // Render pie chart
             PieSeries<ChartData, String>(
                 onPointTap: (args) {
-                  print('****************');
+                  final data = graphic.data?.elementAt(args.pointIndex!);
+                  if (data != null) {
+                    var arguments = WalletArgument(type: data.x);
+                    navigationService.goTo(AppRoutes.clientsWallet,
+                        arguments: arguments);
+                  }
                 },
                 dataSource: graphic.data,
                 pointColorMapper: (ChartData data, _) => data.color,
