@@ -5,7 +5,7 @@ import '../../utils/constants/strings.dart';
 //routes
 import './separated/auth_routes.dart';
 import './separated/home_routes.dart';
-import './separated/drawer_routes.dart';
+
 //views
 import '../../presentation/views/global/undefined_view.dart';
 
@@ -17,7 +17,6 @@ class Routes {
     return {
       ...authRoutes,
       ...homeRoutes,
-      ...drawerRoutes,
     };
   }
 

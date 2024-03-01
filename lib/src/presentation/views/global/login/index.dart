@@ -128,7 +128,7 @@ class LoginViewState extends State<LoginView> {
                 ? 'https://${state.enterprise!.name}.bexmovil.com/img/enterprise/${state.enterprise!.logo}'
                 : '',
             placeholder: (context, url) =>
-            const Center(child: CircularProgressIndicator()),
+                const Center(child: CircularProgressIndicator()),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           gapH64,
@@ -187,7 +187,7 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               loginCubit.navigationService
-                                  ?.goTo(Routes.codeFormRequest);
+                                  ?.goTo(AppRoutes.codeFormRequest);
                               recoveryBloc
                                   .add(const StartRecovery(type: 'Email'));
                             },
@@ -203,7 +203,7 @@ class LoginViewState extends State<LoginView> {
                           ListTile(
                             onTap: () {
                               loginCubit.navigationService
-                                  ?.goTo(Routes.codeFormRequest);
+                                  ?.goTo(AppRoutes.codeFormRequest);
                               // recoveryBloc
                               //     .add(const StartRecovery(type: 'SMS'));
                             },
@@ -237,23 +237,23 @@ class LoginViewState extends State<LoginView> {
           BlocSelector<LoginCubit, LoginState, bool>(
               selector: (state) => state is LoginLoading ? true : false,
               builder: (context, booleanState) => CustomElevatedButton(
-                width: 150,
-                height: 50,
-                onTap: () => booleanState
-                    ? null
-                    : loginCubit.differenceHours(
-                    usernameController.text, passwordController.text),
-                child: booleanState
-                    ? const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(Colors.white),
-                )
-                    : Text(
-                  'Iniciar',
-                  style: theme.textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              )),
+                    width: 150,
+                    height: 50,
+                    onTap: () => booleanState
+                        ? null
+                        : loginCubit.differenceHours(
+                            usernameController.text, passwordController.text),
+                    child: booleanState
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(Colors.white),
+                          )
+                        : Text(
+                            'Iniciar',
+                            style: theme.textTheme.bodyLarge!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                  )),
           gapH36,
           const Expanded(child: VersionWidget()),
         ],

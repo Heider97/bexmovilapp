@@ -26,9 +26,9 @@ class PoliticsCubit extends BaseCubit<PoliticsState> {
         String route;
 
         if (token != null) {
-          route = Routes.homeRoute;
+          route = AppRoutes.home;
         } else {
-          route = Routes.permissionRoute;
+          route = AppRoutes.permission;
         }
 
         emit(PoliticsSuccess(

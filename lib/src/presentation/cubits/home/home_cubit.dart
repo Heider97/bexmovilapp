@@ -239,6 +239,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     ]);
 
     storageService.remove('token');
-    navigationService.replaceTo(Routes.loginRoute);
+    navigationService.replaceTo(AppRoutes.login);
   }
 }

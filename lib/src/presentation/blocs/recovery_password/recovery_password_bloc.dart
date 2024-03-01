@@ -54,7 +54,7 @@ class RecoveryPasswordBloc
     }
 
     if (response is DataSuccess) {
-      _navigationService.goTo(Routes.codeValidation);
+      _navigationService.goTo(AppRoutes.codeValidation);
     } else {
       // ignore: use_build_context_synchronously
       errorAlertDialog(
@@ -90,7 +90,7 @@ class RecoveryPasswordBloc
     if (response is DataSuccess) {
       if (response.data!.status == true) {
         emit(state.copyWith(pin: event.code));
-        _navigationService.goTo(Routes.recoverPassword);
+        _navigationService.goTo(AppRoutes.recoverPassword);
       } else {
         // ignore: use_build_context_synchronously
         errorAlertDialog(
@@ -112,7 +112,7 @@ class RecoveryPasswordBloc
 
     if (response is DataSuccess) {
       if (response.data!.status == true) {
-        _navigationService.goTo(Routes.loginRoute);
+        _navigationService.goTo(AppRoutes.login);
       } else {
         // ignore: use_build_context_synchronously
         errorAlertDialog(

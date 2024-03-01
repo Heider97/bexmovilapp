@@ -114,15 +114,13 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     }
   }
 
-
   Future<void> getGraphics() async {
     final response = await apiRepository.graphics(
         request: GraphicRequest(
             codvendedor: storageService!.getString('username')!));
 
     if (response is DataSuccess) {
-      await databaseRepository
-          .insertGraphics(response.data!.graphics!);
+      await databaseRepository.insertGraphics(response.data!.graphics!);
     } else {
       emit(LoginFailed(
           error: 'graphics-${response.data!.message}',
@@ -245,17 +243,17 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   }
 
   void goToSync() {
-    navigationService!.replaceTo(Routes.syncRoute);
+    navigationService!.replaceTo(AppRoutes.sync);
   }
 
   void goToCompany() {
     storageService!.remove('company_name');
     storageService!.remove('enterprise');
 
-    navigationService!.replaceTo(Routes.selectEnterpriseRoute);
+    navigationService!.replaceTo(AppRoutes.selectEnterprise);
   }
 
   void goToForget() {
-    navigationService!.replaceTo(Routes.selectEnterpriseRoute);
+    navigationService!.replaceTo(AppRoutes.selectEnterprise);
   }
 }

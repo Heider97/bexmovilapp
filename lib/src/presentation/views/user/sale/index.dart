@@ -3,7 +3,7 @@ import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
-import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_elevated_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -21,6 +21,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../../../widgets/atoms/app_back_button.dart';
 import '../../../widgets/atoms/app_icon_button.dart';
+import '../../../widgets/atoms/app_text.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -130,21 +131,9 @@ class _SalePageState extends State<SalePage> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              FilterButton(
-                                enable: true,
-                                onTap: (() {}),
-                                textButton: 'Visitados',
-                              ),
-                              FilterButton(
-                                enable: false,
-                                onTap: (() {}),
-                                textButton: 'No visitados',
-                              ),
-                              FilterButton(
-                                enable: false,
-                                onTap: (() {}),
-                                textButton: 'Todos',
-                              ),
+                              AppElevatedButton(child: AppText('Visitados')),
+                              AppElevatedButton(child: AppText('No visitados')),
+                              AppElevatedButton(child: AppText('Todos')),
                             ],
                           ),
                         ),

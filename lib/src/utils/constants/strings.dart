@@ -12,39 +12,38 @@ const String databaseName = 'app_database';
 
 //routes\
 
-class Routes {
-  //
-  static const splashRoute = '/splash';
-  static const politicsRoute = '/politics';
-  static const companyRoute = '/company';
-  static const permissionRoute = '/permission';
-  static const loginRoute = '/login';
+class AppRoutes {
+  //auth routes
+  static const splash = '/splash';
+  static const politics = '/politics';
+  static const company = '/company';
+  static const permission = '/permission';
+  static const login = '/login';
   static const searchPage = '/search';
-
   static const codeFormRequest = '/code-form-request';
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
+  static const selectEnterprise = '/select-enterprise';
 
-  static const codecreatemeet = '/code-create-meet';
+  //home routes
+  static const home = '/home';
+  static const sync = '/sync';
 
-  static const homeRoute = '/home';
-  static const syncRoute = '/sync';
-  static const categoryRoute = '/category';
-  static const productRoute = '/product';
-  static const calendarRoute = '/calendar';
-  static const charDetailsRoute = '/charDetailsRoute';
-  static const saleRoute = '/sale';
-  static const detailSaleRoute = '/detail-sale';
-  static const historySaleRoute = '/history';
-  static const productivityRoute = '/productivity';
-  static const selectEnterpriseRoute = '/select-enterprise';
-  static const databaseRoute = '/database';
+  //calendar routes
+  static const calendar = '/calendar';
+  static const createMeet = '/code-create-meet';
+
+  //sales routes
+  static const sale = '/sale';
+  static const detailSale = '/detail-sale';
+  static const historySale = '/history';
 
   //Wallet routes
   static const wallet = '/wallet';
   static const walletprocess = '/wallet-process';
   static const walletDetailsScreen = '/wallet-details-screen';
   static const walletNotificationView = '/wallet-notification-screen';
+  static const charDetails = '/charDetails';
 }
 
 // Form Error

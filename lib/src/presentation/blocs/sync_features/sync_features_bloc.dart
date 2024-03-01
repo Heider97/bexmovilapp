@@ -1,3 +1,5 @@
+//TODO [Heider Zapa] organize
+
 import 'dart:convert';
 
 import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
@@ -163,6 +165,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void goToHome() {
-    navigationService.goTo(Routes.homeRoute);
+    navigationService.goTo(AppRoutes.home);
   }
 }

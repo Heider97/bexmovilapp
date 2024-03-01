@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +11,7 @@ import '../../../../utils/constants/strings.dart';
 
 //widgets
 import '../../../widgets/atoms/app_text.dart';
+import '../../../widgets/atoms/app_icon_button.dart';
 import '../../../widgets/drawer_widget.dart';
 
 //features
@@ -96,7 +96,7 @@ class HomeViewState extends State<HomeView>
                       height: size.height * 0.2,
                       child: GestureDetector(
                           onTap: () => homeCubit.navigationService
-                              .goTo(Routes.searchPage),
+                              .goTo(AppRoutes.searchPage),
                           child: Material(
                               color: theme.cardColor,
                               borderRadius: BorderRadius.circular(50),

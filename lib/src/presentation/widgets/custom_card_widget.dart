@@ -27,7 +27,7 @@ class CustomCard extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             color: (color == Colors.green)
-                ? Color(0XFF53E88B)
+                ? const Color(0XFF53E88B)
                 : theme.primaryColor),
         child: Stack(
           fit: StackFit.expand,
