@@ -28,7 +28,7 @@ final NavigationService navigationService = locator<NavigationService>();
 
 class ClientsPage extends StatefulWidget {
   final String? codeRouter;
-  const ClientsPage({super.key, this.codeRouter });
+  const ClientsPage({super.key, this.codeRouter});
 
   @override
   State<ClientsPage> createState() => _ClientsPageState();

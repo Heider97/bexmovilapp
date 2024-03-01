@@ -17,12 +17,14 @@ class CardClientRouter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onLongPress: () {
+        print('pressed');
+      },
       onTap: () => {},
       child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
           child: Container(
             width: double.infinity,
-            height: 110,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
@@ -36,7 +38,7 @@ class CardClientRouter extends StatelessWidget {
               ],
             ),
             child: AppListTile(
-              title: AppText(nameClient),
+              title: SingleChildScrollView(child: AppText(nameClient, overflow: TextOverflow.ellipsis)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,6 +50,7 @@ class CardClientRouter extends StatelessWidget {
                       fontWeight: FontWeight.bold, fontSize: 11),
                 ],
               ),
+              trailing: AppIconButton(child: const Icon(Icons.add_shopping_cart, color: Colors.white)),
             ),
           )),
     );
