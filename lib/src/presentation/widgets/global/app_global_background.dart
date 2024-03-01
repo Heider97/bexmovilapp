@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
 //utils
 import '../../../utils/constants/strings.dart';
+//widgets
+import 'app_global_bottom_nav_bar.dart';
 
 enum AppGlobalBackgroundType { normal, squared, icon }
 
@@ -81,7 +84,7 @@ class AppGlobalBackground extends StatelessWidget {
             child: Transform.rotate(
               angle: 0,
               child: Opacity(
-                opacity: opacity,
+                opacity: opacity!,
                 child: Image.asset(
                   Assets.bgSquare,
                   fit: BoxFit.cover,
@@ -91,6 +94,9 @@ class AppGlobalBackground extends StatelessWidget {
           ),
           child
         ]),
+        bottomNavigationBar: (hideBottomNavigationBar == true)
+            ? null
+            : const AppGlobalBottomNavBar(),
       );
     };
   }
@@ -125,16 +131,16 @@ class AppGlobalBackground extends StatelessWidget {
     };
   }
 
+  late WidgetBuilder builder;
+
   final Color? color;
   final double? opacity;
   final bool? hideBottomNavigationBar;
 
-
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    return child;
+    Widget background = builder.call(context);
+    return background;
   }
-
-
 }
