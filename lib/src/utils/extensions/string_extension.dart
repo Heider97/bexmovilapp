@@ -6,7 +6,7 @@ extension StringUtil on String {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
 
-  String formatted(dynamic value) {
-    return NumberFormat('#,##0.00', 'es_CO').format(value);
+  String formatted(double value) {
+    return '\$${NumberFormat('#,##0.00', 'es_CO').format(value)}';
   }
 }

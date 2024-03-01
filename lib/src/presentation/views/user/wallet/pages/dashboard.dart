@@ -70,6 +70,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                         return Padding(
                             padding: const EdgeInsets.all(Const.padding),
                             child: CardKpi(
+                                needConverted: true,
                                 height: 80,
                                 kpi: Kpi(
                                     type: graphic.data!.first.x,

@@ -41,8 +41,12 @@ class _CardKpiState extends State<CardKpi> {
                 ),
                 Row(
                   children: [
-                    AppText(widget.needConverted == true && widget.kpi.value != null ? ''.formatted(widget.kpi.value) : widget.kpi.value ?? "N/A",
-                        fontWeight: FontWeight.bold, fontSize: 25),
+                    AppText(
+                        widget.needConverted == true && widget.kpi.value != null
+                            ? ''.formatted(double.parse(widget.kpi.value!))
+                            : widget.kpi.value ?? "N/A",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25),
                   ],
                 ),
               ],
