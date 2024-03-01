@@ -1,18 +1,16 @@
-import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
-import 'package:bexmovil/src/presentation/views/global/code_create_meet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-//services
-import '../../../../../domain/models/meeting.dart';
-import '../../../../../domain/models/meeting_data_source.dart';
-import '../../../../../domain/models/requests/event.dart';
-import '../../../../../locator.dart';
-import '../../../../../services/navigation.dart';
-import '../../../../widgets/custom_button_navigationbar.dart';
-import '../../../../widgets/global/custom_textformfield.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+//blocs
+import '../../../../blocs/google_account/google_account_bloc.dart';
+
+//domain
+import '../../../../../domain/models/meeting.dart';
+import '../../../../../domain/models/requests/event.dart';
+
+//widgets
+import '../../../../widgets/global/custom_textformfield.dart';
 
 class CalendarPage extends StatefulWidget {
   final Eventos? event;
@@ -118,9 +116,9 @@ class CalendarPageState extends State<CalendarPage> {
 
                             final event = details.appointments!.firstOrNull;
 
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    CodeCreateMeet(event: event)));
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) =>
+                            //         CodeCreateMeet(event: event)));
                           },
                           view: CalendarView.month,
                           showDatePickerButton: true,

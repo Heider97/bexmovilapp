@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/models/requests/event.dart';
+//domain
+import '../../../../../domain/models/requests/event.dart';
 
+//blocs
+import '../../../../blocs/google_account/google_account_bloc.dart';
 
 class CodeCreateMeet extends StatefulWidget {
-
   final Eventos? event;
 
   const CodeCreateMeet({super.key, this.event});
@@ -16,7 +18,6 @@ class CodeCreateMeet extends StatefulWidget {
 }
 
 class _CodeCreateMeetState extends State<CodeCreateMeet> {
-
   late GoogleAccountBloc googleaccountbloc;
 
   final formkey = GlobalKey<FormState>();
@@ -32,7 +33,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
     super.initState();
     googleaccountbloc = BlocProvider.of<GoogleAccountBloc>(context);
 
-    if (widget.event == null){
+    if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 2));
     } else {
@@ -46,8 +47,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
   @override
   void didChangeDependencies() {
-
-    if (widget.event == null){
+    if (widget.event == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(const Duration(hours: 2));
     } else {
@@ -69,7 +69,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Nueva reunion'),
         leading: const CloseButton(),
@@ -77,16 +77,14 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
           ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent
-              ),
-              onPressed: (){
+                  shadowColor: Colors.transparent),
+              onPressed: () {
                 setState(() {
                   saveForm();
                 });
               },
               icon: const Icon(Icons.done),
-              label: const Text('Guardar')
-          )
+              label: const Text('Guardar'))
         ],
       ),
       body: SingleChildScrollView(
@@ -99,22 +97,24 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
               TextFormField(
                 style: const TextStyle(fontSize: 24),
                 decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    hintText: 'Agregue titulo'
-                ),
+                    border: UnderlineInputBorder(), hintText: 'Agregue titulo'),
                 onFieldSubmitted: (_) => saveForm(),
-                validator: (title) =>
-                title!= null && title.isEmpty ? 'El titulo no puede estar vacio' : null,
+                validator: (title) => title != null && title.isEmpty
+                    ? 'El titulo no puede estar vacio'
+                    : null,
                 controller: titleController,
               ),
-              const SizedBox(height: 12,),
-
+              const SizedBox(
+                height: 12,
+              ),
               const Row(
                 children: [
-                  Text('Desde', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text(
+                    'Desde',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -122,31 +122,31 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                       child: ListTile(
                         title: Text(GoogleAccountBloc.toDate(fromDate)),
                         trailing: const Icon(Icons.arrow_drop_down),
-                        onTap: (){
+                        onTap: () {
                           pickFromDateTime(pickDate: true);
                         },
-                      )
-                  ),
+                      )),
                   Expanded(
                       child: ListTile(
-                        title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
-                        trailing: const Icon(Icons.arrow_drop_down),
-                        onTap: (){
-                          setState(() {
-                            pickFromDateTime(pickDate: false);
-                          });
-                        },
-                      )
-                  )
+                    title: Text(GoogleAccountBloc.toTime(fromDate),
+                        style: const TextStyle(fontSize: 14)),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    onTap: () {
+                      setState(() {
+                        pickFromDateTime(pickDate: false);
+                      });
+                    },
+                  ))
                 ],
               ),
-
               const Row(
                 children: [
-                  Text('Hasta', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text(
+                    'Hasta',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ],
               ),
-
               Row(
                 children: [
                   Expanded(
@@ -161,9 +161,10 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
                   ),
                   Expanded(
                     child: ListTile(
-                      title: Text(GoogleAccountBloc.toTime(fromDate), style: TextStyle(fontSize: 14),),
+                      title: Text(GoogleAccountBloc.toTime(fromDate),
+                          style: const TextStyle(fontSize: 14)),
                       trailing: const Icon(Icons.arrow_drop_down),
-                      onTap: (){
+                      onTap: () {
                         setState(() {
                           pickToDateTime(pickDate: false);
                         });
@@ -176,35 +177,33 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
           ),
         ),
       ),
-
     );
   }
-  Future pickFromDateTime({required bool pickDate})async {
+
+  Future pickFromDateTime({required bool pickDate}) async {
     final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date == null) return;
 
-    if(date.isAfter(toDate)){
-      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+    if (date.isAfter(toDate)) {
+      toDate =
+          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
 
-    setState(()=> fromDate = date);
+    setState(() => fromDate = date);
   }
 
-  Future pickToDateTime({required bool pickDate})async {
-    final date = await pickDateTime(
-        toDate,
-        pickDate: pickDate,
-        firstDate: pickDate ? fromDate : null
-    );
+  Future pickToDateTime({required bool pickDate}) async {
+    final date = await pickDateTime(toDate,
+        pickDate: pickDate, firstDate: pickDate ? fromDate : null);
     if (date == null) return;
 
-    setState(()=> toDate = date);
+    setState(() => toDate = date);
   }
 
   Future saveForm() async {
     final isValid = formkey.currentState!.validate();
 
-    if(isValid){
+    if (isValid) {
       final event = Eventos(
         title: titleController.text,
         description: 'Description',
@@ -216,7 +215,7 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
       final isEditing = widget.event != null;
       final google = BlocProvider.of<GoogleAccountBloc>(context, listen: false);
 
-      if(isEditing){
+      if (isEditing) {
         google.editEvent(event, widget.event!);
       } else {
         google.addEvent(event);
@@ -226,30 +225,29 @@ class _CodeCreateMeetState extends State<CodeCreateMeet> {
   }
 
   Future<DateTime?> pickDateTime(
-      DateTime initialDate, {
-        required bool pickDate,
-        DateTime? firstDate,
-      }) async{
+    DateTime initialDate, {
+    required bool pickDate,
+    DateTime? firstDate,
+  }) async {
     if (pickDate) {
       final date = await showDatePicker(
           context: context,
           initialDate: initialDate,
           firstDate: firstDate ?? DateTime(2015, 8),
-          lastDate: DateTime(2101)
-      );
+          lastDate: DateTime(2101));
       if (date == null) return null;
 
-      final time = Duration(hours: initialDate.hour, minutes: initialDate.minute);
+      final time =
+          Duration(hours: initialDate.hour, minutes: initialDate.minute);
 
       return date.add(time);
     } else {
       final timeOfDay = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.fromDateTime(initialDate)
-      );
+          context: context, initialTime: TimeOfDay.fromDateTime(initialDate));
       if (timeOfDay == null) return null;
 
-      final date = DateTime(initialDate.year, initialDate.month, initialDate.day);
+      final date =
+          DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
 
       return date.add(time);
