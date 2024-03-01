@@ -112,7 +112,7 @@ class SelectInvoice extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               _navigationService
-                                  .goTo(Routes.walletDetailsScreen);
+                                  .goTo(AppRoutes.walletDetailsScreen);
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 0,

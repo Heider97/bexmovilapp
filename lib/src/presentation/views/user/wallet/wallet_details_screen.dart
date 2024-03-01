@@ -264,7 +264,7 @@ class WalletDetailsScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             _navigationService
-                                .goTo(Routes.walletNotificationView);
+                                .goTo(AppRoutes.walletNotificationView);
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

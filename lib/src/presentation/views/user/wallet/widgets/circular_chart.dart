@@ -45,7 +45,7 @@ class CircularChart extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      _navigationService.goTo(Routes.charDetailsRoute);
+                      _navigationService.goTo(AppRoutes.charDetails);
                     },
                     icon: Icon(
                       FontAwesomeIcons.upRightAndDownLeftFromCenter,

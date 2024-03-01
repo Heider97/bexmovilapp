@@ -9,9 +9,6 @@ import '../../presentation/cubits/home/home_cubit.dart';
 import '../../utils/constants/strings.dart';
 import '../../utils/constants/gaps.dart';
 
-//domain
-import '../../domain/models/user.dart';
-
 //services
 import '../../locator.dart';
 import '../../services/navigation.dart';
@@ -65,7 +62,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.notification_add,
               text: 'Notificaciones',
-              onTap: () => _navigationService.goTo(Routes.calendarRoute),
+              onTap: () => _navigationService.goTo(AppRoutes.calendar),
               image: 'assets/svg/bell.svg',
               countNotifications: 222),
           gapH12,
@@ -73,7 +70,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.sell,
               text: 'Vender',
-              onTap: () => _navigationService.goTo(Routes.saleRoute),
+              onTap: () => _navigationService.goTo(AppRoutes.sale),
               image: 'assets/svg/sell.svg',
               countNotifications: 0),
           gapH12,

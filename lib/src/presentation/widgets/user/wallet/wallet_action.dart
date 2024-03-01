@@ -48,7 +48,7 @@ class _WalletActionState extends State<WalletAction> {
       padding: EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          _navigationService.goTo(Routes.walletDetailsScreen);
+          _navigationService.goTo(AppRoutes.walletDetailsScreen);
         },
         child: Card(
           color: Colors.white,

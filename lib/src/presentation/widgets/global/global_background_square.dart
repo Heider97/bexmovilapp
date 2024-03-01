@@ -1,11 +1,8 @@
-//TODO [Heider Zapa] Organize
-
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
-
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-
-import '../custom_button_navigationbar.dart';
+//utils
+import '../../../utils/constants/strings.dart';
+//widgets
+import '../drawer_widget.dart';
 
 class GlobalBackgroundSquare extends StatelessWidget {
   final Widget child;
@@ -38,9 +35,10 @@ class GlobalBackgroundSquare extends StatelessWidget {
         ),
         child
       ]),
+      //TODO:: [Heider Zapa] put custom navbar
       bottomNavigationBar: (hideBottomNavigationBar == true)
           ? null
-          : const CustomButtonNavigationBar(),
+          : null,
     );
   }
 }
