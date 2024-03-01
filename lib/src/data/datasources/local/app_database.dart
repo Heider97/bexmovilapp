@@ -129,6 +129,7 @@ class AppDatabase {
             ${GraphicFields.query} TEXT DEFAULT NULL,
             ${GraphicFields.trigger} TEXT DEFAULT NULL,
             ${GraphicFields.order} INT DEFAULT NULL,
+            ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
@@ -162,6 +163,7 @@ class AppDatabase {
             ${GraphicFields.query} TEXT DEFAULT NULL,
             ${GraphicFields.trigger} TEXT DEFAULT NULL,
             ${GraphicFields.order} INT DEFAULT NULL,
+             ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');

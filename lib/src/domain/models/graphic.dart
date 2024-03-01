@@ -11,6 +11,8 @@ class GraphicFields {
     conditions,
     type,
     query,
+    order,
+    interactive,
     trigger
   ];
 
@@ -22,6 +24,7 @@ class GraphicFields {
   static const String query = 'query';
   static const String trigger = 'trigger';
   static const String order = '_order';
+  static const String interactive = 'interactive';
   static const String data = 'data';
 }
 
@@ -34,6 +37,7 @@ class Graphic {
   String? query;
   String? trigger;
   int? order;
+  bool? interactive;
   List<ChartData>? data;
 
   Graphic(
@@ -45,6 +49,7 @@ class Graphic {
       this.query,
       this.order,
       this.data,
+      this.interactive,
       this.trigger});
 
   factory Graphic.fromJson(Map<String, dynamic> json) => Graphic(
@@ -56,6 +61,7 @@ class Graphic {
       query: json['query'],
       trigger: json['trigger'],
       order: json['_order'],
+      interactive: json['interactive'] == 1 ? true : false,
       data: json['results'] != null
           ? List<ChartData>.from(
               json['results'].map((r) => ChartData.fromJson(r)))
@@ -73,6 +79,7 @@ class Graphic {
         'query': query,
         '_order': order,
         'trigger': trigger,
+        'interactive': interactive,
         'data': jsonEncode(data)
       };
 }
