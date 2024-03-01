@@ -1,4 +1,4 @@
-
+import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 //utils
 import '../../../utils/constants/strings.dart';
@@ -52,6 +52,7 @@ class AppGlobalBackground extends StatelessWidget {
   }) {
     builder = (context) {
       return Scaffold(
+        drawer: const DrawerWidget(),
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Stack(fit: StackFit.expand, children: [
@@ -75,7 +76,9 @@ class AppGlobalBackground extends StatelessWidget {
   }) {
     builder = (context) {
       return Scaffold(
+        drawer: const DrawerWidget(),
         resizeToAvoidBottomInset: false,
+        extendBody: true,
         backgroundColor: color ?? Theme.of(context).colorScheme.background,
         body: Stack(fit: StackFit.expand, children: [
           Positioned(

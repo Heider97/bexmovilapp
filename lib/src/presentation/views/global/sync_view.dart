@@ -76,6 +76,7 @@ class _SyncViewState extends State<SyncView> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         child: AppCardFeature(
+
                             axis: Axis.vertical,
                             text: state.features![index].descripcion!,
                             url: state.features![index].urldesc,
