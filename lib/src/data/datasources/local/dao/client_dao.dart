@@ -37,6 +37,14 @@ class ClientDao {
     return clientRouters;
   }
 
+  Future<List<Client>> getClient(String codeClient) async {
+    final db = await _appDatabase.database;
+    final routerList = await db!
+        .query(tableClient, where: 'CODCLIENTE = ?', whereArgs: [codeClient]);
+    final routers = parseClients(routerList);
+    return routers;
+  }
+
   Stream<List<Client>> watchAllClients() async* {
     final db =  await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
