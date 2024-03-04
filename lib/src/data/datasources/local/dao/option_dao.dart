@@ -1,0 +1,52 @@
+part of '../app_database.dart';
+
+class OptionDao {
+  final AppDatabase _appDatabase;
+
+  OptionDao(this._appDatabase);
+
+  List<Option> parseOption(List<Map<String, dynamic>> optionLists) {
+    final options = <Option>[];
+    for (var optionMap in optionLists) {
+      final client = Option.fromJson(optionMap);
+      options.add(client);
+    }
+    return options;
+  }
+
+  Future<List<Option>> getAllOptions() async {
+    final db = await _appDatabase.database;
+    final optionList = await db!.query(tableOption);
+    final option = parseOption(optionList);
+    return option;
+  }
+
+  Future<void> insertOptions(List<Option> options) async {
+    final db = await _appDatabase.database;
+    var batch = db!.batch();
+
+    await Future.forEach(options, (option) async {
+      var foundProduct = await db.query(tableOption,
+          where: 'coddashboard = ?', whereArgs: [option.name]);
+
+      if (foundProduct.isNotEmpty) {
+        batch.update(tableOption, option.toJson(),
+            where: 'coddashboard = ?', whereArgs: [option.name]);
+      } else {
+        batch.insert(tableOption, option.toJson());
+      }
+    });
+
+    batch.commit(noResult: true, continueOnError: true);
+  }
+
+  Future<int> updateOption(Option option) {
+    return _appDatabase.update(tableOption, option.toJson(), 'id', option.id!);
+  }
+
+  Future<void> emptyOption() async {
+    final db = await _appDatabase.database;
+    await db!.delete(tableOption);
+    return Future.value();
+  }
+}

@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -20,6 +19,8 @@ import '../../../domain/models/graphic.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/error.dart';
+import '../../../domain/models/filter.dart';
+import '../../../domain/models/option.dart';
 
 //services
 import '../../../locator.dart';
@@ -36,6 +37,8 @@ part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
 part '../local/dao/graphic_dao.dart';
 part '../local/dao/error_dao.dart';
+part '../local/dao/filter_dao.dart';
+part '../local/dao/option_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -282,6 +285,10 @@ class AppDatabase {
   LocationDao get locationDao => LocationDao(instance);
 
   ErrorDao get errorDao => ErrorDao(instance);
+
+  FilterDao get filterDao => FilterDao(instance);
+
+  OptionDao get optionDao => OptionDao(instance);
 
   void close() {
     _database!.close();

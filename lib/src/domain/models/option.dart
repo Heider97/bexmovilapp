@@ -1,4 +1,4 @@
-const String tableOptions = 'options';
+const String tableOption = 'options';
 
 class OptionFields {
   static final List<String> values = [

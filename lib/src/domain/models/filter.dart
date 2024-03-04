@@ -1,6 +1,6 @@
 import 'option.dart';
 
-const String tableFilters = 'filters';
+const String tableFilter = 'filters';
 
 class FilterFields {
   static final List<String> values = [
