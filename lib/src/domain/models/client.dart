@@ -1,9 +1,11 @@
+const String tableClient = 'tblmcliente';
 class Client {
   String? name;
   String? email;
   String? dirCliente;
   String? telCliente;
   String? sucursalCliente;
+  String? codeCliente;
 
   bool? isBooked;
   String? nitCliente;
@@ -22,6 +24,7 @@ class Client {
     this.nomCliente,
     this.dirCliente,
     this.telCliente,
+    this.codeCliente,
     this.sucursalCliente,
     this.email,
     this.estadoCliente,
@@ -39,6 +42,7 @@ class Client {
         nomCliente: json['NOMCLIENTE'],
         dirCliente: json['DIRCLIENTE'],
         telCliente: json['TELCLIENTE'],
+        codeCliente: json['CODCLIENTE'],
         sucursalCliente: json['SUCCLIENTE'],
         email: json['EMAIL'],
         estadoCliente: json['estadocliente'],
@@ -56,6 +60,7 @@ class Client {
       'NOMCLIENTE': nomCliente,
       'DIRCLIENTE': dirCliente,
       'TELCLIENTE': telCliente,
+      'CODCLIENTE': codeCliente,
       'SUCCLIENTE': sucursalCliente,
       'EMAIL': email,
       'estadocliente': estadoCliente,
