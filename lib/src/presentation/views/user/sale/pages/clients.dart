@@ -114,21 +114,20 @@ class _ClientsPageState extends State<ClientsPage> {
                 )),
             gapH4,
             BlocBuilder<SaleBloc, SaleState>(
-              builder: (context, saleState) {
-                if (saleState is SaleInitial) {
+              builder: (context, state) {
+                if (state.status == SaleStatus.success) {
                   return Expanded(
                     child: ListView.builder(
-                        itemCount: saleState.clients.length,
+                        itemCount: state.clients!.length,
                         itemBuilder: (context, index) {
                           return CardClientRouter(
-                            nit: saleState.clients[index].nitCliente.toString(),
+                            nit: state.clients![index].nitCliente.toString(),
                             addressClient:
-                                saleState.clients[index].dirCliente.toString(),
-                            branchClient: saleState
-                                .clients[index].sucursalCliente
+                                state.clients![index].dirCliente.toString(),
+                            branchClient: state.clients![index].sucursalCliente
                                 .toString(),
                             nameClient:
-                                saleState.clients[index].nomCliente.toString(),
+                                state.clients![index].nomCliente.toString(),
                           );
                         }),
                   );

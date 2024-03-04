@@ -113,9 +113,7 @@ class _AppShimmerLoadingState extends State<AppShimmerLoading> {
 
   void _onAppShimmerChange() {
     if (widget.isLoading) {
-      setState(() {
-        // update the AppShimmer painting.
-      });
+      setState(() {});
     }
   }
 
@@ -127,11 +125,13 @@ class _AppShimmerLoadingState extends State<AppShimmerLoading> {
 
     // Collect ancestor AppShimmer info.
     final appShimmer = AppShimmer.of(context)!;
+
     if (!appShimmer.isSized) {
       // The ancestor AppShimmer widget has not laid
       // itself out yet. Return an empty box.
       return const SizedBox();
     }
+
     final appShimmerSize = appShimmer.size;
     final gradient = appShimmer.gradient;
     final offsetWithinAppShimmer = appShimmer.getDescendantOffset(

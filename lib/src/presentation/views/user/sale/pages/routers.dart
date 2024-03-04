@@ -10,9 +10,6 @@ import '../../../../../utils/constants/gaps.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
-//cubit
-import '../../../../cubits/home/home_cubit.dart';
-
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
@@ -118,19 +115,19 @@ class _RoutersPageState extends State<RoutersPage> {
                     )),
                 gapH4,
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state is SaleInitial) {
+                  if (state.status == SaleStatus.success) {
                     return Expanded(
                       child: ListView.builder(
-                          itemCount: state.routers.length,
+                          itemCount: state.routers!.length,
                           itemBuilder: (context, index) {
                             return CardRouter(
-                              codeRouter: state.routers[index].dayRouter!,
+                              codeRouter: state.routers![index].dayRouter!,
                               quantityClients: state
-                                  .routers[index].quantityClient
+                                  .routers![index].quantityClient
                                   .toString(),
                               dayRouter:
-                                  state.routers[index].nameDayRouter.toString(),
-                              totalClients: state.routers[index].quantityClient,
+                                  state.routers![index].nameDayRouter.toString(),
+                              totalClients: state.routers![index].quantityClient,
                             );
                           }),
                     );

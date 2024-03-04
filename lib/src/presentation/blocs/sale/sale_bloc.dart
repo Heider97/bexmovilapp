@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //domain
@@ -16,10 +17,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   final LocalStorageService storageService;
 
   SaleBloc(this.databaseRepository, this.storageService)
-      : super(SaleInitial([], [])) {
+      : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
-    on<SelectClient>(_selectClient);
+    // on<SelectClient>(_selectClient);
     // on<ConfirmProducts>(_confirmProducts);
     // on<ConfirmOrder>(_confirmOrder);
   }
@@ -28,36 +29,32 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var sellerCode = storageService.getString('username');
     var routers =
         await databaseRepository.getAllRoutersGroupByClient(sellerCode!);
-    emit(SaleInitial(routers, []));
+    emit(state.copyWith(status: SaleStatus.success, routers: routers));
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
     var sellerCode = storageService.getString('username');
-
-    print(event.codeRouter);
-
     var clients = <Client>[];
     if (event.codeRouter != null) {
       clients = await databaseRepository.getAllClientsRouter(
           sellerCode!, event.codeRouter!);
     }
-
-    emit(SaleInitial([], clients));
+    emit(state.copyWith(clients: clients));
   }
 
-  _selectClient(SelectClient event, Emitter emit) {
-    //TODO Agregar logica de creacion de la orden con el estado = clientSelected y guardado en BD
-    if (state is SaleClienteSelected) {
-      SaleClienteSelected currentState = state as SaleClienteSelected;
-      (event.client != currentState.client)
-          ? emit(SaleClienteSelected(state.routers, state.clients,
-              client: event.client))
-          : emit(SaleInitial(state.routers, state.clients));
-    } else {
-      emit(SaleClienteSelected(state.routers, state.clients,
-          client: event.client));
-    }
-  }
+  // _selectClient(SelectClient event, Emitter emit) {
+  //   //TODO Agregar logica de creacion de la orden con el estado = clientSelected y guardado en BD
+  //   if (state is SaleClienteSelected) {
+  //     SaleClienteSelected currentState = state as SaleClienteSelected;
+  //     (event.client != currentState.client)
+  //         ? emit(SaleClienteSelected(state.routers, state.clients,
+  //             client: event.client))
+  //         : emit(SaleInitial(state.routers, state.clients));
+  //   } else {
+  //     emit(SaleClienteSelected(state.routers, state.clients,
+  //         client: event.client));
+  //   }
+  // }
 
   // _confirmProducts(ConfirmProducts event, Emitter emit) {
   //   //TODO Agregar logica de creacion de la orden con el estado = productsConfirmed y guardado en BD
