@@ -504,12 +504,12 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<GraphicResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, '/graphics/index',
-            queryParameters: queryParameters, data: data)
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = GraphicResponse.fromJson(result.data!);
@@ -537,12 +537,12 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<FilterResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, '/filters/index',
-            queryParameters: queryParameters, data: data)
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = FilterResponse.fromJson(result.data!);
