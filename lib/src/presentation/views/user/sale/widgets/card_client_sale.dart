@@ -24,20 +24,22 @@ class CardClientRouter extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
           child: Container(
-            width: double.infinity,
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 1,
                   blurRadius: 1,
                 ),
               ],
             ),
             child: AppListTile(
-              title: SingleChildScrollView(child: AppText(nameClient, overflow: TextOverflow.ellipsis)),
+              title: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: AppText(nameClient, overflow: TextOverflow.ellipsis)
+              ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
