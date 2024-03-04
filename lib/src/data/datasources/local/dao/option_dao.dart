@@ -14,9 +14,10 @@ class OptionDao {
     return options;
   }
 
-  Future<List<Option>> getAllOptions() async {
+  Future<List<Option>> getAllOptionsByFilter(int filterId) async {
     final db = await _appDatabase.database;
-    final optionList = await db!.query(tableOption);
+    final optionList =
+        await db!.query(tableOption, where: 'filter_id', whereArgs: [filterId]);
     final option = parseOption(optionList);
     return option;
   }
@@ -30,12 +31,12 @@ class OptionDao {
     var batch = db!.batch();
 
     await Future.forEach(options, (option) async {
-      var foundProduct = await db.query(tableOption,
-          where: 'coddashboard = ?', whereArgs: [option.name]);
+      var foundProduct = await db
+          .query(tableOption, where: 'name = ?', whereArgs: [option.name]);
 
       if (foundProduct.isNotEmpty) {
         batch.update(tableOption, option.toJson(),
-            where: 'coddashboard = ?', whereArgs: [option.name]);
+            where: 'name = ?', whereArgs: [option.name]);
       } else {
         batch.insert(tableOption, option.toJson());
       }

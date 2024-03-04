@@ -106,10 +106,10 @@ class HomeCubit extends BaseCubit<HomeState> {
         request: FilterRequest(
             codvendedor: storageService.getString('username')!));
     if (response is DataSuccess && response.data != null) {
-      // await databaseRepository.insertFilters(response.data!.filters!);
+      await databaseRepository.insertFilters(response.data!.filters!);
       if(response.data!.filters != null) {
         for(var filter in response.data!.filters!) {
-          // await databaseRepository.insertOptions(filter.options);
+          await databaseRepository.insertOptions(filter.options!);
         }
       }
     } else {

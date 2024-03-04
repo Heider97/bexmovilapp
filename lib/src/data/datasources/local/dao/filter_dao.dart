@@ -35,7 +35,7 @@ class FilterDao {
 
       if (foundProduct.isNotEmpty) {
         batch.update(tableFilter, filter.toJson(),
-            where: 'coddashboard = ?', whereArgs: [filter.name]);
+            where: 'name = ?', whereArgs: [filter.name]);
       } else {
         batch.insert(tableFilter, filter.toJson());
       }

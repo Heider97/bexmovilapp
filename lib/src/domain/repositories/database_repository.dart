@@ -85,7 +85,7 @@ abstract class DatabaseRepository {
   Future<void> emptyFilters();
 
   //OPTIONS
-  Future<List<Option>> getAllOptions();
+  Future<List<Option>> getAllOptionsByFilter(int filterId);
   Future<int> insertOption(Option option);
   Future<int> updateOption(Option option);
   Future<void> insertOptions(List<Option> options);

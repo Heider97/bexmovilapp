@@ -284,8 +284,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //OPTIONS
   @override
-  Future<List<Option>> getAllOptions() async {
-    return _appDatabase.optionDao.getAllOptions();
+  Future<List<Option>> getAllOptionsByFilter(int filterId) async {
+    return _appDatabase.optionDao.getAllOptionsByFilter(filterId);
   }
 
   @override

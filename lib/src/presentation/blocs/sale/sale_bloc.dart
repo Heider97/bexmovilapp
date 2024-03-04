@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/router.dart';
+import 'package:bexmovil/src/domain/models/filter.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 
 //services
@@ -40,6 +41,14 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     if (event.codeRouter != null) {
       clients = await databaseRepository.getAllClientsRouter(
           sellerCode!, event.codeRouter!);
+
+      var filters = await databaseRepository.getAllFilters();
+
+      Future.forEach(filters, (filter) async {
+        filter.options = await databaseRepository.getAllOptionsByFilter(filter.id!);
+      });
+
+      print(filters);
 
       emit(state.copyWith(status: SaleStatus.success, clients: clients));
     } else {
