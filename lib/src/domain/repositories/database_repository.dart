@@ -8,6 +8,8 @@ import '../models/client.dart';
 import '../models/kpi.dart';
 import '../models/location.dart';
 import '../models/error.dart';
+import '../models/filter.dart';
+import '../models/option.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -74,6 +76,20 @@ abstract class DatabaseRepository {
   Future<int> deleteError(Error error);
   Future<void> insertErrors(List<Error> errors);
   Future<void> emptyErrors();
+
+  //FILTERS
+  Future<List<Filter>> getAllFilters();
+  Future<int> insertFilter(Filter filter);
+  Future<int> updateFilter(Filter filter);
+  Future<void> insertFilters(List<Filter> filters);
+  Future<void> emptyFilters();
+
+  //OPTIONS
+  Future<List<Option>> getAllOptions();
+  Future<int> insertOption(Option option);
+  Future<int> updateOption(Option option);
+  Future<void> insertOptions(List<Option> options);
+  Future<void> emptyOptions();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

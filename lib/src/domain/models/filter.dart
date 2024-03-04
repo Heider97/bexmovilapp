@@ -39,6 +39,9 @@ class Filter {
     name = json['name'];
     module = json['module'];
     type = json['type'];
+    options = json["options"] == null
+        ? []
+        : List<Option>.from(json["options"]!.map((x) => Option.fromJson(x)));
   }
 
   Map<String, dynamic> toJson() {

@@ -21,6 +21,10 @@ class FilterDao {
     return filter;
   }
 
+  Future<int> insertFilter(Filter filter) {
+    return _appDatabase.insert(tableFilter, filter.toJson());
+  }
+
   Future<void> insertFilters(List<Filter> filters) async {
     final db = await _appDatabase.database;
     var batch = db!.batch();
@@ -44,7 +48,7 @@ class FilterDao {
     return _appDatabase.update(tableFilter, filter.toJson(), 'id', filter.id!);
   }
 
-  Future<void> emptyFilter() async {
+  Future<void> emptyFilters() async {
     final db = await _appDatabase.database;
     await db!.delete(tableFilter);
     return Future.value();

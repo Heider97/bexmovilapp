@@ -21,6 +21,10 @@ class OptionDao {
     return option;
   }
 
+  Future<int> insertOption(Option option) {
+    return _appDatabase.insert(tableOption, option.toJson());
+  }
+
   Future<void> insertOptions(List<Option> options) async {
     final db = await _appDatabase.database;
     var batch = db!.batch();
@@ -44,7 +48,7 @@ class OptionDao {
     return _appDatabase.update(tableOption, option.toJson(), 'id', option.id!);
   }
 
-  Future<void> emptyOption() async {
+  Future<void> emptyOptions() async {
     final db = await _appDatabase.database;
     await db!.delete(tableOption);
     return Future.value();

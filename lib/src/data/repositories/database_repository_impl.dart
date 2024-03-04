@@ -11,6 +11,8 @@ import '../../domain/models/client.dart';
 import '../../domain/models/graphic.dart';
 import '../../domain/models/location.dart';
 import '../../domain/models/error.dart';
+import '../../domain/models/filter.dart';
+import '../../domain/models/option.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -252,6 +254,58 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyErrors() async {
     return _appDatabase.errorDao.emptyErrors();
+  }
+
+  //FILTERS
+  @override
+  Future<List<Filter>> getAllFilters() async {
+    return _appDatabase.filterDao.getAllFilters();
+  }
+
+  @override
+  Future<int> insertFilter(Filter filter) async {
+    return _appDatabase.filterDao.insertFilter(filter);
+  }
+
+  @override
+  Future<int> updateFilter(Filter filter) async {
+    return _appDatabase.filterDao.updateFilter(filter);
+  }
+
+  @override
+  Future<void> insertFilters(List<Filter> filters) async {
+    return _appDatabase.filterDao.insertFilters(filters);
+  }
+
+  @override
+  Future<void> emptyFilters() async {
+    return _appDatabase.filterDao.emptyFilters();
+  }
+
+  //OPTIONS
+  @override
+  Future<List<Option>> getAllOptions() async {
+    return _appDatabase.optionDao.getAllOptions();
+  }
+
+  @override
+  Future<int> insertOption(Option option) async {
+    return _appDatabase.optionDao.insertOption(option);
+  }
+
+  @override
+  Future<int> updateOption(Option option) async {
+    return _appDatabase.optionDao.updateOption(option);
+  }
+
+  @override
+  Future<void> insertOptions(List<Option> options) async {
+    return _appDatabase.optionDao.insertOptions(options);
+  }
+
+  @override
+  Future<void> emptyOptions() async {
+    return _appDatabase.optionDao.emptyOptions();
   }
 
   // initialize and close methods go here
