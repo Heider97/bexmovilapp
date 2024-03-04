@@ -1,7 +1,3 @@
-import 'package:bexmovil/src/domain/models/application.dart';
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/graphic.dart';
-
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
@@ -10,6 +6,11 @@ import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
 import '../../domain/models/kpi.dart';
 import '../../domain/models/router.dart';
+import '../../domain/models/application.dart';
+import '../../domain/models/client.dart';
+import '../../domain/models/graphic.dart';
+import '../../domain/models/location.dart';
+import '../../domain/models/error.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -174,6 +175,83 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyGraphics() {
     return _appDatabase.graphicDao.emptyGraphics();
+  }
+
+  //LOCATIONS
+  @override
+  Stream<List<Location>> watchAllLocations() {
+    return _appDatabase.locationDao.watchAllLocations();
+  }
+
+  @override
+  Future<List<Location>> getAllLocations() async {
+    return _appDatabase.locationDao.getAllLocations();
+  }
+
+  @override
+  Future<Location?> getLastLocation() async {
+    return _appDatabase.locationDao.getLastLocation();
+  }
+
+  @override
+  Future<bool> countLocationsManager() async {
+    return _appDatabase.locationDao.countLocationsManager();
+  }
+
+  @override
+  Future<String> getLocationsToSend() async {
+    return _appDatabase.locationDao.getLocationsToSend();
+  }
+
+  @override
+  Future<int?> updateLocationsManager() async {
+    return _appDatabase.locationDao.updateLocationsManager();
+  }
+
+  @override
+  Future<int> updateLocation(Location location) async {
+    return _appDatabase.locationDao.updateLocation(location);
+  }
+
+  @override
+  Future<int> insertLocation(Location location) async {
+    return _appDatabase.locationDao.insertLocation(location);
+  }
+
+  @override
+  Future<void> emptyLocations() async {
+    return _appDatabase.locationDao.emptyLocations();
+  }
+
+  //ERROR
+  @override
+  Future<List<Error>> getAllErrors() async {
+    return _appDatabase.errorDao.getAllErrors();
+  }
+
+  @override
+  Future<int> insertError(Error error) async {
+    return _appDatabase.errorDao.insertError(error);
+  }
+
+  @override
+  Future<int> updateError(Error error) async {
+    return _appDatabase.errorDao.updateError(error);
+  }
+
+  @override
+  Future<int> deleteError(Error error) async {
+    return _appDatabase.errorDao.deleteError(error);
+  }
+
+  @override
+  Future<void> insertErrors(List<Error> errors) async {
+    return _appDatabase.errorDao.insertErrors(errors);
+  }
+
+  @override
+  Future<void> emptyErrors() async {
+    return _appDatabase.errorDao.emptyErrors();
   }
 
   // initialize and close methods go here

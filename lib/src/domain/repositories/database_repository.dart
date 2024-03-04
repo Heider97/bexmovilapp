@@ -6,6 +6,8 @@ import '../models/router.dart';
 import '../models/application.dart';
 import '../models/client.dart';
 import '../models/kpi.dart';
+import '../models/location.dart';
+import '../models/error.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -53,6 +55,25 @@ abstract class DatabaseRepository {
   Future<void> insertGraphic(Graphic graphic);
   Future<int> updateGraphic(Graphic graphic);
   Future<void> emptyGraphics();
+
+  //LOCATIONS
+  Stream<List<Location>> watchAllLocations();
+  Future<List<Location>> getAllLocations();
+  Future<Location?> getLastLocation();
+  Future<bool> countLocationsManager();
+  Future<String> getLocationsToSend();
+  Future<int?> updateLocationsManager();
+  Future<int> updateLocation(Location location);
+  Future<void> insertLocation(Location location);
+  Future<void> emptyLocations();
+
+  //ERROR
+  Future<List<Error>> getAllErrors();
+  Future<int> insertError(Error error);
+  Future<int> updateError(Error error);
+  Future<int> deleteError(Error error);
+  Future<void> insertErrors(List<Error> errors);
+  Future<void> emptyErrors();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

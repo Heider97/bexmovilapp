@@ -18,6 +18,7 @@ import '../../../domain/models/application.dart';
 import '../../../domain/models/graphic.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/client.dart';
+import '../../../domain/models/error.dart';
 
 //services
 import '../../../locator.dart';
@@ -33,6 +34,7 @@ part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
 part '../local/dao/graphic_dao.dart';
+part '../local/dao/error_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -133,6 +135,14 @@ class AppDatabase {
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableErrors (
+          ${ErrorFields.id} INTEGER PRIMARY KEY,
+          ${ErrorFields.errorMessage} TEXT DEFAULT NULL,
+          ${ErrorFields.stackTrace}  TEXT DEFAULT NULL,
+          ${ErrorFields.createdAt} TEXT DEFAULT NULL
+        )
+      ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -167,6 +177,14 @@ class AppDatabase {
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableErrors (
+          ${ErrorFields.id} INTEGER PRIMARY KEY,
+          ${ErrorFields.errorMessage} TEXT DEFAULT NULL,
+          ${ErrorFields.stackTrace}  TEXT DEFAULT NULL,
+          ${ErrorFields.createdAt} TEXT DEFAULT NULL
+        )
+      ''');
     });
   }
 
@@ -261,6 +279,8 @@ class AppDatabase {
   GraphicDao get graphicDao => GraphicDao(instance);
 
   LocationDao get locationDao => LocationDao(instance);
+
+  ErrorDao get errorDao => ErrorDao(instance);
 
   void close() {
     _database!.close();
