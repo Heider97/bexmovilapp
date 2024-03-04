@@ -15,7 +15,7 @@ class ClientDao {
   }
 
   Future<List<Client>> getAllClients() async {
-    final db =  await _appDatabase.database;
+    final db = await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     return clients;
@@ -24,14 +24,14 @@ class ClientDao {
   Future<List<Client>> getAllClientsRouter(
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
-
-
     final clientsRouterList = await db!.rawQuery('''
-        SELECT tdr.NOMDIARUTERO, c.razcliente AS NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL
-         FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
-         WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
-         AND tdr.NOMDIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = "$seller" 
-         GROUP BY tr.CODCLIENTE
+      SELECT tdr.NOMDIARUTERO, c.razcliente, c.NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL
+      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
+      WHERE tr.diarutero = tdr.diarutero
+      AND tr.codcliente = c.codcliente
+      AND tr.DIARUTERO = "$dayRouter" 
+      AND tr.CODVENDEDOR = "$seller" 
+      GROUP BY tr.CODCLIENTE
     ''');
     final clientRouters = parseClients(clientsRouterList);
     return clientRouters;
@@ -46,7 +46,7 @@ class ClientDao {
   }
 
   Stream<List<Client>> watchAllClients() async* {
-    final db =  await _appDatabase.database;
+    final db = await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
     final clients = parseClients(clientList);
     yield clients;
@@ -62,8 +62,8 @@ class ClientDao {
   }
 
   Future<void> emptyClients() async {
-    final db =  _appDatabase._database;
-     db!.delete('tblmcliente');
+    final db = _appDatabase._database;
+    db!.delete('tblmcliente');
     return Future.value();
   }
 }
