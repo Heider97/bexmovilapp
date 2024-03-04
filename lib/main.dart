@@ -29,6 +29,7 @@ import 'src/presentation/cubits/home/home_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/location/location_bloc.dart';
+import 'src/presentation/blocs/gps/gps_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
@@ -102,6 +103,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
+        BlocProvider(
+            create: (_) => GpsBloc(
+                navigationService: locator<NavigationService>(),
+                storageService: locator<LocalStorageService>(),
+                databaseRepository: locator<DatabaseRepository>())),
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
