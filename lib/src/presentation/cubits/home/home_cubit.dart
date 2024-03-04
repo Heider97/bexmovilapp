@@ -12,7 +12,9 @@ import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/isolate.dart';
+//requests
 import '../../../domain/models/requests/functionality_request.dart';
+import '../../../domain/models/requests/filter_request.dart';
 import '../../../domain/models/requests/graphic_request.dart';
 import '../../../domain/models/requests/kpi_request.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -94,6 +96,19 @@ class HomeCubit extends BaseCubit<HomeState> {
             codvendedor: storageService.getString('username')!));
     if (response is DataSuccess) {
       await databaseRepository.insertGraphics(response.data!.graphics!);
+    } else {
+      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
+    }
+  }
+
+  Future<void> getFilters() async {
+    final response = await apiRepository.filters(
+        request: FilterRequest(
+            codvendedor: storageService.getString('username')!));
+    if (response is DataSuccess) {
+      // await databaseRepository.insertFilters(response.data!.filters!);
+
+
     } else {
       emit(HomeFailed(error: 'graphics-${response.data!.message}'));
     }

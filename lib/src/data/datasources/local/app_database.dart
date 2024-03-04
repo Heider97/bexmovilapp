@@ -147,6 +147,22 @@ class AppDatabase {
           ${ErrorFields.createdAt} TEXT DEFAULT NULL
         )
       ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableFilter (
+          ${FilterFields.id} INTEGER PRIMARY KEY,
+          ${FilterFields.name} TEXT DEFAULT NULL,
+          ${FilterFields.module}  TEXT DEFAULT NULL,
+          ${FilterFields.type} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableOption (
+          ${OptionFields.id} INTEGER PRIMARY KEY,
+          ${OptionFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.filterId} INTEGER DEFAULT NULL,
+          ${OptionFields.queryId} INTEGER DEFAULT NULL
+        )
+      ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -157,7 +173,7 @@ class AppDatabase {
             ${KpiFields.line} INTEGER DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL
           )
-        ''');
+      ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableApplications (
             ${ApplicationFields.id} INTEGER PRIMARY KEY,
@@ -166,7 +182,7 @@ class AppDatabase {
             ${ApplicationFields.route} TEXT DEFAULT NULL,
             ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
           )
-        ''');
+       ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableGraphics (
             ${GraphicFields.id} INTEGER PRIMARY KEY,
@@ -177,16 +193,32 @@ class AppDatabase {
             ${GraphicFields.query} TEXT DEFAULT NULL,
             ${GraphicFields.trigger} TEXT DEFAULT NULL,
             ${GraphicFields.order} INT DEFAULT NULL,
-             ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
+            ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
-        ''');
+       ''');
       await db.execute('''
         CREATE TABLE IF NOT EXISTS $tableErrors (
           ${ErrorFields.id} INTEGER PRIMARY KEY,
           ${ErrorFields.errorMessage} TEXT DEFAULT NULL,
           ${ErrorFields.stackTrace}  TEXT DEFAULT NULL,
           ${ErrorFields.createdAt} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableFilter (
+          ${FilterFields.id} INTEGER PRIMARY KEY,
+          ${FilterFields.name} TEXT DEFAULT NULL,
+          ${FilterFields.module}  TEXT DEFAULT NULL,
+          ${FilterFields.type} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableOption (
+          ${OptionFields.id} INTEGER PRIMARY KEY,
+          ${OptionFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.filterId} INTEGER DEFAULT NULL,
+          ${OptionFields.queryId} INTEGER DEFAULT NULL
         )
       ''');
     });
