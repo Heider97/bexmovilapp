@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +12,7 @@ import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
+import '../../../../widgets/atoms/app_text.dart';
 import '../widgets/card_client_sale.dart';
 
 //widgets
@@ -115,10 +117,14 @@ class _ClientsPageState extends State<ClientsPage> {
             gapH4,
             BlocBuilder<SaleBloc, SaleState>(
               builder: (context, state) {
-                if (state.status == SaleStatus.success) {
+                if (state.status == SaleStatus.loading) {
+                  return const Center(child: CupertinoActivityIndicator());
+                } else if (state.status == SaleStatus.success) {
+                  print(state.clients);
                   return Expanded(
                     child: ListView.builder(
-                        itemCount: state.clients!.length,
+                        itemCount:
+                            state.clients != null ? state.clients!.length : 0,
                         itemBuilder: (context, index) {
                           return CardClientRouter(
                             nit: state.clients![index].nitCliente.toString(),
@@ -132,7 +138,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         }),
                   );
                 } else {
-                  return const Center(child: Text("Not Found"));
+                  return Center(child: AppText("No se encontraron clientes."));
                 }
               },
             ),
