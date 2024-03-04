@@ -49,7 +49,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
               ),
             ),
             BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-              if (state.graphics!.isNotEmpty) {
+              if (state.graphics != null && state.graphics!.isNotEmpty) {
                 return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

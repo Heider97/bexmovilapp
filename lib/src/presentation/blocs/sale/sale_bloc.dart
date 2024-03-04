@@ -33,7 +33,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
-
     emit(state.copyWith(status: SaleStatus.loading));
 
     var sellerCode = storageService.getString('username');
@@ -42,19 +41,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       clients = await databaseRepository.getAllClientsRouter(
           sellerCode!, event.codeRouter!);
 
-      print(event.codeRouter);
-      print(sellerCode);
-
-      print('*********');
-      print(clients);
-
-
       emit(state.copyWith(status: SaleStatus.success, clients: clients));
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: []));
     }
-
-
   }
 
   // _selectClient(SelectClient event, Emitter emit) {
