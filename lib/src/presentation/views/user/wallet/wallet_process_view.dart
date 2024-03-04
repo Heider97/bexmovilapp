@@ -69,19 +69,19 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               )
             ],
           ),
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) {
-              if (state is WalletStepperClientSelection) {
-                return const SelectClientWallet();
-              } else if (state is WalletStepperInvoiceSelection) {
-                return const SelectInvoice();
-              } else if (state is WalletStepperInvoiceAction) {
-                return const WalletActionList();
-              } else {
-                return const Text("InvoiceAction");
-              }
-            },
-          )
+          // BlocBuilder<WalletBloc, WalletState>(
+          //   builder: (context, state) {
+          //     if (state is WalletStepperClientSelection) {
+          //       return const SelectClientWallet();
+          //     } else if (state is WalletStepperInvoiceSelection) {
+          //       return const SelectInvoice();
+          //     } else if (state is WalletStepperInvoiceAction) {
+          //       return const WalletActionList();
+          //     } else {
+          //       return const Text("InvoiceAction");
+          //     }
+          //   },
+          // )
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import '../../../domain/models/graphic.dart';
@@ -33,11 +34,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   WalletBloc(
       this.databaseRepository, this.storageService, this.navigationService)
-      : super(WalletInitial([])) {
+      : super(const WalletState(status: WalletStatus.initial)) {
     on<LoadGraphics>(_onLoadGraphics);
-    on<SelectClientEvent>(_selectionEvent);
-    on<InvoiceSelectionEvent>(_invoiceSelectionEvent);
-    on<InvoiceActionEvent>(_invoiceActionEvent);
+    // on<SelectClientEvent>(_selectionEvent);
+    // on<InvoiceSelectionEvent>(_invoiceSelectionEvent);
+    // on<InvoiceActionEvent>(_invoiceActionEvent);
   }
 
   // Stream<int> listenForTrigger = Stream.periodic(const Duration(seconds: 1), (int result) {
@@ -46,18 +47,18 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     var graphics = await databaseRepository.getAllGraphics();
-    emit(WalletInitial(graphics));
+    emit(state.copyWith(status: WalletStatus.success, graphics: graphics));
   }
 
-  _selectionEvent(SelectClientEvent event, Emitter emit) {
-    emit(WalletStepperClientSelection(state.graphics));
-  }
-
-  _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
-    emit(WalletStepperInvoiceSelection(state.graphics));
-  }
-
-  _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
-    emit(WalletStepperInvoiceAction(state.graphics));
-  }
+  // _selectionEvent(SelectClientEvent event, Emitter emit) {
+  //   emit(WalletStepperClientSelection(state.graphics));
+  // }
+  //
+  // _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
+  //   emit(WalletStepperInvoiceSelection(state.graphics));
+  // }
+  //
+  // _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
+  //   emit(WalletStepperInvoiceAction(state.graphics));
+  // }
 }

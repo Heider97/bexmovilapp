@@ -15,8 +15,6 @@ import '../widgets/card_client_sale.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_text.dart';
-import '../../../../widgets/atoms/app_elevated_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
 import '../../../../widgets/user/stepper.dart';
 
@@ -114,17 +112,6 @@ class _ClientsPageState extends State<ClientsPage> {
                     ),
                   ),
                 )),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppElevatedButton(child: AppText('Visitados')),
-                  AppElevatedButton(child: AppText('No visitados')),
-                ],
-              ),
-            ),
             gapH4,
             BlocBuilder<SaleBloc, SaleState>(
               builder: (context, saleState) {
