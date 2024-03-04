@@ -38,8 +38,7 @@ class CardClientRouter extends StatelessWidget {
             child: AppListTile(
               title: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: AppText(nameClient, overflow: TextOverflow.ellipsis)
-              ),
+                  child: AppText(nameClient, overflow: TextOverflow.ellipsis)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,7 +50,9 @@ class CardClientRouter extends StatelessWidget {
                       fontWeight: FontWeight.bold, fontSize: 11),
                 ],
               ),
-              trailing: AppIconButton(child: const Icon(Icons.add_shopping_cart, color: Colors.white)),
+              trailing: AppIconButton(
+                  child:
+                      const Icon(Icons.add_shopping_cart, color: Colors.white)),
             ),
           )),
     );
