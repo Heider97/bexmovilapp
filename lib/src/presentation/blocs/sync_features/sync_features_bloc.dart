@@ -1,27 +1,30 @@
-//TODO [Heider Zapa] organize
-
 import 'dart:convert';
-
-import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
-import 'package:bexmovil/src/domain/models/requests/dynamic_request.dart';
-import 'package:bexmovil/src/domain/models/requests/sync_priorities_request.dart';
-import 'package:bexmovil/src/domain/models/responses/dynamic_response.dart';
-import 'package:bexmovil/src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
-import 'package:bexmovil/src/services/storage.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+//blocs
+import '../../blocs/processing_queue/processing_queue_bloc.dart';
+
 //repositories
+
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 //domain
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/feature.dart';
+
+import '../../../domain/models/requests/dynamic_request.dart';
+import '../../../domain/models/requests/sync_priorities_request.dart';
+import '../../../domain/models/responses/dynamic_response.dart';
+//abstracts
+import '../../../domain/abstracts/format_abstract.dart';
 //utils
 import '../../../utils/constants/strings.dart';
+import '../../../utils/resources/data_state.dart';
 //services
 import '../../../services/navigation.dart';
+import '../../../services/storage.dart';
 
 part 'sync_features_event.dart';
 part 'sync_features_state.dart';

@@ -325,7 +325,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
 
           await databaseRepository.insertLocation(location);
         } else {
-          logDebugFine(headerDeveloperLogger, 'no se ha movido');
+          // logDebugFine(headerDeveloperLogger, 'no se ha movido');
         }
       } else {
         await databaseRepository.insertLocation(location);

@@ -21,6 +21,8 @@ import 'domain/repositories/database_repository.dart';
 import 'services/storage.dart';
 import 'services/navigation.dart';
 import 'services/platform.dart';
+import 'services/styled_dialog_controller.dart';
+import 'services/logger.dart';
 
 final locator = GetIt.instance;
 
@@ -35,6 +37,12 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<ApiService>(
       ApiService(testing: true, dio: dio!, storageService: locator<LocalStorageService>()),
     );
+
+    final styledDialogController = StyledDialogController<Status>();
+    locator.registerSingleton<StyledDialogController>(styledDialogController);
+
+    final logger = LoggerService();
+    locator.registerSingleton<LoggerService>(logger);
 
     final db = AppDatabase.instance;
     locator.registerSingleton<AppDatabase>(db);

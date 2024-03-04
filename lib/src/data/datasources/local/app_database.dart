@@ -5,10 +5,11 @@ import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../core/abstracts/FormatAbstract.dart';
+
 import '../../../utils/constants/strings.dart';
 
 //models
+import '../../../domain/abstracts/format_abstract.dart';
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';

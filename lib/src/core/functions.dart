@@ -1,8 +1,4 @@
 import 'dart:io';
-
-import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
-
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location_repository/location_repository.dart';
@@ -12,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import '../presentation/cubits/login/login_cubit.dart';
 
 //domain
+import '../domain/abstracts/format_abstract.dart';
 import '../domain/models/requests/login_request.dart';
 import '../domain/repositories/api_repository.dart';
 import '../domain/repositories/database_repository.dart';

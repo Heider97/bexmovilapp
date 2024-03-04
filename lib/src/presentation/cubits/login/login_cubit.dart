@@ -9,9 +9,9 @@ import 'package:yaml/yaml.dart';
 
 //core
 import '../../../core/functions.dart';
-import '../../../core/abstracts/FormatAbstract.dart';
 
 //domain
+import '../../../domain/abstracts/format_abstract.dart';
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';

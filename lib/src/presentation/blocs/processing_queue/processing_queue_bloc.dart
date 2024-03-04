@@ -1,16 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
-import 'package:bexmovil/src/domain/models/requests/dynamic_request.dart';
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+//utils
+
+import '../../../utils/resources/data_state.dart';
 
 //domain
 import '../../../domain/models/processing_queue.dart';
+import '../../../domain/models/requests/dynamic_request.dart';
+import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
+import '../../../domain/abstracts/format_abstract.dart';
 
 //cubit
-import '../../../utils/resources/data_state.dart';
 import '../network/network_bloc.dart';
 
 part 'processing_queue_event.dart';
