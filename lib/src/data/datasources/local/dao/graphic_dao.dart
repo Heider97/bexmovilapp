@@ -26,15 +26,16 @@ class GraphicDao {
     var batch = db!.batch();
 
     await Future.forEach(graphics, (app) async {
-      var foundApp = await db.query(tableGraphics, where: 'id = ?', whereArgs: [app.id]);
+      var foundApp =
+          await db.query(tableGraphics, where: 'id = ?', whereArgs: [app.id]);
 
-      if(foundApp.isNotEmpty){
-        batch.update(tableGraphics, app.toJson(), where: 'id = ?', whereArgs: [app.id]);
+      if (foundApp.isNotEmpty) {
+        batch.update(tableGraphics, app.toJson(),
+            where: 'id = ?', whereArgs: [app.id]);
       } else {
         batch.insert(tableGraphics, app.toJson());
       }
     });
-
 
     batch.commit(noResult: true, continueOnError: true);
   }
@@ -44,7 +45,8 @@ class GraphicDao {
   }
 
   Future<int> updateGraphic(Graphic graphic) {
-    return _appDatabase.update(tableGraphics, graphic.toJson(), 'id', graphic.id!);
+    return _appDatabase.update(
+        tableGraphics, graphic.toJson(), 'id', graphic.id!);
   }
 
   Future<void> emptyGraphics() async {

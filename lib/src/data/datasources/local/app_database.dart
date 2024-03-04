@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
+import '../../../core/abstracts/FormatAbstract.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -58,8 +59,7 @@ class AppDatabase {
             ${LocationFields.speed} REAL DEFAULT NULL,
             ${LocationFields.speedAccuracy} REAL DEFAULT NULL,
             ${LocationFields.heading} REAL DEFAULT NULL,
-            ${LocationFields.isMock} BOOLEAN DEFAULT NULL,
-            ${LocationFields.createdAt} TEXT DEFAULT NULL
+            ${LocationFields.isMock} BOOLEAN DEFAULT NULL
           )
         ''');
       await db.execute('''
@@ -259,6 +259,8 @@ class AppDatabase {
   ApplicationDao get applicationDao => ApplicationDao(instance);
 
   GraphicDao get graphicDao => GraphicDao(instance);
+
+  LocationDao get locationDao => LocationDao(instance);
 
   void close() {
     _database!.close();
