@@ -91,36 +91,47 @@ class _ClientsPageState extends State<ClientsPage> {
               ],
             ),
             StepperWidget(currentStep: 0, steps: steps),
-            Padding(
-                padding: const EdgeInsets.all(Const.padding),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: theme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(Const.space15)),
-                  child: Padding(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
                     padding: const EdgeInsets.all(Const.padding),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: theme.colorScheme.tertiary,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: theme.colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(Const.space15)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Const.padding),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                            gapW12,
+                            AppText('Búsqueda por clientes',
+                                color: theme.colorScheme.tertiary)
+                          ],
                         ),
-                        gapW24,
-                        Text(
-                          'Búsqueda por clientes',
-                          style: TextStyle(color: theme.colorScheme.tertiary),
-                        )
-                      ],
-                    ),
-                  ),
-                )),
+                      ),
+                    )),
+                AppIconButton(
+                    child: const Icon(Icons.map_rounded),
+                    onPressed: () =>
+                        navigationService.goTo(AppRoutes.filtersSale)),
+                AppIconButton(
+                    child: const Icon(Icons.filter_alt_rounded),
+                    onPressed: () =>
+                        navigationService.goTo(AppRoutes.filtersSale)),
+              ],
+            ),
             gapH4,
             BlocBuilder<SaleBloc, SaleState>(
               builder: (context, state) {
                 if (state.status == SaleStatus.loading) {
                   return const Center(child: CupertinoActivityIndicator());
                 } else if (state.status == SaleStatus.success) {
-                  print(state.clients);
                   return Expanded(
                     child: ListView.builder(
                         itemCount:

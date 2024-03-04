@@ -30,6 +30,7 @@ class AppRoutes {
   //sales routes
   static const routersSale = '/sale-routers';
   static const clientsSale = '/sale-clients';
+  static const filtersSale = '/sale-filters';
   static const productsSale = '/sale-products';
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
