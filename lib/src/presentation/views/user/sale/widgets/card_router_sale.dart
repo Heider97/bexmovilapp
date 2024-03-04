@@ -36,7 +36,6 @@ class CardRouter extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -78,7 +77,7 @@ class CardRouter extends StatelessWidget {
         ),
         Container(
           margin: const EdgeInsets.all(6.0),
-          child: AppText(text, color: Colors.black45, fontSize: 14.0),
+          child: AppText(text, fontSize: 14.0),
         )
       ],
     );

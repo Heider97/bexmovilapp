@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../../widgets/atoms/app_text.dart';
 
 class CardReports extends StatelessWidget {
   final IconData iconCard;
@@ -25,13 +26,9 @@ class CardReports extends StatelessWidget {
             height: 90,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 3,
-                      offset: Offset(0, 5))
+                  BoxShadow(blurRadius: 3, offset: Offset(0, 5))
                 ]),
             child: Column(
               children: [
@@ -39,11 +36,7 @@ class CardReports extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SvgPicture.asset(urlIcon, width: 40, height: 40),
-                    Text(title,
-                        style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold)),
+                    AppText(title, fontSize: 16, fontWeight: FontWeight.bold),
                   ],
                 ),
               ],
