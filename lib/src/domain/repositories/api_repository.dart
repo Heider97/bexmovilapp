@@ -19,11 +19,13 @@ import '../models/requests/sync_priorities_request.dart';
 import '../models/responses/dynamic_response.dart';
 import '../models/responses/enterprise_response.dart';
 import '../models/responses/graphic_response.dart';
+import '../models/requests/filter_request.dart';
 
 import '../models/requests/login_request.dart';
 import '../models/responses/kpi_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/functionality_response.dart';
+import '../models/responses/filter_response.dart';
 
 
 import '../models/responses/config_response.dart';
@@ -69,4 +71,7 @@ abstract class ApiRepository {
 
   Future<DataState<GraphicResponse>> graphics(
       {required GraphicRequest request});
+
+  Future<DataState<FilterResponse>> filters(
+      {required FilterRequest request});
 }
