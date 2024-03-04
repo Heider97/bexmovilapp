@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,6 +52,9 @@ import 'src/services/navigation.dart';
 
 //router
 import 'src/config/router/routes.dart';
+
+//widgets
+import 'src/presentation/widgets/atomsbox.dart';
 
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';

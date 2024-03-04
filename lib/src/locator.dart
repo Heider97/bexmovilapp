@@ -26,8 +26,8 @@ import 'services/logger.dart';
 
 final locator = GetIt.instance;
 
-Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
-  if(testing) {
+Future<void> initializeDependencies({testing = false, Dio? dio}) async {
+  if (testing) {
     final storage = await LocalStorageService.getInstance(testing: true);
     locator.registerSingleton<LocalStorageService>(storage!);
 
@@ -35,7 +35,10 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<NavigationService>(navigation);
 
     locator.registerSingleton<ApiService>(
-      ApiService(testing: true, dio: dio!, storageService: locator<LocalStorageService>()),
+      ApiService(
+          testing: true,
+          dio: dio!,
+          storageService: locator<LocalStorageService>()),
     );
 
     final styledDialogController = StyledDialogController<Status>();
@@ -58,7 +61,6 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<LocationRepository>(
       LocationRepository(),
     );
-
   } else {
     final storage = await LocalStorageService.getInstance();
     locator.registerSingleton<LocalStorageService>(storage!);
@@ -72,15 +74,24 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
     locator.registerSingleton<PlatformService>(platform!);
 
     locator.registerSingleton<ApiService>(
-      ApiService(dio: Dio(
-        BaseOptions(
-            baseUrl: 'https://pandapan.bexmovil.com/api',
-            persistentConnection: true,
-            connectTimeout: const Duration(minutes: 1),
-            receiveTimeout: const Duration(minutes: 1),
-            headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
-      ), storageService: locator<LocalStorageService>(), testing: false),
+      ApiService(
+          dio: Dio(
+            BaseOptions(
+                baseUrl: 'https://pandapan.bexmovil.com/api',
+                persistentConnection: true,
+                connectTimeout: const Duration(minutes: 1),
+                receiveTimeout: const Duration(minutes: 1),
+                headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
+          ),
+          storageService: locator<LocalStorageService>(),
+          testing: false),
     );
+
+    final styledDialogController = StyledDialogController<Status>();
+    locator.registerSingleton<StyledDialogController>(styledDialogController);
+
+    final logger = LoggerService();
+    locator.registerSingleton<LoggerService>(logger);
 
     final db = AppDatabase.instance;
     locator.registerSingleton<AppDatabase>(db);
@@ -97,7 +108,6 @@ Future<void> initializeDependencies({ testing = false, Dio? dio }) async {
       LocationRepository(),
     );
   }
-
 }
 
 Future<void> unregisterDependencies() async {
