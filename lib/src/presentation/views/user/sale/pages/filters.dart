@@ -1,5 +1,5 @@
 import 'package:bexmovil/src/presentation/widgets/atoms/app_card.dart';
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -14,9 +14,7 @@ import '../../../../blocs/sale/sale_bloc.dart';
 
 //widgets
 import '../widgets/card_client_sale.dart';
-import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_icon_button.dart';
-import '../../../../widgets/atoms/app_text.dart';
+import '../../../../widgets/atomsbox.dart';
 
 //services
 import '../../../../../locator.dart';
