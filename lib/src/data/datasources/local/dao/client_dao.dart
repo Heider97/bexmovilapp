@@ -27,7 +27,7 @@ class ClientDao {
 
 
     final clientsRouterList = await db!.rawQuery('''
-        SELECT tdr.NOMDIARUTERO, c.razcliente AS NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL
+        SELECT tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE
          FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
          WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
          AND tdr.NOMDIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = "$seller" 
@@ -40,7 +40,7 @@ class ClientDao {
   Future<List<Client>> getClient(String codeClient) async {
     final db = await _appDatabase.database;
     final routerList = await db!
-        .query(tableClient, where: 'CODCLIENTE = ?', whereArgs: [codeClient]);
+        .query(tableClient, where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
     final routers = parseClients(routerList);
     return routers;
   }

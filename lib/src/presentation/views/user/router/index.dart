@@ -1,7 +1,7 @@
 
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_router_sale.dart';
+import 'package:bexmovil/src/presentation/widgets/sales/card_router.dart';
 
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
