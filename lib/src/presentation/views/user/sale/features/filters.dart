@@ -1,9 +1,9 @@
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 //domain
 import '../../../../../domain/models/filter.dart';
 import '../../../../../domain/models/option.dart';
+//widgets
 import '../../../../widgets/atomsbox.dart';
 
 class FilterFeatureSalePage extends StatelessWidget {
@@ -23,23 +23,36 @@ class FilterFeature extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppListTile(
-        title: AppText(filter.name!),
-        subtitle: Wrap(
-          runSpacing: 10.0,
-          spacing: 10.0,
-          children: List<Option>.from(filter.options!).map((option) {
-            if (option.type == 'button') {
-              return FilterOptionButton(option: option);
-            } else if (option.type == 'text') {
-              return FilterOptionText(option: option);
-            } else if (option.type == 'formfield') {
-              return FilterOptionFormField(option: option);
-            } else {
-              return const SizedBox();
-            }
-          }).toList(),
-        ));
+    return AppListTile(title: AppText(filter.name!), subtitle: buildBody());
+  }
+
+  Widget buildBody() {
+    if (filter.type == 'range') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: buildOptions() ?? [],
+      );
+    } else {
+      return Wrap(
+        runSpacing: 10.0,
+        spacing: 10.0,
+        children: buildOptions() ?? [],
+      );
+    }
+  }
+
+  List<Widget>? buildOptions() {
+    return List<Option>.from(filter.options!).map((option) {
+      if (option.type == 'button') {
+        return FilterOptionButton(option: option);
+      } else if (option.type == 'text') {
+        return FilterOptionText(option: option);
+      } else if (option.type == 'formfield') {
+        return FilterOptionFormField(option: option);
+      } else {
+        return const SizedBox();
+      }
+    }).toList();
   }
 }
 

@@ -16,8 +16,8 @@ class OptionDao {
 
   Future<List<Option>> getAllOptionsByFilter(int filterId) async {
     final db = await _appDatabase.database;
-    final optionList =
-        await db!.query(tableOption, where: 'filter_id = ?', whereArgs: [filterId]);
+    final optionList = await db!.query(tableOption,
+        where: 'filter_id = ?', whereArgs: [filterId], orderBy: '_order ASC');
     final option = parseOption(optionList);
     return option;
   }
