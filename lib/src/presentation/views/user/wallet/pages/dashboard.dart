@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
+import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //atoms
@@ -82,6 +83,26 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                 );
               }
             }),
+            SizedBox(
+              width: Screens.width(context),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    navigationService.goTo(AppRoutes.manageWallet);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    // backgroundColor: theme.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: AppText('Gestionar Cartera',
+                      fontWeight: FontWeight.w600, color: Colors.white),
+                ),
+              ),
+            )
           ],
         ),
       ),

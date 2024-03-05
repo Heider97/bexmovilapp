@@ -25,6 +25,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.routerDao.getAllRoutersGroupByClient(seller);
   }
 
+  //CLIENTS
+  @override
+  Future<List<Client>> getClientsByAgeRange(List<int> range) {
+    return _appDatabase.clientDao.getClientInformationByAgeRange(range);
+  }
+
   @override
   Future<List<Client>> getAllClientsRouter(
       String seller, String dayRouter) async {

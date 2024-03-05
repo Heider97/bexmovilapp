@@ -52,6 +52,8 @@ class StepperWidgetState extends State<StepperWidget> {
         ? widget.steps[widget.currentStep].color = theme.primaryColor
         : widget.steps[widget.currentStep].color = theme.cardColor;
 
+
+
     return Column(
       children: [
         InkResponse(

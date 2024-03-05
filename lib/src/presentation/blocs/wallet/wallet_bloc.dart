@@ -36,9 +36,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       this.databaseRepository, this.storageService, this.navigationService)
       : super(const WalletState(status: WalletStatus.initial)) {
     on<LoadGraphics>(_onLoadGraphics);
-    // on<SelectClientEvent>(_selectionEvent);
-    // on<InvoiceSelectionEvent>(_invoiceSelectionEvent);
-    // on<InvoiceActionEvent>(_invoiceActionEvent);
+    on<SelectClientEvent>(_selectionEvent);
+    on<InvoiceSelectionEvent>(_invoiceSelectionEvent);
+    on<InvoiceActionEvent>(_invoiceActionEvent);
   }
 
   // Stream<int> listenForTrigger = Stream.periodic(const Duration(seconds: 1), (int result) {
@@ -50,15 +50,18 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     emit(state.copyWith(status: WalletStatus.success, graphics: graphics));
   }
 
-  // _selectionEvent(SelectClientEvent event, Emitter emit) {
-  //   emit(WalletStepperClientSelection(state.graphics));
-  // }
-  //
-  // _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
-  //   emit(WalletStepperInvoiceSelection(state.graphics));
-  // }
-  //
-  // _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
-  //   emit(WalletStepperInvoiceAction(state.graphics));
-  // }
+  _selectionEvent(SelectClientEvent event, Emitter emit) {
+    //TODO: [Heider Zapa] get client from event and emit to state
+    emit(state.copyWith(status: WalletStatus.success));
+  }
+
+  _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
+    //TODO: [Heider Zapa] get invoice from event and emit to state
+    emit(state.copyWith(status: WalletStatus.success));
+  }
+
+  _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
+    //TODO: [Heider Zapa] get action invoice from event and emit to state
+    emit(state.copyWith(status: WalletStatus.success));
+  }
 }

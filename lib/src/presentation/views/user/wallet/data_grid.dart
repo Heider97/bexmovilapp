@@ -1,9 +1,13 @@
-
+import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../sale/details.dart';
+
+final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class WalletDataGrid extends StatefulWidget {
   const WalletDataGrid({super.key});
@@ -15,29 +19,17 @@ class WalletDataGrid extends StatefulWidget {
 class _DataGridState extends State<WalletDataGrid> {
   final DataGridController _dataGridController = DataGridController();
 
-  late EmployeeDataSource employeeDataSource;
+  //late ClientDataSource employeeDataSource;
 
   @override
   void initState() {
     super.initState();
-    employeeDataSource = EmployeeDataSource(employeeData: getEmployeeData());
   }
 
-  List<Employee> getEmployeeData() {
-    return [
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 20000, "Other"),
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 30000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 800, "Other")
-    ];
+  Future<ClientDataSource> getEmployeeData() async {
+    List<Client> clients =
+        await _databaseRepository.getClientsByAgeRange([31, 60]);
+    return ClientDataSource(clientData: clients); //data);
   }
 
   @override
@@ -47,29 +39,45 @@ class _DataGridState extends State<WalletDataGrid> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
-          child: SfDataGrid(
-            gridLinesVisibility: GridLinesVisibility.both,
-            rowHeight: 50,
-            frozenColumnsCount: 1,
-            frozenRowsCount: 0,
-            onSelectionChanged: (addedRows, removedRows) {
-              for (var element in addedRows) {
-                print('added: ${element.getCells().first.value}');
-              }
-              for (var element in removedRows) {
-                print('removedRows: ${element.getCells().first.value}}');
-              }
-            },
-            onCellTap: (details) {},
-            isScrollbarAlwaysShown: true,
-            horizontalScrollController: ScrollController(),
-            source: employeeDataSource,
-            // showCheckboxColumn: true,
-            //  allowFiltering: true,
-            selectionMode: SelectionMode.single,
-            controller: _dataGridController,
-            columns: getColumns(theme),
-          ),
+          child: FutureBuilder(
+              future: getEmployeeData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasData) {
+                  return SfDataGrid(
+                    gridLinesVisibility: GridLinesVisibility.both,
+                    rowHeight: 60,
+                    frozenColumnsCount: 1,
+                    frozenRowsCount: 0,
+                    onSelectionChanged: (addedRows, removedRows) {
+                      for (var element in addedRows) {
+                        print('added: ${element.getCells().first.value}');
+                      }
+                      for (var element in removedRows) {
+                        print(
+                            'removedRows: ${element.getCells().first.value}}');
+                      }
+                    },
+                    onCellTap: (details) {},
+                    isScrollbarAlwaysShown: true,
+                    horizontalScrollController: ScrollController(),
+                    source: snapshot.data!,
+
+                    // showCheckboxColumn: true,
+                    allowSorting: true,
+                    // allowMultiColumnSorting: true,
+                    selectionMode: SelectionMode.single,
+                    controller: _dataGridController,
+                    columns: getColumns(theme),
+                  );
+                } else if (snapshot.hasError) {
+                  return (Text('Error'));
+                } else {
+                  return Text('other');
+                }
+              }),
         ),
       ],
     );
@@ -80,21 +88,17 @@ class _DataGridState extends State<WalletDataGrid> {
     columns = <GridColumn>[
       GridColumn(
         columnWidthMode: ColumnWidthMode.fitByColumnName,
-        columnName: 'id',
-        minimumWidth: Screens.width(context) * 0.25,
-        label: Center(
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        columnName: 'name',
+        minimumWidth: Screens.width(context) * 0.5,
+        label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.filter_alt_outlined,
-                    color: theme.primaryColor,
-                  )),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Factura',
+                  'Nombre',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -102,85 +106,93 @@ class _DataGridState extends State<WalletDataGrid> {
         ),
       ),
       GridColumn(
-        width: Screens.width(context) * 0.25,
+        minimumWidth: Screens.width(context) * 0.1,
+
         // allowFiltering: true,
-        columnName: 'Estado',
-        label: Row(
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        columnName: 'overdueInvoices',
+        label: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-                onPressed: () {},
-                icon:
-                    Icon(Icons.filter_alt_outlined, color: theme.primaryColor)),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Estado',
-                overflow: TextOverflow.clip,
+                'Facturas vencidas',
+                textAlign: TextAlign.center,
               ),
             ),
           ],
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.34,
-        // allowFiltering: true,
-        columnName: 'Vencimiento',
-
-        label: Center(
+        minimumWidth: Screens.width(context) * 0.15,
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        allowFiltering: true,
+        columnName: 'walletAmmount',
+        label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.filter_alt_outlined,
-                    color: theme.primaryColor,
-                  )),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Vencimiento',
+                  'Cartera',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
         ),
       ),
-      GridColumn(
+      /*    GridColumn(
           // allowFiltering: true,
-          minimumWidth: Screens.width(context) * 0.1,
+          minimumWidth: Screens.width(context) * 0.35,
           columnName: 'Valor',
-          label: Row(
+          sortIconPosition: ColumnHeaderIconPosition.end,
+          label: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.filter_alt_outlined,
-                      color: theme.primaryColor)),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Valor',
+                  'Número de movimiento',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
-          columnWidthMode: ColumnWidthMode.lastColumnFill),
-      GridColumn(
-          //  allowFiltering: true,
+          columnWidthMode: ColumnWidthMode.lastColumnFill), */
+      /*    GridColumn(
+          minimumWidth: Screens.width(context) * 0.35,
+          sortIconPosition: ColumnHeaderIconPosition.end,
           columnName: 'Other',
-          label: Row(
+          label: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.filter_alt_outlined,
-                      color: theme.primaryColor)),
-              const Center(
-                child: Text(
-                  'Other',
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Fecha de Movimiento',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ],
-          ))
+          )),
+      GridColumn(
+          minimumWidth: Screens.width(context) * 0.35,
+          columnName: 'expireDate',
+          sortIconPosition: ColumnHeaderIconPosition.end,
+          label: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Fecha de Vencimiento',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          )) */
     ];
     return columns;
   }
