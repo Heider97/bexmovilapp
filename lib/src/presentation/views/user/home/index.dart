@@ -65,6 +65,7 @@ class HomeViewState extends State<HomeView>
     ThemeData theme = Theme.of(context);
 
     return BlocConsumer<GpsBloc, GpsState>(listener: (context, state) {
+      print(state);
       if (state.isGpsEnabled == true && state.showDialog == true) {
         styledDialogController.closeVisibleDialog();
       } else if (state.isGpsEnabled == false) {
