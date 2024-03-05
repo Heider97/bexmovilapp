@@ -3,7 +3,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:map_launcher/map_launcher.dart';
 
+//blocs
+import '../presentation/blocs/gps/gps_bloc.dart';
 //cubits
 import '../presentation/cubits/login/login_cubit.dart';
 
@@ -86,5 +89,49 @@ class HelperFunctions with FormatDate {
   Future<String> get _externalPath async {
     final directory = await getExternalStorageDirectory();
     return directory!.path;
+  }
+
+  Future<Widget?> showMapDirection(BuildContext context, dynamic work,
+      LatLng? location) async {
+    final availableMaps = await MapLauncher.installedMaps;
+
+    // TODO [Andres Cardenas] get one location ///TEST
+    if(context.mounted) location ??= context.read<GpsBloc>().state.lastKnownLocation;
+
+    if (availableMaps.length == 1) {
+      await availableMaps.first.showDirections(
+        destination: Coords(
+          double.parse(work.latitude!),
+          double.parse(work.longitude!),
+        ),
+        destinationTitle: work.customer,
+        origin: Coords(location!.latitude, location.longitude),
+        originTitle: 'Origen',
+        waypoints: null,
+        directionsMode: DirectionsMode.driving,
+      );
+
+      return null;
+    } else {
+      if (context.mounted) {
+        return await MapsSheet.show(
+            context: context,
+            onMapTap: (map) {
+              map.showDirections(
+                destination: Coords(
+                  double.parse(work.latitude!),
+                  double.parse(work.longitude!),
+                ),
+                destinationTitle: work.customer,
+                origin: Coords(location!.latitude, location.longitude),
+                originTitle: 'Origen',
+                waypoints: null,
+                directionsMode: DirectionsMode.driving,
+              );
+            });
+      } else {
+        return null;
+      }
+    }
   }
 }

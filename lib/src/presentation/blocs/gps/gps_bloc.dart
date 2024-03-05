@@ -8,19 +8,16 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 //domain
+import '../../../domain/models/config.dart';
 import '../../../domain/models/location.dart' as l;
 import '../../../domain/models/error.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/repositories/database_repository.dart';
 import '../../../domain/abstracts/format_abstract.dart';
 
-//utils
-import '../../../utils/constants/strings.dart';
-
 //services
 import '../../../services/navigation.dart';
 import '../../../services/storage.dart';
-import '../../../services/logger.dart';
 
 part 'gps_event.dart';
 part 'gps_state.dart';
@@ -126,22 +123,30 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
         await askGpsAccess();
       }
 
-    //   EnterpriseConfig? enterpriseConfig = _getEnterpriseConfigFromStorage();
-    //
-    //   if (enterpriseConfig != null) {
-    //     LocationSettings locationSettings = _getLocationSettings(
-    //         enterpriseConfig, isPermissionGranted, isLocationEnabled);
-    //
-    //     if (!isPermissionGranted && !isLocationEnabled) {
-    //       emit(state.copyWith(showDialog: true));
-    //     } else {
-    //       positionStream = Geolocator.getPositionStream(
-    //               locationSettings: locationSettings)
-    //           .listen((event) => _handleUserLocation(event, enterpriseConfig)
-    //               .onError(
-    //                   (error, stackTrace) => _handleError(error, stackTrace)));
-    //     }
-    //   }
+      var configs = await getConfigsFromGpsModule();
+
+      var distance = int.tryParse(configs!
+          .firstWhere((element) =>
+              element.module == "gps" && element.name == "distance")
+          .value!);
+      var background = bool.tryParse(configs
+          .firstWhere((element) =>
+              element.module == "gps" && element.name == "background_location")
+          .value!);
+
+      LocationSettings locationSettings = _getLocationSettings(
+          distance ?? 0, isPermissionGranted, isLocationEnabled);
+
+      if (!isPermissionGranted && !isLocationEnabled) {
+        emit(state.copyWith(showDialog: true));
+      } else {
+        positionStream = Geolocator.getPositionStream(
+                locationSettings: locationSettings)
+            .listen((event) => _handleUserLocation(
+                    event, background ?? false, distance ?? 0)
+                .onError(
+                    (error, stackTrace) => _handleError(error, stackTrace)));
+      }
     } catch (e, stackTrace) {
       await _handleError(e, stackTrace);
     }
@@ -187,74 +192,68 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
       _handleError(error, stackTrace);
       return null;
     }
-
   }
 
-  // EnterpriseConfig? _getEnterpriseConfigFromStorage() {
-  //   var storedConfig = storageService.getObject('config');
-  //   return storedConfig != null ? EnterpriseConfig.fromMap(storedConfig) : null;
-  // }
+  Future<List<Config>?> getConfigsFromGpsModule() async {
+    var configs = await databaseRepository.getConfigs();
+    return configs;
+  }
 
-  // LocationSettings _getLocationSettings(EnterpriseConfig enterpriseConfig,
-  //     bool isPermissionGranted, bool isLocationEnabled) {
-  //   var distances = enterpriseConfig.distance!;
-  //   if (defaultTargetPlatform == TargetPlatform.android) {
-  //     return AndroidSettings(
-  //       timeLimit: const Duration(days: 1),
-  //       accuracy: LocationAccuracy.high,
-  //       distanceFilter: 2,
-  //       forceLocationManager: true,
-  //       intervalDuration: const Duration(seconds: 10),
-  //       foregroundNotificationConfig: const ForegroundNotificationConfig(
-  //         notificationText:
-  //             "Servicio de ubicación en segundo plano en ejecución",
-  //         notificationTitle: "Bexdeliveries",
-  //         enableWakeLock: true,
-  //       ),
-  //     );
-  //   } else if (defaultTargetPlatform == TargetPlatform.iOS ||
-  //       defaultTargetPlatform == TargetPlatform.macOS) {
-  //     return AppleSettings(
-  //       accuracy: LocationAccuracy.high,
-  //       activityType: ActivityType.fitness,
-  //       distanceFilter: distances,
-  //       pauseLocationUpdatesAutomatically: true,
-  //       showBackgroundLocationIndicator: false,
-  //     );
-  //   } else {
-  //     return const LocationSettings(
-  //       accuracy: LocationAccuracy.high,
-  //       distanceFilter: 100,
-  //     );
-  //   }
-  // }
-  //
-  // Future<void> _handleUserLocation(
-  //     Position position, EnterpriseConfig enterpriseConfig) async {
-  //   final distances = enterpriseConfig.distance!;
-  //   final isBackgroundLocationEnabled =
-  //       enterpriseConfig.backgroundLocation ?? false;
-  //
-  //   if (isBackgroundLocationEnabled && lastRecordedLocation != null) {
-  //     final distance = Geolocator.distanceBetween(
-  //       lastRecordedLocation!.latitude,
-  //       lastRecordedLocation!.longitude,
-  //       position.latitude,
-  //       position.longitude,
-  //     );
-  //
-  //     if (distance >= distances) {
-  //       lastRecordedLocation = LatLng(position.latitude, position.longitude);
-  //       await saveLocation('location', position, 0);
-  //     }
-  //   } else {
-  //     lastRecordedLocation = LatLng(position.latitude, position.longitude);
-  //     await saveLocation('location', position, 1);
-  //   }
-  //
-  //   add(OnNewUserLocationEvent(
-  //       position, LatLng(position.latitude, position.longitude)));
-  // }
+  LocationSettings _getLocationSettings(
+      int distance, bool isPermissionGranted, bool isLocationEnabled) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return AndroidSettings(
+        timeLimit: const Duration(days: 1),
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 2,
+        forceLocationManager: true,
+        intervalDuration: const Duration(seconds: 10),
+        foregroundNotificationConfig: const ForegroundNotificationConfig(
+          notificationText:
+              "Servicio de ubicación en segundo plano en ejecución",
+          notificationTitle: "Bexdeliveries",
+          enableWakeLock: true,
+        ),
+      );
+    } else if (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.macOS) {
+      return AppleSettings(
+        accuracy: LocationAccuracy.high,
+        activityType: ActivityType.fitness,
+        distanceFilter: distance,
+        pauseLocationUpdatesAutomatically: true,
+        showBackgroundLocationIndicator: false,
+      );
+    } else {
+      return const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 100,
+      );
+    }
+  }
+
+  Future<void> _handleUserLocation(
+      Position position, bool backgroundLocation, int distanceEvaluate) async {
+    if (backgroundLocation && lastRecordedLocation != null) {
+      final distance = Geolocator.distanceBetween(
+        lastRecordedLocation!.latitude,
+        lastRecordedLocation!.longitude,
+        position.latitude,
+        position.longitude,
+      );
+
+      if (distance >= distanceEvaluate) {
+        lastRecordedLocation = LatLng(position.latitude, position.longitude);
+        await saveLocation('location', position, 0);
+      }
+    } else {
+      lastRecordedLocation = LatLng(position.latitude, position.longitude);
+      await saveLocation('location', position, 1);
+    }
+
+    add(OnNewUserLocationEvent(
+        position, LatLng(position.latitude, position.longitude)));
+  }
 
   Future<void> _handleError(dynamic e, StackTrace stackTrace) async {
     await databaseRepository.insertError(Error(

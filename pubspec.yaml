@@ -6,8 +6,28 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.19.4 <3.0.0'
 dependencies:
-  badges: ^3.0.3
+  #state management
   bloc: ^8.1.1
+  get_it: ^7.2.0
+  get_storage: ^2.1.1
+  #google
+
+  #database
+  sqflite: ^2.2.6
+  sqflite_migration: ^0.3.0
+  sqlbrite: ^2.6.0
+  #firebase
+  firebase_analytics: ^10.8.7
+  firebase_auth: ^4.14.1
+  firebase_core: ^2.23.0
+  firebase_crashlytics: ^3.4.16
+  #charts
+  fl_chart: ^0.61.0
+  #others
+
+
+  badges: ^3.0.3
+
   cached_network_image: ^3.3.0
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.13.2
@@ -19,11 +39,8 @@ dependencies:
   dio: ^5.0.2
   dot_navigation_bar: ^1.0.2
   equatable: ^2.0.5
-  firebase_analytics: ^10.8.7
-  firebase_auth: ^4.14.1
-  firebase_core: ^2.23.0
-  firebase_crashlytics: ^3.4.16
-  fl_chart: ^0.61.0
+
+
   flex_seed_scheme: ^1.4.0
   flutter:
     sdk: flutter
@@ -39,8 +56,7 @@ dependencies:
   flutter_udid: ^2.0.1
   font_awesome_flutter: ^10.6.0
   geolocator: ^10.1.0
-  get_it: ^7.2.0
-  get_storage: ^2.1.1
+
   google_fonts: ^6.1.0
   google_nav_bar: ^5.0.6
   google_sign_in: ^6.1.6
@@ -49,7 +65,7 @@ dependencies:
   googleapis_auth: ^1.4.1
   hive: ^2.2.3
   intl: ^0.18.0
-  latlong2: ^0.8.1
+  latlong2: ^0.9.0
   location_repository:
     path: packages/location_repository
   lottie: ^2.7.0
@@ -59,12 +75,11 @@ dependencies:
   permission_handler: ^10.2.0
   pinput: ^3.0.1
   provider: ^6.1.1
+  routing_client_dart: ^0.5.4
   shared_preferences: ^2.2.2
   shimmer: ^2.0.0
   showcaseview: ^2.0.2
-  sqflite: ^2.2.6
-  sqflite_migration: ^0.3.0
-  sqlbrite: ^2.6.0
+
   syncfusion_flutter_calendar: ^24.1.41
   syncfusion_flutter_charts: ^24.1.41
   syncfusion_flutter_datagrid: ^24.1.41
@@ -77,6 +92,8 @@ dependencies:
   validators: ^3.0.0
   vibration: ^1.7.6
   yaml: ^3.1.1
+  flutter_map: ^6.1.0
+  map_launcher: ^3.1.0
 
 dev_dependencies:
   bloc_test: ^9.1.5
