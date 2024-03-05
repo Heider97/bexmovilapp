@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bexdeliveries/src/presentation/widgets/icon_svg_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:flutter_map/flutter_map.dart';
@@ -21,6 +20,10 @@ import 'pages/map/map_view.dart';
 // import 'pages/downloader/downloader.dart';
 // import 'pages/downloading/downloading.dart';
 // import 'pages/recovery/recovery.dart';
+
+
+//widgets
+import '../../../widgets/atomsbox.dart';
 
 //services
 import '../../../../locator.dart';

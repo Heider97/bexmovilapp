@@ -123,7 +123,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                 width: 25,
                 point:
                     LatLng(currentLocation.latitude, currentLocation.longitude),
-                child: GestureDetector(
+                builder: (_) =>  GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     child:
                         Stack(alignment: Alignment.center, children: <Widget>[
@@ -178,7 +178,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     width: 25,
                     point: getLatLngFromString(
                         works[index].latitude!, works[index].longitude!),
-                    child: GestureDetector(
+                    builder: (_) =>  GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
                           state.carouselController!.jumpToPage(index);

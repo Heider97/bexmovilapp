@@ -8,19 +8,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   #state management
   flutter_bloc: ^8.1.2
   bloc: ^8.1.1
   get_it: ^7.2.0
   get_storage: ^2.1.1
   #google
-  google_fonts: ^6.1.0
+  google_fonts: ^4.0.4
   google_nav_bar: ^5.0.6
   google_sign_in: ^6.1.6
   google_sign_in_platform_interface: ^2.4.2
   googleapis: ^11.4.0
   googleapis_auth: ^1.4.1
   #database
+  synchronized: ^3.0.1
   sqflite: ^2.2.6
   sqflite_migration: ^0.3.0
   sqlbrite: ^2.6.0
@@ -29,6 +32,7 @@ dependencies:
   firebase_auth: ^4.14.1
   firebase_core: ^2.23.0
   firebase_crashlytics: ^3.4.16
+  cloud_firestore: ^4.13.2
   #charts
   fl_chart: ^0.61.0
   syncfusion_flutter_calendar: ^24.1.41
@@ -37,32 +41,30 @@ dependencies:
   syncfusion_flutter_signaturepad: ^24.2.7
   syncfusion_localizations: ^24.1.45
   #map
-  flutter_map: ^6.1.0
   map_launcher: ^3.1.0
+  flutter_map: ^4.0.0
+  flutter_map_tile_caching: ^8.0.1
+  fmtc_plus_background_downloading: ^8.0.0
+  fmtc_plus_sharing: ^8.0.0
+  osm_nominatim: ^2.0.0
   geolocator: ^10.1.0
-  latlong2: ^0.9.0
+  latlong2: ^0.8.0
   location_repository:
     path: packages/location_repository
   #others
-
-
   badges: ^3.0.3
-
   cached_network_image: ^3.3.0
   carousel_slider: ^4.2.1
-  cloud_firestore: ^4.13.2
   collection: ^1.18.0
   connectivity_plus: ^3.0.3
   cupertino_icons: ^1.0.2
   dart_ping: ^8.0.1
-  device_info_plus: ^9.0.0
+  device_info_plus: ^8.2.2
   dio: ^5.0.2
   dot_navigation_bar: ^1.0.2
   equatable: ^2.0.5
   flex_seed_scheme: ^1.4.0
   flutter_datetime_picker: ^1.5.1
-  flutter_localizations:
-    sdk: flutter
   flutter_rating_bar: ^4.0.1
   flutter_secure_storage: ^8.0.0
   flutter_slidable: ^3.0.1
@@ -70,10 +72,8 @@ dependencies:
   flutter_svg: ^2.0.4
   flutter_udid: ^2.0.1
   font_awesome_flutter: ^10.6.0
-
   hive: ^2.2.3
   intl: ^0.18.0
-
   lottie: ^2.7.0
   meta: ^1.8.0
   path: ^1.8.2
@@ -85,16 +85,11 @@ dependencies:
   shared_preferences: ^2.2.2
   shimmer: ^2.0.0
   showcaseview: ^2.0.2
-
-
-  synchronized: ^3.0.1
   universal_platform: ^1.0.0+1
-  upgrader: ^7.0.2
   url_launcher: ^6.1.10
   validators: ^3.0.0
   vibration: ^1.7.6
   yaml: ^3.1.1
-  flutter_map_tile_caching: ^9.0.0-dev.5
 
 
 dev_dependencies:
