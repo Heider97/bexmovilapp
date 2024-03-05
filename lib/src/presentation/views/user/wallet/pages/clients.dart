@@ -17,6 +17,12 @@ import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 import '../../../../widgets/atomsbox.dart';
 import '../../../../widgets/user/stepper.dart';
 
+//services
+import '../../../../../locator.dart';
+import '../../../../../services/navigation.dart';
+
+final NavigationService navigationService = locator<NavigationService>();
+
 class WalletClientsView extends StatefulWidget {
   final WalletArgument? walletArgument;
   const WalletClientsView({super.key, this.walletArgument});
@@ -85,29 +91,38 @@ class _WalletClientsViewState extends State<WalletClientsView> {
               ),
             ),
             StepperWidget(currentStep: 0, steps: steps),
-            Padding(
-                padding: const EdgeInsets.all(Const.padding),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: theme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(Const.space15)),
-                  child: Padding(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
                     padding: const EdgeInsets.all(Const.padding),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: theme.colorScheme.tertiary,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: theme.colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(Const.space15)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Const.padding),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                            gapW12,
+                            AppText('Búsqueda por clientes',
+                                color: theme.colorScheme.tertiary)
+                          ],
                         ),
-                        gapW24,
-                        Text(
-                          'Búsqueda por clientes',
-                          style: TextStyle(color: theme.colorScheme.tertiary),
-                        )
-                      ],
-                    ),
-                  ),
-                )),
+                      ),
+                    )),
+                AppIconButton(
+                    child: const Icon(Icons.filter_alt_rounded),
+                    onPressed: () =>
+                        navigationService.goTo(AppRoutes.filtersSale)),
+              ],
+            ),
+            gapH4,
           ],
         ),
       ),
