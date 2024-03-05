@@ -47,13 +47,13 @@ class AppShimmerState extends State<AppShimmer>
   }
 
   LinearGradient get gradient => LinearGradient(
-    colors: widget.linearGradient.colors,
-    stops: widget.linearGradient.stops,
-    begin: widget.linearGradient.begin,
-    end: widget.linearGradient.end,
-    transform: _SlidingGradientTransform(
-        slidePercent: _appShimmerController.value),
-  );
+        colors: widget.linearGradient.colors,
+        stops: widget.linearGradient.stops,
+        begin: widget.linearGradient.begin,
+        end: widget.linearGradient.end,
+        transform: _SlidingGradientTransform(
+            slidePercent: _appShimmerController.value),
+      );
 
   bool get isSized =>
       (context.findRenderObject() as RenderBox?)?.hasSize ?? false;
@@ -124,6 +124,7 @@ class _AppShimmerLoadingState extends State<AppShimmerLoading> {
     }
 
     // Collect ancestor AppShimmer info.
+
     final appShimmer = AppShimmer.of(context)!;
 
     if (!appShimmer.isSized) {

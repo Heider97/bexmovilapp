@@ -20,6 +20,9 @@ abstract class DatabaseRepository {
   Future<List<Map<String, Object?>>> search(String table);
   Future<bool> listenForTableChanges(String? table);
 
+  //CLIENT
+  Future<List<Client>> getClientsByAgeRange(List<int> range);
+
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
   Future<List<Client>> getAllClientsRouter(String seller, String dayRouter);

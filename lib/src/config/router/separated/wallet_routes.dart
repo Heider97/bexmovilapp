@@ -1,4 +1,5 @@
 //utils
+
 import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
@@ -9,6 +10,7 @@ import '../../../presentation/widgets/global/app_global_background.dart';
 //views
 import '../../../presentation/views/user/wallet/pages/dashboard.dart';
 import '../../../presentation/views/user/wallet/pages/clients.dart';
+import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
   AppRoutes.dashboardWallet: (context, settings) =>
@@ -19,4 +21,9 @@ Map<String, RouteType> walletRoutes = {
       child: WalletClientsView(
         walletArgument: settings.arguments as WalletArgument,
       )),
+  AppRoutes.manageWallet: (context, setting) => AppGlobalBackground.squared(
+        opacity: 0.1,
+        hideBottomNavigationBar: true,
+        child: const WalletProcessView(),
+      )
 };

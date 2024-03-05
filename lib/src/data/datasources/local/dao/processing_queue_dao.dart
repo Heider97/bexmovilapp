@@ -16,14 +16,14 @@ class ProcessingQueueDao {
   }
 
   Future<List<ProcessingQueue>> getAllProcessingQueues() async {
-    final db = await _appDatabase._database;
+    final db = _appDatabase._database;
     final processingQueueList = await db!.query(tableProcessingQueues);
     final processingQueues = parseProcessingQueues(processingQueueList);
     return processingQueues;
   }
 
   Future<List<ProcessingQueue>> getAllProcessingQueuesIncomplete() async {
-    final db = await _appDatabase._database;
+    final db = _appDatabase._database;
     final processingQueueList = await db!.query(tableProcessingQueues,
         where: 'task = ? or task = ? or task = ?',
         whereArgs: ['incomplete', 'error', 'procesing']);
@@ -32,7 +32,7 @@ class ProcessingQueueDao {
   }
 
   Future<bool> validateIfProcessingQueueIsIncomplete() async {
-    final db = await _appDatabase._database;
+    final db = _appDatabase._database;
     final processingQueueList = await db!.query(tableProcessingQueues,
         where: 'task = ? AND code != ? AND code != ? AND code != ?',
         whereArgs: ['incomplete', 'VNAIANBTLM', 'ASJBVKJDFS', 'AB5A8E10Y3']);
@@ -50,7 +50,7 @@ class ProcessingQueueDao {
   }
 
   Future<void> emptyProcessingQueue() async {
-    final db = await _appDatabase._database;
+    final db = _appDatabase._database;
     await db!.delete(tableProcessingQueues, where: 'code = "VNAIANBTLM"');
     return Future.value();
   }

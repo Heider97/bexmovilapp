@@ -200,7 +200,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                                   iconName: 'Cartera',
                                   imagePath: 'assets/svg/wallet.svg',
                                   onTap: () {
-                                    _navigationService.goTo(AppRoutes.dashboardWallet);
+                                    _navigationService.goTo(AppRoutes.walletprocess);
                                   }),
                             )),
                       ),
