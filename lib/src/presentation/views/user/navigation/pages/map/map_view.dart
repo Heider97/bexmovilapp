@@ -128,12 +128,8 @@ class _MapPageState extends State<MapPage> {
           builder: (context, condition) {
             var works = context.read<NavigationCubit>().state.works;
             return condition
-                ? Text('Clientes a visitar: ${works!.length}')
-                : const Row(
-                    children: [
-                      CupertinoActivityIndicator(),
-                    ],
-                  );
+                ? AppText('Clientes a visitar: ${works!.length}')
+                : AppText('0');
           },
         ),
         actions: [

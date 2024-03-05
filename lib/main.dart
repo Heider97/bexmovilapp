@@ -31,6 +31,7 @@ import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
+import 'src/presentation/cubits/navigation/navigation_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/location/location_bloc.dart';
@@ -210,20 +211,6 @@ class _MyAppState extends State<MyApp> {
       providers: [
         //BLOC PROVIDERS
         BlocProvider(
-            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
-
-        BlocProvider(create: (_) => SplashScreenBloc()),
-        BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
-        BlocProvider(create: (_) => SaleStepperBloc()),
-        BlocProvider(
-            create: (_) => WalletBloc(locator<DatabaseRepository>(),
-                locator<LocalStorageService>(), locator<NavigationService>())),
-
-        BlocProvider(
-            create: (_) => SaleBloc(
-                locator<DatabaseRepository>(), locator<LocalStorageService>())
-              ..add(LoadRouters())),
-        BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
         BlocProvider(
@@ -237,6 +224,24 @@ class _MyAppState extends State<MyApp> {
               locator<ApiRepository>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
+        ),
+        BlocProvider(
+            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
+        BlocProvider(create: (_) => SplashScreenBloc()),
+        BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
+        BlocProvider(create: (_) => SaleStepperBloc()),
+        BlocProvider(
+            create: (_) => WalletBloc(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())),
+        BlocProvider(
+            create: (_) => SaleBloc(
+                locator<DatabaseRepository>(), locator<LocalStorageService>())
+              ..add(LoadRouters())),
+        BlocProvider(
+          create: (context) => NavigationCubit(
+              locator<DatabaseRepository>(),
+              locator<NavigationService>(),
+              BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),

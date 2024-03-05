@@ -118,8 +118,9 @@ class _ClientsPageState extends State<ClientsPage> {
                     )),
                 AppIconButton(
                     child: const Icon(Icons.map_rounded),
-                    onPressed: () =>
-                        navigationService.goTo(AppRoutes.filtersSale)),
+                    onPressed: () => navigationService.goTo(
+                        AppRoutes.navigation,
+                        arguments: widget.codeRouter)),
                 AppIconButton(
                     child: const Icon(Icons.filter_alt_rounded),
                     onPressed: () =>
