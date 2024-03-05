@@ -21,7 +21,7 @@ class CustomFrameButtom extends StatelessWidget {
               ? theme.colorScheme.primary
               : theme.colorScheme.secondary),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Icon(

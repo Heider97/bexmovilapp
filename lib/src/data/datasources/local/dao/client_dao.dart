@@ -43,36 +43,47 @@ class ClientDao {
     return Future.value();
   }
 
-  getClientInformation() async {
+  Future<List<Client>> getClientInformationByAgeRange(List<int> range) async {
     final db = _appDatabase._database;
-    await db!.rawQuery('''SELECT DISTINCT f.codcliente,
-	tbldcartera.codtipodoc,
-	tblmcliente.nomcliente,
-	tbldcartera.nummov,
-	tbldcartera.fecmov,
-	tbldcartera.fecven,
+    dynamic clientsQuery = await db!.rawQuery('''SELECT 
+    t.nomcliente AS name,
+    COUNT(t.nummov) AS overdueInvoices,
+    SUM(t.preciomov) AS walletAmmount
+FROM (
+SELECT DISTINCT f.codcliente,
+    tbldcartera.codtipodoc,
+    tblmcliente.nomcliente,
+    tbldcartera.nummov,
+    tbldcartera.fecmov,
+    tbldcartera.fecven,
     CASE tbldcartera.debcre WHEN 'C' THEN tbldcartera.preciomov * -1 ELSE tbldcartera.preciomov END AS preciomov,
-	tbldcartera.debcre,
-	tbldcartera.recprov,
-	'' AS idfacturacion,
-	tbldcartera.valtotcredito,
-	tbldcartera.vlr_dscto_pp,
-	tbldcartera.fecha_dscto_pp,
-	tblmvendedor.codvendedor,
-	'' AS planilla
-	FROM tbldcartera,tblmcliente, tblmvendedor,
-	(
-	    SELECT tblmrutero.codcliente,tblmcliente.nitcliente
-		FROM tblmrutero,tblmcliente
-		WHERE tblmrutero.codvendedor = '?'
-		AND tblmrutero.codcliente = tblmcliente.codcliente
-		GROUP BY codcliente
-	) as f
-	WHERE tbldcartera.codcliente=tblmcliente.codcliente
-	AND f.nitcliente = tblmcliente.nitcliente
-	AND tbldcartera.codvendedor = tblmvendedor.codvendedor
-	AND DATE(tbldcartera.FECMOV) <= DATE_FORMAT(NOW() - INTERVAL 31 DAY, "%Y-%m-%d")
-    AND DATE(tbldcartera.FECMOV) >= DATE_FORMAT(NOW() - INTERVAL 60 DAY, "%Y-%m-%d")
-  }''');
+    tbldcartera.debcre,
+    tbldcartera.recprov,
+    '' AS idfacturacion,
+    tbldcartera.valtotcredito,
+    tbldcartera.vlr_dscto_pp,
+    tbldcartera.fecha_dscto_pp,
+    tblmvendedor.codvendedor,
+    '' AS planilla
+    FROM tbldcartera,tblmcliente, tblmvendedor,
+    (
+        SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+       FROM tblmrutero,tblmcliente
+       WHERE tblmrutero.codvendedor = '09'
+       AND tblmrutero.codcliente = tblmcliente.codcliente
+       GROUP BY tblmrutero.codcliente
+    ) as f
+    WHERE tbldcartera.codcliente = tblmcliente.codcliente
+    AND f.nitcliente = tblmcliente.nitcliente
+    AND tbldcartera.codvendedor = tblmvendedor.codvendedor
+    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) <= STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
+    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) >= STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))) as t
+  group by t.nomcliente, t.codtipodoc
+''');
+
+    //range test 31 - 60
+
+    List<Client> clients = parseClients(clientsQuery);
+    return clients;
   }
 }

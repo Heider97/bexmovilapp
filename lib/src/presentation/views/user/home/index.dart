@@ -137,78 +137,7 @@ class HomeViewState extends State<HomeView>
               gapH4,
               const Text('Tus aplicaciones',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-<<<<<<< HEAD
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomItem(
-                          iconName: 'Vender',
-                          imagePath: 'assets/svg/sell.svg',
-                          onTap: () {
-                            _navigationService.goTo(Routes.saleRoute);
-                          }),
-                      CustomItem(
-                          iconName: 'Cartera',
-                          imagePath: 'assets/svg/wallet.svg',
-                          onTap: () {
-                            _navigationService.goTo(Routes.walletprocess);
-                          }),
-                      CustomItem(
-                          iconName: 'Mercadeo',
-                          imagePath: 'assets/svg/mercadeo.svg',
-                          onTap: () {
-                            _navigationService.goTo(Routes.wallet);
-                          }),
-                      CustomItem(
-                          iconName: 'PQRS',
-                          imagePath: 'assets/svg/pqrs.svg',
-                          onTap: () {
-                            // _navigationService.goTo(Routes.pqrs);
-                          }),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // CustomItem(
-                      //     iconName: 'Vender',
-                      //     imagePath: 'assets/svg/sell.svg',
-                      //     onTap: () {
-                      //       _navigationService.goTo(Routes.saleRoute);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'Cartera',
-                      //     imagePath: 'assets/svg/wallet.svg',
-                      //     onTap: () {
-                      //       _navigationService.goTo(Routes.wallet);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'Mercadeo',
-                      //     imagePath: 'assets/svg/mercadeo.svg',
-                      //     onTap: () {
-                      //       // _navigationService.goTo(Routes.mercadeo);
-                      //     }),
-                      // CustomItem(
-                      //     iconName: 'PQRS',
-                      //     imagePath: 'assets/svg/pqrs.svg',
-                      //     onTap: () {
-                      //       // _navigationService.goTo(Routes.pqrs);
-                      //     }),
-                    ],
-                  ),
-                ),
-              )
-=======
               const HomeApplications(),
->>>>>>> a60177e624e0adf74cd84ef0a3c12d257eece2d4
             ],
           ),
         ),

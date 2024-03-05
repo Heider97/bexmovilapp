@@ -52,7 +52,7 @@ class StepperWidgetState extends State<StepperWidget> {
         ? widget.steps[widget.currentStep].color = theme.primaryColor
         : widget.steps[widget.currentStep].color = theme.cardColor;
 
-//TODO CONDICION PARA MOSTRAR DIFERENTES STEPS SEGUN EL ESTADO DEL BLOC.....
+
 
     return Column(
       children: [

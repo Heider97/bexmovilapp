@@ -45,6 +45,7 @@ class Routes {
   static const walletprocess = '/wallet-process';
   static const walletDetailsScreen = '/wallet-details-screen';
   static const walletNotificationView = '/wallet-notification-screen';
+  static const manageWallet = '/manage-wallet';
 }
 
 // Form Error

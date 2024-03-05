@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
@@ -13,28 +14,76 @@ class DataGridCheckBox extends StatefulWidget {
 class _DataGridCheckBoxState extends State<DataGridCheckBox> {
   final DataGridController _dataGridController = DataGridController();
 
-  late EmployeeDataSource employeeDataSource;
+  late ClientDataSource employeeDataSource;
 
   @override
   void initState() {
     super.initState();
-    employeeDataSource = EmployeeDataSource(employeeData: getEmployeeData());
+    employeeDataSource = ClientDataSource(clientData: getEmployeeData());
   }
 
-  List<Employee> getEmployeeData() {
+  List<Client> getEmployeeData() {
     return [
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 20000, "Other"),
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 30000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Mora', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 15000, "Other"),
-      Employee('IOST415D', 'Al dia', '24/Ago/2022', 800, "Other")
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022'),
+      Client(
+          nitCliente: '001',
+          docType: 'CC',
+          movDate: '20/Agosto/2022',
+          expireDate: '20/Agosto/2022')
     ];
   }
 
@@ -112,26 +161,6 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         ),
       ),
       GridColumn(
-        width: Screens.width(context) * 0.25,
-        // allowFiltering: true,
-        columnName: 'Estado',
-        label: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-                onPressed: () {},
-                icon:
-                    Icon(Icons.filter_alt_outlined, color: theme.primaryColor)),
-            const Expanded(
-              child: Text(
-                'Estado',
-                overflow: TextOverflow.clip,
-              ),
-            ),
-          ],
-        ),
-      ),
-      GridColumn(
         minimumWidth: Screens.width(context) * 0.34,
         // allowFiltering: true,
         columnName: 'Vencimiento',
@@ -157,7 +186,7 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
       ),
       GridColumn(
           // allowFiltering: true,
-          minimumWidth: Screens.width(context) * 0.1,
+          minimumWidth: Screens.width(context) * 0.34,
           columnName: 'Valor',
           label: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -174,23 +203,6 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
             ],
           ),
           columnWidthMode: ColumnWidthMode.lastColumnFill),
-      GridColumn(
-          //  allowFiltering: true,
-          columnName: 'Other',
-          label: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.filter_alt_outlined,
-                      color: theme.primaryColor)),
-              const Center(
-                child: Text(
-                  'Other',
-                ),
-              ),
-            ],
-          ))
     ];
     return columns;
   }

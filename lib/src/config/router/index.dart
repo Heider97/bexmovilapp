@@ -126,6 +126,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
                 child: WalletDashboardView(),
               ));
 
+    case Routes.manageWallet:
+      return MaterialPageRoute(
+          builder: (context) => const GlobalBackgroundSquare(
+                opacity: 0.1,
+                hideBottomNavigationBar: true,
+                child: WalletProcessView(),
+              ));
+
     case Routes.saleRoute:
       return MaterialPageRoute(
           builder: (context) => const GlobalBackgroundSquare(

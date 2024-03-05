@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../datasources/local/app_database.dart';
@@ -14,6 +15,13 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
+
+  //CLIENTS
+
+  @override
+  Future<List<Client>> getClientsByAgeRange(List<int> range) {
+    return _appDatabase.clientDao.getClientInformationByAgeRange(range);
+  }
 
   //ROUTER
   @override

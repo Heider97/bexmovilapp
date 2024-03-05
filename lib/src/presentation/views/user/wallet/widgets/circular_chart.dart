@@ -65,7 +65,6 @@ class CircularChart extends StatelessWidget {
                 pointColorMapper: (ChartData data, _) => data.color,
                 xValueMapper: (ChartData data, _) => data.x,
                 yValueMapper: (ChartData data, _) => data.y),
-
           ]),
           Row(
             children: [
@@ -95,7 +94,7 @@ class CircularChart extends StatelessWidget {
               )
             ],
           ),
-          gapH16
+          gapH16,
         ],
       ),
     );

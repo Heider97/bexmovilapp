@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
 
 import '../models/feature.dart';
@@ -13,6 +14,9 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+
+  //CLIENT
+  Future<List<Client>> getClientsByAgeRange(List<int> range);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);

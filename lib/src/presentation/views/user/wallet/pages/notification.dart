@@ -1,11 +1,10 @@
 import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/wallet/check_image.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WalletNotificationView extends StatefulWidget {
   const WalletNotificationView({super.key});
@@ -19,7 +18,6 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -101,8 +99,8 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                   /* const Expanded(
                     child: SizedBox(),
                   ), */
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text('Adjuntar Firma:'),
                   ),
                   Padding(

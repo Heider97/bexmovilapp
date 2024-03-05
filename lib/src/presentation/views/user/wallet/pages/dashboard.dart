@@ -1,3 +1,6 @@
+import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 
 //utils
@@ -9,6 +12,8 @@ import '../../../../widgets/atomsbox.dart';
 //widgets
 import '../widgets/cartesian_chart.dart';
 import '../widgets/circular_chart.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
 
 class WalletDashboardView extends StatefulWidget {
   const WalletDashboardView({super.key});
@@ -27,35 +32,65 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Const.padding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  const AppBackButton(needPrimary: true),
-                  AppIconButton(
-                      onPressed: null,
-                      child: Icon(Icons.menu,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer)),
+                  Padding(
+                    padding: const EdgeInsets.all(Const.padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const AppBackButton(needPrimary: true),
+                        AppIconButton(
+                            onPressed: null,
+                            child: Icon(Icons.menu,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer)),
+                      ],
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: CartesianChart(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: CircularChart(),
+                  ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CartesianChart(),
+          ),
+          SizedBox(
+            width: Screens.width(context),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  _navigationService.goTo(Routes.manageWallet);
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Text(
+                  'Gestionar Cartera',
+                  style: theme.textTheme.bodyMedium!.copyWith(
+                      fontWeight: FontWeight.w600, color: Colors.white),
+                ),
+              ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CircularChart(),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
