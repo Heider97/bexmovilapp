@@ -1,3 +1,4 @@
+//TODO: [Heider Zapa] organize
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
@@ -9,15 +10,20 @@ import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_resp
 import '../../utils/resources/data_state.dart';
 
 import '../models/requests/dynamic_request.dart';
+import '../models/requests/google_request.dart';
+import '../models/requests/functionality_request.dart';
 import '../models/requests/enterprise_request.dart';
+import '../models/requests/graphic_request.dart';
 import '../models/requests/kpi_request.dart';
 import '../models/requests/sync_priorities_request.dart';
 import '../models/responses/dynamic_response.dart';
 import '../models/responses/enterprise_response.dart';
+import '../models/responses/graphic_response.dart';
 
 import '../models/requests/login_request.dart';
 import '../models/responses/kpi_response.dart';
 import '../models/responses/login_response.dart';
+import '../models/responses/functionality_response.dart';
 
 
 import '../models/responses/config_response.dart';
@@ -57,4 +63,10 @@ abstract class ApiRepository {
 
   Future<DataState<KpiResponse>> kpis(
       {required KpiRequest request});
+
+  Future<DataState<FunctionalityResponse>> functionalities(
+      {required FunctionalityRequest request});
+
+  Future<DataState<GraphicResponse>> graphics(
+      {required GraphicRequest request});
 }

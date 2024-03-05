@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/network/network_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/calendar/index.dart';
+import 'package:bexmovil/src/presentation/views/user/calendar/pages/index.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bloc/bloc.dart';
 // import 'package:dio/dio.dart';

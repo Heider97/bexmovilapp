@@ -4,8 +4,7 @@ import 'package:bexmovil/src/domain/models/responses/sync_priorities_response.da
 import 'package:dio/dio.dart';
 
 //interceptor
-import '../../../domain/models/responses/dynamic_response.dart';
-import '../../../domain/models/responses/google_response.dart';
+
 import 'interceptor_api_service.dart';
 
 //response
@@ -14,8 +13,12 @@ import '../../../domain/models/responses/login_response.dart';
 import '../../../domain/models/responses/change_password_response.dart';
 import '../../../domain/models/responses/recovery_code_response.dart';
 import '../../../domain/models/responses/validate_recovery_code_response.dart';
+import '../../../domain/models/responses/dynamic_response.dart';
+import '../../../domain/models/responses/google_response.dart';
 import '../../../domain/models/responses/config_response.dart';
 import '../../../domain/models/responses/sync_response.dart';
+import '../../../domain/models/responses/functionality_response.dart';
+import '../../../domain/models/responses/graphic_response.dart';
 
 //services
 import '../../../services/storage.dart';
@@ -432,7 +435,7 @@ class ApiService {
     final headers = <String, dynamic>{};
 
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+        _setStreamType<Response<KpiResponse>>(Options(
       method: 'GET',
       headers: headers,
       extra: extra,
@@ -442,6 +445,72 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = KpiResponse.fromJson(result.data!);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<FunctionalityResponse>> functionalities(
+      {required String codvendedor}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'codvendedor': codvendedor};
+
+    final headers = <String, dynamic>{};
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<FunctionalityResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/functionalities',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = FunctionalityResponse.fromJson(result.data!);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<GraphicResponse>> graphics(
+      {required String codvendedor}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'codvendedor': codvendedor};
+
+    final headers = <String, dynamic>{};
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<GraphicResponse>>(Options(
+          method: 'GET',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(dio.options, '/graphics/index',
+            queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = GraphicResponse.fromJson(result.data!);
 
     return Response(
         data: value,

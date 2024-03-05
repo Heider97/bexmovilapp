@@ -1,11 +1,9 @@
 //TODO [Heider Zapa] Organize
-import 'package:bexmovil/src/presentation/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //utils
-import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/nums.dart';
 
 //cubit
@@ -19,6 +17,8 @@ import '../../../locator.dart';
 import '../../../services/navigation.dart';
 
 //widgets
+import '../../widgets/atoms/app_text.dart';
+import '../../widgets/atoms/app_elevated_button.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -90,9 +90,11 @@ class PoliticsViewState extends State<PoliticsView> {
                             valueColor:
                                 AlwaysStoppedAnimation<Color>(theme.primaryColor),
                           )
-                        : CustomMaterialButton(
-                            onButtonPressed: () => _dispatchEvent(context),
-                            buttonText: 'Aceptar y Continuar')
+                        : AppElevatedButton(
+                            minimumSize: const Size(70, 70),
+                            child: AppText('Aceptar y Continuar', fontSize: 20),
+                            onPressed: () => _dispatchEvent(context),
+                        )
                   ]),
                 )),
           ),

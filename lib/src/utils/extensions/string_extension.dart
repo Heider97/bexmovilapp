@@ -7,6 +7,6 @@ extension StringUtil on String {
   }
 
   String formatted(double value) {
-    return NumberFormat('#,##0.00', 'es_CO').format(value);
+    return '\$${NumberFormat('#,##0.00', 'es_CO').format(value)}';
   }
 }

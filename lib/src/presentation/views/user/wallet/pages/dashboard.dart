@@ -1,11 +1,14 @@
+import 'package:bexmovil/src/domain/models/kpi.dart';
+import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/strings.dart';
 
 //atoms
-import '../../../../widgets/global/custom_back_button.dart';
-import '../../../../widgets/global/custom_menu_button.dart';
+import '../../../../widgets/atomsbox.dart';
 
 //widgets
 import '../widgets/cartesian_chart.dart';
@@ -21,75 +24,67 @@ class WalletDashboardView extends StatefulWidget {
 class _WalletDashboardViewState extends State<WalletDashboardView> {
   TextEditingController searchController = TextEditingController();
 
+  late WalletBloc walletBloc;
+
   @override
   void initState() {
+    walletBloc = BlocProvider.of<WalletBloc>(context);
+    walletBloc.add(LoadGraphics());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(Const.padding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBackButton(
-                    primaryColorBackgroundMode: true,
-                  ),
-                  CustomMenuButton(
-                    primaryColorBackgroundMode: true,
-                  )
+                  AppBackButton(needPrimary: true),
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CartesianChart(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: CircularChart(),
-            ),
-            // TabBar(
-            //   controller: _tabController,
-            //   tabs: const [
-            //     Tab(text: "Semanal"),
-            //     Tab(text: "Mensual"),
-            //     Tab(text: "3 Meses"),
-            //   ],
-            //   indicatorSize: TabBarIndicatorSize.tab,
-            // ),
-        
-        
-            // Expanded(
-            //   child: TabBarView(
-            //     controller: _tabController,
-            //     children: const [
-            //       SingleChildScrollView(
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // )
+            BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+              if (state.graphics.isNotEmpty) {
+                return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.graphics.length,
+                    itemBuilder: (context, index) {
+                      final graphic = state.graphics[index];
+                      if (graphic.type == 'line') {
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CartesianChart(graphic: graphic));
+                      } else if (graphic.type == 'kpi') {
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CardKpi(
+                                needConverted: true,
+                                height: 80,
+                                kpi: Kpi(
+                                    type: graphic.data!.first.x,
+                                    title: graphic.title,
+                                    value: graphic.data!.first.y.toString())));
+                      } else {
+                        return Padding(
+                            padding: const EdgeInsets.all(Const.padding),
+                            child: CircularChart(graphic: graphic));
+                      }
+                    });
+              } else {
+                return Center(
+                  child: AppText('Vendedor no tiene graphicos configurados'),
+                );
+              }
+            }),
           ],
         ),
       ),
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, [this.color]);
-  final String x;
-  final double y;
-  final Color? color;
 }

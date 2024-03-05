@@ -1,16 +1,33 @@
 import 'package:flex_seed_scheme/flex_seed_scheme.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/constants/colors.dart';
+
 class AppColors {
   static Color primarySeedColor = const Color(0xFF192256);
   static Color secondarySeedColor = const Color(0xFF9C254D);
 
-  static final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
+  static const ColorScheme schemeLight = ColorScheme(
     brightness: Brightness.light,
-    primaryKey: primarySeedColor,
-    secondaryKey: secondarySeedColor,
-    tones: FlexTones.vivid(Brightness.light),
+    primary: ColorLight.primary,
+    onPrimary: ColorLight.onPrimary,
+    secondary: ColorLight.secondary,
+    onSecondary: ColorLight.onSecondary,
+    tertiary: ColorLight.tertiary,
+    background: ColorLight.background,
+    error: ColorLight.error,
+    onError: ColorLight.onError,
+    onBackground: ColorLight.onBackground,
+    surface: ColorLight.surface,
+    onSurface: ColorLight.onSurface,
   );
+
+  // static final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
+  //   brightness: Brightness.light,
+  //   primaryKey: primarySeedColor,
+  //   secondaryKey: secondarySeedColor,
+  //   // tones: FlexTones.vivid(Brightness.light),
+  // );
 
   static final ColorScheme schemeDark = SeedColorScheme.fromSeeds(
     brightness: Brightness.dark,
@@ -19,7 +36,7 @@ class AppColors {
     tones: FlexTones.vivid(Brightness.dark),
   );
 
-  static final appColorSchemeLight = schemeLight;
+  static const appColorSchemeLight = schemeLight;
   static final appColorSchemeDark = schemeDark;
 
   static Color getShade(Color color, {bool darker = false, double value = .1}) {

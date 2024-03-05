@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //domain
-import '../../../../../domain/models/responses/kpi_response.dart';
+import '../../../../../domain/models/kpi.dart';
 //utils
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/screens.dart';

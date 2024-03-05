@@ -1,51 +1,45 @@
-// App
-const String appTitle = 'Bex Movil';
+import 'package:flutter/material.dart';
 
-// Networking and APIs
-const String baseUrl = 'https://demo.bexdeliveries.com/api/v1/';
-const String defaultApiKey = 'ff957763c54c44d8b00e5e082bc76cb0';
-const String defaultSources = 'bbc-news, abc-news, al-jazeera-english';
+final GlobalKey<ScaffoldState> globalKey = GlobalKey();
 
 // Storage and Databases
-const String articlesTableName = 'articles_table';
 const String databaseName = 'app_database';
 
-//routes\
-
-class Routes {
-  //
-  static const splashRoute = '/splash';
-  static const politicsRoute = '/politics';
-  static const companyRoute = '/company';
-  static const permissionRoute = '/permission';
-  static const loginRoute = '/login';
+//routes
+class AppRoutes {
+  //auth routes
+  static const splash = '/splash';
+  static const politics = '/politics';
+  static const company = '/company';
+  static const permission = '/permission';
+  static const login = '/login';
   static const searchPage = '/search';
-
   static const codeFormRequest = '/code-form-request';
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
+  static const selectEnterprise = '/select-enterprise';
 
-  static const codecreatemeet = '/code-create-meet';
+  //home routes
+  static const home = '/home';
+  static const sync = '/sync';
 
-  static const homeRoute = '/home';
-  static const syncRoute = '/sync';
-  static const categoryRoute = '/category';
-  static const productRoute = '/product';
-  static const calendarRoute = '/calendar';
-  static const charDetailsRoute = '/charDetailsRoute';
-  static const saleRoute = '/sale';
-  static const routerRoute = '/router';
-  static const detailSaleRoute = '/detail-sale';
-  static const historySaleRoute = '/history';
-  static const productivityRoute = '/productivity';
-  static const selectEnterpriseRoute = '/select-enterprise';
-  static const databaseRoute = '/database';
+  //calendar routes
+  static const calendar = '/calendar';
+  static const createMeet = '/code-create-meet';
+
+  //sales routes
+  static const routersSale = '/sale-routers';
+  static const clientsSale = '/sale-clients';
+  static const productsSale = '/sale-products';
+  static const cartSale = '/sale-cart';
+  static const historySale = '/sale-history';
 
   //Wallet routes
-  static const wallet = '/wallet';
-  static const walletprocess = '/wallet-process';
-  static const walletDetailsScreen = '/wallet-details-screen';
-  static const walletNotificationView = '/wallet-notification-screen';
+  static const dashboardWallet = '/wallet-dashboard';
+  static const clientsWallet = '/wallet-clients';
+  static const summariesWallet = '/wallet-summaries';
+  static const notificationWallet = '/wallet-notification';
+  static const detailWallet = '/wallet-detail';
 }
 
 // Form Error
@@ -127,6 +121,16 @@ class Assets {
   static const String shaving = 'assets/shaving.svg';
   static const String signIn = 'assets/sign_in.jpg';
   static const String spa = 'assets/spa.svg';
+
+  //Wallet Assets
+  static const String whatsapp = 'assets/images/wallet/whatsapp.png';
+  static const String emailWallet = 'assets/images/wallet/email.png';
+  static const String textMessage = 'assets/images/wallet/text-message.png';
+
+  static const String check = 'assets/images/wallet/check.png';
+  static const String consignment = 'assets/images/wallet/consignment.png';
+  static const String cash = 'assets/images/wallet/cash.png';
+  static const String creditNote = 'assets/images/wallet/credit_note.png';
 }
 
 class Const {

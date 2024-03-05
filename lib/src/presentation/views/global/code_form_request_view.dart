@@ -1,4 +1,5 @@
 //TODO [Heider Zapa] Organize
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,9 +14,6 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/validators.dart';
 //widgets
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_elevated_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_textformfield.dart';
 //services
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -66,7 +64,7 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                 padding: EdgeInsets.all(20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [CustomBackButton(), SizedBox()],
+                  children: [AppBackButton(), SizedBox()],
                 ),
               ),
               FormAutovalidate(
@@ -86,47 +84,47 @@ class _CodeFormRequestViewState extends State<CodeFormRequestView> {
                       ),
                     ),
                     gapH20,
-                    SizedBox(
-                      width: Screens.width(context) * 0.87,
-                      child: CustomTextFormField(
-                          focusNode: focusNode,
-                          validator: (state.type == 'SMS')
-                              ? Validator().number
-                              : Validator().email,
-                          controller: textController,
-                          hintText: (state.type == 'SMS')
-                              ? 'Ingrese el número de celular'
-                              : 'Dirección de correo electrónico'),
-                    ),
+                    // SizedBox(
+                    //   width: Screens.width(context) * 0.87,
+                    //   child: CustomTextFormField(
+                    //       focusNode: focusNode,
+                    //       validator: (state.type == 'SMS')
+                    //           ? Validator().number
+                    //           : Validator().email,
+                    //       controller: textController,
+                    //       hintText: (state.type == 'SMS')
+                    //           ? 'Ingrese el número de celular'
+                    //           : 'Dirección de correo electrónico'),
+                    // ),
                     gapH48,
-                    SizedBox(
-                      width: Screens.width(context) * 0.87,
-                      child: CustomElevatedButton(
-                        enable: true,
-                        isLoading: isloading,
-                        onTap: () async {
-                          if (_formAutoValidateState.currentState!
-                              .validateForm()) {
-                            setState(() {
-                              isloading = true;
-                            });
-                            recoveryPasswordBloc.add(RequestCode(
-                                context: context,
-                                recoveryMethod: textController.text));
-
-                            setState(() {
-                              isloading = false;
-                            });
-                          }
-                        },
-                        borderRadius: Const.space12,
-                        child: Text(
-                          'Restablecer',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors.white, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    )
+                    // SizedBox(
+                    //   width: Screens.width(context) * 0.87,
+                    //   child: CustomElevatedButton(
+                    //     enable: true,
+                    //     isLoading: isloading,
+                    //     onTap: () async {
+                    //       if (_formAutoValidateState.currentState!
+                    //           .validateForm()) {
+                    //         setState(() {
+                    //           isloading = true;
+                    //         });
+                    //         recoveryPasswordBloc.add(RequestCode(
+                    //             context: context,
+                    //             recoveryMethod: textController.text));
+                    //
+                    //         setState(() {
+                    //           isloading = false;
+                    //         });
+                    //       }
+                    //     },
+                    //     borderRadius: Const.space12,
+                    //     child: Text(
+                    //       'Restablecer',
+                    //       style: theme.textTheme.bodyMedium!.copyWith(
+                    //           color: Colors.white, fontWeight: FontWeight.w500),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               )

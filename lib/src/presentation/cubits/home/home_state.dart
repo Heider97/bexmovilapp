@@ -51,6 +51,10 @@ class HomeLoading extends HomeState {
   const HomeLoading();
 }
 
+class HomeSynchronizing extends HomeState {
+  const HomeSynchronizing();
+}
+
 class HomeSuccess extends HomeState {
   const HomeSuccess(
       {super.user,

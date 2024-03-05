@@ -1,10 +1,11 @@
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
-
 import '../models/feature.dart';
+import '../models/graphic.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
+import '../models/application.dart';
+import '../models/client.dart';
+import '../models/kpi.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -13,6 +14,7 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+  Future<bool> listenForTableChanges(String? table);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
@@ -37,6 +39,20 @@ abstract class DatabaseRepository {
   Future<void> insertKpi(Kpi kpi);
   Future<int> updateKpi(Kpi kpi);
   Future<void> emptyKpis();
+
+  //APPLICATIONS
+  Future<List<Application>> getAllApplications();
+  Future<void> insertApplications(List<Application> applications);
+  Future<void> insertApplication(Application application);
+  Future<int> updateApplication(Application application);
+  Future<void> emptyApplications();
+
+  //GRAPHICS
+  Future<List<Graphic>> getAllGraphics();
+  Future<void> insertGraphics(List<Graphic> graphics);
+  Future<void> insertGraphic(Graphic graphic);
+  Future<int> updateGraphic(Graphic graphic);
+  Future<void> emptyGraphics();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

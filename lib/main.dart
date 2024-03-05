@@ -1,9 +1,4 @@
-import 'package:bexmovil/src/presentation/blocs/google_account/google_account_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
-import 'package:bexmovil/src/presentation/providers/theme_provider.dart';
-import 'package:bexmovil/src/services/preferences.dart';
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,11 +8,14 @@ import 'package:provider/provider.dart';
 
 //theme
 import 'app_localizations.dart';
-import 'src/config/theme/index.dart';
+// import 'src/config/theme/index.dart';
 
 //domain
 import 'src/domain/repositories/api_repository.dart';
 import 'src/domain/repositories/database_repository.dart';
+
+//providers
+import 'src/presentation/providers/theme_provider.dart';
 
 //cubits
 import 'src/presentation/cubits/initial/initial_cubit.dart';
@@ -36,6 +34,11 @@ import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
 import 'src/presentation/blocs/splash/splash_bloc.dart';
 import 'src/presentation/blocs/sync_features/sync_features_bloc.dart';
+import 'src/presentation/blocs/google_account/google_account_bloc.dart';
+import 'src/presentation/blocs/sale/sale_bloc.dart';
+import 'src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
+import 'src/presentation/blocs/search/search_bloc.dart';
+import 'src/presentation/blocs/wallet/wallet_bloc.dart';
 
 //utils
 import 'src/utils/constants/strings.dart';
@@ -47,7 +50,7 @@ import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 
 //router
-import 'src/config/router/index.dart' as router;
+import 'src/config/router/routes.dart';
 
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
@@ -59,7 +62,6 @@ Future<void> main() async {
   await initializeDependencies();
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
-  await Preferences.init();
 }
 
 class MyApp extends StatefulWidget {
@@ -90,8 +92,13 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(
-            create: (_) =>
-                SaleBloc(locator<DatabaseRepository>(), locator<LocalStorageService>())..add(LoadRouters())),
+            create: (_) => WalletBloc(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())),
+
+        BlocProvider(
+            create: (_) => SaleBloc(
+                locator<DatabaseRepository>(), locator<LocalStorageService>())
+              ..add(LoadRouters())),
         BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
@@ -124,8 +131,11 @@ class _MyAppState extends State<MyApp> {
                 )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
-            create: (context) => HomeCubit(locator<DatabaseRepository>(),
-                locator<LocalStorageService>(), locator<NavigationService>())),
+            create: (context) => HomeCubit(
+                locator<DatabaseRepository>(),
+                locator<ApiRepository>(),
+                locator<LocalStorageService>(),
+                locator<NavigationService>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -156,7 +166,7 @@ class _MyAppState extends State<MyApp> {
               },
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: appTitle,
+                title: AppConstants.appName,
                 localizationsDelegates: const [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
@@ -176,18 +186,16 @@ class _MyAppState extends State<MyApp> {
                   }
                   return supportedLocales.first;
                 },
-                theme: AppTheme.light,
-                darkTheme: AppTheme.dark,
-                themeMode: (themeProvider.isDarkTheme == true)
-                    ? ThemeMode.dark
-                    : ThemeMode.light,
+                theme: AppTheme.theme,
+                darkTheme: AppTheme.darkTheme,
+                // themeMode: currentMode,
                 navigatorKey: locator<NavigationService>().navigatorKey,
                 onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
                     builder: (BuildContext context) => UndefinedView(
                           name: settings.name,
                         )),
-                initialRoute: Routes.splashRoute,
-                onGenerateRoute: router.generateRoute,
+                initialRoute: AppRoutes.splash,
+                onGenerateRoute: Routes.onGenerateRoutes,
               ),
             );
           },

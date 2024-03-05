@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/requests/graphic_request.dart';
 import 'package:bexmovil/src/domain/models/requests/kpi_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -14,6 +15,7 @@ import '../../../core/abstracts/FormatAbstract.dart';
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
+import '../../../domain/models/requests/functionality_request.dart';
 import '../../../domain/models/requests/login_request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -39,12 +41,10 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
 
   LoginCubit(this.apiRepository, this.databaseRepository, this.storageService,
       this.navigationService, this.locationRepository)
-      : super(
-            LoginInitial(
-                enterprise: storageService!.getObject('enterprise') != null
-                    ? Enterprise.fromMap(
-                        storageService.getObject('enterprise')!)
-                    : null));
+      : super(LoginInitial(
+            enterprise: storageService!.getObject('enterprise') != null
+                ? Enterprise.fromMap(storageService.getObject('enterprise')!)
+                : null));
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
@@ -91,6 +91,39 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     } else {
       emit(LoginFailed(
           error: 'kpis-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
+  Future<void> getFunctionalities() async {
+    final response = await apiRepository.functionalities(
+        request: FunctionalityRequest(
+            codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository
+          .insertApplications(response.data!.functionalities!);
+    } else {
+      emit(LoginFailed(
+          error: 'functionalities-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
+  Future<void> getGraphics() async {
+    final response = await apiRepository.graphics(
+        request: GraphicRequest(
+            codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository.insertGraphics(response.data!.graphics!);
+    } else {
+      emit(LoginFailed(
+          error: 'graphics-${response.data!.message}',
           enterprise: storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
               : null));
@@ -175,9 +208,15 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
             storageService!.setString('token', login?.token);
             storageService!.setObject('user', login?.user!.toMap());
 
-            var functions = [getConfigs, getFeatures, getKpis];
+            var functions = [
+              getConfigs,
+              getFeatures,
+              getKpis,
+              getFunctionalities,
+              getGraphics
+            ];
 
-            var isolateModel = IsolateModel(functions, null, 3);
+            var isolateModel = IsolateModel(functions, null, 5);
             await heavyTask(isolateModel);
           }
 
@@ -204,17 +243,17 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   }
 
   void goToSync() {
-    navigationService!.replaceTo(Routes.syncRoute);
+    navigationService!.replaceTo(AppRoutes.sync);
   }
 
   void goToCompany() {
     storageService!.remove('company_name');
     storageService!.remove('enterprise');
 
-    navigationService!.replaceTo(Routes.selectEnterpriseRoute);
+    navigationService!.replaceTo(AppRoutes.selectEnterprise);
   }
 
   void goToForget() {
-    navigationService!.replaceTo(Routes.selectEnterpriseRoute);
+    navigationService!.replaceTo(AppRoutes.selectEnterprise);
   }
 }

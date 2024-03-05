@@ -1,29 +1,30 @@
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+//blocs
+import '../../../../blocs/wallet/wallet_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/strings.dart';
+//domain
+import '../../../../../domain/models/graphic.dart';
+import '../../../../../domain/models/arguments.dart';
+//widgets
+
+import '../../../../widgets/atoms/app_text.dart';
 
 class CartesianChart extends StatelessWidget {
-  const CartesianChart({super.key});
+  final Graphic graphic;
+
+  const CartesianChart({super.key, required this.graphic});
 
   @override
   Widget build(BuildContext context) {
+    final navigationService = context.read<WalletBloc>().navigationService;
     ThemeData theme = Theme.of(context);
-
-    List<_SalesData> data = [
-      _SalesData('CT', 210868261),
-      _SalesData('CC', 0),
-      _SalesData('0-30', 32865663),
-      _SalesData('31-60', 53882318),
-      _SalesData('61-90', 33469262),
-      _SalesData('90+', 13560337)
-    ];
 
     return Card(
       color: theme.colorScheme.onPrimary,
@@ -35,24 +36,16 @@ class CartesianChart extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
               width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Cartera por edad',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(graphic.title!, fontWeight: FontWeight.bold),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {
-                      _navigationService.goTo(Routes.charDetailsRoute);
-                    },
-                    icon: Icon(
-                      FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                      color: theme.primaryColor,
-                      size: 18,
-                    ),
-                  ),
+                  if (graphic.subtitle != null) AppText(graphic.subtitle!)
                 ],
               ),
             ),
@@ -63,74 +56,38 @@ class CartesianChart extends StatelessWidget {
               isVisible: false,
             ),
             primaryYAxis: NumericAxis(
-              // Applies currency format for y axis labels and also for data labels
-                numberFormat: NumberFormat.compactCurrency(symbol: '\$')
-            ),
+                // Applies currency format for y axis labels and also for data labels
+                numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
-              print('********************');
-              print(args.toString());
-              print(args.pointIndex);
+              final data = graphic.data?.elementAt(args.pointIndex);
+              if (data != null && graphic.interactive == true) {
+                var arguments = WalletArgument(type: data.x);
+                navigationService.goTo(AppRoutes.clientsWallet,
+                    arguments: arguments);
+              }
             },
-            onAxisLabelTapped: (args) {
-              print('********************');
-              print(args.toString());
-              print(args.axisName);
-              print(args.value);
-              print(args.text);
-            },
-            series: <CartesianSeries<_SalesData, String>>[
-              ColumnSeries<_SalesData, String>(
+            series: <CartesianSeries<ChartData, String>>[
+              ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
-                    print(details.pointIndex);
-                    print(details.seriesIndex);
+                    final data = graphic.data?.elementAt(details.pointIndex!);
+                    if (data != null && graphic.interactive == true) {
+                      var arguments = WalletArgument(type: data.x);
+                      navigationService.goTo(AppRoutes.clientsWallet,
+                          arguments: arguments);
+                    }
                   },
-                  dataSource: data,
-                  xValueMapper: (_SalesData sales, _) => sales.year,
-                  yValueMapper: (_SalesData sales, _) => sales.sales,
+                  dataSource: graphic.data,
+                  xValueMapper: (ChartData sales, _) => sales.x,
+                  yValueMapper: (ChartData sales, _) => sales.y,
                   borderRadius: BorderRadius.circular(15),
                   isTrackVisible: true,
                   trackColor: const Color(0XFFC6C9D0),
                   dataLabelSettings: const DataLabelSettings(isVisible: true))
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Edad mas alta'),
-                    const Text('Cartera Total'),
-                    Text('\$211M',
-                        style: theme.textTheme.bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  children: [
-                    const Text('Cliente más alto'),
-                    const Text('\$50M'),
-                    Text(
-                      'Pandapan',
-                      style: theme.textTheme.bodyLarge!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          gapH16
+          gapH12
         ],
       ),
     );
   }
-}
-
-class _SalesData {
-  _SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
 }

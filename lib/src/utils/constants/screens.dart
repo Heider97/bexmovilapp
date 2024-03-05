@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Screens {
-  static double heigth(BuildContext context) {
+  static double height(BuildContext context) {
     return MediaQuery.of(context).size.height;
   }
 

@@ -57,5 +57,5 @@ class InitialCubit extends BaseCubit<InitialState> {
     });
   }
 
-  goToLogin() => _navigationService.goTo(Routes.loginRoute);
+  goToLogin() => _navigationService.goTo(AppRoutes.login);
 }

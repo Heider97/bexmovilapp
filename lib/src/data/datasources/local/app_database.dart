@@ -1,13 +1,11 @@
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
+import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../domain/models/feature.dart';
+import '../../../core/abstracts/FormatAbstract.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
@@ -16,6 +14,10 @@ import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/router.dart';
+import '../../../domain/models/application.dart';
+import '../../../domain/models/graphic.dart';
+import '../../../domain/models/feature.dart';
+import '../../../domain/models/client.dart';
 
 //services
 import '../../../locator.dart';
@@ -29,6 +31,8 @@ part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
 part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
+part '../local/dao/application_dao.dart';
+part '../local/dao/graphic_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -44,7 +48,7 @@ class AppDatabase {
 
     final path = join(documentsDirectory.path, databaseName);
 
-    return await openDatabase(path, version: 2, onCreate: (db, version) async {
+    return await openDatabase(path, version: 3, onCreate: (db, version) async {
       await db.execute('''
           CREATE TABLE $tableLocations (
             ${LocationFields.id} INTEGER PRIMARY KEY,
@@ -55,8 +59,7 @@ class AppDatabase {
             ${LocationFields.speed} REAL DEFAULT NULL,
             ${LocationFields.speedAccuracy} REAL DEFAULT NULL,
             ${LocationFields.heading} REAL DEFAULT NULL,
-            ${LocationFields.isMock} BOOLEAN DEFAULT NULL,
-            ${LocationFields.createdAt} TEXT DEFAULT NULL
+            ${LocationFields.isMock} BOOLEAN DEFAULT NULL
           )
         ''');
       await db.execute('''
@@ -107,6 +110,29 @@ class AppDatabase {
             ${KpiFields.value} TEXT DEFAULT NULL
           )
         ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableApplications (
+            ${ApplicationFields.id} INTEGER PRIMARY KEY,
+            ${ApplicationFields.title} TEXT DEFAULT NULL,
+            ${ApplicationFields.svg} TEXT DEFAULT NULL,
+            ${ApplicationFields.route} TEXT DEFAULT NULL,
+            ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
+          )
+        ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableGraphics (
+            ${GraphicFields.id} INTEGER PRIMARY KEY,
+            ${GraphicFields.title} TEXT DEFAULT NULL,
+            ${GraphicFields.subtitle} TEXT DEFAULT NULL,
+            ${GraphicFields.conditions} TEXT DEFAULT NULL,
+            ${GraphicFields.type} TEXT DEFAULT NULL,
+            ${GraphicFields.query} TEXT DEFAULT NULL,
+            ${GraphicFields.trigger} TEXT DEFAULT NULL,
+            ${GraphicFields.order} INT DEFAULT NULL,
+            ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
+            ${GraphicFields.data} TEXT DEFAULT NULL
+          )
+        ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -116,6 +142,29 @@ class AppDatabase {
             ${KpiFields.type} TEXT DEFAULT NULL,
             ${KpiFields.line} INTEGER DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL
+          )
+        ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableApplications (
+            ${ApplicationFields.id} INTEGER PRIMARY KEY,
+            ${ApplicationFields.title} TEXT DEFAULT NULL,
+            ${ApplicationFields.svg} TEXT DEFAULT NULL,
+            ${ApplicationFields.route} TEXT DEFAULT NULL,
+            ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
+          )
+        ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS $tableGraphics (
+            ${GraphicFields.id} INTEGER PRIMARY KEY,
+            ${GraphicFields.title} TEXT DEFAULT NULL,
+            ${GraphicFields.subtitle} TEXT DEFAULT NULL,
+            ${GraphicFields.conditions} TEXT DEFAULT NULL,
+            ${GraphicFields.type} TEXT DEFAULT NULL,
+            ${GraphicFields.query} TEXT DEFAULT NULL,
+            ${GraphicFields.trigger} TEXT DEFAULT NULL,
+            ${GraphicFields.order} INT DEFAULT NULL,
+             ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
+            ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
     });
@@ -148,9 +197,10 @@ class AppDatabase {
     }
   }
 
-  Future<List<Map<String, Object?>>> findGlobal(String table, String condition, String value) async {
+  Future<bool> listenForTableChanges(String? table) async {
     final db = await instance.database;
-    return await db!.query(table, where: '$condition = ?', whereArgs: [value]);
+    var result = await db!.rawQuery('SELECT changes()');
+    return result.isNotEmpty;
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
@@ -205,6 +255,12 @@ class AppDatabase {
   KpiDao get kpiDao => KpiDao(instance);
 
   RouterDao get routerDao => RouterDao(instance);
+
+  ApplicationDao get applicationDao => ApplicationDao(instance);
+
+  GraphicDao get graphicDao => GraphicDao(instance);
+
+  LocationDao get locationDao => LocationDao(instance);
 
   void close() {
     _database!.close();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../utils/constants/strings.dart';
 import 'app_glass.dart';
 import 'app_gradient_background.dart';
 import '../../../config/app_color_scheme.dart';
@@ -37,10 +38,14 @@ class AppIconButton extends StatelessWidget {
     required this.child,
   }) {
     builder = (context) {
-      return IconButton(
-        onPressed: onPressed,
-        icon: child,
-      );
+      return Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Const.radius),
+              color: Theme.of(context).colorScheme.primary),
+          child: IconButton(
+            onPressed: onPressed,
+            icon: child,
+          ));
     };
   }
 
@@ -148,9 +153,9 @@ final appIconButtonThemeLight = IconButtonThemeData(
     foregroundColor: AppColors.appColorSchemeLight.surface,
     backgroundColor: AppColors.appColorSchemeLight.primary,
     disabledForegroundColor:
-    AppColors.appColorSchemeLight.onSurface.withOpacity(0.38),
+        AppColors.appColorSchemeLight.onSurface.withOpacity(0.38),
     disabledBackgroundColor:
-    AppColors.appColorSchemeLight.onSurface.withOpacity(0.12),
+        AppColors.appColorSchemeLight.onSurface.withOpacity(0.12),
     shadowColor: AppColors.appColorSchemeLight.shadow,
     surfaceTintColor: AppColors.appColorSchemeLight.surfaceTint,
   ),
@@ -161,9 +166,9 @@ final appIconButtonThemeDark = IconButtonThemeData(
     foregroundColor: AppColors.appColorSchemeDark.surface,
     backgroundColor: AppColors.appColorSchemeDark.primary,
     disabledForegroundColor:
-    AppColors.appColorSchemeDark.onSurface.withOpacity(0.38),
+        AppColors.appColorSchemeDark.onSurface.withOpacity(0.38),
     disabledBackgroundColor:
-    AppColors.appColorSchemeDark.onSurface.withOpacity(0.12),
+        AppColors.appColorSchemeDark.onSurface.withOpacity(0.12),
     shadowColor: AppColors.appColorSchemeDark.shadow,
     surfaceTintColor: AppColors.appColorSchemeDark.surfaceTint,
   ),

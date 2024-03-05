@@ -2,13 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
 import '../../../../../utils/constants/strings.dart';
+//domain
+import '../../../../../domain/models/application.dart';
 //cubit
 import '../../../../cubits/home/home_cubit.dart';
 //widgets
 import '../widgets/app_item.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_shimmer_loading.dart';
 
 class HomeApplications extends StatelessWidget {
-  const HomeApplications({super.key});
+  final List<Application>? applications;
+
+  const HomeApplications({super.key, required this.applications});
 
   @override
   Widget build(BuildContext context) {
@@ -17,35 +22,24 @@ class HomeApplications extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AppItem(
-                iconName: 'Vender',
-                imagePath: 'assets/svg/sell.svg',
-                onTap: () {
-                  navigationService.goTo(Routes.routerRoute);
-                }),
-            AppItem(
-                iconName: 'Cartera',
-                imagePath: 'assets/svg/wallet.svg',
-                onTap: () {
-                  navigationService.goTo(Routes.walletprocess);
-                }),
-            AppItem(
-                iconName: 'Mercadeo',
-                imagePath: 'assets/svg/mercadeo.svg',
-                onTap: () {
-                  // _navigationService.goTo(Routes.mercadeo);
-                }),
-            AppItem(
-                iconName: 'PQRS',
-                imagePath: 'assets/svg/pqrs.svg',
-                onTap: () {
-                  // _navigationService.goTo(Routes.pqrs);
-                }),
-          ],
-        ),
+        child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...state.applications != null
+                  ? state.applications!.map((app) => AppShimmerLoading(
+                      isLoading: state is HomeSynchronizing,
+                      child: AppItem(
+                          enabled: app.enabled ?? false,
+                          iconName: app.title!,
+                          imagePath: app.svg!,
+                          onTap: () {
+                            navigationService.goTo(app.route!);
+                          })))
+                  : []
+            ],
+          );
+        }),
       ),
     );
   }

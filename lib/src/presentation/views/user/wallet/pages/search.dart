@@ -1,16 +1,18 @@
-import 'package:bexmovil/src/data/datasources/local/app_database.dart';
-
-import 'package:bexmovil/src/domain/models/search_result.dart';
-
-import 'package:bexmovil/src/presentation/blocs/search/search_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-
-import 'package:bexmovil/src/presentation/widgets/user/search_result_card.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-
-import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+//domain
+import '../../../../../domain/models/search_result.dart';
+
+//blocs
+import '../../../../blocs/search/search_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/strings.dart';
+//widgets
+import 'package:bexmovil/src/presentation/widgets/user/search_result_card.dart';
 
 class SearchView extends StatefulWidget {
   final List<String> tables;
@@ -52,7 +54,7 @@ class _SearchViewState extends State<SearchView> {
             padding: const EdgeInsets.all(Const.padding),
             child: Row(
               children: [
-                const CustomBackButton(primaryColorBackgroundMode: true),
+                const AppBackButton(needPrimary: true),
                 gapW20,
                 Expanded(
                   child: TextField(

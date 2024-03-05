@@ -1,3 +1,5 @@
+//TODO [Heider Zapa] organize
+
 import 'dart:convert';
 
 import 'package:bexmovil/src/core/abstracts/FormatAbstract.dart';
@@ -143,8 +145,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             if (response.data != null && response.data!.data != null) {
               futureInserts.add(databaseRepository.insertAll(
                   tables[i], response.data!.data!));
-            } else {
-              print('no hay data');
             }
           }
           i++;
@@ -165,6 +165,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void goToHome() {
-    navigationService.goTo(Routes.homeRoute);
+    navigationService.goTo(AppRoutes.home);
   }
 }

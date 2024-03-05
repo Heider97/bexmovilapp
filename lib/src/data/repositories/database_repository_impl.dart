@@ -1,5 +1,6 @@
+import 'package:bexmovil/src/domain/models/application.dart';
 import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/responses/kpi_response.dart';
+import 'package:bexmovil/src/domain/models/graphic.dart';
 
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
@@ -22,7 +23,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Client>> getAllClientsRouter(String seller, String dayRouter ) async {
+  Future<List<Client>> getAllClientsRouter(
+      String seller, String dayRouter) async {
     return _appDatabase.clientDao.getAllClientsRouter(seller, dayRouter);
   }
 
@@ -122,6 +124,58 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.kpiDao.emptyKpis();
   }
 
+  //APPLICATIONS
+  @override
+  Future<List<Application>> getAllApplications() {
+    return _appDatabase.applicationDao.getAllApplications();
+  }
+
+  @override
+  Future<void> insertApplication(Application application) {
+    return _appDatabase.applicationDao.insertApplication(application);
+  }
+
+  @override
+  Future<void> insertApplications(List<Application> applications) {
+    return _appDatabase.applicationDao.insertApplications(applications);
+  }
+
+  @override
+  Future<int> updateApplication(Application application) {
+    return _appDatabase.applicationDao.updateApplication(application);
+  }
+
+  @override
+  Future<void> emptyApplications() {
+    return _appDatabase.applicationDao.emptyApplications();
+  }
+
+  //GRAPHICS
+  @override
+  Future<List<Graphic>> getAllGraphics() {
+    return _appDatabase.graphicDao.getAllGraphics();
+  }
+
+  @override
+  Future<void> insertGraphic(Graphic graphic) {
+    return _appDatabase.graphicDao.insertGraphic(graphic);
+  }
+
+  @override
+  Future<void> insertGraphics(List<Graphic> graphics) {
+    return _appDatabase.graphicDao.insertGraphics(graphics);
+  }
+
+  @override
+  Future<int> updateGraphic(Graphic graphic) {
+    return _appDatabase.graphicDao.updateGraphic(graphic);
+  }
+
+  @override
+  Future<void> emptyGraphics() {
+    return _appDatabase.graphicDao.emptyGraphics();
+  }
+
   // initialize and close methods go here
   @override
   Future<void> init() async {
@@ -147,5 +201,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   void close() {
     _appDatabase.close();
+  }
+
+  @override
+  Future<bool> listenForTableChanges(String? table) {
+    return _appDatabase.listenForTableChanges(table);
   }
 }

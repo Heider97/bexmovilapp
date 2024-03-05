@@ -260,37 +260,27 @@ class _SalePageState extends State<SalePage> {
                         BlocBuilder<SaleBloc, SaleState>(
                           builder: (context, saleState) {
                             if (saleState is SaleInitial) {
+                              print(saleState.clients.length);
                               return Expanded(
-                                child: ListView.builder(
-                                    itemCount: saleState.clients.length,
-                                    itemBuilder: (context, index) {
-                                      return CardClientRouter(
-                                        nit: saleState.clients[index].nitCliente
+                              child: ListView.builder(
+                                  itemCount: saleState.clients.length,
+                                  itemBuilder: (context, index) {
+                                    return CardClientRouter(
+                                      nit: saleState
+                                            .clients[index].nitCliente
                                             .toString(),
-                                        addressClient: saleState
+                                      addressClient: saleState
                                             .clients[index].dirCliente
                                             .toString(),
-                                        branchClient: saleState
+                                      branchClient: saleState
                                             .clients[index].sucursalCliente
                                             .toString(),
-                                        nameClient: saleState
+                                      nameClient: saleState
                                             .clients[index].nomCliente
                                             .toString(),
-                                        razClient: saleState
-                                            .clients[index].razCliente
-                                            .toString(),
-                                        quotaClient: saleState
-                                            .clients[index].cupoCliente
-                                            .toString(),
-                                        priceClient: saleState
-                                            .clients[index].precioCliente
-                                            .toString(),
-                                        paymentMethodClient: saleState
-                                            .clients[index].formaPagoCliente
-                                            .toString(),
-                                      );
-                                    }),
-                              );
+                                    );
+                                  }),
+                            );
                             } else {
                               return const Center(child: Text("Not Found"));
                             }

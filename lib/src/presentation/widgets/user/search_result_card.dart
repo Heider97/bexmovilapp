@@ -167,11 +167,12 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
                               child: AppItem(
+                                  enabled: true,
                                   iconName: 'Vender',
                                   imagePath: 'assets/svg/sell.svg',
                                   onTap: () {
                                     //TODO FUNCION PARA AVERIGUAR EN QUE PARTE DEL PROCESO SE ENCUENTRA Y SI TIENE UNA TRANSACCION PENDIENTE..
-                                    _navigationService.goTo(Routes.routerRoute);
+                                    _navigationService.goTo(AppRoutes.routersSale);
                                   }),
                             )),
                       ),
@@ -181,6 +182,7 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
                               child: AppItem(
+                                  enabled: true,
                                   iconName: 'Mercadeo',
                                   imagePath: 'assets/svg/mercadeo.svg',
                                   onTap: () {
@@ -194,10 +196,11 @@ class _SearchResultCardState extends State<SearchResultCard> {
                             margin: const EdgeInsets.all(10.0),
                             child: Center(
                               child: AppItem(
+                                  enabled: true,
                                   iconName: 'Cartera',
                                   imagePath: 'assets/svg/wallet.svg',
                                   onTap: () {
-                                    _navigationService.goTo(Routes.wallet);
+                                    _navigationService.goTo(AppRoutes.dashboardWallet);
                                   }),
                             )),
                       ),

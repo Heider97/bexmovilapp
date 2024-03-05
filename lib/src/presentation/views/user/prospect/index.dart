@@ -1,11 +1,6 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:bexmovil/src/presentation/widgets/custom_button_navigationbar.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_check_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_close_cutton.dart';
 import 'package:flutter/material.dart';
-
-import '../home/widgets/app_item.dart';
+//widgets
+import '../../../widgets/atoms/app_back_button.dart';
 
 class ProspectScheduleView extends StatefulWidget {
   const ProspectScheduleView({super.key});
@@ -32,7 +27,6 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
 
   @override
   Widget build(BuildContext context) {
-
     final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
 
@@ -50,10 +44,7 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
                   padding: EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomCloseButton(), 
-                      CustomCheckButton()
-                    ],
+                    children: [AppBackButton(needPrimary: true)],
                   ),
                 ),
                 CircleAvatar(
@@ -83,26 +74,62 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
                           children: [
                             Column(
                               children: [
-                                Image.asset('assets/icons/zonas.png', width: 30, height: 30,),
-                                const Text('Zonas', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                                Image.asset(
+                                  'assets/icons/zonas.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                const Text(
+                                  'Zonas',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
                               ],
                             ),
                             Column(
                               children: [
-                                Image.asset('assets/icons/rutero.png', width: 30, height: 30,),
-                                const Text('Rutero', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                                Image.asset(
+                                  'assets/icons/rutero.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                const Text(
+                                  'Rutero',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
                               ],
                             ),
                             Column(
                               children: [
-                                Image.asset('assets/icons/no_visitado.png', width: 30, height: 30,),
-                                const Text('No visitado', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                                Image.asset(
+                                  'assets/icons/no_visitado.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                const Text(
+                                  'No visitado',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
                               ],
                             ),
                             Column(
                               children: [
-                                Image.asset('assets/icons/pqrs.png', width: 30, height: 30,),
-                                const Text('PQRS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)
+                                Image.asset(
+                                  'assets/icons/pqrs.png',
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                const Text(
+                                  'PQRS',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
                               ],
                             )
                           ],
@@ -116,87 +143,118 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
                   height: 380,
                   child: Column(
                     children: [
-                      const SizedBox(height: 30,),
-                      TabBar(
-                        controller: _tabcontroller, 
-                        tabs: const [
-                          SizedBox(
-                            width: 200,
-                            child: Tab(
-                              text: 'Informacion',
-                            ),
-                          ),
-                          SizedBox(
-                            width: 200,
-                            child: Tab(
-                              text: 'Estadistica',
-                            ),
-                          )
-                        ]
+                      const SizedBox(
+                        height: 30,
                       ),
+                      TabBar(controller: _tabcontroller, tabs: const [
+                        SizedBox(
+                          width: 200,
+                          child: Tab(
+                            text: 'Informacion',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Tab(
+                            text: 'Estadistica',
+                          ),
+                        )
+                      ]),
                       Expanded(
-                        child: TabBarView(
-                          controller: _tabcontroller,
-                          children: const [
+                          child: TabBarView(
+                              controller: _tabcontroller,
+                              children: const [
                             Padding(
                               padding: EdgeInsets.all(8.0),
                               child: SingleChildScrollView(
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [ 
-                                    SizedBox(height: 10,),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
                                       children: [
-                                        Text('Informacion Basica', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                        Text(
+                                          'Informacion Basica',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Nombre'),
                                         Text('Nombre del cliente')
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Telefono'),
-                                        Align(alignment: Alignment.topLeft,child: Text('3007239603'))
+                                        Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text('3007239603'))
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
                                       children: [
-                                        Text('Informacion de encuentro', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
+                                        Text(
+                                          'Informacion de encuentro',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Jueves, Oct 19 2023'),
                                         Text('3:00 AM')
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text('Jueves, Oct 19 2023'),
                                         Text('4:00 AM')
                                       ],
                                     ),
-                                    SizedBox(height: 10,),
-                                    Row(
-                                      children: [
-                                        Text('Direccion', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
-                                      ],
+                                    SizedBox(
+                                      height: 10,
                                     ),
                                     Row(
                                       children: [
-                                        Text('Calle 40 Sur 25F-12')
+                                        Text(
+                                          'Direccion',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ],
+                                    ),
+                                    Row(
+                                      children: [Text('Calle 40 Sur 25F-12')],
                                     ),
                                     Row(
                                       children: [
@@ -210,9 +268,7 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
                             Center(
                               child: Text('Estadistica'),
                             )
-                          ]
-                        )
-                      )
+                          ]))
                     ],
                   ),
                 )
@@ -220,7 +276,6 @@ class _ProspectScheduleViewState extends State<ProspectScheduleView>
             ),
           ],
         ),
-        bottomNavigationBar: const CustomButtonNavigationBar(),
       ),
     );
   }
