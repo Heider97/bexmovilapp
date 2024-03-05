@@ -6,12 +6,20 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.19.4 <3.0.0'
 dependencies:
+  flutter:
+    sdk: flutter
   #state management
+  flutter_bloc: ^8.1.2
   bloc: ^8.1.1
   get_it: ^7.2.0
   get_storage: ^2.1.1
   #google
-
+  google_fonts: ^6.1.0
+  google_nav_bar: ^5.0.6
+  google_sign_in: ^6.1.6
+  google_sign_in_platform_interface: ^2.4.2
+  googleapis: ^11.4.0
+  googleapis_auth: ^1.4.1
   #database
   sqflite: ^2.2.6
   sqflite_migration: ^0.3.0
@@ -23,6 +31,18 @@ dependencies:
   firebase_crashlytics: ^3.4.16
   #charts
   fl_chart: ^0.61.0
+  syncfusion_flutter_calendar: ^24.1.41
+  syncfusion_flutter_charts: ^24.1.41
+  syncfusion_flutter_datagrid: ^24.1.41
+  syncfusion_flutter_signaturepad: ^24.2.7
+  syncfusion_localizations: ^24.1.45
+  #map
+  flutter_map: ^6.1.0
+  map_launcher: ^3.1.0
+  geolocator: ^10.1.0
+  latlong2: ^0.9.0
+  location_repository:
+    path: packages/location_repository
   #others
 
 
@@ -39,12 +59,7 @@ dependencies:
   dio: ^5.0.2
   dot_navigation_bar: ^1.0.2
   equatable: ^2.0.5
-
-
   flex_seed_scheme: ^1.4.0
-  flutter:
-    sdk: flutter
-  flutter_bloc: ^8.1.2
   flutter_datetime_picker: ^1.5.1
   flutter_localizations:
     sdk: flutter
@@ -55,19 +70,10 @@ dependencies:
   flutter_svg: ^2.0.4
   flutter_udid: ^2.0.1
   font_awesome_flutter: ^10.6.0
-  geolocator: ^10.1.0
 
-  google_fonts: ^6.1.0
-  google_nav_bar: ^5.0.6
-  google_sign_in: ^6.1.6
-  google_sign_in_platform_interface: ^2.4.2
-  googleapis: ^11.4.0
-  googleapis_auth: ^1.4.1
   hive: ^2.2.3
   intl: ^0.18.0
-  latlong2: ^0.9.0
-  location_repository:
-    path: packages/location_repository
+
   lottie: ^2.7.0
   meta: ^1.8.0
   path: ^1.8.2
@@ -80,11 +86,7 @@ dependencies:
   shimmer: ^2.0.0
   showcaseview: ^2.0.2
 
-  syncfusion_flutter_calendar: ^24.1.41
-  syncfusion_flutter_charts: ^24.1.41
-  syncfusion_flutter_datagrid: ^24.1.41
-  syncfusion_flutter_signaturepad: ^24.2.7
-  syncfusion_localizations: ^24.1.45
+
   synchronized: ^3.0.1
   universal_platform: ^1.0.0+1
   upgrader: ^7.0.2
@@ -92,8 +94,8 @@ dependencies:
   validators: ^3.0.0
   vibration: ^1.7.6
   yaml: ^3.1.1
-  flutter_map: ^6.1.0
-  map_launcher: ^3.1.0
+  flutter_map_tile_caching: ^9.0.0-dev.5
+
 
 dev_dependencies:
   bloc_test: ^9.1.5

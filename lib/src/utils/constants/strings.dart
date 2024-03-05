@@ -35,6 +35,13 @@ class AppRoutes {
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
 
+  //NAVIGATION ROUTES
+  static const navigation = '/navigation';
+  static const editStore = '/edit-store-popup';
+  static const importStore = '/import-store-popup';
+  static const recovery = '/recovery-popup';
+  static const downloader = '/downloader-popup';
+
   //Wallet routes
   static const dashboardWallet = '/wallet-dashboard';
   static const clientsWallet = '/wallet-clients';
