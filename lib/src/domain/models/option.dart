@@ -20,6 +20,7 @@ class Option {
     this.name,
     this.filterId,
     this.queryId,
+    this.selected = false,
   });
 
   Option copy({
@@ -27,12 +28,14 @@ class Option {
     String? name,
     int? filterId,
     int? queryId,
+    bool? selected
   }) =>
       Option(
         id: id ?? this.id,
         name: name ?? this.name,
         filterId: filterId ?? this.filterId,
         queryId: queryId ?? this.queryId,
+        selected: selected ?? this.selected,
       );
 
   Option.fromJson(Map<String, dynamic> json) {
@@ -55,4 +58,5 @@ class Option {
   String? name;
   int? filterId;
   int? queryId;
+  bool? selected;
 }
