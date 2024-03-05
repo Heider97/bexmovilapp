@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:latlong2/latlong.dart';
 
 //blocs
 import '../presentation/blocs/gps/gps_bloc.dart';
@@ -18,6 +21,7 @@ import '../domain/repositories/database_repository.dart';
 
 //services
 import '../locator.dart';
+import '../presentation/widgets/global/app_map_sheet.dart';
 import '../services/storage.dart';
 
 class HelperFunctions with FormatDate {
@@ -114,7 +118,7 @@ class HelperFunctions with FormatDate {
       return null;
     } else {
       if (context.mounted) {
-        return await MapsSheet.show(
+        return await AppGlobalMapsSheet.show(
             context: context,
             onMapTap: (map) {
               map.showDirections(
