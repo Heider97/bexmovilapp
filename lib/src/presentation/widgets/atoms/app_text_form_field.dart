@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_glass.dart';
 import 'app_gradient_background.dart';
@@ -9,6 +10,7 @@ class AppTextFormField extends StatelessWidget {
   AppTextFormField({
     super.key,
     this.controller,
+    this.inputFormatters,
     this.focusNode,
     this.initialValue,
     this.labelText,
@@ -47,6 +49,7 @@ class AppTextFormField extends StatelessWidget {
   AppTextFormField.outlined({
     super.key,
     this.controller,
+    this.inputFormatters,
     this.focusNode,
     this.initialValue,
     this.labelText,
@@ -87,6 +90,7 @@ class AppTextFormField extends StatelessWidget {
   AppTextFormField.filled({
     super.key,
     this.controller,
+    this.inputFormatters,
     this.focusNode,
     this.initialValue,
     this.labelText,
@@ -126,6 +130,7 @@ class AppTextFormField extends StatelessWidget {
   AppTextFormField.gradient({
     super.key,
     this.controller,
+    this.inputFormatters,
     this.focusNode,
     this.initialValue,
     this.labelText,
@@ -173,6 +178,7 @@ class AppTextFormField extends StatelessWidget {
   AppTextFormField.glass({
     super.key,
     this.controller,
+    this.inputFormatters,
     this.focusNode,
     this.initialValue,
     this.labelText,
@@ -216,6 +222,7 @@ class AppTextFormField extends StatelessWidget {
 
   late final InputDecorationBuilder _builder;
   final TextEditingController? controller;
+  final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final void Function(String)? onFieldSubmitted;
   final String? initialValue;
@@ -235,6 +242,7 @@ class AppTextFormField extends StatelessWidget {
 
     TextFormField textFormField = TextFormField(
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       initialValue: initialValue,
       controller: controller,
       focusNode: focusNode,

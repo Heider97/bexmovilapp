@@ -159,6 +159,8 @@ class AppDatabase {
         CREATE TABLE IF NOT EXISTS $tableOption (
           ${OptionFields.id} INTEGER PRIMARY KEY,
           ${OptionFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.type} TEXT DEFAULT NULL,
+          ${OptionFields.order} INTEGER DEFAULT NULL,
           ${OptionFields.filterId} INTEGER DEFAULT NULL,
           ${OptionFields.queryId} INTEGER DEFAULT NULL
         )
@@ -209,6 +211,8 @@ class AppDatabase {
         CREATE TABLE IF NOT EXISTS $tableFilter (
           ${FilterFields.id} INTEGER PRIMARY KEY,
           ${FilterFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.type} TEXT DEFAULT NULL,
+          ${OptionFields.order} INTEGER DEFAULT NULL,
           ${FilterFields.module}  TEXT DEFAULT NULL,
           ${FilterFields.type} TEXT DEFAULT NULL
         )
