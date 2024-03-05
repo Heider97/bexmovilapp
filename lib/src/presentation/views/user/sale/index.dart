@@ -3,7 +3,6 @@ import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/sales/card_client.dart';
-import 'package:bexmovil/src/presentation/widgets/user/filter_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
@@ -45,7 +44,7 @@ class _SalePageState extends State<SalePage> {
   void initState() {
     super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadClients());
+    saleBloc.add(LoadClients('0901'));
 
     saleStepperBloc = BlocProvider.of(context);
 
@@ -173,7 +172,7 @@ class _SalePageState extends State<SalePage> {
                           children: [
                             GestureDetector(
                                 onTap: () {
-                                  navigationService.goTo(Routes.routerRoute);
+                                  // navigationService.goTo(AppRoutes.routerRoute);
                                 },
                                 child: Container(
                                   padding:
@@ -234,50 +233,28 @@ class _SalePageState extends State<SalePage> {
                                 ),
                               ),
                             )),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              FilterButton(
-                                enable: true,
-                                onTap: (() {}),
-                                textButton: 'Visitados',
-                              ),
-                              FilterButton(
-                                enable: false,
-                                onTap: (() {}),
-                                textButton: 'No visitados',
-                              ),
-                              FilterButton(
-                                enable: false,
-                                onTap: (() {}),
-                                textButton: 'Todos',
-                              ),
-                            ],
-                          ),
-                        ),
                         gapH4,
                         BlocBuilder<SaleBloc, SaleState>(
                           builder: (context, saleState) {
-                            if (saleState is SaleInitial) {
-                              print(saleState.clients.length);
+                            if (saleState.status == SaleStatus.initial) {
+                              print(saleState.clients!.length);
                               return Expanded(
                               child: ListView.builder(
-                                  itemCount: saleState.clients.length,
+                                  itemCount: saleState.clients!.length,
                                   itemBuilder: (context, index) {
                                     return CardClientRouter(
                                       nit: saleState
-                                            .clients[index].nitCliente
+                                            .clients![index].nitCliente
                                             .toString(),
                                       addressClient: saleState
-                                            .clients[index].dirCliente
+                                            .clients![index].dirCliente
                                             .toString(),
                                       branchClient: saleState
-                                            .clients[index].sucursalCliente
+                                            .clients![index].sucursalCliente
                                             .toString(),
                                       nameClient: saleState
-                                            .clients[index].nomCliente
-                                            .toString(),
+                                            .clients![index].nomCliente
+                                            .toString(), razClient: '', quotaClient: '', priceClient: '', paymentMethodClient: '',
                                     );
                                   }),
                             );

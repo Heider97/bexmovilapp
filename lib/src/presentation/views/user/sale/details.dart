@@ -31,34 +31,8 @@ class _DetailsSaleState extends State<DetailsSale> {
   @override
   void initState() {
     super.initState();
-    employees = getEmployeeData();
-    employeeDataSource = ClientDataSource(clientData: getEmployeeData());
   }
 
-  List<Client> getEmployeeData() {
-    return [
-      Client(
-          nitCliente: '001',
-          docType: 'CC',
-          movDate: '20/Agosto/2022',
-          expireDate: '20/Agosto/2022'),
-      Client(
-          nitCliente: '001',
-          docType: 'CC',
-          movDate: '20/Agosto/2022',
-          expireDate: '20/Agosto/2022'),
-      Client(
-          nitCliente: '001',
-          docType: 'CC',
-          movDate: '20/Agosto/2022',
-          expireDate: '20/Agosto/2022'),
-      Client(
-          nitCliente: '001',
-          docType: 'CC',
-          movDate: '20/Agosto/2022',
-          expireDate: '20/Agosto/2022')
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:bexmovil/src/presentation/widgets/sales/detail_client.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/constants/gaps.dart';
+import '../../views/user/sale/widgets/detail_client.dart';
 
 class CardClientRouter extends StatefulWidget {
   String nit;
