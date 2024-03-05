@@ -13,15 +13,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/network/network_bloc.dart';
 
 //providers
-
+import '../../../providers/download_provider.dart';
 
 //pages
-import '../../../providers/download_provider.dart';
 import 'pages/map/map_view.dart';
-import 'pages/stores/stores.dart';
-import 'pages/downloader/downloader.dart';
-import 'pages/downloading/downloading.dart';
-import 'pages/recovery/recovery.dart';
+// import 'pages/stores/stores.dart';
+// import 'pages/downloader/downloader.dart';
+// import 'pages/downloading/downloading.dart';
+// import 'pages/recovery/recovery.dart';
 
 //services
 import '../../../../locator.dart';
@@ -178,7 +177,7 @@ class _NavigationScreenState extends State<NavigationView> {
         body: BlocBuilder<NetworkBloc, NetworkState>(
             builder: (context, networkState) {
           if (networkState is NetworkFailure) {
-            return const SvgWidget(
+            return const AppIconText(
                 path: 'assets/animations/offline.svg',
                 messages: [
                   'No tienes conexión o tu conexión es lenta.',
