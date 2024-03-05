@@ -86,24 +86,24 @@ class AppUserCard extends StatelessWidget {
 
     return (type == AppCardType.elevated)
         ? AppCard.elevated(
-      height: height,
-      width: width,
-      margin: margin ?? EdgeInsets.zero,
-      child: widget,
-    )
+            height: height,
+            width: width,
+            margin: margin ?? EdgeInsets.zero,
+            child: widget,
+          )
         : (type == AppCardType.filled)
-        ? AppCard.filled(
-      height: height,
-      width: width,
-      margin: margin ?? EdgeInsets.zero,
-      child: widget,
-    )
-        : AppCard.outlined(
-      height: height,
-      width: width,
-      margin: margin ?? EdgeInsets.zero,
-      child: widget,
-    );
+            ? AppCard.filled(
+                height: height,
+                width: width,
+                margin: margin ?? EdgeInsets.zero,
+                child: widget,
+              )
+            : AppCard.outlined(
+                height: height,
+                width: width,
+                margin: margin ?? EdgeInsets.zero,
+                child: widget,
+              );
   }
 
   LayoutBuilder _buildAppUserCard(BuildContext context) {
@@ -130,9 +130,9 @@ class AppUserCard extends StatelessWidget {
                 image: (backgroundImageUrl == null)
                     ? null
                     : DecorationImage(
-                  image: NetworkImage(backgroundImageUrl!),
-                  fit: BoxFit.cover,
-                ),
+                        image: NetworkImage(backgroundImageUrl!),
+                        fit: BoxFit.cover,
+                      ),
                 gradient: LinearGradient(
                   colors: [
                     Theme.of(context).colorScheme.primary,

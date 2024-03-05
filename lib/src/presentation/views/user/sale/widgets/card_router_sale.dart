@@ -30,38 +30,31 @@ class CardRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
-      child: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 1,
-            ),
+    return AppCard.filled(
+      onTap: () =>
+          _navigationService.goTo(AppRoutes.clientsSale, arguments: codeRouter),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+      child: AppListTile(
+        title: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: AppText(dayRouter, overflow: TextOverflow.ellipsis)),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            cardButtons(FontAwesomeIcons.peopleGroup, "${totalClients ?? '0'}",
+                context),
+            cardButtons(
+                FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
+            cardButtons(FontAwesomeIcons.usersBetweenLines, "${visited ?? '0'}",
+                context),
+            cardButtons(FontAwesomeIcons.chartSimple,
+                "${effectiveness ?? '0'}%", context),
           ],
-        ),
-        child: AppListTile(
-          onTap: () => _navigationService.goTo(AppRoutes.clientsSale,
-              arguments: codeRouter),
-          title: AppText(dayRouter),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              cardButtons(FontAwesomeIcons.peopleGroup,
-                  "${totalClients ?? '0'}", context),
-              cardButtons(
-                  FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
-              cardButtons(FontAwesomeIcons.usersBetweenLines,
-                  "${visited ?? '0'}", context),
-              cardButtons(FontAwesomeIcons.chartSimple,
-                  "${effectiveness ?? '0'}%", context),
-            ],
-          ),
-        ),
+        )
       ),
     );
   }
