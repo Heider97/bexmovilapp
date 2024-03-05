@@ -48,9 +48,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         filter.options = await databaseRepository.getAllOptionsByFilter(filter.id!);
       });
 
-      print(filters);
-
-      emit(state.copyWith(status: SaleStatus.success, clients: clients));
+      emit(state.copyWith(status: SaleStatus.success, clients: clients, filters: filters));
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: []));
     }

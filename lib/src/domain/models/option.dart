@@ -44,6 +44,7 @@ class Option {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['id'] = id;
     data['name'] = name;
     data['filter_id'] = filterId;
     data['query_id'] = queryId;
