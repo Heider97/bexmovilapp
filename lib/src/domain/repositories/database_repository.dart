@@ -6,6 +6,10 @@ import '../models/router.dart';
 import '../models/application.dart';
 import '../models/client.dart';
 import '../models/kpi.dart';
+import '../models/location.dart';
+import '../models/error.dart';
+import '../models/filter.dart';
+import '../models/option.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -15,6 +19,9 @@ abstract class DatabaseRepository {
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
   Future<bool> listenForTableChanges(String? table);
+
+  //CLIENT
+  Future<List<Client>> getClientsByAgeRange(List<int> range);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
@@ -53,6 +60,39 @@ abstract class DatabaseRepository {
   Future<void> insertGraphic(Graphic graphic);
   Future<int> updateGraphic(Graphic graphic);
   Future<void> emptyGraphics();
+
+  //LOCATIONS
+  Stream<List<Location>> watchAllLocations();
+  Future<List<Location>> getAllLocations();
+  Future<Location?> getLastLocation();
+  Future<bool> countLocationsManager();
+  Future<String> getLocationsToSend();
+  Future<int?> updateLocationsManager();
+  Future<int> updateLocation(Location location);
+  Future<void> insertLocation(Location location);
+  Future<void> emptyLocations();
+
+  //ERROR
+  Future<List<Error>> getAllErrors();
+  Future<int> insertError(Error error);
+  Future<int> updateError(Error error);
+  Future<int> deleteError(Error error);
+  Future<void> insertErrors(List<Error> errors);
+  Future<void> emptyErrors();
+
+  //FILTERS
+  Future<List<Filter>> getAllFilters();
+  Future<int> insertFilter(Filter filter);
+  Future<int> updateFilter(Filter filter);
+  Future<void> insertFilters(List<Filter> filters);
+  Future<void> emptyFilters();
+
+  //OPTIONS
+  Future<List<Option>> getAllOptionsByFilter(int filterId);
+  Future<int> insertOption(Option option);
+  Future<int> updateOption(Option option);
+  Future<void> insertOptions(List<Option> options);
+  Future<void> emptyOptions();
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

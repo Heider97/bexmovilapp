@@ -1,9 +1,19 @@
-//TODO: [Heider Zapa] organize
+import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/data_grid.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox.dart';
+import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+final NavigationService _navigationService = locator<NavigationService>();
+final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class SelectClientWallet extends StatefulWidget {
   const SelectClientWallet({super.key});
@@ -17,7 +27,6 @@ class _SelectClientWalletState extends State<SelectClientWallet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -42,12 +51,12 @@ class _SelectClientWalletState extends State<SelectClientWallet> {
                       hintText: 'Nombre o código del producto'),
                 ),
               ),
-              // const CustomFrameButtom(
-              //     icon: FontAwesomeIcons.locationArrow,
-              //     primaryColorBackgroundMode: true),
-              // gapW8,
-              // const CustomFrameButtom(
-              //     icon: Icons.tune, primaryColorBackgroundMode: true),
+              const CustomFrameButtom(
+                  icon: FontAwesomeIcons.locationArrow,
+                  primaryColorBackgroundMode: true),
+              gapW8,
+              const CustomFrameButtom(
+                  icon: Icons.tune, primaryColorBackgroundMode: true),
               gapW8,
             ],
           ),
@@ -57,7 +66,11 @@ class _SelectClientWalletState extends State<SelectClientWallet> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  List<Client> clients =
+                      await _databaseRepository.getClientsByAgeRange([31, 60]);
+                  print(clients);
+                },
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
                   backgroundColor: theme.primaryColor,

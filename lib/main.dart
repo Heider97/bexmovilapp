@@ -1,7 +1,12 @@
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
+import 'dart:io';
+
+import 'package:bexmovil/src/services/styled_dialog_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +31,11 @@ import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
 import 'src/presentation/cubits/schedule/schedule_cubit.dart';
 import 'src/presentation/cubits/home/home_cubit.dart';
+import 'src/presentation/cubits/navigation/navigation_cubit.dart';
 
 //blocs
 import 'src/presentation/blocs/location/location_bloc.dart';
+import 'src/presentation/blocs/gps/gps_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
 import 'src/presentation/blocs/recovery_password/recovery_password_bloc.dart';
@@ -51,6 +58,9 @@ import 'src/services/navigation.dart';
 
 //router
 import 'src/config/router/routes.dart';
+
+//widgets
+import 'src/presentation/widgets/atomsbox.dart';
 
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
@@ -81,33 +91,157 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
+  void initState() {
+    locator<StyledDialogController>()
+        .registerDialogOf(style: Status.error, builder: showErrorGpsDialog);
+    super.initState();
+  }
+
+  Future<void> showErrorGpsDialog() {
+    final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
+
+    if (Platform.isAndroid) {
+      return showDialog(
+          barrierDismissible: false,
+          context: ctx,
+          builder: (_) {
+            ThemeData theme = Theme.of(ctx);
+            return PopScope(
+              canPop: false,
+              child: Dialog(
+                backgroundColor: theme.scaffoldBackgroundColor,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        AppText('Activa la ubicación', fontSize: 26),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SvgPicture.asset('assets/icons/pin.svg',
+                            height: 100, width: 100),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AppText(
+                              "Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.",
+                              textAlign: TextAlign.center,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Geolocator.openLocationSettings();
+                          },
+                          child: Container(
+                            width: 180,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: AppText('Activar',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                      ]),
+                ),
+              ),
+            );
+          });
+    } else {
+      return showCupertinoDialog(
+          context: context,
+          builder: (_) => CupertinoAlertDialog(
+              title: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.error,
+                      color: Colors.red.shade900,
+                      size: 40,
+                    ),
+                  ),
+                  const Text("Oh no!\n something went wrong."),
+                ],
+              ),
+              content: Column(
+                children: [
+                  const Text(
+                    textAlign: TextAlign.center,
+                    "",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
+                    style: TextStyle(
+                      color: Colors.red.shade900,
+                    ),
+                  ),
+                ],
+              )));
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         //BLOC PROVIDERS
         BlocProvider(
-            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
-
-        BlocProvider(create: (_) => SplashScreenBloc()),
-        BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
-        BlocProvider(create: (_) => SaleStepperBloc()),
-        BlocProvider(
-            create: (_) => WalletBloc(locator<DatabaseRepository>(),
-                locator<LocalStorageService>(), locator<NavigationService>())),
-
-        BlocProvider(
-            create: (_) => SaleBloc(
-                locator<DatabaseRepository>(), locator<LocalStorageService>())
-              ..add(LoadRouters())),
-        BlocProvider(
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
+        BlocProvider(
+            create: (_) => GpsBloc(
+                navigationService: locator<NavigationService>(),
+                storageService: locator<LocalStorageService>(),
+                databaseRepository: locator<DatabaseRepository>())),
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
               locator<ApiRepository>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
+        ),
+        BlocProvider(
+            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
+        BlocProvider(create: (_) => SplashScreenBloc()),
+        BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
+        BlocProvider(create: (_) => SaleStepperBloc()),
+        BlocProvider(
+            create: (_) => WalletBloc(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())),
+        BlocProvider(
+            create: (_) => SaleBloc(
+                locator<DatabaseRepository>(), locator<LocalStorageService>())
+              ..add(LoadRouters())),
+        BlocProvider(
+          create: (context) => NavigationCubit(
+              locator<DatabaseRepository>(),
+              locator<NavigationService>(),
+              BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),

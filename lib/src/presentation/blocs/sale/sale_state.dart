@@ -1,39 +1,35 @@
 part of 'sale_bloc.dart';
 
-abstract class SaleState {
-  List<Router> routers;
-  List<Client> clients;
+enum SaleStatus { initial, loading, success, failed }
 
-  SaleState(this.routers, this.clients);
+class SaleState extends Equatable {
+  final SaleStatus status;
+  final List<Router>? routers;
+  final List<Client>? clients;
+  final List<Filter>? filters;
+  final String? error;
+
+  const SaleState(
+      {this.status = SaleStatus.initial,
+      this.routers,
+      this.clients,
+      this.filters,
+      this.error});
+
+  SaleState copyWith(
+          {SaleStatus? status,
+          List<Router>? routers,
+          List<Client>? clients,
+          List<Filter>? filters,
+          String? error}) =>
+      SaleState(
+          status: status ?? this.status,
+          routers: routers ?? this.routers,
+          clients: clients ?? this.clients,
+          filters: filters ?? this.filters,
+          error: error ?? this.error);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [status, routers, clients, filters, error];
 }
-
-class SaleInitial extends SaleState {
-  SaleInitial(super.routers, super.clients);
-}
-
-class SaleClienteSelected extends SaleState {
-  Client client;
-  SaleClienteSelected(super.routers,super.clients, {required this.client});
-}
-
-// class SaleProductSelected extends SaleState {
-//   List<Product> listOfProducst;
-//   SaleProductSelected(super.routers,super.clients, {required this.listOfProducst});
-// }
-//
-// class SaleProductConfirm extends SaleState {
-//   List<Product> listOfProducst;
-//   SaleProductConfirm(super.routers, super.clients, {required this.listOfProducst});
-// }
-//
-// class SaleOrderPreview extends SaleState {
-//   List<Product> listOfProducst;
-//   Client client;
-//   SaleOrderPreview(super.routers, super.clients, {required this.listOfProducst, required this.client});
-// }
-//
-// class SaleOrderConfirm extends SaleState {
-//   List<Product> listOfProducst;
-//   Client client;
-//   SaleOrderConfirm(super.routers, super.clients, {required this.listOfProducst, required this.client});
-// }

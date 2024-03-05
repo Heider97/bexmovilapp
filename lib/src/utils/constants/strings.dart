@@ -30,9 +30,17 @@ class AppRoutes {
   //sales routes
   static const routersSale = '/sale-routers';
   static const clientsSale = '/sale-clients';
+  static const filtersSale = '/sale-filters';
   static const productsSale = '/sale-products';
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
+
+  //NAVIGATION ROUTES
+  static const navigation = '/navigation';
+  static const editStore = '/edit-store-popup';
+  static const importStore = '/import-store-popup';
+  static const recovery = '/recovery-popup';
+  static const downloader = '/downloader-popup';
 
   //Wallet routes
   static const dashboardWallet = '/wallet-dashboard';
@@ -40,6 +48,7 @@ class AppRoutes {
   static const summariesWallet = '/wallet-summaries';
   static const notificationWallet = '/wallet-notification';
   static const detailWallet = '/wallet-detail';
+  static const manageWallet = '/wallet-manage';
 }
 
 // Form Error

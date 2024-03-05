@@ -12,7 +12,9 @@ import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/isolate.dart';
+//requests
 import '../../../domain/models/requests/functionality_request.dart';
+import '../../../domain/models/requests/filter_request.dart';
 import '../../../domain/models/requests/graphic_request.dart';
 import '../../../domain/models/requests/kpi_request.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -56,7 +58,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> getFeatures() async {
     final response = await apiRepository.features();
 
-    if (response is DataSuccess) {
+    if (response is DataSuccess && response.data != null) {
       await databaseRepository.insertFeatures(response.data!.features);
     } else {
       emit(HomeFailed(error: 'features-${response.data!.message}'));
@@ -68,7 +70,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         request:
             KpiRequest(codvendedor: storageService.getString('username')!));
 
-    if (response is DataSuccess) {
+    if (response is DataSuccess && response.data != null) {
       await databaseRepository.insertKpis(response.data!.kpis!);
     } else {
       emit(HomeFailed(error: 'kpis-${response.data!.message}'));
@@ -80,7 +82,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         request: FunctionalityRequest(
             codvendedor: storageService.getString('username')!));
 
-    if (response is DataSuccess) {
+    if (response is DataSuccess && response.data != null) {
       await databaseRepository
           .insertApplications(response.data!.functionalities!);
     } else {
@@ -92,11 +94,24 @@ class HomeCubit extends BaseCubit<HomeState> {
     final response = await apiRepository.graphics(
         request: GraphicRequest(
             codvendedor: storageService.getString('username')!));
-
-    if (response is DataSuccess) {
-      print('***********');
-      print(response.data!.graphics);
+    if (response is DataSuccess && response.data != null) {
       await databaseRepository.insertGraphics(response.data!.graphics!);
+    } else {
+      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
+    }
+  }
+
+  Future<void> getFilters() async {
+    final response = await apiRepository.filters(
+        request: FilterRequest(
+            codvendedor: storageService.getString('username')!));
+    if (response is DataSuccess && response.data != null) {
+      await databaseRepository.insertFilters(response.data!.filters!);
+      if(response.data!.filters != null) {
+        for(var filter in response.data!.filters!) {
+          await databaseRepository.insertOptions(filter.options!);
+        }
+      }
     } else {
       emit(HomeFailed(error: 'graphics-${response.data!.message}'));
     }
@@ -166,17 +181,18 @@ class HomeCubit extends BaseCubit<HomeState> {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeLoading());
+      emit(const HomeSynchronizing());
 
       var functions = [
         getConfigs,
         getFeatures,
         getKpis,
         getFunctionalities,
-        getGraphics
+        getGraphics,
+        getFilters
       ];
 
-      var isolateModel = IsolateModel(functions, null, 5);
+      var isolateModel = IsolateModel(functions, null, 6);
       await heavyTask(isolateModel);
 
       final user = User.fromMap(storageService.getObject('user')!);

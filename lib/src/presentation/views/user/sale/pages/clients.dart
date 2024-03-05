@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -11,12 +12,11 @@ import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
+import '../../../../widgets/atoms/app_text.dart';
 import '../widgets/card_client_sale.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_text.dart';
-import '../../../../widgets/atoms/app_elevated_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
 import '../../../../widgets/user/stepper.dart';
 
@@ -91,62 +91,66 @@ class _ClientsPageState extends State<ClientsPage> {
               ],
             ),
             StepperWidget(currentStep: 0, steps: steps),
-            Padding(
-                padding: const EdgeInsets.all(Const.padding),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: theme.colorScheme.secondary,
-                      borderRadius: BorderRadius.circular(Const.space15)),
-                  child: Padding(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
                     padding: const EdgeInsets.all(Const.padding),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: theme.colorScheme.tertiary,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: theme.colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(Const.space15)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Const.padding),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                            gapW12,
+                            AppText('Búsqueda por clientes',
+                                color: theme.colorScheme.tertiary)
+                          ],
                         ),
-                        gapW24,
-                        Text(
-                          'Búsqueda por clientes',
-                          style: TextStyle(color: theme.colorScheme.tertiary),
-                        )
-                      ],
-                    ),
-                  ),
-                )),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppElevatedButton(child: AppText('Visitados')),
-                  AppElevatedButton(child: AppText('No visitados')),
-                ],
-              ),
+                      ),
+                    )),
+                AppIconButton(
+                    child: const Icon(Icons.map_rounded),
+                    onPressed: () => navigationService.goTo(
+                        AppRoutes.navigation,
+                        arguments: widget.codeRouter)),
+                AppIconButton(
+                    child: const Icon(Icons.filter_alt_rounded),
+                    onPressed: () =>
+                        navigationService.goTo(AppRoutes.filtersSale)),
+              ],
             ),
             gapH4,
             BlocBuilder<SaleBloc, SaleState>(
-              builder: (context, saleState) {
-                if (saleState is SaleInitial) {
+              builder: (context, state) {
+                if (state.status == SaleStatus.loading) {
+                  return const Center(child: CupertinoActivityIndicator());
+                } else if (state.status == SaleStatus.success) {
                   return Expanded(
                     child: ListView.builder(
-                        itemCount: saleState.clients.length,
+                        itemCount:
+                            state.clients != null ? state.clients!.length : 0,
                         itemBuilder: (context, index) {
                           return CardClientRouter(
-                            nit: saleState.clients[index].nitCliente.toString(),
+                            nit: state.clients![index].nitCliente.toString(),
                             addressClient:
-                                saleState.clients[index].dirCliente.toString(),
-                            branchClient: saleState
-                                .clients[index].sucursalCliente
+                                state.clients![index].dirCliente.toString(),
+                            branchClient: state.clients![index].sucursalCliente
                                 .toString(),
                             nameClient:
-                                saleState.clients[index].nomCliente.toString(),
+                                state.clients![index].nomCliente.toString(),
                           );
                         }),
                   );
                 } else {
-                  return const Center(child: Text("Not Found"));
+                  return Center(child: AppText("No se encontraron clientes."));
                 }
               },
             ),

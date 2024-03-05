@@ -5,6 +5,7 @@ import '../../utils/constants/strings.dart';
 //routes
 import './separated/auth_routes.dart';
 import './separated/home_routes.dart';
+import './separated/navigation_routes.dart';
 import './separated/sales_routes.dart';
 import './separated/wallet_routes.dart';
 
@@ -19,6 +20,7 @@ class Routes {
     return {
       ...authRoutes,
       ...homeRoutes,
+      ...navigationRoutes,
       ...salesRoutes,
       ...walletRoutes,
     };

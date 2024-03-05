@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-//cubit
+//blocs
+import '../../../blocs/gps/gps_bloc.dart';
+
+//cubits
 import '../../../cubits/home/home_cubit.dart';
 
 //utils
@@ -18,6 +21,10 @@ import './features/features.dart';
 import './features/statistics.dart';
 import './features/applications.dart';
 
+//services
+import '../../../../locator.dart';
+import '../../../../services/styled_dialog_controller.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -28,6 +35,8 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView>
     with SingleTickerProviderStateMixin {
   late HomeCubit homeCubit;
+  late GpsBloc gpsBloc;
+
   late TabController _tabController;
 
   final TextEditingController searchController = TextEditingController();
@@ -36,6 +45,7 @@ class HomeViewState extends State<HomeView>
   @override
   void initState() {
     homeCubit = BlocProvider.of<HomeCubit>(context);
+    gpsBloc = BlocProvider.of<GpsBloc>(context);
     homeCubit.init();
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
@@ -47,21 +57,34 @@ class HomeViewState extends State<HomeView>
     _tabController.dispose();
   }
 
+  final styledDialogController = locator<StyledDialogController>();
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
 
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        if (state is HomeLoading) {
-          return const Center(
-              child: CupertinoActivityIndicator(color: Colors.green));
-        } else {
-          return _buildBody(size, theme, state, context);
-        }
-      },
-    );
+    return BlocConsumer<GpsBloc, GpsState>(listener: (context, state) {
+      print(state);
+      if (state.isGpsEnabled == true && state.showDialog == true) {
+        styledDialogController.closeVisibleDialog();
+      } else if (state.isGpsEnabled == false) {
+        context.read<GpsBloc>().add(const GpsShowDisabled());
+        styledDialogController.showDialogWithStyle(Status.error,
+            closingFunction: () => Navigator.of(context).pop());
+      }
+    }, builder: (context, state) {
+      return BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state is HomeLoading) {
+            return const Center(
+                child: CupertinoActivityIndicator(color: Colors.green));
+          } else {
+            return _buildBody(size, theme, state, context);
+          }
+        },
+      );
+    });
   }
 
   Widget _buildBody(

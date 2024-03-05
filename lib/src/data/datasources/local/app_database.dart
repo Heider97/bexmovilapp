@@ -5,10 +5,10 @@ import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
 //utils
-import '../../../core/abstracts/FormatAbstract.dart';
 import '../../../utils/constants/strings.dart';
 
 //models
+import '../../../domain/abstracts/format_abstract.dart';
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
@@ -18,6 +18,9 @@ import '../../../domain/models/application.dart';
 import '../../../domain/models/graphic.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/client.dart';
+import '../../../domain/models/error.dart';
+import '../../../domain/models/filter.dart';
+import '../../../domain/models/option.dart';
 
 //services
 import '../../../locator.dart';
@@ -33,6 +36,9 @@ part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
 part '../local/dao/graphic_dao.dart';
+part '../local/dao/error_dao.dart';
+part '../local/dao/filter_dao.dart';
+part '../local/dao/option_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -133,6 +139,32 @@ class AppDatabase {
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
         ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableErrors (
+          ${ErrorFields.id} INTEGER PRIMARY KEY,
+          ${ErrorFields.errorMessage} TEXT DEFAULT NULL,
+          ${ErrorFields.stackTrace}  TEXT DEFAULT NULL,
+          ${ErrorFields.createdAt} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableFilter (
+          ${FilterFields.id} INTEGER PRIMARY KEY,
+          ${FilterFields.name} TEXT DEFAULT NULL,
+          ${FilterFields.module}  TEXT DEFAULT NULL,
+          ${FilterFields.type} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableOption (
+          ${OptionFields.id} INTEGER PRIMARY KEY,
+          ${OptionFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.type} TEXT DEFAULT NULL,
+          ${OptionFields.order} INTEGER DEFAULT NULL,
+          ${OptionFields.filterId} INTEGER DEFAULT NULL,
+          ${OptionFields.queryId} INTEGER DEFAULT NULL
+        )
+      ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -143,7 +175,7 @@ class AppDatabase {
             ${KpiFields.line} INTEGER DEFAULT NULL,
             ${KpiFields.value} TEXT DEFAULT NULL
           )
-        ''');
+      ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableApplications (
             ${ApplicationFields.id} INTEGER PRIMARY KEY,
@@ -152,7 +184,7 @@ class AppDatabase {
             ${ApplicationFields.route} TEXT DEFAULT NULL,
             ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
           )
-        ''');
+       ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS $tableGraphics (
             ${GraphicFields.id} INTEGER PRIMARY KEY,
@@ -163,10 +195,36 @@ class AppDatabase {
             ${GraphicFields.query} TEXT DEFAULT NULL,
             ${GraphicFields.trigger} TEXT DEFAULT NULL,
             ${GraphicFields.order} INT DEFAULT NULL,
-             ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
+            ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
             ${GraphicFields.data} TEXT DEFAULT NULL
           )
-        ''');
+       ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableErrors (
+          ${ErrorFields.id} INTEGER PRIMARY KEY,
+          ${ErrorFields.errorMessage} TEXT DEFAULT NULL,
+          ${ErrorFields.stackTrace}  TEXT DEFAULT NULL,
+          ${ErrorFields.createdAt} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableFilter (
+          ${FilterFields.id} INTEGER PRIMARY KEY,
+          ${FilterFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.type} TEXT DEFAULT NULL,
+          ${OptionFields.order} INTEGER DEFAULT NULL,
+          ${FilterFields.module}  TEXT DEFAULT NULL,
+          ${FilterFields.type} TEXT DEFAULT NULL
+        )
+      ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableOption (
+          ${OptionFields.id} INTEGER PRIMARY KEY,
+          ${OptionFields.name} TEXT DEFAULT NULL,
+          ${OptionFields.filterId} INTEGER DEFAULT NULL,
+          ${OptionFields.queryId} INTEGER DEFAULT NULL
+        )
+      ''');
     });
   }
 
@@ -261,6 +319,12 @@ class AppDatabase {
   GraphicDao get graphicDao => GraphicDao(instance);
 
   LocationDao get locationDao => LocationDao(instance);
+
+  ErrorDao get errorDao => ErrorDao(instance);
+
+  FilterDao get filterDao => FilterDao(instance);
+
+  OptionDao get optionDao => OptionDao(instance);
 
   void close() {
     _database!.close();

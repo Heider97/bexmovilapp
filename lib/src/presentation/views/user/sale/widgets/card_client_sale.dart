@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
+import '../../../../widgets/atomsbox.dart';
 
 class CardClientRouter extends StatelessWidget {
   final String nit;
@@ -16,43 +16,30 @@ class CardClientRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        print('pressed');
-      },
-      onTap: () => {},
-      child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                ),
-              ],
-            ),
-            child: AppListTile(
-              title: SingleChildScrollView(child: AppText(nameClient, overflow: TextOverflow.ellipsis)),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText("Nit: $nit",
-                      fontWeight: FontWeight.bold, fontSize: 11),
-                  AppText("SUC: $branchClient",
-                      fontWeight: FontWeight.bold, fontSize: 11),
-                  AppText("Dirección: $addressClient",
-                      fontWeight: FontWeight.bold, fontSize: 11),
-                ],
-              ),
-              trailing: AppIconButton(child: const Icon(Icons.add_shopping_cart, color: Colors.white)),
-            ),
-          )),
+    return AppCard.filled(
+      onTap: null,
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+      child: AppListTile(
+        title: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: AppText(nameClient, overflow: TextOverflow.ellipsis)),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText("Nit: $nit", fontWeight: FontWeight.bold, fontSize: 11),
+            AppText("SUC: $branchClient",
+                fontWeight: FontWeight.bold, fontSize: 11),
+            AppText("Dirección: $addressClient",
+                fontWeight: FontWeight.bold, fontSize: 11),
+          ],
+        ),
+        trailing: AppIconButton(
+            child: const Icon(Icons.add_shopping_cart, color: Colors.white)),
+      ),
     );
   }
 }

@@ -39,13 +39,10 @@ class HomeStatistics extends StatelessWidget {
           TabBar(
             controller: tabController,
             indicatorSize: TabBarIndicatorSize.values.first,
-            indicator: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            indicator: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              color: Colors.grey[100],
             ),
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.black,
             tabs: const [
               Tab(
                 text: 'KPI',
@@ -59,9 +56,8 @@ class HomeStatistics extends StatelessWidget {
             child: TabBarView(
               controller: tabController,
               children: [
-                Container(
+                SizedBox(
                   width: Screens.width(context) / 2,
-                  color: Colors.grey[100],
                   child: Column(
                     children: [
                       Expanded(
@@ -90,24 +86,21 @@ class HomeStatistics extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.grey[100],
-                  child: Column(
-                    children: [
-                      gapH12,
-                      CardReports(
-                          iconCard: Icons.star_rate_rounded,
-                          urlIcon: "assets/svg/wallet-money.svg",
-                          title: "Mi\nPresupuesto",
-                          eventCard: () {}),
-                      gapH12,
-                      CardReports(
-                          iconCard: Icons.star_rate_rounded,
-                          urlIcon: "assets/svg/graphic.svg",
-                          title: "Mis\nestadísticas",
-                          eventCard: () {}),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    gapH12,
+                    CardReports(
+                        iconCard: Icons.star_rate_rounded,
+                        urlIcon: "assets/svg/wallet-money.svg",
+                        title: "Mi\nPresupuesto",
+                        eventCard: () {}),
+                    gapH12,
+                    CardReports(
+                        iconCard: Icons.star_rate_rounded,
+                        urlIcon: "assets/svg/graphic.svg",
+                        title: "Mis\nestadísticas",
+                        eventCard: () {}),
+                  ],
                 )
               ],
             ),

@@ -1,22 +1,32 @@
 part of 'wallet_bloc.dart';
 
-class WalletState {
-  List<Graphic> graphics;
-  WalletState(this.graphics);
-}
+enum WalletStatus { initial, loading, success, failed }
 
-class WalletInitial extends WalletState {
-  WalletInitial(super.graphics);
-}
+class WalletState extends Equatable {
+  final WalletStatus status;
+  final List<Graphic>? graphics;
+  final String? error;
 
-class WalletStepperClientSelection extends WalletState {
-  WalletStepperClientSelection(super.graphics);
-}
+  const WalletState(
+      {this.status = WalletStatus.initial, this.graphics, this.error});
 
-class WalletStepperInvoiceSelection extends WalletState {
-  WalletStepperInvoiceSelection(super.graphics);
-}
+  WalletState copyWith(
+          {WalletStatus? status, List<Graphic>? graphics, String? error}) =>
+      WalletState(
+        status: status ?? this.status,
+        graphics: graphics ?? this.graphics,
+        error: error ?? this.error,
+      );
 
-class WalletStepperInvoiceAction extends WalletState {
-  WalletStepperInvoiceAction(super.graphics);
+  @override
+  List<Object?> get props => [
+        status,
+        graphics,
+        error,
+      ];
+
+  bool canRenderView() =>
+      status == WalletStatus.initial ||
+      status == WalletStatus.success ||
+      status == WalletStatus.failed;
 }
