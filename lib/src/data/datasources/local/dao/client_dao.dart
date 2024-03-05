@@ -25,6 +25,13 @@ class ClientDao {
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
     final clientsRouterList = await db!.rawQuery('''
+<<<<<<< HEAD
+        SELECT tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE
+         FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
+         WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
+         AND tdr.NOMDIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = "$seller" 
+         GROUP BY tr.CODCLIENTE
+=======
       SELECT tdr.NOMDIARUTERO, c.razcliente, c.NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL
       FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
       WHERE tr.diarutero = tdr.diarutero
@@ -32,6 +39,7 @@ class ClientDao {
       AND tr.DIARUTERO = "$dayRouter" 
       AND tr.CODVENDEDOR = "$seller" 
       GROUP BY tr.CODCLIENTE
+>>>>>>> f6c1904317fe26e741192873d670bfef5c677496
     ''');
     final clientRouters = parseClients(clientsRouterList);
     return clientRouters;
@@ -40,7 +48,11 @@ class ClientDao {
   Future<List<Client>> getClient(String codeClient) async {
     final db = await _appDatabase.database;
     final routerList = await db!
+<<<<<<< HEAD
+        .query(tableClient, where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
+=======
         .query('tblmcliente', where: 'CODCLIENTE = ?', whereArgs: [codeClient]);
+>>>>>>> f6c1904317fe26e741192873d670bfef5c677496
     final routers = parseClients(routerList);
     return routers;
   }
