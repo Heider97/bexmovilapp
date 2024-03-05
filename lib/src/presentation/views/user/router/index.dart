@@ -1,7 +1,7 @@
 
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale_stepper/sale_stepper_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/sales/card_router.dart';
+// import 'package:bexmovil/src/presentation/widgets/sales/card_router.dart';
 
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../locator.dart';
 import '../../../../utils/constants/strings.dart';
 import '../../../cubits/home/home_cubit.dart';
+import '../sale/widgets/card_router.dart';
 
 
 final NavigationService navigationService = locator<NavigationService>();
@@ -119,17 +120,17 @@ class _SalePageState extends State<RouterPage> {
                         gapH24,
                         BlocBuilder<SaleBloc, SaleState>(
                             builder: (context, state) {
-                          if (state is SaleInitial) {
+                          if (state.status == SaleStatus.initial) {
                             return Expanded(
                               child: ListView.builder(
-                                  itemCount: state.routers.length,
+                                  itemCount: state.routers!.length,
                                   itemBuilder: (context, index) {
                                     return CardRouter(
                                       quantityClients: state
-                                            .routers[index].quantityClient
+                                            .routers![index].quantityClient
                                             .toString(),
                                         dayRouter: state
-                                            .routers[index].nameDayRouter
+                                            .routers![index].nameDayRouter
                                             .toString());
                                   }),
                             );
