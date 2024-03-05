@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:upgrader/upgrader.dart';
 
 //bloc
 import '../../../blocs/splash/splash_bloc.dart';
@@ -26,10 +25,7 @@ class SplashView extends StatelessWidget {
           _navigationService.goTo(state.route!);
         }
       },
-      child: UpgradeAlert(upgrader: Upgrader(
-          debugDisplayAlways: false,
-          debugLogging: true
-      ), child: const SplashScreenWidget()),
+      child: const SplashScreenWidget(),
     );
   }
 }
