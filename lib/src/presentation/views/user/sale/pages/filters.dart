@@ -1,11 +1,8 @@
-import 'package:bexmovil/src/presentation/widgets/atoms/app_card.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 //utils
-import '../../../../../domain/models/option.dart';
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/strings.dart';
 
@@ -13,8 +10,10 @@ import '../../../../../utils/constants/strings.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
 
 //widgets
-import '../widgets/card_client_sale.dart';
 import '../../../../widgets/atomsbox.dart';
+
+//features
+import '../features/filters.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -44,7 +43,6 @@ class _FiltersSalePageState extends State<FiltersSalePage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Padding(
@@ -67,24 +65,7 @@ class _FiltersSalePageState extends State<FiltersSalePage> {
                     itemCount: state.filters!.length,
                     itemBuilder: (context, index) {
                       final filter = state.filters![index];
-
-                      if (filter.type == "checkboxes") {
-                        return AppListTile(
-                            title: AppText(filter.name!),
-                            subtitle: Wrap(
-                              runSpacing: 10.0,
-                              spacing: 10.0,
-                              children: List<Option>.from(filter.options!)
-                                  .map((e) => AppElevatedButton(
-                                      onPressed: () {},
-                                      child: AppText(e.name!)))
-                                  .toList(),
-                            ));
-                      } else if (filter.type == "range") {
-                        return AppListTile(title: AppText(filter.name!));
-                      } else {
-                        return const SizedBox();
-                      }
+                      return FilterFeatureSalePage(filter: filter);
                     },
                   ),
                 );
