@@ -48,6 +48,7 @@ class AppRoutes {
   static const summariesWallet = '/wallet-summaries';
   static const notificationWallet = '/wallet-notification';
   static const detailWallet = '/wallet-detail';
+  static const manageWallet = '/wallet-manage';
 }
 
 // Form Error

@@ -1,11 +1,8 @@
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/blocs/wallet_bloc/wallet_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_client.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_invoice.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_menu_button.dart';
+
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -13,6 +10,8 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../blocs/wallet/wallet_bloc.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -42,22 +41,22 @@ class _WalletProcessViewState extends State<WalletProcessView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const CustomBackButton(primaryColorBackgroundMode: true),
-                Row(
-                  children: [
-                    CustomFrameButtom(
-                      icon: Icons.notification_add,
-                      onTap: () {
-                        print('HELLOW');
-                        _navigationService.goTo(Routes.walletNotificationView);
-                      },
-                    ),
-                    gapW8,
-                    const CustomMenuButton(
-                      primaryColorBackgroundMode: true,
-                    ),
-                  ],
-                )
+                // const CustomBackButton(primaryColorBackgroundMode: true),
+                // Row(
+                //   children: [
+                //     CustomFrameButtom(
+                //       icon: Icons.notification_add,
+                //       onTap: () {
+                //         print('HELLOW');
+                //         _navigationService.goTo(Routes.walletNotificationView);
+                //       },
+                //     ),
+                //     gapW8,
+                //     const CustomMenuButton(
+                //       primaryColorBackgroundMode: true,
+                //     ),
+                //   ],
+                // )
               ],
             ),
           ),
@@ -85,15 +84,17 @@ class _WalletProcessViewState extends State<WalletProcessView> {
           ),
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
-              if (state is WalletStepperClientSelection) {
-                return const SelectClientWallet();
-              } else if (state is WalletStepperInvoiceSelection) {
-                return const SelectInvoice();
-              } else if (state is WalletStepperInvoiceAction) {
-                return const WalletActionList();
-              } else {
-                return const SelectClientWallet();
-              }
+              //TODO: [Heider Zapa] ajust event of copy state wallet bloc
+              // if (state is WalletStepperClientSelection) {
+              //   return const SelectClientWallet();
+              // } else if (state is WalletStepperInvoiceSelection) {
+              //   return const SelectInvoice();
+              // } else if (state is WalletStepperInvoiceAction) {
+              //   return const WalletActionList();
+              // } else {
+              //   return const SelectClientWallet();
+              // }
+              return const SizedBox();
             },
           )
         ],

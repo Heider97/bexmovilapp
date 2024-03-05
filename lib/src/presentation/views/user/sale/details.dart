@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/presentation/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -9,6 +8,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
 import '../../../../utils/constants/gaps.dart';
+import '../../../widgets/global/app_global_drawer.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 

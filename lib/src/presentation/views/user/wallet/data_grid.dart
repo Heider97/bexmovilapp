@@ -1,10 +1,11 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/details_sale.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../sale/details.dart';
 
 final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
