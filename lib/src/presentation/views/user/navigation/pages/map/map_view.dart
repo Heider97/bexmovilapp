@@ -241,7 +241,7 @@ class _MapPageState extends State<MapPage> {
                   mapController: state.mapController,
                   options: MapOptions(
                       keepAlive: true,
-                      center: state.markers != null
+                      center: state.markers != null && state.markers!.isNotEmpty
                           ? state.markers![0].point
                           : null,
                       maxZoom: 18,

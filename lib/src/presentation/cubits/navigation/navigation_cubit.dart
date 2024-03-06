@@ -239,8 +239,12 @@ class NavigationCubit extends BaseCubit<NavigationState> {
 
   Future<void> getCurrentPosition(double zoom) async {
     var currentLocation = gpsBloc.state.lastKnownLocation;
+    currentLocation ??= await gpsBloc.getCurrentLocation();
+    if(currentLocation == null) {
+      return;
+    }
     state.mapController!.move(
-        LatLng(currentLocation!.latitude, currentLocation.longitude), zoom);
+        LatLng(currentLocation.latitude, currentLocation.longitude), zoom);
     emit(state.copyWith(status: NavigationStatus.success));
   }
 
