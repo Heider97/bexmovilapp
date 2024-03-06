@@ -1,6 +1,5 @@
+import 'dart:convert';
 import 'dart:io';
-
-
 
 import 'package:dio/dio.dart';
 
@@ -203,30 +202,29 @@ class ApiService {
   Future<Response<NearbyPlacesResponse>> places(
       {required GoogleMapsRequest request}) async {
     const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      'location': '${request.longitude},${request.latitude}',
+      'radius': request.radius,
+      'key': request.apiKey
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
 
-    final data = <String, dynamic>{
-      'location': '${request.latitude},${request.longitude}',
-      'radius': request.radius,
-      'key': request.apiKey
-    };
-
+    final data = <String, dynamic>{};
     data.removeWhere((k, v) => v == null);
 
     final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<GoogleResponse>>(
-            Options(method: 'POST', headers: headers, extra: extra)
+        _setStreamType<Response<NearbyPlacesResponse>>(
+            Options(method: 'GET', headers: headers, extra: extra)
                 .compose(
                   dio.options,
-                  '/place/nearbysearch/json',
+                  '/maps/api/place/nearbysearch/json',
                   queryParameters: queryParameters,
                   data: data,
                 )
-                .copyWith(baseUrl: 'https://maps.googleapis.com/maps/api')));
+                .copyWith(baseUrl: 'https://maps.googleapis.com')));
 
     final value = NearbyPlacesResponse.fromJson(result.data!);
 

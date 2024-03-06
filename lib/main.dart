@@ -238,8 +238,11 @@ class _MyAppState extends State<MyApp> {
                 locator<LocalStorageService>(), locator<NavigationService>())
               ..add(LoadRouters())),
         BlocProvider(
-          create: (context) => NavigationCubit(locator<DatabaseRepository>(),
-              locator<NavigationService>(), BlocProvider.of<GpsBloc>(context)),
+          create: (context) => NavigationCubit(
+              locator<DatabaseRepository>(),
+              locator<ApiRepository>(),
+              locator<NavigationService>(),
+              BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),

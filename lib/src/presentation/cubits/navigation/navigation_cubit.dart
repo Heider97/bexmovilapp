@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
+import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
@@ -35,11 +37,13 @@ class LayerMoodle {
 
 class NavigationCubit extends BaseCubit<NavigationState> {
   final DatabaseRepository databaseRepository;
+  final ApiRepository apiRepository;
   final NavigationService navigationService;
   final helperFunctions = HelperFunctions();
   final GpsBloc gpsBloc;
 
-  NavigationCubit(this.databaseRepository, this.navigationService, this.gpsBloc)
+  NavigationCubit(this.databaseRepository, this.apiRepository,
+      this.navigationService, this.gpsBloc)
       : super(const NavigationState(status: NavigationStatus.initial));
 
   goBack() => navigationService.goBack();
@@ -126,32 +130,45 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     ]))),
           );
 
-          // List<Placemark> placemarks = await placemarkFromCoordinates(
-          //   currentLocation.latitude,
-          //   currentLocation.longitude,
-          // );
-          //
-          // if(placemarks.isNotEmpty) {
-          //   for (var place in placemarks) {
-          //     print(place.toString());
-          //     // markers.add(
-          //     //   Marker(
-          //     //       height: 25,
-          //     //       width: 25,
-          //     //       point: LatLng(place.latitude, place.longitude),
-          //     //       builder: (_) => GestureDetector(
-          //     //           behavior: HitTestBehavior.opaque,
-          //     //           child: Stack(
-          //     //               alignment: Alignment.center,
-          //     //               children: <Widget>[
-          //     //                 Image.asset('assets/icons/point.png',
-          //     //                     color: Colors.purple),
-          //     //                 const Icon(Icons.location_on,
-          //     //                     size: 14, color: Colors.white),
-          //     //               ]))),
-          //     // );
-          //   }
-          // }
+          var response = await apiRepository.places(
+              request: GoogleMapsRequest(
+                  latitude: currentLocation.latitude.toString(),
+                  longitude: currentLocation.longitude.toString(),
+                  radius: '30',
+                  apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
+
+          if (response is DataSuccess) {
+            var places = response.data!.results;
+
+            print(places);
+
+
+            if (places != null && places.isNotEmpty) {
+              for (var place in places) {
+                if (place.geometry != null &&
+                    place.geometry!.location != null) {
+                  markers.add(
+                    Marker(
+                        height: 25,
+                        width: 25,
+                        point: LatLng(place.geometry!.location!.lat!,
+                            place.geometry!.location!.lng!),
+                        builder: (_) => GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  Image.asset('assets/icons/point.png',
+                                      color: Colors.brown),
+
+                                  const Icon(Icons.location_on,
+                                      size: 14, color: Colors.white),
+                                ]))),
+                  );
+                }
+              }
+            }
+          }
 
           if (arguments.nearest == true) {
             //TODO:: [Heider Zapa] get nearest clients of me
