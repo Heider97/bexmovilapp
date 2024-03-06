@@ -1,19 +1,20 @@
-import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_client.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/select_invoice.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/stepper.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//blocs
 import '../../../blocs/wallet/wallet_bloc.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+//widgets
+
 
 class WalletProcessView extends StatefulWidget {
   const WalletProcessView({super.key});
@@ -37,26 +38,12 @@ class _WalletProcessViewState extends State<WalletProcessView> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // const CustomBackButton(primaryColorBackgroundMode: true),
-                // Row(
-                //   children: [
-                //     CustomFrameButtom(
-                //       icon: Icons.notification_add,
-                //       onTap: () {
-                //         print('HELLOW');
-                //         _navigationService.goTo(Routes.walletNotificationView);
-                //       },
-                //     ),
-                //     gapW8,
-                //     const CustomMenuButton(
-                //       primaryColorBackgroundMode: true,
-                //     ),
-                //   ],
-                // )
+                const AppBackButton(needPrimary: true),
+                AppIconButton(child: const Icon(Icons.filter))
               ],
             ),
           ),

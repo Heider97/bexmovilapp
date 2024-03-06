@@ -20,6 +20,9 @@ import '../../../../widgets/user/stepper.dart';
 //services
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
+import '../select_client.dart';
+import '../select_invoice.dart';
+import '../wallet_action.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -46,85 +49,67 @@ class _WalletClientsViewState extends State<WalletClientsView> {
     super.initState();
   }
 
-  List<StepData> steps = [
-    StepData(
-        "Seleccionar \nCliente",
-        'assets/icons/ProfileEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/ProfileDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
-    StepData(
-        "Seleccionar \n Facturas",
-        'assets/icons/seleccionarFacturaEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/seleccionarFacturaDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
-    StepData(
-        'Detalles de \n la orden',
-        'assets/icons/actionEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/actionDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
-  ];
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(Const.padding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const AppBackButton(needPrimary: true),
-                  AppText(widget.walletArgument!.type),
-                  AppIconButton(
-                      onPressed: null,
-                      child: Icon(Icons.menu,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onPrimaryContainer)),
-                ],
-              ),
-            ),
-            StepperWidget(currentStep: 0, steps: steps),
-            Row(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(Const.padding),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                    padding: const EdgeInsets.all(Const.padding),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(Const.space15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(Const.padding),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: theme.colorScheme.tertiary,
-                            ),
-                            gapW12,
-                            AppText('Búsqueda por clientes',
-                                color: theme.colorScheme.tertiary)
-                          ],
-                        ),
-                      ),
-                    )),
+                const AppBackButton(needPrimary: true),
+                AppText(widget.walletArgument!.type),
                 AppIconButton(
-                    child: const Icon(Icons.filter_alt_rounded),
-                    onPressed: () =>
-                        navigationService.goTo(AppRoutes.filtersSale)),
+                    onPressed: null,
+                    child: Icon(Icons.menu,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onPrimaryContainer)),
               ],
             ),
-            gapH4,
-          ],
-        ),
+          ),
+          StepperWidget(
+            currentStep: 0,
+            steps: [
+              StepData("Seleccionar\n Cliente", Assets.profileEnable,
+                  theme.primaryColor, Assets.profileDisable, () {
+                    walletBloc.add(SelectClientEvent());
+                  }),
+              StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+                  theme.primaryColor, Assets.invoiceDisable, () {
+                    walletBloc.add(InvoiceSelectionEvent());
+                  }),
+              StepData(
+                "Recaudar",
+                Assets.actionEnable,
+                theme.primaryColor,
+                Assets.actionDisable,
+                    () {
+                  walletBloc.add(InvoiceActionEvent());
+                },
+              )
+            ],
+          ),
+          gapH4,
+          BlocBuilder<WalletBloc, WalletState>(
+            builder: (context, state) {
+              //TODO: [Heider Zapa] ajust event of copy state wallet bloc
+              if (state.status == WalletStatus.client) {
+                return const SelectClientWallet();
+              } else if (state.status == WalletStatus.invoice) {
+                return const SelectInvoice();
+              } else if (state.status == WalletStatus.collection) {
+                return const WalletActionList();
+              } else {
+                return const SelectClientWallet();
+              }
+              return const SizedBox();
+            },
+          )
+        ],
       ),
     );
   }
