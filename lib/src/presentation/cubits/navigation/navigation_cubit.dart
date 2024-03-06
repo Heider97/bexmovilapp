@@ -24,7 +24,6 @@ import '../../../domain/repositories/database_repository.dart';
 
 //services
 import '../../../services/navigation.dart';
-import '../../../services/logger.dart';
 
 part 'navigation_state.dart';
 
@@ -95,20 +94,17 @@ class NavigationCubit extends BaseCubit<NavigationState> {
       var carouselData = <Map>[];
 
       return await Future.forEach(arguments.clients, (work) async {
-        if(work != null) {
-          if (work.latitude != null && work.longitude != null) {
-            if (work.hasCompleted != null && work.hasCompleted == 1) {
-              work.color = 5;
-            } else {
-              work.color = 8;
-            }
-            // await databaseRepository.updateWork(work);
+        if (work.latitude != null && work.longitude != null) {
+          if (work.hasCompleted != null && work.hasCompleted == 1) {
+            work.color = 5;
+          } else {
+            work.color = 8;
           }
-
-          works.add(work);
+          // await databaseRepository.updateWork(work);
         }
-      })
-          .then((_) async {
+
+        works.add(work);
+      }).then((_) async {
         List<LngLat> waypoints = [];
 
         if (currentLocation != null) {
@@ -226,7 +222,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
         return state.copyWith(
             status: NavigationStatus.success,
             //TODO:: [Heider Zapa] fix navigation control
-            works: [],
+            works: works,
             layer: layer,
             markers: markers,
             kWorkList: kWorkList,

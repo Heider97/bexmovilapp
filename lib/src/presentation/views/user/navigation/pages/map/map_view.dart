@@ -242,7 +242,7 @@ class _MapPageState extends State<MapPage> {
                   options: MapOptions(
                       keepAlive: true,
                       center: state.markers != null
-                          ? state.markers![1].point
+                          ? state.markers![0].point
                           : null,
                       maxZoom: 18,
                       zoom: 9.2,
