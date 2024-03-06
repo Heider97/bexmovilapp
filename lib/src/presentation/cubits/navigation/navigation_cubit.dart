@@ -126,32 +126,32 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     ]))),
           );
 
-          List<Placemark> placemarks = await placemarkFromCoordinates(
-            currentLocation.latitude,
-            currentLocation.longitude,
-          );
-
-          if(placemarks.isNotEmpty) {
-            for (var place in placemarks) {
-              markers.add(
-                Marker(
-                    height: 25,
-                    width: 25,
-                    point: LatLng(place.latitude, place.longitude),
-                    builder: (_) => GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        child: Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              Image.asset('assets/icons/point.png',
-                                  color: Colors.purple),
-                              const Icon(Icons.location_on,
-                                  size: 14, color: Colors.white),
-                            ]))),
-              );
-            }
-          }
-
+          // List<Placemark> placemarks = await placemarkFromCoordinates(
+          //   currentLocation.latitude,
+          //   currentLocation.longitude,
+          // );
+          //
+          // if(placemarks.isNotEmpty) {
+          //   for (var place in placemarks) {
+          //     print(place.toString());
+          //     // markers.add(
+          //     //   Marker(
+          //     //       height: 25,
+          //     //       width: 25,
+          //     //       point: LatLng(place.latitude, place.longitude),
+          //     //       builder: (_) => GestureDetector(
+          //     //           behavior: HitTestBehavior.opaque,
+          //     //           child: Stack(
+          //     //               alignment: Alignment.center,
+          //     //               children: <Widget>[
+          //     //                 Image.asset('assets/icons/point.png',
+          //     //                     color: Colors.purple),
+          //     //                 const Icon(Icons.location_on,
+          //     //                     size: 14, color: Colors.white),
+          //     //               ]))),
+          //     // );
+          //   }
+          // }
 
           if (arguments.nearest == true) {
             //TODO:: [Heider Zapa] get nearest clients of me

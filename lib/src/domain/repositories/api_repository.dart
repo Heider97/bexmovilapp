@@ -5,12 +5,13 @@ import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
 import 'package:bexmovil/src/domain/models/responses/recovery_code_response.dart';
 import 'package:bexmovil/src/domain/models/responses/validate_recovery_code_response.dart';
-
+import 'package:bexmovil/src/domain/models/responses/nearby_places_response.dart';
 
 import '../../utils/resources/data_state.dart';
 
 import '../models/requests/dynamic_request.dart';
 import '../models/requests/google_request.dart';
+import '../models/requests/google_maps_request.dart';
 import '../models/requests/functionality_request.dart';
 import '../models/requests/enterprise_request.dart';
 import '../models/requests/graphic_request.dart';
@@ -26,7 +27,6 @@ import '../models/responses/kpi_response.dart';
 import '../models/responses/login_response.dart';
 import '../models/responses/functionality_response.dart';
 import '../models/responses/filter_response.dart';
-
 
 import '../models/responses/config_response.dart';
 import '../models/responses/sync_priorities_response.dart';
@@ -45,17 +45,14 @@ abstract class ApiRepository {
     required LoginRequest request,
   });
 
-  Future<DataState<RecoveryCodeResponse>> requestRecoveryCode({
-    required RecoveryCodeRequest request
-  });
+  Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
+      {required RecoveryCodeRequest request});
 
-  Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode({
-    required ValidateCodeRequest request
-  });
+  Future<DataState<ValidateRecoveryCodeResponse>> validateRecoveryCode(
+      {required ValidateCodeRequest request});
 
-  Future<DataState<ChangePasswordResponse>> changePassword({
-    required ChangePasswordRequest request
-  });
+  Future<DataState<ChangePasswordResponse>> changePassword(
+      {required ChangePasswordRequest request});
 
   Future<DataState<SyncPrioritiesResponse>> priorities(
       {required SyncPrioritiesRequest request});
@@ -63,8 +60,7 @@ abstract class ApiRepository {
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request});
 
-  Future<DataState<KpiResponse>> kpis(
-      {required KpiRequest request});
+  Future<DataState<KpiResponse>> kpis({required KpiRequest request});
 
   Future<DataState<FunctionalityResponse>> functionalities(
       {required FunctionalityRequest request});
@@ -72,6 +68,7 @@ abstract class ApiRepository {
   Future<DataState<GraphicResponse>> graphics(
       {required GraphicRequest request});
 
-  Future<DataState<FilterResponse>> filters(
-      {required FilterRequest request});
+  Future<DataState<FilterResponse>> filters({required FilterRequest request});
+
+  Future<DataState<NearbyPlacesResponse>> places({required GoogleMapsRequest request});
 }

@@ -1,12 +1,15 @@
 import 'dart:io';
 
+
+
 import 'package:dio/dio.dart';
 
 //interceptor
-
 import 'interceptor_api_service.dart';
 
-//response
+//requests
+import '../../../domain/models/requests/google_maps_request.dart';
+//responses
 import '../../../domain/models/responses/enterprise_response.dart';
 import '../../../domain/models/responses/login_response.dart';
 import '../../../domain/models/responses/change_password_response.dart';
@@ -21,6 +24,7 @@ import '../../../domain/models/responses/sync_response.dart';
 import '../../../domain/models/responses/functionality_response.dart';
 import '../../../domain/models/responses/graphic_response.dart';
 import '../../../domain/models/responses/filter_response.dart';
+import '../../../domain/models/responses/nearby_places_response.dart';
 
 //services
 import '../../../services/storage.dart';
@@ -184,6 +188,47 @@ class ApiService {
                 .copyWith(baseUrl: 'https://identitytoolkit.googleapis.com')));
 
     final value = GoogleResponse.fromMap(result.data!);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<NearbyPlacesResponse>> places(
+      {required GoogleMapsRequest request}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+
+    final data = <String, dynamic>{
+      'location': '${request.latitude},${request.longitude}',
+      'radius': request.radius,
+      'key': request.apiKey
+    };
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<GoogleResponse>>(
+            Options(method: 'POST', headers: headers, extra: extra)
+                .compose(
+                  dio.options,
+                  '/place/nearbysearch/json',
+                  queryParameters: queryParameters,
+                  data: data,
+                )
+                .copyWith(baseUrl: 'https://maps.googleapis.com/maps/api')));
+
+    final value = NearbyPlacesResponse.fromJson(result.data!);
 
     return Response(
         data: value,

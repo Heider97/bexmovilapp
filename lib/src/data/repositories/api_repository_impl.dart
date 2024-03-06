@@ -13,7 +13,7 @@ import '../../domain/models/requests/dynamic_request.dart';
 import '../../domain/models/requests/google_request.dart';
 import '../../domain/models/requests/graphic_request.dart';
 import '../../domain/models/requests/filter_request.dart';
-
+import '../../domain/models/requests/google_maps_request.dart';
 
 //responses
 import '../../domain/models/responses/enterprise_response.dart';
@@ -28,7 +28,7 @@ import '../../domain/models/responses/sync_response.dart';
 import '../../domain/models/responses/functionality_response.dart';
 import '../../domain/models/responses/graphic_response.dart';
 import '../../domain/models/responses/filter_response.dart';
-
+import '../../domain/models/responses/nearby_places_response.dart';
 
 import '../../domain/models/responses/config_response.dart';
 import '../../domain/models/requests/kpi_request.dart';
@@ -67,6 +67,13 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   Future<DataState<GoogleResponse>> googleCount(
       {required GoogleRequest request}) {
     return getStateOf<GoogleResponse>(request: () => _apiService.googleCount());
+  }
+
+  @override
+  Future<DataState<NearbyPlacesResponse>> places(
+      {required GoogleMapsRequest request}) {
+    return getStateOf<NearbyPlacesResponse>(
+        request: () => _apiService.places(request: request));
   }
 
   @override
@@ -127,9 +134,11 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<FunctionalityResponse>> functionalities({required FunctionalityRequest request}) {
+  Future<DataState<FunctionalityResponse>> functionalities(
+      {required FunctionalityRequest request}) {
     return getStateOf<FunctionalityResponse>(
-      request: () => _apiService.functionalities(codvendedor: request.codvendedor),
+      request: () =>
+          _apiService.functionalities(codvendedor: request.codvendedor),
     );
   }
 
@@ -141,7 +150,8 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<GraphicResponse>> graphics({required GraphicRequest request}) {
+  Future<DataState<GraphicResponse>> graphics(
+      {required GraphicRequest request}) {
     return getStateOf<GraphicResponse>(
       request: () => _apiService.graphics(codvendedor: request.codvendedor),
     );
