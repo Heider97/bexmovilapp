@@ -52,16 +52,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   _selectionEvent(SelectClientEvent event, Emitter emit) {
     //TODO: [Heider Zapa] get client from event and emit to state
-    emit(state.copyWith(status: WalletStatus.success));
+    emit(state.copyWith(status: WalletStatus.client));
   }
 
   _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
     //TODO: [Heider Zapa] get invoice from event and emit to state
-    emit(state.copyWith(status: WalletStatus.success));
+    emit(state.copyWith(status: WalletStatus.invoice));
   }
 
   _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
     //TODO: [Heider Zapa] get action invoice from event and emit to state
-    emit(state.copyWith(status: WalletStatus.success));
+    emit(state.copyWith(status: WalletStatus.collection));
   }
 }

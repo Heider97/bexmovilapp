@@ -1,6 +1,14 @@
 part of 'wallet_bloc.dart';
 
-enum WalletStatus { initial, loading, success, failed }
+enum WalletStatus {
+  initial,
+  loading,
+  client,
+  invoice,
+  collection,
+  success,
+  failed
+}
 
 class WalletState extends Equatable {
   final WalletStatus status;
@@ -25,8 +33,5 @@ class WalletState extends Equatable {
         error,
       ];
 
-  bool canRenderView() =>
-      status == WalletStatus.initial ||
-      status == WalletStatus.success ||
-      status == WalletStatus.failed;
+  bool canRenderView() => status != WalletStatus.loading;
 }

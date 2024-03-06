@@ -85,15 +85,15 @@ class _WalletProcessViewState extends State<WalletProcessView> {
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
               //TODO: [Heider Zapa] ajust event of copy state wallet bloc
-              // if (state is WalletStepperClientSelection) {
-              //   return const SelectClientWallet();
-              // } else if (state is WalletStepperInvoiceSelection) {
-              //   return const SelectInvoice();
-              // } else if (state is WalletStepperInvoiceAction) {
-              //   return const WalletActionList();
-              // } else {
-              //   return const SelectClientWallet();
-              // }
+              if (state.status == WalletStatus.client) {
+                return const SelectClientWallet();
+              } else if (state.status == WalletStatus.invoice) {
+                return const SelectInvoice();
+              } else if (state.status == WalletStatus.collection) {
+                return const WalletActionList();
+              } else {
+                return const SelectClientWallet();
+              }
               return const SizedBox();
             },
           )
