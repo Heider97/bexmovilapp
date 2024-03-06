@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/utils/resources/data_state.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,6 +18,8 @@ import '../../../core/functions.dart';
 
 //cubits
 import '../../../domain/models/client.dart';
+import '../../../domain/models/responses/nearby_places_response.dart';
+import '../../views/user/navigation/components/custom_popup.dart';
 import '../base/base_cubit.dart';
 
 //blocs
@@ -58,6 +62,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
         emit(state.copyWith(
             status: NavigationStatus.loading,
             mapController: MapController(),
+            key: GlobalKey(),
             carouselController: CarouselController()));
 
         emit(await _getAllWorksByWorkcode(arguments));
@@ -85,10 +90,28 @@ class NavigationCubit extends BaseCubit<NavigationState> {
         double.parse(works[index].longitude!));
   }
 
+  Future<NearbyPlacesResponse?> getNearbyPlaces(
+      double latitude, double longitude, radius, apiKey) async {
+    var url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+
+    var response = await Dio().get(url, queryParameters: {
+      'location': '$latitude,$longitude',
+      'radius': radius,
+      'key': apiKey
+    });
+
+    if (response.statusCode == 200) {
+      return NearbyPlacesResponse.fromJson(response.data);
+    } else {
+      return null;
+    }
+  }
+
   Future<NavigationState> _getAllWorksByWorkcode(
       NavigationArgument arguments) async {
     try {
       var currentLocation = gpsBloc.state.lastKnownLocation;
+      currentLocation ??= await gpsBloc.getCurrentLocation();
 
       var works = <Client>[];
       var markers = <Marker>[];
@@ -136,13 +159,9 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                   longitude: currentLocation.longitude.toString(),
                   radius: '30',
                   apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
-
+          //
           if (response is DataSuccess) {
             var places = response.data!.results;
-
-            print(places);
-
-
             if (places != null && places.isNotEmpty) {
               for (var place in places) {
                 if (place.geometry != null &&
@@ -155,14 +174,13 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                             place.geometry!.location!.lng!),
                         builder: (_) => GestureDetector(
                             behavior: HitTestBehavior.opaque,
+                            onTap: () => onTapPlace(),
                             child: Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
-                                  Image.asset('assets/icons/point.png',
-                                      color: Colors.brown),
-
-                                  const Icon(Icons.location_on,
-                                      size: 14, color: Colors.white),
+                                  popup(state.infoWindowVisible, state.key!,
+                                      place),
+                                  marker(state.infoWindowVisible, place),
                                 ]))),
                   );
                 }
@@ -170,34 +188,32 @@ class NavigationCubit extends BaseCubit<NavigationState> {
             }
           }
 
-          if (arguments.nearest == true) {
-            //TODO:: [Heider Zapa] get nearest clients of me
-            // var nearest = await databaseRepository.findNearestClients();
-            var nearest = [];
-
-            if (nearest.isNotEmpty) {
-              for (var near in nearest) {
-                if (near.latitude != null && near.longitude != null) {
-                  markers.add(
-                    Marker(
-                        height: 25,
-                        width: 25,
-                        point: LatLng(near.latitude, near.longitude),
-                        builder: (_) => GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  Image.asset('assets/icons/point.png',
-                                      color: Colors.purple),
-                                  const Icon(Icons.location_on,
-                                      size: 14, color: Colors.white),
-                                ]))),
-                  );
-                }
-              }
-            }
-          }
+          // if (arguments.nearest == true) {
+          //   //TODO:: [Heider Zapa] get nearest clients of me
+          //   // var nearest = await databaseRepository.findNearestClients();
+          //   var nearest = [];
+          //
+          //   if (nearest.isNotEmpty) {
+          //     for (var near in nearest) {
+          //       if (near.latitude != null && near.longitude != null) {
+          //         markers.add(
+          //           Marker(
+          //               height: 25,
+          //               width: 25,
+          //               point: LatLng(near.latitude, near.longitude),
+          //               builder: (_) => GestureDetector(
+          //                   behavior: HitTestBehavior.opaque,
+          //                   child: Stack(
+          //                       alignment: Alignment.center,
+          //                       children: <Widget>[
+          //                         popup(state.infoWindowVisible, state.key!),
+          //                         marker(state.infoWindowVisible),
+          //                       ]))),
+          //         );
+          //       }
+          //     }
+          //   }
+          // }
         }
 
         for (var index = 0; index < works.length; index++) {
@@ -311,6 +327,20 @@ class NavigationCubit extends BaseCubit<NavigationState> {
     }
   }
 
+  Future<void> onTapPlace() async {
+    if (state.key != null &&
+        state.key!.currentState != null &&
+        (state.key!.currentState as CustomPopupState)
+            .controller
+            .value
+            .isPlaying) {
+      (state.key!.currentState as CustomPopupState).controller.pause();
+      (state.key!.currentState as CustomPopupState).playerIcon =
+          Icons.play_arrow;
+    }
+    emit(state.copyWith(infoWindowVisible: !state.infoWindowVisible));
+  }
+
   Future<void> getCurrentPosition(double zoom) async {
     var currentLocation = gpsBloc.state.lastKnownLocation;
     currentLocation ??= await gpsBloc.getCurrentLocation();
@@ -389,5 +419,35 @@ class NavigationCubit extends BaseCubit<NavigationState> {
     if (context.mounted) {
       helperFunctions.showMapDirection(context, work, currentLocation!);
     }
+  }
+
+  Opacity popup(bool infoWindowVisible, GlobalKey key, place) {
+    return Opacity(
+      opacity: infoWindowVisible ? 1.0 : 0.0,
+      child: Container(
+          alignment: Alignment.bottomCenter,
+          width: 279.0,
+          height: 256.0,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                      "assets/images/ic_info_window/ic_info_window.png"),
+                  fit: BoxFit.cover)),
+          child: CustomPopup(key: key)),
+    );
+  }
+
+  Opacity marker(bool infoWindowVisible, place) {
+    return Opacity(
+      opacity: infoWindowVisible ? 0.0 : 1.0,
+      child: Stack(
+        children: [
+          if (place.icon != null) Image.network(place.icon!),
+          if (place.icon == null)
+            Image.asset('assets/icons/point.png', color: Colors.brown),
+          const Icon(Icons.location_on, size: 14, color: Colors.white),
+        ],
+      ),
+    );
   }
 }

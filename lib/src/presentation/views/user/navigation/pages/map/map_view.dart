@@ -20,6 +20,7 @@ import '../../../../../providers/general_provider.dart';
 import '../../../../../../domain/models/arguments.dart';
 //widgets
 import '../../../../../widgets/atomsbox.dart';
+import '../../components/custom_popup.dart';
 import '../../features/carousel_card.dart';
 
 class LayerMoodle {
@@ -266,7 +267,6 @@ class _MapPageState extends State<MapPage> {
                           }
                         }
                       }),
-                  // nonRotatedChildren: buildStdAttribution(urlTemplate),
                   children: [
                     TileLayer(
                       urlTemplate: urlTemplate,

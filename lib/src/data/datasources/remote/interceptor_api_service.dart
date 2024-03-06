@@ -24,7 +24,6 @@ class Logging extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (kDebugMode) {
-      print(options.baseUrl);
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     try {
@@ -34,6 +33,7 @@ class Logging extends Interceptor {
       options.headers[HttpHeaders.acceptHeader] = 'application/json';
     } catch (e) {
       if (kDebugMode) {
+        print('***************');
         print(e);
       }
     }

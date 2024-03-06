@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 //interceptor
@@ -211,25 +209,24 @@ class ApiService {
     final headers = <String, dynamic>{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
-
     final data = <String, dynamic>{};
     data.removeWhere((k, v) => v == null);
 
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<NearbyPlacesResponse>>(
-            Options(method: 'GET', headers: headers, extra: extra)
-                .compose(
-                  dio.options,
-                  '/maps/api/place/nearbysearch/json',
-                  queryParameters: queryParameters,
-                  data: data,
-                )
-                .copyWith(baseUrl: 'https://maps.googleapis.com')));
+    final result = await dio.fetch<Map<String, dynamic>>(_setStreamType<
+            Response<NearbyPlacesResponse>>(
+        Options(method: 'POST', headers: headers, extra: extra)
+            .compose(
+              dio.options,
+              '/nearbysearch/json',
+              queryParameters: queryParameters,
+              data: data,
+            )
+            .copyWith(baseUrl: 'https://maps.googleapis.com/maps/api/place')));
 
     final value = NearbyPlacesResponse.fromJson(result.data!);
 
     return Response(
-        data: value,
+        data: null,
         requestOptions: result.requestOptions,
         statusCode: result.statusCode,
         statusMessage: result.statusMessage,

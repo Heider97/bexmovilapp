@@ -22,6 +22,8 @@ class NavigationState extends Equatable {
   final List<Map>? carouselData;
   final List<LayerMoodle>? model;
   final List<Polyline>? polylines;
+  final GlobalKey? key;
+  final bool infoWindowVisible;
   //VARIABLES
   final double? rotation;
   final int? pageIndex;
@@ -39,6 +41,8 @@ class NavigationState extends Equatable {
       this.carouselData,
       this.model,
       this.polylines,
+      this.key,
+      this.infoWindowVisible = false,
       this.pageIndex,
       this.error});
 
@@ -55,6 +59,8 @@ class NavigationState extends Equatable {
         carouselData,
         model,
         polylines,
+        key,
+        infoWindowVisible,
         pageIndex,
         error
       ];
@@ -70,6 +76,8 @@ class NavigationState extends Equatable {
     List<Polyline>? polylines,
     List<Map>? carouselData,
     List<LayerMoodle>? model,
+    GlobalKey? key,
+    bool? infoWindowVisible,
     double? rotation,
     int? pageIndex,
     String? error,
@@ -86,6 +94,8 @@ class NavigationState extends Equatable {
       carouselData: carouselData ?? this.carouselData,
       model: model ?? this.model,
       rotation: rotation ?? this.rotation,
+      key: key ?? this.key,
+      infoWindowVisible: infoWindowVisible ?? this.infoWindowVisible,
       pageIndex: pageIndex ?? this.pageIndex,
       error: error ?? this.error,
     );

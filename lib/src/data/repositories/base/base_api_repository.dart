@@ -14,10 +14,6 @@ abstract class BaseApiRepository {
     try {
       final httpResponse = await request();
 
-      print('******ressponse******');
-      print(httpResponse.statusCode);
-      print(httpResponse.data);
-
       if (httpResponse.statusCode == HttpStatus.ok || httpResponse.statusCode == HttpStatus.created) {
         return DataSuccess(httpResponse.data as T);
       } else {
@@ -27,11 +23,6 @@ abstract class BaseApiRepository {
         );
       }
     } on DioException catch (error) {
-      print(error.toString());
-      print(error.error);
-      print(error.response);
-      print(error.type);
-      print(error.message);
       final errorMessage = DioExceptions.fromDioError(error).toString();
       return DataFailed(errorMessage);
     }
