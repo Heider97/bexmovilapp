@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bexmovil/src/domain/models/kpi.dart';
 
 //utils
+import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
 //widgets
@@ -29,22 +30,22 @@ class _CardKpiState extends State<CardKpi> {
           width: 230,
           height: widget.height,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(Const.padding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
                   child: AppText(widget.kpi.title ?? "N/A",
-                      maxLines: 2, fontWeight: FontWeight.bold),
+                      maxLines: 2, fontWeight: FontWeight.normal),
                 ),
                 Row(
                   children: [
                     AppText(
                         widget.needConverted == true && widget.kpi.value != null
-                            ? ''.formatted(double.parse(widget.kpi.value!))
+                            ? ''.formattedBasedOnM(widget.kpi.value!)
                             : widget.kpi.value ?? "N/A",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
+                        fontWeight: FontWeight.normal,
+                        fontSize: 22),
                   ],
                 ),
               ],

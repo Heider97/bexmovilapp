@@ -221,7 +221,6 @@ class NavigationCubit extends BaseCubit<NavigationState> {
 
         return state.copyWith(
             status: NavigationStatus.success,
-            //TODO:: [Heider Zapa] fix navigation control
             works: works,
             layer: layer,
             markers: markers,
