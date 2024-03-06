@@ -74,6 +74,7 @@ class CardClientRouter extends StatelessWidget {
           ],
         ),
         trailing: AppIconButton(
+            onPressed: null,
             child: const Icon(Icons.add_shopping_cart, color: Colors.white)),
       ),
     );
