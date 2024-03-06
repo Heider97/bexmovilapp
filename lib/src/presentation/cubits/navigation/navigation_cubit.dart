@@ -11,17 +11,15 @@ import 'package:routing_client_dart/routing_client_dart.dart';
 //core
 import '../../../core/functions.dart';
 
-//utils
-import '../../../utils/constants/strings.dart';
-
 //cubits
-import '../../blocs/gps/gps_bloc.dart';
+import '../../../domain/models/client.dart';
 import '../base/base_cubit.dart';
 
 //blocs
+import '../../blocs/gps/gps_bloc.dart';
 
 //domain
-
+import '../../../domain/models/arguments.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -49,7 +47,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   goTo(routeName, arguments) =>
       navigationService.goTo(routeName, arguments: arguments);
 
-  Future<void> getAllWorksByWorkcode(String workcode) async {
+  Future<void> getAllWorksByWorkcode(NavigationArgument arguments) async {
     if (isBusy) return;
     try {
       await run(() async {
@@ -58,7 +56,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
             mapController: MapController(),
             carouselController: CarouselController()));
 
-        emit(await _getAllWorksByWorkcode(workcode));
+        emit(await _getAllWorksByWorkcode(arguments));
       });
     } catch (error, stackTrace) {
       emit(state.copyWith(
@@ -83,14 +81,12 @@ class NavigationCubit extends BaseCubit<NavigationState> {
         double.parse(works[index].longitude!));
   }
 
-  Future<NavigationState> _getAllWorksByWorkcode(String workcode) async {
+  Future<NavigationState> _getAllWorksByWorkcode(
+      NavigationArgument arguments) async {
     try {
-      final worksDatabase = [];
-      // await databaseRepository.findAllWorksByWorkcode(workcode);
-
       var currentLocation = gpsBloc.state.lastKnownLocation;
 
-      var works = <dynamic>[];
+      var works = <Client>[];
       var markers = <Marker>[];
       var layer = <PolylineLayer>[];
       var kWorkList = <LatLng>[];
@@ -98,19 +94,19 @@ class NavigationCubit extends BaseCubit<NavigationState> {
       var model = <LayerMoodle>[];
       var carouselData = <Map>[];
 
-      return await Future.forEach(worksDatabase, (work) async {
-        // if(work != null) {
-        //   if (work.latitude != null && work.longitude != null) {
-        //     if (work.hasCompleted != null && work.hasCompleted == 1) {
-        //       work.color = 5;
-        //     } else {
-        //       work.color = 8;
-        //     }
-        //     await databaseRepository.updateWork(work);
-        //   }
-        //
-        //   works.add(work);
-        // }
+      return await Future.forEach(arguments.clients, (work) async {
+        if(work != null) {
+          if (work.latitude != null && work.longitude != null) {
+            if (work.hasCompleted != null && work.hasCompleted == 1) {
+              work.color = 5;
+            } else {
+              work.color = 8;
+            }
+            // await databaseRepository.updateWork(work);
+          }
+
+          works.add(work);
+        }
       })
           .then((_) async {
         List<LngLat> waypoints = [];
@@ -134,39 +130,8 @@ class NavigationCubit extends BaseCubit<NavigationState> {
           );
         }
 
-        // Warehouse? warehouse;
-        //
-        // if (works.first.warehouseId != null) {
-        //   warehouse =
-        //       await databaseRepository.findWarehouse(works.first.warehouseId!);
-        // }
-
-        // if (warehouse != null) {
-        //   markers.add(
-        //     Marker(
-        //         height: 25,
-        //         width: 25,
-        //         point: LatLng(double.parse(warehouse.latitude!),
-        //             double.parse(warehouse.longitude!)),
-        //         child: GestureDetector(
-        //             behavior: HitTestBehavior.opaque,
-        //             child:
-        //                 Stack(alignment: Alignment.center, children: <Widget>[
-        //               Image.asset('assets/icons/point.png', color: Colors.blue),
-        //               Text(0.toString()),
-        //             ]))),
-        //   );
-        //
-        //   waypoints.add(LngLat(
-        //       lng: double.parse(warehouse.longitude!),
-        //       lat: double.parse(warehouse.latitude!)));
-        // }
-
         for (var index = 0; index < works.length; index++) {
-          if (works[index].latitude != null &&
-              works[index].longitude != null &&
-              works[index].distance != null &&
-              works[index].duration != null) {
+          if (works[index].latitude != null && works[index].longitude != null) {
             try {
               waypoints.add(LngLat(
                   lng: double.parse(works[index].longitude!),

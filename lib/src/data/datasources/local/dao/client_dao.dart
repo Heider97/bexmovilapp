@@ -25,11 +25,13 @@ class ClientDao {
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
     final clientsRouterList = await db!.rawQuery('''
-      SELECT tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE
-         FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
-         WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
-         AND tdr.NOMDIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = "$seller" 
-         GROUP BY tr.CODCLIENTE
+      SELECT tdr.DIARUTERO, tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, 
+      c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, 
+      c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE
+      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
+      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
+      AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
+      GROUP BY tr.CODCLIENTE
     ''');
     final clientRouters = parseClients(clientsRouterList);
     return clientRouters;

@@ -19,6 +19,14 @@ class Client {
   String? expireDate;
   String? movDate;
 
+  String? latitude;
+  String? longitude;
+  String? distance;
+  String? duration;
+  int? color;
+
+  int? hasCompleted;
+
   DateTime? startTimeOfMeeting;
   DateTime? endTimeOfMeeting;
   DateTime? lastVisited;
@@ -51,7 +59,13 @@ class Client {
     this.expireDate,
     this.movDate,
     this.overdueInvoices,
-    this.walletAmmount
+    this.walletAmmount,
+    this.latitude,
+    this.longitude,
+    this.distance,
+    this.duration,
+    this.color,
+    this.hasCompleted = 0
   });
 
   factory Client.fromJson(Map<String, dynamic> json) {
@@ -67,7 +81,7 @@ class Client {
         sucursalCliente: json['SUCCLIENTE'],
         email: json['EMAIL'],
         estadoCliente: json['estadocliente'],
-        name: json['name'],
+        nomCliente: json['NOMCLIENTE'],
         startTimeOfMeeting: json['startTimeOfMeeting'],
         endTimeOfMeeting: json['endTimeOfMeeting'],
         averageSales: json['averageSales'],
@@ -77,12 +91,16 @@ class Client {
         expireDate: json['expireDate'],
         movDate: json['movDate'],
         overdueInvoices: json['overdueInvoices'],
-        walletAmmount: json['walletAmmount']);
+        walletAmmount: json['walletAmmount'],
+        latitude: json['latitude'],
+        longitude: json['longitude']
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'NITCLIENTE': nitCliente,
+      'NOMCLIENTE' : nomCliente,
       'DIRCLIENTE': dirCliente,
       'RAZCLIENTE': razCliente,
       'TELCLIENTE': telCliente,

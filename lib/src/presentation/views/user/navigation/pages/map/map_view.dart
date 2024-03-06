@@ -31,11 +31,11 @@ class MapPage extends StatefulWidget {
   const MapPage({
     super.key,
     required this.one,
-    required this.workcode,
+    required this.arguments,
   });
 
   final GlobalKey one;
-  final String workcode;
+  final NavigationArgument arguments;
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -57,7 +57,7 @@ class _MapPageState extends State<MapPage> {
     networkCubit.add(NetworkObserve());
 
     navigationCubit = BlocProvider.of<NavigationCubit>(context);
-    navigationCubit.getAllWorksByWorkcode(widget.workcode);
+    navigationCubit.getAllWorksByWorkcode(widget.arguments);
 
     onZoomChanged.listen((event) {
       setState(() {
@@ -74,7 +74,7 @@ class _MapPageState extends State<MapPage> {
     gpsBloc.add(OnStopFollowingUser());
 
     navigationCubit = BlocProvider.of<NavigationCubit>(context);
-    navigationCubit.getAllWorksByWorkcode(widget.workcode);
+    navigationCubit.getAllWorksByWorkcode(widget.arguments);
 
     networkCubit = BlocProvider.of<NetworkBloc>(context);
     networkCubit.add(NetworkObserve());

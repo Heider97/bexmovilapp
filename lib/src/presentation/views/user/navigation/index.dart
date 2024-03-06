@@ -8,6 +8,9 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//domain
+import '../../../../domain/models/arguments.dart';
+
 //cubit
 import '../../../blocs/network/network_bloc.dart';
 
@@ -32,8 +35,8 @@ import '../../../../services/storage.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class NavigationView extends StatefulWidget {
-  const NavigationView({super.key, required this.workcode});
-  final String workcode;
+  const NavigationView({super.key, required this.arguments });
+  final NavigationArgument arguments;
 
   @override
   State<NavigationView> createState() => _NavigationScreenState();
@@ -50,7 +53,7 @@ class _NavigationScreenState extends State<NavigationView> {
   List<Widget> get _pages => [
         MapPage(
             one: one,
-            workcode: widget.workcode,
+            arguments: widget.arguments,
         ),
         // const StoresPage(),
         // Consumer<DownloadProvider>(

@@ -38,6 +38,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     var sellerCode = storageService.getString('username');
     var clients = <Client>[];
+
     if (event.codeRouter != null) {
       clients = await databaseRepository.getAllClientsRouter(
           sellerCode!, event.codeRouter!);
@@ -45,10 +46,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       var filters = await databaseRepository.getAllFilters();
 
       Future.forEach(filters, (filter) async {
-        filter.options = await databaseRepository.getAllOptionsByFilter(filter.id!);
+        filter.options =
+            await databaseRepository.getAllOptionsByFilter(filter.id!);
       });
 
-      emit(state.copyWith(status: SaleStatus.success, clients: clients, filters: filters));
+      emit(state.copyWith(
+          status: SaleStatus.success, clients: clients, filters: filters));
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: []));
     }
