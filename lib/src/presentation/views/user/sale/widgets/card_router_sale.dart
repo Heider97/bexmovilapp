@@ -39,23 +39,24 @@ class CardRouter extends StatelessWidget {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
       child: AppListTile(
-        title: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: AppText(dayRouter, overflow: TextOverflow.ellipsis)),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            cardButtons(FontAwesomeIcons.peopleGroup, "${totalClients ?? '0'}",
-                context),
-            cardButtons(
-                FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
-            cardButtons(FontAwesomeIcons.usersBetweenLines, "${visited ?? '0'}",
-                context),
-            cardButtons(FontAwesomeIcons.chartSimple,
-                "${effectiveness ?? '0'}%", context),
-          ],
-        )
-      ),
+          title: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: AppText(dayRouter,
+                  fontWeight: FontWeight.normal,
+                  overflow: TextOverflow.ellipsis)),
+          subtitle: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              cardButtons(FontAwesomeIcons.peopleGroup,
+                  "${totalClients ?? '0'}", context),
+              cardButtons(
+                  FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
+              cardButtons(FontAwesomeIcons.usersBetweenLines,
+                  "${visited ?? '0'}", context),
+              cardButtons(FontAwesomeIcons.chartSimple,
+                  "${effectiveness ?? '0'}%", context),
+            ],
+          )),
     );
   }
 

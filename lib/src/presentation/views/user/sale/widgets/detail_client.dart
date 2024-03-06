@@ -110,7 +110,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        "$paymentMethodClient Días",
+                        "Forma de pago: $paymentMethodClient Días",
                         Icon(
                           FontAwesomeIcons.debian,
                           color: colorIcons,
@@ -135,12 +135,14 @@ class DetailClientSale extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Padding(padding: const  EdgeInsets.only(right: 5), child: icon),
-          Text(
-            name,
-            style: const TextStyle(
-              color: Colors.black87,
-              fontSize: 14,
+          Padding(padding: const EdgeInsets.only(right: 5), child: icon),
+          Flexible(
+            child: Text(
+              name,
+              style: const TextStyle(
+                color: Colors.black87,
+                fontSize: 14,
+              ),
             ),
           ),
         ],

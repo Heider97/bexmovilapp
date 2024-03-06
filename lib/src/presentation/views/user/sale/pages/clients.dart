@@ -153,6 +153,17 @@ class _ClientsPageState extends State<ClientsPage> {
                                 .toString(),
                             nameClient:
                                 state.clients![index].nomCliente.toString(),
+                            telCliente:
+                                state.clients![index].telCliente.toString(),
+                            razCliente:
+                                state.clients![index].razCliente.toString(),
+                            quotaCliente:
+                                state.clients![index].cupoCliente.toString(),
+                            priceCliente:
+                                state.clients![index].precioCliente.toString(),
+                            paymentMethodClient: state
+                                .clients![index].formaPagoCliente
+                                .toString(),
                           );
                         }),
                   );
