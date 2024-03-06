@@ -159,7 +159,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                   longitude: currentLocation.longitude.toString(),
                   radius: '30',
                   apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
-          //
+
           if (response is DataSuccess) {
             var places = response.data!.results;
             if (places != null && places.isNotEmpty) {
@@ -168,20 +168,17 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     place.geometry!.location != null) {
                   markers.add(
                     Marker(
-                        height: 25,
-                        width: 25,
+                        width: 279.0,
+                        height: 256.0,
                         point: LatLng(place.geometry!.location!.lat!,
                             place.geometry!.location!.lng!),
                         builder: (_) => GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () => onTapPlace(),
-                            child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  popup(state.infoWindowVisible, state.key!,
-                                      place),
-                                  marker(state.infoWindowVisible, place),
-                                ]))),
+                            child: Column(children: <Widget>[
+                              popup(state.infoWindowVisible, place),
+                              marker(state.infoWindowVisible, place),
+                            ]))),
                   );
                 }
               }
@@ -328,16 +325,6 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   }
 
   Future<void> onTapPlace() async {
-    if (state.key != null &&
-        state.key!.currentState != null &&
-        (state.key!.currentState as CustomPopupState)
-            .controller
-            .value
-            .isPlaying) {
-      (state.key!.currentState as CustomPopupState).controller.pause();
-      (state.key!.currentState as CustomPopupState).playerIcon =
-          Icons.play_arrow;
-    }
     emit(state.copyWith(infoWindowVisible: !state.infoWindowVisible));
   }
 
@@ -421,19 +408,14 @@ class NavigationCubit extends BaseCubit<NavigationState> {
     }
   }
 
-  Opacity popup(bool infoWindowVisible, GlobalKey key, place) {
+  Opacity popup(bool infoWindowVisible, Results place) {
     return Opacity(
       opacity: infoWindowVisible ? 1.0 : 0.0,
       child: Container(
           alignment: Alignment.bottomCenter,
           width: 279.0,
           height: 256.0,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                      "assets/images/ic_info_window/ic_info_window.png"),
-                  fit: BoxFit.cover)),
-          child: CustomPopup(key: key)),
+          child: CustomPopup(key: Key(place.placeId!), place: place)),
     );
   }
 
@@ -441,10 +423,9 @@ class NavigationCubit extends BaseCubit<NavigationState> {
     return Opacity(
       opacity: infoWindowVisible ? 0.0 : 1.0,
       child: Stack(
+        alignment: Alignment.center,
         children: [
-          if (place.icon != null) Image.network(place.icon!),
-          if (place.icon == null)
-            Image.asset('assets/icons/point.png', color: Colors.brown),
+          Image.asset('assets/icons/point.png', color: Colors.brown),
           const Icon(Icons.location_on, size: 14, color: Colors.white),
         ],
       ),

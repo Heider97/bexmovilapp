@@ -119,6 +119,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/ic_info_window/
+    - assets/images/ic_blurred_gray_circle/
     - assets/video/
     - assets/images/wallet/
     - assets/svg/

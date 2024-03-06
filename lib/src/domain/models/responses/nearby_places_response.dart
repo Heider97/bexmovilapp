@@ -5,6 +5,8 @@ class NearbyPlacesResponse {
   NearbyPlacesResponse({this.results, this.status});
 
   NearbyPlacesResponse.fromJson(Map<String, dynamic> json) {
+    print(json);
+
     if (json['results'] != null) {
       results = <Results>[];
       json['results'].forEach((v) {

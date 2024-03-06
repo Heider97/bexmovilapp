@@ -201,32 +201,32 @@ class ApiService {
       {required GoogleMapsRequest request}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      'location': '${request.longitude},${request.latitude}',
+      'location': '${request.latitude},${request.longitude}',
       'radius': request.radius,
       'key': request.apiKey
     };
     queryParameters.removeWhere((k, v) => v == null);
     final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json'
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.acceptCharsetHeader: ''
     };
     final data = <String, dynamic>{};
     data.removeWhere((k, v) => v == null);
-
-    final result = await dio.fetch<Map<String, dynamic>>(_setStreamType<
-            Response<NearbyPlacesResponse>>(
-        Options(method: 'POST', headers: headers, extra: extra)
-            .compose(
-              dio.options,
-              '/nearbysearch/json',
-              queryParameters: queryParameters,
-              data: data,
-            )
-            .copyWith(baseUrl: 'https://maps.googleapis.com/maps/api/place')));
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<NearbyPlacesResponse>>(
+            Options(method: 'POST', headers: headers, extra: extra)
+                .compose(
+                  dio.options,
+                  '/maps/api/place/nearbysearch/json',
+                  queryParameters: queryParameters,
+                  data: data,
+                )
+                .copyWith(baseUrl: 'https://maps.googleapis.com')));
 
     final value = NearbyPlacesResponse.fromJson(result.data!);
 
     return Response(
-        data: null,
+        data: value,
         requestOptions: result.requestOptions,
         statusCode: result.statusCode,
         statusMessage: result.statusMessage,

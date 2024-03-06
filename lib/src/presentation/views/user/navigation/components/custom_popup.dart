@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import '../../../../../domain/models/responses/nearby_places_response.dart';
 
 class CustomPopup extends StatefulWidget {
+  final Results place;
   static CustomPopupState? of(BuildContext context) =>
       context.findAncestorStateOfType<CustomPopupState>();
 
-  const CustomPopup({Key? key}) : super(key: key);
+  const CustomPopup({Key? key, required this.place}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -14,20 +15,9 @@ class CustomPopup extends StatefulWidget {
 }
 
 class CustomPopupState extends State<CustomPopup> {
-  late Future<void> _initializeVideoPlayerFuture;
-  late VideoPlayerController controller;
-  IconData playerIcon = Icons.play_arrow;
-
   @override
   void initState() {
     super.initState();
-    controller = VideoPlayerController.asset(
-      'assets/video/bike_acrobatics.mp4',
-    );
-
-    _initializeVideoPlayerFuture = controller.initialize();
-
-    controller.setLooping(true);
   }
 
   @override
@@ -38,7 +28,6 @@ class CustomPopupState extends State<CustomPopup> {
   @override
   void dispose() {
     super.dispose();
-    controller.dispose();
   }
 
   Container _buildDialogContent() {
@@ -48,7 +37,6 @@ class CustomPopupState extends State<CustomPopup> {
       height: 256.0,
       child: Stack(
         children: <Widget>[
-          _buildVideoContainer(),
           Container(
             margin: const EdgeInsets.only(top: 159.0),
             child: Row(
@@ -59,52 +47,6 @@ class CustomPopupState extends State<CustomPopup> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildVideoContainer() {
-    return Container(
-      color: Colors.white,
-      height: 172.0,
-      child: Stack(
-        children: <Widget>[
-          FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot) {
-              return snapshot.connectionState == ConnectionState.done
-                  ? VideoPlayer(controller)
-                  : const Center(child: CircularProgressIndicator());
-            },
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                if (controller.value.isPlaying) {
-                  controller.pause();
-                  playerIcon = Icons.play_arrow;
-                } else {
-                  controller.play();
-                  playerIcon = Icons.pause;
-                }
-              });
-            },
-            child: Stack(
-              children: <Widget>[
-                Center(
-                  child:
-                      Image.asset('assets/images/ic_blurred_gray_circle/ic_blurred_gray_circle.png'),
-                ),
-                Center(
-                  child: Icon(
-                    playerIcon,
-                    color: const Color.fromRGBO(34, 43, 47, 100),
-                  ),
-                )
-              ],
-            ),
-          )
         ],
       ),
     );
