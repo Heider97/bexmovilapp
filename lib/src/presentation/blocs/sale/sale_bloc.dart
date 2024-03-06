@@ -1,14 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+//utils
+import '../../../utils/constants/strings.dart';
 //domain
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/domain/models/router.dart';
-import 'package:bexmovil/src/domain/models/filter.dart';
-import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import '../../../domain/models/arguments.dart';
+import '../../../domain/models/client.dart';
+import '../../../domain/models/router.dart';
+import '../../../domain/models/filter.dart';
+import '../../../domain/repositories/database_repository.dart';
 
 //services
-import 'package:bexmovil/src/services/storage.dart';
+import '../../../services/storage.dart';
+import '../../../services/navigation.dart';
 
 part 'sale_event.dart';
 part 'sale_state.dart';
@@ -16,11 +19,13 @@ part 'sale_state.dart';
 class SaleBloc extends Bloc<SaleEvent, SaleState> {
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
+  final NavigationService navigationService;
 
-  SaleBloc(this.databaseRepository, this.storageService)
+  SaleBloc(this.databaseRepository, this.storageService, this.navigationService)
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
+    on<NavigationSale>(_onNavigation);
     // on<SelectClient>(_selectClient);
     // on<ConfirmProducts>(_confirmProducts);
     // on<ConfirmOrder>(_confirmOrder);
@@ -55,6 +60,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: []));
     }
+  }
+
+  Future<void> _onNavigation(NavigationSale event, Emitter emit) async {
+    final arguments = NavigationArgument(clients: event.clients, nearest: event.nearest);
+    navigationService.goTo(AppRoutes.navigation, arguments: arguments);
+    emit(state.copyWith());
   }
 
   // _selectClient(SelectClient event, Emitter emit) {

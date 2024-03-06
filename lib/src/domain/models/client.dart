@@ -92,8 +92,8 @@ class Client {
         movDate: json['movDate'],
         overdueInvoices: json['overdueInvoices'],
         walletAmmount: json['walletAmmount'],
-        latitude: json['latitude'],
-        longitude: json['longitude']
+        latitude: json['latitud'],
+        longitude: json['longitud']
     );
   }
 

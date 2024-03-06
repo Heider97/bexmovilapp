@@ -234,14 +234,12 @@ class _MyAppState extends State<MyApp> {
             create: (_) => WalletBloc(locator<DatabaseRepository>(),
                 locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
-            create: (_) => SaleBloc(
-                locator<DatabaseRepository>(), locator<LocalStorageService>())
+            create: (_) => SaleBloc(locator<DatabaseRepository>(),
+                locator<LocalStorageService>(), locator<NavigationService>())
               ..add(LoadRouters())),
         BlocProvider(
-          create: (context) => NavigationCubit(
-              locator<DatabaseRepository>(),
-              locator<NavigationService>(),
-              BlocProvider.of<GpsBloc>(context)),
+          create: (context) => NavigationCubit(locator<DatabaseRepository>(),
+              locator<NavigationService>(), BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),

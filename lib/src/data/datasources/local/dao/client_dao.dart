@@ -27,7 +27,8 @@ class ClientDao {
     final clientsRouterList = await db!.rawQuery('''
       SELECT tdr.DIARUTERO, tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, 
       c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, 
-      c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE
+      c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE,
+      c.latitud, c.longitud
       FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
       WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 

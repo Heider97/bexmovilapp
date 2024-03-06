@@ -16,6 +16,12 @@ class SelectClient extends SaleEvent {
   SelectClient({required this.client});
 }
 
+class NavigationSale extends SaleEvent {
+  final bool nearest;
+  final List<Client> clients;
+  NavigationSale({required this.clients, required this.nearest});
+}
+
 //
 // class SelectProducts extends SaleEvent {
 //   final Product product;

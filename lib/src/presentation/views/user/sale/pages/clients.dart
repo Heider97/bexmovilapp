@@ -116,11 +116,18 @@ class _ClientsPageState extends State<ClientsPage> {
                         ),
                       ),
                     )),
-                AppIconButton(
-                    child: const Icon(Icons.map_rounded),
-                    onPressed: () => navigationService.goTo(
-                        AppRoutes.navigation,
-                        arguments: widget.codeRouter)),
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.clients != null && state.clients!.isNotEmpty) {
+                    return AppIconButton(
+                        child: const Icon(Icons.map_rounded),
+                        onPressed: () {
+                          context.read<SaleBloc>().add(NavigationSale(
+                              clients: state.clients!, nearest: false));
+                        });
+                  } else {
+                    return const Center(child: CupertinoActivityIndicator());
+                  }
+                }),
                 AppIconButton(
                     child: const Icon(Icons.filter_alt_rounded),
                     onPressed: () =>
