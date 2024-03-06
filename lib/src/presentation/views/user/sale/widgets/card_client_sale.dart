@@ -1,6 +1,6 @@
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
 import 'package:flutter/material.dart';
 import '../../../../widgets/atomsbox.dart';
+import 'detail_client.dart';
 
 class CardClientRouter extends StatelessWidget {
   final String nit;

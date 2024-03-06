@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
@@ -124,6 +125,62 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                           size: 14, color: Colors.white),
                     ]))),
           );
+
+          List<Placemark> placemarks = await placemarkFromCoordinates(
+            currentLocation.latitude,
+            currentLocation.longitude,
+          );
+
+          if(placemarks.isNotEmpty) {
+            for (var place in placemarks) {
+              markers.add(
+                Marker(
+                    height: 25,
+                    width: 25,
+                    point: LatLng(place.latitude, place.longitude),
+                    builder: (_) => GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              Image.asset('assets/icons/point.png',
+                                  color: Colors.purple),
+                              const Icon(Icons.location_on,
+                                  size: 14, color: Colors.white),
+                            ]))),
+              );
+            }
+          }
+
+
+          if (arguments.nearest == true) {
+            //TODO:: [Heider Zapa] get nearest clients of me
+            // var nearest = await databaseRepository.findNearestClients();
+            var nearest = [];
+
+            if (nearest.isNotEmpty) {
+              for (var near in nearest) {
+                if (near.latitude != null && near.longitude != null) {
+                  markers.add(
+                    Marker(
+                        height: 25,
+                        width: 25,
+                        point: LatLng(near.latitude, near.longitude),
+                        builder: (_) => GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  Image.asset('assets/icons/point.png',
+                                      color: Colors.purple),
+                                  const Icon(Icons.location_on,
+                                      size: 14, color: Colors.white),
+                                ]))),
+                  );
+                }
+              }
+            }
+          }
         }
 
         for (var index = 0; index < works.length; index++) {
@@ -240,7 +297,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   Future<void> getCurrentPosition(double zoom) async {
     var currentLocation = gpsBloc.state.lastKnownLocation;
     currentLocation ??= await gpsBloc.getCurrentLocation();
-    if(currentLocation == null) {
+    if (currentLocation == null) {
       return;
     }
     state.mapController!.move(
