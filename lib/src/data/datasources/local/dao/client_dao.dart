@@ -39,7 +39,7 @@ class ClientDao {
       c.codprecio, c.cupo, c.codfpagovta, c.razcliente,
       c.latitud, c.longitud
       FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
-      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
+      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
     ''');
