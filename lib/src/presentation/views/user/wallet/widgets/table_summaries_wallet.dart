@@ -39,7 +39,7 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
       horizontalScrollController: ScrollController(),
       columnSizer: _customColumnSizer,
       source: InvoiceDataSource(invoiceData: widget.invoices),
-      // showCheckboxColumn: true,
+      showCheckboxColumn: true,
       allowSorting: true,
       // allowMultiColumnSorting: true,
       selectionMode: SelectionMode.single,
@@ -100,6 +100,7 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
         ),
       ),
       GridColumn(
+        minimumWidth: Screens.width(context) * 0.4,
         allowFiltering: true,
         columnName: 'preciomov',
         label: const Center(
