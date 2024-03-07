@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:googleapis/chat/v1.dart';
 
 import '../atoms/app_label.dart';
 import '../../../config/app_constants.dart';
@@ -68,6 +69,7 @@ class _AppFormState extends State<AppForm> {
           },
         ),
         const SizedBox(height: AppConstants.sm),
+        const Spacer(),
         Center(child: widget.formButton),
       ],
     );

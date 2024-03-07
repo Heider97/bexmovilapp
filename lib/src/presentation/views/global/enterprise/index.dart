@@ -25,8 +25,8 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
 
     return SafeArea(
         child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
+            width: size.width,
+            height: size.height,
             child: BlocBuilder<NetworkBloc, NetworkState>(
                 builder: (context, networkState) {
               switch (networkState.runtimeType) {
