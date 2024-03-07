@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 //domain
 import '../../../../../domain/models/client.dart';
@@ -8,9 +9,7 @@ import 'detail_client.dart';
 class CardClientRouter extends StatelessWidget {
   final Client client;
 
-  const CardClientRouter(
-      {super.key,
-      required this.client});
+  const CardClientRouter({super.key, required this.client});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,9 @@ class CardClientRouter extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: AppText("Cartera: 20M", fontSize: 11),
+                  child: AppText(
+                      "Cartera: ${client.wallet != null ? ''.formattedBasedOnM(client.wallet.toString()) : '20M'}",
+                      fontSize: 11),
                 ),
                 Flexible(
                   child: AppText("Ventas: 5M", fontSize: 11),

@@ -36,10 +36,11 @@ class ClientDao {
     final clientsRouterList = await db!.rawQuery('''
       SELECT tdr.diarutero, tdr.nomdiarutero, c.nomcliente, tr.diarutero, 
       c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
-      c.codprecio, c.cupo, c.codfpagovta, c.razcliente,
+      c.codprecio, c.cupo, c.codfpagovta, c.razcliente, SUM(tc.preciomov) as wallet,
       c.latitud, c.longitud
-      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
+      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c, tbldcartera tc
       WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
+      AND tc.codcliente = tr.codcliente
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
     ''');
