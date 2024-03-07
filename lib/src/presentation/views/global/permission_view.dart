@@ -54,6 +54,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+
                 Icon(
                   Icons.lock,
                   color: Colors.green,
