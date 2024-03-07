@@ -93,7 +93,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -136,6 +135,7 @@ class _MyAppState extends State<MyApp> {
               locator<DatabaseRepository>(),
               locator<ApiRepository>(),
               locator<NavigationService>(),
+              locator<LocalStorageService>(),
               BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(

@@ -34,9 +34,9 @@ class ClientDao {
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
     final clientsRouterList = await db!.rawQuery('''
-      SELECT tdr.DIARUTERO, tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, 
-      c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, 
-      c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE,
+      SELECT tdr.diarutero, tdr.nomdiarutero, c.nomcliente, tr.diarutero, 
+      c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
+      c.codprecio, c.cupo, c.codfpagovta, c.razcliente,
       c.latitud, c.longitud
       FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
       WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
@@ -189,14 +189,7 @@ class ClientDao {
         ''');
         break;
     }
-
-    print(query);
-
     var results = await db!.rawQuery(query);
-
-    print('************');
-    print(results);
-
     List<Invoice> invoices = parseInvoices(results);
     return invoices;
   }
@@ -213,7 +206,7 @@ class ClientDao {
   }
 
   Future<int> updateClient(Client client) {
-    return _appDatabase.update('tblmcliente', client.toJson(), 'NITCLIENTE',
+    return _appDatabase.update('tblmcliente', client.toJson(), 'nitcliente',
         int.parse(client.nitCliente!));
   }
 

@@ -28,7 +28,6 @@ class InvoiceDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        //alignment: Alignment.center,
         padding: const EdgeInsets.all(9.0),
         child: Text(
           e.value.toString(),
