@@ -31,7 +31,7 @@ class DetailClientSale extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText(client.razCliente ?? "N/A",
+                AppText(client.businessName ?? "N/A",
                     color: Colors.orange, fontSize: 13),
                 IconButton(
                     onPressed: () {}, icon: const Icon(Icons.location_on))
@@ -53,7 +53,7 @@ class DetailClientSale extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _paddingDetails(
-                        "NIT: ${client.nitCliente}",
+                        "NIT: ${client.nit}",
                         Icon(
                           Icons.format_list_numbered_sharp,
                           color: colorIcons,
@@ -61,7 +61,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        client.nomCliente ?? "N/A",
+                        client.name ?? "N/A",
                         Icon(
                           Icons.account_box_rounded,
                           color: colorIcons,
@@ -69,7 +69,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        client.dirCliente ?? "N/A",
+                        client.address ?? "N/A",
                         Icon(
                           Icons.location_pin,
                           color: colorIcons,
@@ -77,7 +77,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        "Sucursal ${client.sucursalCliente}",
+                        "Sucursal ${client.branch}",
                         Icon(
                           FontAwesomeIcons.debian,
                           color: colorIcons,
@@ -85,7 +85,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        "Cupo: ${formatCurrency.format(client.cupoCliente)}",
+                        "Cupo: ${formatCurrency.format(client.quota)}",
                         Icon(
                           Icons.monetization_on,
                           color: colorIcons,
@@ -93,7 +93,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        "Lista de precio: ${client.precioCliente}",
+                        "Lista de precio: ${client.price}",
                         Icon(
                           FontAwesomeIcons.debian,
                           color: colorIcons,
@@ -101,7 +101,7 @@ class DetailClientSale extends StatelessWidget {
                         ),
                       ),
                       _paddingDetails(
-                        "Forma de pago: ${client.formaPagoCliente} Días",
+                        "Forma de pago: ${client.wayToPay} Días",
                         Icon(
                           FontAwesomeIcons.debian,
                           color: colorIcons,

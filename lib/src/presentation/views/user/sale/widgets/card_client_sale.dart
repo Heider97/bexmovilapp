@@ -28,14 +28,14 @@ class CardClientRouter extends StatelessWidget {
       child: AppListTile(
         title: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: AppText(client.nomCliente ?? "N/A",
+            child: AppText(client.name ?? "N/A",
                 fontWeight: FontWeight.normal,
                 fontSize: 14,
                 overflow: TextOverflow.ellipsis)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText("Dirección: ${client.dirCliente}", maxLines: 2, fontSize: 11),
+            AppText("Dirección: ${client.address}", maxLines: 2, fontSize: 11),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

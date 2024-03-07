@@ -25,7 +25,7 @@ class ClientDao {
 
   Future<List<Client>> getAllClients() async {
     final db = await _appDatabase.database;
-    final clientList = await db!.query('tblmcliente');
+    final clientList = await db!.query(tableClients);
     final clients = parseClients(clientList);
     return clients;
   }
@@ -38,7 +38,7 @@ class ClientDao {
       c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
       c.codprecio, c.cupo, c.codfpagovta, c.razcliente,
       c.latitud, c.longitud
-      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
+      FROM tblmrutero tr, tblmdiarutero tdr,tableClientsc
       WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
@@ -50,7 +50,7 @@ class ClientDao {
   Future<List<Client>> getClient(String codeClient) async {
     final db = await _appDatabase.database;
     final routerList = await db!
-        .query('tblmcliente', where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
+        .query(tableClients, where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
     final routers = parseClients(routerList);
     return routers;
   }
@@ -64,20 +64,19 @@ class ClientDao {
     SUM(t.preciomov) AS wallet
     FROM (
     SELECT DISTINCT f.codcliente,
-        tblmcliente.nomcliente,
+       tableClientsnomcliente,
         tbldcartera.nummov,
         tbldcartera.codtipodoc,
         tbldcartera.preciomov
-        FROM tbldcartera,tblmcliente, tblmvendedor,
+        FROM tbldcarteratableClients tblmvendedor,
         (
-           SELECT tblmrutero.codcliente,tblmcliente.nitcliente
-           FROM tblmrutero,tblmcliente
-           WHERE tblmrutero.codvendedor = '09'
-           AND tblmrutero.codcliente = tblmcliente.codcliente
+           SELECT tblmrutero.codclientetableClientsnitcliente
+           FROM tblmruterotableClients           WHERE tblmrutero.codvendedor = '09'
+           AND tblmrutero.codcliente =tableClientscodcliente
            GROUP BY tblmrutero.codcliente
         ) as f
-        WHERE tbldcartera.codcliente = tblmcliente.codcliente
-        AND f.nitcliente = tblmcliente.nitcliente
+        WHERE tbldcartera.codcliente =tableClientscodcliente
+        AND f.nitcliente =tableClientsnitcliente
         AND tbldcartera.codvendedor = tblmvendedor.codvendedor
         ?
     ) as t
@@ -135,21 +134,20 @@ class ClientDao {
     FROM (
     SELECT DISTINCT f.codcliente,
         tbldcartera.codtipodoc,
-        tblmcliente.nomcliente,
+       tableClientsnomcliente,
         tbldcartera.nummov,
         tbldcartera.fecmov,
         tbldcartera.fecven,
         tbldcartera.preciomov
-        FROM tbldcartera,tblmcliente, tblmvendedor,
+        FROM tbldcarteratableClients tblmvendedor,
         (
-            SELECT tblmrutero.codcliente,tblmcliente.nitcliente
-           FROM tblmrutero,tblmcliente
-           WHERE tblmrutero.codvendedor = '$seller'
-           AND tblmrutero.codcliente = tblmcliente.codcliente
+            SELECT tblmrutero.codclientetableClientsnitcliente
+           FROM tblmruterotableClients           WHERE tblmrutero.codvendedor = '$seller'
+           AND tblmrutero.codcliente =tableClientscodcliente
            GROUP BY tblmrutero.codcliente
         ) as f
-        WHERE tbldcartera.codcliente = tblmcliente.codcliente
-        AND f.nitcliente = tblmcliente.nitcliente
+        WHERE tbldcartera.codcliente =tableClientscodcliente
+        AND f.nitcliente =tableClientsnitcliente
         AND tbldcartera.codvendedor = tblmvendedor.codvendedor
         AND f.codcliente = "$client"
         ?
@@ -190,29 +188,30 @@ class ClientDao {
         break;
     }
     var results = await db!.rawQuery(query);
+
     List<Invoice> invoices = parseInvoices(results);
     return invoices;
   }
 
   Stream<List<Client>> watchAllClients() async* {
     final db = await _appDatabase.database;
-    final clientList = await db!.query('tblmcliente');
+    final clientList = await db!.query(tableClients);
     final clients = parseClients(clientList);
     yield clients;
   }
 
   Future<int> insertClient(Client client) {
-    return _appDatabase.insert('tblmcliente', client.toJson());
+    return _appDatabase.insert(tableClients, client.toJson());
   }
 
   Future<int> updateClient(Client client) {
-    return _appDatabase.update('tblmcliente', client.toJson(), 'nitcliente',
-        int.parse(client.nitCliente!));
+    return _appDatabase.update(tableClients, client.toJson(), 'NITCLIENTE',
+        int.parse(client.nit!));
   }
 
   Future<void> emptyClients() async {
     final db = _appDatabase._database;
-    db!.delete('tblmcliente');
+    db!.delete(tableClients);
     return Future.value();
   }
 }

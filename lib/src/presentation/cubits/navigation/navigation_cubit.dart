@@ -162,7 +162,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
               request: GoogleMapsRequest(
                   latitude: currentLocation.latitude.toString(),
                   longitude: currentLocation.longitude.toString(),
-                  radius: '30',
+                  radius: '100',
                   apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
 
           if (response is DataSuccess) {
@@ -182,7 +182,6 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                             onTap: () {
                               storageService.setString('dialog_title', place.name);
                               storageService.setString('dialog_description', place.reference);
-                              // storageService.setString('image_dialog', place.photos.first.);
 
                               styledDialogController.showDialogWithStyle(Status.success,
                                   closingFunction: () => Navigator.of(_).pop());
