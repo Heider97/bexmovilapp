@@ -19,7 +19,7 @@ Map<String, RouteType> walletRoutes = {
       opacity: 0.1,
       hideBottomNavigationBar: true,
       child: WalletClientsView(
-        walletArgument: settings.arguments as WalletArgument,
+        argument: settings.arguments as WalletArgument,
       )),
   AppRoutes.manageWallet: (context, setting) => AppGlobalBackground.squared(
         opacity: 0.1,

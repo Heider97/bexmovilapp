@@ -62,31 +62,7 @@ class _SelectClientWalletState extends State<SelectClientWallet> {
             ],
           ),
           const Expanded(child: WalletDataGrid()),
-          SizedBox(
-            width: Screens.width(context),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  List<Client> clients =
-                      await _databaseRepository.getClientsByAgeRange([31, 60]);
-                  print(clients);
-                },
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: theme.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                child: Text(
-                  'Siguiente',
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w600, color: Colors.white),
-                ),
-              ),
-            ),
-          )
+
         ],
       ),
     );

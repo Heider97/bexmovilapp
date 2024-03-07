@@ -27,8 +27,8 @@ import '../wallet_action.dart';
 final NavigationService navigationService = locator<NavigationService>();
 
 class WalletClientsView extends StatefulWidget {
-  final WalletArgument? walletArgument;
-  const WalletClientsView({super.key, this.walletArgument});
+  final WalletArgument? argument;
+  const WalletClientsView({super.key, this.argument});
 
   @override
   State<WalletClientsView> createState() => _WalletClientsViewState();
@@ -44,72 +44,79 @@ class _WalletClientsViewState extends State<WalletClientsView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
-    // walletBloc.add(LoadGraphics());
+    walletBloc.add(LoadClients(range: widget.argument!.type));
     saleStepperBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(Const.padding),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.all(Const.padding),
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const AppBackButton(needPrimary: true),
-                AppText(widget.walletArgument!.type),
+                AppText(widget.argument!.type),
                 AppIconButton(
                     onPressed: null,
                     child: Icon(Icons.menu,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onPrimaryContainer)),
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer)),
               ],
             ),
-          ),
-          StepperWidget(
-            currentStep: 0,
-            steps: [
-              StepData("Seleccionar\n Cliente", Assets.profileEnable,
-                  theme.primaryColor, Assets.profileDisable, () {
-                    walletBloc.add(SelectClientEvent());
-                  }),
-              StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-                  theme.primaryColor, Assets.invoiceDisable, () {
-                    walletBloc.add(InvoiceSelectionEvent());
-                  }),
-              StepData(
-                "Recaudar",
-                Assets.actionEnable,
-                theme.primaryColor,
-                Assets.actionDisable,
-                    () {
-                  walletBloc.add(InvoiceActionEvent());
+            StepperWidget(
+              currentStep: 0,
+              steps: [
+                StepData("Seleccionar\n Cliente", Assets.profileEnable,
+                    theme.primaryColor, Assets.profileDisable, () {
+                  walletBloc.add(SelectClientEvent());
+                }),
+                StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+                    theme.primaryColor, Assets.invoiceDisable, () {
+                  walletBloc.add(InvoiceSelectionEvent());
+                }),
+                StepData(
+                  "Recaudar",
+                  Assets.actionEnable,
+                  theme.primaryColor,
+                  Assets.actionDisable,
+                  () {
+                    walletBloc.add(InvoiceActionEvent());
+                  },
+                )
+              ],
+            ),
+            gapH4,
+            BlocBuilder<WalletBloc, WalletState>(
+              builder: (context, state) {
+                //TODO: [Heider Zapa] ajust event of copy state wallet bloc
+                if (state.status == WalletStatus.client) {
+                  return const SelectClientWallet();
+                } else if (state.status == WalletStatus.invoice) {
+                  return const SelectInvoice();
+                } else if (state.status == WalletStatus.collection) {
+                  return const WalletActionList();
+                } else {
+                  return const SelectClientWallet();
+                }
+              },
+            ),
+            AppElevatedButton(
+                minimumSize: Size(size.width, 50),
+                onPressed: () async {
+                  // List<Client> clients =
+                  // await _databaseRepository.getClientsByAgeRange([31, 60]);
+                  // print(clients);
                 },
-              )
-            ],
-          ),
-          gapH4,
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) {
-              //TODO: [Heider Zapa] ajust event of copy state wallet bloc
-              if (state.status == WalletStatus.client) {
-                return const SelectClientWallet();
-              } else if (state.status == WalletStatus.invoice) {
-                return const SelectInvoice();
-              } else if (state.status == WalletStatus.collection) {
-                return const WalletActionList();
-              } else {
-                return const SelectClientWallet();
-              }
-              return const SizedBox();
-            },
-          )
-        ],
+                child: AppText('Siguiente', fontWeight: FontWeight.w600))
+          ],
+        ),
       ),
     );
   }
