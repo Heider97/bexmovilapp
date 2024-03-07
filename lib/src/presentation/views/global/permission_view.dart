@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 //utils
+import '../../../utils/constants/gaps.dart';
 import '../../../utils/constants/strings.dart';
 //cubit
 import '../../cubits/permission/permission_cubit.dart';
@@ -26,61 +28,67 @@ class RequestPermissionView extends StatefulWidget {
 class RequestPermissionViewState extends State<RequestPermissionView> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: BlocConsumer<PermissionCubit, PermissionState>(
-              listener: (context, state) {
-            if (state is AllPermissionsGranted) {
-              _navigationService.replaceTo(AppRoutes.selectEnterprise);
-            }
-          }, listenWhen: (previous, current) {
-            return (current is AllPermissionsGranted);
-          }, builder: (context, state) {
-            var permissionCubit = context.watch<PermissionCubit>();
-            permissionCubit.checkIfPermissionNeeded();
-            if (state is AllPermissionsGranted ||
-                state is WaitingForPermission) {
-              return const Center(
-                child: CircularProgressIndicator(),
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: BlocConsumer<PermissionCubit, PermissionState>(
+                listener: (context, state) {
+              if (state is AllPermissionsGranted) {
+                _navigationService.replaceTo(AppRoutes.selectEnterprise);
+              }
+            }, listenWhen: (previous, current) {
+              return (current is AllPermissionsGranted);
+            }, builder: (context, state) {
+              var permissionCubit = context.watch<PermissionCubit>();
+              permissionCubit.checkIfPermissionNeeded();
+              if (state is AllPermissionsGranted ||
+                  state is WaitingForPermission) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  gapH12,
+                  Lottie.asset('assets/animations/47956-area-map.json',
+                      height: 300, width: 300),
+                  gapH20,
+                  AppText(
+                      state.permissionRepository.displayTitle ??
+                          "Permiso necesario",
+                      textAlign: TextAlign.justify,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300),
+                  AppText(
+                      state.permissionRepository.displayMessage ??
+                          "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.",
+                      textAlign: TextAlign.justify,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w300),
+                  AppElevatedButton(
+                    minimumSize: const Size(70, 70),
+                    child: AppText(
+                        state.permissionRepository.buttonText ?? "Permitir"),
+                    onPressed: () async {
+                      if (state.permissionRepository.isGranted != null &&
+                          state.permissionRepository.isGranted == true) {
+                        _navigationService.goTo(AppRoutes.selectEnterprise);
+                      } else {
+                        return await permissionCubit.onRequestAllPermission();
+                      }
+                    },
+                  ),
+                ],
               );
-            }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                Icon(
-                  Icons.lock,
-                  color: Colors.green,
-                  size: MediaQuery.of(context).size.height * 0.2,
-                ),
-                AppText(state.permissionRepository.displayTitle ??
-                    "Permiso necesario"),
-                AppText(
-                  state.permissionRepository.displayMessage ??
-                      "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.",
-                ),
-                AppElevatedButton(
-                  child: AppText(
-                      state.permissionRepository.buttonText ?? "Permitir"),
-                  onPressed: () async {
-                    if (state.permissionRepository.isGranted != null &&
-                        state.permissionRepository.isGranted == true) {
-                      _navigationService.goTo(AppRoutes.selectEnterprise);
-                    } else {
-                      return await permissionCubit.onRequestAllPermission();
-                    }
-                  },
-                ),
-              ],
-            );
-          }),
+            }),
+          ),
         ),
       ),
     );

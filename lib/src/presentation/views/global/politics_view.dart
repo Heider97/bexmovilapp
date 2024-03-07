@@ -1,10 +1,10 @@
-//TODO [Heider Zapa] Organize
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //utils
 import '../../../utils/constants/nums.dart';
+import '../../../utils/constants/gaps.dart';
 
 //cubit
 import '../../cubits/politics/politics_cubit.dart';
@@ -58,43 +58,42 @@ class PoliticsViewState extends State<PoliticsView> {
                 child: Padding(
                   padding: const EdgeInsets.all(kDefaultPadding),
                   child: ListView(children: [
-                    const SizedBox(height: 10),
+                    gapH12,
                     Lottie.asset('assets/animations/47956-area-map.json',
                         height: 300, width: 300),
-                    const SizedBox(height: 20),
-                    const Text(
+                    gapH20,
+                    AppText(
                         'Tu ubicación actual se mostrará en el mapa y se usará para rutas, búsquedas de sitios y estimaciones del tiempo de venta de tus pedidos.',
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w300)),
-                    const SizedBox(height: 10),
-                    const Text(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300),
+                    gapH12,
+                    AppText(
                         'Bex movil recopila datos de tu ubicación para habilitar el seguimiento continuo de los vendedores en la toma de pedidos y mejorar los tiempos de venta incluso cuando la aplicación esta cerrada o no esta en uso.',
                         textAlign: TextAlign.justify,
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.w300)),
-                    const SizedBox(height: 20),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300),
+                    gapH20,
                     InkWell(
                         onTap: () => _launchUrl(Uri.parse(
                             'https://bexdeliveries.com/politicas-de-datos-terminos-y-condiciones')),
-                        child: Text(
+                        child: AppText(
                             'Para ver nuestras politicas de privacidad haz click aquí',
                             textAlign: TextAlign.justify,
-                            style: TextStyle(
-                                color: theme.primaryColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w300))),
-                    const SizedBox(height: 40),
+                            color: theme.primaryColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300)),
+                    gapH20,
                     isLoading
                         ? CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(theme.primaryColor),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                theme.primaryColor),
                           )
                         : AppElevatedButton(
                             minimumSize: const Size(70, 70),
                             child: AppText('Aceptar y Continuar', fontSize: 20),
                             onPressed: () => _dispatchEvent(context),
-                        )
+                          )
                   ]),
                 )),
           ),
