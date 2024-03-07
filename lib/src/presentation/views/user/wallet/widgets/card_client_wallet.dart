@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+//utils
+import '../../../../../utils/extensions/string_extension.dart';
 //domain
 import '../../../../../domain/models/client.dart';
 //widgets
@@ -7,16 +9,12 @@ import '../../../../widgets/atomsbox.dart';
 class CardClientWallet extends StatelessWidget {
   final Client client;
 
-  const CardClientWallet(
-      {super.key,
-        required this.client});
+  const CardClientWallet({super.key, required this.client});
 
   @override
   Widget build(BuildContext context) {
     return AppCard.filled(
-      onTap: () {
-
-      },
+      onTap: () {},
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.grey, width: 1),
         borderRadius: BorderRadius.circular(10),
@@ -32,9 +30,11 @@ class CardClientWallet extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText("Facturas Vencidas: ${client.total}", maxLines: 2, fontSize: 11),
-            AppText("Cartera: ${client.wallet}", maxLines: 2, fontSize: 11),
-
+            AppText("Facturas Vencidas: ${client.total}",
+                maxLines: 2, fontSize: 11),
+            if (client.wallet != null)
+              AppText("Cartera: ${''.formatted(client.wallet!.toDouble())}",
+                  maxLines: 2, fontSize: 11),
           ],
         ),
       ),

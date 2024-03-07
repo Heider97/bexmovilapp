@@ -34,37 +34,36 @@ class Client {
   int? total;
   int? wallet;
 
-  Client({
-    this.isBooked,
-    this.nitCliente,
-    this.nomCliente,
-    this.razCliente,
-    this.dirCliente,
-    this.telCliente,
-    this.codeCliente,
-    this.cupoCliente,
-    this.precioCliente,
-    this.formaPagoCliente,
-    this.sucursalCliente,
-    this.email,
-    this.estadoCliente,
-    this.startTimeOfMeeting,
-    this.endTimeOfMeeting,
-    this.averageSales,
-    this.salesEffectiveness,
-    this.lastVisited,
-    this.docType,
-    this.expireDate,
-    this.movDate,
-    this.total,
-    this.wallet,
-    this.latitude,
-    this.longitude,
-    this.distance,
-    this.duration,
-    this.color,
-    this.hasCompleted = 0
-  });
+  Client(
+      {this.isBooked,
+      this.nitCliente,
+      this.nomCliente,
+      this.razCliente,
+      this.dirCliente,
+      this.telCliente,
+      this.codeCliente,
+      this.cupoCliente,
+      this.precioCliente,
+      this.formaPagoCliente,
+      this.sucursalCliente,
+      this.email,
+      this.estadoCliente,
+      this.startTimeOfMeeting,
+      this.endTimeOfMeeting,
+      this.averageSales,
+      this.salesEffectiveness,
+      this.lastVisited,
+      this.docType,
+      this.expireDate,
+      this.movDate,
+      this.total,
+      this.wallet,
+      this.latitude,
+      this.longitude,
+      this.distance,
+      this.duration,
+      this.color,
+      this.hasCompleted = 0});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
@@ -88,17 +87,16 @@ class Client {
         docType: json['docType'],
         expireDate: json['expireDate'],
         movDate: json['movDate'],
-        total: json['overdueInvoices'],
-        wallet: json['walletAmmount'],
+        total: json['total'],
+        wallet: json['wallet'],
         latitude: json['latitud'],
-        longitude: json['longitud']
-    );
+        longitude: json['longitud']);
   }
 
   Map<String, dynamic> toJson() {
     return {
       'NITCLIENTE': nitCliente,
-      'NOMCLIENTE' : nomCliente,
+      'NOMCLIENTE': nomCliente,
       'DIRCLIENTE': dirCliente,
       'RAZCLIENTE': razCliente,
       'TELCLIENTE': telCliente,
