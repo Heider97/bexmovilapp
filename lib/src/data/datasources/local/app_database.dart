@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bexmovil/src/domain/models/invoice.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
