@@ -1,5 +1,4 @@
 class Client {
-  String? name;
   String? email;
   String? dirCliente;
   String? telCliente;
@@ -32,8 +31,8 @@ class Client {
   DateTime? lastVisited;
   String? averageSales;
   String? salesEffectiveness;
-  int? overdueInvoices;
-  int? walletAmmount;
+  int? total;
+  int? wallet;
 
   Client({
     this.isBooked,
@@ -49,7 +48,6 @@ class Client {
     this.sucursalCliente,
     this.email,
     this.estadoCliente,
-    this.name,
     this.startTimeOfMeeting,
     this.endTimeOfMeeting,
     this.averageSales,
@@ -58,8 +56,8 @@ class Client {
     this.docType,
     this.expireDate,
     this.movDate,
-    this.overdueInvoices,
-    this.walletAmmount,
+    this.total,
+    this.wallet,
     this.latitude,
     this.longitude,
     this.distance,
@@ -81,7 +79,7 @@ class Client {
         sucursalCliente: json['SUCCLIENTE'],
         email: json['EMAIL'],
         estadoCliente: json['estadocliente'],
-        nomCliente: json['NOMCLIENTE'],
+        nomCliente: json['nomcliente'],
         startTimeOfMeeting: json['startTimeOfMeeting'],
         endTimeOfMeeting: json['endTimeOfMeeting'],
         averageSales: json['averageSales'],
@@ -90,8 +88,8 @@ class Client {
         docType: json['docType'],
         expireDate: json['expireDate'],
         movDate: json['movDate'],
-        overdueInvoices: json['overdueInvoices'],
-        walletAmmount: json['walletAmmount'],
+        total: json['overdueInvoices'],
+        wallet: json['walletAmmount'],
         latitude: json['latitud'],
         longitude: json['longitud']
     );

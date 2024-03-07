@@ -73,7 +73,7 @@ class ClientDao {
     final db = _appDatabase._database;
 
     var query = '''
-    SELECT t.codcliente, t.nomcliente AS name, COUNT(t.nummov) AS total,
+    SELECT t.codcliente, t.nomcliente, COUNT(t.nummov) AS total,
     SUM(t.preciomov) AS wallet
     FROM (
     SELECT DISTINCT f.codcliente,

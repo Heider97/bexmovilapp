@@ -32,8 +32,8 @@ class CardClientWallet extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText("Facturas Vencidad: ${client.dirCliente}", maxLines: 2, fontSize: 11),
-            AppText("Cartera: ${client.dirCliente}", maxLines: 2, fontSize: 11),
+            AppText("Facturas Vencidas: ${client.total}", maxLines: 2, fontSize: 11),
+            AppText("Cartera: ${client.wallet}", maxLines: 2, fontSize: 11),
 
           ],
         ),

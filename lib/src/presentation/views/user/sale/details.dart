@@ -33,7 +33,6 @@ class _DetailsSaleState extends State<DetailsSale> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final borderRadius = BorderRadius.circular(15);
@@ -240,11 +239,9 @@ class ClientDataSource extends DataGridSource {
   ClientDataSource({required List<Client> clientData}) {
     _clientData = clientData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<String>(columnName: 'name', value: e.name),
-              DataGridCell<int>(
-                  columnName: 'overdueInvoices', value: e.overdueInvoices),
-              DataGridCell<int>(
-                  columnName: 'walletAmmount', value: e.walletAmmount),
+              DataGridCell<String>(columnName: 'name', value: e.nomCliente),
+              DataGridCell<int>(columnName: 'overdueInvoices', value: e.total),
+              DataGridCell<int>(columnName: 'walletAmmount', value: e.wallet),
             ]))
         .toList();
   }

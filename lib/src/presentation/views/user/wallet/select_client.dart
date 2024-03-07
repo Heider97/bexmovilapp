@@ -24,7 +24,7 @@ class SelectClientWallet extends StatefulWidget {
 }
 
 class _SelectClientWalletState extends State<SelectClientWallet> {
-  TextEditingController textController = TextEditingController();
+
 
   @override
   void initState() {
@@ -38,29 +38,7 @@ class _SelectClientWalletState extends State<SelectClientWallet> {
     return Expanded(
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomSearchBar(
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: theme.primaryColor,
-                      ),
-                      controller: textController,
-                      hintText: 'Nombre o código del producto'),
-                ),
-              ),
-              const CustomFrameButtom(
-                  icon: FontAwesomeIcons.locationArrow,
-                  primaryColorBackgroundMode: true),
-              gapW8,
-              const CustomFrameButtom(
-                  icon: Icons.tune, primaryColorBackgroundMode: true),
-              gapW8,
-            ],
-          ),
+
           const Expanded(child: WalletDataGrid()),
 
         ],

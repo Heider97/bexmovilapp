@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 //utils
 
@@ -16,6 +17,7 @@ import '../../../../../domain/models/arguments.dart';
 
 //atoms
 
+import '../../../../widgets/user/custom_search_bar.dart';
 import '../widgets/card_client_wallet.dart';
 import '../../../../widgets/atomsbox.dart';
 import '../../../../widgets/user/stepper.dart';
@@ -23,8 +25,6 @@ import '../../../../widgets/user/stepper.dart';
 //services
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
-
-
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -93,6 +93,24 @@ class _WalletClientsViewState extends State<WalletClientsView> {
             //     )
             //   ],
             // ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomSearchBar(
+                        prefixIcon: const Icon(
+                          Icons.search,
+                        ),
+                        controller: searchController,
+                        hintText: 'Nombre o código del producto'),
+                  ),
+                ),
+                AppIconButton(child: const Icon(FontAwesomeIcons.locationArrow)),
+                gapW8,
+                AppIconButton(child: const Icon(Icons.tune)),
+              ],
+            ),
             gapH4,
             BlocBuilder<WalletBloc, WalletState>(
               builder: (context, state) {
@@ -114,14 +132,6 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                 }
               },
             ),
-            AppElevatedButton(
-                minimumSize: Size(size.width, 50),
-                onPressed: () async {
-                  // List<Client> clients =
-                  // await _databaseRepository.getClientsByAgeRange([31, 60]);
-                  // print(clients);
-                },
-                child: AppText('Siguiente', fontWeight: FontWeight.w600))
           ],
         ),
       ),
