@@ -26,8 +26,8 @@ import '../wallet_action.dart';
 final NavigationService navigationService = locator<NavigationService>();
 
 class WalletSummariesView extends StatefulWidget {
-  final WalletArgument? walletArgument;
-  const WalletSummariesView({super.key, this.walletArgument});
+  final WalletArgument? argument;
+  const WalletSummariesView({super.key, this.argument});
 
   @override
   State<WalletSummariesView> createState() => _WalletSummariesViewState();
@@ -43,7 +43,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
-    // walletBloc.add(LoadGraphics());
+    walletBloc.add(LoadSummaries());
     saleStepperBloc = BlocProvider.of(context);
     super.initState();
   }
@@ -60,7 +60,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const AppBackButton(needPrimary: true),
-                AppText(widget.walletArgument!.type),
+                AppText(widget.argument!.type),
                 AppIconButton(
                     onPressed: null,
                     child: Icon(Icons.menu,

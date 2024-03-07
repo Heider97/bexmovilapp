@@ -5,6 +5,7 @@ import '../models/config.dart';
 import '../models/router.dart';
 import '../models/application.dart';
 import '../models/client.dart';
+import '../models/invoice.dart';
 import '../models/kpi.dart';
 import '../models/location.dart';
 import '../models/error.dart';
@@ -22,6 +23,7 @@ abstract class DatabaseRepository {
 
   //CLIENT
   Future<List<Client>> getClientsByAgeRange(String range, String seller);
+  Future<List<Invoice>> getInvoicesByClient(String range, String seller, String client);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);

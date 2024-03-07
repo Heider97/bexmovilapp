@@ -21,6 +21,7 @@ import '../../../domain/models/client.dart';
 import '../../../domain/models/error.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
+import '../../../domain/models/invoice.dart';
 
 //services
 import '../../../locator.dart';

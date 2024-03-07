@@ -38,7 +38,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       : super(const WalletState(status: WalletStatus.initial)) {
     on<LoadGraphics>(_onLoadGraphics);
     on<LoadClients>(_onLoadClients);
-    on<SelectClient>(_onSelectClient);
+    on<LoadSummaries>(_onLoadSummaries);
     on<SelectInvoices>(_onSelectInvoices);
     on<Collection>(_onCollection);
   }
@@ -63,9 +63,20 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 
-  _onSelectClient(SelectClient event, Emitter emit) {
-    //TODO: [Heider Zapa] get client from event and emit to state
-    emit(state.copyWith(status: WalletStatus.client));
+  Future<void> _onLoadSummaries(LoadSummaries event, Emitter emit) async {
+    emit(state.copyWith(status: WalletStatus.loading));
+
+    try {
+      var seller = storageService.getString('username');
+      var summaries =
+          await databaseRepository.getClientsByAgeRange(event.range!, seller!);
+
+      emit(state.copyWith(status: WalletStatus.client, client: event.client));
+    } catch (error, stackTrace) {
+      emit(
+          state.copyWith(status: WalletStatus.failed, error: error.toString()));
+    }
+
   }
 
   _onSelectInvoices(SelectInvoices event, Emitter emit) {

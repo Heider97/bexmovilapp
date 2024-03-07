@@ -13,9 +13,10 @@ class LoadClients extends WalletEvent {
   LoadClients({ this.range  });
 }
 
-class SelectClient extends WalletEvent {
-  final Client client;
-  SelectClient({ required this.client });
+class LoadSummaries extends WalletEvent {
+  final String? range;
+  final Client? client;
+  LoadSummaries({ this.range, this.client  });
 }
 
 class SelectInvoices extends WalletEvent {
