@@ -22,12 +22,14 @@ Future<void> showSuccessDialog() {
   final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
   final storageService = locator<LocalStorageService>();
 
+  print('**************');
+
   var title = storageService.getString('dialog_title');
   var description = storageService.getString('dialog_description');
   var image = storageService.getString('dialog_image');
 
   return showDialog(
-      barrierDismissible: false,
+      barrierDismissible: true,
       context: ctx,
       builder: (_) => AppGlobalDialog.success(
           title: title ?? '¡Perfecto!',

@@ -1,9 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
-import 'package:bexmovil/src/services/storage.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -12,6 +8,9 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
+
+//utils
+import 'package:bexmovil/src/utils/resources/data_state.dart';
 
 //core
 import '../../../core/functions.dart';
@@ -27,9 +26,14 @@ import '../../../domain/models/arguments.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/responses/nearby_places_response.dart';
 import '../../../domain/repositories/database_repository.dart';
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
+import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
+
 
 //services
+import 'package:bexmovil/src/services/storage.dart';
 import '../../../services/navigation.dart';
+import '../../../services/styled_dialog_controller.dart';
 
 part 'navigation_state.dart';
 
@@ -43,11 +47,12 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   final ApiRepository apiRepository;
   final NavigationService navigationService;
   final LocalStorageService storageService;
+  final StyledDialogController styledDialogController;
   final helperFunctions = HelperFunctions();
   final GpsBloc gpsBloc;
 
   NavigationCubit(this.databaseRepository, this.apiRepository,
-      this.navigationService, this.storageService, this.gpsBloc)
+      this.navigationService, this.storageService, this.styledDialogController, this.gpsBloc)
       : super(const NavigationState(status: NavigationStatus.initial));
 
   goBack() => navigationService.goBack();
@@ -168,24 +173,27 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     place.geometry!.location != null) {
                   markers.add(
                     Marker(
-                        width: 279.0,
-                        height: 256.0,
+                        height: 25,
+                        width: 25,
                         point: LatLng(place.geometry!.location!.lat!,
                             place.geometry!.location!.lng!),
                         builder: (_) => GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              storageService.setString('title_dialog', place.name);
-                              storageService.setString('description_dialog', place.userRatingsTotal.toString());
+                              storageService.setString('dialog_title', place.name);
+                              storageService.setString('dialog_description', place.reference);
                               // storageService.setString('image_dialog', place.photos.first.);
+
+                              styledDialogController.showDialogWithStyle(Status.success,
+                                  closingFunction: () => Navigator.of(_).pop());
                             },
                             child: Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
                                   Image.asset('assets/icons/point.png',
-                                      color: Colors.purple),
+                                      color: Colors.brown),
                                   const Icon(Icons.location_on,
-                                      size: 14, color: Colors.brown),
+                                      size: 14, color: Colors.white),
                                 ]))),
                   );
                 }

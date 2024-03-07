@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 //utils
@@ -54,7 +55,7 @@ class AppGlobalDialog extends StatelessWidget {
   }) {
     builder = (context) {
       return PopScope(
-        canPop: false,
+        canPop: true,
         child: Dialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -64,18 +65,12 @@ class AppGlobalDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   AppText(title, fontSize: 26),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (image != null)
                     SvgPicture.asset(image!, height: 100, width: 100),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (description != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -83,25 +78,7 @@ class AppGlobalDialog extends StatelessWidget {
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.normal),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: onTap,
-                    child: Container(
-                      width: 180,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: AppText('Activar', fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                 ]),
           ),
         ),
@@ -118,7 +95,7 @@ class AppGlobalDialog extends StatelessWidget {
   }) {
     builder = (context) {
       return PopScope(
-        canPop: false,
+        canPop: true,
         child: Dialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -128,18 +105,12 @@ class AppGlobalDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   AppText(title, fontSize: 26),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (image != null)
                     SvgPicture.asset(image!, height: 100, width: 100),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (description != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -147,9 +118,7 @@ class AppGlobalDialog extends StatelessWidget {
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.normal),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   InkWell(
                     onTap: onTap,
                     child: Container(
@@ -163,9 +132,7 @@ class AppGlobalDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                 ]),
           ),
         ),
@@ -182,7 +149,7 @@ class AppGlobalDialog extends StatelessWidget {
   }) {
     builder = (context) {
       return PopScope(
-        canPop: false,
+        canPop: true,
         child: Dialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -192,18 +159,12 @@ class AppGlobalDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   AppText(title, fontSize: 26),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (image != null)
                     SvgPicture.asset(image!, height: 100, width: 100),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (description != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -211,9 +172,7 @@ class AppGlobalDialog extends StatelessWidget {
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.normal),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   InkWell(
                     onTap: onTap,
                     child: Container(
@@ -227,9 +186,7 @@ class AppGlobalDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                 ]),
           ),
         ),
@@ -256,18 +213,12 @@ class AppGlobalDialog extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   AppText(title, fontSize: 26),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (image != null)
                     SvgPicture.asset(image!, height: 100, width: 100),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                   if (description != null)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -275,25 +226,7 @@ class AppGlobalDialog extends StatelessWidget {
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.normal),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: onTap,
-                    child: Container(
-                      width: 180,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: AppText('Activar', fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  gapH20,
                 ]),
           ),
         ),

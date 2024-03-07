@@ -1,8 +1,6 @@
-import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +41,7 @@ import 'src/presentation/blocs/search/search_bloc.dart';
 import 'src/presentation/blocs/wallet/wallet_bloc.dart';
 
 //utils
-
+import 'src/utils/resources/app_dialogs.dart';
 import 'src/utils/constants/strings.dart';
 import 'src/utils/bloc/bloc_observer.dart';
 
@@ -136,6 +134,7 @@ class _MyAppState extends State<MyApp> {
               locator<ApiRepository>(),
               locator<NavigationService>(),
               locator<LocalStorageService>(),
+              locator<StyledDialogController>(),
               BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
