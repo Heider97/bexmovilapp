@@ -19,9 +19,6 @@ import '../../../../widgets/user/stepper.dart';
 //services
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
-import '../select_client.dart';
-import '../select_invoice.dart';
-import '../wallet_action.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -43,13 +40,15 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
-    walletBloc.add(LoadSummaries(range: widget.argument!.type, client: widget.argument!.client));
+    walletBloc.add(LoadSummaries(
+        range: widget.argument!.type, client: widget.argument!.client));
     saleStepperBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Column(
         children: [
@@ -63,9 +62,8 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                 AppIconButton(
                     onPressed: null,
                     child: Icon(Icons.menu,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onPrimaryContainer)),
+                        color:
+                            Theme.of(context).colorScheme.onPrimaryContainer)),
               ],
             ),
           ),
@@ -91,21 +89,77 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
           //     )
           //   ],
           // ),
+          Row(children: [
+            Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.all(Const.padding),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Const.space15)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(Const.padding),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.search,
+                          ),
+                          gapW24,
+                          AppText(
+                            'Factura o cliente',
+                          )
+                        ],
+                      ),
+                    ),
+                  )),
+            )
+          ]),
           gapH4,
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) {
-              //TODO: [Heider Zapa] ajust event of copy state wallet bloc
-              if (state.status == WalletStatus.client) {
-                return const SelectClientWallet();
-              } else if (state.status == WalletStatus.invoice) {
-                return const SelectInvoice();
-              } else if (state.status == WalletStatus.collection) {
-                return const WalletActionList();
-              } else {
-                return const SelectClientWallet();
-              }
-              return const SizedBox();
-            },
+          // Expanded(child: DataGridCheckBox()),
+          Material(
+            elevation: 10,
+            borderRadius: BorderRadius.circular(10),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Container(
+                width: size.width,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          AppText('2 Facturas', fontWeight: FontWeight.bold),
+                          AppText('Abono: \$ 4.509.448',
+                              fontWeight: FontWeight.bold),
+                          AppText('Total: \$ 9.000.000',
+                              fontWeight: FontWeight.bold),
+                        ],
+                      ),
+                      gapW16,
+                      Row(children: [
+                        AppText('Vaciar'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                //TODO: [Heider Zapa]
+                                // _navigationService
+                                //     .goTo(AppRoutes.walletDetailsScreen);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: AppText('Gestionar')),
+                        ),
+                      ])
+                    ]),
+              ),
+            ),
           )
         ],
       ),

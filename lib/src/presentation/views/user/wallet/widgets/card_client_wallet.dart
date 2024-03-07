@@ -8,13 +8,15 @@ import '../../../../widgets/atomsbox.dart';
 
 class CardClientWallet extends StatelessWidget {
   final Client client;
+  final Function() onTap;
 
-  const CardClientWallet({super.key, required this.client});
+  const CardClientWallet(
+      {super.key, required this.client, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return AppCard.filled(
-      onTap: () {},
+      onTap: onTap,
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.grey, width: 1),
         borderRadius: BorderRadius.circular(10),

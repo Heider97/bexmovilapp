@@ -106,7 +106,8 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                         hintText: 'Nombre o código del producto'),
                   ),
                 ),
-                AppIconButton(child: const Icon(FontAwesomeIcons.locationArrow)),
+                AppIconButton(
+                    child: const Icon(FontAwesomeIcons.locationArrow)),
                 gapW8,
                 AppIconButton(child: const Icon(Icons.tune)),
               ],
@@ -123,6 +124,13 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                             state.clients != null ? state.clients!.length : 0,
                         itemBuilder: (context, index) {
                           return CardClientWallet(
+                            onTap: () {
+                              walletBloc.navigationService.goTo(
+                                  AppRoutes.summariesWallet,
+                                  arguments: WalletArgument(
+                                      type: widget.argument!.type,
+                                      client: state.clients![index]));
+                            },
                             client: state.clients![index],
                           );
                         }),
