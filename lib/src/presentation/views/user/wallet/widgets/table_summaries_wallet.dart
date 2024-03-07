@@ -5,12 +5,10 @@ import '../../../../../domain/models/invoice.dart';
 import '../../../../../utils/constants/screens.dart';
 import '../../sale/features/data_grid_sources.dart';
 
-
 class WalletTableSummaries extends StatefulWidget {
-
   final List<Invoice> invoices;
 
-  const WalletTableSummaries({super.key, required this.invoices });
+  const WalletTableSummaries({super.key, required this.invoices});
 
   @override
   State<WalletTableSummaries> createState() => _WalletTableSummariesState();
@@ -18,6 +16,7 @@ class WalletTableSummaries extends StatefulWidget {
 
 class _WalletTableSummariesState extends State<WalletTableSummaries> {
   final DataGridController _dataGridController = DataGridController();
+  final CustomColumnSizer _customColumnSizer = CustomColumnSizer();
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +31,14 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
           print('added: ${element.getCells().first.value}');
         }
         for (var element in removedRows) {
-          print(
-              'removedRows: ${element.getCells().first.value}}');
+          print('removedRows: ${element.getCells().first.value}}');
         }
       },
       onCellTap: (details) {},
       isScrollbarAlwaysShown: true,
       horizontalScrollController: ScrollController(),
+      columnSizer: _customColumnSizer,
       source: InvoiceDataSource(invoiceData: widget.invoices),
-
       // showCheckboxColumn: true,
       allowSorting: true,
       // allowMultiColumnSorting: true,
@@ -54,10 +52,7 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
-        columnWidthMode: ColumnWidthMode.fitByColumnName,
-        sortIconPosition: ColumnHeaderIconPosition.end,
-        columnName: 'name',
-        minimumWidth: Screens.width(context) * 0.5,
+        columnName: 'nummov',
         label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,11 +68,8 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.1,
-
         // allowFiltering: true,
-        sortIconPosition: ColumnHeaderIconPosition.end,
-        columnName: 'total',
+        columnName: 'fecmov',
         label: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -91,17 +83,32 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.15,
-        sortIconPosition: ColumnHeaderIconPosition.end,
         allowFiltering: true,
-        columnName: 'walletAmmount',
+        columnName: 'fecmov',
         label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: Text(
-                  'Total',
+                  'Vencimiento',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      GridColumn(
+        allowFiltering: true,
+        columnName: 'preciomov',
+        label: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  'Valor',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -111,5 +118,22 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
       ),
     ];
     return columns;
+  }
+}
+
+class CustomColumnSizer extends ColumnSizer {
+  @override
+  double computeHeaderCellWidth(GridColumn column, TextStyle style) {
+    style = const TextStyle(fontWeight: FontWeight.bold);
+
+    return super.computeHeaderCellWidth(column, style);
+  }
+
+  @override
+  double computeCellWidth(GridColumn column, DataGridRow row, Object? cellValue,
+      TextStyle textStyle) {
+    textStyle = const TextStyle(fontWeight: FontWeight.bold);
+
+    return super.computeCellWidth(column, row, cellValue, textStyle);
   }
 }

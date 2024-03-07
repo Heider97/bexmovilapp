@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/invoice.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -7,12 +8,13 @@ class InvoiceDataSource extends DataGridSource {
   InvoiceDataSource({required List<Invoice> invoiceData}) {
     _invoiceData = invoiceData
         .map<DataGridRow>((e) => DataGridRow(cells: [
-      DataGridCell<String>(columnName: 'Factura', value: e.nummov),
-      DataGridCell<String>(columnName: 'Estado', value: e.fecven),
-      DataGridCell<String>(
-          columnName: 'Vencimiento', value: e.fecven),
-      DataGridCell<String>(columnName: 'Valor', value: e.preciomov),
-    ]))
+              DataGridCell<int>(columnName: 'Factura', value: e.nummov),
+              DataGridCell<String>(columnName: 'Estado', value: e.fecven),
+              DataGridCell<String>(columnName: 'Vencimiento', value: e.fecven),
+              DataGridCell<String>(
+                  columnName: 'Valor',
+                  value: ''.formatted(e.preciomov!.toDouble())),
+            ]))
         .toList();
   }
 
@@ -25,15 +27,15 @@ class InvoiceDataSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
-          return Container(
-            //alignment: Alignment.center,
-            padding: const EdgeInsets.all(9.0),
-            child: Text(
-              e.value.toString(),
-              style: const TextStyle(fontSize: 15),
-              textAlign: TextAlign.start,
-            ),
-          );
-        }).toList());
+      return Container(
+        //alignment: Alignment.center,
+        padding: const EdgeInsets.all(9.0),
+        child: Text(
+          e.value.toString(),
+          style: const TextStyle(fontSize: 15),
+          textAlign: TextAlign.start,
+        ),
+      );
+    }).toList());
   }
 }

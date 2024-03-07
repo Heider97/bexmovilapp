@@ -1,8 +1,8 @@
 class Invoice {
-  String? codcliente;
-  String? nummov;
+  int? codcliente;
+  int? nummov;
   String? fecven;
-  String? preciomov;
+  int? preciomov;
 
   Invoice({
     this.codcliente,
