@@ -13,16 +13,28 @@ enum WalletStatus {
 class WalletState extends Equatable {
   final WalletStatus status;
   final List<Graphic>? graphics;
+  final List<Client>? clients;
+  final Client? client;
   final String? error;
 
   const WalletState(
-      {this.status = WalletStatus.initial, this.graphics, this.error});
+      {this.status = WalletStatus.initial,
+      this.graphics,
+      this.clients,
+      this.client,
+      this.error});
 
   WalletState copyWith(
-          {WalletStatus? status, List<Graphic>? graphics, String? error}) =>
+          {WalletStatus? status,
+          List<Graphic>? graphics,
+          List<Client>? clients,
+          Client? client,
+          String? error}) =>
       WalletState(
         status: status ?? this.status,
         graphics: graphics ?? this.graphics,
+        clients: clients ?? this.clients,
+        client: client ?? this.client,
         error: error ?? this.error,
       );
 
@@ -30,6 +42,8 @@ class WalletState extends Equatable {
   List<Object?> get props => [
         status,
         graphics,
+        clients,
+        client,
         error,
       ];
 

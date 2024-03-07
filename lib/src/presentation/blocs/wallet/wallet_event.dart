@@ -13,10 +13,16 @@ class LoadClients extends WalletEvent {
   LoadClients({ this.range  });
 }
 
-class InvoiceSelectionEvent extends WalletEvent {
-  InvoiceSelectionEvent();
+class SelectClient extends WalletEvent {
+  final Client client;
+  SelectClient({ required this.client });
 }
 
-class InvoiceActionEvent extends WalletEvent {
-  InvoiceActionEvent();
+class SelectInvoices extends WalletEvent {
+  // final List<Invoices> invoices;
+  SelectInvoices();
+}
+
+class Collection extends WalletEvent {
+  Collection();
 }

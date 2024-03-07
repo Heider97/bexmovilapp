@@ -27,9 +27,9 @@ class _DataGridState extends State<WalletDataGrid> {
   }
 
   Future<ClientDataSource> getEmployeeData() async {
-    List<Client> clients =
-        await _databaseRepository.getClientsByAgeRange([31, 60]);
-    return ClientDataSource(clientData: clients); //data);
+    // List<Client> clients =
+    //     await _databaseRepository.getClientsByAgeRange([31, 60]);
+    return ClientDataSource(clientData: []); //data);
   }
 
   @override

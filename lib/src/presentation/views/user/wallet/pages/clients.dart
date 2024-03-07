@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,21 +9,22 @@ import '../../../../../utils/constants/strings.dart';
 
 //blocs
 import '../../../../blocs/wallet/wallet_bloc.dart';
+import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //domain
 import '../../../../../domain/models/arguments.dart';
 
 //atoms
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
+
+import '../widgets/card_client_wallet.dart';
 import '../../../../widgets/atomsbox.dart';
 import '../../../../widgets/user/stepper.dart';
 
 //services
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
-import '../select_client.dart';
-import '../select_invoice.dart';
-import '../wallet_action.dart';
+
+
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -52,7 +54,6 @@ class _WalletClientsViewState extends State<WalletClientsView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(Const.padding),
@@ -70,40 +71,46 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                             Theme.of(context).colorScheme.onPrimaryContainer)),
               ],
             ),
-            StepperWidget(
-              currentStep: 0,
-              steps: [
-                StepData("Seleccionar\n Cliente", Assets.profileEnable,
-                    theme.primaryColor, Assets.profileDisable, () {
-                  walletBloc.add(SelectClientEvent());
-                }),
-                StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-                    theme.primaryColor, Assets.invoiceDisable, () {
-                  walletBloc.add(InvoiceSelectionEvent());
-                }),
-                StepData(
-                  "Recaudar",
-                  Assets.actionEnable,
-                  theme.primaryColor,
-                  Assets.actionDisable,
-                  () {
-                    walletBloc.add(InvoiceActionEvent());
-                  },
-                )
-              ],
-            ),
+            // StepperWidget(
+            //   currentStep: 0,
+            //   steps: [
+            //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
+            //         theme.primaryColor, Assets.profileDisable, () {
+            //       walletBloc.add(SelectClientEvent());
+            //     }),
+            //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+            //         theme.primaryColor, Assets.invoiceDisable, () {
+            //       walletBloc.add(InvoiceSelectionEvent());
+            //     }),
+            //     StepData(
+            //       "Recaudar",
+            //       Assets.actionEnable,
+            //       theme.primaryColor,
+            //       Assets.actionDisable,
+            //       () {
+            //         walletBloc.add(InvoiceActionEvent());
+            //       },
+            //     )
+            //   ],
+            // ),
             gapH4,
             BlocBuilder<WalletBloc, WalletState>(
               builder: (context, state) {
-                //TODO: [Heider Zapa] ajust event of copy state wallet bloc
-                if (state.status == WalletStatus.client) {
-                  return const SelectClientWallet();
-                } else if (state.status == WalletStatus.invoice) {
-                  return const SelectInvoice();
-                } else if (state.status == WalletStatus.collection) {
-                  return const WalletActionList();
+                if (state.status == WalletStatus.loading) {
+                  return const Center(child: CupertinoActivityIndicator());
+                } else if (state.canRenderView()) {
+                  return Expanded(
+                    child: ListView.builder(
+                        itemCount:
+                            state.clients != null ? state.clients!.length : 0,
+                        itemBuilder: (context, index) {
+                          return CardClientWallet(
+                            client: state.clients![index],
+                          );
+                        }),
+                  );
                 } else {
-                  return const SelectClientWallet();
+                  return Center(child: AppText("No se encontraron clientes."));
                 }
               },
             ),

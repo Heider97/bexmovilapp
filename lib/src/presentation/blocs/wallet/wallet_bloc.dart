@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import '../../../domain/models/graphic.dart';
+import '../../../domain/models/client.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -36,31 +37,43 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       this.databaseRepository, this.storageService, this.navigationService)
       : super(const WalletState(status: WalletStatus.initial)) {
     on<LoadGraphics>(_onLoadGraphics);
-    on<SelectClientEvent>(_selectionEvent);
-    on<InvoiceSelectionEvent>(_invoiceSelectionEvent);
-    on<InvoiceActionEvent>(_invoiceActionEvent);
+    on<LoadClients>(_onLoadClients);
+    on<SelectClient>(_onSelectClient);
+    on<SelectInvoices>(_onSelectInvoices);
+    on<Collection>(_onCollection);
   }
-
-  // Stream<int> listenForTrigger = Stream.periodic(const Duration(seconds: 1), (int result) {
-  //   return databaseRepository.listenForTableChanges(null) == true ? 1 : 0;
-  // });
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     var graphics = await databaseRepository.getAllGraphics();
     emit(state.copyWith(status: WalletStatus.success, graphics: graphics));
   }
 
-  _selectionEvent(SelectClientEvent event, Emitter emit) {
+  Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
+    emit(state.copyWith(status: WalletStatus.loading));
+
+    try {
+      var seller = storageService.getString('username');
+      var clients =
+          await databaseRepository.getClientsByAgeRange(event.range!, seller!);
+
+      emit(state.copyWith(status: WalletStatus.success, clients: clients));
+    } catch (error, stackTrace) {
+      emit(
+          state.copyWith(status: WalletStatus.failed, error: error.toString()));
+    }
+  }
+
+  _onSelectClient(SelectClient event, Emitter emit) {
     //TODO: [Heider Zapa] get client from event and emit to state
     emit(state.copyWith(status: WalletStatus.client));
   }
 
-  _invoiceSelectionEvent(InvoiceSelectionEvent event, Emitter emit) {
+  _onSelectInvoices(SelectInvoices event, Emitter emit) {
     //TODO: [Heider Zapa] get invoice from event and emit to state
     emit(state.copyWith(status: WalletStatus.invoice));
   }
 
-  _invoiceActionEvent(InvoiceActionEvent event, Emitter emit) {
+  _onCollection(Collection event, Emitter emit) {
     //TODO: [Heider Zapa] get action invoice from event and emit to state
     emit(state.copyWith(status: WalletStatus.collection));
   }

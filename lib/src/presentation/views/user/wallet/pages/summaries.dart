@@ -70,28 +70,28 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
               ],
             ),
           ),
-          StepperWidget(
-            currentStep: 0,
-            steps: [
-              StepData("Seleccionar\n Cliente", Assets.profileEnable,
-                  theme.primaryColor, Assets.profileDisable, () {
-                    walletBloc.add(SelectClientEvent());
-                  }),
-              StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-                  theme.primaryColor, Assets.invoiceDisable, () {
-                    walletBloc.add(InvoiceSelectionEvent());
-                  }),
-              StepData(
-                "Recaudar",
-                Assets.actionEnable,
-                theme.primaryColor,
-                Assets.actionDisable,
-                    () {
-                  walletBloc.add(InvoiceActionEvent());
-                },
-              )
-            ],
-          ),
+          // StepperWidget(
+          //   currentStep: 0,
+          //   steps: [
+          //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
+          //         theme.primaryColor, Assets.profileDisable, () {
+          //           walletBloc.add(SelectClientEvent());
+          //         }),
+          //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+          //         theme.primaryColor, Assets.invoiceDisable, () {
+          //           walletBloc.add(InvoiceSelectionEvent());
+          //         }),
+          //     StepData(
+          //       "Recaudar",
+          //       Assets.actionEnable,
+          //       theme.primaryColor,
+          //       Assets.actionDisable,
+          //           () {
+          //         walletBloc.add(InvoiceActionEvent());
+          //       },
+          //     )
+          //   ],
+          // ),
           gapH4,
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {

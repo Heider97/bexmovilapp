@@ -21,7 +21,7 @@ abstract class DatabaseRepository {
   Future<bool> listenForTableChanges(String? table);
 
   //CLIENT
-  Future<List<Client>> getClientsByAgeRange(List<int> range);
+  Future<List<Client>> getClientsByAgeRange(String range, String seller);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);

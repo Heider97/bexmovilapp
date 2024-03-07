@@ -47,28 +47,28 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               ],
             ),
           ),
-          StepperWidget(
-            currentStep: 1,
-            steps: [
-              StepData("Seleccionar\n Cliente", Assets.profileEnable,
-                  theme.primaryColor, Assets.profileDisable, () {
-                walletBloc.add(SelectClientEvent());
-              }),
-              StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-                  theme.primaryColor, Assets.invoiceDisable, () {
-                walletBloc.add(InvoiceSelectionEvent());
-              }),
-              StepData(
-                "Recaudar",
-                Assets.actionEnable,
-                theme.primaryColor,
-                Assets.actionDisable,
-                () {
-                  walletBloc.add(InvoiceActionEvent());
-                },
-              )
-            ],
-          ),
+          // StepperWidget(
+          //   currentStep: 1,
+          //   steps: [
+          //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
+          //         theme.primaryColor, Assets.profileDisable, () {
+          //       walletBloc.add(SelectClientEvent());
+          //     }),
+          //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+          //         theme.primaryColor, Assets.invoiceDisable, () {
+          //       walletBloc.add(InvoiceSelectionEvent());
+          //     }),
+          //     StepData(
+          //       "Recaudar",
+          //       Assets.actionEnable,
+          //       theme.primaryColor,
+          //       Assets.actionDisable,
+          //       () {
+          //         walletBloc.add(InvoiceActionEvent());
+          //       },
+          //     )
+          //   ],
+          // ),
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
               //TODO: [Heider Zapa] ajust event of copy state wallet bloc

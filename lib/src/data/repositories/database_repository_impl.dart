@@ -27,8 +27,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //CLIENTS
   @override
-  Future<List<Client>> getClientsByAgeRange(List<int> range) {
-    return _appDatabase.clientDao.getClientInformationByAgeRange(range);
+  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
+    return _appDatabase.clientDao.getClientInformationByAgeRange(range, seller);
   }
 
   @override
