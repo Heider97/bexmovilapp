@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 //bloc
 import '../../../blocs/network/network_bloc.dart';
 
 //features
+import '../../../widgets/atomsbox.dart';
 import 'features/form_enterprise.dart';
 
 //widgets
@@ -29,28 +29,24 @@ class _SelectEnterpriseViewState extends State<SelectEnterpriseView> {
             height: double.infinity,
             child: BlocBuilder<NetworkBloc, NetworkState>(
                 builder: (context, networkState) {
-                  switch (networkState.runtimeType) {
-                    case NetworkInitial:
-                      return const Center(child: CupertinoActivityIndicator());
-                    case NetworkFailure:
-                      return _buildNetworkFailed();
-                    case NetworkSuccess:
-                      return _buildBodyNetworkSuccess(size);
-                    default:
-                      return const SizedBox();
-                  }
-                })));
+              switch (networkState.runtimeType) {
+                case NetworkInitial:
+                  return const Center(child: CupertinoActivityIndicator());
+                case NetworkFailure:
+                  return _buildNetworkFailed();
+                case NetworkSuccess:
+                  return _buildBodyNetworkSuccess(size);
+                default:
+                  return const SizedBox();
+              }
+            })));
   }
 
   Widget _buildNetworkFailed() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Lottie.asset('assets/animations/1611-online-offline.json',
-              height: 180, width: 180),
-          const Text('No tiene conexión o tu conexión es lenta.')
-        ],
+    return const Center(
+      child: AppIconText(
+        path: 'assets/svg/offline.svg',
+        messages: ['No tienes conexión a internet'],
       ),
     );
   }

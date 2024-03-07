@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 //utils
 import '../../../utils/constants/gaps.dart';
@@ -9,8 +8,7 @@ import '../../../utils/constants/strings.dart';
 import '../../cubits/permission/permission_cubit.dart';
 
 //widgets
-import '../../widgets/atoms/app_text.dart';
-import '../../widgets/atoms/app_elevated_button.dart';
+import '../../widgets/atomsbox.dart';
 
 //service
 import '../../../locator.dart';
@@ -56,26 +54,29 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  gapH12,
-                  Lottie.asset('assets/animations/47956-area-map.json',
-                      height: 300, width: 300),
-                  gapH20,
-                  AppText(
-                      state.permissionRepository.displayTitle ??
-                          "Permiso necesario",
-                      textAlign: TextAlign.justify,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w300),
-                  AppText(
-                      state.permissionRepository.displayMessage ??
-                          "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.",
-                      textAlign: TextAlign.justify,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w300),
+                  const AppIconText(
+                      path: 'assets/icons/permission.svg', messages: []),
+                  Wrap(
+                    children: [
+                      AppText(
+                          state.permissionRepository.displayTitle ??
+                              'Permiso necesario',
+                          textAlign: TextAlign.justify,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300),
+                      gapH12,
+                      AppText(
+                          state.permissionRepository.displayMessage ??
+                              'Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos. Por favor permítelo.',
+                          textAlign: TextAlign.justify,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300),
+                    ],
+                  ),
                   AppElevatedButton(
                     minimumSize: const Size(70, 70),
                     child: AppText(
-                        state.permissionRepository.buttonText ?? "Permitir"),
+                        state.permissionRepository.buttonText ?? 'Permitir'),
                     onPressed: () async {
                       if (state.permissionRepository.isGranted != null &&
                           state.permissionRepository.isGranted == true) {
@@ -85,6 +86,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                       }
                     },
                   ),
+                  gapH20
                 ],
               );
             }),
