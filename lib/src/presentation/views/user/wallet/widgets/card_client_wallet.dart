@@ -32,6 +32,7 @@ class CardClientWallet extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AppText(client.codeCliente.toString()),
             AppText("Facturas Vencidas: ${client.total}",
                 maxLines: 2, fontSize: 11),
             if (client.wallet != null)

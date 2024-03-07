@@ -68,9 +68,12 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     emit(state.copyWith(status: WalletStatus.loading));
 
     try {
+
+      print(event.client!.codeCliente);
+
       var seller = storageService.getString('username');
       var invoices = await databaseRepository.getInvoicesByClient(
-          event.range!, seller!, event.client!.codeCliente!);
+          event.range!, seller!, event.client!.codeCliente.toString());
 
       print('**************');
       print(invoices);
@@ -80,6 +83,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           client: event.client,
           invoices: invoices));
     } catch (error, stackTrace) {
+
+      print(error);
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));
     }

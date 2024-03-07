@@ -3,7 +3,7 @@ class Client {
   String? dirCliente;
   String? telCliente;
   String? sucursalCliente;
-  String? codeCliente;
+  int? codeCliente;
   String? precioCliente;
   int? cupoCliente;
   String? formaPagoCliente;
@@ -67,12 +67,12 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-        nitCliente: json['NITCLIENTE'],
+        nitCliente: json['nitcliente'],
         dirCliente: json['DIRCLIENTE'],
         telCliente: json['TELCLIENTE'],
         razCliente: json['RAZCLIENTE'],
-        codeCliente: json['CODCLIENTE'],
-        cupoCliente: json['CUPO'],
+        codeCliente: json['codcliente'],
+        cupoCliente: json['cupo'],
         formaPagoCliente: json['CODFPAGOVTA'],
         precioCliente: json['CODPRECIO'],
         sucursalCliente: json['SUCCLIENTE'],
@@ -100,12 +100,12 @@ class Client {
       'DIRCLIENTE': dirCliente,
       'RAZCLIENTE': razCliente,
       'TELCLIENTE': telCliente,
-      'CODCLIENTE': codeCliente,
+      'codcliente': codeCliente,
       'CUPO': cupoCliente,
       'CODPRECIO': precioCliente,
       'CODFPAGOVTA': formaPagoCliente,
       'SUCCLIENTE': sucursalCliente,
-      'EMAIL': email,
+      'email': email,
       'estadocliente': estadoCliente,
     };
   }
