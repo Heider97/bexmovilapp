@@ -1,29 +1,16 @@
 import 'package:flutter/material.dart';
+//domain
+import '../../../../../domain/models/client.dart';
+//widgets
 import '../../../../widgets/atomsbox.dart';
 import 'detail_client.dart';
 
 class CardClientRouter extends StatelessWidget {
-  final String nit;
-  final String nameClient;
-  final String branchClient;
-  final String addressClient;
-  final String? telCliente;
-  final String razCliente;
-  final String quotaCliente;
-  final String priceCliente;
-  final String paymentMethodClient;
+  final Client client;
 
   const CardClientRouter(
       {super.key,
-      required this.nit,
-      required this.nameClient,
-      required this.branchClient,
-      required this.addressClient,
-      this.telCliente,
-      required this.razCliente,
-      required this.quotaCliente,
-      required this.priceCliente,
-      required this.paymentMethodClient});
+      required this.client});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +18,7 @@ class CardClientRouter extends StatelessWidget {
       onTap: () {
         showModalBottomSheet(
             context: context,
-            builder: (c) => DetailClientSale(
-                nameClient: nameClient,
-                nit: nit,
-                branchClient: branchClient,
-                addressClient: addressClient,
-                razClient: razCliente,
-                quotaClient: quotaCliente,
-                priceClient: priceCliente,
-                paymentMethodClient: paymentMethodClient));
+            builder: (c) => DetailClientSale(client: client));
       },
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.grey, width: 1),
@@ -49,14 +28,14 @@ class CardClientRouter extends StatelessWidget {
       child: AppListTile(
         title: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: AppText(nameClient,
+            child: AppText(client.nomCliente ?? "N/A",
                 fontWeight: FontWeight.normal,
                 fontSize: 14,
                 overflow: TextOverflow.ellipsis)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppText("Dirección: $addressClient", maxLines: 2, fontSize: 11),
+            AppText("Dirección: ${client.dirCliente}", maxLines: 2, fontSize: 11),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -26,18 +26,14 @@ class _SlidableKpiState extends State<SlidableKpi> {
     return SizedBox(
         width: 210,
         child: CarouselSlider(
-          options: CarouselOptions(
-            autoPlayInterval:
-            const Duration(
-                seconds: 4),
-            aspectRatio: 2,
-            enlargeCenterPage: true,
-            scrollDirection:
-            Axis.vertical,
-            autoPlay: true,
-            viewportFraction: 1,
-          ),
-          items: widget.kpis.map((kpi) => CardKpi(kpi: kpi)).toList()
-        ));
+            options: CarouselOptions(
+              autoPlayInterval: const Duration(seconds: 4),
+              aspectRatio: 2,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.vertical,
+              autoPlay: true,
+              viewportFraction: 1,
+            ),
+            items: widget.kpis.map((kpi) => CardKpi(kpi: kpi)).toList()));
   }
 }
