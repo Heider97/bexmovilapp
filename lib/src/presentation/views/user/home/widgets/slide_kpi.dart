@@ -24,7 +24,7 @@ class _SlidableKpiState extends State<SlidableKpi> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: Screens.width(context) / 1.6,
+        width: 210,
         child: CarouselSlider(
           options: CarouselOptions(
             autoPlayInterval:

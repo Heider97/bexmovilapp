@@ -27,7 +27,7 @@ class _CardKpiState extends State<CardKpi> {
     return Card(
         surfaceTintColor: Colors.white,
         child: SizedBox(
-          width: 230,
+          width: 200,
           height: widget.height,
           child: Padding(
             padding: const EdgeInsets.all(Const.padding),
