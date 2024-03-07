@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -88,23 +89,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    locator<StyledDialogController>()
-        .registerDialogOf(style: Status.error, builder: showErrorGpsDialog);
+    registerDialogs();
     super.initState();
   }
 
-  Future<void> showErrorGpsDialog() {
-    final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
-
-    return showDialog(
-        barrierDismissible: false,
-        context: ctx,
-        builder: (_) => AppGlobalDialog.error(
-            title: 'Activa la ubicación',
-            description:
-                'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
-            image: 'assets/icons/pin.svg'));
-  }
 
   @override
   void dispose() {
