@@ -74,6 +74,7 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
                     padding:
                         const EdgeInsets.only(top: 10.0, left: 22, right: 22),
                     child: AppTextFormField.outlined(
+                      labelText: 'Empresa',
                       controller: companyNameController,
                     )),
               ],

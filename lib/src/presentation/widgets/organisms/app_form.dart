@@ -83,13 +83,13 @@ class _AppFormState extends State<AppForm> {
       margin: const EdgeInsets.only(bottom: AppConstants.sm),
       child: Row(
         children: [
-          Expanded(
-            flex: 1,
-            child: AppLabel(
-              text: widget.formItemNames[listIndex],
-              primary: listIndex == index ? false : true,
-            ),
-          ),
+          // Expanded(
+          //   flex: 1,
+          //   child: AppLabel(
+          //     text: widget.formItemNames[listIndex],
+          //     primary: listIndex == index ? false : true,
+          //   ),
+          // ),
           const SizedBox(width: AppConstants.sm),
           Flexible(
             flex: 3,
