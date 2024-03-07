@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //domain
 import '../../../domain/models/graphic.dart';
 import '../../../domain/models/client.dart';
+import '../../../domain/models/invoice.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -68,15 +69,17 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
     try {
       var seller = storageService.getString('username');
-      var summaries =
-          await databaseRepository.getClientsByAgeRange(event.range!, seller!);
+      var invoices = await databaseRepository.getInvoicesByClient(
+          event.range!, seller!, event.client!.codeCliente!);
 
-      emit(state.copyWith(status: WalletStatus.client, client: event.client));
+      emit(state.copyWith(
+          status: WalletStatus.client,
+          client: event.client,
+          invoices: invoices));
     } catch (error, stackTrace) {
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));
     }
-
   }
 
   _onSelectInvoices(SelectInvoices event, Emitter emit) {
