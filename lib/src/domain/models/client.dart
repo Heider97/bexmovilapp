@@ -66,9 +66,9 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-        id: json['CODCLIENTE'],
+        id: json['CODCLIENTE'] ??  json['codcliente'],
         nit: json['NITCLIENTE'],
-        name: json['NOMCLIENTE'],
+        name: json['NOMCLIENTE'] ?? json['nomcliente'],
         address: json['DIRCLIENTE'],
         businessName: json['RAZCLIENTE'],
         email: json['email'],

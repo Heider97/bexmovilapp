@@ -60,7 +60,7 @@ class ClientDao {
     final db = _appDatabase._database;
 
     var query = '''
-    SELECT t.codcliente, t.nomcliente, COUNT(t.nummov) AS total,
+    SELECT t.codcliente, t.NOMCLIENTE, COUNT(t.nummov) AS total,
     SUM(t.preciomov) AS wallet
     FROM (
     SELECT DISTINCT f.codcliente,
@@ -81,7 +81,7 @@ class ClientDao {
         AND tbldcartera.codvendedor = tblmvendedor.codvendedor
         ?
     ) as t
-    GROUP BY t.nomcliente, t.codtipodoc
+    GROUP BY t.NOMCLIENTE, t.codtipodoc
     ''';
 
     switch (range) {
@@ -120,6 +120,8 @@ class ClientDao {
 
     var results = await db!.rawQuery(query);
 
+    print(results);
+
     List<Client> clients = parseClients(results);
     return clients;
   }
@@ -127,6 +129,8 @@ class ClientDao {
   Future<List<Invoice>> getInvoicesByClient(
       String range, String seller, String client) async {
     final db = _appDatabase._database;
+
+    print(client);
 
     var query = '''
     SELECT t.codcliente, t.nummov,
