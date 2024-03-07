@@ -7,6 +7,9 @@ import 'package:location_repository/location_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_web_browser/flutter_web_browser.dart';
 
 //blocs
 import '../presentation/blocs/gps/gps_bloc.dart';
@@ -139,5 +142,28 @@ class HelperFunctions with FormatDate {
         return null;
       }
     }
+  }
+
+  Future<void> launchWhatsApp(String phone, String message) async {
+    try {
+      final link = WhatsAppUnilink(
+        phoneNumber: phone,
+        text: message,
+      );
+      await FlutterWebBrowser.openWebPage(url: link.toString());
+    } catch (e, stackTrace) {
+      await FirebaseCrashlytics.instance.recordError(e, stackTrace);
+      return;
+    }
+  }
+
+  Future<void> handleException(dynamic error, StackTrace stackTrace) async {
+    // var errorData = Error(
+    //   errorMessage: error.toString(),
+    //   stackTrace: stackTrace.toString(),
+    //   createdAt: now(),
+    // );
+    // await _databaseRepository.insertError(errorData);
+    await FirebaseCrashlytics.instance.recordError(error, stackTrace);
   }
 }

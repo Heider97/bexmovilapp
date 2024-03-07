@@ -17,6 +17,7 @@ class CardClientRouter extends StatelessWidget {
     return AppCard.filled(
       onTap: () {
         showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
             builder: (c) => DetailClientSale(client: client));
       },

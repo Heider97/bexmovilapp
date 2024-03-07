@@ -1,15 +1,5 @@
 const String tableClients = 'tblmcliente';
 
-class ClientFields {
-  static final List<String> values = [id, name, type, value, module];
-
-  static const String id = 'id';
-  static const String name = 'name';
-  static const String type = 'type';
-  static const String value = 'value';
-  static const String module = 'module';
-}
-
 class Client {
   //CORE
   int? id;
@@ -22,7 +12,7 @@ class Client {
   String? branch;
   String? price;
   String? wayToPay;
-  String? quota;
+  int? quota;
   String? latitude;
   String? longitude;
   String? distance;
@@ -75,18 +65,16 @@ class Client {
       this.hasCompleted = 0});
 
   factory Client.fromJson(Map<String, dynamic> json) {
-    print(json);
-
     return Client(
         id: json['CODCLIENTE'],
         nit: json['NITCLIENTE'],
         name: json['NOMCLIENTE'],
         address: json['DIRCLIENTE'],
-        businessName: json['SUCCLIENTE'],
+        businessName: json['RAZCLIENTE'],
         email: json['email'],
         cellphone: json['TELCLIENTE'],
-        branch: json['email'],
-        price: json['email'],
+        branch: json['SUCCLIENTE'],
+        price: json['CODPRECIO'],
         wayToPay: json['CODFPAGOVTA'],
         quota: json['CUPO'],
         estadoCliente: json['estadocliente'],
@@ -114,12 +102,9 @@ class Client {
       'email': email,
       'TELCLIENTE': cellphone,
       'SUCCLIENTE': branch,
-      'DIRCLIENTE': price,
+      'CODPRECIO': price,
       'CODFPAGOVTA': wayToPay,
       'CUPO': quota,
-
-
-      'email': email,
       'estadocliente': estadoCliente,
     };
   }

@@ -38,7 +38,7 @@ class ClientDao {
       c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
       c.codprecio, c.cupo, c.codfpagovta, c.razcliente,
       c.latitud, c.longitud
-      FROM tblmrutero tr, tblmdiarutero tdr,tableClientsc
+      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
       WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
@@ -64,19 +64,20 @@ class ClientDao {
     SUM(t.preciomov) AS wallet
     FROM (
     SELECT DISTINCT f.codcliente,
-       tableClientsnomcliente,
+        tblmcliente.nomcliente,
         tbldcartera.nummov,
         tbldcartera.codtipodoc,
         tbldcartera.preciomov
-        FROM tbldcarteratableClients tblmvendedor,
+        FROM tbldcartera,tblmcliente, tblmvendedor,
         (
-           SELECT tblmrutero.codclientetableClientsnitcliente
-           FROM tblmruterotableClients           WHERE tblmrutero.codvendedor = '09'
-           AND tblmrutero.codcliente =tableClientscodcliente
+           SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+           FROM tblmrutero,tblmcliente
+           WHERE tblmrutero.codvendedor = '09'
+           AND tblmrutero.codcliente = tblmcliente.codcliente
            GROUP BY tblmrutero.codcliente
         ) as f
-        WHERE tbldcartera.codcliente =tableClientscodcliente
-        AND f.nitcliente =tableClientsnitcliente
+        WHERE tbldcartera.codcliente = tblmcliente.codcliente
+        AND f.nitcliente = tblmcliente.nitcliente
         AND tbldcartera.codvendedor = tblmvendedor.codvendedor
         ?
     ) as t
@@ -134,20 +135,21 @@ class ClientDao {
     FROM (
     SELECT DISTINCT f.codcliente,
         tbldcartera.codtipodoc,
-       tableClientsnomcliente,
+        tblmcliente.nomcliente,
         tbldcartera.nummov,
         tbldcartera.fecmov,
         tbldcartera.fecven,
         tbldcartera.preciomov
-        FROM tbldcarteratableClients tblmvendedor,
+        FROM tbldcartera,tblmcliente, tblmvendedor,
         (
-            SELECT tblmrutero.codclientetableClientsnitcliente
-           FROM tblmruterotableClients           WHERE tblmrutero.codvendedor = '$seller'
-           AND tblmrutero.codcliente =tableClientscodcliente
+            SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+           FROM tblmrutero,tblmcliente
+           WHERE tblmrutero.codvendedor = '$seller'
+           AND tblmrutero.codcliente = tblmcliente.codcliente
            GROUP BY tblmrutero.codcliente
         ) as f
-        WHERE tbldcartera.codcliente =tableClientscodcliente
-        AND f.nitcliente =tableClientsnitcliente
+        WHERE tbldcartera.codcliente = tblmcliente.codcliente
+        AND f.nitcliente = tblmcliente.nitcliente
         AND tbldcartera.codvendedor = tblmvendedor.codvendedor
         AND f.codcliente = "$client"
         ?
