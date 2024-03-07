@@ -71,7 +71,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
           ),
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
-              //TODO: [Heider Zapa] ajust event of copy state wallet bloc
+            
               if (state.status == WalletStatus.client) {
                 return const SelectClientWallet();
               } else if (state.status == WalletStatus.invoice) {
@@ -81,7 +81,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               } else {
                 return const SelectClientWallet();
               }
-              return const SizedBox();
+       
             },
           )
         ],

@@ -1,9 +1,8 @@
-import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/domain/models/invoice.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox_source.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
-import '../sale/details.dart';
 
 class DataGridCheckBox extends StatefulWidget {
   const DataGridCheckBox({super.key});
@@ -15,13 +14,58 @@ class DataGridCheckBox extends StatefulWidget {
 class _DataGridCheckBoxState extends State<DataGridCheckBox> {
   final DataGridController _dataGridController = DataGridController();
 
-  late ClientDataSource employeeDataSource;
+  InvoiceDataSource invoiceDataSource = InvoiceDataSource(invoiceData: [
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+    Invoice(
+        code: 'asdasd',
+        expirationDate: 'Asogihaoisg',
+        numMov: 'apiosjfoias',
+        value: 'Asogihaoisg'),
+  ]);
 
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +90,9 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
             onCellTap: (details) {},
             isScrollbarAlwaysShown: true,
             horizontalScrollController: ScrollController(),
-            source: employeeDataSource,
+            source: invoiceDataSource,
             showCheckboxColumn: true,
-            //  allowFiltering: true,
+            allowSorting: true,
             selectionMode: SelectionMode.multiple,
             controller: _dataGridController,
             columns: getColumns(theme),
@@ -74,22 +118,18 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
     List<GridColumn> columns;
     columns = <GridColumn>[
       GridColumn(
+        columnName: 'name',
+        sortIconPosition: ColumnHeaderIconPosition.end,
         columnWidthMode: ColumnWidthMode.fitByColumnName,
-        columnName: 'id',
         minimumWidth: Screens.width(context) * 0.25,
-        label: Center(
+        label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.filter_alt_outlined,
-                    color: theme.primaryColor,
-                  )),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Factura',
+                  'Nombre',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -97,23 +137,18 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.34,
-        // allowFiltering: true,
-        columnName: 'Vencimiento',
-
-        label: Center(
+        columnWidthMode: ColumnWidthMode.fitByColumnName,
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        columnName: 'numMov',
+        minimumWidth: Screens.width(context) * 0.35,
+        label: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.filter_alt_outlined,
-                    color: theme.primaryColor,
-                  )),
-              const Expanded(
+              Expanded(
                 child: Text(
                   'Vencimiento',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -121,24 +156,43 @@ class _DataGridCheckBoxState extends State<DataGridCheckBox> {
         ),
       ),
       GridColumn(
-          // allowFiltering: true,
-          minimumWidth: Screens.width(context) * 0.34,
-          columnName: 'Valor',
-          label: Row(
+        columnWidthMode: ColumnWidthMode.fitByColumnName,
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        columnName: 'expirationDate',
+        minimumWidth: Screens.width(context) * 0.1,
+        label: const Center(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.filter_alt_outlined,
-                      color: theme.primaryColor)),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Valor',
+                  'Fecha de expiración',
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
-          columnWidthMode: ColumnWidthMode.lastColumnFill),
+        ),
+      ),
+      GridColumn(
+        columnWidthMode: ColumnWidthMode.fitByColumnName,
+        sortIconPosition: ColumnHeaderIconPosition.end,
+        columnName: 'value',
+        minimumWidth: Screens.width(context) * 0.5,
+        label: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  'Valor',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     ];
     return columns;
   }

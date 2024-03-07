@@ -35,41 +35,41 @@ class Client {
   int? overdueInvoices;
   int? walletAmmount;
 
-  Client({
-    this.isBooked,
-    this.nitCliente,
-    this.nomCliente,
-    this.razCliente,
-    this.dirCliente,
-    this.telCliente,
-    this.codeCliente,
-    this.cupoCliente,
-    this.precioCliente,
-    this.formaPagoCliente,
-    this.sucursalCliente,
-    this.email,
-    this.estadoCliente,
-    this.name,
-    this.startTimeOfMeeting,
-    this.endTimeOfMeeting,
-    this.averageSales,
-    this.salesEffectiveness,
-    this.lastVisited,
-    this.docType,
-    this.expireDate,
-    this.movDate,
-    this.overdueInvoices,
-    this.walletAmmount,
-    this.latitude,
-    this.longitude,
-    this.distance,
-    this.duration,
-    this.color,
-    this.hasCompleted = 0
-  });
+  Client(
+      {this.isBooked,
+      this.nitCliente,
+      this.nomCliente,
+      this.razCliente,
+      this.dirCliente,
+      this.telCliente,
+      this.codeCliente,
+      this.cupoCliente,
+      this.precioCliente,
+      this.formaPagoCliente,
+      this.sucursalCliente,
+      this.email,
+      this.estadoCliente,
+      this.name,
+      this.startTimeOfMeeting,
+      this.endTimeOfMeeting,
+      this.averageSales,
+      this.salesEffectiveness,
+      this.lastVisited,
+      this.docType,
+      this.expireDate,
+      this.movDate,
+      this.overdueInvoices,
+      this.walletAmmount,
+      this.latitude,
+      this.longitude,
+      this.distance,
+      this.duration,
+      this.color,
+      this.hasCompleted = 0});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
+        name: json['name'],
         nitCliente: json['NITCLIENTE'],
         dirCliente: json['DIRCLIENTE'],
         telCliente: json['TELCLIENTE'],
@@ -93,14 +93,13 @@ class Client {
         overdueInvoices: json['overdueInvoices'],
         walletAmmount: json['walletAmmount'],
         latitude: json['latitud'],
-        longitude: json['longitud']
-    );
+        longitude: json['longitud']);
   }
 
   Map<String, dynamic> toJson() {
     return {
       'NITCLIENTE': nitCliente,
-      'NOMCLIENTE' : nomCliente,
+      'NOMCLIENTE': nomCliente,
       'DIRCLIENTE': dirCliente,
       'RAZCLIENTE': razCliente,
       'TELCLIENTE': telCliente,

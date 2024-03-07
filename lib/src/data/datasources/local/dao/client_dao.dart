@@ -14,6 +14,15 @@ class ClientDao {
     return clients;
   }
 
+  List<Invoice> parseInvoice(List<Map<String, dynamic>> invoiceList) {
+    final invoice = <Invoice>[];
+    for (var invoiceMap in invoiceList) {
+      final newInvoice = Invoice.fromJson(invoiceMap);
+      invoice.add(newInvoice);
+    }
+    return invoice;
+  }
+
   Future<List<Client>> getAllClients() async {
     final db = await _appDatabase.database;
     final clientList = await db!.query('tblmcliente');
@@ -110,5 +119,49 @@ SELECT DISTINCT f.codcliente,
 
     List<Client> clients = parseClients(clientsQuery);
     return clients;
+  }
+
+  Future<List<Invoice>> getInvoiceByClientCode(String clientCode) async {
+    final db = _appDatabase._database;
+    dynamic invoiceQuery = await db!.rawQuery('''
+SELECT 
+    t.codcliente,
+    t.nummov,
+    CASE t.fecven WHEN STRFTIME("%Y-%m-%d", t.fecven) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days')) THEN 'Al día' ELSE 'Mora' END AS fecven,
+    t.preciomov
+FROM (
+SELECT DISTINCT f.codcliente,
+    tbldcartera.codtipodoc,
+    tblmcliente.nomcliente,
+    tbldcartera.nummov,
+    tbldcartera.fecmov,
+    tbldcartera.fecven,
+    CASE tbldcartera.debcre WHEN 'C' THEN tbldcartera.preciomov * -1 ELSE tbldcartera.preciomov END AS preciomov,
+    tbldcartera.debcre,
+    tbldcartera.recprov,
+    '' AS idfacturacion,
+    tbldcartera.valtotcredito,
+    tbldcartera.vlr_dscto_pp,
+    tbldcartera.fecha_dscto_pp,
+    tblmvendedor.codvendedor,
+    '' AS planilla
+    FROM tbldcartera,tblmcliente, tblmvendedor,
+    (
+        SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+       FROM tblmrutero,tblmcliente
+       WHERE tblmrutero.codvendedor = '09'
+       AND tblmrutero.codcliente = tblmcliente.codcliente
+       GROUP BY tblmrutero.codcliente
+    ) as f
+    WHERE tbldcartera.codcliente = tblmcliente.codcliente
+    AND f.nitcliente = tblmcliente.nitcliente
+    AND tbldcartera.codvendedor = tblmvendedor.codvendedor
+    AND f.codcliente = "$clientCode"
+    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) <= STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
+    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) >= STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))) as t
+''');
+
+    List<Invoice> invoiceList = parseInvoice(invoiceQuery);
+    return invoiceList;
   }
 }

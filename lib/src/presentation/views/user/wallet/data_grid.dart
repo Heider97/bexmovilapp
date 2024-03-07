@@ -43,7 +43,7 @@ class _DataGridState extends State<WalletDataGrid> {
               future: getEmployeeData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasData) {
                   return SfDataGrid(
@@ -52,13 +52,7 @@ class _DataGridState extends State<WalletDataGrid> {
                     frozenColumnsCount: 1,
                     frozenRowsCount: 0,
                     onSelectionChanged: (addedRows, removedRows) {
-                      for (var element in addedRows) {
-                        print('added: ${element.getCells().first.value}');
-                      }
-                      for (var element in removedRows) {
-                        print(
-                            'removedRows: ${element.getCells().first.value}}');
-                      }
+                      print('added: ${addedRows[0].getCells().first.value}');
                     },
                     onCellTap: (details) {},
                     isScrollbarAlwaysShown: true,
@@ -106,7 +100,7 @@ class _DataGridState extends State<WalletDataGrid> {
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.1,
+        minimumWidth: Screens.width(context) * 0.04,
 
         // allowFiltering: true,
         sortIconPosition: ColumnHeaderIconPosition.end,
@@ -124,7 +118,7 @@ class _DataGridState extends State<WalletDataGrid> {
         ),
       ),
       GridColumn(
-        minimumWidth: Screens.width(context) * 0.15,
+        minimumWidth: Screens.width(context) * 0.26,
         sortIconPosition: ColumnHeaderIconPosition.end,
         allowFiltering: true,
         columnName: 'walletAmmount',

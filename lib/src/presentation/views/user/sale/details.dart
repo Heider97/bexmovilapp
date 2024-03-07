@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, no_logic_in_create_state
 
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -32,7 +33,6 @@ class _DetailsSaleState extends State<DetailsSale> {
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +263,8 @@ class ClientDataSource extends DataGridSource {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(9.0),
           child: Text(
-            '${e.value}',
-            style: const TextStyle(fontSize: 15),
+            e.value.toString().formattedWithOutDecimal(e.value),
+            style: const TextStyle(fontSize: 14),
             textAlign: TextAlign.start,
           ),
         );
