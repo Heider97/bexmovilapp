@@ -1,5 +1,5 @@
 /* import 'package:bexmovil/src/config/theme/index.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_back_button.dart';
+import 'package:bexmovil/src/presentation/widgets/globals/custom_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/search_item.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';

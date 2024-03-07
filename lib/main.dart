@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:bexmovil/src/presentation/widgets/global/app_global_dialog.dart';
 import 'package:bexmovil/src/services/styled_dialog_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -100,104 +100,14 @@ class _MyAppState extends State<MyApp> {
   Future<void> showErrorGpsDialog() {
     final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
 
-    if (Platform.isAndroid) {
-      return showDialog(
-          barrierDismissible: false,
-          context: ctx,
-          builder: (_) {
-            ThemeData theme = Theme.of(ctx);
-            return PopScope(
-              canPop: false,
-              child: Dialog(
-                backgroundColor: theme.scaffoldBackgroundColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        AppText('Activa la ubicación', fontSize: 26),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SvgPicture.asset('assets/icons/pin.svg',
-                            height: 100, width: 100),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AppText(
-                              "Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.",
-                              textAlign: TextAlign.center,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Geolocator.openLocationSettings();
-                          },
-                          child: Container(
-                            width: 180,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: AppText('Activar',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ]),
-                ),
-              ),
-            );
-          });
-    } else {
-      return showCupertinoDialog(
-          context: context,
-          builder: (_) => CupertinoAlertDialog(
-              title: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red.shade900,
-                      size: 40,
-                    ),
-                  ),
-                  const Text("Oh no!\n something went wrong."),
-                ],
-              ),
-              content: Column(
-                children: [
-                  const Text(
-                    textAlign: TextAlign.center,
-                    "",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
-                    style: TextStyle(
-                      color: Colors.red.shade900,
-                    ),
-                  ),
-                ],
-              )));
-    }
+    return showDialog(
+        barrierDismissible: false,
+        context: ctx,
+        builder: (_) => AppGlobalDialog.error(
+            title: 'Activa la ubicación',
+            description:
+                'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
+            image: 'assets/icons/pin.svg'));
   }
 
   @override
