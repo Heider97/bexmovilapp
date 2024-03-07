@@ -10,12 +10,6 @@ import '../../cubits/permission/permission_cubit.dart';
 //widgets
 import '../../widgets/atomsbox.dart';
 
-//service
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
-
-final NavigationService _navigationService = locator<NavigationService>();
-
 class RequestPermissionView extends StatefulWidget {
   const RequestPermissionView({Key? key}) : super(key: key);
 
@@ -27,6 +21,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final navigationService = context.read<PermissionCubit>().navigationService;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -38,7 +33,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
             child: BlocConsumer<PermissionCubit, PermissionState>(
                 listener: (context, state) {
               if (state is AllPermissionsGranted) {
-                _navigationService.replaceTo(AppRoutes.selectEnterprise);
+                navigationService.replaceTo(AppRoutes.selectEnterprise);
               }
             }, listenWhen: (previous, current) {
               return (current is AllPermissionsGranted);
@@ -52,7 +47,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                 );
               }
               return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const AppIconText(
                       path: 'assets/icons/permission.svg', messages: []),
@@ -74,13 +69,13 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                     ],
                   ),
                   AppElevatedButton(
-                    minimumSize: const Size(70, 70),
+                    minimumSize: Size(size.width, 70),
                     child: AppText(
                         state.permissionRepository.buttonText ?? 'Permitir'),
                     onPressed: () async {
                       if (state.permissionRepository.isGranted != null &&
                           state.permissionRepository.isGranted == true) {
-                        _navigationService.goTo(AppRoutes.selectEnterprise);
+                        navigationService.goTo(AppRoutes.selectEnterprise);
                       } else {
                         return await permissionCubit.onRequestAllPermission();
                       }

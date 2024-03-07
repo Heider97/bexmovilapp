@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 
 //theme
 import 'app_localizations.dart';
-// import 'src/config/theme/index.dart';
 
 //domain
 import 'src/domain/repositories/api_repository.dart';
@@ -153,7 +152,8 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),
-        BlocProvider(create: (context) => PermissionCubit()),
+        BlocProvider(
+            create: (context) => PermissionCubit(locator<NavigationService>())),
         BlocProvider(create: (context) => PoliticsCubit()),
         BlocProvider(
             create: (context) => LoginCubit(
