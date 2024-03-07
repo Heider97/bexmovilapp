@@ -3,13 +3,14 @@ import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
-import 'package:bexmovil/src/presentation/widgets/global/multi_text_form_field.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/validators.dart';
 import 'package:flutter/material.dart';
+
+import '../../../widgets/atomsbox.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 

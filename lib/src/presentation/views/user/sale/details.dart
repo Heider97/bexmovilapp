@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import '../../../../locator.dart';
 import '../../../../services/navigation.dart';
 import '../../../../utils/constants/gaps.dart';
-import '../../../widgets/global/app_global_drawer.dart';
+import '../../../widgets/atomsbox.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 
@@ -42,7 +42,7 @@ class _DetailsSaleState extends State<DetailsSale> {
         .reduce((value, current) => value + current); */
     final formatCurrency = NumberFormat.simpleCurrency();
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

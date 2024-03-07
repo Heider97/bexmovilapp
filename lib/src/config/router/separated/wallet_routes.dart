@@ -5,8 +5,8 @@ import '../../../utils/constants/strings.dart';
 import '../route_type.dart';
 //domain
 import '../../../domain/models/arguments.dart';
-//background
-import '../../../presentation/widgets/global/app_global_background.dart';
+//widgets
+import '../../../presentation/widgets/atomsbox.dart';
 //views
 import '../../../presentation/views/user/wallet/pages/dashboard.dart';
 import '../../../presentation/views/user/wallet/pages/clients.dart';

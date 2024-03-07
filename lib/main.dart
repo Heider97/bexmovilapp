@@ -1,11 +1,6 @@
-import 'dart:io';
-
-import 'package:bexmovil/src/presentation/widgets/global/app_global_dialog.dart';
-import 'package:bexmovil/src/services/styled_dialog_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -48,6 +43,7 @@ import 'src/presentation/blocs/search/search_bloc.dart';
 import 'src/presentation/blocs/wallet/wallet_bloc.dart';
 
 //utils
+
 import 'src/utils/constants/strings.dart';
 import 'src/utils/bloc/bloc_observer.dart';
 
@@ -55,6 +51,7 @@ import 'src/utils/bloc/bloc_observer.dart';
 import 'src/locator.dart';
 import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
+import 'src/services/styled_dialog_controller.dart';
 
 //router
 import 'src/config/router/routes.dart';

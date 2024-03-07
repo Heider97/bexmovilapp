@@ -3,7 +3,6 @@ import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/data_grid.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox.dart';
-import 'package:bexmovil/src/presentation/widgets/global/custom_frame_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -11,6 +10,8 @@ import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../widgets/atomsbox.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();

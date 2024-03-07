@@ -1,10 +1,9 @@
 //utils
-
 import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
-//background
-import '../../../presentation/widgets/global/app_global_background.dart';
+//widgets
+import '../../../presentation/widgets/atomsbox.dart';
 //views
 import '../../../presentation/views/user/home/index.dart';
 

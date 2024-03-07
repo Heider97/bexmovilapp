@@ -5,8 +5,7 @@ import '../../../../cubits/home/home_cubit.dart';
 //domain
 import '../../../../../domain/models/feature.dart';
 //widgets
-import '../../../../widgets/global/app_card_feature.dart';
-import '../../../../widgets/atoms/app_shimmer_loading.dart';
+import '../../../../widgets/atomsbox.dart';
 
 class HomeFeatures extends StatelessWidget {
   final List<Feature>? features;
