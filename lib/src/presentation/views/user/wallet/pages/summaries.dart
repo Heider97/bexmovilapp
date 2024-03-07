@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,13 +8,14 @@ import '../../../../../utils/constants/strings.dart';
 
 //blocs
 import '../../../../blocs/wallet/wallet_bloc.dart';
+import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //domain
 import '../../../../../domain/models/arguments.dart';
 
-//atoms
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
+//widgets
 import '../../../../widgets/atomsbox.dart';
+import '../widgets/table_summaries_wallet.dart';
 import '../../../../widgets/user/stepper.dart';
 
 //services
@@ -40,6 +42,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
+    print('*************');
     walletBloc.add(LoadSummaries(
         range: widget.argument!.type, client: widget.argument!.client));
     saleStepperBloc = BlocProvider.of(context);
@@ -100,7 +103,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                       padding: const EdgeInsets.all(Const.padding),
                       child: Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.search,
                           ),
                           gapW24,
@@ -114,6 +117,19 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
             )
           ]),
           gapH4,
+          BlocBuilder<WalletBloc, WalletState>(
+            builder: (context, state) {
+              if (state.status == WalletStatus.loading) {
+                return const Center(child: CupertinoActivityIndicator());
+              } else if (state.canRenderView()) {
+                return Expanded(
+                  child: WalletTableSummaries(invoices: state.invoices ?? [])
+                );
+              } else {
+                return Center(child: AppText("No se encontraron facturas."));
+              }
+            },
+          ),
           // Expanded(child: DataGridCheckBox()),
           Material(
             elevation: 10,
@@ -129,15 +145,14 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AppText('2 Facturas', fontWeight: FontWeight.bold),
-                          AppText('Abono: \$ 4.509.448',
-                              fontWeight: FontWeight.bold),
-                          AppText('Total: \$ 9.000.000',
-                              fontWeight: FontWeight.bold),
+                          AppText('2 Facturas'),
+                          AppText('Abono: \$ 4.509.448'),
+                          AppText('Total: \$ 9.000.000'),
                         ],
                       ),
-                      gapW16,
+                      gapW12,
                       Row(children: [
                         AppText('Vaciar'),
                         Padding(
@@ -165,4 +180,6 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
       ),
     );
   }
+
+
 }

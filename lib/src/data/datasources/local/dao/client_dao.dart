@@ -190,7 +190,12 @@ class ClientDao {
         break;
     }
 
+    print(query);
+
     var results = await db!.rawQuery(query);
+
+    print('************');
+    print(results);
 
     List<Invoice> invoices = parseInvoices(results);
     return invoices;

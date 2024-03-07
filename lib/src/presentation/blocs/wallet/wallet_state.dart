@@ -14,6 +14,7 @@ class WalletState extends Equatable {
   final WalletStatus status;
   final List<Graphic>? graphics;
   final List<Client>? clients;
+  final List<Invoice>? invoices;
   final Client? client;
   final String? error;
 
@@ -22,6 +23,7 @@ class WalletState extends Equatable {
       this.graphics,
       this.clients,
       this.client,
+      this.invoices,
       this.error});
 
   WalletState copyWith(
@@ -29,12 +31,14 @@ class WalletState extends Equatable {
           List<Graphic>? graphics,
           List<Client>? clients,
           Client? client,
+          List<Invoice>? invoices,
           String? error}) =>
       WalletState(
         status: status ?? this.status,
         graphics: graphics ?? this.graphics,
         clients: clients ?? this.clients,
         client: client ?? this.client,
+        invoices: invoices ?? this.invoices,
         error: error ?? this.error,
       );
 
@@ -44,6 +48,7 @@ class WalletState extends Equatable {
         graphics,
         clients,
         client,
+        invoices,
         error,
       ];
 
