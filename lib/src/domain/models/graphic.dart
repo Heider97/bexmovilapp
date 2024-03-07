@@ -87,15 +87,15 @@ class Graphic {
 class ChartData {
   ChartData(this.x, this.y, [this.color]);
   final String x;
-  final double y;
+  final String y;
   final Color? color;
 
   factory ChartData.fromJson(Map<String, dynamic> json) => ChartData(
         json['x'] ?? 'N/A',
-        json['y'] is String
-            ? double.parse(json['y'])
+        json['y'] is double
+            ? json['y'].toString()
             : json['y'] is int
-                ? json['y'].toDouble()
+                ? json['y'].toString()
                 : json['y'],
       );
 
