@@ -43,14 +43,13 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
-    walletBloc.add(LoadSummaries());
+    walletBloc.add(LoadSummaries(range: widget.argument!.type, client: widget.argument!.client));
     saleStepperBloc = BlocProvider.of(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Column(
         children: [

@@ -1,8 +1,9 @@
 import 'client.dart';
 
 class WalletArgument {
-  WalletArgument({required this.type});
+  WalletArgument({required this.type, this.client});
   final String type;
+  final Client? client;
 }
 
 class NavigationArgument {
