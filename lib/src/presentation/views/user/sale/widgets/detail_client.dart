@@ -166,6 +166,7 @@ class DetailClientSale extends StatelessWidget {
               ],
             ),
             Wrap(
+              spacing: 0.5,
               children: [...actions],
             )
           ],
