@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:location_repository/location_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:latlong2/latlong.dart';
@@ -34,7 +33,6 @@ class HelperFunctions with FormatDate {
   final LocalStorageService _storageService = locator<LocalStorageService>();
   final ApiRepository _apiRepository = locator<ApiRepository>();
   final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
-  final LocationRepository _locationRepository = locator<LocationRepository>();
 
   Future<Map<String, dynamic>?> getDevice() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -69,25 +67,25 @@ class HelperFunctions with FormatDate {
     var username = _storageService.getString('username');
     var password = _storageService.getString('password');
 
-    var location = await _locationRepository.getCurrentLocation();
+    // var location = await _locationRepository.getCurrentLocation();
     var device = await getDevice();
     var version = "1.3.120+244";
 
-    var response = await _apiRepository.login(
-        request: LoginRequest(
-            username!,
-            password!,
-            device!['id'],
-            device['model'],
-            version,
-            now(),
-            location.latitude.toString(),
-            location.longitude.toString()));
+    // var response = await _apiRepository.login(
+    //     request: LoginRequest(
+    //         username!,
+    //         password!,
+    //         device!['id'],
+    //         device['model'],
+    //         version,
+    //         now(),
+    //         location.latitude.toString(),
+    //         location.longitude.toString()));
 
-    if (response is LoginSuccess) {
-      final login = response.data!.login;
-      _storageService.setString('token', login?.token);
-    }
+    // if (response is LoginSuccess) {
+    //   final login = response.data!.login;
+    //   _storageService.setString('token', login?.token);
+    // }
   }
 
   Future<String> get _localPath async {

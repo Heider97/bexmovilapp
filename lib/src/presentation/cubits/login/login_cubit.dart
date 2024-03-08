@@ -1,11 +1,12 @@
-import 'package:bexmovil/src/domain/models/requests/graphic_request.dart';
-import 'package:bexmovil/src/domain/models/requests/kpi_request.dart';
+
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:location_repository/location_repository.dart';
 import 'package:yaml/yaml.dart';
+
+//blocs
+import '../../blocs/gps/gps_bloc.dart';
 
 //core
 import '../../../core/functions.dart';
@@ -17,6 +18,8 @@ import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
 import '../../../domain/models/requests/functionality_request.dart';
 import '../../../domain/models/requests/login_request.dart';
+import '../../../domain/models/requests/graphic_request.dart';
+import '../../../domain/models/requests/kpi_request.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 
@@ -36,11 +39,11 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   final DatabaseRepository databaseRepository;
   final LocalStorageService? storageService;
   final NavigationService? navigationService;
-  final LocationRepository? locationRepository;
+  final GpsBloc? gpsBloc;
   final _helperFunction = HelperFunctions();
 
   LoginCubit(this.apiRepository, this.databaseRepository, this.storageService,
-      this.navigationService, this.locationRepository)
+      this.navigationService, this.gpsBloc)
       : super(LoginInitial(
             enterprise: storageService!.getObject('enterprise') != null
                 ? Enterprise.fromMap(storageService.getObject('enterprise')!)
@@ -151,7 +154,7 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
       }
 
       if (localHour == webHour) {
-        var location = await locationRepository?.getCurrentLocation();
+        var location = await gpsBloc?.getCurrentLocation();
         var device = await _helperFunction.getDevice();
         var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
         var version = yaml['version'];

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:location_repository/location_repository.dart';
 
 //data
 import 'core/cache/cache_manager.dart';
@@ -58,9 +57,6 @@ Future<void> initializeDependencies({testing = false, Dio? dio}) async {
       DatabaseRepositoryImpl(locator<AppDatabase>()),
     );
 
-    locator.registerSingleton<LocationRepository>(
-      LocationRepository(),
-    );
   } else {
     final storage = await LocalStorageService.getInstance();
     locator.registerSingleton<LocalStorageService>(storage!);
@@ -104,9 +100,6 @@ Future<void> initializeDependencies({testing = false, Dio? dio}) async {
       DatabaseRepositoryImpl(locator<AppDatabase>()),
     );
 
-    locator.registerSingleton<LocationRepository>(
-      LocationRepository(),
-    );
   }
 }
 

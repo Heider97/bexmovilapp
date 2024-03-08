@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +26,6 @@ import 'src/presentation/cubits/home/home_cubit.dart';
 import 'src/presentation/cubits/navigation/navigation_cubit.dart';
 
 //blocs
-import 'src/presentation/blocs/location/location_bloc.dart';
 import 'src/presentation/blocs/gps/gps_bloc.dart';
 import 'src/presentation/blocs/network/network_bloc.dart';
 import 'src/presentation/blocs/processing_queue/processing_queue_bloc.dart';
@@ -148,7 +146,7 @@ class _MyAppState extends State<MyApp> {
                   locator<DatabaseRepository>(),
                   locator<LocalStorageService>(),
                   locator<NavigationService>(),
-                  locator<LocationRepository>(),
+                  BlocProvider.of<GpsBloc>(context)
                 )),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
@@ -173,14 +171,6 @@ class _MyAppState extends State<MyApp> {
             create: (context) => ScheduleCubit(
                   locator<DatabaseRepository>(),
                 )),
-        //REPOSITORY PROVIDER.
-        RepositoryProvider(
-            create: (_) => LocationRepository(),
-            child: BlocProvider(
-              create: (context) => LocationBloc(
-                  locationRepository: context.read<LocationRepository>())
-                ..add(GetLocation()),
-            )),
       ],
       child: MultiProvider(
         providers: [
