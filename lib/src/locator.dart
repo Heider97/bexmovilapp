@@ -21,86 +21,44 @@ import 'services/storage.dart';
 import 'services/navigation.dart';
 import 'services/platform.dart';
 import 'services/styled_dialog_controller.dart';
+import 'services/query_loader.dart';
 import 'services/logger.dart';
 
 final locator = GetIt.instance;
 
 Future<void> initializeDependencies({testing = false, Dio? dio}) async {
-  if (testing) {
-    final storage = await LocalStorageService.getInstance(testing: true);
-    locator.registerSingleton<LocalStorageService>(storage!);
+  final storage = await LocalStorageService.getInstance(testing: true);
+  locator.registerSingleton<LocalStorageService>(storage!);
 
-    final navigation = NavigationService();
-    locator.registerSingleton<NavigationService>(navigation);
+  final navigation = NavigationService();
+  locator.registerSingleton<NavigationService>(navigation);
 
-    locator.registerSingleton<ApiService>(
-      ApiService(
-          testing: true,
-          dio: dio!,
-          storageService: locator<LocalStorageService>()),
-    );
+  locator.registerSingleton<ApiService>(
+    ApiService(
+        testing: true,
+        dio: dio!,
+        storageService: locator<LocalStorageService>()),
+  );
 
-    final styledDialogController = StyledDialogController<Status>();
-    locator.registerSingleton<StyledDialogController>(styledDialogController);
+  final styledDialogController = StyledDialogController<Status>();
+  locator.registerSingleton<StyledDialogController>(styledDialogController);
 
-    final logger = LoggerService();
-    locator.registerSingleton<LoggerService>(logger);
+  final logger = LoggerService();
+  locator.registerSingleton<LoggerService>(logger);
 
-    final db = AppDatabase.instance;
-    locator.registerSingleton<AppDatabase>(db);
+  final queryLoader = QueryLoaderService();
+  locator.registerSingleton<QueryLoaderService>(queryLoader);
 
-    locator.registerSingleton<ApiRepository>(
-      ApiRepositoryImpl(locator<ApiService>()),
-    );
+  final db = AppDatabase.instance;
+  locator.registerSingleton<AppDatabase>(db);
 
-    locator.registerSingleton<DatabaseRepository>(
-      DatabaseRepositoryImpl(locator<AppDatabase>()),
-    );
+  locator.registerSingleton<ApiRepository>(
+    ApiRepositoryImpl(locator<ApiService>()),
+  );
 
-  } else {
-    final storage = await LocalStorageService.getInstance();
-    locator.registerSingleton<LocalStorageService>(storage!);
-
-    locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
-
-    final navigation = NavigationService();
-    locator.registerSingleton<NavigationService>(navigation);
-
-    final platform = await PlatformService.getInstance();
-    locator.registerSingleton<PlatformService>(platform!);
-
-    locator.registerSingleton<ApiService>(
-      ApiService(
-          dio: Dio(
-            BaseOptions(
-                baseUrl: 'https://pandapan.bexmovil.com/api',
-                persistentConnection: true,
-                connectTimeout: const Duration(minutes: 1),
-                receiveTimeout: const Duration(minutes: 1),
-                headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
-          ),
-          storageService: locator<LocalStorageService>(),
-          testing: false),
-    );
-
-    final styledDialogController = StyledDialogController<Status>();
-    locator.registerSingleton<StyledDialogController>(styledDialogController);
-
-    final logger = LoggerService();
-    locator.registerSingleton<LoggerService>(logger);
-
-    final db = AppDatabase.instance;
-    locator.registerSingleton<AppDatabase>(db);
-
-    locator.registerSingleton<ApiRepository>(
-      ApiRepositoryImpl(locator<ApiService>()),
-    );
-
-    locator.registerSingleton<DatabaseRepository>(
-      DatabaseRepositoryImpl(locator<AppDatabase>()),
-    );
-
-  }
+  locator.registerSingleton<DatabaseRepository>(
+    DatabaseRepositoryImpl(locator<AppDatabase>()),
+  );
 }
 
 Future<void> unregisterDependencies() async {

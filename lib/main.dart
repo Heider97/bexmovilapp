@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/services/query_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -123,8 +124,12 @@ class _MyAppState extends State<MyApp> {
             create: (_) => WalletBloc(locator<DatabaseRepository>(),
                 locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
-            create: (_) => SaleBloc(locator<DatabaseRepository>(),
-                locator<LocalStorageService>(), locator<NavigationService>())
+            create: (_) => SaleBloc(
+              locator<DatabaseRepository>(),
+              locator<LocalStorageService>(),
+              locator<NavigationService>(),
+              locator<QueryLoaderService>(),
+            )
               ..add(LoadRouters())),
         BlocProvider(
           create: (context) => NavigationCubit(

@@ -12,6 +12,7 @@ import '../../../domain/repositories/database_repository.dart';
 //services
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
+import '../../../services/query_loader.dart';
 
 part 'sale_event.dart';
 part 'sale_state.dart';
@@ -20,8 +21,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
   final NavigationService navigationService;
+  final QueryLoaderService queryLoaderService;
 
-  SaleBloc(this.databaseRepository, this.storageService, this.navigationService)
+  SaleBloc(this.databaseRepository, this.storageService, this.navigationService,
+      this.queryLoaderService)
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
@@ -32,6 +35,9 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
+
+    queryLoaderService.readQuery('sales', 'clients', true);
+
     var sellerCode = storageService.getString('username');
     var routers =
         await databaseRepository.getAllRoutersGroupByClient(sellerCode!);
@@ -63,7 +69,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onNavigation(NavigationSale event, Emitter emit) async {
-    final arguments = NavigationArgument(clients: event.clients, nearest: event.nearest);
+    final arguments =
+        NavigationArgument(clients: event.clients, nearest: event.nearest);
     navigationService.goTo(AppRoutes.navigation, arguments: arguments);
     emit(state.copyWith());
   }
