@@ -121,8 +121,6 @@ class ClientDao {
 
     var results = await db!.rawQuery(query);
 
-    print(results);
-
     List<Client> clients = parseClients(results);
     return clients;
   }
@@ -130,8 +128,6 @@ class ClientDao {
   Future<List<Invoice>> getInvoicesByClient(
       String range, String seller, String client) async {
     final db = _appDatabase._database;
-
-    print(client);
 
     var query = '''
     SELECT t.codcliente, t.nummov,
