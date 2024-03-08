@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
+import 'package:bexmovil/src/utils/resources/app_dynamic_caster_type.dart';
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -164,79 +167,85 @@ class NavigationCubit extends BaseCubit<NavigationState> {
 
           var configs = await databaseRepository.getConfigs('navigation');
 
+          var config = configs.firstWhereOrNull((element) => element.name == "ratio");
 
+          if(config != null && config.value != null) {
 
-          var response = await apiRepository.places(
-              request: GoogleMapsRequest(
-                  latitude: currentLocation.latitude.toString(),
-                  longitude: currentLocation.longitude.toString(),
-                  radius: '100',
-                  apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
+            var ratio = dynamicTypes[config.type]!.fromString(config.value!);
 
-          if (response is DataSuccess) {
-            var places = response.data!.results;
-            if (places != null && places.isNotEmpty) {
-              for (var place in places) {
-                if (place.geometry != null &&
-                    place.geometry!.location != null) {
-                  markers.add(
-                    Marker(
-                        height: 25,
-                        width: 25,
-                        point: LatLng(place.geometry!.location!.lat!,
-                            place.geometry!.location!.lng!),
-                        builder: (_) => GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              storageService.setString(
-                                  'dialog_title', place.name);
-                              storageService.setString(
-                                  'dialog_description', place.reference);
+            var response = await apiRepository.places(
+                request: GoogleMapsRequest(
+                    latitude: currentLocation.latitude.toString(),
+                    longitude: currentLocation.longitude.toString(),
+                    radius: ratio,
+                    apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
 
-                              styledDialogController.showDialogWithStyle(
-                                  Status.success,
-                                  closingFunction: () => Navigator.of(_).pop());
-                            },
-                            child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  Image.asset('assets/icons/point.png',
-                                      color: Colors.brown),
-                                  const Icon(Icons.location_on,
-                                      size: 14, color: Colors.white),
-                                ]))),
-                  );
+            if (response is DataSuccess) {
+              var places = response.data!.results;
+              if (places != null && places.isNotEmpty) {
+                for (var place in places) {
+                  if (place.geometry != null &&
+                      place.geometry!.location != null) {
+                    markers.add(
+                      Marker(
+                          height: 25,
+                          width: 25,
+                          point: LatLng(place.geometry!.location!.lat!,
+                              place.geometry!.location!.lng!),
+                          builder: (_) => GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                storageService.setString(
+                                    'dialog_title', place.name);
+                                storageService.setString(
+                                    'dialog_description', place.reference);
+
+                                styledDialogController.showDialogWithStyle(
+                                    Status.success,
+                                    closingFunction: () => Navigator.of(_).pop());
+                              },
+                              child: Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Image.asset('assets/icons/point.png',
+                                        color: Colors.brown),
+                                    const Icon(Icons.location_on,
+                                        size: 14, color: Colors.white),
+                                  ]))),
+                    );
+                  }
                 }
               }
             }
+
+            // if (arguments.nearest == true) {
+            //   //TODO:: [Heider Zapa] get nearest clients of me
+            //   // var nearest = await databaseRepository.findNearestClients();
+            //   var nearest = [];
+            //
+            //   if (nearest.isNotEmpty) {
+            //     for (var near in nearest) {
+            //       if (near.latitude != null && near.longitude != null) {
+            //         markers.add(
+            //           Marker(
+            //               height: 25,
+            //               width: 25,
+            //               point: LatLng(near.latitude, near.longitude),
+            //               builder: (_) => GestureDetector(
+            //                   behavior: HitTestBehavior.opaque,
+            //                   child: Stack(
+            //                       alignment: Alignment.center,
+            //                       children: <Widget>[
+            //                         popup(state.infoWindowVisible, state.key!),
+            //                         marker(state.infoWindowVisible),
+            //                       ]))),
+            //         );
+            //       }
+            //     }
+            //   }
+            // }
           }
 
-          // if (arguments.nearest == true) {
-          //   //TODO:: [Heider Zapa] get nearest clients of me
-          //   // var nearest = await databaseRepository.findNearestClients();
-          //   var nearest = [];
-          //
-          //   if (nearest.isNotEmpty) {
-          //     for (var near in nearest) {
-          //       if (near.latitude != null && near.longitude != null) {
-          //         markers.add(
-          //           Marker(
-          //               height: 25,
-          //               width: 25,
-          //               point: LatLng(near.latitude, near.longitude),
-          //               builder: (_) => GestureDetector(
-          //                   behavior: HitTestBehavior.opaque,
-          //                   child: Stack(
-          //                       alignment: Alignment.center,
-          //                       children: <Widget>[
-          //                         popup(state.infoWindowVisible, state.key!),
-          //                         marker(state.infoWindowVisible),
-          //                       ]))),
-          //         );
-          //       }
-          //     }
-          //   }
-          // }
         }
 
         for (var index = 0; index < works.length; index++) {

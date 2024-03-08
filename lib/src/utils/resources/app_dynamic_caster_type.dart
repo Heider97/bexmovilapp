@@ -1,3 +1,5 @@
+import '../../domain/models/config.dart';
+
 class AppDynamicCasteType<T> {
   final T Function(String) fromString;
   AppDynamicCasteType(this.fromString);
@@ -8,3 +10,7 @@ Map<String, AppDynamicCasteType> dynamicTypes = {
   "double": AppDynamicCasteType<double>((s) => double.parse(s)),
   "bool": AppDynamicCasteType<bool>((s) => bool.parse(s)),
 };
+
+Future<dynamic> generateVariable(Config config) async {
+  return null;
+}
