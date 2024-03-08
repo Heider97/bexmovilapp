@@ -5,19 +5,19 @@ class QueryDao {
 
   QueryDao(this._appDatabase);
 
-  List<Query> parseQuerys(List<Map<String, dynamic>> queryList) {
-    final querys = <Query>[];
+  List<Query> parseQueries(List<Map<String, dynamic>> queryList) {
+    final queries = <Query>[];
     for (var queryMap in queryList) {
       final query = Query.fromJson(queryMap);
-      querys.add(query);
+      queries.add(query);
     }
-    return querys;
+    return queries;
   }
 
   Future<List<Query>> getAllQueries() async {
     final db = await _appDatabase.database;
     final queryList = await db!.query(tableQueries);
-    final queries = parseQuerys(queryList);
+    final queries = parseQueries(queryList);
     return queries;
   }
 
@@ -25,7 +25,7 @@ class QueryDao {
     final db = await _appDatabase.database;
     final queryList =
     await db!.query(tableQueries, where: 'id = ?', whereArgs: [id]);
-    final query = parseQuerys(queryList);
+    final query = parseQueries(queryList);
     if(query.isEmpty){
       return null;
     }
@@ -48,14 +48,14 @@ class QueryDao {
     return _appDatabase.delete(tableQueries, 'id', queryId);
   }
 
-  Future<void> insertQuerys(List<Query> querys) async {
+  Future<void> insertQueries(List<Query> queries) async {
     final db = await _appDatabase.database;
     var batch = db!.batch();
 
-    if (querys.isNotEmpty) {
-      await Future.forEach(querys, (query) async {
+    if (queries.isNotEmpty) {
+      await Future.forEach(queries, (query) async {
         var d = await db.query(tableQueries, where: 'id = ?', whereArgs: [query.id]);
-        var w = parseQuerys(d);
+        var w = parseQueries(d);
         if (w.isEmpty) {
           batch.insert(tableQueries, query.toJson());
         } else {
