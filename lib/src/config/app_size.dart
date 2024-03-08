@@ -30,7 +30,6 @@ double getProportionateScreenHeight(double inputHeight) {
 double getProportionateScreenWidth(double inputWidth) {
   final screenWidth = AppSize.screenWidth;
   // 375 is the layout width that designer use
-
   return (inputWidth / 375.0) * screenWidth!;
 }
 
