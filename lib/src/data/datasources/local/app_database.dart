@@ -23,6 +23,7 @@ import '../../../domain/models/error.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
 import '../../../domain/models/invoice.dart';
+import '../../../domain/models/query.dart';
 
 //services
 import '../../../locator.dart';
@@ -41,6 +42,7 @@ part '../local/dao/graphic_dao.dart';
 part '../local/dao/error_dao.dart';
 part '../local/dao/filter_dao.dart';
 part '../local/dao/option_dao.dart';
+part '../local/dao/query_dao.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -259,7 +261,7 @@ class AppDatabase {
 
   Future<bool> listenForTableChanges(String? table) async {
     final db = await instance.database;
-    var result = await db!.rawQuery('SELECT changes()');
+    var result = await db!.rawQuery('SELECT changes($table)');
     return result.isNotEmpty;
   }
 
@@ -327,6 +329,8 @@ class AppDatabase {
   FilterDao get filterDao => FilterDao(instance);
 
   OptionDao get optionDao => OptionDao(instance);
+
+  QueryDao get queryDao => QueryDao(instance);
 
   void close() {
     _database!.close();

@@ -130,7 +130,8 @@ class ClientDao {
     final db = _appDatabase._database;
 
     var query = '''
-    SELECT t.codcliente, t.nummov,
+    SELECT t.codcliente, 
+    t.nummov,
     CASE t.fecven WHEN STRFTIME("%Y-%m-%d", t.fecven) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days')) THEN 'Al día' ELSE 'Mora' END AS fecven,
     t.preciomov
     FROM (

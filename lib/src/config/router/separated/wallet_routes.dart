@@ -1,5 +1,6 @@
 //utils
 
+import '../../../presentation/views/user/wallet/pages/notification.dart';
 import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
@@ -33,5 +34,10 @@ Map<String, RouteType> walletRoutes = {
         opacity: 0.1,
         hideBottomNavigationBar: true,
         child: const WalletProcessView(),
-      )
+      ),
+  AppRoutes.notificationWallet: (context, settings) =>
+      AppGlobalBackground.squared(
+          opacity: 0.1,
+          hideBottomNavigationBar: true,
+          child: const WalletNotificationView())
 };

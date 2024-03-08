@@ -64,11 +64,23 @@ class _WalletClientsViewState extends State<WalletClientsView> {
               children: [
                 const AppBackButton(needPrimary: true),
                 AppText(widget.argument!.type),
-                AppIconButton(
-                    onPressed: null,
-                    child: Icon(Icons.menu,
-                        color:
+                Wrap(
+                  spacing: 1,
+                  children: [
+                    AppIconButton(
+                      onPressed: () {
+                        walletBloc.navigationService.goTo(AppRoutes.notificationWallet);
+                      },
+                      child: Icon(Icons.notification_add),
+                    ),
+                    AppIconButton(
+                        onPressed: null,
+                        child: Icon(Icons.menu,
+                            color:
                             Theme.of(context).colorScheme.onPrimaryContainer)),
+                  ],
+                )
+
               ],
             ),
             // StepperWidget(

@@ -110,7 +110,7 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
               Expanded(
                 child: Text(
                   'Valor',
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.right,
                 ),
               ),
             ],

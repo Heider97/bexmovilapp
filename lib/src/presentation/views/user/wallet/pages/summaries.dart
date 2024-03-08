@@ -42,7 +42,6 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
   @override
   void initState() {
     walletBloc = BlocProvider.of<WalletBloc>(context);
-    print('*************');
     walletBloc.add(LoadSummaries(
         range: widget.argument!.type, client: widget.argument!.client));
     saleStepperBloc = BlocProvider.of(context);
