@@ -29,7 +29,6 @@ import '../../../domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
 
-
 //services
 import 'package:bexmovil/src/services/storage.dart';
 import '../../../services/navigation.dart';
@@ -51,8 +50,13 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   final helperFunctions = HelperFunctions();
   final GpsBloc gpsBloc;
 
-  NavigationCubit(this.databaseRepository, this.apiRepository,
-      this.navigationService, this.storageService, this.styledDialogController, this.gpsBloc)
+  NavigationCubit(
+      this.databaseRepository,
+      this.apiRepository,
+      this.navigationService,
+      this.storageService,
+      this.styledDialogController,
+      this.gpsBloc)
       : super(const NavigationState(status: NavigationStatus.initial));
 
   goBack() => navigationService.goBack();
@@ -158,6 +162,10 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     ]))),
           );
 
+          var configs = await databaseRepository.getConfigs('navigation');
+
+
+
           var response = await apiRepository.places(
               request: GoogleMapsRequest(
                   latitude: currentLocation.latitude.toString(),
@@ -180,10 +188,13 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                         builder: (_) => GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              storageService.setString('dialog_title', place.name);
-                              storageService.setString('dialog_description', place.reference);
+                              storageService.setString(
+                                  'dialog_title', place.name);
+                              storageService.setString(
+                                  'dialog_description', place.reference);
 
-                              styledDialogController.showDialogWithStyle(Status.success,
+                              styledDialogController.showDialogWithStyle(
+                                  Status.success,
                                   closingFunction: () => Navigator.of(_).pop());
                             },
                             child: Stack(

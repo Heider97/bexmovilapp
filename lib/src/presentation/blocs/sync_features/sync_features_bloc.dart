@@ -70,12 +70,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
   void _observe(event, emit) async {
     var features = await databaseRepository.getAllFeatures();
-    var configs = await databaseRepository.getConfigs();
+    var configs = await databaseRepository.getConfigs('login');
 
     try {
       emit(SyncFeaturesLoading(features: features));
 
-      var version = configs.firstWhere((element) => element.module == 'login');
+      var version = configs.firstWhere((element) => element.module == 'version');
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(

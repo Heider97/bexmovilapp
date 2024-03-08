@@ -31,7 +31,7 @@ abstract class DatabaseRepository {
   Future<List<Router>> getAllRouters(String seller);
 
   //CONFIGS
-  Future<List<Config>> getConfigs();
+  Future<List<Config>> getConfigs(String module);
   Future<void> insertConfigs(List<Config> configs);
   Future<int> updateConfig(Config config);
   Future<void> emptyConfigs();
@@ -95,6 +95,7 @@ abstract class DatabaseRepository {
   Future<int> updateOption(Option option);
   Future<void> insertOptions(List<Option> options);
   Future<void> emptyOptions();
+
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();

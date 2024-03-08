@@ -195,7 +195,7 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
   }
 
   Future<List<Config>?> getConfigsFromGpsModule() async {
-    var configs = await databaseRepository.getConfigs();
+    var configs = await databaseRepository.getConfigs('gps');
     return configs;
   }
 

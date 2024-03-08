@@ -73,8 +73,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //CONFIGS
   @override
-  Future<List<Config>> getConfigs() {
-    return _appDatabase.configDao.getAllConfigs();
+  Future<List<Config>> getConfigs(String module) {
+    return _appDatabase.configDao.getAllConfigs(module);
   }
 
   @override

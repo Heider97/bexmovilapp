@@ -14,9 +14,9 @@ class ConfigDao {
     return configs;
   }
 
-  Future<List<Config>> getAllConfigs() async {
+  Future<List<Config>> getAllConfigs(String module) async {
     final db = await _appDatabase.database;
-    final configList = await db!.query(tableConfig);
+    final configList = await db!.query(tableConfig, where: 'module = ?', whereArgs: [module]);
     final configs = parseConfigs(configList);
     return configs;
   }
