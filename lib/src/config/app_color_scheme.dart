@@ -22,6 +22,20 @@ class AppColors {
     onSurface: ColorLight.onSurface,
   );
 
+  static const ColorScheme schemeDark = ColorScheme(
+    brightness: Brightness.dark,
+    primary: ColorDark.primary,
+    onPrimary: ColorDark.onPrimary,
+    secondary: ColorDark.onPrimary,
+    onSecondary: ColorDark.onSecondary,
+    background: ColorDark.background,
+    error: ColorDark.error,
+    onError: ColorDark.onError,
+    onBackground: ColorDark.onBackground,
+    surface: ColorDark.surface,
+    onSurface: ColorDark.onSurface,
+  );
+
   // static final ColorScheme schemeLight = SeedColorScheme.fromSeeds(
   //   brightness: Brightness.light,
   //   primaryKey: primarySeedColor,
@@ -29,15 +43,15 @@ class AppColors {
   //   // tones: FlexTones.vivid(Brightness.light),
   // );
 
-  static final ColorScheme schemeDark = SeedColorScheme.fromSeeds(
-    brightness: Brightness.dark,
-    primaryKey: primarySeedColor,
-    secondaryKey: secondarySeedColor,
-    tones: FlexTones.vivid(Brightness.dark),
-  );
+  // static final ColorScheme schemeDark = SeedColorScheme.fromSeeds(
+  //   brightness: Brightness.dark,
+  //   primaryKey: primarySeedColor,
+  //   secondaryKey: secondarySeedColor,
+  //   tones: FlexTones.vivid(Brightness.dark),
+  // );
 
   static const appColorSchemeLight = schemeLight;
-  static final appColorSchemeDark = schemeDark;
+  static const appColorSchemeDark = schemeDark;
 
   static Color getShade(Color color, {bool darker = false, double value = .1}) {
     assert(value >= 0 && value <= 1);

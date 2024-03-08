@@ -32,6 +32,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     var graphics = await databaseRepository.getAllGraphics();
+    // var graphics = await queryLoaderService.getResults(List<Graphic>, 'wallet', 'dashboard');
     emit(state.copyWith(status: WalletStatus.success, graphics: graphics));
   }
 

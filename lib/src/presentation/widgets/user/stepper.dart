@@ -1,6 +1,8 @@
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/material.dart';
 
+import '../atomsbox.dart';
+
 // ignore: must_be_immutable
 class StepperWidget extends StatefulWidget {
   int currentStep;
@@ -48,6 +50,9 @@ class StepperWidgetState extends State<StepperWidget> {
 
   Widget buildStep(int index, StepData step, Function onPressed) {
     ThemeData theme = Theme.of(context);
+
+    print(theme.primaryColor);
+
     index == widget.currentStep
         ? widget.steps[widget.currentStep].color = theme.primaryColor
         : widget.steps[widget.currentStep].color = theme.cardColor;
@@ -104,11 +109,7 @@ class StepperWidgetState extends State<StepperWidget> {
         ),
 
         gapH12, // Espacio entre la imagen y el texto
-        Text(
-          step.label,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 12),
-        ),
+        AppText(step.label, textAlign: TextAlign.center, fontSize: 12)
       ],
     );
   }
