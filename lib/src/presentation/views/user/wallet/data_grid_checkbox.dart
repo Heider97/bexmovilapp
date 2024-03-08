@@ -1,8 +1,8 @@
-import 'package:bexmovil/src/domain/models/invoice.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/data_grid_checkbox_source.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../sale/features/data_grid_sources.dart';
 
 class DataGridCheckBox extends StatefulWidget {
   const DataGridCheckBox({super.key});
@@ -14,53 +14,7 @@ class DataGridCheckBox extends StatefulWidget {
 class _DataGridCheckBoxState extends State<DataGridCheckBox> {
   final DataGridController _dataGridController = DataGridController();
 
-  InvoiceDataSource invoiceDataSource = InvoiceDataSource(invoiceData: [
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-    Invoice(
-        code: 'asdasd',
-        expirationDate: 'Asogihaoisg',
-        numMov: 'apiosjfoias',
-        value: 'Asogihaoisg'),
-  ]);
+  InvoiceDataSource invoiceDataSource = InvoiceDataSource(invoiceData: []);
 
   @override
   void initState() {

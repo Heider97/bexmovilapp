@@ -1,6 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/wallet/select_client.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/select_invoice.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
@@ -56,7 +53,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               }),
               StepData("Seleccionar\n facturas", Assets.invoiceEnable,
                   theme.primaryColor, Assets.invoiceDisable, () {
-                walletBloc.add(InvoiceSelectionEvent());
+                //walletBloc.add(InvoiceSelectionEvent());
               }),
               StepData(
                 "Recaudar",
@@ -64,7 +61,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
                 theme.primaryColor,
                 Assets.actionDisable,
                 () {
-                  walletBloc.add(InvoiceActionEvent());
+                  //walletBloc.add(InvoiceActionEvent());
                 },
               )
             ],
@@ -72,15 +69,17 @@ class _WalletProcessViewState extends State<WalletProcessView> {
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
             
-              if (state.status == WalletStatus.client) {
-                return const SelectClientWallet();
-              } else if (state.status == WalletStatus.invoice) {
-                return const SelectInvoice();
-              } else if (state.status == WalletStatus.collection) {
-                return const WalletActionList();
-              } else {
-                return const SelectClientWallet();
-              }
+              // if (state.status == WalletStatus.client) {
+              //   return const SelectClientWallet();
+              // } else if (state.status == WalletStatus.invoice) {
+              //   return const SelectInvoice();
+              // } else if (state.status == WalletStatus.collection) {
+              //   return const WalletActionList();
+              // } else {
+              //   return const SelectClientWallet();
+              // }
+
+              return const SizedBox();
        
             },
           )
