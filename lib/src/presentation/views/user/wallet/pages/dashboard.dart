@@ -36,75 +36,88 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  AppBackButton(needPrimary: true),
+                  const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppBackButton(needPrimary: true),
+                      ],
+                    ),
+                  ),
+                  BlocBuilder<WalletBloc, WalletState>(
+                      builder: (context, state) {
+                    if (state.graphics != null && state.graphics!.isNotEmpty) {
+                      return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.graphics!.length,
+                          itemBuilder: (context, index) {
+                            final graphic = state.graphics![index];
+                            if (graphic.type == 'line') {
+                              return Padding(
+                                  padding: const EdgeInsets.all(Const.padding),
+                                  child: CartesianChart(graphic: graphic));
+                            } else if (graphic.type == 'kpi') {
+                              return Padding(
+                                  padding: const EdgeInsets.all(Const.padding),
+                                  child: CardKpi(
+                                      needConverted: true,
+                                      height: 80,
+                                      kpi: Kpi(
+                                          type: graphic.data!.first.x,
+                                          title: graphic.title,
+                                          value: graphic.data!.first.y
+                                              .toString())));
+                            } else {
+                              return Padding(
+                                  padding: const EdgeInsets.all(Const.padding),
+                                  child: CircularChart(graphic: graphic));
+                            }
+                          });
+                    } else {
+                      return Center(
+                        child:
+                            AppText('Vendedor no tiene graphicos configurados'),
+                      );
+                    }
+                  }),
                 ],
               ),
             ),
-            BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-              if (state.graphics != null && state.graphics!.isNotEmpty) {
-                return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.graphics!.length,
-                    itemBuilder: (context, index) {
-                      final graphic = state.graphics![index];
-                      if (graphic.type == 'line') {
-                        return Padding(
-                            padding: const EdgeInsets.all(Const.padding),
-                            child: CartesianChart(graphic: graphic));
-                      } else if (graphic.type == 'kpi') {
-                        return Padding(
-                            padding: const EdgeInsets.all(Const.padding),
-                            child: CardKpi(
-                                needConverted: true,
-                                height: 80,
-                                kpi: Kpi(
-                                    type: graphic.data!.first.x,
-                                    title: graphic.title,
-                                    value: graphic.data!.first.y.toString())));
-                      } else {
-                        return Padding(
-                            padding: const EdgeInsets.all(Const.padding),
-                            child: CircularChart(graphic: graphic));
-                      }
-                    });
-              } else {
-                return Center(
-                  child: AppText('Vendedor no tiene graphicos configurados'),
-                );
-              }
-            }),
-            SizedBox(
-              width: Screens.width(context),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    navigationService.goTo(AppRoutes.manageWallet);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    // backgroundColor: theme.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
+          ),
+          Container(
+            width: Screens.width(context),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  navigationService.goTo(AppRoutes.manageWallet);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  child: AppText('Gestionar Cartera',
+                ),
+                child: Text(
+                  'Gestionar Cartera',
+                  style: theme.textTheme.bodyMedium!.copyWith(
                       fontWeight: FontWeight.w600, color: Colors.white),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

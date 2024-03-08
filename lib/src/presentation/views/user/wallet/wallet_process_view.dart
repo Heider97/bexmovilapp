@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_back_button.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
@@ -45,43 +44,45 @@ class _WalletProcessViewState extends State<WalletProcessView> {
               ],
             ),
           ),
-          // StepperWidget(
-          //   currentStep: 1,
-          //   steps: [
-          //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
-          //         theme.primaryColor, Assets.profileDisable, () {
-          //       walletBloc.add(SelectClientEvent());
-          //     }),
-          //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-          //         theme.primaryColor, Assets.invoiceDisable, () {
-          //       walletBloc.add(InvoiceSelectionEvent());
-          //     }),
-          //     StepData(
-          //       "Recaudar",
-          //       Assets.actionEnable,
-          //       theme.primaryColor,
-          //       Assets.actionDisable,
-          //       () {
-          //         walletBloc.add(InvoiceActionEvent());
-          //       },
-          //     )
-          //   ],
-          // ),
-          // BlocBuilder<WalletBloc, WalletState>(
-          //   builder: (context, state) {
-          //     //TODO: [Heider Zapa] ajust event of copy state wallet bloc
-          //     if (state.status == WalletStatus.client) {
-          //       return const SelectClientWallet();
-          //     } else if (state.status == WalletStatus.invoice) {
-          //       return const SelectInvoice();
-          //     } else if (state.status == WalletStatus.collection) {
-          //       return const WalletActionList();
-          //     } else {
-          //       return const SelectClientWallet();
-          //     }
-          //     return const SizedBox();
-          //   },
-          // )
+          StepperWidget(
+            currentStep: 1,
+            steps: [
+              StepData("Seleccionar\n Cliente", Assets.profileEnable,
+                  theme.primaryColor, Assets.profileDisable, () {
+                walletBloc.add(SelectClientEvent());
+              }),
+              StepData("Seleccionar\n facturas", Assets.invoiceEnable,
+                  theme.primaryColor, Assets.invoiceDisable, () {
+                //walletBloc.add(InvoiceSelectionEvent());
+              }),
+              StepData(
+                "Recaudar",
+                Assets.actionEnable,
+                theme.primaryColor,
+                Assets.actionDisable,
+                () {
+                  //walletBloc.add(InvoiceActionEvent());
+                },
+              )
+            ],
+          ),
+          BlocBuilder<WalletBloc, WalletState>(
+            builder: (context, state) {
+            
+              // if (state.status == WalletStatus.client) {
+              //   return const SelectClientWallet();
+              // } else if (state.status == WalletStatus.invoice) {
+              //   return const SelectInvoice();
+              // } else if (state.status == WalletStatus.collection) {
+              //   return const WalletActionList();
+              // } else {
+              //   return const SelectClientWallet();
+              // }
+
+              return const SizedBox();
+       
+            },
+          )
         ],
       ),
     );
