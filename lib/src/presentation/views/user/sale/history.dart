@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/sale/details.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_history_sale.dart';
 import 'package:flutter/material.dart';
 
@@ -118,15 +117,16 @@ class _HistorySaleState extends State<HistorySale> {
                       itemBuilder: (BuildContext context, int index) => Padding(
                           padding: const EdgeInsets.only(right: 5),
                           child: CardSale(
+                              eventCard: () {},
                               state: "Exitoso",
                               client: "Pandapan",
                               codeSale: "Q098788E",
-                              eventCard: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailsSale(
-                                            dataSales: [],
-                                          ))),
+                              // eventCard: () => Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => DetailsSale(
+                              //               dataSales: [],
+                              //             ))),
                               totalValue: 9009209.09,
                               date: "20/12/2023")),
                     ),

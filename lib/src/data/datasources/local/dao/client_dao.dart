@@ -14,18 +14,18 @@ class ClientDao {
     return clients;
   }
 
-  List<Invoice> parseInvoice(List<Map<String, dynamic>> invoiceList) {
-    final invoice = <Invoice>[];
+  List<Invoice> parseInvoices(List<Map<String, dynamic>> invoiceList) {
+    final invoices = <Invoice>[];
     for (var invoiceMap in invoiceList) {
-      final newInvoice = Invoice.fromJson(invoiceMap);
-      invoice.add(newInvoice);
+      final invoice = Invoice.fromJson(invoiceMap);
+      invoices.add(invoice);
     }
-    return invoice;
+    return invoices;
   }
 
   Future<List<Client>> getAllClients() async {
     final db = await _appDatabase.database;
-    final clientList = await db!.query('tblmcliente');
+    final clientList = await db!.query(tableClients);
     final clients = parseClients(clientList);
     return clients;
   }
@@ -34,12 +34,13 @@ class ClientDao {
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
     final clientsRouterList = await db!.rawQuery('''
-      SELECT tdr.DIARUTERO, tdr.NOMDIARUTERO, c.NOMCLIENTE, tr.diarutero, 
-      c.DIRCLIENTE, c.NITCLIENTE, c.SUCCLIENTE, c.EMAIL, c.TELCLIENTE, 
-      c.CODPRECIO, c.CUPO, c.CODFPAGOVTA, c.RAZCLIENTE,
+      SELECT tdr.diarutero, tdr.nomdiarutero, c.nomcliente, tr.diarutero, 
+      c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
+      c.codprecio, c.cupo, c.codfpagovta, c.razcliente, SUM(tc.preciomov) as wallet,
       c.latitud, c.longitud
-      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c
-      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente 
+      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c, tbldcartera tc
+      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
+      AND tc.codcliente = tr.codcliente
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
     ''');
@@ -50,118 +51,170 @@ class ClientDao {
   Future<List<Client>> getClient(String codeClient) async {
     final db = await _appDatabase.database;
     final routerList = await db!
-        .query('tblmcliente', where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
+        .query(tableClients, where: 'NITCLIENTE = ?', whereArgs: [codeClient]);
     final routers = parseClients(routerList);
     return routers;
   }
 
+  Future<List<Client>> getClientInformationByAgeRange(
+      String range, String seller) async {
+    final db = _appDatabase._database;
+
+    var query = '''
+    SELECT t.codcliente, t.NOMCLIENTE, COUNT(t.nummov) AS total,
+    SUM(t.preciomov) AS wallet
+    FROM (
+    SELECT DISTINCT f.codcliente,
+        tblmcliente.nomcliente,
+        tbldcartera.nummov,
+        tbldcartera.codtipodoc,
+        tbldcartera.preciomov
+        FROM tbldcartera,tblmcliente, tblmvendedor,
+        (
+           SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+           FROM tblmrutero,tblmcliente
+           WHERE tblmrutero.codvendedor = '09'
+           AND tblmrutero.codcliente = tblmcliente.codcliente
+           GROUP BY tblmrutero.codcliente
+        ) as f
+        WHERE tbldcartera.codcliente = tblmcliente.codcliente
+        AND f.nitcliente = tblmcliente.nitcliente
+        AND tbldcartera.codvendedor = tblmvendedor.codvendedor
+        ?
+    ) as t
+    GROUP BY t.NOMCLIENTE, t.codtipodoc
+    ''';
+
+    switch (range) {
+      case 'SV':
+        query = query.replaceAll('?', '''
+         AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days'))
+        ''');
+        break;
+      case '0-30':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-30 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-1 days'))
+        ''');
+        break;
+      case '31-60':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
+        ''');
+        break;
+      case '61-90':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-90 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-61 days'))
+        ''');
+        break;
+      case '+90':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) < STRFTIME("%Y-%m-%d", datetime('now', '-90 days'))
+        ''');
+        break;
+    }
+
+    var results = await db!.rawQuery(query);
+
+    List<Client> clients = parseClients(results);
+    return clients;
+  }
+
+  Future<List<Invoice>> getInvoicesByClient(
+      String range, String seller, String client) async {
+    final db = _appDatabase._database;
+
+    var query = '''
+    SELECT t.codcliente, t.nummov,
+    CASE t.fecven WHEN STRFTIME("%Y-%m-%d", t.fecven) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days')) THEN 'Al día' ELSE 'Mora' END AS fecven,
+    t.preciomov
+    FROM (
+    SELECT DISTINCT f.codcliente,
+        tbldcartera.codtipodoc,
+        tblmcliente.nomcliente,
+        tbldcartera.nummov,
+        tbldcartera.fecmov,
+        tbldcartera.fecven,
+        tbldcartera.preciomov
+        FROM tbldcartera,tblmcliente, tblmvendedor,
+        (
+            SELECT tblmrutero.codcliente,tblmcliente.nitcliente
+           FROM tblmrutero,tblmcliente
+           WHERE tblmrutero.codvendedor = '$seller'
+           AND tblmrutero.codcliente = tblmcliente.codcliente
+           GROUP BY tblmrutero.codcliente
+        ) as f
+        WHERE tbldcartera.codcliente = tblmcliente.codcliente
+        AND f.nitcliente = tblmcliente.nitcliente
+        AND tbldcartera.codvendedor = tblmvendedor.codvendedor
+        AND f.codcliente = "$client"
+        ?
+    ) as t
+    ''';
+
+    switch (range) {
+      case 'SV':
+        query = query.replaceAll('?', '''
+         AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days'))
+        ''');
+        break;
+      case '0-30':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-30 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-1 days'))
+        ''');
+        break;
+      case '31-60':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
+        ''');
+        break;
+      case '61-90':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) between 
+        STRFTIME("%Y-%m-%d", datetime('now', '-90 days'))
+        and STRFTIME("%Y-%m-%d", datetime('now', '-61 days'))
+        ''');
+        break;
+      case '+90':
+        query = query.replaceAll('?', '''
+        AND STRFTIME("%Y-%m-%d", tbldcartera.fecmov) < STRFTIME("%Y-%m-%d", datetime('now', '-90 days'))
+        ''');
+        break;
+    }
+    var results = await db!.rawQuery(query);
+
+    List<Invoice> invoices = parseInvoices(results);
+    return invoices;
+  }
+
   Stream<List<Client>> watchAllClients() async* {
     final db = await _appDatabase.database;
-    final clientList = await db!.query('tblmcliente');
+    final clientList = await db!.query(tableClients);
     final clients = parseClients(clientList);
     yield clients;
   }
 
   Future<int> insertClient(Client client) {
-    return _appDatabase.insert('tblmcliente', client.toJson());
+    return _appDatabase.insert(tableClients, client.toJson());
   }
 
   Future<int> updateClient(Client client) {
-    return _appDatabase.update('tblmcliente', client.toJson(), 'NITCLIENTE',
-        int.parse(client.nitCliente!));
+    return _appDatabase.update(tableClients, client.toJson(), 'NITCLIENTE',
+        int.parse(client.nit!));
   }
 
   Future<void> emptyClients() async {
     final db = _appDatabase._database;
-    db!.delete('tblmcliente');
+    db!.delete(tableClients);
     return Future.value();
-  }
-
-  Future<List<Client>> getClientInformationByAgeRange(List<int> range) async {
-    final db = _appDatabase._database;
-    dynamic clientsQuery = await db!.rawQuery('''SELECT 
-    t.nomcliente AS name,
-    COUNT(t.nummov) AS overdueInvoices,
-    SUM(t.preciomov) AS walletAmmount
-FROM (
-SELECT DISTINCT f.codcliente,
-    tbldcartera.codtipodoc,
-    tblmcliente.nomcliente,
-    tbldcartera.nummov,
-    tbldcartera.fecmov,
-    tbldcartera.fecven,
-    CASE tbldcartera.debcre WHEN 'C' THEN tbldcartera.preciomov * -1 ELSE tbldcartera.preciomov END AS preciomov,
-    tbldcartera.debcre,
-    tbldcartera.recprov,
-    '' AS idfacturacion,
-    tbldcartera.valtotcredito,
-    tbldcartera.vlr_dscto_pp,
-    tbldcartera.fecha_dscto_pp,
-    tblmvendedor.codvendedor,
-    '' AS planilla
-    FROM tbldcartera,tblmcliente, tblmvendedor,
-    (
-        SELECT tblmrutero.codcliente,tblmcliente.nitcliente
-       FROM tblmrutero,tblmcliente
-       WHERE tblmrutero.codvendedor = '09'
-       AND tblmrutero.codcliente = tblmcliente.codcliente
-       GROUP BY tblmrutero.codcliente
-    ) as f
-    WHERE tbldcartera.codcliente = tblmcliente.codcliente
-    AND f.nitcliente = tblmcliente.nitcliente
-    AND tbldcartera.codvendedor = tblmvendedor.codvendedor
-    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) <= STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
-    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) >= STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))) as t
-  group by t.nomcliente, t.codtipodoc
-''');
-
-    //range test 31 - 60
-
-    List<Client> clients = parseClients(clientsQuery);
-    return clients;
-  }
-
-  Future<List<Invoice>> getInvoiceByClientCode(String clientCode) async {
-    final db = _appDatabase._database;
-    dynamic invoiceQuery = await db!.rawQuery('''
-SELECT 
-    t.codcliente,
-    t.nummov,
-    CASE t.fecven WHEN STRFTIME("%Y-%m-%d", t.fecven) > STRFTIME("%Y-%m-%d", datetime('now', '-1 days')) THEN 'Al día' ELSE 'Mora' END AS fecven,
-    t.preciomov
-FROM (
-SELECT DISTINCT f.codcliente,
-    tbldcartera.codtipodoc,
-    tblmcliente.nomcliente,
-    tbldcartera.nummov,
-    tbldcartera.fecmov,
-    tbldcartera.fecven,
-    CASE tbldcartera.debcre WHEN 'C' THEN tbldcartera.preciomov * -1 ELSE tbldcartera.preciomov END AS preciomov,
-    tbldcartera.debcre,
-    tbldcartera.recprov,
-    '' AS idfacturacion,
-    tbldcartera.valtotcredito,
-    tbldcartera.vlr_dscto_pp,
-    tbldcartera.fecha_dscto_pp,
-    tblmvendedor.codvendedor,
-    '' AS planilla
-    FROM tbldcartera,tblmcliente, tblmvendedor,
-    (
-        SELECT tblmrutero.codcliente,tblmcliente.nitcliente
-       FROM tblmrutero,tblmcliente
-       WHERE tblmrutero.codvendedor = '09'
-       AND tblmrutero.codcliente = tblmcliente.codcliente
-       GROUP BY tblmrutero.codcliente
-    ) as f
-    WHERE tbldcartera.codcliente = tblmcliente.codcliente
-    AND f.nitcliente = tblmcliente.nitcliente
-    AND tbldcartera.codvendedor = tblmvendedor.codvendedor
-    AND f.codcliente = "$clientCode"
-    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) <= STRFTIME("%Y-%m-%d", datetime('now', '-31 days'))
-    AND STRFTIME("%Y-%m-%d", tbldcartera.FECMOV) >= STRFTIME("%Y-%m-%d", datetime('now', '-60 days'))) as t
-''');
-
-    List<Invoice> invoiceList = parseInvoice(invoiceQuery);
-    return invoiceList;
   }
 }

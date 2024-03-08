@@ -61,36 +61,41 @@ class _EnterpriseFormState extends State<EnterpriseForm> {
   Widget _buildBody(Size size, InitialState state, ThemeData theme) {
     return SizedBox(
         height: size.height * 0.52,
-        width: double.infinity,
-        child: FormAutovalidate(
-          keyForm: _formKey,
-          key: _formAutoValidateState,
-          child: AppForm(
-            title: AppText('Seleccione la empresa'),
-            formItems: [
-              Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 22, right: 22),
-                  child: AppTextFormField(
-                    controller: companyNameController,
-                  )),
-            ],
-            formItemNames: const ['Empresa'],
-            formButton: AppElevatedButton(
-              child: BlocSelector<InitialCubit, InitialState, bool>(
-                  selector: (state) => state is InitialLoading ? true : false,
-                  builder: (context, condition) {
-                    if (condition) {
-                      return const CupertinoActivityIndicator();
-                    } else {
-                      return AppText('Siguiente');
-                    }
-                  }),
-              onPressed: () {
-                if (_formAutoValidateState.currentState!.validateForm()) {
-                  initialCubit.getEnterprise(companyNameController);
-                }
-              },
+        width: size.width,
+        child: Padding(
+          padding: const EdgeInsets.all(AppConstants.sm),
+          child: FormAutovalidate(
+            keyForm: _formKey,
+            key: _formAutoValidateState,
+            child: AppForm(
+              title: AppText('Seleccione la empresa'),
+              formItems: [
+                Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10.0, left: 22, right: 22),
+                    child: AppTextFormField.outlined(
+                      labelText: 'Empresa',
+                      controller: companyNameController,
+                    )),
+              ],
+              formItemNames: const ['Empresa'],
+              formButton: AppElevatedButton(
+                minimumSize: Size(size.width, 50),
+                child: BlocSelector<InitialCubit, InitialState, bool>(
+                    selector: (state) => state is InitialLoading ? true : false,
+                    builder: (context, condition) {
+                      if (condition) {
+                        return const CupertinoActivityIndicator();
+                      } else {
+                        return AppText('Siguiente');
+                      }
+                    }),
+                onPressed: () {
+                  if (_formAutoValidateState.currentState!.validateForm()) {
+                    initialCubit.getEnterprise(companyNameController);
+                  }
+                },
+              ),
             ),
           ),
         ));

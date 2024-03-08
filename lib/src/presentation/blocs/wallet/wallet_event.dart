@@ -8,10 +8,22 @@ class SelectClientEvent extends WalletEvent {
 
 class LoadGraphics extends WalletEvent {}
 
-class InvoiceSelectionEvent extends WalletEvent {
-  InvoiceSelectionEvent();
+class LoadClients extends WalletEvent {
+  final String? range;
+  LoadClients({ this.range  });
 }
 
-class InvoiceActionEvent extends WalletEvent {
-  InvoiceActionEvent();
+class LoadSummaries extends WalletEvent {
+  final String? range;
+  final Client? client;
+  LoadSummaries({ this.range, this.client  });
+}
+
+class SelectInvoices extends WalletEvent {
+  // final List<Invoices> invoices;
+  SelectInvoices();
+}
+
+class Collection extends WalletEvent {
+  Collection();
 }

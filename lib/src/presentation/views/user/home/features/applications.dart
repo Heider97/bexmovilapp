@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//utils
-import '../../../../../utils/constants/strings.dart';
 //domain
 import '../../../../../domain/models/application.dart';
 //cubit
 import '../../../../cubits/home/home_cubit.dart';
 //widgets
 import '../widgets/app_item.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_shimmer_loading.dart';
+import '../../../../widgets/atomsbox.dart';
 
 class HomeApplications extends StatelessWidget {
   final List<Application>? applications;

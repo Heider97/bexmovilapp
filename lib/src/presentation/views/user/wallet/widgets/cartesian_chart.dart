@@ -78,7 +78,7 @@ class CartesianChart extends StatelessWidget {
                   },
                   dataSource: graphic.data,
                   xValueMapper: (ChartData sales, _) => sales.x,
-                  yValueMapper: (ChartData sales, _) => sales.y,
+                  yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),
                   isTrackVisible: true,
                   trackColor: const Color(0XFFC6C9D0),

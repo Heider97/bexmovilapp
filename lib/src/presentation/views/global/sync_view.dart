@@ -9,9 +9,7 @@ import '../../blocs/sync_features/sync_features_bloc.dart';
 import '../../../utils/constants/gaps.dart';
 
 //widgets
-import '../../../presentation/widgets/global/app_card_feature.dart';
-import '../../widgets/atoms/app_text.dart';
-import '../../widgets/atoms/app_elevated_button.dart';
+import '../../widgets/atomsbox.dart';
 
 class SyncView extends StatefulWidget {
   const SyncView({super.key});

@@ -7,16 +7,23 @@ import '../../../data/repositories/permission_repository_impl.dart';
 
 //utils
 import '../../../utils/constants/enums.dart';
+//service
+import '../../../services/navigation.dart';
 
 part 'permission_state.dart';
 
 class PermissionCubit extends Cubit<PermissionState> {
-  PermissionCubit() : super(WaitingForPermission(permissionRepository: PermissionRepository.waiting()));
+  final NavigationService navigationService;
+
+  PermissionCubit(this.navigationService)
+      : super(WaitingForPermission(
+            permissionRepository: PermissionRepository.waiting()));
 
   late Permission currentPermission;
 
   void onAllPermissionGranted() {
-    emit(AllPermissionsGranted(permissionRepository: PermissionRepository.granted()));
+    emit(AllPermissionsGranted(
+        permissionRepository: PermissionRepository.granted()));
   }
 
   Future<void> checkIfPermissionNeeded() async {
@@ -79,6 +86,5 @@ class PermissionCubit extends Cubit<PermissionState> {
   }
 
   @override
-  String toString() =>
-      'PermissionCubit(permissionList: $permissionList)';
+  String toString() => 'PermissionCubit(permissionList: $permissionList)';
 }

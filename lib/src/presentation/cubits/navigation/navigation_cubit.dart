@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
-import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
-import 'package:bexmovil/src/utils/resources/data_state.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -13,13 +9,13 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter/material.dart';
 import 'package:routing_client_dart/routing_client_dart.dart';
 
+//utils
+import 'package:bexmovil/src/utils/resources/data_state.dart';
+
 //core
 import '../../../core/functions.dart';
 
 //cubits
-import '../../../domain/models/client.dart';
-import '../../../domain/models/responses/nearby_places_response.dart';
-import '../../views/user/navigation/components/custom_popup.dart';
 import '../base/base_cubit.dart';
 
 //blocs
@@ -27,10 +23,17 @@ import '../../blocs/gps/gps_bloc.dart';
 
 //domain
 import '../../../domain/models/arguments.dart';
+import '../../../domain/models/client.dart';
+import '../../../domain/models/responses/nearby_places_response.dart';
 import '../../../domain/repositories/database_repository.dart';
+import 'package:bexmovil/src/domain/repositories/api_repository.dart';
+import 'package:bexmovil/src/domain/models/requests/google_maps_request.dart';
+
 
 //services
+import 'package:bexmovil/src/services/storage.dart';
 import '../../../services/navigation.dart';
+import '../../../services/styled_dialog_controller.dart';
 
 part 'navigation_state.dart';
 
@@ -43,11 +46,13 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   final DatabaseRepository databaseRepository;
   final ApiRepository apiRepository;
   final NavigationService navigationService;
+  final LocalStorageService storageService;
+  final StyledDialogController styledDialogController;
   final helperFunctions = HelperFunctions();
   final GpsBloc gpsBloc;
 
   NavigationCubit(this.databaseRepository, this.apiRepository,
-      this.navigationService, this.gpsBloc)
+      this.navigationService, this.storageService, this.styledDialogController, this.gpsBloc)
       : super(const NavigationState(status: NavigationStatus.initial));
 
   goBack() => navigationService.goBack();
@@ -157,7 +162,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
               request: GoogleMapsRequest(
                   latitude: currentLocation.latitude.toString(),
                   longitude: currentLocation.longitude.toString(),
-                  radius: '30',
+                  radius: '100',
                   apiKey: 'AIzaSyDA6aGfd24r53sNz51dQS_hU3kr8L5NT6Y'));
 
           if (response is DataSuccess) {
@@ -168,17 +173,27 @@ class NavigationCubit extends BaseCubit<NavigationState> {
                     place.geometry!.location != null) {
                   markers.add(
                     Marker(
-                        width: 279.0,
-                        height: 256.0,
+                        height: 25,
+                        width: 25,
                         point: LatLng(place.geometry!.location!.lat!,
                             place.geometry!.location!.lng!),
                         builder: (_) => GestureDetector(
                             behavior: HitTestBehavior.opaque,
-                            onTap: () => onTapPlace(),
-                            child: Column(children: <Widget>[
-                              popup(state.infoWindowVisible, place),
-                              marker(state.infoWindowVisible, place),
-                            ]))),
+                            onTap: () {
+                              storageService.setString('dialog_title', place.name);
+                              storageService.setString('dialog_description', place.reference);
+
+                              styledDialogController.showDialogWithStyle(Status.success,
+                                  closingFunction: () => Navigator.of(_).pop());
+                            },
+                            child: Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  Image.asset('assets/icons/point.png',
+                                      color: Colors.brown),
+                                  const Icon(Icons.location_on,
+                                      size: 14, color: Colors.white),
+                                ]))),
                   );
                 }
               }
@@ -406,29 +421,5 @@ class NavigationCubit extends BaseCubit<NavigationState> {
     if (context.mounted) {
       helperFunctions.showMapDirection(context, work, currentLocation!);
     }
-  }
-
-  Opacity popup(bool infoWindowVisible, Results place) {
-    return Opacity(
-      opacity: infoWindowVisible ? 1.0 : 0.0,
-      child: Container(
-          alignment: Alignment.bottomCenter,
-          width: 279.0,
-          height: 256.0,
-          child: CustomPopup(key: Key(place.placeId!), place: place)),
-    );
-  }
-
-  Opacity marker(bool infoWindowVisible, place) {
-    return Opacity(
-      opacity: infoWindowVisible ? 0.0 : 1.0,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Image.asset('assets/icons/point.png', color: Colors.brown),
-          const Icon(Icons.location_on, size: 14, color: Colors.white),
-        ],
-      ),
-    );
   }
 }

@@ -27,7 +27,7 @@ class _CardKpiState extends State<CardKpi> {
     return Card(
         surfaceTintColor: Colors.white,
         child: SizedBox(
-          width: 230,
+          width: 200,
           height: widget.height,
           child: Padding(
             padding: const EdgeInsets.all(Const.padding),
@@ -41,9 +41,7 @@ class _CardKpiState extends State<CardKpi> {
                 Row(
                   children: [
                     AppText(
-                        widget.needConverted == true && widget.kpi.value != null
-                            ? ''.formattedBasedOnM(widget.kpi.value!)
-                            : widget.kpi.value ?? "N/A",
+                        buildContentKpi(),
                         fontWeight: FontWeight.normal,
                         fontSize: 22),
                   ],
@@ -52,5 +50,22 @@ class _CardKpiState extends State<CardKpi> {
             ),
           ),
         ));
+  }
+
+  String buildContentKpi() {
+    if(widget.needConverted == true && widget.kpi.value != null) {
+      if(widget.kpi.value!.contains('/')){
+        var splits = widget.kpi.value!.split('/');
+        var result = [];
+        for(var split in splits){
+          result.add(split.formattedBasedOnM(split));
+        }
+        return result.join('/');
+      } else {
+        return ''.formattedBasedOnM(widget.kpi.value!);
+      }
+    } else {
+      return widget.kpi.value ?? "N/A";
+    }
   }
 }

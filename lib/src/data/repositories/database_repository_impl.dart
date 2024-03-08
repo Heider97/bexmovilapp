@@ -13,6 +13,7 @@ import '../../domain/models/location.dart';
 import '../../domain/models/error.dart';
 import '../../domain/models/filter.dart';
 import '../../domain/models/option.dart';
+import '../../domain/models/invoice.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
@@ -27,8 +28,13 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //CLIENTS
   @override
-  Future<List<Client>> getClientsByAgeRange(List<int> range) {
-    return _appDatabase.clientDao.getClientInformationByAgeRange(range);
+  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
+    return _appDatabase.clientDao.getClientInformationByAgeRange(range, seller);
+  }
+
+  @override
+  Future<List<Invoice>> getInvoicesByClient(String range, String seller, String client) {
+    return _appDatabase.clientDao.getInvoicesByClient(range, seller, client);
   }
 
   @override

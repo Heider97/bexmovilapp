@@ -2,8 +2,9 @@
 import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
+//widgets
+import '../../../presentation/widgets/atomsbox.dart';
 //views
-import '../../../presentation/widgets/global/app_global_background.dart';
 import '../../../presentation/views/user/sale/pages/routers.dart';
 import '../../../presentation/views/user/sale/pages/clients.dart';
 import '../../../presentation/views/user/sale/pages/filters.dart';

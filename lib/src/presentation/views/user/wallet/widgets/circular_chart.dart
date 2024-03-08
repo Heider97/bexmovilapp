@@ -60,7 +60,7 @@ class CircularChart extends StatelessWidget {
                 dataSource: graphic.data,
                 pointColorMapper: (ChartData data, _) => data.color,
                 xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y),
+                yValueMapper: (ChartData data, _) => double.parse(data.y)),
           ]),
           // Row(
           //   children: [

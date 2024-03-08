@@ -21,7 +21,6 @@ import '../../../widgets/atoms/app_elevated_button.dart';
 import '../../../widgets/atoms/app_text.dart';
 import '../../../widgets/molecules/app_version.dart';
 
-
 part './features/form_login.dart';
 
 class LoginView extends StatefulWidget {
@@ -115,6 +114,7 @@ class LoginViewState extends State<LoginView> {
                   onPressed: () {
                     loginCubit.goToCompany();
                   },
+                  needPrimary: true,
                 ),
                 const SizedBox()
               ],
@@ -139,23 +139,23 @@ class LoginViewState extends State<LoginView> {
                 bottom: Const.space25,
                 left: Const.space25,
                 right: Const.space25),
-            child: AppTextFormField(
+            child: AppTextFormField.outlined(
                 controller: usernameController, labelText: 'Usuario o correo'),
           ),
           Padding(
             padding: const EdgeInsets.only(
                 left: Const.space25, right: Const.space25),
-            child: AppTextFormField(
+            child: AppTextFormField.outlined(
               controller: passwordController,
               obscureText: obscureText,
               labelText: 'Contraseña',
-              // suffixIcon: IconButton(
-              //   icon: Icon(
-              //     obscureText ? Icons.visibility : Icons.visibility_off,
-              //     color: theme.primaryColor, // Cambia el color del icono
-              //   ),
-              //   onPressed: togglePasswordVisibility,
-              // ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: theme.primaryColor, // Cambia el color del icono
+                ),
+                onPressed: togglePasswordVisibility,
+              ),
             ),
           ),
           gapH16,

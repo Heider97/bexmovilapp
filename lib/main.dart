@@ -1,19 +1,12 @@
-import 'dart:io';
-
-import 'package:bexmovil/src/services/styled_dialog_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:location_repository/location_repository.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 //theme
 import 'app_localizations.dart';
-// import 'src/config/theme/index.dart';
 
 //domain
 import 'src/domain/repositories/api_repository.dart';
@@ -48,6 +41,7 @@ import 'src/presentation/blocs/search/search_bloc.dart';
 import 'src/presentation/blocs/wallet/wallet_bloc.dart';
 
 //utils
+import 'src/utils/resources/app_dialogs.dart';
 import 'src/utils/constants/strings.dart';
 import 'src/utils/bloc/bloc_observer.dart';
 
@@ -55,6 +49,7 @@ import 'src/utils/bloc/bloc_observer.dart';
 import 'src/locator.dart';
 import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
+import 'src/services/styled_dialog_controller.dart';
 
 //router
 import 'src/config/router/routes.dart';
@@ -92,112 +87,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    locator<StyledDialogController>()
-        .registerDialogOf(style: Status.error, builder: showErrorGpsDialog);
+    registerDialogs();
     super.initState();
-  }
-
-  Future<void> showErrorGpsDialog() {
-    final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
-
-    if (Platform.isAndroid) {
-      return showDialog(
-          barrierDismissible: false,
-          context: ctx,
-          builder: (_) {
-            ThemeData theme = Theme.of(ctx);
-            return PopScope(
-              canPop: false,
-              child: Dialog(
-                backgroundColor: theme.scaffoldBackgroundColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        AppText('Activa la ubicación', fontSize: 26),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SvgPicture.asset('assets/icons/pin.svg',
-                            height: 100, width: 100),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AppText(
-                              "Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.",
-                              textAlign: TextAlign.center,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Geolocator.openLocationSettings();
-                          },
-                          child: Container(
-                            width: 180,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: AppText('Activar',
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ]),
-                ),
-              ),
-            );
-          });
-    } else {
-      return showCupertinoDialog(
-          context: context,
-          builder: (_) => CupertinoAlertDialog(
-              title: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red.shade900,
-                      size: 40,
-                    ),
-                  ),
-                  const Text("Oh no!\n something went wrong."),
-                ],
-              ),
-              content: Column(
-                children: [
-                  const Text(
-                    textAlign: TextAlign.center,
-                    "",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
-                    style: TextStyle(
-                      color: Colors.red.shade900,
-                    ),
-                  ),
-                ],
-              )));
-    }
   }
 
   @override
@@ -242,11 +133,14 @@ class _MyAppState extends State<MyApp> {
               locator<DatabaseRepository>(),
               locator<ApiRepository>(),
               locator<NavigationService>(),
+              locator<LocalStorageService>(),
+              locator<StyledDialogController>(),
               BlocProvider.of<GpsBloc>(context)),
         ),
         BlocProvider(
             create: (context) => InitialCubit(locator<ApiRepository>())),
-        BlocProvider(create: (context) => PermissionCubit()),
+        BlocProvider(
+            create: (context) => PermissionCubit(locator<NavigationService>())),
         BlocProvider(create: (context) => PoliticsCubit()),
         BlocProvider(
             create: (context) => LoginCubit(

@@ -5,11 +5,13 @@ import '../../../utils/constants/strings.dart';
 import '../route_type.dart';
 //domain
 import '../../../domain/models/arguments.dart';
-//background
-import '../../../presentation/widgets/global/app_global_background.dart';
+//widgets
+import '../../../presentation/widgets/atomsbox.dart';
 //views
 import '../../../presentation/views/user/wallet/pages/dashboard.dart';
 import '../../../presentation/views/user/wallet/pages/clients.dart';
+import '../../../presentation/views/user/wallet/pages/summaries.dart';
+import '../../../presentation/views/user/wallet/pages/collection.dart';
 import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
@@ -19,7 +21,13 @@ Map<String, RouteType> walletRoutes = {
       opacity: 0.1,
       hideBottomNavigationBar: true,
       child: WalletClientsView(
-        walletArgument: settings.arguments as WalletArgument,
+        argument: settings.arguments as WalletArgument,
+      )),
+  AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.squared(
+      opacity: 0.1,
+      hideBottomNavigationBar: true,
+      child: WalletSummariesView(
+        argument: settings.arguments as WalletArgument,
       )),
   AppRoutes.manageWallet: (context, setting) => AppGlobalBackground.squared(
         opacity: 0.1,

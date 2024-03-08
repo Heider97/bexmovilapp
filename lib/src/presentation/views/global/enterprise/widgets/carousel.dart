@@ -27,15 +27,15 @@ class _CustomCarouselState extends State<CustomCarousel> {
     initScreens(context);
     return Expanded(
         child: CarouselSlider(
-          items: imageSliders,
-          carouselController: _controller,
-          options: CarouselOptions(
-            height: double.maxFinite,
-            scrollPhysics: const BouncingScrollPhysics(),
-            viewportFraction: 1,
-            autoPlay: false,
-          ),
-        ));
+      items: imageSliders,
+      carouselController: _controller,
+      options: CarouselOptions(
+        height: double.maxFinite,
+        scrollPhysics: const BouncingScrollPhysics(),
+        viewportFraction: 1,
+        autoPlay: false,
+      ),
+    ));
   }
 }
 
@@ -47,19 +47,19 @@ void initScreens(BuildContext context) {
         theme: theme,
         image: 'assets/images/select-enterprice1.jpg',
         text:
-        'Impulse sus ventas. Gestione clientes, asesores comerciales, pedidos, productos e inventario.',
+            'Impulse sus ventas. Gestione clientes, asesores comerciales, pedidos, productos e inventario.',
         activePosition: 1),
     CarouselCustomItem(
         theme: theme,
         image: 'assets/images/select-enterprice2.jpg',
         text:
-        'Todo lo que sus asesores, vendedores o telemercaderistas requieren para gestionar sus ventas.',
+            'Todo lo que sus asesores, vendedores o telemercaderistas requieren para gestionar sus ventas.',
         activePosition: 2),
     CarouselCustomItem(
         theme: theme,
         image: 'assets/images/select-enterprice3.jpg',
         text:
-        ' App para la fuerza de ventas de su compañía. Incluye herramientas de mercadeo, recaudos y PQRS.',
+            ' App para la fuerza de ventas de su compañía. Incluye herramientas de mercadeo, recaudos y PQRS.',
         activePosition: 3)
   ].toList();
 }
@@ -67,10 +67,10 @@ void initScreens(BuildContext context) {
 class CarouselCustomItem extends StatelessWidget {
   const CarouselCustomItem(
       {super.key,
-        required this.theme,
-        required this.image,
-        required this.activePosition,
-        required this.text});
+      required this.theme,
+      required this.image,
+      required this.activePosition,
+      required this.text});
 
   final ThemeData theme;
   final String image;
@@ -84,10 +84,7 @@ class CarouselCustomItem extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(Const.radius),
-          child: Image.asset(
-            image,
-            fit: BoxFit.fill, // Ajusta la propiedad fit según tus necesidades
-          ),
+          child: Image.asset(image, fit: BoxFit.fill),
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: Const.space25),
@@ -97,67 +94,67 @@ class CarouselCustomItem extends StatelessWidget {
               decoration: BoxDecoration(
                   color: theme.primaryColor,
                   borderRadius: BorderRadius.circular(Const.radius)),
-              width: Screens.width(context) * 0.85,
+              width: Screens.width(context) * 0.89,
               height: Screens.height(context) * 0.13,
               child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(Const.padding),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            text,
-                            textAlign: TextAlign.center,
-                            style: theme.textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                fontSize: 13),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: (activePosition == 1)
-                                          ? theme.cardColor
-                                          : theme.disabledColor,
-                                      borderRadius:
-                                      BorderRadius.circular(Const.radius)),
-                                  width: Screens.width(context) * 0.15,
-                                  height: Screens.height(context) * 0.005,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: Const.space12, right: Const.space12),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: (activePosition == 2)
-                                            ? theme.cardColor
-                                            : theme.disabledColor,
-                                        borderRadius:
-                                        BorderRadius.circular(Const.radius)),
-                                    width: Screens.width(context) * 0.15,
-                                    height: Screens.height(context) * 0.005,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: (activePosition == 3)
-                                          ? theme.cardColor
-                                          : theme.disabledColor,
-                                      borderRadius:
-                                      BorderRadius.circular(Const.radius)),
-                                  width: Screens.width(context) * 0.15,
-                                  height: Screens.height(context) * 0.005,
-                                )
-                              ]),
-                        )
-                      ],
+                padding: const EdgeInsets.all(Const.padding),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            fontSize: 13),
+                      ),
                     ),
-                  )),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (activePosition == 1)
+                                      ? theme.cardColor
+                                      : theme.disabledColor,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.radius)),
+                              width: Screens.width(context) * 0.15,
+                              height: Screens.height(context) * 0.005,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: Const.space12, right: Const.space12),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: (activePosition == 2)
+                                        ? theme.cardColor
+                                        : theme.disabledColor,
+                                    borderRadius:
+                                        BorderRadius.circular(Const.radius)),
+                                width: Screens.width(context) * 0.15,
+                                height: Screens.height(context) * 0.005,
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (activePosition == 3)
+                                      ? theme.cardColor
+                                      : theme.disabledColor,
+                                  borderRadius:
+                                      BorderRadius.circular(Const.radius)),
+                              width: Screens.width(context) * 0.15,
+                              height: Screens.height(context) * 0.005,
+                            )
+                          ]),
+                    )
+                  ],
+                ),
+              )),
             ),
           ),
         )
