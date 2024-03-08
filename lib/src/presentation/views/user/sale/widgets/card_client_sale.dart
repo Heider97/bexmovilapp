@@ -41,7 +41,7 @@ class CardClientRouter extends StatelessWidget {
               children: [
                 Flexible(
                   child: AppText(
-                      "Cartera: ${client.wallet != null ? ''.formattedBasedOnM(client.wallet.toString()) : '20M'}",
+                      "Cartera: ${client.wallet != null ? ''.formattedCompact(client.wallet.toString()) : '20M'}",
                       fontSize: 11),
                 ),
                 Flexible(

@@ -58,11 +58,11 @@ class _CardKpiState extends State<CardKpi> {
         var splits = widget.kpi.value!.split('/');
         var result = [];
         for(var split in splits){
-          result.add(split.formattedBasedOnM(split));
+          result.add(split.formattedCompact(split));
         }
         return result.join('/');
       } else {
-        return ''.formattedBasedOnM(widget.kpi.value!);
+        return ''.formattedCompact(widget.kpi.value!);
       }
     } else {
       return widget.kpi.value ?? "N/A";
