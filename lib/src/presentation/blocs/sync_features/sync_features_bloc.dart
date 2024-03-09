@@ -75,7 +75,11 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     try {
       emit(SyncFeaturesLoading(features: features));
 
-      var version = configs.firstWhere((element) => element.module == 'version');
+      print(configs);
+
+      var version = configs.firstWhere((element) => element.name == 'version');
+
+      print(version);
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(
@@ -107,8 +111,8 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         migrations.removeWhere((element) => element == 'CREATE ');
         await databaseRepository.runMigrations(migrations);
 
-        // var prioritiesAsync = response.data!.priorities!
-        //     .where((element) => element.runBackground == 1);
+        var prioritiesAsync = response.data!.priorities!
+            .where((element) => element.runBackground == 1);
 
         //TODO: [Heider Zapa] run with isolate
         var prioritiesSync = response.data!.priorities!

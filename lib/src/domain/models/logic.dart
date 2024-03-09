@@ -9,7 +9,7 @@ class LogicFields {
   ];
 
   static const String id = 'id';
-  static const String table = 'table';
+  static const String table = '`table`';
   static const String condition = 'condition';
   static const String result = 'result';
 }
