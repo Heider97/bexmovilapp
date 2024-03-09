@@ -1,10 +1,12 @@
-import 'package:bexmovil/src/domain/repositories/api_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
-import 'package:bexmovil/src/presentation/cubits/base/base_cubit.dart';
+
+//cubit
+import '../base/base_cubit.dart';
 
 //utils
 import '../../../utils/constants/strings.dart';
+import '../../../utils/resources/data_state.dart';
 
 //domain
 import '../../../domain/models/user.dart';
@@ -18,11 +20,12 @@ import '../../../domain/models/requests/filter_request.dart';
 import '../../../domain/models/requests/graphic_request.dart';
 import '../../../domain/models/requests/kpi_request.dart';
 import '../../../domain/repositories/database_repository.dart';
+import '../../../domain/repositories/api_repository.dart';
 
 //service
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
-import '../../../utils/resources/data_state.dart';
+import '../../../services/query_loader.dart';
 
 part 'home_state.dart';
 
@@ -31,9 +34,10 @@ class HomeCubit extends BaseCubit<HomeState> {
   final ApiRepository apiRepository;
   final LocalStorageService storageService;
   final NavigationService navigationService;
+  final QueryLoaderService queryLoaderService;
 
   HomeCubit(this.databaseRepository, this.apiRepository, this.storageService,
-      this.navigationService)
+      this.navigationService, this.queryLoaderService)
       : super(const HomeLoading());
 
   Future<void> heavyTask(IsolateModel model) async {
@@ -92,8 +96,8 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   Future<void> getGraphics() async {
     final response = await apiRepository.graphics(
-        request: GraphicRequest(
-            codvendedor: storageService.getString('username')!));
+        request:
+            GraphicRequest(codvendedor: storageService.getString('username')!));
     if (response is DataSuccess && response.data != null) {
       await databaseRepository.insertGraphics(response.data!.graphics!);
     } else {
@@ -103,12 +107,12 @@ class HomeCubit extends BaseCubit<HomeState> {
 
   Future<void> getFilters() async {
     final response = await apiRepository.filters(
-        request: FilterRequest(
-            codvendedor: storageService.getString('username')!));
+        request:
+            FilterRequest(codvendedor: storageService.getString('username')!));
     if (response is DataSuccess && response.data != null) {
       await databaseRepository.insertFilters(response.data!.filters!);
-      if(response.data!.filters != null) {
-        for(var filter in response.data!.filters!) {
+      if (response.data!.filters != null) {
+        for (var filter in response.data!.filters!) {
           await databaseRepository.insertOptions(filter.options!);
         }
       }
@@ -124,10 +128,17 @@ class HomeCubit extends BaseCubit<HomeState> {
       emit(const HomeLoading());
 
       final user = User.fromMap(storageService.getObject('user')!);
-      var features = await databaseRepository.getAllFeatures();
+
       var applications = await databaseRepository.getAllApplications();
       var kpisOneLine = await databaseRepository.getKpisByLine('1');
       var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+
+      var results = await queryLoaderService.getResults(
+          List<Feature>, 'home', 'features', [], true);
+      var features = (results)?.map((e) => e as Feature).toList();
+
+
+
 
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];

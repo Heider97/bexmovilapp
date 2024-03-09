@@ -38,8 +38,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var sellerCode = storageService.getString('username');
     var results = await queryLoaderService.getResults(
         List<Router>, 'sales', 'routers', [sellerCode!], true);
-    print(results);
-    var routers = (results).map((e) => e as Router).toList();
+    var routers = (results)?.map((e) => e as Router).toList();
     emit(state.copyWith(status: SaleStatus.success, routers: routers));
   }
 

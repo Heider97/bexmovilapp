@@ -30,6 +30,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.moduleDao.insertModules(modules);
   }
 
+  Future<Module?> findModule(String name) async {
+    return _appDatabase.moduleDao.findModule(name);
+  }
+
   @override
   Future<void> emptyModules() async {
     return _appDatabase.moduleDao.emptyModules();
@@ -39,6 +43,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> insertComponents(List<Component> components) async {
     return _appDatabase.componentDao.insertComponents(components);
+  }
+
+  Future<Component?> findComponent(String name) async {
+    return _appDatabase.componentDao.findComponent(name);
   }
 
   @override

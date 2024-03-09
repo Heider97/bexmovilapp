@@ -28,10 +28,12 @@ abstract class DatabaseRepository {
 
   //MODULES
   Future<void> insertModules(List<Module> modules);
+  Future<Module?> findModule(String name);
   Future<void> emptyModules();
 
   //COMPONENTS
   Future<void> insertComponents(List<Component> components);
+  Future<Component?> findComponent(String name);
   Future<void> emptyComponents();
 
   //QUERIES

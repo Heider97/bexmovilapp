@@ -167,7 +167,9 @@ class _MyAppState extends State<MyApp> {
                 locator<DatabaseRepository>(),
                 locator<ApiRepository>(),
                 locator<LocalStorageService>(),
-                locator<NavigationService>())),
+                locator<NavigationService>(),
+                locator<QueryLoaderService>()
+            )),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),

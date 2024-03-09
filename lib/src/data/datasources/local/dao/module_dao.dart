@@ -14,6 +14,13 @@ class ModuleDao {
     return modules;
   }
 
+  Future<Module?> findModule(String name) async {
+    final db = await _appDatabase.database;
+    var moduleList = await db!.query(tableModules, where: 'name = ?', whereArgs: [name]);
+    var modules = parseModules(moduleList);
+    return modules.first;
+  }
+
   Future<void> insertModules(List<Module> modules) async {
     final db = await _appDatabase.database;
     var batch = db!.batch();

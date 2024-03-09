@@ -24,10 +24,22 @@ class QueryLoaderService {
   /// - [component] name of view
   /// - [arguments] List of values to get result
   /// - [isSingle] validate type of results [single, multiple]
-  Future<List<dynamic>> getResults(Type type, String module, String component,
-      List<dynamic> arguments, bool isSingle) async {
-    var query = replaceValues('', arguments);
-    return await executeQuery(type, query);
+  Future<List<dynamic>?> getResults(Type type, String moduleName,
+      String componentName, List<dynamic> arguments, bool isSingle) async {
+    var module = await databaseRepository.findModule(moduleName);
+
+    if (module != null) {
+      var component = await databaseRepository.findComponent(moduleName);
+
+      if (component != null) {
+        var query = replaceValues('', arguments);
+        return await executeQuery(type, query);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 
   Future<Query?> readQuery(
