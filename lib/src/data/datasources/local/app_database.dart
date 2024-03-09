@@ -169,6 +169,15 @@ class AppDatabase {
           ${OptionFields.queryId} INTEGER DEFAULT NULL
         )
       ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableQueries (
+          ${QueryFields.id} INTEGER PRIMARY KEY,
+          ${QueryFields.name} TEXT DEFAULT NULL,
+          ${QueryFields.type} TEXT DEFAULT NULL,
+          ${QueryFields.where} TEXT DEFAULT NULL,
+          ${QueryFields.arguments} TEXT DEFAULT NULL
+        )
+      ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       await db.execute('''
            CREATE TABLE IF NOT EXISTS $tableKpis (
@@ -229,6 +238,15 @@ class AppDatabase {
           ${OptionFields.queryId} INTEGER DEFAULT NULL
         )
       ''');
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS $tableQueries (
+          ${QueryFields.id} INTEGER PRIMARY KEY,
+          ${QueryFields.name} TEXT DEFAULT NULL,
+          ${QueryFields.type} TEXT DEFAULT NULL,
+          ${QueryFields.where} TEXT DEFAULT NULL,
+          ${QueryFields.arguments} TEXT DEFAULT NULL
+        )
+      ''');
     });
   }
 
@@ -271,8 +289,6 @@ class AppDatabase {
     if (type == 'query') {
       return await db!.query(query, where: where, whereArgs: values);
     } else {
-
-      print(query);
       return await db!.rawQuery(query);
     }
   }

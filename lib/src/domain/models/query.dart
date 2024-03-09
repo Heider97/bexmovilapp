@@ -8,6 +8,8 @@ class QueryFields {
   static const String type = 'type';
   static const String where = 'where';
   static const String arguments = 'arguments';
+  static const String logicId = 'logic_id';
+  static const String componentId = 'component_id';
 }
 
 class Query {
