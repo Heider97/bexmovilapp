@@ -35,12 +35,11 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
-
-    queryLoaderService.replaceValues('', ['001', '09']);
-
     var sellerCode = storageService.getString('username');
-    var routers =
-        await databaseRepository.getAllRoutersGroupByClient(sellerCode!);
+    var results = await queryLoaderService.getResults(
+        List<Router>, 'sales', 'routers', [sellerCode!], true);
+    print(results);
+    var routers = (results).map((e) => e as Router).toList();
     emit(state.copyWith(status: SaleStatus.success, routers: routers));
   }
 

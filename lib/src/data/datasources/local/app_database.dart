@@ -265,6 +265,18 @@ class AppDatabase {
     return result.isNotEmpty;
   }
 
+  Future<List<Map<String, Object?>>> query(
+      String query, String type, String? where, List<dynamic>? values) async {
+    final db = await instance.database;
+    if (type == 'query') {
+      return await db!.query(query, where: where, whereArgs: values);
+    } else {
+
+      print(query);
+      return await db!.rawQuery(query);
+    }
+  }
+
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;
     return await db!.query(table);

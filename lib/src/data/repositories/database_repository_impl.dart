@@ -33,7 +33,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Invoice>> getInvoicesByClient(String range, String seller, String client) {
+  Future<List<Invoice>> getInvoicesByClient(
+      String range, String seller, String client) {
     return _appDatabase.clientDao.getInvoicesByClient(range, seller, client);
   }
 
@@ -325,6 +326,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> init() async {
     await _appDatabase.database;
     return Future.value();
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> query(
+      String table, String type, String? where, List<dynamic>? values) async {
+    return await _appDatabase.query(table, type, where, values);
   }
 
   @override

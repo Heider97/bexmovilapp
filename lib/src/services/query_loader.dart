@@ -1,7 +1,9 @@
 //domain
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-
 import '../domain/models/query.dart';
+
+//utils
+import '../utils/extensions/string_extension.dart';
+import '../utils/resources/app_dynamic_caster_type.dart';
 
 //services
 import '../locator.dart';
@@ -23,58 +25,42 @@ class QueryLoaderService {
   /// - [arguments] List of values to get result
   /// - [isSingle] validate type of results [single, multiple]
   Future<List<dynamic>> getResults(Type type, String module, String component,
-      arguments, bool isSingle) async {
-    return [];
+      List<dynamic> arguments, bool isSingle) async {
+    var query = replaceValues('', arguments);
+    return await executeQuery(type, query);
   }
 
-  Future<List<Query>> readQuery(
+  Future<Query?> readQuery(
       String module, String component, bool isSingle) async {
     // return databaseRepository.findQuery(module, component);
-    return [];
+    return null;
   }
 
-  Future<void> replaceValues(String query, List<dynamic> values) async {
+  String replaceValues(String query, List<dynamic> values) {
     query = '''
-    SELECT
-    tdr.diarutero, tdr.nomdiarutero, c.nomcliente,
-    tr.diarutero, c.dircliente, c.nitcliente, c.succliente,
-    c.email, c.telcliente, c.codprecio, c.cupo,
-    c.codfpagovta, c.razcliente,
-    SUM(tc.preciomov) as wallet,
-    c.latitud, c.longitud
-    FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c, tbldcartera tc
-    WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
-    AND tc.codcliente = tr.codcliente
-    AND tdr.DIARUTERO = '?' AND tr.CODVENDEDOR = '?' GROUP BY tr.CODCLIENTE
+    SELECT tr.*, COUNT(DISTINCT CODCLIENTE) AS CANTIDADCLIENTES, tdr.NOMDIARUTERO 
+    FROM tblmrutero tr, tblmdiarutero tdr 
+    WHERE tr.DIARUTERO = tdr.DIARUTERO AND tr.CODVENDEDOR = '?' 
+    GROUP BY tr.DIARUTERO
     ''';
 
-    values = ['001', '09'];
-
-    var replaces = findWord(query, '?');
-
-    var index = 0;
-    for(var replace in replaces) {
-      if(values[index] != null) {
-        query = query.replaceCharAt(query, replace, values[index]);
+    for (var value in values) {
+      if (value != null) {
+        var replace = query.indexOf('?');
+        query = query.replaceCharAt(query, replace, value);
       }
-      index++;
     }
 
-    print(query);
-
+    return query;
   }
 
   List<int> findWord(String textString, String word) {
     List<int> indexes = <int>[];
     String lowerCaseTextString = textString.toLowerCase();
     String lowerCaseWord = word.toLowerCase();
-
-    print(textString);
-
     int index = 0;
-    while(index != -1){
+    while (index != -1) {
       index = lowerCaseTextString.indexOf(lowerCaseWord, index);
-      print(index);
       if (index != -1) {
         indexes.add(index);
         index++;
@@ -83,12 +69,9 @@ class QueryLoaderService {
     return indexes;
   }
 
-  Future<void> executeQuery(String query) async {
-
-    // var results = databaseRepository.query()
-    //
-    //
-    // var r = parseClient(results);
-    // return [];
+  Future<List<dynamic>> executeQuery(Type type, String query) async {
+    var results =
+        await databaseRepository.query(query, 'raw_query', null, null);
+    return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }

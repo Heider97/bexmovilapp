@@ -19,11 +19,14 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+  Future<List<Map<String, Object?>>> query(
+      String table, String type, String? where, List<dynamic>? values);
   Future<bool> listenForTableChanges(String? table);
 
   //CLIENT
   Future<List<Client>> getClientsByAgeRange(String range, String seller);
-  Future<List<Invoice>> getInvoicesByClient(String range, String seller, String client);
+  Future<List<Invoice>> getInvoicesByClient(
+      String range, String seller, String client);
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
@@ -95,7 +98,6 @@ abstract class DatabaseRepository {
   Future<int> updateOption(Option option);
   Future<void> insertOptions(List<Option> options);
   Future<void> emptyOptions();
-
 
   //PROCESSING QUEUE
   Future<List<ProcessingQueue>> getAllProcessingQueues();
