@@ -33,9 +33,14 @@ class QueryLoaderService {
       if (component != null && component.id != null) {
         var query = await readQuery(component.id!, isSingle);
         if (query != null) {
-          var queryName = replaceValues(query.name!, arguments);
-          return executeQuery(
-              type, queryName, query.type!, query.where, arguments);
+          if (query.type == 'raw_query') {
+            var queryName = replaceValues(query.name!, arguments);
+            return executeQuery(
+                type, queryName, query.type!, query.where, arguments);
+          } else {
+            return executeQuery(
+                type, query.name!, query.type!, query.where, arguments);
+          }
         } else {
           return null;
         }

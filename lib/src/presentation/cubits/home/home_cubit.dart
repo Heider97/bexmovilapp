@@ -156,23 +156,32 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final user = User.fromMap(storageService.getObject('user')!);
 
-      // var applications = await databaseRepository.getAllApplications();
       // var kpisOneLine = await databaseRepository.getKpisByLine('1');
       // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
-      var applications = <Application>[];
-      var kpisOneLine = <Kpi>[];
-      var kpisSecondLine = <Kpi>[];
 
-      var results = await queryLoaderService.getResults(
+
+      var f = await queryLoaderService.getResults(
           List<Feature>, 'home', 'features', [], true);
-      var features = (results)?.map((e) => e as Feature).toList();
+      var features = (f)?.map((e) => e as Feature).toList();
+
+      var a = await queryLoaderService.getResults(
+          List<Application>, 'home', 'applications', [], true);
+      var applications = (a)?.map((e) => e as Application).toList();
+
+      var k1 = await queryLoaderService.getResults(
+          List<Kpi>, 'home', 'kpi', ['1'], true);
+      var kpisOneLine = (k1)?.map((e) => e as Kpi).toList();
+
+      var k2 = await queryLoaderService.getResults(
+          List<Kpi>, 'home', 'kpi', ['2'], true);
+      var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList();
 
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
 
       final duplicatesOneLine = groupBy(
-        kpisOneLine,
+        kpisOneLine ?? [],
         (kpi) => kpi.type,
       )
           .values
@@ -181,7 +190,7 @@ class HomeCubit extends BaseCubit<HomeState> {
           .toList();
 
       final duplicatesSecondLine = groupBy(
-        kpisSecondLine,
+        kpisSecondLine ?? [],
         (kpi) => kpi.type,
       )
           .values
@@ -191,7 +200,7 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       if (duplicatesOneLine.isNotEmpty) {
         for (var dsl in duplicatesOneLine) {
-          kpisOneLine.removeWhere((element) => element.type == dsl);
+          kpisOneLine!.removeWhere((element) => element.type == dsl);
           kpisSlidableOneLine
               .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
         }
@@ -200,7 +209,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       if (duplicatesSecondLine.isNotEmpty) {
         for (var dsl in duplicatesSecondLine) {
           kpisSlidableSecondLine
-              .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+              .add(kpisSecondLine!.where((kpi) => kpi.type == dsl).toList());
           kpisSecondLine.removeWhere((element) => element.type == dsl);
         }
       }

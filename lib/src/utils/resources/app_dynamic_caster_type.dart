@@ -1,6 +1,8 @@
 //domain
 import '../../domain/models/config.dart';
 import '../../domain/models/feature.dart';
+import '../../domain/models/kpi.dart';
+import '../../domain/models/application.dart';
 import '../../domain/models/router.dart';
 import '../../domain/models/client.dart';
 import '../../domain/models/invoice.dart';
@@ -12,6 +14,16 @@ List<Feature> parseFeatures(List<Map<String, dynamic>> featureLists) {
     features.add(client);
   }
   return features;
+}
+
+List<Application> parseApplications(
+    List<Map<String, dynamic>> applicationList) {
+  final applications = <Application>[];
+  for (var applicationMap in applicationList) {
+    final application = Application.fromJson(applicationMap);
+    applications.add(application);
+  }
+  return applications;
 }
 
 List<Router> parseRouters(List<Map<String, dynamic>> routerList) {
@@ -60,6 +72,8 @@ Map<String, AppDynamicCasterType> dynamicTypes = {
 Map<String, AppDynamicListCasterType> dynamicListTypes = {
   "List<Feature>":
       AppDynamicListCasterType<List<Feature>>((s) => parseFeatures(s)),
+  "List<Application>":
+      AppDynamicListCasterType<List<Application>>((s) => parseApplications(s)),
   "List<Router>":
       AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
   "List<Client>":
