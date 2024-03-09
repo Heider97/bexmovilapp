@@ -1,6 +1,10 @@
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
+import '../../domain/models/module.dart';
+import '../../domain/models/component.dart';
+import '../../domain/models/query.dart';
+
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
@@ -19,6 +23,39 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
+
+  //MODULES
+  @override
+  Future<void> insertModules(List<Module> modules) async {
+    return _appDatabase.moduleDao.insertModules(modules);
+  }
+
+  @override
+  Future<void> emptyModules() async {
+    return _appDatabase.moduleDao.emptyModules();
+  }
+
+  //COMPONENTS
+  @override
+  Future<void> insertComponents(List<Component> components) async {
+    return _appDatabase.componentDao.insertComponents(components);
+  }
+
+  @override
+  Future<void> emptyComponents() async {
+    return _appDatabase.componentDao.emptyComponents();
+  }
+
+  //QUERIES
+  @override
+  Future<void> insertQueries(List<Query> queries) async {
+    return _appDatabase.queryDao.insertQueries(queries);
+  }
+
+  @override
+  Future<void> emptyQueries() async {
+    return _appDatabase.queryDao.emptyQueries();
+  }
 
   //ROUTER
   @override

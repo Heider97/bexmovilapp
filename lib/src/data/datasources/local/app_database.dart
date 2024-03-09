@@ -10,6 +10,9 @@ import '../../../utils/constants/strings.dart';
 
 //models
 import '../../../domain/abstracts/format_abstract.dart';
+import '../../../domain/models/module.dart';
+import '../../../domain/models/component.dart';
+import '../../../domain/models/query.dart';
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
@@ -23,7 +26,6 @@ import '../../../domain/models/error.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
 import '../../../domain/models/invoice.dart';
-import '../../../domain/models/query.dart';
 
 //services
 import '../../../locator.dart';
@@ -33,6 +35,11 @@ import '../../../services/storage.dart';
 part 'migrations/index.dart';
 
 //daos
+//core
+part '../local/dao/module_dao.dart';
+part '../local/dao/component_dao.dart';
+part '../local/dao/query_dao.dart';
+
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
@@ -45,7 +52,7 @@ part '../local/dao/graphic_dao.dart';
 part '../local/dao/error_dao.dart';
 part '../local/dao/filter_dao.dart';
 part '../local/dao/option_dao.dart';
-part '../local/dao/query_dao.dart';
+
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -153,6 +160,12 @@ class AppDatabase {
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 
+  ModuleDao get moduleDao => ModuleDao(instance);
+
+  ComponentDao get componentDao => ComponentDao(instance);
+
+  QueryDao get queryDao => QueryDao(instance);
+
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
   FeatureDao get featureDao => FeatureDao(instance);
@@ -171,13 +184,11 @@ class AppDatabase {
 
   LocationDao get locationDao => LocationDao(instance);
 
-  ErrorDao get errorDao => ErrorDao(instance);
-
   FilterDao get filterDao => FilterDao(instance);
 
   OptionDao get optionDao => OptionDao(instance);
 
-  QueryDao get queryDao => QueryDao(instance);
+  ErrorDao get errorDao => ErrorDao(instance);
 
   void close() {
     _database!.close();

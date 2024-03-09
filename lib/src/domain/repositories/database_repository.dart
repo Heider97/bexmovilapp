@@ -1,3 +1,6 @@
+import '../models/module.dart';
+import '../models/component.dart';
+import '../models/query.dart';
 import '../models/feature.dart';
 import '../models/graphic.dart';
 import '../models/processing_queue.dart';
@@ -22,6 +25,18 @@ abstract class DatabaseRepository {
   Future<List<Map<String, Object?>>> query(
       String table, String type, String? where, List<dynamic>? values);
   Future<bool> listenForTableChanges(String? table);
+
+  //MODULES
+  Future<void> insertModules(List<Module> modules);
+  Future<void> emptyModules();
+
+  //COMPONENTS
+  Future<void> insertComponents(List<Component> components);
+  Future<void> emptyComponents();
+
+  //QUERIES
+  Future<void> insertQueries(List<Query> queries);
+  Future<void> emptyQueries();
 
   //CLIENT
   Future<List<Client>> getClientsByAgeRange(String range, String seller);
