@@ -2,6 +2,40 @@ part of '../app_database.dart';
 
 Future<void> onCreate(db, version) async {
   await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableModules (
+      ${ModuleFields.id} INTEGER PRIMARY KEY,
+      ${ModuleFields.name} TEXT DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableComponents (
+      ${ComponentFields.id} INTEGER PRIMARY KEY,
+      ${ComponentFields.name} TEXT DEFAULT NULL,
+      ${ComponentFields.moduleId} INTEGER DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableQueries (
+      ${QueryFields.id} INTEGER PRIMARY KEY,
+      ${QueryFields.name} TEXT DEFAULT NULL,
+      ${QueryFields.type} TEXT DEFAULT NULL,
+      ${QueryFields.where} TEXT DEFAULT NULL,
+      ${QueryFields.arguments} TEXT DEFAULT NULL,
+      ${QueryFields.logicId} INTEGER DEFAULT NULL,
+      ${QueryFields.componentId} INTEGER DEFAULT NULL,
+      ${QueryFields.tableName} TEXT DEFAULT NULL,
+      ${QueryFields.tableId} INTEGER DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableLogics (
+      ${LogicFields.id} INTEGER PRIMARY KEY,
+      ${LogicFields.table} TEXT DEFAULT NULL,
+      ${LogicFields.condition} TEXT DEFAULT NULL,
+      ${LogicFields.result} TEXT DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
     CREATE TABLE $tableLocations (
       ${LocationFields.id} INTEGER PRIMARY KEY,
       ${LocationFields.latitude} REAL DEFAULT NULL,
@@ -108,19 +142,6 @@ Future<void> onCreate(db, version) async {
       ${OptionFields.order} INTEGER DEFAULT NULL,
       ${OptionFields.filterId} INTEGER DEFAULT NULL,
       ${OptionFields.queryId} INTEGER DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableQueries (
-      ${QueryFields.id} INTEGER PRIMARY KEY,
-      ${QueryFields.name} TEXT DEFAULT NULL,
-      ${QueryFields.type} TEXT DEFAULT NULL,
-      ${QueryFields.where} TEXT DEFAULT NULL,
-      ${QueryFields.arguments} TEXT DEFAULT NULL,
-      ${QueryFields.logicId} INTEGER DEFAULT NULL,
-      ${QueryFields.componentId} INTEGER DEFAULT NULL,
-      ${QueryFields.tableName} TEXT DEFAULT NULL,
-      ${QueryFields.tableId} INTEGER DEFAULT NULL
     )
   ''');
 }

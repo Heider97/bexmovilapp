@@ -584,7 +584,7 @@ class ApiService {
       headers: headers,
       extra: extra,
     )
-            .compose(dio.options, '/graphics/index',
+            .compose(dio.options, '/sync/graphics',
                 queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
@@ -617,7 +617,7 @@ class ApiService {
       headers: headers,
       extra: extra,
     )
-            .compose(dio.options, '/filters/index',
+            .compose(dio.options, '/sync/filters',
                 queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 

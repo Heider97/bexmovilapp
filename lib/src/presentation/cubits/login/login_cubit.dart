@@ -1,4 +1,4 @@
-
+import 'package:bexmovil/src/domain/models/requests/module_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
@@ -55,11 +55,38 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     }
   }
 
+  Future<void> getModules() async {
+    final response = await apiRepository.modules(
+        request:
+            ModuleRequest(codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository.init();
+      if(response.data != null && response.data!.modules != null) {
+        var modules = response.data!.modules;
+        await databaseRepository.insertModules(modules!);
+        for(var module in modules) {
+         if(module.components != null) {
+           await databaseRepository.insertComponents(module.components!);
+           for(var component in module.components!){
+             await databaseRepository.insertQueries(component.queries!);
+           }
+         }
+        }
+      }
+    } else {
+      emit(LoginFailed(
+          error: 'modules-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
   Future<void> getConfigs() async {
     final response = await apiRepository.configs();
 
     if (response is DataSuccess) {
-      await databaseRepository.init();
       await databaseRepository.insertConfigs(response.data!.configs);
     } else {
       emit(LoginFailed(
@@ -212,6 +239,7 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
             storageService!.setObject('user', login?.user!.toMap());
 
             var functions = [
+              getModules,
               getConfigs,
               getFeatures,
               getKpis,
@@ -219,15 +247,15 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
               getGraphics
             ];
 
-            var isolateModel = IsolateModel(functions, null, 5);
+            var isolateModel = IsolateModel(functions, null, 6);
             await heavyTask(isolateModel);
           }
 
-          emit(LoginSuccess(
-              login: login,
-              enterprise: storageService!.getObject('enterprise') != null
-                  ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-                  : null));
+          // emit(LoginSuccess(
+          //     login: login,
+          //     enterprise: storageService!.getObject('enterprise') != null
+          //         ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+          //         : null));
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
