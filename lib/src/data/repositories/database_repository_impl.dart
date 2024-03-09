@@ -47,8 +47,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<Component?> findComponent(String name) async {
-    return _appDatabase.componentDao.findComponent(name);
+  Future<Component?> findComponent(String name, int moduleId) async {
+    return _appDatabase.componentDao.findComponent(name, moduleId);
   }
 
   @override
@@ -63,8 +63,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<Query?> findQuery(int componentId) async {
-    return _appDatabase.queryDao.findQuery(componentId);
+  Future<Query?> findQuery(int componentId, bool isSingle) async {
+    return _appDatabase.queryDao.findQuery(componentId, isSingle);
   }
 
   @override

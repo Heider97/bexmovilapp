@@ -50,7 +50,7 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> getModules() async {
     final response = await apiRepository.modules(
         request:
-            ModuleRequest(codvendedor: storageService!.getString('username')!));
+            ModuleRequest(codvendedor: storageService.getString('username')!));
 
     if (response is DataSuccess) {
       await databaseRepository.init();

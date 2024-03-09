@@ -1,8 +1,18 @@
 //domain
 import '../../domain/models/config.dart';
+import '../../domain/models/feature.dart';
 import '../../domain/models/router.dart';
 import '../../domain/models/client.dart';
 import '../../domain/models/invoice.dart';
+
+List<Feature> parseFeatures(List<Map<String, dynamic>> featureLists) {
+  final features = <Feature>[];
+  for (var featureMap in featureLists) {
+    final client = Feature.fromMap(featureMap);
+    features.add(client);
+  }
+  return features;
+}
 
 List<Router> parseRouters(List<Map<String, dynamic>> routerList) {
   final routers = <Router>[];
@@ -48,9 +58,14 @@ Map<String, AppDynamicCasterType> dynamicTypes = {
 };
 
 Map<String, AppDynamicListCasterType> dynamicListTypes = {
-  "List<Router>": AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
-  "List<Client>": AppDynamicListCasterType<List<Client>>((s) => parseClients(s)),
-  "List<Invoice>": AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
+  "List<Feature>":
+      AppDynamicListCasterType<List<Feature>>((s) => parseFeatures(s)),
+  "List<Router>":
+      AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
+  "List<Client>":
+      AppDynamicListCasterType<List<Client>>((s) => parseClients(s)),
+  "List<Invoice>":
+      AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
 };
 
 Future<dynamic> generateVariable(Config config) async {

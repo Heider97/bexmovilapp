@@ -33,12 +33,12 @@ abstract class DatabaseRepository {
 
   //COMPONENTS
   Future<void> insertComponents(List<Component> components);
-  Future<Component?> findComponent(String name);
+  Future<Component?> findComponent(String name, int moduleId);
   Future<void> emptyComponents();
 
   //QUERIES
   Future<void> insertQueries(List<Query> queries);
-  Future<Query?> findQuery(int componentId);
+  Future<Query?> findQuery(int componentId, bool isSingle);
   Future<void> emptyQueries();
 
   //CLIENT

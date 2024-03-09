@@ -27,20 +27,18 @@ class QueryLoaderService {
   Future<List<dynamic>?> getResults(Type type, String moduleName,
       String componentName, List<dynamic> arguments, bool isSingle) async {
     var module = await databaseRepository.findModule(moduleName);
-    print(module);
-    if (module != null) {
-      print(componentName);
-      var component = await databaseRepository.findComponent(moduleName);
-
+    if (module != null && module.id != null) {
+      var component =
+          await databaseRepository.findComponent(componentName, module.id!);
       if (component != null && component.id != null) {
-        var queries = await databaseRepository.findQuery(component.id!);
-
-        print(queries);
-
-        // var query = replaceValues('', arguments);
-        // return await executeQuery(type, query);
-
-        return null;
+        var query = await readQuery(component.id!, isSingle);
+        if (query != null) {
+          var queryName = replaceValues(query.name!, arguments);
+          return executeQuery(
+              type, queryName, query.type!, query.where, arguments);
+        } else {
+          return null;
+        }
       } else {
         return null;
       }
@@ -49,27 +47,17 @@ class QueryLoaderService {
     }
   }
 
-  Future<Query?> readQuery(
-      String module, String component, bool isSingle) async {
-    // return databaseRepository.findQuery(module, component);
-    return null;
+  Future<Query?> readQuery(int componentId, bool isSingle) async {
+    return databaseRepository.findQuery(componentId, isSingle);
   }
 
   String replaceValues(String query, List<dynamic> values) {
-    query = '''
-    SELECT tr.*, COUNT(DISTINCT CODCLIENTE) AS CANTIDADCLIENTES, tdr.NOMDIARUTERO 
-    FROM tblmrutero tr, tblmdiarutero tdr 
-    WHERE tr.DIARUTERO = tdr.DIARUTERO AND tr.CODVENDEDOR = '?' 
-    GROUP BY tr.DIARUTERO
-    ''';
-
     for (var value in values) {
       if (value != null) {
         var replace = query.indexOf('?');
         query = query.replaceCharAt(query, replace, value);
       }
     }
-
     return query;
   }
 
@@ -88,9 +76,9 @@ class QueryLoaderService {
     return indexes;
   }
 
-  Future<List<dynamic>> executeQuery(Type type, String query) async {
-    var results =
-        await databaseRepository.query(query, 'raw_query', null, null);
+  Future<List<dynamic>> executeQuery(Type type, String query, String queryType,
+      String? where, List<dynamic> arguments) async {
+    var results = await databaseRepository.query(query, queryType, null, null);
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }
