@@ -36,7 +36,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
 
-    queryLoaderService.readQuery('sales', 'clients', true);
+    queryLoaderService.replaceValues('', ['001', '09']);
 
     var sellerCode = storageService.getString('username');
     var routers =

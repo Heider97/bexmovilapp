@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 //data
@@ -17,6 +14,7 @@ import 'domain/repositories/api_repository.dart';
 import 'domain/repositories/database_repository.dart';
 
 //services
+import 'services/analytics.dart';
 import 'services/storage.dart';
 import 'services/navigation.dart';
 import 'services/platform.dart';
@@ -26,18 +24,22 @@ import 'services/logger.dart';
 
 final locator = GetIt.instance;
 
-Future<void> initializeDependencies({testing = false, Dio? dio}) async {
-  final storage = await LocalStorageService.getInstance(testing: true);
+Future<void> initializeDependencies() async {
+  locator.registerLazySingleton(() => FirebaseAnalyticsService());
+
+  final storage = await LocalStorageService.getInstance();
   locator.registerSingleton<LocalStorageService>(storage!);
+
+  locator.registerSingleton<CacheManager>(CacheManager(CacheStorage()));
 
   final navigation = NavigationService();
   locator.registerSingleton<NavigationService>(navigation);
 
+  final platform = await PlatformService.getInstance();
+  locator.registerSingleton<PlatformService>(platform!);
+
   locator.registerSingleton<ApiService>(
-    ApiService(
-        testing: true,
-        dio: dio!,
-        storageService: locator<LocalStorageService>()),
+    ApiService(storageService: locator<LocalStorageService>()),
   );
 
   final styledDialogController = StyledDialogController<Status>();
@@ -45,9 +47,6 @@ Future<void> initializeDependencies({testing = false, Dio? dio}) async {
 
   final logger = LoggerService();
   locator.registerSingleton<LoggerService>(logger);
-
-  final queryLoader = QueryLoaderService();
-  locator.registerSingleton<QueryLoaderService>(queryLoader);
 
   final db = AppDatabase.instance;
   locator.registerSingleton<AppDatabase>(db);
@@ -59,6 +58,9 @@ Future<void> initializeDependencies({testing = false, Dio? dio}) async {
   locator.registerSingleton<DatabaseRepository>(
     DatabaseRepositoryImpl(locator<AppDatabase>()),
   );
+
+  final queryLoader = await QueryLoaderService.getInstance();
+  locator.registerSingleton<QueryLoaderService>(queryLoader!);
 }
 
 Future<void> unregisterDependencies() async {

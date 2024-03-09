@@ -18,4 +18,8 @@ extension StringUtil on String {
     var result = NumberFormat.compact(locale: 'en').format(double.parse(str));
     return result;
   }
+
+  replaceCharAt(String oldString, int index, String newChar) {
+    return oldString.substring(0, index) + newChar + oldString.substring(index + 1);
+  }
 }

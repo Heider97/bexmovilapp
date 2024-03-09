@@ -29,7 +29,6 @@ import '../../../services/storage.dart';
 class ApiService {
   late Dio dio;
   late LocalStorageService storageService;
-  late bool testing;
 
   String? get url {
     var company = storageService.getString('company_name');
@@ -37,15 +36,16 @@ class ApiService {
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService(
-      {required this.dio,
-      required this.storageService,
-      required this.testing}) {
-    url != null
-        ? dio.options.baseUrl = url!
-        : dio.options.baseUrl = 'https://pandapan.bexmovil.com/api';
+  ApiService({ required this.storageService }) {
+    dio = Dio(
+      BaseOptions(
+          baseUrl: url ?? 'https://pandapan.bexmovil.com/api/v1',
+          connectTimeout: const Duration(seconds: 5000),
+          receiveTimeout: const Duration(seconds: 3000),
+          headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
+    );
     dio.options.validateStatus = (_) => true;
-    !testing ? dio.interceptors.add(Logging(dio: dio)) : null;
+    dio.interceptors.add(Logging(dio: dio));
   }
 
   //ENTERPRISES.

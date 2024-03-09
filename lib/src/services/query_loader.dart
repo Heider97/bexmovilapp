@@ -1,4 +1,6 @@
 //domain
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
+
 import '../domain/models/query.dart';
 
 //services
@@ -33,25 +35,52 @@ class QueryLoaderService {
 
   Future<void> replaceValues(String query, List<dynamic> values) async {
     query = '''
-      SELECT 
+    SELECT
     tdr.diarutero, tdr.nomdiarutero, c.nomcliente,
     tr.diarutero, c.dircliente, c.nitcliente, c.succliente,
     c.email, c.telcliente, c.codprecio, c.cupo,
     c.codfpagovta, c.razcliente,
-    SUM(tc.preciomov) as wallet,   
-    c.latitud, c.longitud    
+    SUM(tc.preciomov) as wallet,
+    c.latitud, c.longitud
     FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c, tbldcartera tc
     WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
-    AND tc.codcliente = tr.codcliente 
-    AND tdr.DIARUTERO = '?' AND tr.CODVENDEDOR = '?'
-    GROUP BY tr.CODCLIENTE
+    AND tc.codcliente = tr.codcliente
+    AND tdr.DIARUTERO = '?' AND tr.CODVENDEDOR = '?' GROUP BY tr.CODCLIENTE
     ''';
 
     values = ['001', '09'];
 
-    var replaces = query.allMatches('?');
+    var replaces = findWord(query, '?');
 
-    print(replaces);
+    var index = 0;
+    for(var replace in replaces) {
+      if(values[index] != null) {
+        query = query.replaceCharAt(query, replace, values[index]);
+      }
+      index++;
+    }
+
+    print(query);
+
+  }
+
+  List<int> findWord(String textString, String word) {
+    List<int> indexes = <int>[];
+    String lowerCaseTextString = textString.toLowerCase();
+    String lowerCaseWord = word.toLowerCase();
+
+    print(textString);
+
+    int index = 0;
+    while(index != -1){
+      index = lowerCaseTextString.indexOf(lowerCaseWord, index);
+      print(index);
+      if (index != -1) {
+        indexes.add(index);
+        index++;
+      }
+    }
+    return indexes;
   }
 
   Future<void> executeQuery(String query) async {
