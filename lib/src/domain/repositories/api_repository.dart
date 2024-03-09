@@ -16,6 +16,7 @@ import '../models/requests/functionality_request.dart';
 import '../models/requests/enterprise_request.dart';
 import '../models/requests/graphic_request.dart';
 import '../models/requests/kpi_request.dart';
+import '../models/requests/module_request.dart';
 import '../models/requests/sync_priorities_request.dart';
 import '../models/responses/dynamic_response.dart';
 import '../models/responses/enterprise_response.dart';
@@ -29,6 +30,7 @@ import '../models/responses/functionality_response.dart';
 import '../models/responses/filter_response.dart';
 
 import '../models/responses/config_response.dart';
+import '../models/responses/module_response.dart';
 import '../models/responses/sync_priorities_response.dart';
 import '../models/responses/sync_response.dart';
 
@@ -56,6 +58,8 @@ abstract class ApiRepository {
 
   Future<DataState<SyncPrioritiesResponse>> priorities(
       {required SyncPrioritiesRequest request});
+
+  Future<DataState<ModuleResponse>> modules({required ModuleRequest request});
 
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request});

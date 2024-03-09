@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 //interceptor
+import '../../../domain/models/responses/module_response.dart';
 import 'interceptor_api_service.dart';
 
 //requests
@@ -236,6 +237,132 @@ class ApiService {
         headers: result.headers);
   }
 
+  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
+      {required String email}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{r'email': email};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<RecoveryCodeResponse>>(Options(
+          method: 'POST',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(
+          dio.options,
+          '/password/email',
+          queryParameters: queryParameters,
+          data: data,
+        )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = RecoveryCodeResponse(
+      status: result.data!['status'],
+      message: result.data!['message'],
+    );
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<ValidateRecoveryCodeResponse>> validateRecoveryCode(
+      {required String code}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{r'code': code};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<ValidateRecoveryCodeResponse>>(Options(
+          method: 'POST',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(
+          dio.options,
+          '/password/code/check',
+          queryParameters: queryParameters,
+          data: data,
+        )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = ValidateRecoveryCodeResponse(
+        status: result.data!['status'],
+        message: result.data!['message'],
+        code: result.data!['code']);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<ChangePasswordResponse>> changePassword(
+      {required String code, required String password}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+    final data = <String, dynamic>{r'code': code, r'password': password};
+
+    data.removeWhere((k, v) => v == null);
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<ChangePasswordResponse>>(Options(
+          method: 'POST',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(
+          dio.options,
+          '/password/reset',
+          queryParameters: queryParameters,
+          data: data,
+        )
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = ChangePasswordResponse(
+      status: result.data!['status'],
+      message: result.data!['message'],
+    );
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
   Future<Response<SyncResponse>> features() async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -269,132 +396,6 @@ class ApiService {
       extra: result.extra,
       headers: result.headers,
     );
-  }
-
-  Future<Response<RecoveryCodeResponse>> requestRecoveryCode(
-      {required String email}) async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
-    final data = <String, dynamic>{r'email': email};
-
-    data.removeWhere((k, v) => v == null);
-
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<RecoveryCodeResponse>>(Options(
-      method: 'POST',
-      headers: headers,
-      extra: extra,
-    )
-            .compose(
-              dio.options,
-              '/password/email',
-              queryParameters: queryParameters,
-              data: data,
-            )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-    final value = RecoveryCodeResponse(
-      status: result.data!['status'],
-      message: result.data!['message'],
-    );
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<ValidateRecoveryCodeResponse>> validateRecoveryCode(
-      {required String code}) async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
-    final data = <String, dynamic>{r'code': code};
-
-    data.removeWhere((k, v) => v == null);
-
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<ValidateRecoveryCodeResponse>>(Options(
-      method: 'POST',
-      headers: headers,
-      extra: extra,
-    )
-            .compose(
-              dio.options,
-              '/password/code/check',
-              queryParameters: queryParameters,
-              data: data,
-            )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-    final value = ValidateRecoveryCodeResponse(
-        status: result.data!['status'],
-        message: result.data!['message'],
-        code: result.data!['code']);
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
-  }
-
-  Future<Response<ChangePasswordResponse>> changePassword(
-      {required String code, required String password}) async {
-    const extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final headers = <String, dynamic>{
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
-    final data = <String, dynamic>{r'code': code, r'password': password};
-
-    data.removeWhere((k, v) => v == null);
-
-    final result = await dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Response<ChangePasswordResponse>>(Options(
-      method: 'POST',
-      headers: headers,
-      extra: extra,
-    )
-            .compose(
-              dio.options,
-              '/password/reset',
-              queryParameters: queryParameters,
-              data: data,
-            )
-            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
-
-    final value = ChangePasswordResponse(
-      status: result.data!['status'],
-      message: result.data!['message'],
-    );
-
-    return Response(
-        data: value,
-        requestOptions: result.requestOptions,
-        statusCode: result.statusCode,
-        statusMessage: result.statusMessage,
-        isRedirect: result.isRedirect,
-        redirects: result.redirects,
-        extra: result.extra,
-        headers: result.headers);
   }
 
   Future<Response<SyncPrioritiesResponse>> priorities(
@@ -455,6 +456,41 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DynamicResponse.fromMap(result.data!, table);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<ModuleResponse>> modules(
+      {required String codvendedor}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    final data = <String, dynamic>{r'codvendedor': codvendedor};
+
+    final headers = <String, dynamic>{
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<ModuleResponse>>(Options(
+          method: 'GET',
+          headers: headers,
+          extra: extra,
+        )
+            .compose(dio.options, '/sync/modules',
+            queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+    final value = ModuleResponse.fromJson(result.data!);
 
     return Response(
         data: value,

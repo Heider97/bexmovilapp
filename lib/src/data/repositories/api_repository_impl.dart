@@ -1,4 +1,6 @@
 //utils
+import '../../domain/models/requests/module_request.dart';
+import '../../domain/models/responses/module_response.dart';
 import '../../utils/resources/data_state.dart';
 import '../datasources/remote/api_service.dart';
 import 'base/base_api_repository.dart';
@@ -77,13 +79,6 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<SyncResponse>> features() {
-    return getStateOf<SyncResponse>(
-      request: () => _apiService.features(),
-    );
-  }
-
-  @override
   Future<DataState<RecoveryCodeResponse>> requestRecoveryCode(
       {required request}) {
     return getStateOf<RecoveryCodeResponse>(
@@ -109,11 +104,26 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
+  Future<DataState<SyncResponse>> features() {
+    return getStateOf<SyncResponse>(
+      request: () => _apiService.features(),
+    );
+  }
+
+
+  @override
   Future<DataState<SyncPrioritiesResponse>> priorities(
       {required SyncPrioritiesRequest request}) {
     return getStateOf<SyncPrioritiesResponse>(
       request: () =>
           _apiService.priorities(version: request.version, date: request.date),
+    );
+  }
+
+  @override
+  Future<DataState<ModuleResponse>> modules({required ModuleRequest request}) {
+    return getStateOf<ModuleResponse>(
+      request: () => _apiService.modules(codvendedor: request.codvendedor),
     );
   }
 
