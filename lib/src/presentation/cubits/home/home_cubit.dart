@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
 //cubit
+import '../../../domain/models/requests/module_request.dart';
 import '../base/base_cubit.dart';
 
 //utils
@@ -43,6 +44,32 @@ class HomeCubit extends BaseCubit<HomeState> {
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
       await model.functions[i]();
+    }
+  }
+
+  Future<void> getModules() async {
+    final response = await apiRepository.modules(
+        request:
+            ModuleRequest(codvendedor: storageService!.getString('username')!));
+
+    if (response is DataSuccess) {
+      await databaseRepository.init();
+      if (response.data != null && response.data!.modules != null) {
+        var modules = response.data!.modules;
+        await databaseRepository.insertModules(modules!);
+        for (var module in modules) {
+          if (module.components != null) {
+            await databaseRepository.insertComponents(module.components!);
+            for (var component in module.components!) {
+              await databaseRepository.insertQueries(component.queries!);
+            }
+          }
+        }
+      }
+    } else {
+      emit(HomeFailed(
+        error: 'modules-${response.data!.message}',
+      ));
     }
   }
 
@@ -129,16 +156,17 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final user = User.fromMap(storageService.getObject('user')!);
 
-      var applications = await databaseRepository.getAllApplications();
-      var kpisOneLine = await databaseRepository.getKpisByLine('1');
-      var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+      // var applications = await databaseRepository.getAllApplications();
+      // var kpisOneLine = await databaseRepository.getKpisByLine('1');
+      // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
+
+      var applications = <Application>[];
+      var kpisOneLine = <Kpi>[];
+      var kpisSecondLine = <Kpi>[];
 
       var results = await queryLoaderService.getResults(
           List<Feature>, 'home', 'features', [], true);
       var features = (results)?.map((e) => e as Feature).toList();
-
-
-
 
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
@@ -195,6 +223,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       emit(const HomeSynchronizing());
 
       var functions = [
+        getModules,
         getConfigs,
         getFeatures,
         getKpis,
@@ -203,7 +232,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         getFilters
       ];
 
-      var isolateModel = IsolateModel(functions, null, 6);
+      var isolateModel = IsolateModel(functions, null, 7);
       await heavyTask(isolateModel);
 
       final user = User.fromMap(storageService.getObject('user')!);

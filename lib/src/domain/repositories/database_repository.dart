@@ -38,6 +38,7 @@ abstract class DatabaseRepository {
 
   //QUERIES
   Future<void> insertQueries(List<Query> queries);
+  Future<Query?> findQuery(int componentId);
   Future<void> emptyQueries();
 
   //CLIENT

@@ -27,13 +27,20 @@ class QueryLoaderService {
   Future<List<dynamic>?> getResults(Type type, String moduleName,
       String componentName, List<dynamic> arguments, bool isSingle) async {
     var module = await databaseRepository.findModule(moduleName);
-
+    print(module);
     if (module != null) {
+      print(componentName);
       var component = await databaseRepository.findComponent(moduleName);
 
-      if (component != null) {
-        var query = replaceValues('', arguments);
-        return await executeQuery(type, query);
+      if (component != null && component.id != null) {
+        var queries = await databaseRepository.findQuery(component.id!);
+
+        print(queries);
+
+        // var query = replaceValues('', arguments);
+        // return await executeQuery(type, query);
+
+        return null;
       } else {
         return null;
       }

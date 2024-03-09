@@ -24,7 +24,7 @@ class QueryDao {
   Future<Query?> findQuery(int id) async {
     final db = await _appDatabase.database;
     final queryList =
-    await db!.query(tableQueries, where: 'id = ?', whereArgs: [id]);
+    await db!.query(tableQueries, where: 'component_id = ?', whereArgs: [id]);
     final query = parseQueries(queryList);
     if(query.isEmpty){
       return null;

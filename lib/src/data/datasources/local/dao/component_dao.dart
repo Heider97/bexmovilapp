@@ -19,7 +19,10 @@ class ComponentDao {
     var componentList =
         await db!.query(tableComponents, where: 'name = ?', whereArgs: [name]);
     var components = parseComponents(componentList);
-    return components.first;
+    if(components.isNotEmpty){
+      return components.first;
+    }
+    return null;
   }
 
   Future<void> insertComponents(List<Component> components) async {

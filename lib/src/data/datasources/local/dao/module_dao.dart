@@ -16,9 +16,13 @@ class ModuleDao {
 
   Future<Module?> findModule(String name) async {
     final db = await _appDatabase.database;
-    var moduleList = await db!.query(tableModules, where: 'name = ?', whereArgs: [name]);
+    var moduleList =
+        await db!.query(tableModules, where: 'name = ?', whereArgs: [name]);
     var modules = parseModules(moduleList);
-    return modules.first;
+    if (modules.isNotEmpty) {
+      return modules.first;
+    }
+    return null;
   }
 
   Future<void> insertModules(List<Module> modules) async {
@@ -26,10 +30,12 @@ class ModuleDao {
     var batch = db!.batch();
 
     await Future.forEach(modules, (module) async {
-      var foundProduct = await db.query(tableModules, where: 'name = ?', whereArgs: [module.name]);
+      var foundProduct = await db
+          .query(tableModules, where: 'name = ?', whereArgs: [module.name]);
 
-      if(foundProduct.isNotEmpty){
-        batch.update(tableModules, module.toJson(), where: 'name = ?', whereArgs: [module.name]);
+      if (foundProduct.isNotEmpty) {
+        batch.update(tableModules, module.toJson(),
+            where: 'name = ?', whereArgs: [module.name]);
       } else {
         batch.insert(tableModules, module.toJson());
       }
@@ -37,7 +43,6 @@ class ModuleDao {
 
     batch.commit(noResult: true, continueOnError: true);
   }
-
 
   Future<void> emptyModules() async {
     final db = await _appDatabase.database;
