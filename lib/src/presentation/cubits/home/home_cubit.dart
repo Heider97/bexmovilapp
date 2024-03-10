@@ -159,8 +159,6 @@ class HomeCubit extends BaseCubit<HomeState> {
       // var kpisOneLine = await databaseRepository.getKpisByLine('1');
       // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
 
-
-
       var f = await queryLoaderService.getResults(
           List<Feature>, 'home', 'features', [], true);
       var features = (f)?.map((e) => e as Feature).toList();
@@ -180,37 +178,41 @@ class HomeCubit extends BaseCubit<HomeState> {
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
 
-      final duplicatesOneLine = groupBy(
-        kpisOneLine ?? [],
-        (kpi) => kpi.type,
-      )
-          .values
-          .where((list) => list.length > 1)
-          .map((list) => list.first.type)
-          .toList();
+      if (kpisOneLine != null) {
+        final duplicatesOneLine = groupBy(
+          kpisOneLine,
+          (kpi) => kpi.type,
+        )
+            .values
+            .where((list) => list.length > 1)
+            .map((list) => list.first.type)
+            .toList();
 
-      final duplicatesSecondLine = groupBy(
-        kpisSecondLine ?? [],
-        (kpi) => kpi.type,
-      )
-          .values
-          .where((list) => list.length > 1)
-          .map((list) => list.first.type)
-          .toList();
-
-      if (duplicatesOneLine.isNotEmpty) {
-        for (var dsl in duplicatesOneLine) {
-          kpisOneLine!.removeWhere((element) => element.type == dsl);
-          kpisSlidableOneLine
-              .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+        if (duplicatesOneLine.isNotEmpty) {
+          for (var dsl in duplicatesOneLine) {
+            kpisOneLine.removeWhere((element) => element.type == dsl);
+            kpisSlidableOneLine
+                .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+          }
         }
       }
 
-      if (duplicatesSecondLine.isNotEmpty) {
-        for (var dsl in duplicatesSecondLine) {
-          kpisSlidableSecondLine
-              .add(kpisSecondLine!.where((kpi) => kpi.type == dsl).toList());
-          kpisSecondLine.removeWhere((element) => element.type == dsl);
+      if (kpisSecondLine != null) {
+        final duplicatesSecondLine = groupBy(
+          kpisSecondLine,
+          (kpi) => kpi.type,
+        )
+            .values
+            .where((list) => list.length > 1)
+            .map((list) => list.first.type)
+            .toList();
+
+        if (duplicatesSecondLine.isNotEmpty) {
+          for (var dsl in duplicatesSecondLine) {
+            kpisSlidableSecondLine
+                .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+            kpisSecondLine.removeWhere((element) => element.type == dsl);
+          }
         }
       }
 

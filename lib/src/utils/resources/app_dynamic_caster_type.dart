@@ -26,6 +26,15 @@ List<Application> parseApplications(
   return applications;
 }
 
+List<Kpi> parseKpis(List<Map<String, dynamic>> kpiList) {
+  final kpis = <Kpi>[];
+  for (var kpiMap in kpiList) {
+    final kpi = Kpi.fromJson(kpiMap);
+    kpis.add(kpi);
+  }
+  return kpis;
+}
+
 List<Router> parseRouters(List<Map<String, dynamic>> routerList) {
   final routers = <Router>[];
   for (var routerMap in routerList) {
@@ -74,6 +83,7 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<Feature>>((s) => parseFeatures(s)),
   "List<Application>":
       AppDynamicListCasterType<List<Application>>((s) => parseApplications(s)),
+  "List<Kpi>": AppDynamicListCasterType<List<Kpi>>((s) => parseKpis(s)),
   "List<Router>":
       AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
   "List<Client>":
