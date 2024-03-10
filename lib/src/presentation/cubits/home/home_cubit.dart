@@ -156,9 +156,6 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final user = User.fromMap(storageService.getObject('user')!);
 
-      // var kpisOneLine = await databaseRepository.getKpisByLine('1');
-      // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
-
       var f = await queryLoaderService.getResults(
           List<Feature>, 'home', 'features', [], true);
       var features = (f)?.map((e) => e as Feature).toList();
@@ -169,11 +166,13 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       var k1 = await queryLoaderService.getResults(
           List<Kpi>, 'home', 'kpi', ['1'], true);
-      var kpisOneLine = (k1)?.map((e) => e as Kpi).toList();
+      var kpisOneLine = (k1)?.map((e) => e as Kpi).toList(growable: true);
 
       var k2 = await queryLoaderService.getResults(
           List<Kpi>, 'home', 'kpi', ['2'], true);
-      var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList();
+      var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList(growable: true);
+
+
 
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
@@ -215,6 +214,14 @@ class HomeCubit extends BaseCubit<HomeState> {
           }
         }
       }
+
+      print(kpisSlidableSecondLine);
+
+      for(var k in kpisSecondLine!){
+        print(k.title);
+        print(k.type);
+      }
+
 
       emit(HomeSuccess(
           user: user,

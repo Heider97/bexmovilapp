@@ -83,7 +83,8 @@ class QueryLoaderService {
 
   Future<List<dynamic>> executeQuery(Type type, String query, String queryType,
       String? where, List<dynamic> arguments) async {
-    var results = await databaseRepository.query(query, queryType, null, null);
+    var results =
+        await databaseRepository.query(query, queryType, where, arguments);
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }
