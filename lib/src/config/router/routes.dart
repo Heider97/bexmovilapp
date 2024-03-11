@@ -13,7 +13,6 @@ import './separated/wallet_routes.dart';
 import '../../presentation/views/global/undefined_view.dart';
 
 import './route_type.dart';
-import './slide_route.dart';
 
 class Routes {
   static Map<String, RouteType> _resolveRoutes() {

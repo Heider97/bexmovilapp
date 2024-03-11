@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/services/query_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,6 +48,7 @@ import 'src/locator.dart';
 import 'src/services/storage.dart';
 import 'src/services/navigation.dart';
 import 'src/services/styled_dialog_controller.dart';
+import 'src/services/query_loader.dart';
 
 //router
 import 'src/config/router/routes.dart';

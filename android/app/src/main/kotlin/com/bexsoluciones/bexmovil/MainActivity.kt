@@ -1,10 +1,11 @@
 package com.bexsoluciones.bexmovil
 
-import android.view.WindowManager
-import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugins.GeneratedPluginRegistrant
+import androidx.annotation.NonNull;
+import android.view.WindowManager;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.plugins.GeneratedPluginRegistrant;
+import io.flutter.plugin.common.MethodChannel;
 
 class MainActivity: FlutterActivity() {
 
@@ -12,12 +13,12 @@ class MainActivity: FlutterActivity() {
         const val METHOD_CHANNEL_NAME = "io.bexmovil.utils"
     }
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine)
+    override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
+        GeneratedPluginRegistrant.registerWith(flutterEngine);
 
         MethodChannel(
-            flutterEngine.dartExecutor.binaryMessenger,
-            METHOD_CHANNEL_NAME
+                flutterEngine.dartExecutor.binaryMessenger,
+                METHOD_CHANNEL_NAME
         ).setMethodCallHandler { call, result ->
             when (call.method) {
                 "preventScreenCapture" -> {
