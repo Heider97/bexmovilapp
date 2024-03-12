@@ -62,16 +62,14 @@ class AppGlobalBackground extends StatelessWidget {
                     padding: EdgeInsets.all(Const.padding),
                     child: AppBackButton(needPrimary: true)),
                 actions: [
-                  Builder(
-                    builder: (context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(Const.padding),
-                        child: AppIconButton(
-                            onPressed: () => Scaffold.of(context).openDrawer(),
-                            child: const Icon(Icons.menu)),
-                      );
-                    }
-                  ),
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(Const.padding),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
                 ],
               )
             : null,
