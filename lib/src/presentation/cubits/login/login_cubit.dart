@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/domain/models/requests/module_request.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
@@ -16,12 +15,10 @@ import '../../../domain/abstracts/format_abstract.dart';
 import '../../../domain/models/isolate.dart';
 import '../../../domain/models/login.dart';
 import '../../../domain/models/enterprise.dart';
-import '../../../domain/models/requests/functionality_request.dart';
-import '../../../domain/models/requests/login_request.dart';
-import '../../../domain/models/requests/graphic_request.dart';
-import '../../../domain/models/requests/kpi_request.dart';
+
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
+import '../../../domain/models/requests/login_request.dart';
 
 //utils
 import '../../../utils/resources/data_state.dart';
@@ -56,31 +53,31 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   }
 
   Future<void> getModules() async {
-    final response = await apiRepository.modules(
-        request:
-            ModuleRequest(codvendedor: storageService!.getString('username')!));
-
-    if (response is DataSuccess) {
-      await databaseRepository.init();
-      if(response.data != null && response.data!.modules != null) {
-        var modules = response.data!.modules;
-        await databaseRepository.insertModules(modules!);
-        for(var module in modules) {
-         if(module.components != null) {
-           await databaseRepository.insertComponents(module.components!);
-           for(var component in module.components!){
-             await databaseRepository.insertQueries(component.queries!);
-           }
-         }
-        }
-      }
-    } else {
-      emit(LoginFailed(
-          error: 'modules-${response.data!.message}',
-          enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-              : null));
-    }
+    // final response = await apiRepository.modules(
+    //     request:
+    //         ModuleRequest(codvendedor: storageService!.getString('username')!));
+    //
+    // if (response is DataSuccess) {
+    //   await databaseRepository.init();
+    //   if(response.data != null && response.data!.modules != null) {
+    //     var modules = response.data!.modules;
+    //     await databaseRepository.insertModules(modules!);
+    //     for(var module in modules) {
+    //      if(module.components != null) {
+    //        await databaseRepository.insertComponents(module.components!);
+    //        for(var component in module.components!){
+    //          await databaseRepository.insertQueries(component.queries!);
+    //        }
+    //      }
+    //     }
+    //   }
+    // } else {
+    //   emit(LoginFailed(
+    //       error: 'modules-${response.data!.message}',
+    //       enterprise: storageService!.getObject('enterprise') != null
+    //           ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+    //           : null));
+    // }
   }
 
   Future<void> getConfigs() async {
@@ -91,69 +88,6 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     } else {
       emit(LoginFailed(
           error: 'configs-${response.data!.message}',
-          enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-              : null));
-    }
-  }
-
-  Future<void> getFeatures() async {
-    final response = await apiRepository.features();
-
-    if (response is DataSuccess) {
-      await databaseRepository.insertFeatures(response.data!.features);
-    } else {
-      emit(LoginFailed(
-          error: 'features-${response.data!.message}',
-          enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-              : null));
-    }
-  }
-
-  Future<void> getKpis() async {
-    final response = await apiRepository.kpis(
-        request:
-            KpiRequest(codvendedor: storageService!.getString('username')!));
-
-    if (response is DataSuccess) {
-      await databaseRepository.insertKpis(response.data!.kpis!);
-    } else {
-      emit(LoginFailed(
-          error: 'kpis-${response.data!.message}',
-          enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-              : null));
-    }
-  }
-
-  Future<void> getFunctionalities() async {
-    final response = await apiRepository.functionalities(
-        request: FunctionalityRequest(
-            codvendedor: storageService!.getString('username')!));
-
-    if (response is DataSuccess) {
-      await databaseRepository
-          .insertApplications(response.data!.functionalities!);
-    } else {
-      emit(LoginFailed(
-          error: 'functionalities-${response.data!.message}',
-          enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-              : null));
-    }
-  }
-
-  Future<void> getGraphics() async {
-    final response = await apiRepository.graphics(
-        request: GraphicRequest(
-            codvendedor: storageService!.getString('username')!));
-
-    if (response is DataSuccess) {
-      await databaseRepository.insertGraphics(response.data!.graphics!);
-    } else {
-      emit(LoginFailed(
-          error: 'graphics-${response.data!.message}',
           enterprise: storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
               : null));
@@ -241,10 +175,6 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
             var functions = [
               getModules,
               getConfigs,
-              getFeatures,
-              getKpis,
-              getFunctionalities,
-              getGraphics
             ];
 
             var isolateModel = IsolateModel(functions, null, 6);

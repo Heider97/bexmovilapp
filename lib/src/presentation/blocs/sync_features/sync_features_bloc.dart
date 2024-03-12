@@ -69,11 +69,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void _observe(event, emit) async {
-    var features = await databaseRepository.getAllFeatures();
+    //TODO: [Heider Zapa] refacto with new logic
+    // var features = await databaseRepository.getAllFeatures();
     var configs = await databaseRepository.getConfigs('login');
 
     try {
-      emit(SyncFeaturesLoading(features: features));
+      emit(SyncFeaturesLoading(features: []));
 
       print(configs);
 
@@ -158,12 +159,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         }
 
         await Future.wait(futureInserts)
-            .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
+            .whenComplete(() => emit(SyncFeaturesSuccess(features: [])));
       } else {
-        emit(SyncFeaturesFailure(features: features, error: response.error));
+        emit(SyncFeaturesFailure(features: [], error: response.error));
       }
     } catch (e) {
-      emit(SyncFeaturesFailure(features: features, error: e.toString()));
+      emit(SyncFeaturesFailure(features: [], error: e.toString()));
     }
   }
 
