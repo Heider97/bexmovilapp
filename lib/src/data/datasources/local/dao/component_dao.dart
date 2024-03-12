@@ -31,11 +31,11 @@ class ComponentDao {
 
     await Future.forEach(components, (component) async {
       var foundProduct = await db.query(tableComponents,
-          where: 'name = ?', whereArgs: [component.name]);
+          where: 'title = ?', whereArgs: [component.title]);
 
       if (foundProduct.isNotEmpty) {
         batch.update(tableComponents, component.toJson(),
-            where: 'name = ?', whereArgs: [component.name]);
+            where: 'title = ?', whereArgs: [component.title]);
       } else {
         batch.insert(tableComponents, component.toJson());
       }

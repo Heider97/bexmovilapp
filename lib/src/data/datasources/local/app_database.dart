@@ -12,8 +12,9 @@ import '../../../utils/constants/strings.dart';
 import '../../../domain/models/module.dart';
 import '../../../domain/models/component.dart';
 import '../../../domain/models/section.dart';
-import '../../../domain/models/query.dart';
 import '../../../domain/models/logic.dart';
+import '../../../domain/models/query.dart';
+import '../../../domain/models/raw_query.dart';
 /// [FUNDAMENTAL]
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
@@ -43,6 +44,7 @@ part '../local/dao/module_dao.dart';
 part '../local/dao/component_dao.dart';
 part '../local/dao/section_dao.dart';
 part '../local/dao/query_dao.dart';
+part '../local/dao/raw_query_dao.dart';
 // [FUNDAMENTAL]
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
