@@ -35,6 +35,7 @@ Future<void> onCreate(db, version) async {
   await db.execute('''
     CREATE TABLE IF NOT EXISTS logics_queries (
       id INTEGER PRIMARY KEY,
+      component_id INTEGER DEFAULT NULL,
       logic_id INTEGER DEFAULT NULL,
       query_id INTEGER DEFAULT NULL,
       query_type TEXT DEFAULT NULL
