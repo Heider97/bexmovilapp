@@ -51,15 +51,18 @@ Future<void> onCreate(db, version) async {
   await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableQueries (
       ${QueryFields.id} INTEGER PRIMARY KEY,
-      ${QueryFields.name} TEXT DEFAULT NULL,
-      ${QueryFields.type} TEXT DEFAULT NULL,
+      ${QueryFields.table} TEXT DEFAULT NULL,
       ${QueryFields.where} TEXT DEFAULT NULL,
-      ${QueryFields.arguments} TEXT DEFAULT NULL,
-      ${QueryFields.componentId} INTEGER DEFAULT NULL,
-      ${QueryFields.tableName} TEXT DEFAULT NULL,
-      ${QueryFields.tableId} INTEGER DEFAULT NULL,
-      ${QueryFields.replaceAll} INTEGER DEFAULT NULL,
-      ${QueryFields.deepResults} INTEGER DEFAULT NULL,
+      ${QueryFields.arguments} TEXT DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableRawQueries (
+      ${RawQueryFields.id} INTEGER PRIMARY KEY,
+      ${RawQueryFields.name} TEXT DEFAULT NULL,
+      ${RawQueryFields.where} TEXT DEFAULT NULL,
+      ${RawQueryFields.arguments} TEXT DEFAULT NULL,
+      ${RawQueryFields.replaceAll} INTEGER DEFAULT NULL
     )
   ''');
 

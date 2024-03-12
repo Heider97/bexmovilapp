@@ -28,23 +28,23 @@ class QueryLoaderService {
       String componentName, List<dynamic> arguments, bool isSingle) async {
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
-      var component =
-          await databaseRepository.findComponent(componentName, module.id!);
-      if (component != null && component.id != null) {
-        var query = await readQuery(component.id!, isSingle);
-        if (query != null) {
-          if (query.type == 'raw_query') {
-            var queryName = replaceValues(
-                query.name!, arguments, query.replaceAll ?? false);
-            return executeQuery(
-                type, queryName, query.type!, query.where, arguments);
-          } else {
-            return executeQuery(
-                type, query.name!, query.type!, query.where, arguments);
-          }
-        } else {
-          return null;
-        }
+      // var component =
+      //     await databaseRepository.findComponent(componentName, module.id!);
+      // if (component != null && component.id != null) {
+      //   var query = await readQuery(component.id!, isSingle);
+      //   if (query != null) {
+      //     if (query.type == 'raw_query') {
+      //       var queryName = replaceValues(
+      //           query.name!, arguments, query.replaceAll ?? false);
+      //       return executeQuery(
+      //           type, queryName, query.type!, query.where, arguments);
+      //     } else {
+      //       return executeQuery(
+      //           type, query.name!, query.type!, query.where, arguments);
+      //     }
+      //   } else {
+      //     return null;
+      //   }
       } else {
         return null;
       }
