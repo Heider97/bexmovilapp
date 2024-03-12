@@ -13,12 +13,39 @@ Future<void> onCreate(db, version) async {
       ${SectionFields.name} TEXT DEFAULT NULL
     )
   ''');
-
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS modules_sections (
+      section_id INTEGER NOT NULL,
+      module_id INTEGER NOT NULL,
+    )
+  ''');
   await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableComponents (
       ${ComponentFields.id} INTEGER PRIMARY KEY,
-      ${ComponentFields.name} TEXT DEFAULT NULL,
-      ${ComponentFields.moduleId} INTEGER DEFAULT NULL
+      ${ComponentFields.title} TEXT DEFAULT NULL,
+      ${ComponentFields.subtitle} TEXT DEFAULT NULL,
+      ${ComponentFields.type} TEXT DEFAULT NULL,
+      ${ComponentFields.line} INTEGER DEFAULT NULL,
+      ${ComponentFields.interactive} INTEGER DEFAULT NULL,
+      ${ComponentFields.trigger} TEXT DEFAULT NULL,
+      ${ComponentFields.logicQueryId} TEXT DEFAULT NULL,
+      ${ComponentFields.sectionId} INTEGER DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS logics_queries (
+      id INTEGER PRIMARY KEY,
+      logic_id INTEGER DEFAULT NULL,
+      query_id INTEGER DEFAULT NULL,
+      query_type TEXT DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableLogics (
+      ${LogicFields.id} INTEGER PRIMARY KEY,
+      ${LogicFields.table} TEXT DEFAULT NULL,
+      ${LogicFields.condition} TEXT DEFAULT NULL,
+      ${LogicFields.result} TEXT DEFAULT NULL
     )
   ''');
   await db.execute('''
@@ -35,14 +62,7 @@ Future<void> onCreate(db, version) async {
       ${QueryFields.deepResults} INTEGER DEFAULT NULL,
     )
   ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableLogics (
-      ${LogicFields.id} INTEGER PRIMARY KEY,
-      ${LogicFields.table} TEXT DEFAULT NULL,
-      ${LogicFields.condition} TEXT DEFAULT NULL,
-      ${LogicFields.result} TEXT DEFAULT NULL
-    )
-  ''');
+
   await db.execute('''
     CREATE TABLE $tableLocations (
       ${LocationFields.id} INTEGER PRIMARY KEY,
