@@ -68,6 +68,7 @@ class AppSearchWithAutocomplete extends StatelessWidget {
                     controller: textEditingController,
                     focusNode: focusNode,
                     onFieldSubmitted: (String value) {
+                      print(value);
                       onFieldSubmitted();
                     },
                   );

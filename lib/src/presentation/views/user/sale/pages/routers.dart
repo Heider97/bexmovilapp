@@ -72,7 +72,6 @@ class _RoutersPageState extends State<RoutersPage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return Stack(
       children: [
         SafeArea(
