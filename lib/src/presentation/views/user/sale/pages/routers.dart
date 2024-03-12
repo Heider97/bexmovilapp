@@ -79,16 +79,6 @@ class _RoutersPageState extends State<RoutersPage> {
             padding: const EdgeInsets.all(Const.space15),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AppBackButton(needPrimary: true),
-                    AppIconButton(
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        child: Icon(Icons.menu,
-                            color: theme.colorScheme.onPrimaryContainer)),
-                  ],
-                ),
                 Padding(
                     padding: const EdgeInsets.all(Const.padding),
                     child: Container(

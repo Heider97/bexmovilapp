@@ -8,10 +8,11 @@ class QueryFields {
   static const String type = 'type';
   static const String where = '`where`';
   static const String arguments = 'arguments';
-  static const String logicId = 'logic_id';
   static const String componentId = 'component_id';
   static const String tableName = 'table_name';
   static const String tableId = 'table_id';
+  static const String replaceAll = 'replace_all';
+  static const String deepResults = 'deep_results';
 }
 
 class Query {
@@ -20,10 +21,11 @@ class Query {
   String? type;
   String? where;
   String? arguments;
-  int? logicId;
   int? componentId;
   String? tableName;
   int? tableId;
+  bool? replaceAll;
+  bool? deepResults;
 
   Query({
     this.id,
@@ -31,10 +33,11 @@ class Query {
     this.type,
     this.where,
     this.arguments,
-    this.logicId,
     this.componentId,
     this.tableName,
     this.tableId,
+    this.replaceAll,
+    this.deepResults
   });
 
   factory Query.fromJson(Map<String, dynamic> json) => Query(
@@ -43,10 +46,11 @@ class Query {
         type: json['type'],
         where: json['where'],
         arguments: json['arguments'],
-        logicId: json['logic_id'],
         componentId: json['component_id'],
         tableName: json['table_name'],
         tableId: json['table_id'],
+        replaceAll: json['replace_all'],
+        deepResults: json['deep_results'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,9 +59,9 @@ class Query {
         'type': type,
         'where': where,
         'arguments': arguments,
-        'logic_id': logicId,
         'component_id': componentId,
         'table_name': tableName,
-        'arguments': tableId,
+        'replace_all': replaceAll,
+        'deep_results': deepResults
       };
 }

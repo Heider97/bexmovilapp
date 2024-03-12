@@ -81,15 +81,6 @@ class _ClientsPageState extends State<ClientsPage> {
         padding: const EdgeInsets.all(Const.space15),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppBackButton(needPrimary: true),
-                AppIconButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    child: const Icon(Icons.menu))
-              ],
-            ),
             StepperWidget(currentStep: 0, steps: steps),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

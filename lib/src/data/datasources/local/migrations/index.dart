@@ -21,10 +21,11 @@ Future<void> onCreate(db, version) async {
       ${QueryFields.type} TEXT DEFAULT NULL,
       ${QueryFields.where} TEXT DEFAULT NULL,
       ${QueryFields.arguments} TEXT DEFAULT NULL,
-      ${QueryFields.logicId} INTEGER DEFAULT NULL,
       ${QueryFields.componentId} INTEGER DEFAULT NULL,
       ${QueryFields.tableName} TEXT DEFAULT NULL,
-      ${QueryFields.tableId} INTEGER DEFAULT NULL
+      ${QueryFields.tableId} INTEGER DEFAULT NULL,
+      ${QueryFields.replaceAll} INTEGER DEFAULT NULL,
+      ${QueryFields.deepResults} INTEGER DEFAULT NULL,
     )
   ''');
   await db.execute('''

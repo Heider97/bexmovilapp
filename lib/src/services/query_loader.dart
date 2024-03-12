@@ -1,5 +1,6 @@
 //domain
 import '../domain/models/query.dart';
+import '../domain/repositories/database_repository.dart';
 
 //utils
 import '../utils/extensions/string_extension.dart';
@@ -7,7 +8,6 @@ import '../utils/resources/app_dynamic_caster_type.dart';
 
 //services
 import '../locator.dart';
-import '../domain/repositories/database_repository.dart';
 
 class QueryLoaderService {
   static QueryLoaderService? _instance;
@@ -34,7 +34,8 @@ class QueryLoaderService {
         var query = await readQuery(component.id!, isSingle);
         if (query != null) {
           if (query.type == 'raw_query') {
-            var queryName = replaceValues(query.name!, arguments);
+            var queryName = replaceValues(
+                query.name!, arguments, query.replaceAll ?? false);
             return executeQuery(
                 type, queryName, query.type!, query.where, arguments);
           } else {
@@ -56,13 +57,22 @@ class QueryLoaderService {
     return databaseRepository.findQuery(componentId, isSingle);
   }
 
-  String replaceValues(String query, List<dynamic> values) {
-    for (var value in values) {
-      if (value != null) {
-        var replace = query.indexOf('?');
-        query = query.replaceCharAt(query, replace, value);
+  String replaceValues(String query, List<dynamic> values, bool deep) {
+    if (deep) {
+      for (var value in values) {
+        if (value != null) {
+          query = query.replaceAll(query, value);
+        }
+      }
+    } else {
+      for (var value in values) {
+        if (value != null) {
+          var replace = query.indexOf('?');
+          query = query.replaceCharAt(query, replace, value);
+        }
       }
     }
+
     return query;
   }
 
@@ -85,6 +95,10 @@ class QueryLoaderService {
       String? where, List<dynamic> arguments) async {
     var results =
         await databaseRepository.query(query, queryType, where, arguments);
+
+    // if(deepResults) {
+    //
+    // }
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }
