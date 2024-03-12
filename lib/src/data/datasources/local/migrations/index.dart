@@ -8,6 +8,13 @@ Future<void> onCreate(db, version) async {
     )
   ''');
   await db.execute('''
+    CREATE TABLE IF NOT EXISTS $tableSections (
+      ${SectionFields.id} INTEGER PRIMARY KEY,
+      ${SectionFields.name} TEXT DEFAULT NULL
+    )
+  ''');
+
+  await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableComponents (
       ${ComponentFields.id} INTEGER PRIMARY KEY,
       ${ComponentFields.name} TEXT DEFAULT NULL,
@@ -87,15 +94,7 @@ Future<void> onCreate(db, version) async {
       ${ConfigFields.module} TEXT DEFAULT NULL
     )
   ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableKpis (
-      ${KpiFields.id} INTEGER PRIMARY KEY,
-      ${KpiFields.title} TEXT DEFAULT NULL,
-      ${KpiFields.type} TEXT DEFAULT NULL,
-      ${KpiFields.line} INTEGER DEFAULT NULL,
-      ${KpiFields.value} TEXT DEFAULT NULL
-    )
-  ''');
+
   await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableApplications (
       ${ApplicationFields.id} INTEGER PRIMARY KEY,
@@ -103,20 +102,6 @@ Future<void> onCreate(db, version) async {
       ${ApplicationFields.svg} TEXT DEFAULT NULL,
       ${ApplicationFields.route} TEXT DEFAULT NULL,
       ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableGraphics (
-      ${GraphicFields.id} INTEGER PRIMARY KEY,
-      ${GraphicFields.title} TEXT DEFAULT NULL,
-      ${GraphicFields.subtitle} TEXT DEFAULT NULL,
-      ${GraphicFields.conditions} TEXT DEFAULT NULL,
-      ${GraphicFields.type} TEXT DEFAULT NULL,
-      ${GraphicFields.query} TEXT DEFAULT NULL,
-      ${GraphicFields.trigger} TEXT DEFAULT NULL,
-      ${GraphicFields.order} INT DEFAULT NULL,
-      ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
-      ${GraphicFields.data} TEXT DEFAULT NULL
     )
   ''');
   await db.execute('''

@@ -1,15 +1,11 @@
 import '../models/module.dart';
 import '../models/component.dart';
 import '../models/query.dart';
-import '../models/feature.dart';
-import '../models/graphic.dart';
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
-import '../models/application.dart';
 import '../models/client.dart';
 import '../models/invoice.dart';
-import '../models/kpi.dart';
 import '../models/location.dart';
 import '../models/error.dart';
 import '../models/filter.dart';
@@ -56,33 +52,6 @@ abstract class DatabaseRepository {
   Future<void> insertConfigs(List<Config> configs);
   Future<int> updateConfig(Config config);
   Future<void> emptyConfigs();
-
-  //FEATURES
-  Future<List<Feature>> getAllFeatures();
-  Future<void> insertFeatures(List<Feature> features);
-  Future<int> updateFeature(Feature feature);
-  Future<void> emptyFeatures();
-
-  //KPIS
-  Future<List<Kpi>> getKpisByLine(String line);
-  Future<void> insertKpis(List<Kpi> kpis);
-  Future<void> insertKpi(Kpi kpi);
-  Future<int> updateKpi(Kpi kpi);
-  Future<void> emptyKpis();
-
-  //APPLICATIONS
-  Future<List<Application>> getAllApplications();
-  Future<void> insertApplications(List<Application> applications);
-  Future<void> insertApplication(Application application);
-  Future<int> updateApplication(Application application);
-  Future<void> emptyApplications();
-
-  //GRAPHICS
-  Future<List<Graphic>> getAllGraphics();
-  Future<void> insertGraphics(List<Graphic> graphics);
-  Future<void> insertGraphic(Graphic graphic);
-  Future<int> updateGraphic(Graphic graphic);
-  Future<void> emptyGraphics();
 
   //LOCATIONS
   Stream<List<Location>> watchAllLocations();

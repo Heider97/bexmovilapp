@@ -166,32 +166,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.featureDao.emptyFeature();
   }
 
-  //KPIS
-  @override
-  Future<List<Kpi>> getKpisByLine(String line) {
-    return _appDatabase.kpiDao.getKpisByLine(line);
-  }
-
-  @override
-  Future<void> insertKpis(List<Kpi> kpis) async {
-    return _appDatabase.kpiDao.insertKpis(kpis);
-  }
-
-  @override
-  Future<int> insertKpi(Kpi kpi) async {
-    return _appDatabase.kpiDao.insertKpi(kpi);
-  }
-
-  @override
-  Future<int> updateKpi(Kpi kpi) async {
-    return _appDatabase.kpiDao.updateKpi(kpi);
-  }
-
-  @override
-  Future<void> emptyKpis() {
-    return _appDatabase.kpiDao.emptyKpis();
-  }
-
   //APPLICATIONS
   @override
   Future<List<Application>> getAllApplications() {
@@ -216,32 +190,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyApplications() {
     return _appDatabase.applicationDao.emptyApplications();
-  }
-
-  //GRAPHICS
-  @override
-  Future<List<Graphic>> getAllGraphics() {
-    return _appDatabase.graphicDao.getAllGraphics();
-  }
-
-  @override
-  Future<void> insertGraphic(Graphic graphic) {
-    return _appDatabase.graphicDao.insertGraphic(graphic);
-  }
-
-  @override
-  Future<void> insertGraphics(List<Graphic> graphics) {
-    return _appDatabase.graphicDao.insertGraphics(graphics);
-  }
-
-  @override
-  Future<int> updateGraphic(Graphic graphic) {
-    return _appDatabase.graphicDao.updateGraphic(graphic);
-  }
-
-  @override
-  Future<void> emptyGraphics() {
-    return _appDatabase.graphicDao.emptyGraphics();
   }
 
   //LOCATIONS

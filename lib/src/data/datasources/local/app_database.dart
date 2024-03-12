@@ -1,59 +1,60 @@
 import 'dart:convert';
-import 'package:bexmovil/src/domain/models/invoice.dart';
-import 'package:bexmovil/src/domain/models/logic.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
-//utils
+// [UTILS]
 import '../../../utils/constants/strings.dart';
 
-//models
-import '../../../domain/abstracts/format_abstract.dart';
+// [MODELS]
+/// [CORE]
 import '../../../domain/models/module.dart';
 import '../../../domain/models/component.dart';
+import '../../../domain/models/section.dart';
 import '../../../domain/models/query.dart';
+import '../../../domain/models/logic.dart';
+/// [FUNDAMENTAL]
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
-import '../../../domain/models/kpi.dart';
+/// [APP]
 import '../../../domain/models/router.dart';
 import '../../../domain/models/application.dart';
-import '../../../domain/models/graphic.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/error.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
 import '../../../domain/models/invoice.dart';
+/// [ABSTRACTS]
+import '../../../domain/abstracts/format_abstract.dart';
 
-//services
+// [SERVICES]
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 
-//migrations
+// [MIGRATIONS]
 part 'migrations/index.dart';
 
-//daos
-//core
+// [DAOS]
+// [CORE]
 part '../local/dao/module_dao.dart';
 part '../local/dao/component_dao.dart';
+part '../local/dao/section_dao.dart';
 part '../local/dao/query_dao.dart';
-
+// [FUNDAMENTAL]
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
+// [APP]
 part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
-part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
-part '../local/dao/graphic_dao.dart';
 part '../local/dao/error_dao.dart';
 part '../local/dao/filter_dao.dart';
 part '../local/dao/option_dao.dart';
-
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -175,13 +176,10 @@ class AppDatabase {
 
   ClientDao get clientDao => ClientDao(instance);
 
-  KpiDao get kpiDao => KpiDao(instance);
 
   RouterDao get routerDao => RouterDao(instance);
 
   ApplicationDao get applicationDao => ApplicationDao(instance);
-
-  GraphicDao get graphicDao => GraphicDao(instance);
 
   LocationDao get locationDao => LocationDao(instance);
 

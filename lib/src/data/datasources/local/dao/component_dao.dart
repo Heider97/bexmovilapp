@@ -16,9 +16,6 @@ class ComponentDao {
 
   Future<Component?> findComponent(String name, int moduleId) async {
     final db = await _appDatabase.database;
-
-    print(name);
-    print(moduleId);
     var componentList = await db!.query(tableComponents,
         where: 'name = ? and module_id = ?', whereArgs: [name, moduleId]);
     var components = parseComponents(componentList);
