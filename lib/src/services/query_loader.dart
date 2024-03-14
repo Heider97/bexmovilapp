@@ -29,47 +29,31 @@ class QueryLoaderService {
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
       var sections = await databaseRepository.findSections(module.id!);
-
       if (sections != null && sections.isNotEmpty) {
-
         for(var section in sections) {
           var components = await databaseRepository.findComponents(section.id!);
-
-          print(components);
           //TODO:: [Heider Zapa] do logics to find query
-
+          if(components != null && components.isNotEmpty) {
+            for(var component in components) {
+              if(component.logicQueryId != null) {
+                //TODO: [Heider Zapa] do logic to execute conditions
+              } else {
+                var query = readQuery(4);
+              }
+            }
+          }
         }
       } else {
         return null;
       }
 
-      // var component =
-      //     await databaseRepository.findComponent(componentName, module.id!);
-      // if (component != null && component.id != null) {
-      //   var query = await readQuery(component.id!, isSingle);
-      //   if (query != null) {
-      //     if (query.type == 'raw_query') {
-      //       var queryName = replaceValues(
-      //           query.name!, arguments, query.replaceAll ?? false);
-      //       return executeQuery(
-      //           type, queryName, query.type!, query.where, arguments);
-      //     } else {
-      //       return executeQuery(
-      //           type, query.name!, query.type!, query.wh
-      //           ere, arguments);
-      //     }
-      //   } else {
-      //     return null;
-      //   }
-      return null;
     } else {
       return null;
     }
   }
 
-  Future<Query?> readQuery(int componentId, bool isSingle) async {
-    // return databaseRepository.findQuery(componentId, isSingle);
-    return null;
+  Future<Query?> readQuery(int id) async {
+    return databaseRepository.findQuery(id);
   }
 
   String replaceValues(String query, List<dynamic> values, bool deep) {

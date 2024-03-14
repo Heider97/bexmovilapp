@@ -1,4 +1,4 @@
-const String tableComponents = 'components';
+const String tableComponents = 'app_components';
 
 class ComponentFields {
   static final List<String> values = [
