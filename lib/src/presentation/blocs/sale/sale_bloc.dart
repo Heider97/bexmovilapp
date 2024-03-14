@@ -29,6 +29,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
     on<NavigationSale>(_onNavigation);
+
     // on<SelectClient>(_selectClient);
     // on<ConfirmProducts>(_confirmProducts);
     // on<ConfirmOrder>(_confirmOrder);

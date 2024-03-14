@@ -14,9 +14,10 @@ class AppIconText extends StatelessWidget {
     return Center(
       key: keyWidget,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(path, height: 180, width: 180),
+          SvgPicture.asset(path, height: 150, width: 180),
           for (var message in messages) Text(message)
         ],
       ),

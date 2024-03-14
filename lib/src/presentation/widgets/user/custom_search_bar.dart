@@ -5,6 +5,7 @@ class CustomSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final TextInputType? textInputType;
+  final Color? colorBackground;
 
   final Widget? prefixIcon;
   final ValueChanged<String>? onChanged;
@@ -14,6 +15,7 @@ class CustomSearchBar extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hintText,
+    this.colorBackground,
     this.textInputType,
     this.prefixIcon,
     this.onChanged,
@@ -32,7 +34,7 @@ class CustomSearchBar extends StatelessWidget {
         maxLength: maxLength,
         decoration: InputDecoration(
           filled: true,
-          fillColor: theme.colorScheme.secondary,
+          fillColor: colorBackground ?? theme.colorScheme.secondary,
           hintText: hintText,
           hintStyle: theme.textTheme.titleMedium!
               .copyWith(color: theme.colorScheme.tertiary),

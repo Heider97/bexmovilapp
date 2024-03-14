@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
@@ -95,6 +96,18 @@ class HomeCubit extends BaseCubit<HomeState> {
       emit(HomeFailed(error: 'features-${response.data!.message}'));
     }
   }
+/* 
+    Future<void> getClientLocation() async {
+    final response = await apiRepository.clientLocation(
+      request: ClientLocationRequest()
+    );
+
+    if (response is DataSuccess && response.data != null) {
+      await databaseRepository.inserClientLocation(response.data!.);
+    } else {
+      emit(HomeFailed(error: 'features-${response.data!.message}'));
+    }
+  } */
 
   Future<void> getKpis() async {
     final response = await apiRepository.kpis(
@@ -172,8 +185,6 @@ class HomeCubit extends BaseCubit<HomeState> {
           List<Kpi>, 'home', 'kpi', ['2'], true);
       var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList(growable: true);
 
-
-
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
 
@@ -217,11 +228,10 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       print(kpisSlidableSecondLine);
 
-      for(var k in kpisSecondLine!){
+      for (var k in kpisSecondLine!) {
         print(k.title);
         print(k.type);
       }
-
 
       emit(HomeSuccess(
           user: user,

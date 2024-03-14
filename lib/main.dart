@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/config/theme/index.dart';
+import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -104,6 +106,10 @@ class _MyAppState extends State<MyApp> {
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
         BlocProvider(
+          create: (_) => MapsBloc(),
+        ),
+
+        BlocProvider(
             create: (_) => GpsBloc(
                 navigationService: locator<NavigationService>(),
                 storageService: locator<LocalStorageService>(),
@@ -125,12 +131,11 @@ class _MyAppState extends State<MyApp> {
                 locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (_) => SaleBloc(
-              locator<DatabaseRepository>(),
-              locator<LocalStorageService>(),
-              locator<NavigationService>(),
-              locator<QueryLoaderService>(),
-            )
-              ..add(LoadRouters())),
+                  locator<DatabaseRepository>(),
+                  locator<LocalStorageService>(),
+                  locator<NavigationService>(),
+                  locator<QueryLoaderService>(),
+                )..add(LoadRouters())),
         BlocProvider(
           create: (context) => NavigationCubit(
               locator<DatabaseRepository>(),
@@ -147,12 +152,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => PoliticsCubit()),
         BlocProvider(
             create: (context) => LoginCubit(
-                  locator<ApiRepository>(),
-                  locator<DatabaseRepository>(),
-                  locator<LocalStorageService>(),
-                  locator<NavigationService>(),
-                  BlocProvider.of<GpsBloc>(context)
-                )),
+                locator<ApiRepository>(),
+                locator<DatabaseRepository>(),
+                locator<LocalStorageService>(),
+                locator<NavigationService>(),
+                BlocProvider.of<GpsBloc>(context))),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
                   locator<DatabaseRepository>(),
@@ -168,8 +172,7 @@ class _MyAppState extends State<MyApp> {
                 locator<ApiRepository>(),
                 locator<LocalStorageService>(),
                 locator<NavigationService>(),
-                locator<QueryLoaderService>()
-            )),
+                locator<QueryLoaderService>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
                   locator<DatabaseRepository>(),
@@ -212,9 +215,10 @@ class _MyAppState extends State<MyApp> {
                   }
                   return supportedLocales.first;
                 },
-                theme: AppTheme.theme,
-                darkTheme: AppTheme.darkTheme,
-                // themeMode: currentMode,
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: (false) ? ThemeMode.dark : ThemeMode.light,
+                /* ? ThemeMode.dark : ThemeMode.light, */
                 navigatorKey: locator<NavigationService>().navigatorKey,
                 onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
                     builder: (BuildContext context) => UndefinedView(

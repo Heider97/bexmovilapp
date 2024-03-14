@@ -55,6 +55,7 @@ class AppCard extends StatelessWidget {
   AppCard.elevated({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.surfaceTintColor,
     this.margin,
@@ -70,12 +71,13 @@ class AppCard extends StatelessWidget {
         margin: margin ?? EdgeInsets.zero,
         color: color ?? Theme.of(context).colorScheme.surface,
         surfaceTintColor:
-        surfaceTintColor ?? Theme.of(context).colorScheme.surfaceTint,
+            surfaceTintColor ?? Theme.of(context).colorScheme.surfaceTint,
         clipBehavior: clipBehavior ?? Theme.of(context).cardTheme.clipBehavior,
         shape: shape ?? Theme.of(context).cardTheme.shape,
         elevation: elevation,
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: SizedBox(width: width, height: height, child: child),
         ),
       );
@@ -91,6 +93,7 @@ class AppCard extends StatelessWidget {
   AppCard.filled({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.surfaceTintColor,
     this.margin,
@@ -110,6 +113,7 @@ class AppCard extends StatelessWidget {
         shape: shape ?? Theme.of(context).cardTheme.shape,
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: SizedBox(width: width, height: height, child: child),
         ),
       );
@@ -123,6 +127,7 @@ class AppCard extends StatelessWidget {
   AppCard.outlined({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.surfaceTintColor,
     this.margin,
@@ -144,6 +149,7 @@ class AppCard extends StatelessWidget {
         clipBehavior: clipBehavior ?? Theme.of(context).cardTheme.clipBehavior,
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: SizedBox(width: width, height: height, child: child),
         ),
       );
@@ -159,6 +165,7 @@ class AppCard extends StatelessWidget {
   AppCard.glass({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.surfaceTintColor,
     this.margin,
@@ -181,6 +188,7 @@ class AppCard extends StatelessWidget {
             ),
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: AppGlass(
             child: SizedBox(width: width, height: height, child: child),
           ),
@@ -196,6 +204,7 @@ class AppCard extends StatelessWidget {
   AppCard.gradient({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.surfaceTintColor,
     this.margin,
@@ -217,6 +226,7 @@ class AppCard extends StatelessWidget {
             ),
         child: InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: AppGradientBackground(
             child: DefaultTextStyle(
               style: Theme.of(context)
@@ -238,6 +248,7 @@ class AppCard extends StatelessWidget {
   /// Internal builder for creating a [Card] with the specified style.
   late CardBuilder builder;
   final Function()? onTap;
+  final Function()? onLongPress;
   final Color? color;
   final Color? surfaceTintColor;
   final EdgeInsets? margin;
