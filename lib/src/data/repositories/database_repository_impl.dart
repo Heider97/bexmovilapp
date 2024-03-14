@@ -157,40 +157,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<int> updateFeature(Feature clients) async {
-    return _appDatabase.featureDao.updateFeature(clients);
-  }
-
-  @override
   Future<void> emptyFeatures() {
     return _appDatabase.featureDao.emptyFeature();
   }
 
-  //APPLICATIONS
-  @override
-  Future<List<Application>> getAllApplications() {
-    return _appDatabase.applicationDao.getAllApplications();
-  }
-
-  @override
-  Future<void> insertApplication(Application application) {
-    return _appDatabase.applicationDao.insertApplication(application);
-  }
-
-  @override
-  Future<void> insertApplications(List<Application> applications) {
-    return _appDatabase.applicationDao.insertApplications(applications);
-  }
-
-  @override
-  Future<int> updateApplication(Application application) {
-    return _appDatabase.applicationDao.updateApplication(application);
-  }
-
-  @override
-  Future<void> emptyApplications() {
-    return _appDatabase.applicationDao.emptyApplications();
-  }
 
   //LOCATIONS
   @override

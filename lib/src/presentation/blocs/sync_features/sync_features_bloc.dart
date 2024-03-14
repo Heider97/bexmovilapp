@@ -70,17 +70,13 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
   void _observe(event, emit) async {
     //TODO: [Heider Zapa] refacto with new logic
-    // var features = await databaseRepository.getAllFeatures();
+    var features = await databaseRepository.getAllFeatures();
     var configs = await databaseRepository.getConfigs('login');
 
     try {
-      emit(SyncFeaturesLoading(features: []));
-
-      print(configs);
+      emit(SyncFeaturesLoading(features: features));
 
       var version = configs.firstWhere((element) => element.name == 'version');
-
-      print(version);
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(
@@ -159,12 +155,12 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         }
 
         await Future.wait(futureInserts)
-            .whenComplete(() => emit(SyncFeaturesSuccess(features: [])));
+            .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
       } else {
-        emit(SyncFeaturesFailure(features: [], error: response.error));
+        emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     } catch (e) {
-      emit(SyncFeaturesFailure(features: [], error: e.toString()));
+      emit(SyncFeaturesFailure(features: features, error: e.toString()));
     }
   }
 

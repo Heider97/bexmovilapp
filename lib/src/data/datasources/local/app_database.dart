@@ -98,6 +98,7 @@ class AppDatabase {
     try {
       await db?.transaction((database) async {
         for (var migration in migrations) {
+          print(migration);
           await database.execute(migration);
         }
       });

@@ -40,7 +40,8 @@ class QueryLoaderService {
         //           type, queryName, query.type!, query.where, arguments);
         //     } else {
         //       return executeQuery(
-        //           type, query.name!, query.type!, query.where, arguments);
+        //           type, query.name!, query.type!, query.wh
+      //           ere, arguments);
         //     }
         //   } else {
         //     return null;

@@ -52,42 +52,28 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     }
   }
 
-  Future<void> getModules() async {
-    // final response = await apiRepository.modules(
-    //     request:
-    //         ModuleRequest(codvendedor: storageService!.getString('username')!));
-    //
-    // if (response is DataSuccess) {
-    //   await databaseRepository.init();
-    //   if(response.data != null && response.data!.modules != null) {
-    //     var modules = response.data!.modules;
-    //     await databaseRepository.insertModules(modules!);
-    //     for(var module in modules) {
-    //      if(module.components != null) {
-    //        await databaseRepository.insertComponents(module.components!);
-    //        for(var component in module.components!){
-    //          await databaseRepository.insertQueries(component.queries!);
-    //        }
-    //      }
-    //     }
-    //   }
-    // } else {
-    //   emit(LoginFailed(
-    //       error: 'modules-${response.data!.message}',
-    //       enterprise: storageService!.getObject('enterprise') != null
-    //           ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
-    //           : null));
-    // }
-  }
-
   Future<void> getConfigs() async {
     final response = await apiRepository.configs();
-
     if (response is DataSuccess) {
+      await databaseRepository.init();
       await databaseRepository.insertConfigs(response.data!.configs);
     } else {
       emit(LoginFailed(
           error: 'configs-${response.data!.message}',
+          enterprise: storageService!.getObject('enterprise') != null
+              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              : null));
+    }
+  }
+
+  Future<void> getFeatures() async {
+    final response = await apiRepository.features();
+
+    if (response is DataSuccess) {
+      await databaseRepository.insertFeatures(response.data!.features);
+    } else {
+      emit(LoginFailed(
+          error: 'features-${response.data!.message}',
           enterprise: storageService!.getObject('enterprise') != null
               ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
               : null));
@@ -173,11 +159,11 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
             storageService!.setObject('user', login?.user!.toMap());
 
             var functions = [
-              getModules,
               getConfigs,
+              getFeatures
             ];
 
-            var isolateModel = IsolateModel(functions, null, 6);
+            var isolateModel = IsolateModel(functions, null, 2);
             await heavyTask(isolateModel);
           }
 

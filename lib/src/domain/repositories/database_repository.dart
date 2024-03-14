@@ -10,6 +10,7 @@ import '../models/location.dart';
 import '../models/error.dart';
 import '../models/filter.dart';
 import '../models/option.dart';
+import '../models/feature.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -36,6 +37,10 @@ abstract class DatabaseRepository {
   Future<void> insertQueries(List<Query> queries);
   Future<Query?> findQuery(int componentId, bool isSingle);
   Future<void> emptyQueries();
+
+  //FEATURES
+  Future<List<Feature>> getAllFeatures();
+  Future<void> insertFeatures(List<Feature> features);
 
   //CLIENT
   Future<List<Client>> getClientsByAgeRange(String range, String seller);
