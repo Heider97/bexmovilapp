@@ -1,6 +1,7 @@
 import '../models/module.dart';
 import '../models/section.dart';
 import '../models/component.dart';
+import '../models/logic.dart';
 import '../models/query.dart';
 import '../models/raw_query.dart';
 
@@ -22,9 +23,11 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+
   Future<List<Map<String, Object?>>> query(
       String table, String? where, List<dynamic>? values);
   Future<List<Map<String, Object?>>> rawQuery(String sentence);
+  Future<List<Map<String, Object?>>> logicQueries(int componentId);
   Future<bool> listenForTableChanges(String? table);
 
   //MODULES
@@ -38,6 +41,10 @@ abstract class DatabaseRepository {
   //COMPONENTS
   Future<List<Component>?> findComponents(int sectionId);
   Future<void> emptyComponents();
+
+  //LOGICS
+  Future<Logic?> findLogic(int id);
+  Future<bool> validateLogic(Logic logic);
 
   //QUERIES | RAW-QUERIES
   Future<Query?> findQuery(int id);

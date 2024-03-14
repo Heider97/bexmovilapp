@@ -4,6 +4,7 @@ import '../../domain/repositories/database_repository.dart';
 import '../../domain/models/module.dart';
 import '../../domain/models/section.dart';
 import '../../domain/models/component.dart';
+import '../../domain/models/logic.dart';
 import '../../domain/models/query.dart';
 import '../../domain/models/raw_query.dart';
 
@@ -56,6 +57,17 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.componentDao.emptyComponents();
   }
 
+  //LOGICS
+  @override
+  Future<Logic?> findLogic(int id) async {
+    return _appDatabase.logicDao.findLogic(id);
+  }
+
+  @override
+  Future<bool> validateLogic(Logic logic) async {
+    return _appDatabase.logicDao.validateLogic(logic);
+  }
+
   //QUERIES
   @override
   Future<Query?> findQuery(int id) async {
@@ -77,6 +89,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyRawQueries() async {
     return _appDatabase.rawQueryDao.emptyRawQueries();
   }
+
   //ROUTER
   @override
   Future<List<Router>> getAllRoutersGroupByClient(String seller) async {
@@ -165,7 +178,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyFeatures() {
     return _appDatabase.featureDao.emptyFeature();
   }
-
 
   //LOCATIONS
   @override
@@ -310,8 +322,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Map<String, Object?>>> rawQuery(
-      String sentence) async {
+  Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
+    return await _appDatabase.logicQueries(componentId);
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
     return await _appDatabase.rawQuery(sentence);
   }
 

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bexmovil/src/domain/models/logic_query.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -46,6 +47,7 @@ part 'migrations/index.dart';
 part '../local/dao/module_dao.dart';
 part '../local/dao/component_dao.dart';
 part '../local/dao/section_dao.dart';
+part '../local/dao/logic_dao.dart';
 part '../local/dao/query_dao.dart';
 part '../local/dao/raw_query_dao.dart';
 // [FUNDAMENTAL]
@@ -114,6 +116,15 @@ class AppDatabase {
     return result.isNotEmpty;
   }
 
+  Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
+    final db = await instance.database;
+    final results = await db!.rawQuery('''
+    SELECT * FROM $tableLogicsQueries 
+    WHERE ${LogicQueryFields.componentId} = $componentId
+    ''');
+    return results;
+  }
+
   Future<List<Map<String, Object?>>> query(
       String query, String? where, List<dynamic>? values) async {
     final db = await instance.database;
@@ -171,6 +182,8 @@ class AppDatabase {
   SectionDao get sectionDao => SectionDao(instance);
 
   ComponentDao get componentDao => ComponentDao(instance);
+
+  LogicDao get logicDao => LogicDao(instance);
 
   QueryDao get queryDao => QueryDao(instance);
 

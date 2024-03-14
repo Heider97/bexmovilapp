@@ -1,4 +1,5 @@
 //domain
+import 'package:bexmovil/src/domain/models/logic_query.dart';
 import 'package:bexmovil/src/domain/models/raw_query.dart';
 
 import '../domain/models/query.dart';
@@ -36,20 +37,29 @@ class QueryLoaderService {
           var components = await databaseRepository.findComponents(section.id!);
           if (components != null && components.isNotEmpty) {
             for (var component in components) {
-
-              var queries = await databaseRepository.rawQuery('''
-                SELECT * FROM 
-              ''');
-
-
-              Query? query;
-              if (component.logicQueryId != null) {
-                //TODO: [Heider Zapa] do logic to execute conditions
-              } else {
-                query = await readQuery(4);
+              var results =
+                  await databaseRepository.logicQueries(component.id!);
+              List<LogicQuery> logicQueries =
+                  await dynamicListTypes['List<LogicQuery>']!.fromMap(results);
+              if (logicQueries.isNotEmpty) {
+                if (logicQueries.length == 1) {
+                  var query = await readQuery(logicQueries.first.queryId!);
+                  print(query);
+                } else {
+                  //TODO:: [Heider Zapa] validate logics
+                  for (var lq in logicQueries) {
+                    var logic = await databaseRepository.findLogic(lq.logicId!);
+                    if (logic != null) {
+                      var result =
+                          await databaseRepository.validateLogic(logic);
+                      if (result == true) {
+                        var query = await readQuery(lq.queryId!);
+                        print(query);
+                      }
+                    }
+                  }
+                }
               }
-
-              if (query != null) {}
             }
           }
         }
@@ -58,6 +68,25 @@ class QueryLoaderService {
       }
     } else {
       return null;
+    }
+  }
+
+  Future determine(
+      Type type, LogicQuery logicQuery, List<dynamic> arguments) async {
+    if (logicQuery.queryType == 'query') {
+      var q = await readQuery(logicQuery.queryId!);
+      if (q != null) {
+        var arguments = [];
+        await executeQuery(type, q.table!, q.where!, arguments);
+      }
+    } else if (logicQuery.queryType == 'raw_query') {
+      var q = await readRawQuery(logicQuery.queryId!);
+      if (q != null) {
+        var sentence =
+            replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
+
+        await executeRawQuery(sentence, type);
+      }
     }
   }
 
@@ -103,8 +132,8 @@ class QueryLoaderService {
     return indexes;
   }
 
-  Future<List<dynamic>> executeQuery(Type type, String table, String queryType,
-      String? where, List<dynamic> arguments) async {
+  Future<List<dynamic>> executeQuery(
+      Type type, String table, String? where, List<dynamic> arguments) async {
     var results = await databaseRepository.query(table, where, arguments);
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
