@@ -14,15 +14,12 @@ class ComponentDao {
     return components;
   }
 
-  Future<Component?> findComponent(String name, int moduleId) async {
+  Future<List<Component>?> findComponent(int sectionId) async {
     final db = await _appDatabase.database;
     var componentList = await db!.query(tableComponents,
-        where: 'name = ? and module_id = ?', whereArgs: [name, moduleId]);
+        where: 'section_id = ?', whereArgs: [sectionId]);
     var components = parseComponents(componentList);
-    if (components.isNotEmpty) {
-      return components.first;
-    }
-    return null;
+    return components;
   }
 
   Future<void> insertComponents(List<Component> components) async {

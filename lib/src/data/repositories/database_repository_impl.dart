@@ -2,17 +2,16 @@ import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
 import '../../domain/models/module.dart';
+import '../../domain/models/section.dart';
 import '../../domain/models/component.dart';
 import '../../domain/models/query.dart';
+import '../../domain/models/raw_query.dart';
 
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
-import '../../domain/models/kpi.dart';
 import '../../domain/models/router.dart';
-import '../../domain/models/application.dart';
 import '../../domain/models/client.dart';
-import '../../domain/models/graphic.dart';
 import '../../domain/models/location.dart';
 import '../../domain/models/error.dart';
 import '../../domain/models/filter.dart';
@@ -26,11 +25,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //MODULES
   @override
-  Future<void> insertModules(List<Module> modules) async {
-    return _appDatabase.moduleDao.insertModules(modules);
-  }
-
-  @override
   Future<Module?> findModule(String name) async {
     return _appDatabase.moduleDao.findModule(name);
   }
@@ -40,15 +34,21 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.moduleDao.emptyModules();
   }
 
-  //COMPONENTS
+  //SECTIONS
   @override
-  Future<void> insertComponents(List<Component> components) async {
-    return _appDatabase.componentDao.insertComponents(components);
+  Future<List<Section>?> findSections(int moduleId) async {
+    return _appDatabase.sectionDao.findSections(moduleId);
   }
 
   @override
-  Future<Component?> findComponent(String name, int moduleId) async {
-    return _appDatabase.componentDao.findComponent(name, moduleId);
+  Future<void> emptySections() async {
+    return _appDatabase.sectionDao.emptySections();
+  }
+
+  //COMPONENTS
+  @override
+  Future<List<Component>?> findComponent(int sectionId) async {
+    return _appDatabase.componentDao.findComponent(sectionId);
   }
 
   @override
@@ -58,13 +58,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //QUERIES
   @override
-  Future<void> insertQueries(List<Query> queries) async {
-    return _appDatabase.queryDao.insertQueries(queries);
-  }
-
-  @override
-  Future<Query?> findQuery(int componentId, bool isSingle) async {
-    return _appDatabase.queryDao.findQuery(componentId, isSingle);
+  Future<Query?> findQuery(int id) async {
+    return _appDatabase.queryDao.findQuery(id);
   }
 
   @override
@@ -72,6 +67,16 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.queryDao.emptyQueries();
   }
 
+  //RAW QUERIES
+  @override
+  Future<RawQuery?> findRawQuery(int id) async {
+    return _appDatabase.rawQueryDao.findRawQuery(id);
+  }
+
+  @override
+  Future<void> emptyRawQueries() async {
+    return _appDatabase.rawQueryDao.emptyRawQueries();
+  }
   //ROUTER
   @override
   Future<List<Router>> getAllRoutersGroupByClient(String seller) async {

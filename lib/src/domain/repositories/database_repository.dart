@@ -1,6 +1,9 @@
 import '../models/module.dart';
+import '../models/section.dart';
 import '../models/component.dart';
 import '../models/query.dart';
+import '../models/raw_query.dart';
+
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
@@ -24,19 +27,24 @@ abstract class DatabaseRepository {
   Future<bool> listenForTableChanges(String? table);
 
   //MODULES
-  Future<void> insertModules(List<Module> modules);
   Future<Module?> findModule(String name);
   Future<void> emptyModules();
 
+  //SECTIONS
+  Future<List<Section>?> findSections(int moduleId);
+  Future<void> emptySections();
+
   //COMPONENTS
-  Future<void> insertComponents(List<Component> components);
-  Future<Component?> findComponent(String name, int moduleId);
+  Future<List<Component>?> findComponent(int sectionId);
   Future<void> emptyComponents();
 
   //QUERIES
-  Future<void> insertQueries(List<Query> queries);
-  Future<Query?> findQuery(int componentId, bool isSingle);
+  Future<Query?> findQuery(int id);
   Future<void> emptyQueries();
+
+  //RAW QUERIES
+  Future<RawQuery?> findRawQuery(int id);
+  Future<void> emptyRawQueries();
 
   //FEATURES
   Future<List<Feature>> getAllFeatures();

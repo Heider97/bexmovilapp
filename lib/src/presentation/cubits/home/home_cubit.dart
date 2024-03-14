@@ -110,80 +110,75 @@ class HomeCubit extends BaseCubit<HomeState> {
       final user = User.fromMap(storageService.getObject('user')!);
 
       var f = await queryLoaderService.getResults(
-          List<Feature>, 'home', 'features', [], true);
-      var features = (f)?.map((e) => e as Feature).toList();
+          List<Feature>, 'home', []);
 
-      var a = await queryLoaderService.getResults(
-          List<Application>, 'home', 'applications', [], true);
-      var applications = (a)?.map((e) => e as Application).toList();
+      print(f);
 
-      var k1 = await queryLoaderService.getResults(
-          List<Kpi>, 'home', 'kpi', ['1'], true);
-      var kpisOneLine = (k1)?.map((e) => e as Kpi).toList(growable: true);
+      // var features = (f)?.map((e) => e as Feature).toList();
 
-      var k2 = await queryLoaderService.getResults(
-          List<Kpi>, 'home', 'kpi', ['2'], true);
-      var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList(growable: true);
+      // var a = await queryLoaderService.getResults(
+      //     List<Application>, true);
+      // var applications = (a)?.map((e) => e as Application).toList();
+      //
+      // var k1 = await queryLoaderService.getResults(
+      //     List<Kpi>, 'home', true);
+      // var kpisOneLine = (k1)?.map((e) => e as Kpi).toList(growable: true);
+      //
+      // var k2 = await queryLoaderService.getResults(
+      //     List<Kpi>, 'home', true);
+      // var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList(growable: true);
 
 
 
       List<List<Kpi>> kpisSlidableOneLine = [];
       List<List<Kpi>> kpisSlidableSecondLine = [];
 
-      if (kpisOneLine != null) {
-        final duplicatesOneLine = groupBy(
-          kpisOneLine,
-          (kpi) => kpi.type,
-        )
-            .values
-            .where((list) => list.length > 1)
-            .map((list) => list.first.type)
-            .toList();
-
-        if (duplicatesOneLine.isNotEmpty) {
-          for (var dsl in duplicatesOneLine) {
-            kpisOneLine.removeWhere((element) => element.type == dsl);
-            kpisSlidableOneLine
-                .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
-          }
-        }
-      }
-
-      if (kpisSecondLine != null) {
-        final duplicatesSecondLine = groupBy(
-          kpisSecondLine,
-          (kpi) => kpi.type,
-        )
-            .values
-            .where((list) => list.length > 1)
-            .map((list) => list.first.type)
-            .toList();
-
-        if (duplicatesSecondLine.isNotEmpty) {
-          for (var dsl in duplicatesSecondLine) {
-            kpisSlidableSecondLine
-                .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
-            kpisSecondLine.removeWhere((element) => element.type == dsl);
-          }
-        }
-      }
-
-      print(kpisSlidableSecondLine);
-
-      for(var k in kpisSecondLine!){
-        print(k.title);
-        print(k.type);
-      }
-
+      // if (kpisOneLine != null) {
+      //   final duplicatesOneLine = groupBy(
+      //     kpisOneLine,
+      //     (kpi) => kpi.type,
+      //   )
+      //       .values
+      //       .where((list) => list.length > 1)
+      //       .map((list) => list.first.type)
+      //       .toList();
+      //
+      //   if (duplicatesOneLine.isNotEmpty) {
+      //     for (var dsl in duplicatesOneLine) {
+      //       kpisOneLine.removeWhere((element) => element.type == dsl);
+      //       kpisSlidableOneLine
+      //           .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
+      //     }
+      //   }
+      // }
+      //
+      // if (kpisSecondLine != null) {
+      //   final duplicatesSecondLine = groupBy(
+      //     kpisSecondLine,
+      //     (kpi) => kpi.type,
+      //   )
+      //       .values
+      //       .where((list) => list.length > 1)
+      //       .map((list) => list.first.type)
+      //       .toList();
+      //
+      //   if (duplicatesSecondLine.isNotEmpty) {
+      //     for (var dsl in duplicatesSecondLine) {
+      //       kpisSlidableSecondLine
+      //           .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
+      //       kpisSecondLine.removeWhere((element) => element.type == dsl);
+      //     }
+      //   }
+      // }
 
       emit(HomeSuccess(
           user: user,
-          features: features,
-          kpisOneLine: kpisOneLine,
+          features: [],
+          kpisOneLine: [],
           kpisSlidableOneLine: kpisSlidableOneLine,
-          kpisSecondLine: kpisSecondLine,
+          kpisSecondLine: [],
           kpisSlidableSecondLine: kpisSlidableSecondLine,
-          applications: applications));
+          applications: []));
     });
   }
 

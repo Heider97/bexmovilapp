@@ -24,32 +24,39 @@ class QueryLoaderService {
   /// - [component] name of view
   /// - [arguments] List of values to get result
   /// - [isSingle] validate type of results [single, multiple]
-  Future<List<dynamic>?> getResults(Type type, String moduleName,
-      String componentName, List<dynamic> arguments, bool isSingle) async {
+  Future getResults(
+      Type type, String moduleName, List<dynamic> arguments) async {
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
-        // var component =
-        //     await databaseRepository.findComponent(componentName, module.id!);
-        // if (component != null && component.id != null) {
-        //   var query = await readQuery(component.id!, isSingle);
-        //   if (query != null) {
-        //     if (query.type == 'raw_query') {
-        //       var queryName = replaceValues(
-        //           query.name!, arguments, query.replaceAll ?? false);
-        //       return executeQuery(
-        //           type, queryName, query.type!, query.where, arguments);
-        //     } else {
-        //       return executeQuery(
-        //           type, query.name!, query.type!, query.wh
-      //           ere, arguments);
-        //     }
-        //   } else {
-        //     return null;
-        //   }
-        return null;
+      var sections = await databaseRepository.findSections(module.id!);
+
+      if (sections != null && sections.isNotEmpty) {
       } else {
         return null;
       }
+
+      // var component =
+      //     await databaseRepository.findComponent(componentName, module.id!);
+      // if (component != null && component.id != null) {
+      //   var query = await readQuery(component.id!, isSingle);
+      //   if (query != null) {
+      //     if (query.type == 'raw_query') {
+      //       var queryName = replaceValues(
+      //           query.name!, arguments, query.replaceAll ?? false);
+      //       return executeQuery(
+      //           type, queryName, query.type!, query.where, arguments);
+      //     } else {
+      //       return executeQuery(
+      //           type, query.name!, query.type!, query.wh
+      //           ere, arguments);
+      //     }
+      //   } else {
+      //     return null;
+      //   }
+      return null;
+    } else {
+      return null;
+    }
   }
 
   Future<Query?> readQuery(int componentId, bool isSingle) async {
@@ -93,10 +100,8 @@ class QueryLoaderService {
 
   Future<List<dynamic>> executeQuery(Type type, String query, String queryType,
       String? where, List<dynamic> arguments) async {
-    // var results =
-    //     await databaseRepository.query(query, queryType, where, arguments);
-
-    // return await dynamicListTypes[type.toString()]!.fromMap(results);
-    return [];
+    var results =
+        await databaseRepository.query(query, queryType, where, arguments);
+    return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }

@@ -167,9 +167,13 @@ class AppDatabase {
 
   ModuleDao get moduleDao => ModuleDao(instance);
 
+  SectionDao get sectionDao => SectionDao(instance);
+
   ComponentDao get componentDao => ComponentDao(instance);
 
   QueryDao get queryDao => QueryDao(instance);
+
+  RawQueryDao get rawQueryDao => RawQueryDao(instance);
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
