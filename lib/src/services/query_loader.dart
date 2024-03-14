@@ -34,9 +34,14 @@ class QueryLoaderService {
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
           var components = await databaseRepository.findComponents(section.id!);
-          //TODO:: [Heider Zapa] do logics to find query
           if (components != null && components.isNotEmpty) {
             for (var component in components) {
+
+              var queries = await databaseRepository.rawQuery('''
+                SELECT * FROM 
+              ''');
+
+
               Query? query;
               if (component.logicQueryId != null) {
                 //TODO: [Heider Zapa] do logic to execute conditions
