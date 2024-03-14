@@ -15,10 +15,12 @@ import '../../../domain/models/section.dart';
 import '../../../domain/models/logic.dart';
 import '../../../domain/models/query.dart';
 import '../../../domain/models/raw_query.dart';
+
 /// [FUNDAMENTAL]
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
+
 /// [APP]
 import '../../../domain/models/router.dart';
 import '../../../domain/models/application.dart';
@@ -28,6 +30,7 @@ import '../../../domain/models/error.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
 import '../../../domain/models/invoice.dart';
+
 /// [ABSTRACTS]
 import '../../../domain/abstracts/format_abstract.dart';
 
@@ -75,9 +78,7 @@ class AppDatabase {
     return await openDatabase(path,
         version: 3,
         onCreate: onCreate,
-        onUpgrade: (db, oldVersion, newVersion) async {
-
-        });
+        onUpgrade: (db, oldVersion, newVersion) async {});
   }
 
   Future<Database?> get database async {
@@ -115,13 +116,14 @@ class AppDatabase {
   }
 
   Future<List<Map<String, Object?>>> query(
-      String query, String type, String? where, List<dynamic>? values) async {
+      String query, String? where, List<dynamic>? values) async {
     final db = await instance.database;
-    if (type == 'query') {
-      return await db!.query(query, where: where, whereArgs: values);
-    } else {
-      return await db!.rawQuery(query);
-    }
+    return await db!.query(query, where: where, whereArgs: values);
+  }
+
+  Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
+    final db = await instance.database;
+    return await db!.rawQuery(sentence);
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
@@ -182,7 +184,6 @@ class AppDatabase {
   ConfigDao get configDao => ConfigDao(instance);
 
   ClientDao get clientDao => ClientDao(instance);
-
 
   RouterDao get routerDao => RouterDao(instance);
 

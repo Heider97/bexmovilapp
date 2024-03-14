@@ -305,8 +305,14 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   @override
   Future<List<Map<String, Object?>>> query(
-      String table, String type, String? where, List<dynamic>? values) async {
-    return await _appDatabase.query(table, type, where, values);
+      String table, String? where, List<dynamic>? arguments) async {
+    return await _appDatabase.query(table, where, arguments);
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> rawQuery(
+      String sentence) async {
+    return await _appDatabase.rawQuery(sentence);
   }
 
   @override

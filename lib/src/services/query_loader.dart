@@ -1,4 +1,6 @@
 //domain
+import 'package:bexmovil/src/domain/models/raw_query.dart';
+
 import '../domain/models/query.dart';
 import '../domain/repositories/database_repository.dart';
 
@@ -30,23 +32,25 @@ class QueryLoaderService {
     if (module != null && module.id != null) {
       var sections = await databaseRepository.findSections(module.id!);
       if (sections != null && sections.isNotEmpty) {
-        for(var section in sections) {
+        for (var section in sections) {
           var components = await databaseRepository.findComponents(section.id!);
           //TODO:: [Heider Zapa] do logics to find query
-          if(components != null && components.isNotEmpty) {
-            for(var component in components) {
-              if(component.logicQueryId != null) {
+          if (components != null && components.isNotEmpty) {
+            for (var component in components) {
+              Query? query;
+              if (component.logicQueryId != null) {
                 //TODO: [Heider Zapa] do logic to execute conditions
               } else {
-                var query = readQuery(4);
+                query = await readQuery(4);
               }
+
+              if (query != null) {}
             }
           }
         }
       } else {
         return null;
       }
-
     } else {
       return null;
     }
@@ -54,6 +58,10 @@ class QueryLoaderService {
 
   Future<Query?> readQuery(int id) async {
     return databaseRepository.findQuery(id);
+  }
+
+  Future<RawQuery?> readRawQuery(int id) async {
+    return databaseRepository.findRawQuery(id);
   }
 
   String replaceValues(String query, List<dynamic> values, bool deep) {
@@ -90,10 +98,14 @@ class QueryLoaderService {
     return indexes;
   }
 
-  Future<List<dynamic>> executeQuery(Type type, String query, String queryType,
+  Future<List<dynamic>> executeQuery(Type type, String table, String queryType,
       String? where, List<dynamic> arguments) async {
-    var results =
-        await databaseRepository.query(query, queryType, where, arguments);
+    var results = await databaseRepository.query(table, where, arguments);
+    return await dynamicListTypes[type.toString()]!.fromMap(results);
+  }
+
+  Future<List<dynamic>> executeRawQuery(String sentence, Type type) async {
+    var results = await databaseRepository.rawQuery(sentence);
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 }

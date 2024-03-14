@@ -23,7 +23,8 @@ abstract class DatabaseRepository {
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
   Future<List<Map<String, Object?>>> query(
-      String table, String type, String? where, List<dynamic>? values);
+      String table, String? where, List<dynamic>? values);
+  Future<List<Map<String, Object?>>> rawQuery(String sentence);
   Future<bool> listenForTableChanges(String? table);
 
   //MODULES
@@ -38,7 +39,7 @@ abstract class DatabaseRepository {
   Future<List<Component>?> findComponents(int sectionId);
   Future<void> emptyComponents();
 
-  //QUERIES
+  //QUERIES | RAW-QUERIES
   Future<Query?> findQuery(int id);
   Future<void> emptyQueries();
 
