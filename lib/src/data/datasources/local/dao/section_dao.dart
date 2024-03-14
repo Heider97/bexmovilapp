@@ -16,8 +16,12 @@ class SectionDao {
 
   Future<List<Section>?> findSections(int moduleId) async {
     final db = await _appDatabase.database;
-    var sectionList = await db!.query(tableSections,
-        where: 'module_id = ?', whereArgs: [moduleId]);
+    var sectionList = await db!.rawQuery('''
+      SELECT $tableSections.* FROM $tableSections
+      INNER JOIN app_modules_sections ON 
+      $tableSections.id = app_modules_sections.section_id
+      WHERE app_modules_sections.module_id = $moduleId
+    ''');
     var sections = parseSections(sectionList);
     return sections;
   }

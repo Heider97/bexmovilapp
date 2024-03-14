@@ -1,4 +1,4 @@
-const String tableSections = 'sections';
+const String tableSections = 'app_sections';
 
 class SectionFields {
   static final List<String> values = [id, name];

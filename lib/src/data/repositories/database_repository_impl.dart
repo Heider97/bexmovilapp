@@ -47,8 +47,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //COMPONENTS
   @override
-  Future<List<Component>?> findComponent(int sectionId) async {
-    return _appDatabase.componentDao.findComponent(sectionId);
+  Future<List<Component>?> findComponents(int sectionId) async {
+    return _appDatabase.componentDao.findComponents(sectionId);
   }
 
   @override

@@ -31,6 +31,14 @@ class QueryLoaderService {
       var sections = await databaseRepository.findSections(module.id!);
 
       if (sections != null && sections.isNotEmpty) {
+
+        for(var section in sections) {
+          var components = await databaseRepository.findComponents(section.id!);
+
+          print(components);
+          //TODO:: [Heider Zapa] do logics to find query
+
+        }
       } else {
         return null;
       }

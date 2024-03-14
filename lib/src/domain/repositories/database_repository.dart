@@ -35,7 +35,7 @@ abstract class DatabaseRepository {
   Future<void> emptySections();
 
   //COMPONENTS
-  Future<List<Component>?> findComponent(int sectionId);
+  Future<List<Component>?> findComponents(int sectionId);
   Future<void> emptyComponents();
 
   //QUERIES

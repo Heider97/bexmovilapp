@@ -14,7 +14,7 @@ class ComponentDao {
     return components;
   }
 
-  Future<List<Component>?> findComponent(int sectionId) async {
+  Future<List<Component>?> findComponents(int sectionId) async {
     final db = await _appDatabase.database;
     var componentList = await db!.query(tableComponents,
         where: 'section_id = ?', whereArgs: [sectionId]);
