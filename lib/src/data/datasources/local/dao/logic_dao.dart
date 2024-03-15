@@ -16,9 +16,10 @@ class LogicDao {
 
   Future<Logic?> findLogic(int id) async {
     final db = await _appDatabase.database;
-    final logicList = await db!.query(tableLogics, where: 'id = ?', whereArgs: [id]);
+    final logicList =
+        await db!.query(tableLogics, where: 'id = ?', whereArgs: [id]);
     final logic = parseQueries(logicList);
-    if(logic.isEmpty){
+    if (logic.isEmpty) {
       return null;
     }
     return logic.first;
@@ -26,9 +27,10 @@ class LogicDao {
 
   Future<bool> validateLogic(Logic logic) async {
     final db = await _appDatabase.database;
-    final v = await db!.query(logic.table!, where: '${logic.condition} = ?', whereArgs: [logic.result]);
+    final v = await db!.query(logic.table!,
+        where: '${logic.column} = ?', whereArgs: [logic.condition]);
 
-    if(v.isNotEmpty) {
+    if (v.isNotEmpty) {
       return true;
     } else {
       return false;

@@ -1,4 +1,4 @@
-const String tableRawQueries = 'raw_queries';
+const String tableRawQueries = 'app_raw_queries';
 
 class RawQueryFields {
   static final List<String> values = [id, sentence, replaceAll];
@@ -21,8 +21,8 @@ class RawQuery {
 
   factory RawQuery.fromJson(Map<String, dynamic> json) => RawQuery(
     id: json['id'],
-    sentence: json['sentence'],
-    replaceAll: json['replace_all']
+    sentence: json['name'],
+    replaceAll: json['replace_all'] == 1 ? true : false
   );
 
   Map<String, dynamic> toJson() => {

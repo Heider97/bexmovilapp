@@ -34,6 +34,7 @@ class Component {
   String? trigger;
   int? logicQueryId;
   int? sectionId;
+  dynamic results;
 
   Component({
     this.id,
@@ -45,6 +46,7 @@ class Component {
     this.trigger,
     this.logicQueryId,
     this.sectionId,
+    this.results
   });
 
   factory Component.fromJson(Map<String, dynamic> json) => Component(

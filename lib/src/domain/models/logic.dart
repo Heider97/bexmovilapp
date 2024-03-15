@@ -1,52 +1,52 @@
-const String tableLogics = 'logics';
+const String tableLogics = 'app_logics';
 
 class LogicFields {
   static final List<String> values = [
     id,
     table,
+    column,
     condition,
-    result,
   ];
 
   static const String id = 'id';
   static const String table = '`table`';
+  static const String column = 'column';
   static const String condition = 'condition';
-  static const String result = 'result';
 }
 
 class Logic {
-  Logic({this.id, this.table, this.condition, this.result});
+  Logic({this.id, this.table, this.condition, this.column});
 
   Logic copy({
     int? id,
     String? table,
     String? condition,
-    String? result,
+    String? column,
   }) =>
       Logic(
         id: id ?? this.id,
         table: table ?? this.table,
         condition: condition ?? this.condition,
-        result: result ?? this.result,
+        column: column ?? this.column,
       );
 
   Logic.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     table = json['table'];
     condition = json['condition'];
-    result = json['result'];
+    column = json['    column'];
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['table'] = table;
     data['condition'] = condition;
-    data['result'] = result;
+    data['    column'] = column;
     return data;
   }
 
   int? id;
   String? table;
   String? condition;
-  String? result;
+  String? column;
 }

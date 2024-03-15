@@ -24,9 +24,7 @@ class QueryLoaderService {
   /// The function [getResults] can be customized using the following properties:
   /// - [type] for the type of result
   /// - [module] name of module
-  /// - [component] name of view
   /// - [arguments] List of values to get result
-  /// - [isSingle] validate type of results [single, multiple]
   Future getResults(
       Type type, String moduleName, List<dynamic> arguments) async {
     var module = await databaseRepository.findModule(moduleName);
@@ -36,6 +34,7 @@ class QueryLoaderService {
         for (var section in sections) {
           var components = await databaseRepository.findComponents(section.id!);
           if (components != null && components.isNotEmpty) {
+            section.components = components;
             for (var component in components) {
               var results =
                   await databaseRepository.logicQueries(component.id!);
@@ -43,18 +42,21 @@ class QueryLoaderService {
                   await dynamicListTypes['List<LogicQuery>']!.fromMap(results);
               if (logicQueries.isNotEmpty) {
                 if (logicQueries.length == 1) {
-                  var query = await readQuery(logicQueries.first.queryId!);
-                  print(query);
+                  var results = await determine(type, logicQueries.first, arguments);
+                  component.results = results;
                 } else {
                   //TODO:: [Heider Zapa] validate logics
                   for (var lq in logicQueries) {
-                    var logic = await databaseRepository.findLogic(lq.logicId!);
-                    if (logic != null) {
-                      var result =
-                          await databaseRepository.validateLogic(logic);
-                      if (result == true) {
-                        var query = await readQuery(lq.queryId!);
-                        print(query);
+                    if (lq.logicId != null) {
+                      var logic =
+                          await databaseRepository.findLogic(lq.logicId!);
+                      if (logic != null) {
+                        var result =
+                            await databaseRepository.validateLogic(logic);
+                        if (result == true) {
+                          var results = await determine(type, logicQueries.first, arguments);
+                          component.results = results;
+                        }
                       }
                     }
                   }
@@ -82,6 +84,9 @@ class QueryLoaderService {
     } else if (logicQuery.queryType == 'raw_query') {
       var q = await readRawQuery(logicQuery.queryId!);
       if (q != null) {
+
+        print(q);
+
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
 

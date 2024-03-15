@@ -1,4 +1,4 @@
-const String tableQueries = 'queries';
+const String tableQueries = 'app_queries';
 
 class QueryFields {
   static final List<String> values = [id, table, where, arguments];
