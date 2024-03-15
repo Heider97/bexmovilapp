@@ -65,6 +65,7 @@ class QueryLoaderService {
             }
           }
         }
+        return sections;
       } else {
         return null;
       }
@@ -79,14 +80,11 @@ class QueryLoaderService {
       var q = await readQuery(logicQuery.queryId!);
       if (q != null) {
         var arguments = [];
-        await executeQuery(type, q.table!, q.where!, arguments);
+        await executeQuery(type, q.table!, q.where, arguments);
       }
     } else if (logicQuery.queryType == 'raw_query') {
       var q = await readRawQuery(logicQuery.queryId!);
       if (q != null) {
-
-        print(q);
-
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
 

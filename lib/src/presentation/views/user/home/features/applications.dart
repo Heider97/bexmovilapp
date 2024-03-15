@@ -24,8 +24,8 @@ class HomeApplications extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ...state.applications != null
-                  ? state.applications!.map((app) => AppShimmerLoading(
+              ...applications != null
+                  ? applications!.map((app) => AppShimmerLoading(
                       isLoading: state is HomeSynchronizing,
                       child: AppItem(
                           enabled: app.enabled ?? false,

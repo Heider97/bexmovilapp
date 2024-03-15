@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/home/features/dymamic_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,6 @@ class HomeViewState extends State<HomeView>
     ThemeData theme = Theme.of(context);
 
     return BlocConsumer<GpsBloc, GpsState>(listener: (context, state) {
-      print(state);
       if (state.isGpsEnabled == true && state.showDialog == true) {
         styledDialogController.closeVisibleDialog();
       } else if (state.isGpsEnabled == false) {
@@ -95,67 +95,70 @@ class HomeViewState extends State<HomeView>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: size.width,
-              height: 50,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  AppIconButton(
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      child: state.user != null && state.user!.name != null
-                          ? AppText(state.user!.name![0], color: Colors.white)
-                          : AppText('B')),
-                  AppIconButton(
-                      onPressed: () => homeCubit.sync(),
-                      child: const Icon(Icons.sync, color: Colors.white)),
-                  SizedBox(
-                    width: size.width / 1.6,
-                    height: size.height * 0.2,
-                    child: GestureDetector(
-                        onTap: () => homeCubit.navigationService
-                            .goTo(AppRoutes.searchPage),
-                        child: Material(
-                            color: theme.cardColor,
-                            borderRadius: BorderRadius.circular(50),
-                            elevation: 5,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                gapW20,
-                                Icon(
-                                  Icons.search_outlined,
-                                  color: theme.primaryColor,
-                                ),
-                                gapW20,
-                                Flexible(
-                                    child: AppText('¿Qué estás buscando? ',
-                                        fontSize: 13)),
-                                gapW20
-                              ],
-                            ))),
-                  )
-                ],
-              ),
-            ),
-            gapH20,
-            HomeFeatures(features: state.features),
-            gapH12,
-            const Text("Estadísticas",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            gapH4,
-            HomeStatistics(
-                kpisOneLine: state.kpisOneLine ?? [],
-                kpisSlidableOneLine: state.kpisSlidableOneLine ?? [],
-                kpisSecondLine: state.kpisSecondLine ?? [],
-                kpisSlidableSecondLine: state.kpisSlidableSecondLine ?? [],
-                forms: [],
-                tabController: _tabController),
-            gapH4,
-            const Text('Tus aplicaciones',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            HomeApplications(applications: state.applications),
+            ...state.sections != null ? state.sections!.map((e) =>
+              DynamicBuilder(section: e))
+             : [],
+            // SizedBox(
+            //   width: size.width,
+            //   height: 50,
+            //   child: Row(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: [
+            //       AppIconButton(
+            //           onPressed: () => Scaffold.of(context).openDrawer(),
+            //           child: state.user != null && state.user!.name != null
+            //               ? AppText(state.user!.name![0], color: Colors.white)
+            //               : AppText('B')),
+            //       AppIconButton(
+            //           onPressed: () => homeCubit.sync(),
+            //           child: const Icon(Icons.sync, color: Colors.white)),
+            //       SizedBox(
+            //         width: size.width / 1.6,
+            //         height: size.height * 0.2,
+            //         child: GestureDetector(
+            //             onTap: () => homeCubit.navigationService
+            //                 .goTo(AppRoutes.searchPage),
+            //             child: Material(
+            //                 color: theme.cardColor,
+            //                 borderRadius: BorderRadius.circular(50),
+            //                 elevation: 5,
+            //                 child: Row(
+            //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //                   children: [
+            //                     gapW20,
+            //                     Icon(
+            //                       Icons.search_outlined,
+            //                       color: theme.primaryColor,
+            //                     ),
+            //                     gapW20,
+            //                     Flexible(
+            //                         child: AppText('¿Qué estás buscando? ',
+            //                             fontSize: 13)),
+            //                     gapW20
+            //                   ],
+            //                 ))),
+            //       )
+            //     ],
+            //   ),
+            // ),
+            // gapH20,
+            // HomeFeatures(features: state.features),
+            // gapH12,
+            // const Text("Estadísticas",
+            //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            // gapH4,
+            // HomeStatistics(
+            //     kpisOneLine: state.kpisOneLine ?? [],
+            //     kpisSlidableOneLine: state.kpisSlidableOneLine ?? [],
+            //     kpisSecondLine: state.kpisSecondLine ?? [],
+            //     kpisSlidableSecondLine: state.kpisSlidableSecondLine ?? [],
+            //     forms: [],
+            //     tabController: _tabController),
+            // gapH4,
+            // const Text('Tus aplicaciones',
+            //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            // HomeApplications(applications: state.applications),
           ],
         ),
       ),

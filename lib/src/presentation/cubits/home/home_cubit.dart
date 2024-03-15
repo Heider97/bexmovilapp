@@ -11,6 +11,7 @@ import '../../../utils/resources/data_state.dart';
 
 //domain
 import '../../../domain/models/user.dart';
+import '../../../domain/models/section.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
@@ -109,10 +110,8 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       final user = User.fromMap(storageService.getObject('user')!);
 
-      var f = await queryLoaderService.getResults(
+      var sections = await queryLoaderService.getResults(
           List<Feature>, 'home', []);
-
-      print(f);
 
       // var features = (f)?.map((e) => e as Feature).toList();
 
@@ -128,10 +127,6 @@ class HomeCubit extends BaseCubit<HomeState> {
       //     List<Kpi>, 'home', true);
       // var kpisSecondLine = (k2)?.map((e) => e as Kpi).toList(growable: true);
 
-
-
-      List<List<Kpi>> kpisSlidableOneLine = [];
-      List<List<Kpi>> kpisSlidableSecondLine = [];
 
       // if (kpisOneLine != null) {
       //   final duplicatesOneLine = groupBy(
@@ -173,12 +168,8 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       emit(HomeSuccess(
           user: user,
-          features: [],
-          kpisOneLine: [],
-          kpisSlidableOneLine: kpisSlidableOneLine,
-          kpisSecondLine: [],
-          kpisSlidableSecondLine: kpisSlidableSecondLine,
-          applications: []));
+          sections: sections,
+        ));
     });
   }
 
@@ -202,9 +193,6 @@ class HomeCubit extends BaseCubit<HomeState> {
       // var applications = await databaseRepository.getAllApplications();
       // var kpisOneLine = await databaseRepository.getKpisByLine('1');
       // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
-
-      List<List<Kpi>> kpisSlidableOneLine = [];
-      List<List<Kpi>> kpisSlidableSecondLine = [];
 
       // final duplicatesOneLine = groupBy(
       //   kpisOneLine,
@@ -242,12 +230,8 @@ class HomeCubit extends BaseCubit<HomeState> {
 
       emit(HomeSuccess(
           user: user,
-          features: [],
-          kpisOneLine: [],
-          kpisSlidableOneLine: kpisSlidableOneLine,
-          kpisSecondLine: [],
-          kpisSlidableSecondLine: kpisSlidableSecondLine,
-          applications: []));
+          sections: [],
+        ));
     });
   }
 

@@ -36,7 +36,7 @@ class FeaturesFields{
 }
 
 class Feature {
-    late int coddashboard;
+    int? coddashboard;
     String? codvendedor;
     String? descripcion;
     String? urldesc;
