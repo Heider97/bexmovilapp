@@ -1,14 +1,15 @@
-import 'package:bexmovil/src/presentation/views/user/home/features/applications.dart';
-import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/component.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../utils/extensions/string_extension.dart';
-import '../../views/user/home/features/features.dart';
-import '../atoms/app_text.dart';
+
 import '../molecules/app_text_block.dart';
-import 'app_list.dart';
+
+import '../../views/user/home/features/features.dart';
+import '../../views/user/home/features/applications.dart';
+import '../../views/user/home/widgets/card_kpi.dart';
 
 enum ComponentTypes { kpi, feature, line, pie, list }
 

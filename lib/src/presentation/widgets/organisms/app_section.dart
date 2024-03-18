@@ -45,8 +45,9 @@ class _AppFormState extends State<AppSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        gapH20,
+        gapH12,
         AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
+        gapH12,
         ...widget.componentItems.map(
           (item) {
             var listIndex = widget.componentItems.indexOf(item);
