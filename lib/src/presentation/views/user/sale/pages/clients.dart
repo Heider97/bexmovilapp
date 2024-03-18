@@ -89,7 +89,7 @@ class _ClientsPageState extends State<ClientsPage> {
                   child: CustomSearchBar(
                       onChanged: (value) {},
                       colorBackground: theme.colorScheme.secondary,
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       controller: TextEditingController(),
                       hintText: 'Buscar cliente'),
                 ),

@@ -110,10 +110,8 @@ class HomeCubit extends BaseCubit<HomeState> {
       emit(const HomeLoading());
 
       final user = User.fromMap(storageService.getObject('user')!);
-
       final seller = storageService.getString('username');
-
-      var sections = await queryLoaderService.getResults('home', [seller]);
+      final sections = await queryLoaderService.getResults('home', [seller]);
       
       emit(HomeSuccess(
           user: user,
@@ -138,48 +136,12 @@ class HomeCubit extends BaseCubit<HomeState> {
       await heavyTask(isolateModel);
 
       final user = User.fromMap(storageService.getObject('user')!);
-      // var features = await databaseRepository.getAllFeatures();
-      // var applications = await databaseRepository.getAllApplications();
-      // var kpisOneLine = await databaseRepository.getKpisByLine('1');
-      // var kpisSecondLine = await databaseRepository.getKpisByLine('2');
-
-      // final duplicatesOneLine = groupBy(
-      //   kpisOneLine,
-      //   (kpi) => kpi.type,
-      // )
-      //     .values
-      //     .where((list) => list.length > 1)
-      //     .map((list) => list.first.type)
-      //     .toList();
-      //
-      // final duplicatesSecondLine = groupBy(
-      //   kpisSecondLine,
-      //   (kpi) => kpi.type,
-      // )
-      //     .values
-      //     .where((list) => list.length > 1)
-      //     .map((list) => list.first.type)
-      //     .toList();
-      //
-      // if (duplicatesOneLine.isNotEmpty) {
-      //   for (var dsl in duplicatesOneLine) {
-      //     kpisOneLine.removeWhere((element) => element.type == dsl);
-      //     kpisSlidableOneLine
-      //         .add(kpisOneLine.where((kpi) => kpi.type == dsl).toList());
-      //   }
-      // }
-      //
-      // if (duplicatesSecondLine.isNotEmpty) {
-      //   for (var dsl in duplicatesSecondLine) {
-      //     kpisSlidableSecondLine
-      //         .add(kpisSecondLine.where((kpi) => kpi.type == dsl).toList());
-      //     kpisSecondLine.removeWhere((element) => element.type == dsl);
-      //   }
-      // }
+      final seller = storageService.getString('username');
+      final sections = await queryLoaderService.getResults('home', [seller]);
 
       emit(HomeSuccess(
           user: user,
-          sections: [],
+          sections: sections,
         ));
     });
   }
