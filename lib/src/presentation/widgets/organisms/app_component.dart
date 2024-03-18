@@ -1,4 +1,5 @@
 
+import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/component.dart';
@@ -31,6 +32,7 @@ class AppComponent extends StatefulWidget {
     super.key,
     required this.componentType,
     required this.componentItems,
+    this.tabController
   });
 
   /// The list of form items to display in the form.
@@ -43,6 +45,8 @@ class AppComponent extends StatefulWidget {
   /// Must not be null.
   final Component componentItems;
 
+  final TabController? tabController;
+
   @override
   State<AppComponent> createState() => _AppComponentState();
 }
@@ -54,9 +58,10 @@ class _AppComponentState extends State<AppComponent> {
   Widget build(BuildContext context) {
     switch (widget.componentType.toEnum()) {
       case ComponentTypes.kpi:
+
+        print(widget.componentItems.toJson());
         return const SizedBox();
-        final kpi = Kpi(title: widget.componentItems.title);
-        return CardKpi(kpi: kpi);
+        return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
       case ComponentTypes.line:
         return const SizedBox();
       case ComponentTypes.pie:

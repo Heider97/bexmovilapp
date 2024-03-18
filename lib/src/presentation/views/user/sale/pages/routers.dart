@@ -84,17 +84,18 @@ class _RoutersPageState extends State<RoutersPage> {
                     var options = state.routers
                         ?.map((e) => e.nameDayRouter ?? 'N/A')
                         .toList();
-                    return AppSearchWithAutocomplete(options: options!);
+                    return AppSearchWithAutocomplete(options: options ?? []);
                   } else {
                     return const Center(child: Text('Cargando'));
                   }
                 }),
                 gapH4,
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.success) {
+                  if (state.status == SaleStatus.success &&
+                      state.routers != null) {
                     return Expanded(
                       child: ListView.builder(
-                          itemCount: state.routers!.length,
+                          itemCount: state.routers?.length,
                           itemBuilder: (context, index) {
                             return CardRouter(
                               codeRouter: state.routers![index].dayRouter!,

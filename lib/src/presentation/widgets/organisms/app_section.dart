@@ -23,6 +23,7 @@ class AppSection extends StatefulWidget {
     super.key,
     required this.title,
     required this.componentItems,
+    this.tabController,
   });
 
   /// The optional title widget to display at the top of the form.
@@ -32,6 +33,8 @@ class AppSection extends StatefulWidget {
   ///
   /// Must not be null.
   final List<Component> componentItems;
+
+  final TabController? tabController;
 
   @override
   State<AppSection> createState() => _AppFormState();
@@ -64,6 +67,8 @@ class _AppFormState extends State<AppSection> {
   ) {
     return AppComponent(
         componentType: widget.componentItems[listIndex].type!,
-        componentItems: widget.componentItems[listIndex]);
+        componentItems: widget.componentItems[listIndex],
+        tabController: widget.tabController,
+    );
   }
 }
