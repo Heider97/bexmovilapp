@@ -1,4 +1,4 @@
-const String tableApplications = 'functionalities';
+const String tableApplications = 'app_functionalities';
 
 class ApplicationFields {
   static final List<String> values = [id, title, svg, enabled, route];

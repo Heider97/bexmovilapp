@@ -1,8 +1,14 @@
+import 'package:bexmovil/src/presentation/views/user/home/features/applications.dart';
+import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/component.dart';
+import '../../../domain/models/kpi.dart';
 import '../../../utils/extensions/string_extension.dart';
+import '../../views/user/home/features/features.dart';
+import '../atoms/app_text.dart';
 import '../molecules/app_text_block.dart';
+import 'app_list.dart';
 
 enum ComponentTypes { kpi, feature, line, pie, list }
 
@@ -37,10 +43,10 @@ class AppComponent extends StatefulWidget {
   final Component componentItems;
 
   @override
-  State<AppComponent> createState() => _AppFormState();
+  State<AppComponent> createState() => _AppComponentState();
 }
 
-class _AppFormState extends State<AppComponent> {
+class _AppComponentState extends State<AppComponent> {
   int index = 0;
 
   @override
@@ -48,14 +54,16 @@ class _AppFormState extends State<AppComponent> {
     switch (widget.componentType.toEnum()) {
       case ComponentTypes.kpi:
         return const SizedBox();
+        final kpi = Kpi(title: widget.componentItems.title);
+        return CardKpi(kpi: kpi);
       case ComponentTypes.line:
         return const SizedBox();
       case ComponentTypes.pie:
         return const SizedBox();
       case ComponentTypes.list:
-        return const SizedBox();
+        return HomeApplications(applications: widget.componentItems.results);
       case ComponentTypes.feature:
-        return const SizedBox();
+        return HomeFeatures(features: widget.componentItems.results);
       default:
         return const SizedBox();
     }
