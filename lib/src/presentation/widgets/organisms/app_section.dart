@@ -22,12 +22,14 @@ class AppSection extends StatefulWidget {
   const AppSection({
     super.key,
     required this.title,
+    required this.type,
     required this.componentItems,
     this.tabController,
   });
 
   /// The optional title widget to display at the top of the form.
   final String title;
+  final String type;
 
   /// The list of form items to display in the form.
   ///
@@ -66,9 +68,10 @@ class _AppFormState extends State<AppSection> {
     int listIndex,
   ) {
     return AppComponent(
-        componentType: widget.componentItems[listIndex].type!,
-        componentItems: widget.componentItems[listIndex],
-        tabController: widget.tabController,
+      sectionType: widget.type,
+      componentType: widget.componentItems[listIndex].type!,
+      componentItems: widget.componentItems[listIndex],
+      tabController: widget.tabController,
     );
   }
 }

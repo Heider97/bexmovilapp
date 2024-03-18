@@ -1,5 +1,6 @@
 
 import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/features/routers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/component.dart';
@@ -30,6 +31,7 @@ class AppComponent extends StatefulWidget {
   /// null.
   const AppComponent({
     super.key,
+    required this.sectionType,
     required this.componentType,
     required this.componentItems,
     this.tabController
@@ -38,6 +40,7 @@ class AppComponent extends StatefulWidget {
   /// The list of form items to display in the form.
   ///
   /// Must not be null.
+  final String sectionType;
   final String componentType;
 
   /// The list of form items to display in the form.
@@ -67,7 +70,14 @@ class _AppComponentState extends State<AppComponent> {
       case ComponentTypes.pie:
         return const SizedBox();
       case ComponentTypes.list:
-        return HomeApplications(applications: widget.componentItems.results);
+
+        if(widget.sectionType == 'List<Application>') {
+          return HomeApplications(applications: widget.componentItems.results);
+        } else {
+          return SaleRouters(routers: widget.componentItems.results);
+        }
+
+
       case ComponentTypes.feature:
         return HomeFeatures(features: widget.componentItems.results);
       default:
