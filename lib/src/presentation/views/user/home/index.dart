@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/presentation/views/user/home/features/dymamic_builder.dart';
+import 'package:bexmovil/src/presentation/widgets/organisms/app_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +67,6 @@ class HomeViewState extends State<HomeView>
     ThemeData theme = Theme.of(context);
 
     return BlocConsumer<GpsBloc, GpsState>(listener: (context, state) {
-      print(state);
       if (state.isGpsEnabled == true && state.showDialog == true) {
         styledDialogController.closeVisibleDialog();
       } else if (state.isGpsEnabled == false) {
@@ -139,23 +140,13 @@ class HomeViewState extends State<HomeView>
                 ],
               ),
             ),
-            gapH20,
-            HomeFeatures(features: state.features),
-            gapH12,
-            const Text("Estadísticas",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            gapH4,
-            HomeStatistics(
-                kpisOneLine: state.kpisOneLine ?? [],
-                kpisSlidableOneLine: state.kpisSlidableOneLine ?? [],
-                kpisSecondLine: state.kpisSecondLine ?? [],
-                kpisSlidableSecondLine: state.kpisSlidableSecondLine ?? [],
-                forms: [],
-                tabController: _tabController),
-            gapH4,
-            const Text('Tus aplicaciones',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            HomeApplications(applications: state.applications),
+            gapH8,
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                    title: e.name!,
+                    componentItems: e.components!,
+                    tabController: _tabController))
+                : [],
           ],
         ),
       ),

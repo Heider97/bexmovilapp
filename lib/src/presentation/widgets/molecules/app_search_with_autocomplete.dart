@@ -59,24 +59,25 @@ class AppSearchWithAutocomplete extends StatelessWidget {
                   });
                 },
                 fieldViewBuilder: (
-                    BuildContext context,
-                    TextEditingController textEditingController,
-                    FocusNode focusNode,
-                    VoidCallback onFieldSubmitted,
-                    ) {
+                  BuildContext context,
+                  TextEditingController textEditingController,
+                  FocusNode focusNode,
+                  VoidCallback onFieldSubmitted,
+                ) {
                   return AppTextFormField.filled(
                     controller: textEditingController,
                     focusNode: focusNode,
                     onFieldSubmitted: (String value) {
+                      print(value);
                       onFieldSubmitted();
                     },
                   );
                 },
                 optionsViewBuilder: (
-                    BuildContext context,
-                    AutocompleteOnSelected<String> onSelected,
-                    Iterable<String> options,
-                    ) {
+                  BuildContext context,
+                  AutocompleteOnSelected<String> onSelected,
+                  Iterable<String> options,
+                ) {
                   return Align(
                     alignment: Alignment.topLeft,
                     child: Material(

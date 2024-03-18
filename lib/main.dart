@@ -61,6 +61,8 @@ import 'src/presentation/widgets/atomsbox.dart';
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
 
+part 'app_blocs_providers.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then;
@@ -115,14 +117,11 @@ class _MyAppState extends State<MyApp> {
                 storageService: locator<LocalStorageService>(),
                 databaseRepository: locator<DatabaseRepository>())),
         BlocProvider(
-          create: (context) => ProcessingQueueBloc(
-              locator<DatabaseRepository>(),
-              locator<ApiRepository>(),
-              BlocProvider.of<NetworkBloc>(context))
+          create: (context) => ProcessingQueueBloc(locator<DatabaseRepository>(),
+              locator<ApiRepository>(), BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
         ),
-        BlocProvider(
-            create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
+        BlocProvider(create: (_) => RecoveryPasswordBloc(locator<ApiRepository>())),
         BlocProvider(create: (_) => SplashScreenBloc()),
         BlocProvider(create: (_) => SearchBloc(locator<DatabaseRepository>())),
         BlocProvider(create: (_) => SaleStepperBloc()),
@@ -131,11 +130,11 @@ class _MyAppState extends State<MyApp> {
                 locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (_) => SaleBloc(
-                  locator<DatabaseRepository>(),
-                  locator<LocalStorageService>(),
-                  locator<NavigationService>(),
-                  locator<QueryLoaderService>(),
-                )..add(LoadRouters())),
+              locator<DatabaseRepository>(),
+              locator<LocalStorageService>(),
+              locator<NavigationService>(),
+              locator<QueryLoaderService>(),
+            )..add(LoadRouters())),
         BlocProvider(
           create: (context) => NavigationCubit(
               locator<DatabaseRepository>(),
@@ -145,8 +144,7 @@ class _MyAppState extends State<MyApp> {
               locator<StyledDialogController>(),
               BlocProvider.of<GpsBloc>(context)),
         ),
-        BlocProvider(
-            create: (context) => InitialCubit(locator<ApiRepository>())),
+        BlocProvider(create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(
             create: (context) => PermissionCubit(locator<NavigationService>())),
         BlocProvider(create: (context) => PoliticsCubit()),
@@ -159,12 +157,12 @@ class _MyAppState extends State<MyApp> {
                 BlocProvider.of<GpsBloc>(context))),
         BlocProvider(
             create: (context) => SyncFeaturesBloc(
-                  locator<DatabaseRepository>(),
-                  locator<ApiRepository>(),
-                  BlocProvider.of<ProcessingQueueBloc>(context),
-                  locator<NavigationService>(),
-                  locator<LocalStorageService>(),
-                )),
+              locator<DatabaseRepository>(),
+              locator<ApiRepository>(),
+              BlocProvider.of<ProcessingQueueBloc>(context),
+              locator<NavigationService>(),
+              locator<LocalStorageService>(),
+            )),
         BlocProvider(create: (context) => GoogleAccountBloc()),
         BlocProvider(
             create: (context) => HomeCubit(
@@ -175,12 +173,12 @@ class _MyAppState extends State<MyApp> {
                 locator<QueryLoaderService>())),
         BlocProvider(
             create: (context) => ProductivityCubit(
-                  locator<DatabaseRepository>(),
-                )),
+              locator<DatabaseRepository>(),
+            )),
         BlocProvider(
             create: (context) => ScheduleCubit(
-                  locator<DatabaseRepository>(),
-                )),
+              locator<DatabaseRepository>(),
+            )),
       ],
       child: MultiProvider(
         providers: [

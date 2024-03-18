@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 //widgets
+import '../atoms/app_back_button.dart';
+import '../atoms/app_icon_button.dart';
 import 'app_global_bottom_nav_bar.dart';
 import 'app_global_drawer.dart';
 
@@ -48,10 +51,28 @@ class AppGlobalBackground extends StatelessWidget {
     this.color,
     this.opacity,
     this.hideBottomNavigationBar,
+    this.hideAppBar,
     required this.child,
   }) {
     builder = (context) {
       return Scaffold(
+        appBar: hideAppBar == false
+            ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Const.padding, vertical: 5),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
+                ],
+              )
+            : null,
         drawer: const DrawerWidget(),
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -72,10 +93,28 @@ class AppGlobalBackground extends StatelessWidget {
     this.color,
     required this.opacity,
     required this.hideBottomNavigationBar,
+    this.hideAppBar,
     required this.child,
   }) {
     builder = (context) {
       return Scaffold(
+        appBar: hideAppBar == false
+            ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Const.padding),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
+                ],
+              )
+            : null,
         drawer: const DrawerWidget(),
         resizeToAvoidBottomInset: false,
         extendBody: true,
@@ -109,10 +148,28 @@ class AppGlobalBackground extends StatelessWidget {
     this.color,
     this.opacity,
     this.hideBottomNavigationBar,
+    this.hideAppBar,
     required this.child,
   }) {
     builder = (context) {
       return Scaffold(
+        appBar: hideAppBar == false
+            ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: Const.padding),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
+                ],
+              )
+            : null,
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Stack(fit: StackFit.expand, children: [
@@ -139,6 +196,7 @@ class AppGlobalBackground extends StatelessWidget {
   final Color? color;
   final double? opacity;
   final bool? hideBottomNavigationBar;
+  final bool? hideAppBar;
 
   final Widget child;
   @override

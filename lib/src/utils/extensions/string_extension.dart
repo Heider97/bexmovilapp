@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+
+import '../../presentation/widgets/organisms/app_component.dart';
 
 extension StringUtil on String {
   String get capitalize {
@@ -30,4 +33,7 @@ extension StringUtil on String {
         newChar +
         oldString.substring(index + 1);
   }
+
+  ComponentTypes toEnum() =>
+      ComponentTypes.values.firstWhere((d) => describeEnum(d) == toLowerCase());
 }

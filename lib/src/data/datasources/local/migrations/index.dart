@@ -2,40 +2,6 @@ part of '../app_database.dart';
 
 Future<void> onCreate(db, version) async {
   await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableModules (
-      ${ModuleFields.id} INTEGER PRIMARY KEY,
-      ${ModuleFields.name} TEXT DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableComponents (
-      ${ComponentFields.id} INTEGER PRIMARY KEY,
-      ${ComponentFields.name} TEXT DEFAULT NULL,
-      ${ComponentFields.moduleId} INTEGER DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableQueries (
-      ${QueryFields.id} INTEGER PRIMARY KEY,
-      ${QueryFields.name} TEXT DEFAULT NULL,
-      ${QueryFields.type} TEXT DEFAULT NULL,
-      ${QueryFields.where} TEXT DEFAULT NULL,
-      ${QueryFields.arguments} TEXT DEFAULT NULL,
-      ${QueryFields.logicId} INTEGER DEFAULT NULL,
-      ${QueryFields.componentId} INTEGER DEFAULT NULL,
-      ${QueryFields.tableName} TEXT DEFAULT NULL,
-      ${QueryFields.tableId} INTEGER DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableLogics (
-      ${LogicFields.id} INTEGER PRIMARY KEY,
-      ${LogicFields.table} TEXT DEFAULT NULL,
-      ${LogicFields.condition} TEXT DEFAULT NULL,
-      ${LogicFields.result} TEXT DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
     CREATE TABLE $tableLocations (
       ${LocationFields.id} INTEGER PRIMARY KEY,
       ${LocationFields.latitude} REAL DEFAULT NULL,
@@ -86,15 +52,7 @@ Future<void> onCreate(db, version) async {
       ${ConfigFields.module} TEXT DEFAULT NULL
     )
   ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableKpis (
-      ${KpiFields.id} INTEGER PRIMARY KEY,
-      ${KpiFields.title} TEXT DEFAULT NULL,
-      ${KpiFields.type} TEXT DEFAULT NULL,
-      ${KpiFields.line} INTEGER DEFAULT NULL,
-      ${KpiFields.value} TEXT DEFAULT NULL
-    )
-  ''');
+
   await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableApplications (
       ${ApplicationFields.id} INTEGER PRIMARY KEY,
@@ -102,20 +60,6 @@ Future<void> onCreate(db, version) async {
       ${ApplicationFields.svg} TEXT DEFAULT NULL,
       ${ApplicationFields.route} TEXT DEFAULT NULL,
       ${ApplicationFields.enabled} BOOLEAN DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE IF NOT EXISTS $tableGraphics (
-      ${GraphicFields.id} INTEGER PRIMARY KEY,
-      ${GraphicFields.title} TEXT DEFAULT NULL,
-      ${GraphicFields.subtitle} TEXT DEFAULT NULL,
-      ${GraphicFields.conditions} TEXT DEFAULT NULL,
-      ${GraphicFields.type} TEXT DEFAULT NULL,
-      ${GraphicFields.query} TEXT DEFAULT NULL,
-      ${GraphicFields.trigger} TEXT DEFAULT NULL,
-      ${GraphicFields.order} INT DEFAULT NULL,
-      ${GraphicFields.interactive} BOOLEAN DEFAULT NULL,
-      ${GraphicFields.data} TEXT DEFAULT NULL
     )
   ''');
   await db.execute('''

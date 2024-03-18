@@ -13,8 +13,9 @@ import '../../../presentation/views/user/sale/pages/filters.dart';
 
 Map<String, RouteType> salesRoutes = {
   AppRoutes.routersSale: (context, settings) =>
-      AppGlobalBackground.normal(child: const RoutersPage()),
+      AppGlobalBackground.normal(hideAppBar: false, child: const RoutersPage()),
   AppRoutes.clientsSale: (context, settings) => AppGlobalBackground.normal(
+      hideAppBar: false,
       child: ClientsPage(codeRouter: settings.arguments as String?)),
   AppRoutes.filtersSale: (context, settings) =>
       AppGlobalBackground.normal(child: const FiltersSalePage()),

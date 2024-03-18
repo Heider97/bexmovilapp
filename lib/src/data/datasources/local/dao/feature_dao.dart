@@ -42,7 +42,7 @@ class FeatureDao {
 
   Future<int> updateFeature(Feature feature) {
     return _appDatabase.update(tableFeature, feature.toJson(),
-        'coddashboard', feature.coddashboard);
+        'coddashboard', feature.coddashboard!);
   }
 
   Future<void> emptyFeature() async {

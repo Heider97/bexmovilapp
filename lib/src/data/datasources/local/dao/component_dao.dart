@@ -14,18 +14,12 @@ class ComponentDao {
     return components;
   }
 
-  Future<Component?> findComponent(String name, int moduleId) async {
+  Future<List<Component>?> findComponents(int sectionId) async {
     final db = await _appDatabase.database;
-
-    print(name);
-    print(moduleId);
     var componentList = await db!.query(tableComponents,
-        where: 'name = ? and module_id = ?', whereArgs: [name, moduleId]);
+        where: 'section_id = ?', whereArgs: [sectionId]);
     var components = parseComponents(componentList);
-    if (components.isNotEmpty) {
-      return components.first;
-    }
-    return null;
+    return components;
   }
 
   Future<void> insertComponents(List<Component> components) async {
@@ -34,11 +28,11 @@ class ComponentDao {
 
     await Future.forEach(components, (component) async {
       var foundProduct = await db.query(tableComponents,
-          where: 'name = ?', whereArgs: [component.name]);
+          where: 'title = ?', whereArgs: [component.title]);
 
       if (foundProduct.isNotEmpty) {
         batch.update(tableComponents, component.toJson(),
-            where: 'name = ?', whereArgs: [component.name]);
+            where: 'title = ?', whereArgs: [component.title]);
       } else {
         batch.insert(tableComponents, component.toJson());
       }

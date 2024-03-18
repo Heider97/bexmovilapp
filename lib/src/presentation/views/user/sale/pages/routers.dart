@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +72,6 @@ class _RoutersPageState extends State<RoutersPage> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return Stack(
       children: [
         SafeArea(
@@ -79,55 +79,33 @@ class _RoutersPageState extends State<RoutersPage> {
             padding: const EdgeInsets.all(Const.space15),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AppBackButton(needPrimary: true),
-                    AppIconButton(
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        child: Icon(Icons.menu,
-                            color: theme.colorScheme.onPrimaryContainer)),
-                  ],
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(Const.padding),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(Const.space15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(Const.padding),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: theme.colorScheme.tertiary,
-                            ),
-                            gapW24,
-                            Text(
-                              'Búsqueda por nombre rutero',
-                              style:
-                                  TextStyle(color: theme.colorScheme.tertiary),
-                            )
-                          ],
-                        ),
-                      ),
-                    )),
-                gapH4,
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   if (state.status == SaleStatus.success) {
+                    var options = state.routers
+                        ?.map((e) => e.nameDayRouter ?? 'N/A')
+                        .toList();
+                    return AppSearchWithAutocomplete(options: options ?? []);
+                  } else {
+                    return const Center(child: Text('Cargando'));
+                  }
+                }),
+                gapH4,
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.status == SaleStatus.success &&
+                      state.routers != null) {
                     return Expanded(
                       child: ListView.builder(
-                          itemCount: state.routers!.length,
+                          itemCount: state.routers?.length,
                           itemBuilder: (context, index) {
                             return CardRouter(
                               codeRouter: state.routers![index].dayRouter!,
                               quantityClients: state
                                   .routers![index].quantityClient
                                   .toString(),
-                              dayRouter:
-                                  state.routers![index].nameDayRouter.toString(),
-                              totalClients: state.routers![index].quantityClient,
+                              dayRouter: state.routers![index].nameDayRouter
+                                  .toString(),
+                              totalClients:
+                                  state.routers![index].quantityClient,
                             );
                           }),
                     );

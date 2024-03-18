@@ -2,17 +2,17 @@ import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
 import '../../domain/models/module.dart';
+import '../../domain/models/section.dart';
 import '../../domain/models/component.dart';
+import '../../domain/models/logic.dart';
 import '../../domain/models/query.dart';
+import '../../domain/models/raw_query.dart';
 
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/config.dart';
-import '../../domain/models/kpi.dart';
 import '../../domain/models/router.dart';
-import '../../domain/models/application.dart';
 import '../../domain/models/client.dart';
-import '../../domain/models/graphic.dart';
 import '../../domain/models/location.dart';
 import '../../domain/models/error.dart';
 import '../../domain/models/filter.dart';
@@ -26,11 +26,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //MODULES
   @override
-  Future<void> insertModules(List<Module> modules) async {
-    return _appDatabase.moduleDao.insertModules(modules);
-  }
-
-  @override
   Future<Module?> findModule(String name) async {
     return _appDatabase.moduleDao.findModule(name);
   }
@@ -40,15 +35,21 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.moduleDao.emptyModules();
   }
 
-  //COMPONENTS
+  //SECTIONS
   @override
-  Future<void> insertComponents(List<Component> components) async {
-    return _appDatabase.componentDao.insertComponents(components);
+  Future<List<Section>?> findSections(int moduleId) async {
+    return _appDatabase.sectionDao.findSections(moduleId);
   }
 
   @override
-  Future<Component?> findComponent(String name, int moduleId) async {
-    return _appDatabase.componentDao.findComponent(name, moduleId);
+  Future<void> emptySections() async {
+    return _appDatabase.sectionDao.emptySections();
+  }
+
+  //COMPONENTS
+  @override
+  Future<List<Component>?> findComponents(int sectionId) async {
+    return _appDatabase.componentDao.findComponents(sectionId);
   }
 
   @override
@@ -56,20 +57,37 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.componentDao.emptyComponents();
   }
 
-  //QUERIES
+  //LOGICS
   @override
-  Future<void> insertQueries(List<Query> queries) async {
-    return _appDatabase.queryDao.insertQueries(queries);
+  Future<Logic?> findLogic(int id) async {
+    return _appDatabase.logicDao.findLogic(id);
   }
 
   @override
-  Future<Query?> findQuery(int componentId, bool isSingle) async {
-    return _appDatabase.queryDao.findQuery(componentId, isSingle);
+  Future<bool> validateLogic(Logic logic) async {
+    return _appDatabase.logicDao.validateLogic(logic);
+  }
+
+  //QUERIES
+  @override
+  Future<Query?> findQuery(int id) async {
+    return _appDatabase.queryDao.findQuery(id);
   }
 
   @override
   Future<void> emptyQueries() async {
     return _appDatabase.queryDao.emptyQueries();
+  }
+
+  //RAW QUERIES
+  @override
+  Future<RawQuery?> findRawQuery(int id) async {
+    return _appDatabase.rawQueryDao.findRawQuery(id);
+  }
+
+  @override
+  Future<void> emptyRawQueries() async {
+    return _appDatabase.rawQueryDao.emptyRawQueries();
   }
 
   //ROUTER
@@ -157,91 +175,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<int> updateFeature(Feature clients) async {
-    return _appDatabase.featureDao.updateFeature(clients);
-  }
-
-  @override
   Future<void> emptyFeatures() {
     return _appDatabase.featureDao.emptyFeature();
-  }
-
-  //KPIS
-  @override
-  Future<List<Kpi>> getKpisByLine(String line) {
-    return _appDatabase.kpiDao.getKpisByLine(line);
-  }
-
-  @override
-  Future<void> insertKpis(List<Kpi> kpis) async {
-    return _appDatabase.kpiDao.insertKpis(kpis);
-  }
-
-  @override
-  Future<int> insertKpi(Kpi kpi) async {
-    return _appDatabase.kpiDao.insertKpi(kpi);
-  }
-
-  @override
-  Future<int> updateKpi(Kpi kpi) async {
-    return _appDatabase.kpiDao.updateKpi(kpi);
-  }
-
-  @override
-  Future<void> emptyKpis() {
-    return _appDatabase.kpiDao.emptyKpis();
-  }
-
-  //APPLICATIONS
-  @override
-  Future<List<Application>> getAllApplications() {
-    return _appDatabase.applicationDao.getAllApplications();
-  }
-
-  @override
-  Future<void> insertApplication(Application application) {
-    return _appDatabase.applicationDao.insertApplication(application);
-  }
-
-  @override
-  Future<void> insertApplications(List<Application> applications) {
-    return _appDatabase.applicationDao.insertApplications(applications);
-  }
-
-  @override
-  Future<int> updateApplication(Application application) {
-    return _appDatabase.applicationDao.updateApplication(application);
-  }
-
-  @override
-  Future<void> emptyApplications() {
-    return _appDatabase.applicationDao.emptyApplications();
-  }
-
-  //GRAPHICS
-  @override
-  Future<List<Graphic>> getAllGraphics() {
-    return _appDatabase.graphicDao.getAllGraphics();
-  }
-
-  @override
-  Future<void> insertGraphic(Graphic graphic) {
-    return _appDatabase.graphicDao.insertGraphic(graphic);
-  }
-
-  @override
-  Future<void> insertGraphics(List<Graphic> graphics) {
-    return _appDatabase.graphicDao.insertGraphics(graphics);
-  }
-
-  @override
-  Future<int> updateGraphic(Graphic graphic) {
-    return _appDatabase.graphicDao.updateGraphic(graphic);
-  }
-
-  @override
-  Future<void> emptyGraphics() {
-    return _appDatabase.graphicDao.emptyGraphics();
   }
 
   //LOCATIONS
@@ -382,8 +317,18 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   @override
   Future<List<Map<String, Object?>>> query(
-      String table, String type, String? where, List<dynamic>? values) async {
-    return await _appDatabase.query(table, type, where, values);
+      String table, String? where, List<dynamic>? arguments) async {
+    return await _appDatabase.query(table, where, arguments);
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
+    return await _appDatabase.logicQueries(componentId);
+  }
+
+  @override
+  Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
+    return await _appDatabase.rawQuery(sentence);
   }
 
   @override

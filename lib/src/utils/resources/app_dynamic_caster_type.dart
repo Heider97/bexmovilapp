@@ -6,6 +6,7 @@ import '../../domain/models/application.dart';
 import '../../domain/models/router.dart';
 import '../../domain/models/client.dart';
 import '../../domain/models/invoice.dart';
+import '../../domain/models/logic_query.dart';
 
 List<Feature> parseFeatures(List<Map<String, dynamic>> featureLists) {
   final features = <Feature>[];
@@ -62,6 +63,15 @@ List<Invoice> parseInvoices(List<Map<String, dynamic>> invoiceList) {
   return invoices;
 }
 
+List<LogicQuery> parseLogicQuery(List<Map<String, dynamic>> logicList) {
+  final logics = <LogicQuery>[];
+  for (var logicMap in logicList) {
+    final logic = LogicQuery.fromJson(logicMap);
+    logics.add(logic);
+  }
+  return logics;
+}
+
 class AppDynamicCasterType<T> {
   final T Function(String) fromString;
   AppDynamicCasterType(this.fromString);
@@ -90,6 +100,8 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<Client>>((s) => parseClients(s)),
   "List<Invoice>":
       AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
+  "List<LogicQuery>":
+      AppDynamicListCasterType<List<LogicQuery>>((s) => parseLogicQuery(s)),
 };
 
 Future<dynamic> generateVariable(Config config) async {

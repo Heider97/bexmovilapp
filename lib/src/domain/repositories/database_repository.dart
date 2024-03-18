@@ -1,19 +1,20 @@
 import '../models/module.dart';
+import '../models/section.dart';
 import '../models/component.dart';
+import '../models/logic.dart';
 import '../models/query.dart';
-import '../models/feature.dart';
-import '../models/graphic.dart';
+import '../models/raw_query.dart';
+
 import '../models/processing_queue.dart';
 import '../models/config.dart';
 import '../models/router.dart';
-import '../models/application.dart';
 import '../models/client.dart';
 import '../models/invoice.dart';
-import '../models/kpi.dart';
 import '../models/location.dart';
 import '../models/error.dart';
 import '../models/filter.dart';
 import '../models/option.dart';
+import '../models/feature.dart';
 
 abstract class DatabaseRepository {
   //DATABASE
@@ -22,24 +23,40 @@ abstract class DatabaseRepository {
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);
+
   Future<List<Map<String, Object?>>> query(
-      String table, String type, String? where, List<dynamic>? values);
+      String table, String? where, List<dynamic>? values);
+  Future<List<Map<String, Object?>>> rawQuery(String sentence);
+  Future<List<Map<String, Object?>>> logicQueries(int componentId);
   Future<bool> listenForTableChanges(String? table);
 
   //MODULES
-  Future<void> insertModules(List<Module> modules);
   Future<Module?> findModule(String name);
   Future<void> emptyModules();
 
+  //SECTIONS
+  Future<List<Section>?> findSections(int moduleId);
+  Future<void> emptySections();
+
   //COMPONENTS
-  Future<void> insertComponents(List<Component> components);
-  Future<Component?> findComponent(String name, int moduleId);
+  Future<List<Component>?> findComponents(int sectionId);
   Future<void> emptyComponents();
 
-  //QUERIES
-  Future<void> insertQueries(List<Query> queries);
-  Future<Query?> findQuery(int componentId, bool isSingle);
+  //LOGICS
+  Future<Logic?> findLogic(int id);
+  Future<bool> validateLogic(Logic logic);
+
+  //QUERIES | RAW-QUERIES
+  Future<Query?> findQuery(int id);
   Future<void> emptyQueries();
+
+  //RAW QUERIES
+  Future<RawQuery?> findRawQuery(int id);
+  Future<void> emptyRawQueries();
+
+  //FEATURES
+  Future<List<Feature>> getAllFeatures();
+  Future<void> insertFeatures(List<Feature> features);
 
   //CLIENT
   Future<List<Client>> getClientsByAgeRange(String range, String seller);
@@ -56,33 +73,6 @@ abstract class DatabaseRepository {
   Future<void> insertConfigs(List<Config> configs);
   Future<int> updateConfig(Config config);
   Future<void> emptyConfigs();
-
-  //FEATURES
-  Future<List<Feature>> getAllFeatures();
-  Future<void> insertFeatures(List<Feature> features);
-  Future<int> updateFeature(Feature feature);
-  Future<void> emptyFeatures();
-
-  //KPIS
-  Future<List<Kpi>> getKpisByLine(String line);
-  Future<void> insertKpis(List<Kpi> kpis);
-  Future<void> insertKpi(Kpi kpi);
-  Future<int> updateKpi(Kpi kpi);
-  Future<void> emptyKpis();
-
-  //APPLICATIONS
-  Future<List<Application>> getAllApplications();
-  Future<void> insertApplications(List<Application> applications);
-  Future<void> insertApplication(Application application);
-  Future<int> updateApplication(Application application);
-  Future<void> emptyApplications();
-
-  //GRAPHICS
-  Future<List<Graphic>> getAllGraphics();
-  Future<void> insertGraphics(List<Graphic> graphics);
-  Future<void> insertGraphic(Graphic graphic);
-  Future<int> updateGraphic(Graphic graphic);
-  Future<void> emptyGraphics();
 
   //LOCATIONS
   Stream<List<Location>> watchAllLocations();

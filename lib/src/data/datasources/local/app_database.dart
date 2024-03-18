@@ -1,26 +1,30 @@
 import 'dart:convert';
-import 'package:bexmovil/src/domain/models/invoice.dart';
-import 'package:bexmovil/src/domain/models/logic.dart';
+import 'package:bexmovil/src/domain/models/logic_query.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:synchronized/synchronized.dart';
 
-//utils
+// [UTILS]
 import '../../../utils/constants/strings.dart';
 
-//models
-import '../../../domain/abstracts/format_abstract.dart';
+// [MODELS]
+/// [CORE]
 import '../../../domain/models/module.dart';
 import '../../../domain/models/component.dart';
+import '../../../domain/models/section.dart';
+import '../../../domain/models/logic.dart';
 import '../../../domain/models/query.dart';
+import '../../../domain/models/raw_query.dart';
+
+/// [FUNDAMENTAL]
 import '../../../domain/models/location.dart';
 import '../../../domain/models/processing_queue.dart';
 import '../../../domain/models/config.dart';
-import '../../../domain/models/kpi.dart';
+
+/// [APP]
 import '../../../domain/models/router.dart';
 import '../../../domain/models/application.dart';
-import '../../../domain/models/graphic.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/error.dart';
@@ -28,32 +32,36 @@ import '../../../domain/models/filter.dart';
 import '../../../domain/models/option.dart';
 import '../../../domain/models/invoice.dart';
 
-//services
+/// [ABSTRACTS]
+import '../../../domain/abstracts/format_abstract.dart';
+
+// [SERVICES]
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 
-//migrations
+// [MIGRATIONS]
 part 'migrations/index.dart';
 
-//daos
-//core
+// [DAOS]
+// [CORE]
 part '../local/dao/module_dao.dart';
 part '../local/dao/component_dao.dart';
+part '../local/dao/section_dao.dart';
+part '../local/dao/logic_dao.dart';
 part '../local/dao/query_dao.dart';
-
+part '../local/dao/raw_query_dao.dart';
+// [FUNDAMENTAL]
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
 part '../local/dao/processing_queue_dao.dart';
+// [APP]
 part '../local/dao/feature_dao.dart';
 part '../local/dao/client_dao.dart';
-part '../local/dao/kpi_dao.dart';
 part '../local/dao/routers_dao.dart';
 part '../local/dao/application_dao.dart';
-part '../local/dao/graphic_dao.dart';
 part '../local/dao/error_dao.dart';
 part '../local/dao/filter_dao.dart';
 part '../local/dao/option_dao.dart';
-
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
@@ -72,9 +80,7 @@ class AppDatabase {
     return await openDatabase(path,
         version: 3,
         onCreate: onCreate,
-        onUpgrade: (db, oldVersion, newVersion) async {
-
-        });
+        onUpgrade: (db, oldVersion, newVersion) async {});
   }
 
   Future<Database?> get database async {
@@ -110,14 +116,24 @@ class AppDatabase {
     return result.isNotEmpty;
   }
 
-  Future<List<Map<String, Object?>>> query(
-      String query, String type, String? where, List<dynamic>? values) async {
+  Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
     final db = await instance.database;
-    if (type == 'query') {
-      return await db!.query(query, where: where, whereArgs: values);
-    } else {
-      return await db!.rawQuery(query);
-    }
+    final results = await db!.rawQuery('''
+    SELECT * FROM $tableLogicsQueries 
+    WHERE ${LogicQueryFields.componentId} = $componentId
+    ''');
+    return results;
+  }
+
+  Future<List<Map<String, Object?>>> query(
+      String query, String? where, List<dynamic>? values) async {
+    final db = await instance.database;
+    return await db!.query(query, where: where, whereArgs: values);
+  }
+
+  Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
+    final db = await instance.database;
+    return await db!.rawQuery(sentence);
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
@@ -163,9 +179,15 @@ class AppDatabase {
 
   ModuleDao get moduleDao => ModuleDao(instance);
 
+  SectionDao get sectionDao => SectionDao(instance);
+
   ComponentDao get componentDao => ComponentDao(instance);
 
+  LogicDao get logicDao => LogicDao(instance);
+
   QueryDao get queryDao => QueryDao(instance);
+
+  RawQueryDao get rawQueryDao => RawQueryDao(instance);
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 
@@ -175,13 +197,9 @@ class AppDatabase {
 
   ClientDao get clientDao => ClientDao(instance);
 
-  KpiDao get kpiDao => KpiDao(instance);
-
   RouterDao get routerDao => RouterDao(instance);
 
   ApplicationDao get applicationDao => ApplicationDao(instance);
-
-  GraphicDao get graphicDao => GraphicDao(instance);
 
   LocationDao get locationDao => LocationDao(instance);
 
