@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:googleapis/chat/v1.dart';
 
-import '../atoms/app_label.dart';
 import '../../../config/app_constants.dart';
 import '../molecules/app_text_block.dart';
 

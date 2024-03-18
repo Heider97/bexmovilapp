@@ -58,10 +58,10 @@ class AppDrawer extends StatelessWidget {
               ),
               ...(drawerSecondaryItems != null)
                   ? [
-                const Spacer(),
-                const Divider(),
-                ...drawerSecondaryItems!,
-              ]
+                      const Spacer(),
+                      const Divider(),
+                      ...drawerSecondaryItems!,
+                    ]
                   : [const SizedBox()],
             ],
           ),

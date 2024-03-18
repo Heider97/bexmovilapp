@@ -56,25 +56,25 @@ class AppDataTable extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppConstants.borderRadius),
           child: DataTable(
             headingRowColor: MaterialStateProperty.resolveWith(
-                  (states) => Theme.of(context).colorScheme.primary,
+              (states) => Theme.of(context).colorScheme.primary,
             ),
             columns: columns
                 .map(
                   (column) => DataColumn(
-                label: Expanded(
-                  child: AppText(
-                    column,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    label: Expanded(
+                      child: AppText(
+                        column,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
+                )
                 .toList(),
             rows: rows.map(
-                  (row) {
+              (row) {
                 return DataRow(
                   cells:
-                  columns.map((column) => DataCell(row[column])).toList(),
+                      columns.map((column) => DataCell(row[column])).toList(),
                 );
               },
             ).toList(),
