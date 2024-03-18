@@ -47,19 +47,21 @@ class _AppFormState extends State<AppSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        gapH12,
-        AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
-        gapH12,
-        ...widget.componentItems.map(
-          (item) {
-            var listIndex = widget.componentItems.indexOf(item);
-            return _buildAppTextFormField(context, listIndex);
-          },
-        ),
-      ],
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          gapH12,
+          AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
+          gapH12,
+          ...widget.componentItems.map(
+            (item) {
+              var listIndex = widget.componentItems.indexOf(item);
+              return _buildAppTextFormField(context, listIndex);
+            },
+          ),
+        ],
+      ),
     );
   }
 

@@ -61,8 +61,6 @@ class _AppComponentState extends State<AppComponent> {
   Widget build(BuildContext context) {
     switch (widget.componentType.toEnum()) {
       case ComponentTypes.kpi:
-
-        print(widget.componentItems.toJson());
         return const SizedBox();
         return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
       case ComponentTypes.line:
@@ -70,14 +68,11 @@ class _AppComponentState extends State<AppComponent> {
       case ComponentTypes.pie:
         return const SizedBox();
       case ComponentTypes.list:
-
         if(widget.sectionType == 'List<Application>') {
           return HomeApplications(applications: widget.componentItems.results);
         } else {
           return SaleRouters(routers: widget.componentItems.results);
         }
-
-
       case ComponentTypes.feature:
         return HomeFeatures(features: widget.componentItems.results);
       default:

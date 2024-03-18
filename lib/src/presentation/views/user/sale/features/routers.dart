@@ -22,8 +22,8 @@ class SaleRouters extends StatelessWidget {
                 return CardRouter(
                   codeRouter: routers![index].dayRouter!,
                   quantityClients: routers![index].quantityClient.toString(),
-                  dayRouter: state.routers![index].nameDayRouter.toString(),
-                  totalClients: state.routers![index].quantityClient,
+                  dayRouter: routers![index].nameDayRouter.toString(),
+                  totalClients: routers![index].quantityClient,
                 );
               }),
         );

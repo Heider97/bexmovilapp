@@ -92,16 +92,18 @@ class _RoutersPageState extends State<RoutersPage> {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(Const.space15),
-        child: Column(
-          children: [
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title: e.name!,
-                    type: e.type,
-                    componentItems: e.components ?? [],
-                    tabController: null))
-                : [],
-          ],
+        child: Expanded(
+          child: Column(
+            children: [
+              ...state.sections != null
+                  ? state.sections!.map((e) => AppSection(
+                      title: e.name!,
+                      type: e.type,
+                      componentItems: e.components ?? [],
+                      tabController: null))
+                  : [],
+            ],
+          ),
         ),
       ),
     );

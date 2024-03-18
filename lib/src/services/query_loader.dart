@@ -1,4 +1,6 @@
 //domain
+import 'package:bexmovil/src/domain/models/router.dart';
+
 import '../domain/models/application.dart';
 import '../domain/models/logic_query.dart';
 import '../domain/models/raw_query.dart';
@@ -33,24 +35,36 @@ class QueryLoaderService {
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
           var components = await databaseRepository.findComponents(section.id!);
+
           if (components != null && components.isNotEmpty) {
             section.components = components;
+
             for (var component in components) {
+
+              print(component.toJson());
+
               Type? type;
 
-              if(component.type == 'list') {
+              if (component.type == 'list' &&
+                  section.type == 'List<Application>') {
                 type = List<Application>;
-              } else if (component.type == 'feature'){
+              } else if (component.type == 'list' &&
+                  section.type == 'List<Router>') {
+                type = List<Router>;
+              } else if (component.type == 'feature') {
                 type = List<Feature>;
               }
 
               var results =
                   await databaseRepository.logicQueries(component.id!);
+
               List<LogicQuery> logicQueries =
                   await dynamicListTypes['List<LogicQuery>']!.fromMap(results);
+
               if (logicQueries.isNotEmpty) {
                 if (logicQueries.length == 1) {
-                  var results = await determine(type, logicQueries.first, arguments);
+                  var results =
+                      await determine(type, logicQueries.first, arguments);
                   component.results = results;
                 } else {
                   for (var lq in logicQueries) {
@@ -61,7 +75,8 @@ class QueryLoaderService {
                         var result =
                             await databaseRepository.validateLogic(logic);
                         if (result == true) {
-                          var results = await determine(type!, logicQueries.first, arguments);
+                          var results = await determine(
+                              type!, logicQueries.first, arguments);
                           component.results = results;
                         }
                       }
@@ -88,7 +103,7 @@ class QueryLoaderService {
       var q = await readQuery(logicQuery.queryId!);
       if (q != null && q.arguments != null) {
         return await executeQuery(type, q.table!, q.where, arguments);
-      } else if(q != null) {
+      } else if (q != null) {
         return await executeQuery(type, q.table!, q.where, []);
       }
     } else if (logicQuery.queryType == 'raw_query') {
@@ -146,13 +161,13 @@ class QueryLoaderService {
 
   Future<List<dynamic>> executeQuery(
       Type? type, String table, String? where, List<dynamic> arguments) async {
-    if(type == null) return [];
+    if (type == null) return [];
     var results = await databaseRepository.query(table, where, arguments);
     return await dynamicListTypes[type.toString()]!.fromMap(results);
   }
 
   Future<List<dynamic>> executeRawQuery(String sentence, Type? type) async {
-    if(type == null) return [];
+    if (type == null) return [];
     print(sentence);
     var results = await databaseRepository.rawQuery(sentence);
     print(results);
