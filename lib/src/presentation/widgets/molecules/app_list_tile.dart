@@ -38,9 +38,10 @@ class AppListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.width,
+    this.color,
     this.leadingWidth = 48,
     this.contentPadding =
-    const EdgeInsets.symmetric(horizontal: AppConstants.sm),
+        const EdgeInsets.symmetric(horizontal: AppConstants.sm),
     this.isThreeLine = false,
   });
 
@@ -90,10 +91,14 @@ class AppListTile extends StatelessWidget {
   /// the subtitle can display up to two lines of text.
   final bool isThreeLine;
 
+  final Color? color;
+
   @override
   Widget build(BuildContext context) {
-    final AppListTileThemeData themeData =
-    Theme.of(context).extension<AppListTileThemeData>()!;
+    /*    final AppListTileThemeData themeData =
+    Theme.of(context).extension<AppListTileThemeData>()!; */
+
+    ThemeData theme = Theme.of(context);
 
     return Container(
       width: width,
@@ -103,11 +108,12 @@ class AppListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       child: Material(
-        color: themeData.backgroundColor,
+        color: Colors.transparent, // color ?? theme.colorScheme.background,
+
         child: InkWell(
-          splashColor: themeData.splashColor!.withOpacity(0.12),
+          splashColor: theme.splashColor.withOpacity(0.12),
           overlayColor: MaterialStatePropertyAll(
-            themeData.splashColor!.withOpacity(0.12),
+            theme.splashColor.withOpacity(0.12),
           ),
           onTap: onTap,
           child: Padding(
@@ -117,13 +123,13 @@ class AppListTile extends StatelessWidget {
               children: [
                 (leading != null)
                     ? ClipRRect(
-                  borderRadius:
-                  BorderRadius.circular(AppConstants.borderRadius),
-                  child: SizedBox(
-                    width: leadingWidth,
-                    child: leading!,
-                  ),
-                )
+                        borderRadius:
+                            BorderRadius.circular(AppConstants.borderRadius),
+                        child: SizedBox(
+                          width: leadingWidth,
+                          child: leading!,
+                        ),
+                      )
                     : const SizedBox(),
                 const SizedBox(width: AppConstants.sm),
                 Expanded(
@@ -135,8 +141,9 @@ class AppListTile extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: themeData.foregroundColor),
+                              fontWeight: FontWeight
+                                  .bold, /*  color: theme.foregroundColor */
+                            ),
                         child: title,
                       ),
                       if (subtitle != null) ...[
@@ -146,7 +153,7 @@ class AppListTile extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
-                              .copyWith(color: themeData.foregroundColor),
+                              .copyWith(/* color: themeData.foregroundColor */),
                           child: subtitle!,
                         )
                       ]

@@ -11,16 +11,22 @@ class LoadClients extends SaleEvent {
   LoadClients(this.codeRouter);
 }
 
-class SelectClient extends SaleEvent {
+/* class SelectClient extends SaleEvent {
   final Client client;
   SelectClient({required this.client});
-}
+} */
 
 class NavigationSale extends SaleEvent {
   final bool nearest;
   final List<Client> clients;
   NavigationSale({required this.clients, required this.nearest});
 }
+
+
+
+
+
+
 
 //
 // class SelectProducts extends SaleEvent {

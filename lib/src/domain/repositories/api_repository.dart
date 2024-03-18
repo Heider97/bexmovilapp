@@ -1,5 +1,6 @@
 //TODO: [Heider Zapa] organize
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
+import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
@@ -66,6 +67,9 @@ abstract class ApiRepository {
 
   Future<DataState<KpiResponse>> kpis({required KpiRequest request});
 
+/*   Future<DataState<ClientLocationResponse>> clientLocation(
+      {required ClientLocationRequest request}); */
+
   Future<DataState<FunctionalityResponse>> functionalities(
       {required FunctionalityRequest request});
 
@@ -74,5 +78,6 @@ abstract class ApiRepository {
 
   Future<DataState<FilterResponse>> filters({required FilterRequest request});
 
-  Future<DataState<NearbyPlacesResponse>> places({required GoogleMapsRequest request});
+  Future<DataState<NearbyPlacesResponse>> places(
+      {required GoogleMapsRequest request});
 }

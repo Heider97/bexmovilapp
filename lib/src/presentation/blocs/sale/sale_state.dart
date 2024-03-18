@@ -7,6 +7,7 @@ class SaleState extends Equatable {
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
+
   final List<Filter>? filters;
   final String? error;
 

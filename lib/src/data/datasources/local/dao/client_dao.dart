@@ -56,6 +56,9 @@ class ClientDao {
     return routers;
   }
 
+
+  
+
   Future<List<Client>> getClientInformationByAgeRange(
       String range, String seller) async {
     final db = _appDatabase._database;
