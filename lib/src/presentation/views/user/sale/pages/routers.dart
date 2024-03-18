@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 //widgets
 import '../../../../widgets/atoms/app_back_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
+import '../../../../widgets/organisms/app_section.dart';
 import '../../../../widgets/user/stepper.dart';
 
 //features
@@ -74,50 +76,35 @@ class _RoutersPageState extends State<RoutersPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(Const.space15),
-            child: Column(
-              children: [
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.success) {
-                    var options = state.routers
-                        ?.map((e) => e.nameDayRouter ?? 'N/A')
-                        .toList();
-                    return AppSearchWithAutocomplete(options: options ?? []);
-                  } else {
-                    return const Center(child: Text('Cargando'));
-                  }
-                }),
-                gapH4,
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.success &&
-                      state.routers != null) {
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: state.routers?.length,
-                          itemBuilder: (context, index) {
-                            return CardRouter(
-                              codeRouter: state.routers![index].dayRouter!,
-                              quantityClients: state
-                                  .routers![index].quantityClient
-                                  .toString(),
-                              dayRouter: state.routers![index].nameDayRouter
-                                  .toString(),
-                              totalClients:
-                                  state.routers![index].quantityClient,
-                            );
-                          }),
-                    );
-                  } else {
-                    return const Center(child: Text('Cargando'));
-                  }
-                }),
-              ],
-            ),
-          ),
-        )
+        BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+          if (state.status == SaleStatus.loading) {
+            return const Center(
+                child: CupertinoActivityIndicator(color: Colors.green));
+          } else {
+            return _buildBody(state, context);
+          }
+        }),
       ],
     );
   }
+
+  Widget _buildBody(state, context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(Const.space15),
+        child: Column(
+          children: [
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                    title: e.name!,
+                    componentItems: e.components ?? [],
+                    tabController: null))
+                : [],
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+

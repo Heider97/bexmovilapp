@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
+import '../../../domain/models/section.dart';
 import '../../../utils/constants/strings.dart';
 //domain
 import '../../../domain/models/arguments.dart';
@@ -36,9 +37,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var results = await queryLoaderService.getResults('sales', [seller]);
-    var routers = (results)?.map((e) => e as Router).toList();
-    emit(state.copyWith(status: SaleStatus.success, routers: routers));
+    var sections = await queryLoaderService.getResults('sales', [seller]);
+    emit(state.copyWith(status: SaleStatus.success, sections: sections));
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
