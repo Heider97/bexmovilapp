@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
@@ -113,7 +114,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       final seller = storageService.getString('username');
 
       var sections = await queryLoaderService.getResults('home', [seller]);
-
+      
       emit(HomeSuccess(
           user: user,
           sections: sections,

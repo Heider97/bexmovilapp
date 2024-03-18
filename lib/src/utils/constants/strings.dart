@@ -28,12 +28,14 @@ class AppRoutes {
   static const createMeet = '/code-create-meet';
 
   //sales routes
+
   static const routersSale = '/sale-routers';
   static const clientsSale = '/sale-clients';
   static const filtersSale = '/sale-filters';
   static const productsSale = '/sale-products';
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
+  static const saleMap = '/sale-map';
 
   //NAVIGATION ROUTES
   static const navigation = '/navigation';
@@ -81,6 +83,8 @@ class Assets {
   //ICONS
   static const String arrowDown = 'assets/icons/arrow_down.png';
   static const String arrowUp = 'assets/icons/arrow_up.png';
+
+  static const String waze = 'assets/icons/waze.png';
 
   static const String bgPattern = 'assets/images/bg-pattern.png';
   static const String shadow = 'assets/images/shadow.png';

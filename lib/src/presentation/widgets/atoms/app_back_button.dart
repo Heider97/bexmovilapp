@@ -21,7 +21,7 @@ class AppBackButton extends StatelessWidget {
   ///
   /// The [onPressed] callback is optional. If omitted, the button will use the
   /// [Navigator.maybePop] method to determine the appropriate action.
-  const AppBackButton({super.key, this.onPressed, this.needPrimary });
+  const AppBackButton({super.key, this.onPressed, this.needPrimary});
 
   /// A callback that is called when the button is tapped or otherwise activated.
   ///
@@ -35,19 +35,19 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     assert(debugCheckHasMaterialLocalizations(context));
     return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Const.radius),
-          color: (needPrimary == true)
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.secondary
-        ),
+            borderRadius: BorderRadius.circular(Const.radius),
+            color: (needPrimary == true)
+                ? theme.colorScheme.primary
+                : theme.colorScheme.secondary),
         child: IconButton(
           style: IconButton.styleFrom(
             backgroundColor: (needPrimary == true)
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.secondary,
+                ? theme.colorScheme.primary
+                : theme.colorScheme.secondary,
           ),
           icon: const BackButtonIcon(),
           color: Theme.of(context).colorScheme.onPrimaryContainer,

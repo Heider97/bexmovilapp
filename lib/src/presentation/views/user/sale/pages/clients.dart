@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,48 +82,55 @@ class _ClientsPageState extends State<ClientsPage> {
         padding: const EdgeInsets.all(Const.space15),
         child: Column(
           children: [
-            StepperWidget(currentStep: 0, steps: steps),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                    padding: const EdgeInsets.all(Const.padding),
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: theme.colorScheme.secondary,
-                          borderRadius: BorderRadius.circular(Const.space15)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(Const.padding),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: theme.colorScheme.tertiary,
-                            ),
-                            gapW12,
-                            AppText('Búsqueda por clientes',
-                                color: theme.colorScheme.tertiary)
-                          ],
-                        ),
-                      ),
-                    )),
+                const AppBackButton(needPrimary: true),
+                AppIconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    child: Icon(
+                      Icons.menu,
+                      color: theme.colorScheme.onPrimary,
+                    ))
+              ],
+            ),
+            StepperWidget(currentStep: 0, steps: steps),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomSearchBar(
+                      onChanged: (value) {},
+                      colorBackground: theme.colorScheme.secondary,
+                      prefixIcon: Icon(Icons.search),
+                      controller: TextEditingController(),
+                      hintText: 'Buscar cliente'),
+                ),
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   if (state.clients != null && state.clients!.isNotEmpty) {
-                    return AppIconButton(
-                        child: const Icon(Icons.map_rounded),
-                        onPressed: () {
-                          context.read<SaleBloc>().add(NavigationSale(
-                              clients: state.clients!, nearest: false));
-                        });
+                    return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: AppIconButton(
+                            child: Icon(
+                              Icons.map_rounded,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                            onPressed: () {
+                              navigationService.goTo(AppRoutes.saleMap);
+                            })
+                        /*  context.read<SaleBloc>().add(NavigationSale(
+                                clients: state.clients!, nearest: false));
+                          }), */
+                        );
                   } else {
                     return const Center(child: CupertinoActivityIndicator());
                   }
                 }),
                 AppIconButton(
-                    child: const Icon(Icons.filter_alt_rounded),
-                    onPressed: () =>
-                        navigationService.goTo(AppRoutes.filtersSale)),
+                    child: Icon(Icons.filter_alt_rounded,
+                        color: theme.colorScheme.onPrimary),
+                    onPressed: () => navigationService.goTo(
+                          AppRoutes.filtersSale,
+                        )),
               ],
             ),
             gapH4,
@@ -133,6 +141,7 @@ class _ClientsPageState extends State<ClientsPage> {
                 } else if (state.status == SaleStatus.success) {
                   return Expanded(
                     child: ListView.builder(
+                        padding: const EdgeInsets.all(Const.padding),
                         itemCount:
                             state.clients != null ? state.clients!.length : 0,
                         itemBuilder: (context, index) {

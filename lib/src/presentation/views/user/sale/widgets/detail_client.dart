@@ -92,7 +92,8 @@ class DetailClientSale extends StatelessWidget {
                               AppIconButton(
                                   onPressed: () => helperFunction.launchWhatsApp(
                                       client.cellphone!,
-                                      '!Hola! ${client.name}, te saluda Diego Marin'),
+                                      '!Hola! ${client.name}, te saluda'), //TODO NOMBRE DEL VENDEDOR.
+
                                   child: const Icon(FontAwesomeIcons.whatsapp)),
                               AppIconButton(
                                   onPressed: () => launchUrl(

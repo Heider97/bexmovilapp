@@ -67,19 +67,19 @@ class _AppBottomNavBarState extends State<AppBottomNavBar> {
     final bottomNavBarItem = widget.items
         .asMap()
         .map((index, item) {
-      return MapEntry(
-        index,
-        LayoutBuilder(
-          builder: (context, constraints) => SizedBox(
-            width: constraints.maxWidth.isFinite
-                ? (constraints.maxWidth - AppConstants.lg) /
-                widget.items.length
-                : (size.width - AppConstants.lg) / widget.items.length,
-            child: _buildAppBottomNavBarItem(context, index, item),
-          ),
-        ),
-      );
-    })
+          return MapEntry(
+            index,
+            LayoutBuilder(
+              builder: (context, constraints) => SizedBox(
+                width: constraints.maxWidth.isFinite
+                    ? (constraints.maxWidth - AppConstants.lg) /
+                        widget.items.length
+                    : (size.width - AppConstants.lg) / widget.items.length,
+                child: _buildAppBottomNavBarItem(context, index, item),
+              ),
+            ),
+          );
+        })
         .values
         .toList();
 
@@ -87,42 +87,42 @@ class _AppBottomNavBarState extends State<AppBottomNavBar> {
       borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       child: widget.floating
           ? Container(
-        margin: EdgeInsets.only(
-          left: AppConstants.sm,
-          right: AppConstants.sm,
-          bottom: MediaQuery.of(context).viewPadding.bottom,
-        ),
-        height: widget.height,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(AppConstants.sm),
-        ),
-        child: Material(
-          borderRadius: BorderRadius.circular(AppConstants.sm),
-          color: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: bottomNavBarItem,
-          ),
-        ),
-      )
+              margin: EdgeInsets.only(
+                left: AppConstants.sm,
+                right: AppConstants.sm,
+                bottom: MediaQuery.of(context).viewPadding.bottom,
+              ),
+              height: widget.height,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(AppConstants.sm),
+              ),
+              child: Material(
+                borderRadius: BorderRadius.circular(AppConstants.sm),
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: bottomNavBarItem,
+                ),
+              ),
+            )
           : BottomAppBar(
-        padding: EdgeInsets.zero,
-        height: widget.height + MediaQuery.of(context).viewPadding.bottom,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: bottomNavBarItem,
-        ),
-      ),
+              padding: EdgeInsets.zero,
+              height: widget.height + MediaQuery.of(context).viewPadding.bottom,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: bottomNavBarItem,
+              ),
+            ),
     );
   }
 
   InkWell _buildAppBottomNavBarItem(
-      BuildContext context,
-      int index,
-      AppBottomNavBarItem item,
-      ) {
+    BuildContext context,
+    int index,
+    AppBottomNavBarItem item,
+  ) {
     return InkWell(
       borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       onTap: item.onTap,
@@ -135,9 +135,9 @@ class _AppBottomNavBarState extends State<AppBottomNavBar> {
             color: _currentIndex == index
                 ? Theme.of(context).colorScheme.onPrimaryContainer
                 : Theme.of(context)
-                .colorScheme
-                .onPrimaryContainer
-                .withAlpha(100),
+                    .colorScheme
+                    .onPrimaryContainer
+                    .withAlpha(100),
           ),
           if (item.label != null)
             AppText.bodySmall(
@@ -145,9 +145,9 @@ class _AppBottomNavBarState extends State<AppBottomNavBar> {
               color: _currentIndex == index
                   ? Theme.of(context).colorScheme.onPrimaryContainer
                   : Theme.of(context)
-                  .colorScheme
-                  .onPrimaryContainer
-                  .withAlpha(100),
+                      .colorScheme
+                      .onPrimaryContainer
+                      .withAlpha(100),
               overflow: TextOverflow.ellipsis,
             ),
         ],

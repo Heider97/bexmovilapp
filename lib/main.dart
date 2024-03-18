@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/config/theme/index.dart';
+import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -106,6 +108,10 @@ class _MyAppState extends State<MyApp> {
           create: (_) => NetworkBloc()..add(NetworkObserve()),
         ),
         BlocProvider(
+          create: (_) => MapsBloc(),
+        ),
+
+        BlocProvider(
             create: (_) => GpsBloc(
                 navigationService: locator<NavigationService>(),
                 storageService: locator<LocalStorageService>(),
@@ -207,9 +213,10 @@ class _MyAppState extends State<MyApp> {
                   }
                   return supportedLocales.first;
                 },
-                theme: AppTheme.theme,
-                darkTheme: AppTheme.darkTheme,
-                // themeMode: currentMode,
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: (false) ? ThemeMode.dark : ThemeMode.light,
+                /* ? ThemeMode.dark : ThemeMode.light, */
                 navigatorKey: locator<NavigationService>().navigatorKey,
                 onUnknownRoute: (RouteSettings settings) => MaterialPageRoute(
                     builder: (BuildContext context) => UndefinedView(

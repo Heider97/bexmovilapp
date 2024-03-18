@@ -129,7 +129,7 @@ class _MapPageState extends State<MapPage> {
           builder: (context, condition) {
             var works = context.read<NavigationCubit>().state.works;
             return condition
-                ? AppText('Clientes a visitar: ${works!.length}')
+                ? AppText('Clientes a visitar: ') /* ${works!.length} */
                 : AppText('0');
           },
         ),
@@ -234,7 +234,8 @@ class _MapPageState extends State<MapPage> {
       bool offline, String urlTemplate, GeneralProvider? provider, metadata) {
     return Stack(
       children: [
-        state.works != null && state.works!.isNotEmpty
+        /*    (state.works != null && state.works!.isNotEmpty) */
+        (true)
             ? SizedBox(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 1.0,
@@ -306,10 +307,10 @@ class _MapPageState extends State<MapPage> {
             : const AppIconText(
                 path: 'assets/icons/pin.svg',
                 messages: ['No hay clientes con geolocalización.']),
-        state.carouselData != null &&
+        (state.carouselData != null &&
                 state.carouselData!.isNotEmpty &&
                 state.works != null &&
-                state.works!.isNotEmpty
+                state.works!.isNotEmpty)
             ? CarouselSlider(
                 items: List<Widget>.generate(
                     state.carouselData!.length,
