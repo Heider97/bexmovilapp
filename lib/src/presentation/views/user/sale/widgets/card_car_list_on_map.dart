@@ -94,6 +94,22 @@ class _CardClientListOnMapState extends State<CardClientListOnMap>
                                 //color: textColor
                               ),
                             ),
+                            Text(
+                              "lat : ${widget.client.latitude}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 10,
+                                //color: textColor
+                              ),
+                            ),
+                            Text(
+                              "lon : ${widget.client.longitude}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 10,
+                                //color: textColor
+                              ),
+                            ),
                             const SizedBox(height: 5),
                           ],
                         ),

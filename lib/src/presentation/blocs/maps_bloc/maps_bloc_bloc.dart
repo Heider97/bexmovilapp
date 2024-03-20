@@ -25,7 +25,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
   Future moverCamera(LatLng newLocation) async {
     final cameraUpdate = CameraUpdate.newLatLng(newLocation);
     if (_mapController != null) {
-      await _mapController?.moveCamera(cameraUpdate);
+      await _mapController?.animateCamera(cameraUpdate);
     }
   }
 
@@ -75,7 +75,16 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   void _onCarouselPageChanged(
       OnCarouselPageChanged event, Emitter<MapsBlocState> emit) async {
-    //await (moverCamera(location));
+    String? latitude = state.clientsFounded![event.index].client.latitude;
+    String? longitude = state.clientsFounded![event.index].client.longitude;
+
+    if (latitude != null &&
+        latitude != '' &&
+        longitude != null &&
+        longitude != '') {
+      await (moverCamera(
+          LatLng(double.parse(latitude), double.parse(longitude))));
+    }
 
     emit(state.copyWith(
         selectedClient: state.clientsFounded![event.index].client));

@@ -33,7 +33,7 @@ class ClientDao {
   Future<List<Client>> getAllClientsRouter(
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
-    final clientsRouterList = await db!.rawQuery('''
+/*     final clientsRouterList = await db!.rawQuery('''
       SELECT tdr.diarutero, tdr.nomdiarutero, c.nomcliente, tr.diarutero, 
       c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
       c.codprecio, c.cupo, c.codfpagovta, c.razcliente, SUM(tc.preciomov) as wallet,
@@ -43,7 +43,46 @@ class ClientDao {
       AND tc.codcliente = tr.codcliente
       AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
       GROUP BY tr.CODCLIENTE
+    '''); */
+    final clientsRouterList = await db!.rawQuery('''
+       SELECT 
+    tdr.diarutero, 
+    tdr.nomdiarutero, 
+    c.nomcliente, 
+    tr.diarutero, 
+    c.dircliente, 
+    c.nitcliente, 
+    c.succliente, 
+    c.email, 
+    c.telcliente, 
+    c.codprecio, 
+    c.cupo, 
+    c.codfpagovta, 
+    c.razcliente, 
+    SUM(tc.preciomov) as wallet,
+    c.latitud as cliente_latitud, -- Latitud del cliente
+    c.longitud as cliente_longitud, -- Longitud del cliente
+    l.latitud as latitud, -- Latitud de la ubicación
+    l.longitud as longitud -- Longitud de la ubicación
+FROM 
+    tblmrutero tr, 
+    tblmdiarutero tdr, 
+    tblmcliente c, 
+    tbldcartera tc
+JOIN 
+    tbldclilatlon l -- Tabla de ubicaciones
+ON 
+    c.codcliente = l.codcliente -- Unir las tablas por el código de cliente
+WHERE 
+    tr.diarutero = tdr.diarutero 
+    AND tr.codcliente = c.codcliente 
+    AND tc.codcliente = tr.codcliente 
+    AND tdr.DIARUTERO = '$dayRouter' 
+    AND tr.CODVENDEDOR = '$seller' 
+GROUP BY 
+    tr.CODCLIENTE;
     ''');
+
     final clientRouters = parseClients(clientsRouterList);
     return clientRouters;
   }
@@ -55,9 +94,6 @@ class ClientDao {
     final routers = parseClients(routerList);
     return routers;
   }
-
-
-  
 
   Future<List<Client>> getClientInformationByAgeRange(
       String range, String seller) async {
@@ -212,8 +248,8 @@ class ClientDao {
   }
 
   Future<int> updateClient(Client client) {
-    return _appDatabase.update(tableClients, client.toJson(), 'NITCLIENTE',
-        int.parse(client.nit!));
+    return _appDatabase.update(
+        tableClients, client.toJson(), 'NITCLIENTE', int.parse(client.nit!));
   }
 
   Future<void> emptyClients() async {

@@ -51,8 +51,49 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
                     zoomControlsEnabled: false,
                     markers: state.markers.values.toSet(),
                     // myLocationEnabled: true,
-                    initialCameraPosition: const CameraPosition(
+                    initialCameraPosition: CameraPosition(
                         target: LatLng(25.7721846, -80.2332475), zoom: 12)),
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape:
+                                BoxShape.circle, // Forma circular para el botón
+                          ),
+                          child: IconButton(
+                            color: Colors.black, // Color del icono
+                            onPressed: () {
+                              // Acción al presionar el botón
+                            },
+                            icon: const Icon(Icons.gps_fixed),
+                          ),
+                        ),
+                      ),
+                      gapH12,
+                      Center(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape:
+                                BoxShape.circle, // Forma circular para el botón
+                          ),
+                          child: IconButton(
+                            color: Colors.black, // Color del icono
+                            onPressed: () {
+                              // Acción al presionar el botón
+                            },
+                            icon: Icon(Icons.gps_fixed),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SafeArea(
                   child: Column(
                     children: [

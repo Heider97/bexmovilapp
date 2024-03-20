@@ -51,7 +51,7 @@ class CartesianChart extends StatelessWidget {
             ),
           ),
           SfCartesianChart(
-            primaryXAxis: const CategoryAxis(),
+            primaryXAxis: CategoryAxis(),
             legend: const Legend(
               isVisible: false,
             ),
@@ -76,7 +76,7 @@ class CartesianChart extends StatelessWidget {
                           arguments: arguments);
                     }
                   },
-                  dataSource: graphic.data,
+                  dataSource: graphic.data!,
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),
