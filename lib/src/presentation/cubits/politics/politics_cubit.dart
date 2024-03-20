@@ -12,9 +12,9 @@ part 'politics_state.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
-class PoliticsCubit extends BaseCubit<PoliticsState, String?> {
+class PoliticsCubit extends BaseCubit<PoliticsState> {
   PoliticsCubit()
-      : super(PoliticsSuccess(token: _storageService.getString('token')), null);
+      : super(PoliticsSuccess(token: _storageService.getString('token')));
 
   Future<void> goTo() async {
     if (isBusy) return;
@@ -26,9 +26,9 @@ class PoliticsCubit extends BaseCubit<PoliticsState, String?> {
         String route;
 
         if (token != null) {
-          route = Routes.homeRoute;
+          route = AppRoutes.home;
         } else {
-          route = Routes.permissionRoute;
+          route = AppRoutes.permission;
         }
 
         emit(PoliticsSuccess(

@@ -1,0 +1,3 @@
+class SyncRequest{
+  SyncRequest();
+}

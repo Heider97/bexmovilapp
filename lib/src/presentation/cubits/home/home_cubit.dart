@@ -1,137 +1,157 @@
+import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:equatable/equatable.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
+//cubit
+
+import '../base/base_cubit.dart';
 
 //utils
-import '../../../utils/constants/nums.dart';
 import '../../../utils/constants/strings.dart';
+import '../../../utils/resources/data_state.dart';
 
 //domain
-import '../../../domain/models/category.dart';
 import '../../../domain/models/user.dart';
+import '../../../domain/models/section.dart';
+import '../../../domain/models/application.dart';
+import '../../../domain/models/feature.dart';
+import '../../../domain/models/kpi.dart';
+import '../../../domain/models/isolate.dart';
+//requests
+import '../../../domain/models/requests/module_request.dart';
+import '../../../domain/models/requests/filter_request.dart';
 import '../../../domain/repositories/database_repository.dart';
+import '../../../domain/repositories/api_repository.dart';
 
 //service
-import '../../../locator.dart';
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
+import '../../../services/query_loader.dart';
 
 part 'home_state.dart';
-part 'tab_category.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
-final NavigationService _navigationService = locator<NavigationService>();
+class HomeCubit extends BaseCubit<HomeState> {
+  final DatabaseRepository databaseRepository;
+  final ApiRepository apiRepository;
+  final LocalStorageService storageService;
+  final NavigationService navigationService;
+  final QueryLoaderService queryLoaderService;
 
-class HomeCubit extends Cubit<HomeState> {
-  final DatabaseRepository _databaseRepository;
+  HomeCubit(this.databaseRepository, this.apiRepository, this.storageService,
+      this.navigationService, this.queryLoaderService)
+      : super(const HomeLoading());
 
-  HomeCubit(this._databaseRepository) : super(const HomeLoading());
+  Future<void> heavyTask(IsolateModel model) async {
+    for (var i = 0; i < model.iteration; i++) {
+      await model.functions[i]();
+    }
+  }
 
-  late List<TabCategory> tabs = [];
-  late TabController tabController;
-  late ScrollController scrollController;
-  bool listen = true;
+  Future<void> getModules() async {
+    //TODO: [Heider Zapa] refacto with new logic
+    // final response = await apiRepository.modules(
+    //     request:
+    //         ModuleRequest(codvendedor: storageService.getString('username')!));
+    //
+    // if (response is DataSuccess) {
+    //   await databaseRepository.init();
+    //   if (response.data != null && response.data!.modules != null) {
+    //     var modules = response.data!.modules;
+    //     await databaseRepository.insertModules(modules!);
+    //     for (var module in modules) {
+    //       if (module.components != null) {
+    //         await databaseRepository.insertComponents(module.components!);
+    //         for (var component in module.components!) {
+    //           await databaseRepository.insertQueries(component.queries!);
+    //         }
+    //       }
+    //     }
+    //   }
+    // } else {
+    //   emit(HomeFailed(
+    //     error: 'modules-${response.data!.message}',
+    //   ));
+    // }
+  }
 
-  Future<void> init(TickerProvider ticker) async {
-    await Future.value(_databaseRepository.getAllCategoriesWithProducts())
-        .then((categories) {
-      final companyName = _storageService.getString('company_name');
-      scrollController = ScrollController();
-      tabController = TabController(length: categories.length, vsync: ticker);
+  Future<void> getConfigs() async {
+    final response = await apiRepository.configs();
 
-      double offsetFrom = 0.0;
-      double offsetTo = 0.0;
+    if (response is DataSuccess) {
+      await databaseRepository.init();
+      await databaseRepository.insertConfigs(response.data!.configs);
+    } else {
+      emit(HomeFailed(
+        error: 'configs-${response.data!.message}',
+      ));
+    }
+  }
 
-      tabs = [];
-
-      for (var i = 0; i < categories.length; i++) {
-        final category = categories[i];
-
-        if (i > 0) {
-          offsetFrom += categories[i - 1].products!.length * productHeight;
+  Future<void> getFilters() async {
+    final response = await apiRepository.filters(
+        request:
+            FilterRequest(codvendedor: storageService.getString('username')!));
+    if (response is DataSuccess && response.data != null) {
+      await databaseRepository.insertFilters(response.data!.filters!);
+      if (response.data!.filters != null) {
+        for (var filter in response.data!.filters!) {
+          await databaseRepository.insertOptions(filter.options!);
         }
-
-        if (i < categories.length - 1) {
-          offsetTo =
-              offsetFrom + categories[i + 1].products!.length * productHeight;
-        } else {
-          offsetTo = double.infinity;
-        }
-
-        tabs.add(TabCategory(
-            category: category,
-            selected: (i == 0),
-            offsetFrom: categoryHeight * i + offsetFrom,
-            offsetTo: offsetTo));
       }
+    } else {
+      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
+    }
+  }
 
-      scrollController.addListener(onScrollListener);
+  Future<void> init() async {
+    if (isBusy) return;
 
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(HomeSuccess(
-            categories: categories,
-            companyName: companyName,
-            tabController: tabController,
-            tabs: tabs,
-            scrollController: scrollController));
-      });
+    await run(() async {
+      emit(const HomeLoading());
+
+      final user = User.fromMap(storageService.getObject('user')!);
+      final seller = storageService.getString('username');
+      final sections = await queryLoaderService.getResults('home', [seller]);
+      
+      emit(HomeSuccess(
+          user: user,
+          sections: sections,
+        ));
     });
   }
 
-  void onScrollListener() {
-    if (listen) {
-      for (var i = 0; i < tabs.length; i++) {
-        final tab = tabs[i];
-        if (scrollController.offset >= tab.offsetFrom &&
-            scrollController.offset <= tab.offsetTo &&
-            !tab.selected) {
-          onTapSelected(i, animationRequired: false);
-          tabController.animateTo(i);
-          break;
-        }
-      }
-    }
+  Future<void> sync() async {
+    if (isBusy) return;
 
-    emit(HomeSuccess(categories: state.categories));
-  }
+    await run(() async {
+      emit(const HomeSynchronizing());
 
-  void onTapSelected(int index, {bool animationRequired = true}) async {
-    final selected = tabs[index];
-    for (var i = 0; i < tabs.length; i++) {
-      final condition = selected.category.name == tabs[i].category.name;
-      tabs[i] = tabs[i].copyWith(condition);
-    }
+      var functions = [
+        getModules,
+        getConfigs,
+        getFilters
+      ];
 
-    if (animationRequired) {
-      listen = false;
-      await scrollController.animateTo(selected.offsetFrom,
-          duration: const Duration(milliseconds: 500), curve: Curves.linear);
-      listen = true;
-    }
+      var isolateModel = IsolateModel(functions, null, 7);
+      await heavyTask(isolateModel);
 
-    emit(HomeSuccess(
-        categories: state.categories,
-        companyName: state.companyName,
-        tabController: tabController,
-        tabs: tabs,
-        scrollController: scrollController));
-  }
+      final user = User.fromMap(storageService.getObject('user')!);
+      final seller = storageService.getString('username');
+      final sections = await queryLoaderService.getResults('home', [seller]);
 
-  void dispose() {
-    emit(const HomeLoading());
-    scrollController.removeListener(onScrollListener);
-    scrollController.dispose();
-    tabController.dispose();
+      emit(HomeSuccess(
+          user: user,
+          sections: sections,
+        ));
+    });
   }
 
   Future<void> logout() async {
     await Future.wait([
-      _databaseRepository.emptyCategories(),
-      _databaseRepository.emptyProducts(),
-      _databaseRepository.emptyProcessingQueues()
+      //DELETE  DATABASE INFORMATION
     ]);
 
-    _storageService.remove('token');
-    _navigationService.replaceTo(Routes.loginRoute);
+    storageService.remove('token');
+    navigationService.replaceTo(AppRoutes.login);
   }
 }

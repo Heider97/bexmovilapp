@@ -26,10 +26,13 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         emit(const Loaded(route: '/politics'));
       } else {
         var token = _storageService.getString('token');
+        var company = _storageService.getObject('enterprise');
         if (token != null) {
-          emit(const Loaded(route: Routes.homeRoute));
+          emit(const Loaded(route: AppRoutes.home));
+        } else if (company != null) {
+          emit(const Loaded(route: AppRoutes.login));
         } else {
-          emit(const Loaded(route: Routes.selectEnterpriseRoute));
+          emit(const Loaded(route: AppRoutes.selectEnterprise));
         }
       }
     });
@@ -43,7 +46,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
       await Future.delayed(const Duration(seconds: 3));
       isFirstTime().then((firstTime) async* {
         if (!firstTime!) {
-          yield const Loaded(route: Routes.politicsRoute);
+          yield const Loaded(route: AppRoutes.politics);
         } else {
           validateSession();
         }
@@ -57,10 +60,13 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
 
   Stream<Loaded> validateSession() async* {
     var token = _storageService.getString('token');
+    var company = _storageService.getObject('company');
     if (token != null) {
-      yield const Loaded(route: Routes.homeRoute);
+      yield const Loaded(route: AppRoutes.home);
+    } else if (company != null) {
+      yield const Loaded(route: AppRoutes.login);
     } else {
-      yield const Loaded(route: Routes.selectEnterpriseRoute);
+      yield const Loaded(route: AppRoutes.selectEnterprise);
     }
   }
 }

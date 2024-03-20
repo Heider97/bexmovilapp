@@ -1,0 +1,3 @@
+class ClientLocationRequest {
+  ClientLocationRequest();
+}

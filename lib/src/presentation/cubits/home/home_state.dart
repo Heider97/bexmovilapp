@@ -1,65 +1,43 @@
 part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
-
-  final List<Category>? categories;
   final User? user;
-  final String? companyName;
+  final List<Section>? sections;
   final String? error;
-  final TabController? tabController;
-  final List<TabCategory>? tabs;
-  final ScrollController? scrollController;
 
   const HomeState(
-      {this.categories,
-      this.user,
-      this.companyName,
-      this.tabController,
-      this.tabs,
-      this.scrollController,
+      {this.user,
+      this.sections,
       this.error});
 
-  @override
-  List<Object?> get props => [
-        categories,
-        user,
-        companyName,
-        tabController,
-        tabs,
-        scrollController,
-        error
-      ];
+  HomeState copyWith(
+      {User? user,
+      List<Section>? sections,
+      String? error}) {
+    return HomeState(
+      user: user ?? this.user,
+      sections: sections ?? this.sections,
+      error: error ?? this.error,
+    );
+  }
 
-  HomeState copyWith({
-    List<Category>? categories,
-    User? user,
-    String? companyName,
-    String? error,
-    TabController? tabController,
-    List<TabCategory>? tabs,
-    ScrollController? scrollController,
-  }) => HomeState(
-    categories: this.categories ?? categories,
-    user: this.user ?? user,
-    companyName: this.companyName ?? companyName,
-    tabController: this.tabController ?? tabController,
-    tabs: this.tabs ?? tabs,
-    scrollController: this.scrollController ?? scrollController
-  );
+  @override
+  List<Object?> get props =>
+      [user, sections, error];
 }
 
 class HomeLoading extends HomeState {
   const HomeLoading();
 }
 
+class HomeSynchronizing extends HomeState {
+  const HomeSynchronizing();
+}
+
 class HomeSuccess extends HomeState {
-  const HomeSuccess({
-    super.categories,
-    super.user,
-    super.companyName,
-    super.tabController,
-    super.tabs,
-    super.scrollController
+  const HomeSuccess(
+      {super.user,
+      super.sections,
   });
 }
 

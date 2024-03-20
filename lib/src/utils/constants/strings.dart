@@ -1,30 +1,56 @@
-// App
-const String appTitle = 'Bex Movil';
+import 'package:flutter/material.dart';
 
-// Networking and APIs
-const String baseUrl = 'https://demo.bexdeliveries.com/api/v1/';
-const String defaultApiKey = 'ff957763c54c44d8b00e5e082bc76cb0';
-const String defaultSources = 'bbc-news, abc-news, al-jazeera-english';
+final GlobalKey<ScaffoldState> globalKey = GlobalKey();
 
 // Storage and Databases
-const String articlesTableName = 'articles_table';
 const String databaseName = 'app_database';
 
-//routes\
+//routes
+class AppRoutes {
+  //auth routes
+  static const splash = '/splash';
+  static const politics = '/politics';
+  static const company = '/company';
+  static const permission = '/permission';
+  static const login = '/login';
+  static const searchPage = '/search';
+  static const codeFormRequest = '/code-form-request';
+  static const codeValidation = '/code-validation';
+  static const recoverPassword = '/recover-password';
+  static const selectEnterprise = '/select-enterprise';
 
-class Routes {
-  static const splashRoute = '/splash';
-  static const politicsRoute = '/politics';
-  static const companyRoute = '/company';
-  static const permissionRoute = '/permission';
-  static const loginRoute = '/login';
-  static const homeRoute = '/home';
-  static const categoryRoute = '/category';
-  static const productRoute = '/product';
-  static const calendarRoute = '/calendar';
-  static const productivityRoute = '/productivity';
-  static const selectEnterpriseRoute = '/select-enterprise';
-  static const databaseRoute = '/database';
+  //home routes
+  static const home = '/home';
+  static const sync = '/sync';
+
+  //calendar routes
+  static const calendar = '/calendar';
+  static const createMeet = '/code-create-meet';
+
+  //sales routes
+
+  static const routersSale = '/sale-routers';
+  static const clientsSale = '/sale-clients';
+  static const filtersSale = '/sale-filters';
+  static const productsSale = '/sale-products';
+  static const cartSale = '/sale-cart';
+  static const historySale = '/sale-history';
+  static const saleMap = '/sale-map';
+
+  //NAVIGATION ROUTES
+  static const navigation = '/navigation';
+  static const editStore = '/edit-store-popup';
+  static const importStore = '/import-store-popup';
+  static const recovery = '/recovery-popup';
+  static const downloader = '/downloader-popup';
+
+  //Wallet routes
+  static const dashboardWallet = '/wallet-dashboard';
+  static const clientsWallet = '/wallet-clients';
+  static const summariesWallet = '/wallet-summaries';
+  static const notificationWallet = '/wallet-notification';
+  static const detailWallet = '/wallet-detail';
+  static const manageWallet = '/wallet-manage';
 }
 
 // Form Error
@@ -54,6 +80,31 @@ const String displayMessagePermanentlydenied =
     "Para brindarle la mejor experiencia de usuario, necesitamos algunos permisos, pero parece que lo denegó permanentemente. Vaya a la configuración y actívela manualmente para continuar.";
 
 class Assets {
+  //ICONS
+  static const String arrowDown = 'assets/icons/arrow_down.png';
+  static const String arrowUp = 'assets/icons/arrow_up.png';
+
+  static const String waze = 'assets/icons/waze.png';
+
+  static const String bgPattern = 'assets/images/bg-pattern.png';
+  static const String shadow = 'assets/images/shadow.png';
+  static const String bexBackgroundWhite =
+      'assets/icons/BEX-background-white.png';
+  static const String bgSquare = 'assets/images/bg-square.png';
+
+  static const String bgPromCardGreen = "assets/images/bg-prom-card.png";
+  static const String bgPromCardOrange = "assets/images/bg-prom-card-2.png";
+
+//STEPPER ICONS
+  static const String actionEnable = "assets/icons/actionEnable.png";
+  static const String actionDisable = "assets/icons/actionDisable.png";
+  static const String invoiceDisable =
+      "assets/icons/seleccionarFacturaDisable.png";
+  static const String invoiceEnable =
+      "assets/icons/seleccionarFacturaEnable.png";
+  static const String profileEnable = "assets/icons/ProfileEnable.png";
+  static const String profileDisable = "assets/icons/ProfileDisable.png";
+
   static const String background1 = 'assets/background_1.jpg';
   static const String bank = 'assets/bank.svg';
   static const String coloring = 'assets/coloring.svg';
@@ -83,9 +134,20 @@ class Assets {
   static const String shaving = 'assets/shaving.svg';
   static const String signIn = 'assets/sign_in.jpg';
   static const String spa = 'assets/spa.svg';
+
+  //Wallet Assets
+  static const String whatsapp = 'assets/images/wallet/whatsapp.png';
+  static const String emailWallet = 'assets/images/wallet/email.png';
+  static const String textMessage = 'assets/images/wallet/text-message.png';
+
+  static const String check = 'assets/images/wallet/check.png';
+  static const String consignment = 'assets/images/wallet/consignment.png';
+  static const String cash = 'assets/images/wallet/cash.png';
+  static const String creditNote = 'assets/images/wallet/credit_note.png';
 }
 
 class Const {
+  static const double elevation = 10;
   static const int splashDuration = 3;
   static const double textFieldRadius = 12;
 
@@ -97,6 +159,7 @@ class Const {
   static const double space8 = 8;
   static const double space12 = 12;
   static const double space15 = 15;
+  static const double space18 = 18;
   static const double space25 = 25;
   static const double space40 = 40;
   static const double space50 = 50;

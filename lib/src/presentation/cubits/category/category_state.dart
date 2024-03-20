@@ -1,4 +1,4 @@
-part of 'category_cubit.dart';
+/* part of 'category_cubit.dart';
 
 abstract class CategoryState extends Equatable {
   final Category? category;
@@ -24,4 +24,4 @@ class CategorySuccess extends CategoryState {
 
 class CategoryFailed extends CategoryState {
   const CategoryFailed({ super.error });
-}
+} */

@@ -2,12 +2,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+//core
+import '../../../core/functions.dart';
+
 //services
 import '../../../locator.dart';
 import '../../../services/storage.dart';
 
 final LocalStorageService _storageService = locator<LocalStorageService>();
 const String appToken = 'token';
+
+final helperFunction = HelperFunctions();
 
 class Logging extends Interceptor {
   Logging({
@@ -19,7 +24,6 @@ class Logging extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (kDebugMode) {
-      print(options.baseUrl);
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     try {
@@ -29,6 +33,7 @@ class Logging extends Interceptor {
       options.headers[HttpHeaders.acceptHeader] = 'application/json';
     } catch (e) {
       if (kDebugMode) {
+        print('***************');
         print(e);
       }
     }
@@ -46,13 +51,14 @@ class Logging extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (_shouldRetryOnHttpException(err)) {
       try {
         handler.resolve(await DioHttpRequestRetrier(dio: dio)
             .requestRetry(err.requestOptions)
+            // ignore: body_might_complete_normally_catch_error
             .catchError((e) {
-                handler.next(err);
+          handler.next(err);
         }));
       } catch (e) {
         handler.next(err);
@@ -62,8 +68,15 @@ class Logging extends Interceptor {
     }
   }
 
-  bool _shouldRetryOnHttpException(DioError err) {
-    return err.type == DioErrorType.unknown &&
+  bool _shouldRetryOnHttpException(DioException err) {
+    //TODO:: [Sebastian Monroy] Always try to verify that contains variables to do correct validations
+    // if (err.type == DioExceptionType.badResponse &&
+    //     !err.requestOptions.uri.toString().contains('auth') &&
+    //     err.message != null && err.message!.contains('401')) {
+    //   print('esta entrando aqui por error');
+    //   Future.value(helperFunction.login());
+    // }
+    return err.type == DioExceptionType.unknown &&
         ((err.error is HttpException &&
             err.message!.contains(
                 'Connection closed before full header was received')));

@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+/* import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 
 //domain
@@ -19,10 +19,11 @@ class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit(this._databaseRepository) : super(const CategoryLoading());
 
   Future<void> init(int categoryId) async {
-    final category = await _databaseRepository.getCategoryWithProducts(categoryId);
-    emit(CategorySuccess(category: category));
+/*     final category = await _databaseRepository.getCategoryWithProducts(categoryId);
+    emit(CategorySuccess(category: category)); */
   }
 
   void back() => _navigationService.goBack();
 
 }
+ */

@@ -1,9 +1,8 @@
+import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 
-
 //domain
-import '../../../domain/models/product.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -19,12 +18,7 @@ class CartCubit extends Cubit<CartState> {
 
   CartCubit(this._databaseRepository) : super(const CartLoading());
 
-  Future<void> init(int productId) async {
-    final products = await _databaseRepository.getAllProducts();
-    emit(CartSuccess(products: products));
-  }
+  Future<void> init(int productId) async {}
 
   void back() => _navigationService.goBack();
-
-
 }
