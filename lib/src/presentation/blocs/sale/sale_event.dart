@@ -22,6 +22,11 @@ class NavigationSale extends SaleEvent {
   NavigationSale({required this.clients, required this.nearest});
 }
 
+class SearchClientSale extends SaleEvent {
+  final String valueToSearch;
+  SearchClientSale({required this.valueToSearch});
+}
+
 
 
 

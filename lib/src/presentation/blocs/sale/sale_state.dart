@@ -7,6 +7,7 @@ class SaleState extends Equatable {
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
+  final List<Client>? clientsFounded;
 
   final List<Filter>? filters;
   final String? error;
@@ -16,6 +17,7 @@ class SaleState extends Equatable {
       this.sections,
       this.routers,
       this.clients,
+      this.clientsFounded,
       this.filters,
       this.error});
 
@@ -24,6 +26,7 @@ class SaleState extends Equatable {
           List<Section>? sections,
           List<Router>? routers,
           List<Client>? clients,
+          List<Client>? clientsFounded,
           List<Filter>? filters,
           String? error}) =>
       SaleState(
@@ -31,6 +34,7 @@ class SaleState extends Equatable {
           sections: sections ?? this.sections,
           routers: routers ?? this.routers,
           clients: clients ?? this.clients,
+          clientsFounded: clientsFounded ?? this.clientsFounded,
           filters: filters ?? this.filters,
           error: error ?? this.error);
 

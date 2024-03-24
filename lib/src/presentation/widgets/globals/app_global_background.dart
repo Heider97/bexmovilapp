@@ -55,6 +55,7 @@ class AppGlobalBackground extends StatelessWidget {
     required this.child,
   }) {
     builder = (context) {
+      ThemeData theme = Theme.of(context);
       return Scaffold(
         appBar: hideAppBar == false
             ? AppBar(
@@ -64,10 +65,14 @@ class AppGlobalBackground extends StatelessWidget {
                 actions: [
                   Builder(builder: (context) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Const.padding, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Const.padding, vertical: 5),
                       child: AppIconButton(
                           onPressed: () => Scaffold.of(context).openDrawer(),
-                          child: const Icon(Icons.menu)),
+                          child: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onPrimary,
+                          )),
                     );
                   }),
                 ],
@@ -106,7 +111,8 @@ class AppGlobalBackground extends StatelessWidget {
                 actions: [
                   Builder(builder: (context) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Const.padding),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: Const.padding),
                       child: AppIconButton(
                           onPressed: () => Scaffold.of(context).openDrawer(),
                           child: const Icon(Icons.menu)),
@@ -161,7 +167,8 @@ class AppGlobalBackground extends StatelessWidget {
                 actions: [
                   Builder(builder: (context) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: Const.padding),
+                      padding:
+                          const EdgeInsets.symmetric(vertical: Const.padding),
                       child: AppIconButton(
                           onPressed: () => Scaffold.of(context).openDrawer(),
                           child: const Icon(Icons.menu)),

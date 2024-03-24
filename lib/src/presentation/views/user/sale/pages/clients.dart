@@ -43,10 +43,12 @@ class _ClientsPageState extends State<ClientsPage> {
   final formatCurrency = NumberFormat.simpleCurrency();
 
   late SaleBloc saleBloc;
+  TextEditingController textSaleController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadClients(widget.codeRouter));
 
@@ -87,10 +89,12 @@ class _ClientsPageState extends State<ClientsPage> {
               children: [
                 Expanded(
                   child: CustomSearchBar(
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        saleBloc.add(SearchClientSale(valueToSearch: value));
+                      },
                       colorBackground: theme.colorScheme.secondary,
                       prefixIcon: const Icon(Icons.search),
-                      controller: TextEditingController(),
+                      controller: textSaleController,
                       hintText: 'Buscar cliente'),
                 ),
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -130,11 +134,12 @@ class _ClientsPageState extends State<ClientsPage> {
                   return Expanded(
                     child: ListView.builder(
                         padding: const EdgeInsets.all(Const.padding),
-                        itemCount:
-                            state.clients != null ? state.clients!.length : 0,
+                        itemCount: state.clientsFounded != null
+                            ? state.clientsFounded!.length
+                            : 0,
                         itemBuilder: (context, index) {
                           return CardClientRouter(
-                            client: state.clients![index],
+                            client: state.clientsFounded![index],
                           );
                         }),
                   );
