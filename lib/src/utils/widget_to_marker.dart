@@ -13,7 +13,7 @@ Future<BitmapDescriptor> getfinalCustomMarkerOrigin(
   const size = ui.Size(350, 150);
 
   final startMarker =
-      CustomMarker(dailyPrice: dailyPrice, model: model, context: context);
+      CustomMarker(/* dailyPrice: dailyPrice, model: model,  */context: context);
   startMarker.paint(canvas, size);
   final picture = recorder.endRecording();
   final image = await picture.toImage(size.width.toInt(), size.height.toInt());

@@ -21,7 +21,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     on<StopMapControllerEvent>(_onEndMap);
     on<SearchClient>(_searchClient);
     on<SelectClient>(_selectClient);
-    on<OnCarouselPageChanged>(_onCarouselPageChanged);
+  //  on<OnCarouselPageChanged>(_onCarouselPageChanged);
     on<UnSelectClient>(_unSelectClient);
     on<CenterToUserLocation>(_centerToUserLocation);
   }
@@ -35,7 +35,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   void _onInitMap(
       OnMapInitializedEvent event, Emitter<MapsBlocState> emit) async {
-    List<CardClientListOnMap>? listClients = [];
+   // List<CardClientListOnMap>? listClients = [];
     Map<String, Marker> currentMarkers = {};
 
     for (Client client in event.clients) {
@@ -52,7 +52,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       );
       currentMarkers[client.name.toString()] = clienMarker;
 
-      listClients.add(CardClientListOnMap(client: client));
+    //  listClients.add(CardClientListOnMap(client: client));
     }
 
     _mapController = event.controller;
@@ -61,19 +61,19 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     emit(state.copyWith(
         isMapInitialized: true,
         disposeMapController: false,
-        listClients: listClients,
-        clientsFounded: listClients,
+    /*     listClients: listClients,
+        clientsFounded: listClients, */
         markers: currentMarkers));
   }
 
   void _searchClient(SearchClient event, Emitter emit) {
-    List<CardClientListOnMap>? clientsFounded = [];
+ /*    List<CardClientListOnMap>? clientsFounded = [];
     clientsFounded = buscarClientes(event.valueToSearch);
     print('value');
-    emit(state.copyWith(clientsFounded: clientsFounded));
+    emit(state.copyWith(clientsFounded: clientsFounded)); */
   }
 
-  List<CardClientListOnMap>? buscarClientes(String valor) {
+/*   List<CardClientListOnMap>? buscarClientes(String valor) {
     if (valor == '') {
       return state.listClients!;
     }
@@ -83,7 +83,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       return cardClient.client.name!.toLowerCase().contains(valor) ||
           cardClient.client.businessName!.toLowerCase().contains(valor);
     }).toList();
-  }
+  } */
 
   void _selectClient(SelectClient event, Emitter emit) {
     Map<String, Marker> currentMarkers = {};
@@ -110,7 +110,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     emit(state.copyWith(disposeMapController: true));
   }
 
-  void _onCarouselPageChanged(
+/*   void _onCarouselPageChanged(
       OnCarouselPageChanged event, Emitter<MapsBlocState> emit) async {
     String? latitude = state.clientsFounded![event.index].client.latitude;
     String? longitude = state.clientsFounded![event.index].client.longitude;
@@ -125,7 +125,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
     emit(state.copyWith(
         selectedClient: state.clientsFounded![event.index].client));
-  }
+  } */
 
   void _unSelectClient(UnSelectClient event, Emitter<MapsBlocState> emit) {
     emit(state.copyWith(selectedClient: null));

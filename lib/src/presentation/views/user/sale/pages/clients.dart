@@ -84,7 +84,7 @@ class _ClientsPageState extends State<ClientsPage> {
         padding: const EdgeInsets.all(Const.space15),
         child: Column(
           children: [
-            StepperWidget(currentStep: 0, steps: steps),
+            //  StepperWidget(currentStep: 0, steps: steps),
             Row(
               children: [
                 Expanded(
@@ -107,7 +107,8 @@ class _ClientsPageState extends State<ClientsPage> {
                               color: theme.colorScheme.onPrimary,
                             ),
                             onPressed: () {
-                              navigationService.goTo(AppRoutes.saleMap);
+                              navigationService.goTo(AppRoutes.saleMap,
+                                  arguments: widget.codeRouter);
                             })
                         /*  context.read<SaleBloc>().add(NavigationSale(
                                 clients: state.clients!, nearest: false));

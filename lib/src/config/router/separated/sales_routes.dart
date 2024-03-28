@@ -22,5 +22,5 @@ Map<String, RouteType> salesRoutes = {
   AppRoutes.saleMap: (context, settings) => AppGlobalBackground.squared(
       hideBottomNavigationBar: true,
       opacity: 0.1,
-      child: const MapAvailableCars()),
+      child: MapAvailableCars(codeRouter: settings.arguments as String)),
 };

@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/custom_draggable_scrollable_sheet.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/widgets/check_image.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/atoms.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
@@ -15,7 +18,8 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MapAvailableCars extends StatefulWidget {
-  const MapAvailableCars({super.key});
+  final String codeRouter;
+  const MapAvailableCars({super.key, required this.codeRouter});
 
   @override
   State<MapAvailableCars> createState() => _MapAvailableCarsState();
@@ -30,7 +34,40 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
   void initState() {
     mapsBloc = BlocProvider.of<MapsBloc>(context);
     saleBloc = BlocProvider.of<SaleBloc>(context);
+
+    saleBloc.add(LoadClients(widget.codeRouter));
     super.initState();
+  }
+
+  Future<Uint8List> _createMarkerImage() async {
+    final ui.PictureRecorder recorder = ui.PictureRecorder();
+    final Canvas canvas = Canvas(recorder);
+
+    // Draw Circle
+    final Paint circlePaint = Paint()..color = Colors.blue;
+    canvas.drawCircle(Offset(20, 20), 20, circlePaint);
+
+    // Draw Number
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(
+        text: '1',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, Offset(15, 12));
+
+    final ui.Picture picture = recorder.endRecording();
+    final ui.Image img = await picture.toImage(40, 40);
+    final ByteData? byteData =
+        await img.toByteData(format: ui.ImageByteFormat.png);
+
+    return byteData!.buffer.asUint8List();
   }
 
   @override
@@ -43,6 +80,24 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
             return Stack(
               fit: StackFit.expand,
               children: [
+                /*       Container(
+                  height: 100,
+                  width: Screens.width(context),
+                  color: Colors.transparent,
+                  child: CarouselSlider(
+                    items: state.clientsFounded,
+                    carouselController: state.carouselController,
+                    options: CarouselOptions(
+                      height: 100,
+                      viewportFraction: 0.7,
+                      enableInfiniteScroll: false,
+                      scrollDirection: Axis.horizontal,
+                      onPageChanged: (int index, _) async {
+                        mapsBloc.add(OnCarouselPageChanged(index: index));
+                      },
+                    ),
+                  ),
+                ), */
                 GoogleMap(
                     minMaxZoomPreference: MinMaxZoomPreference.unbounded,
                     onMapCreated: (controller) {
@@ -52,11 +107,18 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
                     compassEnabled: false,
                     myLocationButtonEnabled: true,
                     zoomControlsEnabled: false,
+                    /* 
+                          {Marker(
+                      markerId: MarkerId("marker1"),
+                      position: LatLng(6.25184, -75.56359),
+                      icon: BitmapDescriptor.fromBytes(_createMarkerImage())
+                    )}, */
                     markers: state.markers.values.toSet(),
-                    // myLocationEnabled: true,
-                    initialCameraPosition: CameraPosition(
-                        target: LatLng(25.7721846, -80.2332475), zoom: 12)),
-                (state.selectedClient != null)
+                    initialCameraPosition: const CameraPosition(
+                        target: LatLng(6.25184, -75.56359), zoom: 12)),
+                CustomDraggableScrollableSheet()
+
+                /*      (state.selectedClient != null)
                     ? Positioned(
                         bottom: 10,
                         right: 10,
@@ -107,26 +169,9 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
                             ),
                           ],
                         ),
-                      ),
-                      Container(
-                        height: 100,
-                        width: Screens.width(context),
-                        color: Colors.transparent,
-                        child: CarouselSlider(
-                          items: state.clientsFounded,
-                          carouselController: state.carouselController,
-                          options: CarouselOptions(
-                            height: 100,
-                            viewportFraction: 0.7,
-                            enableInfiniteScroll: false,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (int index, _) async {
-                              mapsBloc.add(OnCarouselPageChanged(index: index));
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                      ), */
+
+                /*         ],
                   ),
                 ),
                 (state.selectedClient != null)
@@ -409,8 +454,8 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
                                 ),
                               )),
                         ],
-                      )
-                    : Container()
+                      ) */
+                /*   : Container() */
               ],
             );
           },
