@@ -1,7 +1,10 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_car_list_on_map.dart';
+import 'package:bexmovil/src/utils/widget_to_marker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'maps_bloc_event.dart';
@@ -18,8 +21,9 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     on<StopMapControllerEvent>(_onEndMap);
     on<SearchClient>(_searchClient);
     on<SelectClient>(_selectClient);
-    on<OnCarouselPageChanged>(_onCarouselPageChanged);
+  //  on<OnCarouselPageChanged>(_onCarouselPageChanged);
     on<UnSelectClient>(_unSelectClient);
+    on<CenterToUserLocation>(_centerToUserLocation);
   }
 
   Future moverCamera(LatLng newLocation) async {
@@ -29,30 +33,47 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     }
   }
 
-  void _onInitMap(OnMapInitializedEvent event, Emitter<MapsBlocState> emit) {
-    List<CardClientListOnMap>? listClients = [];
+  void _onInitMap(
+      OnMapInitializedEvent event, Emitter<MapsBlocState> emit) async {
+   // List<CardClientListOnMap>? listClients = [];
+    Map<String, Marker> currentMarkers = {};
 
     for (Client client in event.clients) {
-      listClients.add(CardClientListOnMap(client: client));
+      BitmapDescriptor clientMarker = await getfinalCustomMarkerOrigin(
+          dailyPrice: client.name ?? 'N/A',
+          model: client.businessName ?? 'N/A',
+          context: event.context);
+      final clienMarker = Marker(
+        markerId: MarkerId(client.name!.toString()),
+        position: LatLng(double.parse(client.latitude ?? '0'),
+            double.parse(client.longitude ?? '0')),
+        icon: clientMarker,
+        anchor: const Offset(0.1, 1),
+      );
+      currentMarkers[client.name.toString()] = clienMarker;
+
+    //  listClients.add(CardClientListOnMap(client: client));
     }
 
     _mapController = event.controller;
-    // _mapController!.setMapStyle(jsonEncode(uberMapTheme));
+    // _mapController!.setMapStyle(jsonEncode(uberMapTheme))
+
     emit(state.copyWith(
         isMapInitialized: true,
         disposeMapController: false,
-        listClients: listClients,
-        clientsFounded: listClients));
+    /*     listClients: listClients,
+        clientsFounded: listClients, */
+        markers: currentMarkers));
   }
 
   void _searchClient(SearchClient event, Emitter emit) {
-    List<CardClientListOnMap>? clientsFounded = [];
+ /*    List<CardClientListOnMap>? clientsFounded = [];
     clientsFounded = buscarClientes(event.valueToSearch);
     print('value');
-    emit(state.copyWith(clientsFounded: clientsFounded));
+    emit(state.copyWith(clientsFounded: clientsFounded)); */
   }
 
-  List<CardClientListOnMap>? buscarClientes(String valor) {
+/*   List<CardClientListOnMap>? buscarClientes(String valor) {
     if (valor == '') {
       return state.listClients!;
     }
@@ -62,10 +83,26 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       return cardClient.client.name!.toLowerCase().contains(valor) ||
           cardClient.client.businessName!.toLowerCase().contains(valor);
     }).toList();
-  }
+  } */
 
   void _selectClient(SelectClient event, Emitter emit) {
-    emit(state.copyWith(selectedClient: event.client));
+    Map<String, Marker> currentMarkers = {};
+    String? latitude = event.client.latitude;
+    String? longitude = event.client.longitude;
+
+    if (event.client.id != null &&
+        latitude != null &&
+        latitude != '' &&
+        longitude != null &&
+        longitude != '') {
+      final locationMarker = Marker(
+        markerId: MarkerId(event.client.id.toString()),
+        position: LatLng(double.parse(latitude), double.parse(longitude)),
+      );
+      currentMarkers[event.client.id!.toString()] = locationMarker;
+    }
+
+    emit(state.copyWith(selectedClient: event.client, markers: currentMarkers));
   }
 
   void _onEndMap(StopMapControllerEvent event, Emitter<MapsBlocState> emit) {
@@ -73,7 +110,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     emit(state.copyWith(disposeMapController: true));
   }
 
-  void _onCarouselPageChanged(
+/*   void _onCarouselPageChanged(
       OnCarouselPageChanged event, Emitter<MapsBlocState> emit) async {
     String? latitude = state.clientsFounded![event.index].client.latitude;
     String? longitude = state.clientsFounded![event.index].client.longitude;
@@ -88,9 +125,19 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
     emit(state.copyWith(
         selectedClient: state.clientsFounded![event.index].client));
-  }
+  } */
 
   void _unSelectClient(UnSelectClient event, Emitter<MapsBlocState> emit) {
     emit(state.copyWith(selectedClient: null));
+  }
+
+  void _centerToUserLocation(
+      CenterToUserLocation event, Emitter<MapsBlocState> emit) async {
+    final Position position = await Geolocator.getCurrentPosition();
+
+    double latitude = position.latitude;
+    double longitude = position.longitude;
+
+    await (moverCamera(LatLng(latitude, longitude)));
   }
 }

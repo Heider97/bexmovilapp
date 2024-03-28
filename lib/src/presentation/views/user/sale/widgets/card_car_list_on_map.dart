@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/client.dart';
+/* import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -127,3 +127,4 @@ class _CardClientListOnMapState extends State<CardClientListOnMap>
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
+ */

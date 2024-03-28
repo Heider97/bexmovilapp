@@ -30,6 +30,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
     on<NavigationSale>(_onNavigation);
+    on<SearchClientSale>(_searchClient);
 
     // on<SelectClient>(_selectClient);
     // on<ConfirmProducts>(_confirmProducts);
@@ -60,10 +61,33 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       });
 
       emit(state.copyWith(
-          status: SaleStatus.success, clients: clients, filters: filters));
+          status: SaleStatus.success,
+          clients: clients,
+          clientsFounded: clients,
+          filters: filters));
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: []));
     }
+  }
+
+  _searchClient(SearchClientSale event, Emitter emit) {
+    emit(state.copyWith(status: SaleStatus.loading));
+    List<Client>? clientsFounded = [];
+    clientsFounded = buscarClientes(event.valueToSearch);
+    print('value');
+    emit(state.copyWith(
+        clientsFounded: clientsFounded, status: SaleStatus.success));
+  }
+
+  buscarClientes(String valor) {
+    if (valor == '') {
+      return state.clients!;
+    }
+
+    return state.clients!.where((client) {
+      return client.name!.toLowerCase().contains(valor) ||
+          client.businessName!.toLowerCase().contains(valor);
+    }).toList();
   }
 
   Future<void> _onNavigation(NavigationSale event, Emitter emit) async {

@@ -51,7 +51,7 @@ class _RoutersPageState extends State<RoutersPage> {
     saleStepperBloc = BlocProvider.of(context);
   }
 
-  List<StepData> steps = [
+/*   List<StepData> steps = [
     StepData(
         "Seleccionar \nCliente",
         'assets/icons/ProfileEnable.png',
@@ -71,7 +71,7 @@ class _RoutersPageState extends State<RoutersPage> {
         'assets/icons/actionDisable.png',
         () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
-
+ */
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -90,20 +90,17 @@ class _RoutersPageState extends State<RoutersPage> {
 
   Widget _buildBody(state, context) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Const.space15),
-        child: Expanded(
-          child: Column(
-            children: [
-              ...state.sections != null
-                  ? state.sections!.map((e) => AppSection(
-                      title: e.name!,
-                      type: e.type,
-                      componentItems: e.components ?? [],
-                      tabController: null))
-                  : [],
-            ],
-          ),
+      child: Expanded(
+        child: Column(
+          children: [
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                    title: e.name!,
+                    type: e.type,
+                    componentItems: e.components ?? [],
+                    tabController: null))
+                : [],
+          ],
         ),
       ),
     );

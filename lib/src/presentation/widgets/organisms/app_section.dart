@@ -52,7 +52,10 @@ class _AppFormState extends State<AppSection> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           gapH12,
-          AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
           gapH12,
           ...widget.componentItems.map(
             (item) {

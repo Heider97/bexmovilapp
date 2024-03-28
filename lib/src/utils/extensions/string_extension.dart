@@ -9,6 +9,11 @@ extension StringUtil on String {
     return "${this[0].toUpperCase()}${substring(1)}";
   }
 
+  String capitalizeString() {  
+    return this[0].toUpperCase() + substring(1).toLowerCase();
+  }
+
+
   String formatted(double value) {
     return '\$${NumberFormat('#,##0.00', 'es_CO').format(value)}';
   }
@@ -18,7 +23,7 @@ extension StringUtil on String {
   }
 
   String formattedCompact(String str) {
-    var result = NumberFormat.compact(locale: 'en').format(double.parse(str));
+    var result = NumberFormat.compact(locale: 'es').format(double.parse(str));
     return result;
   }
 

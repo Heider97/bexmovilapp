@@ -56,6 +56,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
               child: AppText(widget.client.name ?? "N/A",
                   fontWeight: FontWeight.normal,
                   fontSize: 14,
+                  color: theme.primaryColor,
                   overflow: TextOverflow.ellipsis)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: Const.space12,
-                          color: theme.primaryColor),
+                       //   color: theme.primaryColor
+                          ),
                     ),
                     TextSpan(
                       text: '${widget.client.address}',
@@ -85,7 +87,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: Const.space12,
-                          color: theme.primaryColor),
+                         // color: theme.primaryColor
+                          ),
                     ),
                     TextSpan(
                       text: '${widget.client.branch}',
@@ -106,7 +109,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Const.space12,
-                                color: theme.primaryColor),
+                              //  color: theme.primaryColor
+                                ),
                           ),
                           TextSpan(
                             text: widget.client.wallet != null
@@ -128,7 +132,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Const.space12,
-                                color: theme.primaryColor),
+                              //  color: theme.primaryColor
+                                ),
                           ),
                           TextSpan(
                             //  text: widget.client.quota!.toString().formattedCompact(str),
@@ -152,7 +157,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Const.space12,
-                                color: theme.primaryColor),
+                                //color: theme.primaryColor
+                                ),
                           ),
                           TextSpan(
                             text: '5M / Último mes',
@@ -171,7 +177,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Const.space12,
-                                color: theme.primaryColor),
+                                //color: theme.primaryColor
+                                ),
                           ),
                           TextSpan(
                             text: '90 % ',
