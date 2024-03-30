@@ -54,7 +54,7 @@ class CardRouter extends StatelessWidget {
                       AppText(dayRouter.capitalizeString(),
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: 14,
                           overflow: TextOverflow.ellipsis),
                       Column(
                         children: [
@@ -67,7 +67,7 @@ class CardRouter extends StatelessWidget {
                                           effectiveness!.toDouble() >= 50)
                                       ? Colors.yellow[400]
                                       : Colors.red[300],
-                              fontSize: 14,
+                              fontSize: 12,
                               overflow: TextOverflow.ellipsis),
                           AppText('Efectividad',
                               fontWeight: FontWeight.w500,
@@ -96,7 +96,7 @@ class CardRouter extends StatelessWidget {
                           AppText('Clientes totales: ${totalClients ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
-                              fontSize: 16,
+                              fontSize: 14,
                               overflow: TextOverflow.ellipsis)
                         ],
                       ),
@@ -114,7 +114,7 @@ class CardRouter extends StatelessWidget {
                           AppText('Clientes visitados: ${visited ?? '0'}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
-                              fontSize: 16,
+                              fontSize: 14,
                               overflow: TextOverflow.ellipsis)
                         ],
                       ),
@@ -138,7 +138,7 @@ class CardRouter extends StatelessWidget {
                           AppText('Prospectos: ${totalProspects ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
-                              fontSize: 16,
+                              fontSize: 14,
                               overflow: TextOverflow.ellipsis)
                         ],
                       ),
@@ -156,7 +156,7 @@ class CardRouter extends StatelessWidget {
                           AppText('Ventas totales: ${withSale ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
-                              fontSize: 16,
+                              fontSize: 14,
                               overflow: TextOverflow.ellipsis)
                         ],
                       ),

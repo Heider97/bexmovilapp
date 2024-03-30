@@ -34,58 +34,67 @@ class QueryLoaderService {
       var sections = await databaseRepository.findSections(module.id!);
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
-          var components = await databaseRepository.findComponents(section.id!);
 
-          if (components != null && components.isNotEmpty) {
-            section.components = components;
+          // var widgets = await databaseRepository.findWidgets(section.id!);
 
-            for (var component in components) {
+          // if(widgets.isNotEmpty) {
+          //
+          // } else {
+          //
+          // }
 
-              print(component.toJson());
-
-              Type? type;
-
-              if (component.type == 'list' &&
-                  section.type == 'List<Application>') {
-                type = List<Application>;
-              } else if (component.type == 'list' &&
-                  section.type == 'List<Router>') {
-                type = List<Router>;
-              } else if (component.type == 'feature') {
-                type = List<Feature>;
-              }
-
-              var results =
-                  await databaseRepository.logicQueries(component.id!);
-
-              List<LogicQuery> logicQueries =
-                  await dynamicListTypes['List<LogicQuery>']!.fromMap(results);
-
-              if (logicQueries.isNotEmpty) {
-                if (logicQueries.length == 1) {
-                  var results =
-                      await determine(type, logicQueries.first, arguments);
-                  component.results = results;
-                } else {
-                  for (var lq in logicQueries) {
-                    if (lq.logicId != null) {
-                      var logic =
-                          await databaseRepository.findLogic(lq.logicId!);
-                      if (logic != null) {
-                        var result =
-                            await databaseRepository.validateLogic(logic);
-                        if (result == true) {
-                          var results = await determine(
-                              type!, logicQueries.first, arguments);
-                          component.results = results;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          // var components = await databaseRepository.findComponents(section.id!);
+          //
+          // if (components != null && components.isNotEmpty) {
+          //   section.components = components;
+          //
+          //   for (var component in components) {
+          //
+          //     print(component.toJson());
+          //
+          //     Type? type;
+          //
+          //     if (component.type == 'list' &&
+          //         section.type == 'List<Application>') {
+          //       type = List<Application>;
+          //     } else if (component.type == 'list' &&
+          //         section.type == 'List<Router>') {
+          //       type = List<Router>;
+          //     } else if (component.type == 'feature') {
+          //       type = List<Feature>;
+          //     }
+          //
+          //     var results =
+          //         await databaseRepository.logicQueries(component.id!);
+          //
+          //     List<LogicQuery> logicQueries =
+          //         await dynamicListTypes['List<LogicQuery>']!.fromMap(results);
+          //
+          //     if (logicQueries.isNotEmpty) {
+          //       if (logicQueries.length == 1) {
+          //         var results =
+          //             await determine(type, logicQueries.first, arguments);
+          //         component.results = results;
+          //       } else {
+          //         for (var lq in logicQueries) {
+          //           if (lq.logicId != null) {
+          //             var logic =
+          //                 await databaseRepository.findLogic(lq.logicId!);
+          //             if (logic != null) {
+          //               var result =
+          //                   await databaseRepository.validateLogic(logic);
+          //               if (result == true) {
+          //                 var results = await determine(
+          //                     type!, logicQueries.first, arguments);
+          //                 component.results = results;
+          //               }
+          //             }
+          //           }
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
         }
 
         return sections;

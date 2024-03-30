@@ -51,27 +51,6 @@ class _RoutersPageState extends State<RoutersPage> {
     saleStepperBloc = BlocProvider.of(context);
   }
 
-/*   List<StepData> steps = [
-    StepData(
-        "Seleccionar \nCliente",
-        'assets/icons/ProfileEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/ProfileDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
-    StepData(
-        "Seleccionar \n Productos",
-        'assets/icons/seleccionarFacturaEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/seleccionarFacturaDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
-    StepData(
-        'Detalles de \n la orden',
-        'assets/icons/actionEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/actionDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
-  ];
- */
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -96,7 +75,6 @@ class _RoutersPageState extends State<RoutersPage> {
             ...state.sections != null
                 ? state.sections!.map((e) => AppSection(
                     title: e.name!,
-                    type: e.type,
                     componentItems: e.components ?? [],
                     tabController: null))
                 : [],

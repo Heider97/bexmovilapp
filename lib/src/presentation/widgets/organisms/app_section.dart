@@ -22,14 +22,12 @@ class AppSection extends StatefulWidget {
   const AppSection({
     super.key,
     required this.title,
-    required this.type,
     required this.componentItems,
     this.tabController,
   });
 
   /// The optional title widget to display at the top of the form.
   final String title;
-  final String type;
 
   /// The list of form items to display in the form.
   ///
@@ -57,26 +55,25 @@ class _AppFormState extends State<AppSection> {
             child: AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
           ),
           gapH12,
-          ...widget.componentItems.map(
-            (item) {
-              var listIndex = widget.componentItems.indexOf(item);
-              return _buildAppTextFormField(context, listIndex);
-            },
-          ),
+          // ...widget.componentItems.map(
+          //   (item) {
+          //     var listIndex = widget.componentItems.indexOf(item);
+          //     return _buildAppTextFormField(context, listIndex);
+          //   },
+          // ),
         ],
       ),
     );
   }
 
-  AppComponent _buildAppTextFormField(
-    BuildContext context,
-    int listIndex,
-  ) {
-    return AppComponent(
-      sectionType: widget.type,
-      componentType: widget.componentItems[listIndex].type!,
-      componentItems: widget.componentItems[listIndex],
-      tabController: widget.tabController,
-    );
-  }
+  // AppComponent _buildAppTextFormField(
+  //   BuildContext context,
+  //   int listIndex,
+  // ) {
+  //   return AppComponent(
+  //     componentType: widget.componentItems[listIndex].type!,
+  //     componentItems: widget.componentItems[listIndex],
+  //     tabController: widget.tabController,
+  //   );
+  // }
 }

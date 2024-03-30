@@ -10,7 +10,7 @@ class ComponentFields {
     interactive,
     trigger,
     logicQueryId,
-    sectionId
+    widgetId
   ];
 
   static const String id = 'id';
@@ -21,7 +21,7 @@ class ComponentFields {
   static const String interactive = 'interactive';
   static const String trigger = 'trigger';
   static const String logicQueryId = 'logic_query_id';
-  static const String sectionId = 'section_id';
+  static const String widgetId = 'widget_id';
 }
 
 class Component {
@@ -33,7 +33,7 @@ class Component {
   int? interactive;
   String? trigger;
   int? logicQueryId;
-  int? sectionId;
+  int? widgetId;
   dynamic results;
 
   Component({
@@ -45,7 +45,7 @@ class Component {
     this.interactive,
     this.trigger,
     this.logicQueryId,
-    this.sectionId,
+    this.widgetId,
     this.results
   });
 
@@ -58,7 +58,7 @@ class Component {
         interactive: json['interactive'],
         trigger: json['trigger'],
         logicQueryId: json['logicQueryId'],
-        sectionId: json['section_id'],
+        widgetId: json['widget_id'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +70,6 @@ class Component {
         'interactive': interactive,
         'trigger': trigger,
         'logic_query_id': logicQueryId,
-        'section_id': sectionId,
+        'widget_id': widgetId,
       };
 }

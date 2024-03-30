@@ -1,5 +1,6 @@
 import '../models/module.dart';
 import '../models/section.dart';
+import '../models/widget.dart';
 import '../models/component.dart';
 import '../models/logic.dart';
 import '../models/query.dart';
@@ -38,8 +39,12 @@ abstract class DatabaseRepository {
   Future<List<Section>?> findSections(int moduleId);
   Future<void> emptySections();
 
+  //WIDGETS
+  Future<List<Widget>?> findWidgets(int sectionId);
+  Future<void> emptyWidgets();
+
   //COMPONENTS
-  Future<List<Component>?> findComponents(int sectionId);
+  Future<List<Component>?> findComponents(int widgetId);
   Future<void> emptyComponents();
 
   //LOGICS

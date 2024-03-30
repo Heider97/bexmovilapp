@@ -144,8 +144,7 @@ class HomeViewState extends State<HomeView>
             ...state.sections != null
                 ? state.sections!.map((e) => AppSection(
                     title: e.name!,
-                    type: e.type!,
-                    componentItems: e.components!,
+                    componentItems: e.components ?? [],
                     tabController: _tabController))
                 : [],
           ],
