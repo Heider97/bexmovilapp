@@ -1,15 +1,17 @@
-import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
 import 'package:flutter/material.dart';
-
+//domain
 import '../../../domain/models/component.dart';
-import '../../../domain/models/kpi.dart';
-import '../../../utils/extensions/string_extension.dart';
-
+//widgets
 import '../molecules/app_text_block.dart';
 
+//home
 import '../../views/user/home/features/features.dart';
+import '../../views/user/home/features/statistics.dart';
 import '../../views/user/home/features/applications.dart';
-import '../../views/user/home/widgets/card_kpi.dart';
+//sale
+import '../../views/user/sale/features/routers.dart';
+import '../../views/user/sale/features/clients.dart';
+//wallet
 
 enum ComponentTypes { kpi, feature, line, pie, list }
 
@@ -60,9 +62,7 @@ class _AppWidgetState extends State<AppWidget> {
       case 'HomeFeatures':
         return HomeFeatures(features: widget.components.first.results);
       case 'HomeStatistics':
-
         print(widget.components);
-
         if (widget.components.isNotEmpty) {
           return HomeStatistics(
               kpis: widget.components.first.results ?? [],
@@ -74,23 +74,12 @@ class _AppWidgetState extends State<AppWidget> {
               forms: const [],
               tabController: widget.tabController!);
         }
-
       case 'HomeApplications':
-        print(widget.components.first.toJson());
         return HomeApplications(applications: widget.components.first.results);
-      // case ComponentTypes.kpi:
-      //   return const SizedBox();
-      //   return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
-      // case ComponentTypes.line:
-      //   return const SizedBox();
-      // case ComponentTypes.pie:
-      //   return const SizedBox();
-      // case ComponentTypes.list:
-      // if(widget.type == 'List<Application>') {
-      //
-      // } else {
-      //   return SaleRouters(routers: widget.componentItems.results);
-      // }
+      case 'SaleRouters':
+        return SaleRouters(routers: widget.components.first.results);
+      case 'SaleClients':
+        return SaleClients(clients: widget.components.first.results);
 
       default:
         return const SizedBox();

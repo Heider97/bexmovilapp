@@ -58,17 +58,15 @@ class _RoutersPageState extends State<RoutersPage> {
 
   Widget _buildBody(state, context) {
     return SafeArea(
-      child: Expanded(
-        child: Column(
-          children: [
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title: e.name!,
-                    widgetItems: e.widgets ?? [],
-                    tabController: null))
-                : [],
-          ],
-        ),
+      child: Column(
+        children: [
+          ...state.sections != null
+              ? state.sections!.map((e) => AppSection(
+                  title: e.name!,
+                  widgetItems: e.widgets ?? [],
+                  tabController: null))
+              : [],
+        ],
       ),
     );
   }
