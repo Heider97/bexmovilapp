@@ -41,8 +41,8 @@ class _CardKpiState extends State<CardKpi> {
                 ),
                 Row(
                   children: [
-                    // AppText(buildContentKpi(),
-                    //     fontWeight: FontWeight.normal, fontSize: 22),
+                    AppText(buildContentKpi(),
+                        fontWeight: FontWeight.normal, fontSize: 22),
                   ],
                 ),
               ],
@@ -51,20 +51,27 @@ class _CardKpiState extends State<CardKpi> {
         ));
   }
 
-  // String buildContentKpi() {
-  //   if (widget.needConverted == true && widget.kpi.results != null) {
-  //     if (widget.kpi.results!.contains('/')) {
-  //       var splits = widget.kpi.results!.split('/');
-  //       var result = [];
-  //       for (var split in splits) {
-  //         result.add(split.formattedCompact(split));
-  //       }
-  //       return result.join('/');
-  //     } else {
-  //       return ''.formattedCompact(widget.kpi.results!);
-  //     }
-  //   } else {
-  //     return widget.kpi.results ?? "N/A";
-  //   }
-  // }
+  String buildContentKpi() {
+    if (widget.needConverted == true && widget.kpi.results != null) {
+      // if (widget.kpi.results!.contains('/')) {
+      //   var splits = widget.kpi.results!.split('/');
+      //   var result = [];
+      //   for (var split in splits) {
+      //     result.add(split.formattedCompact(split));
+      //   }
+      //   return result.join('/');
+      // } else {
+      //   return ''.formattedCompact(widget.kpi.results!);
+      // }
+
+      return "N/A";
+    } else {
+      if(widget.kpi.results != null) {
+        print(widget.kpi.results[0].toJson());
+      }
+
+      // return widget.kpi.results ?? "N/A";
+      return "N/A";
+    }
+  }
 }

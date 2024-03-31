@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 //domain
@@ -11,7 +12,7 @@ import '../widgets/card_reports.dart';
 import '../widgets/card_kpi.dart';
 import '../widgets/slide_kpi.dart';
 
-class HomeStatistics extends StatelessWidget {
+class HomeStatistics extends StatefulWidget {
   final TabController tabController;
 
   final List<Component?> kpis;
@@ -24,6 +25,63 @@ class HomeStatistics extends StatelessWidget {
       required this.tabController});
 
   @override
+  State<HomeStatistics> createState() => _HomeStatisticsState();
+}
+
+class _HomeStatisticsState extends State<HomeStatistics> {
+  List<Component?> kpisOneLine = [];
+  List<Component?> kpisSecondLine = [];
+  List<List<Component?>> kpisSlidableOneLine = [];
+  List<List<Component?>> kpisSlidableSecondLine = [];
+
+  @override
+  void initState() {
+    kpisOneLine = widget.kpis.where((element) => element!.line == 1).toList();
+    print(kpisOneLine.length);
+
+    kpisSecondLine =
+        widget.kpis.where((element) => element!.line == 2).toList();
+
+    // final duplicatesOneLine = groupBy(
+    //   kpisOneLine,
+    //   (kpi) => kpi!.type,
+    // )
+    //     .values
+    //     .where((list) => list.length > 1)
+    //     .map((list) => list.first!.type)
+    //     .toList();
+
+    final duplicatesSecondLine = groupBy(
+      kpisSecondLine,
+      (kpi) => kpi!.type,
+    )
+        .values
+        .where((list) => list.length > 1)
+        .map((list) => list.first!.type)
+        .toList();
+
+    // if (duplicatesOneLine.isNotEmpty) {
+    //   for (var dsl in duplicatesOneLine) {
+    //     kpisOneLine.removeWhere((element) => element!.type == dsl);
+    //     kpisSlidableOneLine
+    //         .add(kpisOneLine.where((kpi) => kpi!.type == dsl).toList());
+    //   }
+    // }
+
+    if (duplicatesSecondLine.isNotEmpty) {
+      for (var dsl in duplicatesSecondLine) {
+        kpisSlidableSecondLine
+            .add(kpisSecondLine.where((kpi) => kpi!.type == dsl).toList());
+        kpisSecondLine.removeWhere((element) => element!.type == dsl);
+      }
+    }
+
+    print(kpisOneLine.length);
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: Screens.width(context),
@@ -31,7 +89,7 @@ class HomeStatistics extends StatelessWidget {
       child: Column(
         children: [
           TabBar(
-            controller: tabController,
+            controller: widget.tabController,
             indicatorSize: TabBarIndicatorSize.values.first,
             indicator: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -48,7 +106,7 @@ class HomeStatistics extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
-              controller: tabController,
+              controller: widget.tabController,
               children: [
                 SizedBox(
                   width: Screens.width(context) / 2,
@@ -57,30 +115,29 @@ class HomeStatistics extends StatelessWidget {
                       Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: kpis.where((element) => element?.line == 1).length,
+                            itemCount: kpisSlidableOneLine.length +
+                                kpisOneLine.length,
                             itemBuilder: (BuildContext context, int index) {
-
-
-                              final kpi = kpis.where((element) => element?.line == 1).toList()[index];
-                              if(kpi is List) {
-                                return SlidableKpi(kpis: kpi as List<Component>);
-                              } else {
-                                return CardKpi(kpi: kpi!);
+                              if (kpisSlidableOneLine.isNotEmpty) {
+                                return SlidableKpi(
+                                    kpis: kpisSlidableOneLine[index]);
                               }
-
+                              final kpi = kpisOneLine[index];
+                              return CardKpi(kpi: kpi!);
                             }),
                       ),
                       Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: kpis.where((element) => element?.line == 2).length,
+                            itemCount: kpisSlidableSecondLine.length +
+                                kpisSecondLine.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final kpi = kpis.where((element) => element?.line == 2).toList()[index];
-                              if(kpi is List) {
-                                return SlidableKpi(kpis: kpi as List<Component>);
-                              } else {
-                                return CardKpi(kpi: kpi!);
+                              if (kpisSlidableSecondLine.isNotEmpty) {
+                                return SlidableKpi(
+                                    kpis: kpisSlidableSecondLine[index]);
                               }
+                              final kpi = kpisSecondLine[index];
+                              return CardKpi(kpi: kpi!);
                             }),
                       ),
                     ],
