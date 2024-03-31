@@ -55,7 +55,6 @@ class _AppFormState extends State<AppSection> {
             child: AppText(widget.title,
                 fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          gapH12,
           ...widget.widgetItems.map(
             (item) {
               var listIndex = widget.widgetItems.indexOf(item);
@@ -74,7 +73,7 @@ class _AppFormState extends State<AppSection> {
     return AppWidget(
       name: widget.widgetItems[listIndex].name!,
       type: widget.widgetItems[listIndex].type!,
-      components: widget.widgetItems[listIndex].components!,
+      components: widget.widgetItems[listIndex].components ?? [],
       tabController: widget.tabController,
     );
   }

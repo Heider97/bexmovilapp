@@ -14,18 +14,12 @@ import '../widgets/slide_kpi.dart';
 class HomeStatistics extends StatelessWidget {
   final TabController tabController;
 
-  final List<Kpi> kpisOneLine;
-  final List<List<Kpi>> kpisSlidableOneLine;
-  final List<Kpi> kpisSecondLine;
-  final List<List<Kpi>> kpisSlidableSecondLine;
+  final List<Kpi> kpis;
   final List<Form> forms;
 
   const HomeStatistics(
       {super.key,
-      required this.kpisOneLine,
-      required this.kpisSlidableOneLine,
-      required this.kpisSecondLine,
-      required this.kpisSlidableSecondLine,
+      required this.kpis,
       required this.forms,
       required this.tabController});
 
@@ -33,7 +27,6 @@ class HomeStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: Screens.width(context),
-      height: 280,
       child: Column(
         children: [
           TabBar(
@@ -52,59 +45,59 @@ class HomeStatistics extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                SizedBox(
-                  width: Screens.width(context) / 2,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: kpisOneLine.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final kpi = kpisOneLine[index];
-                              return CardKpi(kpi: kpi);
-                            }),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: kpisSlidableSecondLine.length +
-                                kpisSecondLine.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (kpisSlidableSecondLine.isNotEmpty) {
-                                return SlidableKpi(
-                                    kpis: kpisSlidableSecondLine[index]);
-                              }
-                              final kpi = kpisSecondLine[index];
-                              return CardKpi(kpi: kpi);
-                            }),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: [
-                    gapH12,
-                    CardReports(
-                        iconCard: Icons.star_rate_rounded,
-                        urlIcon: "assets/svg/wallet-money.svg",
-                        title: "Mi\nPresupuesto",
-                        eventCard: () {}),
-                    gapH12,
-                    CardReports(
-                        iconCard: Icons.star_rate_rounded,
-                        urlIcon: "assets/svg/graphic.svg",
-                        title: "Mis\nestadísticas",
-                        eventCard: () {}),
-                  ],
-                )
-              ],
-            ),
-          ),
+          // Expanded(
+          //   child: TabBarView(
+          //     controller: tabController,
+          //     children: [
+          //       // SizedBox(
+          //       //   width: Screens.width(context) / 2,
+          //       //   child: Column(
+          //       //     children: [
+          //       //       Expanded(
+          //       //         child: ListView.builder(
+          //       //             scrollDirection: Axis.horizontal,
+          //       //             itemCount: kpisOneLine.length,
+          //       //             itemBuilder: (BuildContext context, int index) {
+          //       //               final kpi = kpisOneLine[index];
+          //       //               return CardKpi(kpi: kpi);
+          //       //             }),
+          //       //       ),
+          //       //       Expanded(
+          //       //         child: ListView.builder(
+          //       //             scrollDirection: Axis.horizontal,
+          //       //             itemCount: kpisSlidableSecondLine.length +
+          //       //                 kpisSecondLine.length,
+          //       //             itemBuilder: (BuildContext context, int index) {
+          //       //               if (kpisSlidableSecondLine.isNotEmpty) {
+          //       //                 return SlidableKpi(
+          //       //                     kpis: kpisSlidableSecondLine[index]);
+          //       //               }
+          //       //               final kpi = kpisSecondLine[index];
+          //       //               return CardKpi(kpi: kpi);
+          //       //             }),
+          //       //       ),
+          //       //     ],
+          //       //   ),
+          //       // ),
+          //       Column(
+          //         children: [
+          //           gapH12,
+          //           CardReports(
+          //               iconCard: Icons.star_rate_rounded,
+          //               urlIcon: "assets/svg/wallet-money.svg",
+          //               title: "Mi\nPresupuesto",
+          //               eventCard: () {}),
+          //           gapH12,
+          //           CardReports(
+          //               iconCard: Icons.star_rate_rounded,
+          //               urlIcon: "assets/svg/graphic.svg",
+          //               title: "Mis\nestadísticas",
+          //               eventCard: () {}),
+          //         ],
+          //       )
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

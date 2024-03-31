@@ -17,7 +17,7 @@ class WidgetDao {
   Future<List<Widget>?> findWidgets(int sectionId) async {
     final db = await _appDatabase.database;
     var widgetList = await db!.query(tableWidgets,
-        where: 'section_id = ?', whereArgs: [sectionId]);
+        where: 'section_id = ?', whereArgs: [sectionId], groupBy: 'name');
     var widgets = parseWidgets(widgetList);
     return widgets;
   }

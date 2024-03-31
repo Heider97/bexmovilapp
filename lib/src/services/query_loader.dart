@@ -100,9 +100,6 @@ class QueryLoaderService {
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-        print(sentence);
-        print(type);
-
         return await executeRawQuery(sentence, type);
       }
     }

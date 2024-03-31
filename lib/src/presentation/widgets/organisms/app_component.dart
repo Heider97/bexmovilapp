@@ -1,6 +1,4 @@
-
 import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/features/routers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/models/component.dart';
@@ -29,13 +27,12 @@ class AppWidget extends StatefulWidget {
   ///
   /// The [components], [type], [name]
   /// null.
-  const AppWidget({
-    super.key,
-    required this.name,
-    required this.type,
-    required this.components,
-    this.tabController
-  });
+  const AppWidget(
+      {super.key,
+      required this.name,
+      required this.type,
+      required this.components,
+      this.tabController});
 
   /// The list of form items to display in the form.
   ///
@@ -61,9 +58,26 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     switch (widget.name) {
       case 'HomeFeatures':
-        
-        return HomeFeatures(features: []);
+        return HomeFeatures(features: widget.components.first.results);
+      case 'HomeStatistics':
 
+        print(widget.components);
+
+        if (widget.components.isNotEmpty) {
+          return HomeStatistics(
+              kpis: widget.components.first.results ?? [],
+              forms: widget.components.last.results ?? [],
+              tabController: widget.tabController!);
+        } else {
+          return HomeStatistics(
+              kpis: const [],
+              forms: const [],
+              tabController: widget.tabController!);
+        }
+
+      case 'HomeApplications':
+        print(widget.components.first.toJson());
+        return HomeApplications(applications: widget.components.first.results);
       // case ComponentTypes.kpi:
       //   return const SizedBox();
       //   return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
@@ -72,11 +86,11 @@ class _AppWidgetState extends State<AppWidget> {
       // case ComponentTypes.pie:
       //   return const SizedBox();
       // case ComponentTypes.list:
-        // if(widget.type == 'List<Application>') {
-        //   return HomeApplications(applications: widget.components.results);
-        // } else {
-        //   return SaleRouters(routers: widget.componentItems.results);
-        // }
+      // if(widget.type == 'List<Application>') {
+      //
+      // } else {
+      //   return SaleRouters(routers: widget.componentItems.results);
+      // }
 
       default:
         return const SizedBox();
