@@ -42,18 +42,14 @@ class _RoutersPageState extends State<RoutersPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-          if (state.status == SaleStatus.loading) {
-            return const Center(
-                child: CupertinoActivityIndicator(color: Colors.green));
-          } else {
-            return _buildBody(state, context);
-          }
-        }),
-      ],
-    );
+    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+      if (state.status == SaleStatus.loading) {
+        return const Center(
+            child: CupertinoActivityIndicator(color: Colors.green));
+      } else {
+        return _buildBody(state, context);
+      }
+    });
   }
 
   Widget _buildBody(state, context) {
