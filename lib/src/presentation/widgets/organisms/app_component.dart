@@ -24,57 +24,60 @@ enum ComponentTypes { kpi, feature, line, pie, list }
 /// See also:
 ///
 /// * [AppTextBlock], which is used to display the title and description.
-class AppComponent extends StatefulWidget {
+class AppWidget extends StatefulWidget {
   /// Creates a customizable form widget.
   ///
-  /// The [componentItems], [componentType]
+  /// The [components], [type], [name]
   /// null.
-  const AppComponent({
+  const AppWidget({
     super.key,
-    required this.sectionType,
-    required this.componentType,
-    required this.componentItems,
+    required this.name,
+    required this.type,
+    required this.components,
     this.tabController
   });
 
   /// The list of form items to display in the form.
   ///
   /// Must not be null.
-  final String sectionType;
-  final String componentType;
+  final String name;
+  final String type;
 
   /// The list of form items to display in the form.
   ///
   /// Must not be null.
-  final Component componentItems;
+  final List<Component> components;
 
   final TabController? tabController;
 
   @override
-  State<AppComponent> createState() => _AppComponentState();
+  State<AppWidget> createState() => _AppWidgetState();
 }
 
-class _AppComponentState extends State<AppComponent> {
+class _AppWidgetState extends State<AppWidget> {
   int index = 0;
 
   @override
   Widget build(BuildContext context) {
-    switch (widget.componentType.toEnum()) {
-      case ComponentTypes.kpi:
-        return const SizedBox();
-        return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
-      case ComponentTypes.line:
-        return const SizedBox();
-      case ComponentTypes.pie:
-        return const SizedBox();
-      case ComponentTypes.list:
-        if(widget.sectionType == 'List<Application>') {
-          return HomeApplications(applications: widget.componentItems.results);
-        } else {
-          return SaleRouters(routers: widget.componentItems.results);
-        }
-      case ComponentTypes.feature:
-        return HomeFeatures(features: widget.componentItems.results);
+    switch (widget.name) {
+      case 'HomeFeatures':
+        
+        return HomeFeatures(features: []);
+
+      // case ComponentTypes.kpi:
+      //   return const SizedBox();
+      //   return HomeStatistics(kpisOneLine: [], kpisSlidableOneLine: [], kpisSecondLine: [], kpisSlidableSecondLine: [], forms: [], tabController: widget.tabController!);
+      // case ComponentTypes.line:
+      //   return const SizedBox();
+      // case ComponentTypes.pie:
+      //   return const SizedBox();
+      // case ComponentTypes.list:
+        // if(widget.type == 'List<Application>') {
+        //   return HomeApplications(applications: widget.components.results);
+        // } else {
+        //   return SaleRouters(routers: widget.componentItems.results);
+        // }
+
       default:
         return const SizedBox();
     }

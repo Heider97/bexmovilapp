@@ -1,25 +1,14 @@
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-//utils
-import '../../../../../utils/constants/strings.dart';
-import '../../../../../utils/constants/gaps.dart';
 
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_icon_button.dart';
 import '../../../../widgets/organisms/app_section.dart';
-import '../../../../widgets/user/stepper.dart';
-
-//features
-import '../widgets/card_router_sale.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -75,7 +64,7 @@ class _RoutersPageState extends State<RoutersPage> {
             ...state.sections != null
                 ? state.sections!.map((e) => AppSection(
                     title: e.name!,
-                    componentItems: e.components ?? [],
+                    widgetItems: e.widgets ?? [],
                     tabController: null))
                 : [],
           ],
@@ -84,5 +73,3 @@ class _RoutersPageState extends State<RoutersPage> {
     );
   }
 }
-
-
