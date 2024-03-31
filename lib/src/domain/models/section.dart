@@ -1,4 +1,4 @@
-import 'component.dart';
+import 'widget.dart';
 
 const String tableSections = 'app_sections';
 
@@ -14,13 +14,13 @@ class Section {
   int? id;
   String? name;
   String? type;
-  List<Component>? components;
+  List<Widget>? widgets;
 
   Section({
     this.id,
     this.name,
     this.type,
-    this.components
+    this.widgets
   });
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(

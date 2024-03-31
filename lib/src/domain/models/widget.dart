@@ -1,4 +1,6 @@
-const String tableWidgets = 'app_names';
+import 'component.dart';
+
+const String tableWidgets = 'app_widgets';
 
 class WidgetFields {
   static final List<String> values = [id, name, type];
@@ -13,13 +15,15 @@ class Widget {
   int? id;
   String? name;
   String? type;
-  String? sectionId;
+  int? sectionId;
+  List<Component>? components;
 
   Widget({
     this.id,
     this.name,
     this.type,
     this.sectionId,
+    this.components
   });
 
   factory Widget.fromJson(Map<String, dynamic> json) => Widget(
