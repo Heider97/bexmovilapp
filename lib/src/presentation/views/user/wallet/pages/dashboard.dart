@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
+import '../../../../../domain/models/component.dart';
 import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/constants/strings.dart';
 
@@ -72,10 +73,10 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                                   child: CardKpi(
                                       needConverted: true,
                                       height: 80,
-                                      kpi: Kpi(
+                                      kpi: Component(
                                           type: graphic.data!.first.x,
                                           title: graphic.title,
-                                          value: graphic.data!.first.y
+                                          results: graphic.data!.first.y
                                               .toString())));
                             } else {
                               return Padding(

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 //domain
 import '../../../domain/models/component.dart';
@@ -62,11 +63,17 @@ class _AppWidgetState extends State<AppWidget> {
       case 'HomeFeatures':
         return HomeFeatures(features: widget.components.first.results);
       case 'HomeStatistics':
-        print(widget.components);
         if (widget.components.isNotEmpty) {
+          var kpis = widget.components
+              .map((e) => e.type == "kpi" ? e : null)
+              .toList(growable: true);
+          var forms = widget.components
+              .map((e) => e.type == "form" ? e : null)
+              .toList(growable: true);
+
           return HomeStatistics(
-              kpis: widget.components.first.results ?? [],
-              forms: widget.components.last.results ?? [],
+              kpis: kpis,
+              forms: forms,
               tabController: widget.tabController!);
         } else {
           return HomeStatistics(
