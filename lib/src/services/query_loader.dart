@@ -25,6 +25,7 @@ class QueryLoaderService {
   /// - [module] name of module
   /// - [arguments] List of values to get result
   Future getResults(String moduleName, List<dynamic> arguments) async {
+    // FIND CURRENT MODULE
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
       var sections = await databaseRepository.findSections(module.id!);
@@ -34,11 +35,15 @@ class QueryLoaderService {
           if (widgets != null && widgets.isNotEmpty) {
             section.widgets = widgets;
             for (var widget in widgets) {
+              print(widget.toJson());
               var components =
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
                 widget.components = components;
                 for (var component in components) {
+
+                  print(component.toJson());
+
                   var results =
                       await databaseRepository.logicQueries(component.id!);
 
@@ -57,8 +62,11 @@ class QueryLoaderService {
                           var logic =
                               await databaseRepository.findLogic(lq.logicId!);
                           if (logic != null) {
+                            print(logic.toJson());
                             var result =
                                 await databaseRepository.validateLogic(logic);
+
+                            print(result);
                             if (result == true) {
                               var results = await determine(
                                   widget.type!, logicQueries.first, arguments);
@@ -81,6 +89,7 @@ class QueryLoaderService {
       } else {
         return null;
       }
+
     } else {
       return null;
     }

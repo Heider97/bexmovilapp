@@ -34,14 +34,14 @@ class Logic {
     id = json['id'];
     table = json['table'];
     condition = json['condition'];
-    column = json['    column'];
+    column = json['column'];
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['table'] = table;
     data['condition'] = condition;
-    data['    column'] = column;
+    data['column'] = column;
     return data;
   }
 

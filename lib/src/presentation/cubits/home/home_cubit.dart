@@ -132,7 +132,7 @@ class HomeCubit extends BaseCubit<HomeState> {
         getFilters
       ];
 
-      var isolateModel = IsolateModel(functions, null, 7);
+      var isolateModel = IsolateModel(functions, null, 3);
       await heavyTask(isolateModel);
 
       final user = User.fromMap(storageService.getObject('user')!);
