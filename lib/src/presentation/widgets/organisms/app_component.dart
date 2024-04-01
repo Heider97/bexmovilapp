@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/widgets/cartesian_chart.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 //domain
@@ -88,6 +90,20 @@ class _AppWidgetState extends State<AppWidget> {
         return SaleRouters(routers: widget.components.first.results);
       case 'SaleClients':
         return SaleClients(clients: widget.components.first.results);
+      case 'WalletHome':
+        var widget;
+        for(var component in widget.components){
+          if(component.type == "kpi") {
+            print(component);
+            widget = CardKpi(kpi: component);
+          } else if (component.type == "line") {
+            // return CartesianChart(graphic: component);
+            widget = const SizedBox();
+          } else {
+            widget = const SizedBox();
+          }
+        }
+        return widget;
 
       default:
         return const SizedBox();

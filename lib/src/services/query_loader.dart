@@ -41,7 +41,6 @@ class QueryLoaderService {
               if (components != null && components.isNotEmpty) {
                 widget.components = components;
                 for (var component in components) {
-
                   print(component.toJson());
 
                   var results =
@@ -55,6 +54,8 @@ class QueryLoaderService {
                     if (logicQueries.length == 1) {
                       var results = await determine(
                           widget.type, logicQueries.first, arguments);
+                      print('**********');
+                      print(results.toString());
                       component.results = results;
                     } else {
                       for (var lq in logicQueries) {
@@ -62,14 +63,13 @@ class QueryLoaderService {
                           var logic =
                               await databaseRepository.findLogic(lq.logicId!);
                           if (logic != null) {
-                            print(logic.toJson());
                             var result =
                                 await databaseRepository.validateLogic(logic);
-
-                            print(result);
                             if (result == true) {
                               var results = await determine(
                                   widget.type!, logicQueries.first, arguments);
+                              print('**********');
+                              print(results.toString());
                               component.results = results;
                             }
                           }
@@ -89,7 +89,6 @@ class QueryLoaderService {
       } else {
         return null;
       }
-
     } else {
       return null;
     }
@@ -123,22 +122,28 @@ class QueryLoaderService {
   }
 
   String replaceValues(String query, List<dynamic> values, bool deep) {
-    if (deep) {
-      for (var value in values) {
-        if (value != null) {
-          query = query.replaceAll(query, value);
+    try {
+      if (deep) {
+        for (var value in values) {
+          if (value != null) {
+            query = query.replaceAll(query, value);
+          }
+        }
+      } else {
+        for (var value in values) {
+          if (value != null) {
+            var replace = query.indexOf('?');
+            query = query.replaceCharAt(query, replace, value);
+          }
         }
       }
-    } else {
-      for (var value in values) {
-        if (value != null) {
-          var replace = query.indexOf('?');
-          query = query.replaceCharAt(query, replace, value);
-        }
-      }
-    }
 
-    return query;
+      return query;
+    } catch (e) {
+      print('error replacing');
+      print(e);
+      return query;
+    }
   }
 
   List<int> findWord(String textString, String word) {
@@ -158,22 +163,35 @@ class QueryLoaderService {
 
   Future<List<dynamic>> executeQuery(String? type, String table, String? where,
       List<dynamic> arguments) async {
-    if (type == null) return [];
-    var results = await databaseRepository.query(table, where, arguments);
-    var dynamic = await dynamicListTypes[type]?.fromMap(results);
-    if (dynamic == null) {
+    try {
+      if (type == null) return [];
+      var results = await databaseRepository.query(table, where, arguments);
+      var dynamic = await dynamicListTypes[type]?.fromMap(results);
+      if (dynamic == null) {
+        return [];
+      }
+      return dynamic;
+    } catch (e) {
+      print('error executing query');
+      print(e);
       return [];
     }
-    return dynamic;
   }
 
   Future<List<dynamic>> executeRawQuery(String sentence, String? type) async {
-    if (type == null) return [];
-    var results = await databaseRepository.rawQuery(sentence);
-    var dynamic = await dynamicListTypes[type]?.fromMap(results);
-    if (dynamic == null) {
+    try {
+      if (type == null) return [];
+      var results = await databaseRepository.rawQuery(sentence);
+      print(results);
+      var dynamic = await dynamicListTypes[type]?.fromMap(results);
+      if (dynamic == null) {
+        return [];
+      }
+      return dynamic;
+    } catch (e) {
+      print('error executing raw query');
+      print(e);
       return [];
     }
-    return dynamic;
   }
 }
