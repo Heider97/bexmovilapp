@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/models/graphic.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/invoice.dart';
+import '../../../domain/models/section.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
+import '../../../services/query_loader.dart';
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
 
@@ -19,9 +21,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
   final NavigationService navigationService;
+  final QueryLoaderService queryLoaderService;
 
-  WalletBloc(
-      this.databaseRepository, this.storageService, this.navigationService)
+  WalletBloc(this.databaseRepository, this.storageService,
+      this.navigationService, this.queryLoaderService)
       : super(const WalletState(status: WalletStatus.initial)) {
     on<LoadGraphics>(_onLoadGraphics);
     on<LoadClients>(_onLoadClients);
@@ -32,9 +35,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     //TODO: [Heider Zapa] refactor with new logic
-    // var graphics = await databaseRepository.getAllGraphics();
-    // var graphics = await queryLoaderService.getResults(List<Graphic>, 'wallet', 'dashboard');
-    emit(state.copyWith(status: WalletStatus.success, graphics: []));
+    var seller = storageService.getString('username');
+    var sections = await queryLoaderService.getResults('wallet', ['seller']);
+    emit(state.copyWith(status: WalletStatus.success, sections: sections));
   }
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
@@ -56,7 +59,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     emit(state.copyWith(status: WalletStatus.loading));
 
     try {
-
       var seller = storageService.getString('username');
       var invoices = await databaseRepository.getInvoicesByClient(
           event.range!, seller!, event.client!.id.toString());

@@ -1,6 +1,6 @@
-import 'package:bexmovil/src/domain/models/component.dart';
 import 'package:flutter/material.dart';
 
+import '../../../domain/models/widget.dart' as w;
 import '../../../utils/constants/gaps.dart';
 import '../atoms/app_text.dart';
 import '../organisms/app_component.dart';
@@ -17,24 +17,22 @@ import '../organisms/app_component.dart';
 class AppSection extends StatefulWidget {
   /// Creates a customizable form widget.
   ///
-  /// The [componentItems] parameters must not be
+  /// The [widgetItems] parameters must not be
   /// null.
   const AppSection({
     super.key,
     required this.title,
-    required this.type,
-    required this.componentItems,
+    required this.widgetItems,
     this.tabController,
   });
 
   /// The optional title widget to display at the top of the form.
   final String title;
-  final String type;
 
   /// The list of form items to display in the form.
   ///
   /// Must not be null.
-  final List<Component> componentItems;
+  final List<w.Widget> widgetItems;
 
   final TabController? tabController;
 
@@ -47,35 +45,33 @@ class _AppFormState extends State<AppSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          gapH12,
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
-            child: AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          gapH12,
-          ...widget.componentItems.map(
-            (item) {
-              var listIndex = widget.componentItems.indexOf(item);
-              return _buildAppTextFormField(context, listIndex);
-            },
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        gapH12,
+        Padding(
+          padding: const EdgeInsets.only(left: 15.0),
+          child:
+              AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        ...widget.widgetItems.map(
+          (item) {
+            var listIndex = widget.widgetItems.indexOf(item);
+            return _buildAppWidget(context, listIndex);
+          },
+        ),
+      ],
     );
   }
 
-  AppComponent _buildAppTextFormField(
+  AppWidget _buildAppWidget(
     BuildContext context,
     int listIndex,
   ) {
-    return AppComponent(
-      sectionType: widget.type,
-      componentType: widget.componentItems[listIndex].type!,
-      componentItems: widget.componentItems[listIndex],
+    return AppWidget(
+      name: widget.widgetItems[listIndex].name!,
+      type: widget.widgetItems[listIndex].type!,
+      components: widget.widgetItems[listIndex].components ?? [],
       tabController: widget.tabController,
     );
   }

@@ -3,6 +3,7 @@ import '../../domain/repositories/database_repository.dart';
 //models
 import '../../domain/models/module.dart';
 import '../../domain/models/section.dart';
+import '../../domain/models/widget.dart';
 import '../../domain/models/component.dart';
 import '../../domain/models/logic.dart';
 import '../../domain/models/query.dart';
@@ -46,10 +47,21 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.sectionDao.emptySections();
   }
 
+  //WIDGETS
+  @override
+  Future<List<Widget>?> findWidgets(int sectionId) async {
+    return _appDatabase.widgetDao.findWidgets(sectionId);
+  }
+
+  @override
+  Future<void> emptyWidgets() async {
+    return _appDatabase.widgetDao.emptyWidgets();
+  }
+
   //COMPONENTS
   @override
-  Future<List<Component>?> findComponents(int sectionId) async {
-    return _appDatabase.componentDao.findComponents(sectionId);
+  Future<List<Component>?> findComponents(int widgetId) async {
+    return _appDatabase.componentDao.findComponents(widgetId);
   }
 
   @override

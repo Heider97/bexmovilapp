@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:bexmovil/src/domain/models/logic_query.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -11,9 +10,11 @@ import '../../../utils/constants/strings.dart';
 // [MODELS]
 /// [CORE]
 import '../../../domain/models/module.dart';
-import '../../../domain/models/component.dart';
 import '../../../domain/models/section.dart';
+import '../../../domain/models/widget.dart';
+import '../../../domain/models/component.dart';
 import '../../../domain/models/logic.dart';
+import '../../../domain/models/logic_query.dart';
 import '../../../domain/models/query.dart';
 import '../../../domain/models/raw_query.dart';
 
@@ -45,8 +46,9 @@ part 'migrations/index.dart';
 // [DAOS]
 // [CORE]
 part '../local/dao/module_dao.dart';
-part '../local/dao/component_dao.dart';
 part '../local/dao/section_dao.dart';
+part '../local/dao/widget_dao.dart';
+part '../local/dao/component_dao.dart';
 part '../local/dao/logic_dao.dart';
 part '../local/dao/query_dao.dart';
 part '../local/dao/raw_query_dao.dart';
@@ -180,6 +182,8 @@ class AppDatabase {
   ModuleDao get moduleDao => ModuleDao(instance);
 
   SectionDao get sectionDao => SectionDao(instance);
+
+  WidgetDao get widgetDao => WidgetDao(instance);
 
   ComponentDao get componentDao => ComponentDao(instance);
 

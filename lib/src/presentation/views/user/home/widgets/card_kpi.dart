@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bexmovil/src/domain/models/kpi.dart';
 
 //utils
+import '../../../../../domain/models/component.dart';
 import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
@@ -10,7 +11,7 @@ import '../../../../../utils/extensions/string_extension.dart';
 import '../../../../widgets/atoms/app_text.dart';
 
 class CardKpi extends StatefulWidget {
-  final Kpi kpi;
+  final Component kpi;
   final double? height;
   final bool needConverted;
 
@@ -40,10 +41,8 @@ class _CardKpiState extends State<CardKpi> {
                 ),
                 Row(
                   children: [
-                    AppText(
-                        buildContentKpi(),
-                        fontWeight: FontWeight.normal,
-                        fontSize: 22),
+                    AppText(buildContentKpi(),
+                        fontWeight: FontWeight.normal, fontSize: 22),
                   ],
                 ),
               ],
@@ -53,19 +52,28 @@ class _CardKpiState extends State<CardKpi> {
   }
 
   String buildContentKpi() {
-    if(widget.needConverted == true && widget.kpi.value != null) {
-      if(widget.kpi.value!.contains('/')){
-        var splits = widget.kpi.value!.split('/');
-        var result = [];
-        for(var split in splits){
-          result.add(split.formattedCompact(split));
-        }
-        return result.join('/');
-      } else {
-        return ''.formattedCompact(widget.kpi.value!);
-      }
+    print('build');
+    print(widget.kpi.results[0]);
+    if (widget.needConverted == true && widget.kpi.results != null) {
+      // if (widget.kpi.results!.contains('/')) {
+      //   var splits = widget.kpi.results!.split('/');
+      //   var result = [];
+      //   for (var split in splits) {
+      //     result.add(split.formattedCompact(split));
+      //   }
+      //   return result.join('/');
+      // } else {
+      //   return ''.formattedCompact(widget.kpi.results!);
+      // }
+
+      return "N/A";
     } else {
-      return widget.kpi.value ?? "N/A";
+      if(widget.kpi.results != null) {
+        print(widget.kpi.results[0].toJson());
+      }
+
+      // return widget.kpi.results ?? "N/A";
+      return "N/A";
     }
   }
 }

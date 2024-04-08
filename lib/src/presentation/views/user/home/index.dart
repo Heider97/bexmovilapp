@@ -1,5 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/home/features/dymamic_builder.dart';
-import 'package:bexmovil/src/presentation/widgets/organisms/app_section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,13 +13,9 @@ import '../../../../utils/constants/gaps.dart';
 import '../../../../utils/constants/strings.dart';
 
 //widgets
+import '../../../widgets/organisms/app_section.dart';
 import '../../../widgets/atoms/app_text.dart';
 import '../../../widgets/atoms/app_icon_button.dart';
-
-//features
-import './features/features.dart';
-import './features/statistics.dart';
-import './features/applications.dart';
 
 //services
 import '../../../../locator.dart';
@@ -144,8 +138,7 @@ class HomeViewState extends State<HomeView>
             ...state.sections != null
                 ? state.sections!.map((e) => AppSection(
                     title: e.name!,
-                    type: e.type!,
-                    componentItems: e.components!,
+                    widgetItems: e.widgets ?? [],
                     tabController: _tabController))
                 : [],
           ],

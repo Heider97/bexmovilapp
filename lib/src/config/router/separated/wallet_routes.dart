@@ -1,5 +1,4 @@
 //utils
-
 import '../../../presentation/views/user/wallet/pages/notification.dart';
 import '../../../utils/constants/strings.dart';
 //router
@@ -16,8 +15,8 @@ import '../../../presentation/views/user/wallet/pages/collection.dart';
 import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
-  AppRoutes.dashboardWallet: (context, settings) =>
-      AppGlobalBackground.normal(child: const WalletDashboardView()),
+  AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.normal(
+      hideAppBar: false, child: const WalletDashboardView()),
   AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.squared(
       opacity: 0.1,
       hideBottomNavigationBar: true,

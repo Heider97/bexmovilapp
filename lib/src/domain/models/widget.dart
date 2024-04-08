@@ -1,37 +1,42 @@
-import 'widget.dart';
+import 'component.dart';
 
-const String tableSections = 'app_sections';
+const String tableWidgets = 'app_widgets';
 
-class SectionFields {
+class WidgetFields {
   static final List<String> values = [id, name, type];
 
   static const String id = 'id';
   static const String name = 'name';
   static const String type = 'type';
+  static const String sectionId = 'section_id';
 }
 
-class Section {
+class Widget {
   int? id;
   String? name;
   String? type;
-  List<Widget>? widgets;
+  int? sectionId;
+  List<Component>? components;
 
-  Section({
+  Widget({
     this.id,
     this.name,
     this.type,
-    this.widgets
+    this.sectionId,
+    this.components
   });
 
-  factory Section.fromJson(Map<String, dynamic> json) => Section(
+  factory Widget.fromJson(Map<String, dynamic> json) => Widget(
     id: json["id"],
     name: json["name"],
     type: json["type"],
+    sectionId: json["section_id"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
     "type": type,
+    "section_id": sectionId,
   };
 }

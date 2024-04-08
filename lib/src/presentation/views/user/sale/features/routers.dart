@@ -34,73 +34,61 @@ class _SaleRoutersState extends State<SaleRouters>
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.success && widget.routers != null) {
-        return Expanded(
-            child: Column(children: [
-          TabBar(controller: _tabcontroller, tabs: const [
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Pendiente',
+        return SingleChildScrollView(
+          child: Column(children: [
+            TabBar(controller: _tabcontroller, tabs: const [
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Pendiente',
+                ),
               ),
-            ),
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Historial',
-              ),
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Historial',
+                ),
+              )
+            ]),
+            Container(
+              height: size.height - 200,
+              color: Colors.grey[200],
+              child: TabBarView(controller: _tabcontroller, children: [
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.status == SaleStatus.success &&
+                      widget.routers != null &&
+                      widget.routers!.isNotEmpty == true) {
+                    return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: widget.routers?.length,
+                        itemBuilder: (context, index) {
+                          return CardRouter(
+                            codeRouter: widget.routers![index].dayRouter!,
+                            quantityClients: widget
+                                .routers![index].quantityClient
+                                .toString(),
+                            dayRouter:
+                                widget.routers![index].nameDayRouter.toString(),
+                            totalClients: widget.routers![index].quantityClient,
+                          );
+                        });
+                  } else {
+                    return const Text('No hay ruteros disponibles');
+                  }
+                }),
+                Center(
+                    child: AppText('No hay ruteros',
+                        fontSize: 15, fontWeight: FontWeight.w300))
+              ]),
             )
           ]),
-          Expanded(
-              child: Container(
-            color: Colors.grey[200],
-            child: TabBarView(controller: _tabcontroller, children: [
-              BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.success &&
-                    widget.routers != null && widget.routers!.isNotEmpty==true) {
-                  return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: widget.routers?.length,
-                      itemBuilder: (context, index) {
-                        return CardRouter(
-                          codeRouter: widget.routers![index].dayRouter!,
-                          quantityClients:
-                              widget.routers![index].quantityClient.toString(),
-                          dayRouter:
-                              widget.routers![index].nameDayRouter.toString(),
-                          totalClients: widget.routers![index].quantityClient,
-                        );
-                      });
-                } else {
-                  return Container(
-                    child: Text('No hay ruteros disponibles'),
-                  );
-                }
-              }),
-              Center(
-                  child: AppText('No hay ruteros',
-                      fontSize: 15, fontWeight: FontWeight.w300))
-            ]),
-          ))
-        ]));
+        );
       } else {
         return const Center(child: Text('Cargando'));
       }
     });
   }
 }
-/* ListView.builder(
-                itemCount: routers?.length,
-                itemBuilder: (context, index) {
-                  return CardRouter(
-                    codeRouter: routers![index].dayRouter!,
-                    quantityClients: routers![index].quantityClient.toString(),
-                    dayRouter: routers![index].nameDayRouter.toString(),
-                    totalClients: routers![index].quantityClient,
-                  );
-                }) */
-
-
-

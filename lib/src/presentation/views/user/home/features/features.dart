@@ -19,7 +19,7 @@ class HomeFeatures extends StatelessWidget {
             current.runtimeType != previous.runtimeType,
         builder: (context, state) {
           return SizedBox(
-              height: 120,
+              height: 100,
               width: 500,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

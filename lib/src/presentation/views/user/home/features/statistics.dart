@@ -1,7 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 //domain
-import '../../../../../domain/models/kpi.dart';
+import '../../../../../domain/models/component.dart';
 //utils
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/screens.dart';
@@ -11,23 +12,74 @@ import '../widgets/card_reports.dart';
 import '../widgets/card_kpi.dart';
 import '../widgets/slide_kpi.dart';
 
-class HomeStatistics extends StatelessWidget {
+class HomeStatistics extends StatefulWidget {
   final TabController tabController;
 
-  final List<Kpi> kpisOneLine;
-  final List<List<Kpi>> kpisSlidableOneLine;
-  final List<Kpi> kpisSecondLine;
-  final List<List<Kpi>> kpisSlidableSecondLine;
-  final List<Form> forms;
+  final List<Component?> kpis;
+  final List<Component?> forms;
 
   const HomeStatistics(
       {super.key,
-      required this.kpisOneLine,
-      required this.kpisSlidableOneLine,
-      required this.kpisSecondLine,
-      required this.kpisSlidableSecondLine,
+      required this.kpis,
       required this.forms,
       required this.tabController});
+
+  @override
+  State<HomeStatistics> createState() => _HomeStatisticsState();
+}
+
+class _HomeStatisticsState extends State<HomeStatistics> {
+  List<Component?> kpisOneLine = [];
+  List<Component?> kpisSecondLine = [];
+  List<List<Component?>> kpisSlidableOneLine = [];
+  List<List<Component?>> kpisSlidableSecondLine = [];
+
+  @override
+  void initState() {
+    kpisOneLine = widget.kpis.where((element) => element!.line == 1).toList();
+    print(kpisOneLine.length);
+
+    kpisSecondLine =
+        widget.kpis.where((element) => element!.line == 2).toList();
+
+    // final duplicatesOneLine = groupBy(
+    //   kpisOneLine,
+    //   (kpi) => kpi!.type,
+    // )
+    //     .values
+    //     .where((list) => list.length > 1)
+    //     .map((list) => list.first!.type)
+    //     .toList();
+
+    final duplicatesSecondLine = groupBy(
+      kpisSecondLine,
+      (kpi) => kpi!.type,
+    )
+        .values
+        .where((list) => list.length > 1)
+        .map((list) => list.first!.type)
+        .toList();
+
+    // if (duplicatesOneLine.isNotEmpty) {
+    //   for (var dsl in duplicatesOneLine) {
+    //     kpisOneLine.removeWhere((element) => element!.type == dsl);
+    //     kpisSlidableOneLine
+    //         .add(kpisOneLine.where((kpi) => kpi!.type == dsl).toList());
+    //   }
+    // }
+
+    if (duplicatesSecondLine.isNotEmpty) {
+      for (var dsl in duplicatesSecondLine) {
+        kpisSlidableSecondLine
+            .add(kpisSecondLine.where((kpi) => kpi!.type == dsl).toList());
+        kpisSecondLine.removeWhere((element) => element!.type == dsl);
+      }
+    }
+
+    print(kpisOneLine.length);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +89,7 @@ class HomeStatistics extends StatelessWidget {
       child: Column(
         children: [
           TabBar(
-            controller: tabController,
+            controller: widget.tabController,
             indicatorSize: TabBarIndicatorSize.values.first,
             indicator: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -54,7 +106,7 @@ class HomeStatistics extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
-              controller: tabController,
+              controller: widget.tabController,
               children: [
                 SizedBox(
                   width: Screens.width(context) / 2,
@@ -63,10 +115,15 @@ class HomeStatistics extends StatelessWidget {
                       Expanded(
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: kpisOneLine.length,
+                            itemCount: kpisSlidableOneLine.length +
+                                kpisOneLine.length,
                             itemBuilder: (BuildContext context, int index) {
+                              if (kpisSlidableOneLine.isNotEmpty) {
+                                return SlidableKpi(
+                                    kpis: kpisSlidableOneLine[index]);
+                              }
                               final kpi = kpisOneLine[index];
-                              return CardKpi(kpi: kpi);
+                              return CardKpi(kpi: kpi!);
                             }),
                       ),
                       Expanded(
@@ -80,7 +137,7 @@ class HomeStatistics extends StatelessWidget {
                                     kpis: kpisSlidableSecondLine[index]);
                               }
                               final kpi = kpisSecondLine[index];
-                              return CardKpi(kpi: kpi);
+                              return CardKpi(kpi: kpi!);
                             }),
                       ),
                     ],

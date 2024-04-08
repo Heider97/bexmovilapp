@@ -14,10 +14,10 @@ class ComponentDao {
     return components;
   }
 
-  Future<List<Component>?> findComponents(int sectionId) async {
+  Future<List<Component>?> findComponents(int widgetId) async {
     final db = await _appDatabase.database;
     var componentList = await db!.query(tableComponents,
-        where: 'id = ?', whereArgs: [sectionId]);
+        where: 'widget_id = ?', whereArgs: [widgetId]);
     var components = parseComponents(componentList);
     return components;
   }
