@@ -107,6 +107,8 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
                     compassEnabled: false,
                     myLocationButtonEnabled: true,
                     zoomControlsEnabled: false,
+                    
+                    
                     /* 
                           {Marker(
                       markerId: MarkerId("marker1"),

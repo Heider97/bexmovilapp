@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:flutter/material.dart';
 
 //services
@@ -68,4 +72,28 @@ Future<void> showErrorDialog() {
           description:
               'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
           image: 'assets/icons/pin.svg'));
+}
+
+showClientDialog({required BuildContext context, required Client client}) {
+  return showDialog(
+      context: context,
+      builder: (_) {
+        Size size = MediaQuery.of(context).size;
+        ThemeData theme = Theme.of(context);
+        return Dialog(
+            backgroundColor: theme.cardColor,
+            surfaceTintColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CardClient(
+                        client: client,
+                      )
+                    ])));
+      });
 }

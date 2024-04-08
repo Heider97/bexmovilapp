@@ -13,12 +13,12 @@ class CustomShapePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = Path()
-      ..lineTo(0, size.height - 40)
+      ..lineTo(0, size.height - 20)
       ..quadraticBezierTo(0, size.height - 20, 20, size.height - 20)
       ..lineTo(size.width, size.height - 20)
-      ..lineTo(size.width, 20)
-      ..quadraticBezierTo(size.width, 0, size.width - 20, 0)
-      ..lineTo(20, 0)
+      ..lineTo(size.width, 0)
+      ..quadraticBezierTo(size.width, 0, size.width , 0)
+      ..lineTo(0, 0)
       ..quadraticBezierTo(0, 0, 0, 20);
 
     final path2 = Path()

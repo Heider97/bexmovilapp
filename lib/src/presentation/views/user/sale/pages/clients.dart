@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -134,14 +135,19 @@ class _ClientsPageState extends State<ClientsPage> {
                 } else if (state.status == SaleStatus.success) {
                   return Expanded(
                     child: ListView.builder(
-                        padding: const EdgeInsets.all(Const.padding),
+                      /*   padding: const EdgeInsets.all(Const.padding), */
                         itemCount: state.clientsFounded != null
                             ? state.clientsFounded!.length
                             : 0,
                         itemBuilder: (context, index) {
-                          return CardClientRouter(
-                            client: state.clientsFounded![index],
+                          return CardClient(
+                             client: state.clientsFounded![index],
+                             activeSale:false
                           );
+
+                       /*    return CardClientRouter(
+                            client: state.clientsFounded![index],
+                          ); */
                         }),
                   );
                 } else {

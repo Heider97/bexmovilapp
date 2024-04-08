@@ -11,32 +11,35 @@ class ImagesWithShadow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: ClipRect(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                    child: (fromNetwork == null || fromNetwork == false)
-                        ? Image.asset(
-                            image,
-                            fit: BoxFit.contain, // Ajuste de la imagen
-                          )
-                        : Image.network(
-                            image,
-                            fit: BoxFit.contain,
-                          )),
-                SizedBox(height: gap),
-                Image.asset(
-                  Assets.shadow,
-
-                  fit: BoxFit.contain, // Ajuste de la imagen
-                ),
-              ],
-            ),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: ClipRect(
+          child: Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: (fromNetwork == null || fromNetwork == false)
+                          ? Image.asset(
+                              image,
+                              fit: BoxFit.contain, // Ajuste de la imagen
+                            )
+                          : Image.network(
+                              image,
+                              fit: BoxFit.contain,
+                            )),
+                  SizedBox(height: gap),
+                  Image.asset(
+                    Assets.shadow,
+        
+                    fit: BoxFit.contain, // Ajuste de la imagen
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -36,6 +36,8 @@ class AppRoutes {
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
   static const saleMap = '/sale-map';
+  static const selectProducts = '/select-products';
+
 
   //NAVIGATION ROUTES
   static const navigation = '/navigation';
