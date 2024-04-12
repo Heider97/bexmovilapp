@@ -71,7 +71,7 @@ class CartesianChart extends StatelessWidget {
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
                     final data = component.results?.elementAt(details.pointIndex!);
-                    if (data != null && component.interactive == true) {
+                    if (data != null && component.interactive == 1) {
                       var arguments = WalletArgument(type: data.x);
                       navigationService.goTo(AppRoutes.clientsWallet,
                           arguments: arguments);
