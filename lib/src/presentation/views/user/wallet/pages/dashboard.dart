@@ -52,12 +52,12 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
     return SafeArea(
       child: Column(
         children: [
-          // ...state.sections != null
-          //     ? state.sections!.map((e) => AppSection(
-          //           title: e.name!,
-          //           widgetItems: e.widgets ?? [],
-          //         ))
-          //     : [],
+          ...state.sections != null
+              ? state.sections!.map((e) => AppSection(
+                  title: e.name!,
+                  widgetItems: e.widgets ?? [],
+                  tabController: null))
+              : [],
           SizedBox(
             width: Screens.width(context),
             child: Padding(

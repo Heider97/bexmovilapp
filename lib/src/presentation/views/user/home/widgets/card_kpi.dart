@@ -53,7 +53,7 @@ class _CardKpiState extends State<CardKpi> {
 
   String buildContentKpi() {
     print('build');
-    print(widget.kpi.results[0]);
+    // print(widget.kpi.results[0]);
     if (widget.needConverted == true && widget.kpi.results != null) {
       // if (widget.kpi.results!.contains('/')) {
       //   var splits = widget.kpi.results!.split('/');
@@ -68,7 +68,7 @@ class _CardKpiState extends State<CardKpi> {
 
       return "N/A";
     } else {
-      if(widget.kpi.results != null) {
+      if (widget.kpi.results != null) {
         print(widget.kpi.results[0].toJson());
       }
 
