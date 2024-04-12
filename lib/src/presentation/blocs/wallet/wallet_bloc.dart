@@ -38,10 +38,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('wallet', [seller]);
 
-    sections.map((section) {
-      print('*********');
-      print(section);
-    });
+    print(sections);
 
     emit(state.copyWith(status: WalletStatus.success, sections: sections));
   }

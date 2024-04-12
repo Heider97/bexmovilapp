@@ -52,28 +52,40 @@ class _CardKpiState extends State<CardKpi> {
   }
 
   String buildContentKpi() {
-    print('build');
-    // print(widget.kpi.results[0]);
     if (widget.needConverted == true && widget.kpi.results != null) {
-      // if (widget.kpi.results!.contains('/')) {
-      //   var splits = widget.kpi.results!.split('/');
-      //   var result = [];
-      //   for (var split in splits) {
-      //     result.add(split.formattedCompact(split));
-      //   }
-      //   return result.join('/');
-      // } else {
-      //   return ''.formattedCompact(widget.kpi.results!);
-      // }
+      if(widget.kpi.results is List) {
+        if(widget.kpi.results.first is Kpi) {
+          return "N/A";
+        } else {
+          if (widget.kpi.results.first['dato'].contains('/')) {
+            var splits = widget.kpi.results.first['dato'].split('/');
+            var result = [];
+            for (var split in splits) {
+              result.add(split.formattedCompact(split));
+            }
+            return result.join('/');
+          } else {
+            return ''.formattedCompact(widget.kpi.results!);
+          }
+        }
+      } else {
+        return "N/A";
+      }
+
 
       return "N/A";
     } else {
-      if (widget.kpi.results != null) {
-        print(widget.kpi.results[0].toJson());
+      if(widget.kpi.results is List) {
+        if(widget.kpi.results.first is Kpi) {
+          return "N/A";
+        } else {
+          return widget.kpi.results.first['dato'];
+        }
+      } else {
+        return "N/A";
       }
 
-      // return widget.kpi.results ?? "N/A";
-      return "N/A";
+
     }
   }
 }
