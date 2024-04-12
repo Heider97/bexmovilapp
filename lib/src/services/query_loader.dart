@@ -46,6 +46,8 @@ class QueryLoaderService {
                           ? true
                           : false;
 
+                  print(needBeMapped);
+
                   var results =
                       await databaseRepository.logicQueries(component.id!);
 
@@ -56,7 +58,7 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, arguments);
+                          widget.type, logicQueries.first, arguments, needBeMapped: needBeMapped);
                       print('*****resultados from unic logic*****');
                       print(results.toString());
                       component.results = results;
@@ -69,7 +71,6 @@ class QueryLoaderService {
                             var result =
                                 await databaseRepository.validateLogic(logic);
                             if (result == true) {
-                              print(logicQueries.first);
                               var results = await determine(
                                   widget.type!, logicQueries.first, arguments,
                                   needBeMapped: needBeMapped);
@@ -131,11 +132,11 @@ class QueryLoaderService {
   String replaceValues(String query, List<dynamic> values, bool deep) {
     try {
       if (deep) {
-        // for (var value in values) {
-        //   if (value != null) {
-        //     query = query.replaceAll(query, value);
-        //   }
-        // }
+        for (var value in values) {
+          if (value != null) {
+            query = query.replaceAll('?', value);
+          }
+        }
       } else {
         for (var value in values) {
           if (value != null) {
@@ -205,6 +206,7 @@ class QueryLoaderService {
       }
       return dynamic;
     } catch (e) {
+      print(sentence);
       print('error executing raw query');
       print(e);
       return [];
