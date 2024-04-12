@@ -41,12 +41,11 @@ class QueryLoaderService {
               if (components != null && components.isNotEmpty) {
                 widget.components = components;
                 for (var component in components) {
-                  var needBeMapped =
-                      component.type == "kpi" || component.type == "line"
-                          ? true
-                          : false;
+                  var needBeMapped = component.type == "kpi" ? true : false;
 
-                  print(needBeMapped);
+                  component.type == "line"
+                      ? widget.type = "List<ChartData>"
+                      : widget.type;
 
                   var results =
                       await databaseRepository.logicQueries(component.id!);
@@ -58,7 +57,8 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, arguments, needBeMapped: needBeMapped);
+                          widget.type, logicQueries.first, arguments,
+                          needBeMapped: needBeMapped);
                       print('*****resultados from unic logic*****');
                       print(results.toString());
                       component.results = results;
@@ -191,10 +191,6 @@ class QueryLoaderService {
     try {
       if (type == null) return [];
       var results = await databaseRepository.rawQuery(sentence);
-
-      print('fromm resultsss');
-      print(needBeMapped);
-      print(results);
 
       if (needBeMapped) {
         return results;

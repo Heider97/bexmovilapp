@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 //blocs
+import '../../../../../domain/models/graphic.dart';
 import '../../../../blocs/wallet/wallet_bloc.dart';
 
 //utils
@@ -50,7 +51,7 @@ class CartesianChart extends StatelessWidget {
               ),
             ),
           ),
-          /*SfCartesianChart(
+          SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             legend: const Legend(
               isVisible: false,
@@ -59,7 +60,7 @@ class CartesianChart extends StatelessWidget {
                 // Applies currency format for y axis labels and also for data labels
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
-              final data = component.data?.elementAt(args.pointIndex);
+              final data = component.results?.elementAt(args.pointIndex);
               if (data != null && component.interactive == true) {
                 var arguments = WalletArgument(type: data.x);
                 navigationService.goTo(AppRoutes.clientsWallet,
@@ -69,14 +70,14 @@ class CartesianChart extends StatelessWidget {
             series: <CartesianSeries<ChartData, String>>[
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
-                    final data = component.data?.elementAt(details.pointIndex!);
+                    final data = component.results?.elementAt(details.pointIndex!);
                     if (data != null && component.interactive == true) {
                       var arguments = WalletArgument(type: data.x);
                       navigationService.goTo(AppRoutes.clientsWallet,
                           arguments: arguments);
                     }
                   },
-                  dataSource: component.data!,
+                  dataSource: component.results!,
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),
@@ -84,7 +85,7 @@ class CartesianChart extends StatelessWidget {
                   trackColor: const Color(0XFFC6C9D0),
                   dataLabelSettings: const DataLabelSettings(isVisible: true))
             ],
-          ),*/
+          ),
           gapH12
         ],
       ),

@@ -1,6 +1,7 @@
 //domain
 import '../../domain/models/config.dart';
 import '../../domain/models/feature.dart';
+import '../../domain/models/graphic.dart';
 import '../../domain/models/kpi.dart';
 import '../../domain/models/application.dart';
 import '../../domain/models/router.dart';
@@ -72,6 +73,15 @@ List<LogicQuery> parseLogicQuery(List<Map<String, dynamic>> logicList) {
   return logics;
 }
 
+List<ChartData> parseChartData(List<Map<String, dynamic>> chartDataList) {
+  final data = <ChartData>[];
+  for (var logicMap in chartDataList) {
+    final logic = ChartData.fromJson(logicMap);
+    data.add(logic);
+  }
+  return data;
+}
+
 class AppDynamicCasterType<T> {
   final T Function(String) fromString;
   AppDynamicCasterType(this.fromString);
@@ -102,6 +112,8 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
   "List<LogicQuery>":
       AppDynamicListCasterType<List<LogicQuery>>((s) => parseLogicQuery(s)),
+  "List<ChartData>":
+      AppDynamicListCasterType<List<ChartData>>((s) => parseChartData(s)),
 };
 
 Future<dynamic> generateVariable(Config config) async {
