@@ -45,7 +45,7 @@ class _WalletDashboardState extends State<WalletDashboard>
                 final component = widget.components![i];
 
                 if (component.type == "kpi") {
-                  return CardKpi(kpi: component, height: 80);
+                  return CardKpi(kpi: component, height: 80, needConverted: true);
                 } else if (component.type == "line") {
                   return CartesianChart(component: component);
                 } else {

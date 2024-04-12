@@ -131,11 +131,11 @@ class QueryLoaderService {
   String replaceValues(String query, List<dynamic> values, bool deep) {
     try {
       if (deep) {
-        for (var value in values) {
-          if (value != null) {
-            query = query.replaceAll(query, value);
-          }
-        }
+        // for (var value in values) {
+        //   if (value != null) {
+        //     query = query.replaceAll(query, value);
+        //   }
+        // }
       } else {
         for (var value in values) {
           if (value != null) {
