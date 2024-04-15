@@ -16,11 +16,14 @@ class ImagesWithShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Agregar Carousel
-
     return GestureDetector(
       onTap: () {
-        showCarouselImageDialog(context: context, productImagesList: [image]);
+        /*  showCarouselImageDialog(context: context, productImagesList: [image,image,image,image]); */
+        showDialog(
+          context: context,
+          builder: (_) => CarouselImageDialog(
+              productImagesList: [image, image, image, image]),
+        );
       },
       child: SizedBox(
         child: ClipRect(
