@@ -1,6 +1,9 @@
 import 'package:bexmovil/src/domain/models/client.dart';
+import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
+import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +13,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgets/atoms/app_text.dart';
 
+final NavigationService _navigationService = locator<NavigationService>();
+
 class CardClient extends StatefulWidget {
   final Client client;
-  const CardClient({super.key, required this.client});
+  final bool? activeSale;
+  const CardClient({super.key, required this.client, this.activeSale});
 
   @override
   State<CardClient> createState() => _CardClientState();
@@ -39,55 +45,63 @@ class _CardClientState extends State<CardClient> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  gapW12,
-                                  Opacity(
-                                    opacity: 0.8,
-                                    child: AppText('Cliente',
-                                        fontWeight: FontWeight.w500,
-                                        color: theme.primaryColor,
-                                        fontSize: 12,
-                                        overflow: TextOverflow.ellipsis),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      gapW12,
+                                      Opacity(
+                                        opacity: 0.8,
+                                        child: AppText('Cliente',
+                                            fontWeight: FontWeight.w500,
+                                            color: theme.primaryColor,
+                                            fontSize: 12,
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                      AppText(
+                                          widget.client.name?.capitalizeString() ??
+                                              'No aplica',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis),
+                                    ],
                                   ),
-                                  AppText(
-                                      widget.client.name?.capitalizeString() ??
-                                          'No aplica',
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.ellipsis),
-                                ],
+                                ),
                               ),
-                              Column(
-                                children: [
-                                  AppText(
-                                      '${widget.client.salesEffectiveness ?? '0'} %',
-                                      fontWeight: FontWeight.w500,
-                                      color: (widget.client
-                                                      .salesEffectiveness !=
-                                                  null &&
-                                              double.parse(widget.client
-                                                      .salesEffectiveness!) >=
-                                                  70)
-                                          ? Colors.green[300]
-                                          : (widget.client.salesEffectiveness !=
-                                                      null &&
-                                                  double.parse(widget.client
-                                                              .salesEffectiveness!)
-                                                          .toDouble() >=
-                                                      50)
-                                              ? Colors.yellow[400]
-                                              : Colors.red[300],
-                                      fontSize: 14,
-                                      overflow: TextOverflow.ellipsis),
-                                  AppText('Servicio',
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey[800],
-                                      fontSize: 12,
-                                      overflow: TextOverflow.ellipsis)
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    AppText(
+                                        '${widget.client.salesEffectiveness ?? '0'} %',
+                                        fontWeight: FontWeight.w500,
+                                        color: (widget.client
+                                                        .salesEffectiveness !=
+                                                    null &&
+                                                double.parse(widget.client
+                                                        .salesEffectiveness!) >=
+                                                    70)
+                                            ? Colors.green[300]
+                                            : (widget.client.salesEffectiveness !=
+                                                        null &&
+                                                    double.parse(widget.client
+                                                                .salesEffectiveness!)
+                                                            .toDouble() >=
+                                                        50)
+                                                ? Colors.yellow[400]
+                                                : Colors.red[300],
+                                        fontSize: 14,
+                                        overflow: TextOverflow.ellipsis),
+                                    AppText('Servicio',
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.grey[800],
+                                        fontSize: 12,
+                                        overflow: TextOverflow.ellipsis)
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -259,6 +273,7 @@ class _CardClientState extends State<CardClient> {
                                   ),
                                 ),
                               ),
+                              gapW8,
                               Expanded(
                                 child: Center(
                                   child: InkWell(
@@ -303,29 +318,36 @@ class _CardClientState extends State<CardClient> {
                             ],
                           ),
                           gapH12,
-                          Material(
-                            elevation: 2,
-                            child: Opacity(
-                              opacity:0.8,
-                              child: Container(
-                                width: double.infinity,
-                                height: 50,
-                                decoration:
-                                    BoxDecoration(color: theme.primaryColor),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    AppText('Realizar Venta',
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        overflow: TextOverflow.ellipsis),
-                                  ],
+                          InkWell(
+                            onTap: () {
+                              _navigationService.goTo(AppRoutes.selectProducts);
+                            },
+                            child: Material(
+                              elevation: 2,
+                              child: Opacity(
+                                opacity: 0.8,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 50,
+                                  decoration:
+                                      BoxDecoration(color: theme.primaryColor),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      AppText('Realizar Venta',
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          overflow: TextOverflow.ellipsis),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ]))))));
+                        ]))
+                        
+                        ))));
   }
 }

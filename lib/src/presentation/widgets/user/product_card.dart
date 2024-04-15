@@ -1,4 +1,6 @@
 import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
+import 'package:bexmovil/src/presentation/widgets/user/ammount.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/custom_paint.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_text_editing.dart';
@@ -20,9 +22,12 @@ class ProductCard extends StatefulWidget {
   State<ProductCard> createState() => _ProductCardState();
 }
 
+TextEditingController discountController = TextEditingController();
+
 class _ProductCardState extends State<ProductCard> {
   bool expand = false;
   late int cantidad;
+  TextEditingController ammountController = TextEditingController();
 
   @override
   void initState() {
@@ -59,7 +64,7 @@ class _ProductCardState extends State<ProductCard> {
           padding:
               const EdgeInsets.only(left: Const.padding, right: Const.padding),
           child: CustomPaint(
-            //size: Size(200, 400),
+            //  size: Size(200, 400),
             painter: CustomShapePainter(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -91,240 +96,235 @@ class _ProductCardState extends State<ProductCard> {
                       )),
                   Column(
                     children: [
-                      Column(
-                        children: [
-                          gapH4,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Ultima vez el: ',
-                                      style: theme.textTheme.labelMedium,
-                                    ),
-                                    TextSpan(
-                                        text: widget.product.lastSoldOn
-                                                ?.formatTime() ??
-                                            "No especifica",
-                                        style: theme.textTheme.labelMedium)
-                                  ],
-                                ),
-                              ),
-                              Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Ultima cantidad vendida: ',
-                                      style: theme.textTheme.labelMedium,
-                                    ),
-                                    TextSpan(
-                                        text:
-                                            '${widget.product.lastQuantitySold ?? 'No especifica'}',
-                                        style: theme.textTheme.labelMedium)
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          gapH8,
-                          Row(
-                            children: [
-                              const SizedBox(
-                                width: 140,
-                                height: 150,
-                                child: ImagesWithShadow(
-                                    image: 'assets/images/menu.png', gap: 0),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    Column(
+                      gapH12,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       children: [
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Código: ',
-                                                  style: theme
-                                                      .textTheme.labelMedium!),
-                                              TextSpan(
-                                                  text: widget.product.code,
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 15))
-                                            ],
-                                          ),
+                                        gapW12,
+                                        Opacity(
+                                          opacity: 0.8,
+                                          child: AppText('Producto',
+                                              fontWeight: FontWeight.w500,
+                                              color: theme.primaryColor,
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis),
                                         ),
-                                        Text(widget.product.name,
-                                            style: theme.textTheme.titleMedium!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Precio de venta: ',
-                                                  style: theme
-                                                      .textTheme.labelMedium!),
-                                              TextSpan(
-                                                  text:
-                                                      '\n-${widget.product.discount.toInt()}%',
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 15,
-                                                          color: const Color(
-                                                              0xFFCC0C39))),
-                                              TextSpan(
-                                                  text:
-                                                      '\$ ${widget.product.sellingPrice.toDouble()}00000000',
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 15,
-                                                          color: theme
-                                                              .primaryColor))
-                                            ],
-                                          ),
-                                        ),
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                  text: 'Disponible: ',
-                                                  style: theme
-                                                      .textTheme.labelMedium!),
-                                              TextSpan(
-                                                  text: widget
-                                                      .product.availableUnits
-                                                      .toString(),
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                    fontSize: 14,
-                                                  ))
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('Aplicar descuento',
-                                                style: theme
-                                                    .textTheme.labelMedium!),
-                                            SizedBox(
-                                              width:
-                                                  Screens.width(context) * 0.20,
-                                              height: 20,
-                                              child: CustomTextEditing(
-                                                controller:
-                                                    TextEditingController(),
-                                              ),
-                                            ),
-                                            const SizedBox()
-                                          ],
-                                        ),
-                                        gapH4,
-                                        Row(
-                                          children: [
-                                            Text('Cantidad:  ',
-                                                style: theme
-                                                    .textTheme.labelMedium!),
-                                            Expanded(
-                                                child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    reducirCantidad();
-                                                  },
-                                                  child: Material(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Const.radius),
-                                                    elevation: Const.elevation,
-                                                    color: theme
-                                                        .colorScheme.secondary,
-                                                    child: SizedBox(
-                                                        height: 30,
-                                                        width: 30,
-                                                        child: Icon(
-                                                            Icons.remove,
-                                                            color: theme
-                                                                .colorScheme
-                                                                .onSecondary)),
-                                                  ),
-                                                ),
-                                                gapW4,
-                                                Text(
-                                                  '$cantidad',
-                                                  style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      color: Colors.black),
-                                                ),
-                                                gapW4,
-                                                InkWell(
-                                                  onTap: () {
-                                                    aumentarCantidad();
-                                                  },
-                                                  child: Material(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Const.radius),
-                                                    elevation: Const.elevation,
-                                                    color: theme.primaryColor,
-                                                    child: SizedBox(
-                                                        height: 30,
-                                                        width: 30,
-                                                        child: Icon(Icons.add,
-                                                            color: theme
-                                                                .colorScheme
-                                                                .onPrimary)),
-                                                  ),
-                                                ),
-                                              ],
-                                            )),
-                                          ],
-                                        ),
-                                        ExpandedSection(
-                                            expand: expand,
-                                            height: 100,
-                                            child: const Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Some Info'),
-                                                Text('Some Info 2'),
-                                                Text('Some Info 3'),
-                                              ],
-                                            )),
-                                        gapH28
+                                        AppText(
+                                            'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            overflow: TextOverflow.ellipsis),
                                       ],
                                     ),
-                                  ],
+                                  ),
+                                ])
+                            /*  Row(
+                            children: [
+                              Text(
+                                'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                style: theme.textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
+                                  //   color: theme.colorScheme.dis,
+                                  fontSize: 18,
                                 ),
                               )
                             ],
+                          ), */
+                            ),
+                      ),
+                      gapH8,
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 140,
+                            height: 150,
+                            child: ImagesWithShadow(
+                                image: 'assets/images/menu.png', gap: 0),
                           ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    /*  Row(
+                                      children: [
+                                   
+                                      ],
+                                    ), */
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  '17 %   ',
+                                                  style: theme
+                                                      .textTheme.labelMedium!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 15,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              206,
+                                                              47,
+                                                              84)),
+                                                ),
+                                                Text(
+                                                  '5415455465464',
+                                                  style: theme
+                                                      .textTheme.labelMedium!
+                                                      .copyWith(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 22,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    gapH12,
+                                    SizedBox(
+                                      width: Screens.width(context),
+                                      child: Row(
+                                        children: [
+                                          Center(
+                                            child: Row(
+                                              children: [
+                                                AppText('Últ. Cant. Vendida: ',
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                                AppText(
+                                                    widget.product
+                                                        .lastQuantitySold
+                                                        .toString(),
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey[700],
+                                                    fontSize: 16,
+                                                    overflow:
+                                                        TextOverflow.ellipsis)
+                                              ],
+                                            ),
+                                          ),
+                                          gapW8,
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Center(
+                                          child: Row(
+                                            children: [
+                                              AppText('Fecha Últ. Venta: ',
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                              AppText(
+                                                  widget
+                                                      .product.lastQuantitySold
+                                                      .toString(),
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.grey[700],
+                                                  fontSize: 16,
+                                                  overflow:
+                                                      TextOverflow.ellipsis)
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        AppText('Disponible: ',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            overflow: TextOverflow.ellipsis),
+                                        AppText(
+                                            '${widget.product.availableUnits}',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.grey[700],
+                                            fontSize: 16,
+                                            overflow: TextOverflow.ellipsis)
+                                      ],
+                                    ),
+                                    Row(
+                                      
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Aplicar descuento: ',
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(fontSize: 14),
+                                        ),
+                                        SizedBox(
+                                          width: Screens.width(context) * 0.20,
+                                          height: 20,
+                                          child: CustomTextEditing(
+                                              controller: discountController),
+                                        ),
+                                        const SizedBox()
+                                      ],
+                                    ),
+                                    gapH12,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                  /*       Text('Cantidad:  ',
+                                            style: theme.textTheme.bodyMedium!
+                                                .copyWith(fontSize: 14)), */
+                                        Ammount(
+                                          controller: ammountController,
+                                        )
+                                      ],
+                                    ),
+                                    gapH12,
+                                    ExpandedSection(
+                                        expand: expand,
+                                        height: 100,
+                                        child: const Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Some Info'),
+                                            Text('Some Info 2'),
+                                            Text('Some Info 3'),
+                                          ],
+                                        )),
+                                    gapH28
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ],

@@ -31,6 +31,11 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadClients>(_onLoadClientsRouter);
     on<NavigationSale>(_onNavigation);
     on<SearchClientSale>(_searchClient);
+    on<GridModeChange>(_gridModeChange);
+  }
+
+  _gridModeChange(GridModeChange event, Emitter emit) {
+    emit(state.copyWith(gridView: event.changeMode));
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {

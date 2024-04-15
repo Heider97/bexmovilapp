@@ -27,6 +27,11 @@ class SearchClientSale extends SaleEvent {
   SearchClientSale({required this.valueToSearch});
 }
 
+class GridModeChange extends SaleEvent {
+  final bool changeMode;
+  GridModeChange({required this.changeMode});
+}
+
 
 
 

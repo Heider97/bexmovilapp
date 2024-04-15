@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,12 +81,12 @@ class _ClientsPageState extends State<ClientsPage> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Const.space15),
-        child: Column(
-          children: [
-            //  StepperWidget(currentStep: 0, steps: steps),
-            Row(
+      child: Column(
+        children: [
+          //  StepperWidget(currentStep: 0, steps: steps),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
               children: [
                 Expanded(
                   child: CustomSearchBar(
@@ -126,31 +127,39 @@ class _ClientsPageState extends State<ClientsPage> {
                         )),
               ],
             ),
-            gapH4,
-            BlocBuilder<SaleBloc, SaleState>(
-              builder: (context, state) {
-                if (state.status == SaleStatus.loading) {
-                  return const Center(child: CupertinoActivityIndicator());
-                } else if (state.status == SaleStatus.success) {
-                  return Expanded(
+          ),
+          gapH4,
+          BlocBuilder<SaleBloc, SaleState>(
+            builder: (context, state) {
+              if (state.status == SaleStatus.loading) {
+                return const Center(child: CupertinoActivityIndicator());
+              } else if (state.status == SaleStatus.success) {
+                return Expanded(
+                  child: Container(
+                         color: Colors.grey[200],
                     child: ListView.builder(
-                        padding: const EdgeInsets.all(Const.padding),
+                      /*   padding: const EdgeInsets.all(Const.padding), */
                         itemCount: state.clientsFounded != null
                             ? state.clientsFounded!.length
                             : 0,
                         itemBuilder: (context, index) {
-                          return CardClientRouter(
-                            client: state.clientsFounded![index],
+                          return CardClient(
+                             client: state.clientsFounded![index],
+                             activeSale:false
                           );
+                    
+                       /*    return CardClientRouter(
+                            client: state.clientsFounded![index],
+                          ); */
                         }),
-                  );
-                } else {
-                  return Center(child: AppText("No se encontraron clientes."));
-                }
-              },
-            ),
-          ],
-        ),
+                  ),
+                );
+              } else {
+                return Center(child: AppText("No se encontraron clientes."));
+              }
+            },
+          ),
+        ],
       ),
     );
   }

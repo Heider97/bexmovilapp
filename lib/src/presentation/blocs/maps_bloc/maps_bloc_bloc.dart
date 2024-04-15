@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_car_list_on_map.dart';
+import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:bexmovil/src/utils/widget_to_marker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     on<StopMapControllerEvent>(_onEndMap);
     on<SearchClient>(_searchClient);
     on<SelectClient>(_selectClient);
-  //  on<OnCarouselPageChanged>(_onCarouselPageChanged);
+    //  on<OnCarouselPageChanged>(_onCarouselPageChanged);
     on<UnSelectClient>(_unSelectClient);
     on<CenterToUserLocation>(_centerToUserLocation);
   }
@@ -35,13 +36,33 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   void _onInitMap(
       OnMapInitializedEvent event, Emitter<MapsBlocState> emit) async {
-   // List<CardClientListOnMap>? listClients = [];
+    // List<CardClientListOnMap>? listClients = [];
     Map<String, Marker> currentMarkers = {};
 
-    for (Client client in event.clients) {
+    for (int i = 0; i < event.clients.length; i++) {
+      Client client = event.clients[i];
+
       BitmapDescriptor clientMarker = await getfinalCustomMarkerOrigin(
-          dailyPrice: client.name ?? 'N/A',
-          model: client.businessName ?? 'N/A',
+          index: (i + 1).toString(), context: event.context);
+      final clienMarker = Marker(
+        onTap: () {
+          showClientDialog(context: event.context, client: client);
+        },
+        markerId: MarkerId(client.name!.toString()),
+        position: LatLng(double.parse(client.latitude ?? '0'),
+            double.parse(client.longitude ?? '0')),
+        icon: clientMarker,
+        anchor: const Offset(0.1, 1),
+      );
+      currentMarkers[client.name.toString()] = clienMarker;
+
+      // listClients.add(CardClientListOnMap(client: client));
+    }
+
+    /*    for (Client client in event.clients) {
+
+      BitmapDescriptor clientMarker = await getfinalCustomMarkerOrigin(
+          index: '8',
           context: event.context);
       final clienMarker = Marker(
         markerId: MarkerId(client.name!.toString()),
@@ -52,22 +73,23 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       );
       currentMarkers[client.name.toString()] = clienMarker;
 
+
     //  listClients.add(CardClientListOnMap(client: client));
     }
-
+ */
     _mapController = event.controller;
     // _mapController!.setMapStyle(jsonEncode(uberMapTheme))
 
     emit(state.copyWith(
         isMapInitialized: true,
         disposeMapController: false,
-    /*     listClients: listClients,
+        /*     listClients: listClients,
         clientsFounded: listClients, */
         markers: currentMarkers));
   }
 
   void _searchClient(SearchClient event, Emitter emit) {
- /*    List<CardClientListOnMap>? clientsFounded = [];
+    /*    List<CardClientListOnMap>? clientsFounded = [];
     clientsFounded = buscarClientes(event.valueToSearch);
     print('value');
     emit(state.copyWith(clientsFounded: clientsFounded)); */

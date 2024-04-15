@@ -14,7 +14,7 @@ class CustomTextEditing extends StatelessWidget {
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color(0xFFD9D9D9),
+            fillColor: Color.fromARGB(255, 240, 239, 239),
           contentPadding: const EdgeInsets.symmetric(
             //  vertical: Const.space5,
             vertical: 1,

@@ -5,15 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Future<BitmapDescriptor> getfinalCustomMarkerOrigin(
-    {required String dailyPrice,
-    required String model,
+    {required String index,
     required BuildContext context}) async {
   final recorder = ui.PictureRecorder();
   final canvas = ui.Canvas(recorder);
   const size = ui.Size(350, 150);
 
   final startMarker =
-      CustomMarker(/* dailyPrice: dailyPrice, model: model,  */context: context);
+      CustomMarker(context: context,index:index);
   startMarker.paint(canvas, size);
   final picture = recorder.endRecording();
   final image = await picture.toImage(size.width.toInt(), size.height.toInt());
