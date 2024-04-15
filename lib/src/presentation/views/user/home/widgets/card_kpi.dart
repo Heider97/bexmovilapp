@@ -52,28 +52,59 @@ class _CardKpiState extends State<CardKpi> {
   }
 
   String buildContentKpi() {
-    print('build');
-    print(widget.kpi.results[0]);
     if (widget.needConverted == true && widget.kpi.results != null) {
-      // if (widget.kpi.results!.contains('/')) {
-      //   var splits = widget.kpi.results!.split('/');
-      //   var result = [];
-      //   for (var split in splits) {
-      //     result.add(split.formattedCompact(split));
-      //   }
-      //   return result.join('/');
-      // } else {
-      //   return ''.formattedCompact(widget.kpi.results!);
-      // }
-
-      return "N/A";
-    } else {
-      if(widget.kpi.results != null) {
-        print(widget.kpi.results[0].toJson());
+      if (widget.kpi.results is List && widget.kpi.results.isNotEmpty) {
+        if (widget.kpi.results.first is Kpi) {
+          return "N/A";
+        } else {
+          if ((widget.kpi.results.first['dato'] != null &&
+                  widget.kpi.results.first['dato'].contains('/')) ||
+              (widget.kpi.results.first['y'] != null &&
+                  widget.kpi.results.first['y'].contains('/'))) {
+            var splits = [];
+            if (widget.kpi.results.first['dato'] != null) {
+              splits = widget.kpi.results.first['dato'].split('/');
+            } else if (widget.kpi.results.first['y'] != null) {
+              splits = widget.kpi.results.first['y'].split('/');
+            }
+            var result = [];
+            for (var split in splits) {
+              split =
+                  split is int || split is double ? split.toString() : split;
+              result.add(''.formattedCompact(split));
+            }
+            return result.join('/');
+          } else {
+            var value = '';
+            if (widget.kpi.results.first['dato'] != null) {
+              value = widget.kpi.results.first['dato'] is double ||
+                      widget.kpi.results.first['dato'] is int
+                  ? widget.kpi.results.first['dato'].toString()
+                  : widget.kpi.results.first['dato'];
+            } else if (widget.kpi.results.first['y'] != null) {
+              value = widget.kpi.results.first['y'] is double ||
+                      widget.kpi.results.first['y'] is int
+                  ? widget.kpi.results.first['y'].toString()
+                  : widget.kpi.results.first['y'];
+            }
+            return ''.formattedCompact(value);
+          }
+        }
+      } else {
+        return "N/A";
       }
-
-      // return widget.kpi.results ?? "N/A";
-      return "N/A";
+    } else {
+      if (widget.kpi.results is List) {
+        if (widget.kpi.results.first is Kpi) {
+          return "N/A";
+        } else {
+          return widget.kpi.results.first['dato'] is int
+              ? widget.kpi.results.first['dato'].toString()
+              : widget.kpi.results.first['dato'];
+        }
+      } else {
+        return "N/A";
+      }
     }
   }
 }

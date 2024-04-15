@@ -4,22 +4,23 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 //blocs
+import '../../../../../domain/models/graphic.dart';
 import '../../../../blocs/wallet/wallet_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/strings.dart';
 //domain
-import '../../../../../domain/models/graphic.dart';
+import '../../../../../domain/models/component.dart';
 import '../../../../../domain/models/arguments.dart';
 //widgets
 
 import '../../../../widgets/atoms/app_text.dart';
 
 class CartesianChart extends StatelessWidget {
-  final Graphic graphic;
+  final Component component;
 
-  const CartesianChart({super.key, required this.graphic});
+  const CartesianChart({super.key, required this.component});
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +43,10 @@ class CartesianChart extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppText(graphic.title!, fontWeight: FontWeight.bold),
+                      AppText(component.title!, fontWeight: FontWeight.bold),
                     ],
                   ),
-                  if (graphic.subtitle != null) AppText(graphic.subtitle!)
+                  if (component.subtitle != null) AppText(component.subtitle!)
                 ],
               ),
             ),
@@ -59,8 +60,8 @@ class CartesianChart extends StatelessWidget {
                 // Applies currency format for y axis labels and also for data labels
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
-              final data = graphic.data?.elementAt(args.pointIndex);
-              if (data != null && graphic.interactive == true) {
+              final data = component.results?.elementAt(args.pointIndex);
+              if (data != null && component.interactive == true) {
                 var arguments = WalletArgument(type: data.x);
                 navigationService.goTo(AppRoutes.clientsWallet,
                     arguments: arguments);
@@ -69,14 +70,14 @@ class CartesianChart extends StatelessWidget {
             series: <CartesianSeries<ChartData, String>>[
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
-                    final data = graphic.data?.elementAt(details.pointIndex!);
-                    if (data != null && graphic.interactive == true) {
+                    final data = component.results?.elementAt(details.pointIndex!);
+                    if (data != null && component.interactive == 1) {
                       var arguments = WalletArgument(type: data.x);
                       navigationService.goTo(AppRoutes.clientsWallet,
                           arguments: arguments);
                     }
                   },
-                  dataSource: graphic.data!,
+                  dataSource: component.results!,
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),

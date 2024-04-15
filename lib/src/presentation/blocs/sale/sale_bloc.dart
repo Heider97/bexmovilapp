@@ -32,10 +32,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<NavigationSale>(_onNavigation);
     on<SearchClientSale>(_searchClient);
     on<GridModeChange>(_gridModeChange);
-
-    // on<SelectClient>(_selectClient);
-    // on<ConfirmProducts>(_confirmProducts);
-    // on<ConfirmOrder>(_confirmOrder);
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
@@ -45,6 +41,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('sales', [seller]);
+
+    sections.map((section) {
+      print(section);
+    });
     emit(state.copyWith(status: SaleStatus.success, sections: sections));
   }
 

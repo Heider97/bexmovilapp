@@ -41,7 +41,11 @@ class QueryLoaderService {
               if (components != null && components.isNotEmpty) {
                 widget.components = components;
                 for (var component in components) {
-                  print(component.toJson());
+                  var needBeMapped = component.type == "kpi" ? true : false;
+
+                  component.type == "line"
+                      ? widget.type = "List<ChartData>"
+                      : widget.type;
 
                   var results =
                       await databaseRepository.logicQueries(component.id!);
@@ -53,8 +57,9 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, arguments);
-                      print('**********');
+                          widget.type, logicQueries.first, arguments,
+                          needBeMapped: needBeMapped);
+                      print('*****resultados from unic logic*****');
                       print(results.toString());
                       component.results = results;
                     } else {
@@ -67,8 +72,10 @@ class QueryLoaderService {
                                 await databaseRepository.validateLogic(logic);
                             if (result == true) {
                               var results = await determine(
-                                  widget.type!, logicQueries.first, arguments);
-                              print('**********');
+                                  widget.type!, logicQueries.first, arguments,
+                                  needBeMapped: needBeMapped);
+                              print(
+                                  '*****results based on mutiple logic***** ');
                               print(results.toString());
                               component.results = results;
                             }
@@ -94,8 +101,8 @@ class QueryLoaderService {
     }
   }
 
-  Future determine(
-      String? type, LogicQuery logicQuery, List<dynamic> arguments) async {
+  Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
+      {needBeMapped = false}) async {
     if (logicQuery.queryType == 'query') {
       var q = await readQuery(logicQuery.queryId!);
       if (q != null && q.arguments != null) {
@@ -108,7 +115,8 @@ class QueryLoaderService {
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-        return await executeRawQuery(sentence, type);
+        return await executeRawQuery(sentence, type,
+            needBeMapped: needBeMapped);
       }
     }
   }
@@ -126,7 +134,7 @@ class QueryLoaderService {
       if (deep) {
         for (var value in values) {
           if (value != null) {
-            query = query.replaceAll(query, value);
+            query = query.replaceAll('?', value);
           }
         }
       } else {
@@ -178,17 +186,23 @@ class QueryLoaderService {
     }
   }
 
-  Future<List<dynamic>> executeRawQuery(String sentence, String? type) async {
+  Future<List<dynamic>> executeRawQuery(String sentence, String? type,
+      {needBeMapped = false}) async {
     try {
       if (type == null) return [];
       var results = await databaseRepository.rawQuery(sentence);
-      print(results);
+
+      if (needBeMapped) {
+        return results;
+      }
+
       var dynamic = await dynamicListTypes[type]?.fromMap(results);
       if (dynamic == null) {
         return [];
       }
       return dynamic;
     } catch (e) {
+      print(sentence);
       print('error executing raw query');
       print(e);
       return [];

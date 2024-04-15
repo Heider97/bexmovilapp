@@ -36,7 +36,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     //TODO: [Heider Zapa] refactor with new logic
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('wallet', ['seller']);
+    List<Section> sections = await queryLoaderService.getResults('wallet', [seller]);
     emit(state.copyWith(status: WalletStatus.success, sections: sections));
   }
 
