@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/domain/models/porduct.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
+import 'package:bexmovil/src/presentation/widgets/user/ammount.dart';
 
 import 'package:bexmovil/src/presentation/widgets/user/custom_paint.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_text_editing.dart';
@@ -26,6 +27,7 @@ TextEditingController discountController = TextEditingController();
 class _ProductCardState extends State<ProductCard> {
   bool expand = false;
   late int cantidad;
+  TextEditingController ammountController = TextEditingController();
 
   @override
   void initState() {
@@ -95,46 +97,53 @@ class _ProductCardState extends State<ProductCard> {
                   Column(
                     children: [
                       gapH12,
-                      
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0, right: 24),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                             child: Row(
-                              children: [
-                                AppText('Última cantidad vendida: ',
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis),
-                                AppText(
-                                    widget.product.lastQuantitySold.toString(),
-                                      
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.grey[700],
-                                    fontSize: 12,
-                                    overflow: TextOverflow.ellipsis)
-                              ],
-                            ),
-                          ),
-                          Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        gapW12,
+                                        Opacity(
+                                          opacity: 0.8,
+                                          child: AppText('Producto',
+                                              fontWeight: FontWeight.w500,
+                                              color: theme.primaryColor,
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                        AppText(
+                                            'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            overflow: TextOverflow.ellipsis),
+                                      ],
+                                    ),
+                                  ),
+                                ])
+                            /*  Row(
                             children: [
-                              AppText('Última cantidad vendida: ',
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  overflow: TextOverflow.ellipsis),
-                              AppText(
-                                  widget.product.lastSoldOn?.formatTime() ??
-                                      "No especifica",
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey[700],
-                                  fontSize: 12,
-                                  overflow: TextOverflow.ellipsis)
+                              Text(
+                                'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                style: theme.textTheme.labelMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
+                                  //   color: theme.colorScheme.dis,
+                                  fontSize: 18,
+                                ),
+                              )
                             ],
-                          ),
-                        ],
+                          ), */
+                            ),
                       ),
                       gapH8,
                       Row(
@@ -152,11 +161,11 @@ class _ProductCardState extends State<ProductCard> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    AppText('Precio de venta: ',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        fontSize: 16,
-                                        overflow: TextOverflow.ellipsis),
+                                    /*  Row(
+                                      children: [
+                                   
+                                      ],
+                                    ), */
                                     Row(
                                       children: [
                                         Expanded(
@@ -165,12 +174,12 @@ class _ProductCardState extends State<ProductCard> {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  '17%   ',
+                                                  '17 %   ',
                                                   style: theme
                                                       .textTheme.labelMedium!
                                                       .copyWith(
                                                           fontWeight:
-                                                              FontWeight.w300,
+                                                              FontWeight.w700,
                                                           fontSize: 15,
                                                           color: Color.fromARGB(
                                                               255,
@@ -179,12 +188,12 @@ class _ProductCardState extends State<ProductCard> {
                                                               84)),
                                                 ),
                                                 Text(
-                                                  '5415455465464685',
+                                                  '5415455465464',
                                                   style: theme
                                                       .textTheme.labelMedium!
                                                       .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 22,
                                                   ),
                                                 )
                                               ],
@@ -193,47 +202,88 @@ class _ProductCardState extends State<ProductCard> {
                                         )
                                       ],
                                     ),
+                                    gapH12,
+                                    SizedBox(
+                                      width: Screens.width(context),
+                                      child: Row(
+                                        children: [
+                                          Center(
+                                            child: Row(
+                                              children: [
+                                                AppText('Últ. Cant. Vendida: ',
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                                AppText(
+                                                    widget.product
+                                                        .lastQuantitySold
+                                                        .toString(),
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey[700],
+                                                    fontSize: 16,
+                                                    overflow:
+                                                        TextOverflow.ellipsis)
+                                              ],
+                                            ),
+                                          ),
+                                          gapW8,
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Center(
+                                          child: Row(
+                                            children: [
+                                              AppText('Fecha Últ. Venta: ',
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                              AppText(
+                                                  widget
+                                                      .product.lastQuantitySold
+                                                      .toString(),
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.grey[700],
+                                                  fontSize: 16,
+                                                  overflow:
+                                                      TextOverflow.ellipsis)
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     Row(
                                       children: [
                                         AppText('Disponible: ',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.black,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             overflow: TextOverflow.ellipsis),
                                         AppText(
                                             '${widget.product.availableUnits}',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[700],
-                                            fontSize: 12,
+                                            fontSize: 16,
                                             overflow: TextOverflow.ellipsis)
                                       ],
-                                    )
-                                    /*    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                              text: 'Disponible: ',
-                                              style:
-                                                  theme.textTheme.bodyMedium!),
-                                          TextSpan(
-                                              text: widget
-                                                  .product.availableUnits
-                                                  .toString(),
-                                              style: theme
-                                                  .textTheme.labelMedium!
-                                                  .copyWith(
-                                                fontSize: 14,
-                                              ))
-                                        ],
-                                      ),
-                                    ), */
-                                    ,
+                                    ),
                                     Row(
+                                      
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.start,
                                       children: [
-                                        Text('Aplicar descuento: ',
-                                            style: theme.textTheme.bodyMedium!),
+                                        Text(
+                                          'Aplicar descuento: ',
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(fontSize: 14),
+                                        ),
                                         SizedBox(
                                           width: Screens.width(context) * 0.20,
                                           height: 20,
@@ -243,67 +293,19 @@ class _ProductCardState extends State<ProductCard> {
                                         const SizedBox()
                                       ],
                                     ),
-                                    gapH8,
+                                    gapH12,
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Text('Cantidad:  ',
-                                            style: theme.textTheme.bodyMedium!),
-                                        Expanded(
-                                            child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                reducirCantidad();
-                                              },
-                                              child: Material(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Const.radius),
-                                                elevation: Const.elevation,
-                                                color:
-                                                    theme.colorScheme.secondary,
-                                                child: SizedBox(
-                                                    height: 30,
-                                                    width: 30,
-                                                    child: Icon(Icons.remove,
-                                                        color: theme.colorScheme
-                                                            .onSecondary)),
-                                              ),
-                                            ),
-                                            gapW4,
-                                            Text(
-                                              '$cantidad',
-                                              style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: Colors.black),
-                                            ),
-                                            gapW4,
-                                            InkWell(
-                                              onTap: () {
-                                                aumentarCantidad();
-                                              },
-                                              child: Material(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Const.radius),
-                                                elevation: Const.elevation,
-                                                color: theme.primaryColor,
-                                                child: SizedBox(
-                                                    height: 30,
-                                                    width: 30,
-                                                    child: Icon(Icons.add,
-                                                        color: theme.colorScheme
-                                                            .onPrimary)),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
+                                  /*       Text('Cantidad:  ',
+                                            style: theme.textTheme.bodyMedium!
+                                                .copyWith(fontSize: 14)), */
+                                        Ammount(
+                                          controller: ammountController,
+                                        )
                                       ],
                                     ),
+                                    gapH12,
                                     ExpandedSection(
                                         expand: expand,
                                         height: 100,

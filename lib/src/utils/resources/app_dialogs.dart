@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 //services
@@ -81,19 +82,61 @@ showClientDialog({required BuildContext context, required Client client}) {
         Size size = MediaQuery.of(context).size;
         ThemeData theme = Theme.of(context);
         return Dialog(
-            backgroundColor: theme.cardColor,
-            surfaceTintColor: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CardClient(
-                        client: client,
-                      )
-                    ])));
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            /*    shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))), */
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CardClient(
+                    client: client,
+                  )
+                ]));
+      });
+}
+
+showCarouselImageDialog(
+    {required BuildContext context, required List<String> productImagesList}) {
+  return showDialog(
+      context: context,
+      builder: (_) {
+        Size size = MediaQuery.of(context).size;
+        ThemeData theme = Theme.of(context);
+        return Dialog(
+          /*   backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent, */
+          surfaceTintColor: Colors.white,
+          /*    shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))), */
+
+          child: CarouselSlider(
+            options: CarouselOptions(
+              height:
+                  size.height * 0.5, // Ajusta la altura según tus necesidades
+              enlargeCenterPage: true,
+              autoPlay: false, // Auto reproducción
+              aspectRatio: 16 / 9, // Relación de aspecto de las imágenes
+              autoPlayCurve: Curves.fastOutSlowIn, // Curva de animación
+              enableInfiniteScroll: true, // Desplazamiento infinito
+              autoPlayAnimationDuration:
+                  Duration(milliseconds: 800), // Duración de la animación
+              viewportFraction:
+                  0.8, // Fracción de la pantalla ocupada por el elemento visible
+            ),
+            items: productImagesList.map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Image.asset(image, fit: BoxFit.contain),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+        );
       });
 }

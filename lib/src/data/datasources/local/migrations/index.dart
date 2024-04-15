@@ -88,4 +88,11 @@ Future<void> onCreate(db, version) async {
       ${OptionFields.queryId} INTEGER DEFAULT NULL
     )
   ''');
+  await db.execute('''
+      CREATE TABLE IF NOT EXISTS polylines (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      routerId TEXT, polylines TEXT
+      )
+    ''');
+    //TODO: AGREGAR AQUI LA TABLA PARA LAS OPERACIONES QUE QUEDAN PENDIENTES.. Y RETOMARLA.
 }

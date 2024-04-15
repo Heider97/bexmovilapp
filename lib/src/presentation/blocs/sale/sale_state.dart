@@ -8,8 +8,10 @@ class SaleState extends Equatable {
   final List<Router>? routers;
   final List<Client>? clients;
   final List<Client>? clientsFounded;
-
   final List<Filter>? filters;
+
+  final bool? gridView;
+
   final String? error;
 
   const SaleState(
@@ -19,6 +21,7 @@ class SaleState extends Equatable {
       this.clients,
       this.clientsFounded,
       this.filters,
+      this.gridView,
       this.error});
 
   SaleState copyWith(
@@ -28,6 +31,7 @@ class SaleState extends Equatable {
           List<Client>? clients,
           List<Client>? clientsFounded,
           List<Filter>? filters,
+          bool? gridView,
           String? error}) =>
       SaleState(
           status: status ?? this.status,
@@ -36,6 +40,7 @@ class SaleState extends Equatable {
           clients: clients ?? this.clients,
           clientsFounded: clientsFounded ?? this.clientsFounded,
           filters: filters ?? this.filters,
+          gridView: gridView ?? this.gridView,
           error: error ?? this.error);
 
   @override

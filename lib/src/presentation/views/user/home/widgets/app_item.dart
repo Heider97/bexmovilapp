@@ -21,7 +21,7 @@ class AppItem extends StatelessWidget {
       onTap: enabled ? onTap : null,
       child: Opacity(
         opacity: enabled ? 1 : 0.3,
-        child: Column(
+        child: Column( 
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(

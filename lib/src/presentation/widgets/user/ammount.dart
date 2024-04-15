@@ -1,30 +1,23 @@
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Ammount extends StatefulWidget {
-  const Ammount({super.key});
+  final TextEditingController controller;
+
+  const Ammount({Key? key, required this.controller}) : super(key: key);
 
   @override
   AmmountState createState() => AmmountState();
 }
 
 class AmmountState extends State<Ammount> {
-  late SaleBloc saleBloc;
-  @override
-  void initState() {
-    saleBloc = BlocProvider.of<SaleBloc>(context);
-    super.initState();
-  }
-
   int cantidad = 0;
 
   void reducirCantidad() {
     if (cantidad > 0) {
       setState(() {
         cantidad--;
+        widget.controller.text = cantidad.toString();
       });
     }
   }
@@ -32,6 +25,7 @@ class AmmountState extends State<Ammount> {
   void aumentarCantidad() {
     setState(() {
       cantidad++;
+      widget.controller.text = cantidad.toString();
     });
   }
 
@@ -48,22 +42,43 @@ class AmmountState extends State<Ammount> {
             reducirCantidad();
           },
           child: Material(
-            borderRadius: BorderRadius.circular(Const.radius),
-            elevation: Const.elevation,
+            borderRadius: BorderRadius.circular(
+                20), // Personaliza el radio según tus necesidades
+            elevation: 2, // Personaliza la elevación según tus necesidades
             color: theme.colorScheme.secondary,
             child: SizedBox(
-                height: 30,
-                width: 30,
-                child:
-                    Icon(Icons.remove, color: theme.colorScheme.onSecondary)),
+              height: 30,
+              width: 30,
+              child: Icon(Icons.remove, color: theme.colorScheme.onSecondary),
+            ),
           ),
         ),
-        gapW4,
-        Text(
-          '$cantidad',
-          style: const TextStyle(fontSize: 18.0, color: Colors.black),
+        const SizedBox(width: 10), // Agrega un espacio entre los botones
+        SizedBox(
+          width: 70, // Personaliza el ancho según tus necesidades
+          height: 25,
+          child: TextFormField(
+              controller: widget.controller,
+              style: const TextStyle(fontSize: 18.0, color: Colors.black),
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Color.fromARGB(255, 240, 239, 239),
+                contentPadding: const EdgeInsets.symmetric(
+                  //  vertical: Const.space5,
+                  vertical: 1,
+                  horizontal: Const.space5,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                      5.0), // Ajusta el radio para cambiar la cantidad de redondez
+                  borderSide: BorderSide
+                      .none, // Puedes establecer un borde si lo deseas
+                ),
+              )),
         ),
-        gapW4,
+        SizedBox(width: 10), // Agrega un espacio entre los botones
         InkWell(
           onTap: () {
             aumentarCantidad();
