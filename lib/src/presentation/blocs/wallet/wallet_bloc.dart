@@ -45,10 +45,9 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
     try {
       var seller = storageService.getString('username');
-      var clients =
-          await databaseRepository.getClientsByAgeRange(event.range!, seller!);
-
-      emit(state.copyWith(status: WalletStatus.success, clients: clients));
+      var range = event.range;
+      List<Section> sections = await queryLoaderService.getResults('wallet-clients', [seller, range]);
+      emit(state.copyWith(status: WalletStatus.success, sections: sections));
     } catch (error, stackTrace) {
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));

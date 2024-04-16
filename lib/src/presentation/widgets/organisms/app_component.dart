@@ -93,6 +93,8 @@ class _AppWidgetState extends State<AppWidget> {
         return SaleClients(clients: widget.components.first.results);
       case 'WalletHome':
         return WalletDashboard(components: widget.components);
+      // case 'WalletClients':
+      //   return WalletClients(components: widget.components);
       default:
         return const SizedBox();
     }
