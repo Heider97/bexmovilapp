@@ -39,9 +39,6 @@ class AppRoutes {
   static const selectProducts = '/select-products';
   static const shoppingCart = '/shopping-Cart';
 
-  
-
-
   //NAVIGATION ROUTES
   static const navigation = '/navigation';
   static const editStore = '/edit-store-popup';
@@ -56,6 +53,11 @@ class AppRoutes {
   static const notificationWallet = '/wallet-notification';
   static const detailWallet = '/wallet-detail';
   static const manageWallet = '/wallet-manage';
+  static const walletDetailsScreen = '/wallet-details-screen';
+  static const actionWallet = '/wallet-action';
+  
+
+
 }
 
 // Form Error

@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 
 class StepperExample extends StatefulWidget {
   final List<Client> clients;
-  const StepperExample({super.key, required this.clients});
+/*   final ScrollController scrollController; */
+  const StepperExample({
+    super.key,
+    required this.clients,
+    /*  required this.scrollController */
+  });
 
   @override
   StepperExampleState createState() => StepperExampleState();
@@ -28,25 +33,10 @@ class StepperExampleState extends State<StepperExample> {
   @override
   Widget build(BuildContext context) {
     return Stepper(
-      // controller: widget.controller,
+      // controller: widget.scrollController,
       currentStep: _index,
       margin: EdgeInsets.zero,
       controlsBuilder: (context, controller) => Row(children: []),
-      /* onStepCancel: () {
-        if (_index > 0) {
-          setState(() {
-            _index -= 1;
-          });
-        }
-      },
-      onStepContinue: () {
-        if (_index < steps.length - 1) {
-          setState(() {
-            _index += 1;
-          });
-        }
-      },
-     */
       onStepTapped: (int index) {
         setState(() {
           _index = index;

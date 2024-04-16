@@ -50,7 +50,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
   Widget _buildBody(
       Size size, ThemeData theme, WalletState state, BuildContext context) {
     return SafeArea(
-      child: Column(
+      child: Stack(
         children: [
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
@@ -58,25 +58,28 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                   widgetItems: e.widgets ?? [],
                   tabController: null))
               : [],
-          SizedBox(
-            width: Screens.width(context),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  navigationService.goTo(AppRoutes.manageWallet);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.primaryColor,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+          Positioned(
+            bottom: 10,
+            child: SizedBox(
+              width: Screens.width(context),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    navigationService.goTo(AppRoutes.manageWallet);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
-                ),
-                child: Text(
-                  'Gestionar Cartera',
-                  style: theme.textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w600, color: Colors.white),
+                  child: Text(
+                    'Gestionar Cartera',
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.white),
+                  ),
                 ),
               ),
             ),

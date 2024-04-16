@@ -31,12 +31,18 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<LoadSummaries>(_onLoadSummaries);
     on<SelectInvoices>(_onSelectInvoices);
     on<Collection>(_onCollection);
+    on<SelectClientEvent>(_selectClientEvent);
+  }
+
+  _selectClientEvent(SelectClientEvent event, Emitter emit) {
+    //
   }
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     //TODO: [Heider Zapa] refactor with new logic
     var seller = storageService.getString('username');
-    List<Section> sections = await queryLoaderService.getResults('wallet', [seller]);
+    List<Section> sections =
+        await queryLoaderService.getResults('wallet', [seller]);
     emit(state.copyWith(status: WalletStatus.success, sections: sections));
   }
 

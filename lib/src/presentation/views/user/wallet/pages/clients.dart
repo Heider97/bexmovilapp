@@ -67,20 +67,20 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                 Wrap(
                   spacing: 1,
                   children: [
-                    AppIconButton(
+                    /*   AppIconButton(
                       onPressed: () {
                         walletBloc.navigationService.goTo(AppRoutes.notificationWallet);
                       },
                       child: Icon(Icons.notification_add),
-                    ),
+                    ), */
                     AppIconButton(
                         onPressed: null,
                         child: Icon(Icons.menu,
-                            color:
-                            Theme.of(context).colorScheme.onPrimaryContainer)),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer)),
                   ],
                 )
-
               ],
             ),
             // StepperWidget(
@@ -118,10 +118,6 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                         hintText: 'Nombre o código del producto'),
                   ),
                 ),
-                AppIconButton(
-                    child: const Icon(FontAwesomeIcons.locationArrow)),
-                gapW8,
-                AppIconButton(child: const Icon(Icons.tune)),
               ],
             ),
             gapH4,

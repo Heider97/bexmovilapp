@@ -95,7 +95,7 @@ GROUP BY
     return routers;
   }
 
-  Future<List<Client>> getClientInformationByAgeRange(
+/*   Future<List<Client>> getClientInformationByAgeRange(
       String range, String seller) async {
     final db = _appDatabase._database;
 
@@ -118,8 +118,7 @@ GROUP BY
         ) as f
         WHERE tbldcartera.codcliente = tblmcliente.codcliente
         AND f.nitcliente = tblmcliente.nitcliente
-        AND tbldcartera.codvendedor = tblmvendedor.codvendedor
-        ?
+        AND tbldcartera.codvendedor = tblmvendedor.codvendedor        
     ) as t
     GROUP BY t.NOMCLIENTE, t.codtipodoc
     ''';
@@ -162,7 +161,7 @@ GROUP BY
 
     List<Client> clients = parseClients(results);
     return clients;
-  }
+  } */
 
   Future<List<Invoice>> getInvoicesByClient(
       String range, String seller, String client) async {

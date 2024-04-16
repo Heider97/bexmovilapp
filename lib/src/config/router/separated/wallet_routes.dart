@@ -1,4 +1,7 @@
 //utils
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_action.dart';
+import 'package:bexmovil/src/presentation/views/user/wallet/wallet_details_screen.dart';
+
 import '../../../presentation/views/user/wallet/pages/notification.dart';
 import '../../../utils/constants/strings.dart';
 //router
@@ -16,7 +19,10 @@ import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
   AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.normal(
-      hideAppBar: false, child: const WalletDashboardView()),
+      // opacity: 0.5,
+      hideAppBar: true,
+      hideBottomNavigationBar: true,
+      child: const WalletDashboardView()),
   AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.squared(
       opacity: 0.1,
       hideBottomNavigationBar: true,
@@ -38,5 +44,13 @@ Map<String, RouteType> walletRoutes = {
       AppGlobalBackground.squared(
           opacity: 0.1,
           hideBottomNavigationBar: true,
-          child: const WalletNotificationView())
+          child: const WalletNotificationView()),
+  AppRoutes.walletDetailsScreen: (context, settings) =>
+      AppGlobalBackground.squared(
+          opacity: 0.1,
+          hideBottomNavigationBar: true,
+          child: WalletDetailsScreen()),
+  AppRoutes.actionWallet: (context, settings) => AppGlobalBackground.squared(
+    hideAppBar: false,
+      opacity: 0.1, hideBottomNavigationBar: true, child: WalletActionList()),
 };

@@ -82,63 +82,68 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
               fit: StackFit.expand,
               children: [
                 IconButton(onPressed: () {}, icon: Icon(Icons.gps_fixed)),
-                GoogleMap(
-                    minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                    onMapCreated: (controller) {
-                      mapsBloc.add(OnMapInitializedEvent(
-                          controller, saleState.clients ?? [], context));
-                    },
-                    compassEnabled: false,
-                    myLocationButtonEnabled: true,
-                    zoomControlsEnabled: false,
-                    markers: state.markers.values.toSet(),
-                    initialCameraPosition: const CameraPosition(
-                        target: LatLng(6.25184, -75.56359), zoom: 12)),
-                const CustomDraggableScrollableSheet(),
-                Positioned(
-                    right: 10,
-                    top: 40,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Mostrar prospectos',
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                              color: Colors
-                                  .black /* fontWeight: FontWeight.bold */),
-                        ),
-                        gapW12,
-                        CircleAvatar(
+                Stack(
+                  children: [
+                    Positioned(
+                        right: 10,
+                        top: 40,
+                        child: Row(
+                          children: [
+                            Text(
+                              'Mostrar prospectos',
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                  color: Colors
+                                      .black /* fontWeight: FontWeight.bold */),
+                            ),
+                            gapW12,
+                            CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.person),
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        )),
+                    Positioned(
+                        right: 10,
+                        top: 90,
+                        child: CircleAvatar(
                           backgroundColor: Colors.white,
                           child: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.person),
+                            icon: Icon(Icons.gps_fixed),
                             color: Colors.black,
                           ),
-                        ),
-                      ],
-                    )),
-                Positioned(
-                    right: 10,
-                    top: 90,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.gps_fixed),
-                        color: Colors.black,
-                      ),
-                    )),
-                Positioned(
-                    right: 10,
-                    top: 140,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.gps_fixed),
-                        color: Colors.black,
-                      ),
-                    ))
+                        )),
+                    Positioned(
+                        right: 10,
+                        top: 140,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.gps_fixed),
+                            color: Colors.black,
+                          ),
+                        )),
+                    GoogleMap(
+                        myLocationEnabled: true,
+                        minMaxZoomPreference: MinMaxZoomPreference.unbounded,
+                        onMapCreated: (controller) {
+                          mapsBloc.add(OnMapInitializedEvent(
+                              controller, saleState.clients ?? [], context));
+                        },
+                        compassEnabled: false,
+                        myLocationButtonEnabled: true,
+                        zoomControlsEnabled: false,
+                        markers: state.markers.values.toSet(),
+                        initialCameraPosition: const CameraPosition(
+                            target: LatLng(6.25184, -75.56359), zoom: 12)),
+                  ],
+                ),
+                const CustomDraggableScrollableSheet(),
               ],
             );
           },

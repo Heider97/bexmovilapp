@@ -67,10 +67,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                     TextSpan(
                       text: 'Dirección: ',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: Const.space12,
-                       //   color: theme.primaryColor
-                          ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: Const.space12,
+                        //   color: theme.primaryColor
+                      ),
                     ),
                     TextSpan(
                       text: '${widget.client.address}',
@@ -85,10 +85,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                     TextSpan(
                       text: 'Sucursal: ',
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: Const.space12,
-                         // color: theme.primaryColor
-                          ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: Const.space12,
+                        // color: theme.primaryColor
+                      ),
                     ),
                     TextSpan(
                       text: '${widget.client.branch}',
@@ -107,10 +107,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                           TextSpan(
                             text: 'Cartera: ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Const.space12,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Const.space12,
                               //  color: theme.primaryColor
-                                ),
+                            ),
                           ),
                           TextSpan(
                             text: widget.client.wallet != null
@@ -130,10 +130,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                           TextSpan(
                             text: 'Cupo disponible: ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Const.space12,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Const.space12,
                               //  color: theme.primaryColor
-                                ),
+                            ),
                           ),
                           TextSpan(
                             //  text: widget.client.quota!.toString().formattedCompact(str),
@@ -155,10 +155,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                           TextSpan(
                             text: 'Ventas: ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Const.space12,
-                                //color: theme.primaryColor
-                                ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: Const.space12,
+                              //color: theme.primaryColor
+                            ),
                           ),
                           TextSpan(
                             text: '5M / Último mes',
@@ -175,10 +175,10 @@ class _CardClientRouterState extends State<CardClientRouter> {
                           TextSpan(
                             text: 'Servicio: ',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Const.space12,
-                                //color: theme.primaryColor
-                                ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: Const.space12,
+                              //color: theme.primaryColor
+                            ),
                           ),
                           TextSpan(
                             text: '90 % ',

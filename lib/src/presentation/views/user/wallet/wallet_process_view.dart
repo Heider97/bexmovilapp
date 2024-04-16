@@ -49,7 +49,7 @@ class _WalletProcessViewState extends State<WalletProcessView> {
             steps: [
               StepData("Seleccionar\n Cliente", Assets.profileEnable,
                   theme.primaryColor, Assets.profileDisable, () {
-                walletBloc.add(SelectClientEvent());
+              //  walletBloc.add(SelectClientEvent());
               }),
               StepData("Seleccionar\n facturas", Assets.invoiceEnable,
                   theme.primaryColor, Assets.invoiceDisable, () {
