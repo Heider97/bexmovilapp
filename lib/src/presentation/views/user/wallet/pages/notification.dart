@@ -1,6 +1,7 @@
+import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:flutter/material.dart';
-
 
 //utils
 import '../../../../../utils/constants/screens.dart';
@@ -10,8 +11,8 @@ import '../../../../../utils/constants/strings.dart';
 import '../../../../widgets/atoms/app_back_button.dart';
 import '../widgets/check_image.dart';
 
-
 class WalletNotificationView extends StatefulWidget {
+
   const WalletNotificationView({super.key});
 
   @override
@@ -41,10 +42,7 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
             padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppBackButton(needPrimary: true),
-                SizedBox()
-              ],
+              children: [AppBackButton(needPrimary: true), SizedBox()],
             ),
           ),
           Expanded(
@@ -59,35 +57,37 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: Screens.width(context),
-                      child: Card(
-                        surfaceTintColor: theme.primaryColor,
-                        color: theme.primaryColor,
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            'Supermercado Exito',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                  BlocBuilder<WalletBloc, WalletState>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: Screens.width(context),
+                          child: Card(
+                            surfaceTintColor: theme.primaryColor,
+                            color: theme.primaryColor,
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text(
+                               'Nombre del cliente',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Row(
-
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    
                       children: [
-                      /*   Expanded(
+                        /*   Expanded(
                           child: CheckImage(
                               imageFromAsset: Assets.whatsapp,
                               text: "WhatsApp"),
@@ -97,11 +97,9 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                               imageFromAsset: Assets.textMessage,
                               text: "Mensaje de texto"),
                         ), */
-                        Expanded(
-                          child: CheckImage(
-                              imageFromAsset: Assets.emailWallet,
-                              text: "correo electronico "),
-                        ),
+                        CheckImage(
+                            imageFromAsset: Assets.emailWallet,
+                            text: "correo electronico "),
                         SizedBox()
                       ],
                     ),

@@ -67,18 +67,11 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                 Wrap(
                   spacing: 1,
                   children: [
-                    /*   AppIconButton(
-                      onPressed: () {
-                        walletBloc.navigationService.goTo(AppRoutes.notificationWallet);
-                      },
-                      child: Icon(Icons.notification_add),
-                    ), */
-                    AppIconButton(
+                    /*    AppIconButton(
                         onPressed: null,
                         child: Icon(Icons.menu,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer)),
+                            color:
+                            Theme.of(context).colorScheme.onPrimaryContainer)), */
                   ],
                 )
               ],
@@ -118,13 +111,19 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                         hintText: 'Nombre o código del producto'),
                   ),
                 ),
+                /* AppIconButton(
+                    child: const Icon(FontAwesomeIcons.locationArrow)),
+                gapW8, */
+
                 AppIconButton(
-                    onPressed: (){
-                      navigationService.goTo(AppRoutes.notificationWallet);
-                    },
-                    child: Icon(Icons.notification_add,
-                        color:
-                            Theme.of(context).colorScheme.onPrimaryContainer)),
+                  onPressed: () {
+                    walletBloc.navigationService
+                        .goTo(AppRoutes.notificationWallet);
+                  },
+                  child: Icon(Icons.notification_add,color: Colors.white,),
+                ),
+                gapW12,
+                AppIconButton(child: const Icon(Icons.tune, color: Colors.white,)),
               ],
             ),
             gapH4,
@@ -139,13 +138,13 @@ class _WalletClientsViewState extends State<WalletClientsView> {
                             state.clients != null ? state.clients!.length : 0,
                         itemBuilder: (context, index) {
                           return CardClientWallet(
-                            onTap: 
-                                walletBloc.navigationService.goTo(
+                            onTap: () {
+                              walletBloc.navigationService.goTo(
                                   AppRoutes.summariesWallet,
                                   arguments: WalletArgument(
                                       type: widget.argument!.type,
                                       client: state.clients![index]));
-                            ,
+                            },
                             client: state.clients![index],
                           );
                         }),

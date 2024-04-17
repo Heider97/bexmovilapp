@@ -10,7 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../domain/models/client.dart';
 
 class CardClientWallet extends StatefulWidget {
-  final Function onTap;
+  final Function() onTap;
   final Client client;
 
   const CardClientWallet(
