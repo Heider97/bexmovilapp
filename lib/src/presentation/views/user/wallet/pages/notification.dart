@@ -57,6 +57,7 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                       topRight: Radius.circular(20))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -82,9 +83,11 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    
                       children: [
-                        Expanded(
+                      /*   Expanded(
                           child: CheckImage(
                               imageFromAsset: Assets.whatsapp,
                               text: "WhatsApp"),
@@ -93,12 +96,13 @@ class _WalletNotificationViewState extends State<WalletNotificationView> {
                           child: CheckImage(
                               imageFromAsset: Assets.textMessage,
                               text: "Mensaje de texto"),
-                        ),
+                        ), */
                         Expanded(
                           child: CheckImage(
                               imageFromAsset: Assets.emailWallet,
                               text: "correo electronico "),
-                        )
+                        ),
+                        SizedBox()
                       ],
                     ),
                   ),

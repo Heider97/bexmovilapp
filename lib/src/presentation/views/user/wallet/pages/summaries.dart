@@ -124,10 +124,10 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                       child: Card(
                         surfaceTintColor: theme.primaryColor,
                         color: theme.primaryColor,
-                        child: const Padding(
+                        child:  Padding(
                           padding: EdgeInsets.all(20),
                           child: Text(
-                            'Supermercado Exito',
+                           widget.argument!.client!.name!,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

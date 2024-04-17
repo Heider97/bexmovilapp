@@ -20,16 +20,18 @@ class CardClientWallet extends StatefulWidget {
   State<CardClientWallet> createState() => _CardClientWalletState();
 }
 
-bool value = false;
+
 
 class _CardClientWalletState extends State<CardClientWallet> {
+
+  bool value = false;
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(7),
       child: InkWell(
-        onTap: widget.onTap(),
+        onTap: widget.onTap,
         child: Material(
           elevation: 1,
           child: Container(
@@ -44,12 +46,20 @@ class _CardClientWalletState extends State<CardClientWallet> {
                       Expanded(
                         child: AppText(
                             widget.client.rutero?.capitalizeString() ??
-                                'Sin rutero Asignado',
-                            fontWeight: FontWeight.w500,
+                                'Lunes primera semana',
+                            fontWeight: FontWeight.bold,
                             color: Colors.black,
                             fontSize: 15,
                             overflow: TextOverflow.ellipsis),
                       ),
+                      Checkbox(
+                        value: value,
+                        onChanged: (newValue) {
+                          setState(() {
+                            value = newValue!;
+                          });
+                        },
+                      )
                     ],
                   ),
                   gapH8,
