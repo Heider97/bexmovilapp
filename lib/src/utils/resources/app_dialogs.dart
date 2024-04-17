@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -97,35 +98,128 @@ showClientDialog({required BuildContext context, required Client client}) {
       });
 }
 
-showCarouselImageDialog(
+final CarouselController _controller = CarouselController();
+/* showCarouselImageDialog(
     {required BuildContext context, required List<String> productImagesList}) {
+  final CarouselController _controller = CarouselController();
+  int _current = 0;
+
   return showDialog(
       context: context,
       builder: (_) {
         Size size = MediaQuery.of(context).size;
         ThemeData theme = Theme.of(context);
         return Dialog(
-          /*   backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent, */
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(10), // Modifica el radio de borde aquí
+          ),
           surfaceTintColor: Colors.white,
-          /*    shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))), */
+          child: Column(
+            children: [
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: size.height * 0.5,
+                  enlargeCenterPage: true,
+                  autoPlay: false,
+                  aspectRatio: 16 / 9,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: true,
+                  autoPlayAnimationDuration: const Duration(
+                      milliseconds: 800), // Duración de la animación
+                  viewportFraction: 0.8,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
 
-          child: CarouselSlider(
+                  // Fracción de la pantalla ocupada por el elemento visible
+                ),
+                items: productImagesList.map((image) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Image.asset(image, fit: BoxFit.contain),
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: productImagesList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : theme.primaryColor)
+                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                    ),
+                  );
+                }).toList(),
+              )
+            ],
+          ),
+        );
+      });
+}
+ */
+
+class CarouselImageDialog extends StatefulWidget {
+  final List<String> productImagesList;
+
+  const CarouselImageDialog({Key? key, required this.productImagesList})
+      : super(key: key);
+
+  @override
+  _CarouselImageDialogState createState() => _CarouselImageDialogState();
+}
+
+class _CarouselImageDialogState extends State<CarouselImageDialog> {
+  final CarouselController _controller = CarouselController();
+  int _current = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
+    return Dialog(
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CarouselSlider(
             options: CarouselOptions(
-              height:
-                  size.height * 0.5, // Ajusta la altura según tus necesidades
+              height: size.height * 0.4,
               enlargeCenterPage: true,
-              autoPlay: false, // Auto reproducción
-              aspectRatio: 16 / 9, // Relación de aspecto de las imágenes
-              autoPlayCurve: Curves.fastOutSlowIn, // Curva de animación
-              enableInfiniteScroll: true, // Desplazamiento infinito
-              autoPlayAnimationDuration:
-                  Duration(milliseconds: 800), // Duración de la animación
-              viewportFraction:
-                  0.8, // Fracción de la pantalla ocupada por el elemento visible
+              autoPlay: false,
+              aspectRatio: 16 / 9,
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enableInfiniteScroll: true,
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              viewportFraction:1,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              },
             ),
-            items: productImagesList.map((image) {
+            items: widget.productImagesList.map((image) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -137,6 +231,31 @@ showCarouselImageDialog(
               );
             }).toList(),
           ),
-        );
-      });
+            gapH20,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.productImagesList.asMap().entries.map((entry) {
+              return GestureDetector(
+                onTap: () => _controller.animateToPage(entry.key),
+                child: Container(
+                  width: 8.0,
+                  height: 8.0,
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: /* (Theme.of(context).brightness == Brightness.dark */
+                           /*  ? */ Colors.white
+                           /*  : theme.primaryColor *//* ) */
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          gapH12
+        ],
+      ),
+    );
+  }
 }

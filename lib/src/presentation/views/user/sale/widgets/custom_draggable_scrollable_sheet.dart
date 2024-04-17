@@ -19,6 +19,7 @@ class CustomDraggableScrollableSheet extends StatefulWidget {
       _CustomDraggableScrollableSheetState();
 }
 
+/* ScrollController scrollController = ScrollController(); */
 DraggableScrollableController scrollableController =
     DraggableScrollableController();
 
@@ -215,9 +216,14 @@ class _CustomDraggableScrollableSheetState
                                 child: CircularProgressIndicator());
                           } else if (state.status == SaleStatus.success &&
                               state.clients!.isNotEmpty) {
-                            return StepperExample(
-                              clients: state.clients!,
-                              //  controller: scrollController,
+                            return SingleChildScrollView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              controller: ScrollController(),
+                              //controller: scrollController,
+                              child: StepperExample(
+                                clients: state.clients!,
+                                  //scrollController: scrollController,
+                              ),
                             );
                           } else {
                             return Center(

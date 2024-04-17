@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +51,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme= Theme.of(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Column(
@@ -115,7 +117,29 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                   )),
             )
           ]),
+            Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: Screens.width(context),
+                      child: Card(
+                        surfaceTintColor: theme.primaryColor,
+                        color: theme.primaryColor,
+                        child: const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            'Supermercado Exito',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
           gapH4,
+
           BlocBuilder<WalletBloc, WalletState>(
             builder: (context, state) {
               if (state.status == WalletStatus.loading) {
@@ -159,8 +183,9 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                           child: ElevatedButton(
                               onPressed: () {
                                 //TODO: [Heider Zapa]
-                                // _navigationService
-                                //     .goTo(AppRoutes.walletDetailsScreen);
+                                //TODO: navigate realizar accion
+                                navigationService
+                                    .goTo(AppRoutes.actionWallet);
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,

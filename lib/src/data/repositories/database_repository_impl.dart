@@ -109,10 +109,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   //CLIENTS
-  @override
+/*   @override
   Future<List<Client>> getClientsByAgeRange(String range, String seller) {
     return _appDatabase.clientDao.getClientInformationByAgeRange(range, seller);
-  }
+  } */
 
   @override
   Future<List<Invoice>> getInvoicesByClient(
@@ -359,12 +359,18 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  void close() {
-    _appDatabase.close();
+  Future<bool> listenForTableChanges(String? table) {
+    return _appDatabase.listenForTableChanges(table);
   }
 
   @override
-  Future<bool> listenForTableChanges(String? table) {
-    return _appDatabase.listenForTableChanges(table);
+  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
+    // TODO: implement getClientsByAgeRange
+    throw UnimplementedError();
+  }
+
+  @override
+  void close() {
+    _appDatabase.close();
   }
 }

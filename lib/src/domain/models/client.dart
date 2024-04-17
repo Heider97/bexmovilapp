@@ -32,6 +32,7 @@ class Client {
   String? salesEffectiveness;
   int? total;
   int? wallet;
+  String? rutero;
 
   Client(
       {this.id,
@@ -59,6 +60,7 @@ class Client {
       this.wallet,
       this.latitude,
       this.longitude,
+      this.rutero,
       this.distance,
       this.duration,
       this.color,
@@ -66,7 +68,7 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-        id: json['CODCLIENTE'] ??  json['codcliente'],
+        id: json['CODCLIENTE'] ?? json['codcliente'],
         nit: json['NITCLIENTE'],
         name: json['NOMCLIENTE'] ?? json['nomcliente'],
         address: json['DIRCLIENTE'],
@@ -89,7 +91,8 @@ class Client {
         total: json['total'],
         wallet: json['wallet'],
         latitude: json['latitud'],
-        longitude: json['longitud']);
+        longitude: json['longitud'],
+        rutero: json['rutero']);
   }
 
   Map<String, dynamic> toJson() {
@@ -106,6 +109,7 @@ class Client {
       'CODFPAGOVTA': wayToPay,
       'CUPO': quota,
       'estadocliente': estadoCliente,
+      'rutero': "rutero"
     };
   }
 }

@@ -10,7 +10,7 @@ import '../../../../../domain/models/client.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
 
-// ignore: must_be_immutable
+
 class DetailClientSale extends StatelessWidget {
   final Client client;
 
