@@ -58,9 +58,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
       await databaseRepository.init();
       await databaseRepository.insertConfigs(response.data!.configs);
     } else {
-      emit(HomeFailed(
-        error: 'configs-${response.data!.message}',
-      ));
+      // emit(HomeFailed(error: 'configs-${response.data}'));
     }
   }
 
@@ -76,7 +74,9 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
         }
       }
     } else {
-      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
+      print(response.data);
+
+      // emit(HomeFailed(error: 'graphics-${response.data!.message}'));
     }
   }
 
@@ -89,11 +89,11 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
       final user = User.fromMap(storageService.getObject('user')!);
       final seller = storageService.getString('username');
       final sections = await queryLoaderService.getResults('home', [seller]);
-      
+
       emit(HomeSuccess(
-          user: user,
-          sections: sections,
-        ));
+        user: user,
+        sections: sections,
+      ));
     });
   }
 
@@ -103,19 +103,16 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     await run(() async {
       emit(const HomeSynchronizing());
 
-      var functions = [
-        getConfigs,
-        getFilters
-      ];
+      var functions = [getConfigs, getFilters];
 
       var isolateModel = IsolateModel(functions, null, 2);
       await heavyTask(isolateModel);
 
-      await databaseRepository.emptyAllTables();
-
       var configs = await databaseRepository.getConfigs('login');
 
       var version = configs.firstWhere((element) => element.name == 'version');
+
+      await databaseRepository.emptyAllTables();
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(
@@ -129,11 +126,11 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
               String sqlScriptWithoutEscapes = migration.schema!
                   .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
               List<String> scriptsSeparated =
-              sqlScriptWithoutEscapes.split('CREATE');
+                  sqlScriptWithoutEscapes.split('CREATE');
               for (String createTableScript in scriptsSeparated) {
                 try {
                   String scriptCompleted =
-                  'CREATE $createTableScript'.replaceAll(';', '');
+                      'CREATE $createTableScript'.replaceAll(';', '');
                   migrations.add(scriptCompleted);
                 } catch (ex) {
                   print('Error al ejecutar el script:\n$ex');
@@ -197,13 +194,11 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
         final seller = storageService.getString('username');
         final sections = await queryLoaderService.getResults('home', [seller]);
 
-        await Future.wait(futureInserts)
-            .whenComplete(() => emit(HomeSuccess(
-          user: user,
-          sections: sections,
-        )));
+        await Future.wait(futureInserts).whenComplete(() => emit(HomeSuccess(
+              user: user,
+              sections: sections,
+            )));
       } else {
-
         // emit(SyncFeaturesFailure(features: features, error: response.error));
       }
     });

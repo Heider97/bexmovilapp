@@ -48,7 +48,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales', [seller!, event.codeRouter]);
+    var sections = await queryLoaderService.getResults('sales-clients', [event.codeRouter, seller]);
 
     if (event.codeRouter != null) {
 
