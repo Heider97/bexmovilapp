@@ -364,13 +364,18 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
-    // TODO: implement getClientsByAgeRange
-    throw UnimplementedError();
+  Future<void> emptyAllTables() {
+    return _appDatabase.emptyAllTables();
   }
 
   @override
   void close() {
     _appDatabase.close();
+  }
+
+  @override
+  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
+    // TODO: implement getClientsByAgeRange
+    throw UnimplementedError();
   }
 }
