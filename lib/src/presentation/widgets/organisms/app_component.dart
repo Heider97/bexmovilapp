@@ -87,12 +87,19 @@ class _AppWidgetState extends State<AppWidget> {
       case 'HomeApplications':
         return HomeApplications(applications: widget.components.first.results);
       case 'SaleRouters':
-        print(widget.components.first.results);
         return SaleRouters(routers: widget.components.first.results);
       case 'SaleClients':
         return SaleClients(clients: widget.components.first.results);
+      case 'SaleWarehouses':
+        // return SaleWarehouses(warehouses: widget.components.first.results);
+      case 'SaleProducts':
+        // return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
         return WalletDashboard(components: widget.components);
+      case 'WalletClients':
+        // return WalletClients(clients: widget.components.first.results);
+      case 'WalletSummaries':
+        // return WalletSummaries(summaries: widget.components.first.results);
       default:
         return const SizedBox();
     }

@@ -138,6 +138,10 @@ class QueryLoaderService {
           }
         }
       } else {
+
+        print(query);
+        print(values);
+
         for (var value in values) {
           if (value != null) {
             var replace = query.indexOf('?');
