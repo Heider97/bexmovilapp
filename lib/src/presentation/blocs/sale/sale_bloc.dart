@@ -32,6 +32,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<NavigationSale>(_onNavigation);
     on<SearchClientSale>(_searchClient);
     on<GridModeChange>(_gridModeChange);
+    on<SelectRouter>(_selectRouter);
+  }
+  _selectRouter(SelectRouter event, Emitter emit) {
+    emit(state.copyWith(selectedRouter: event.router));
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {

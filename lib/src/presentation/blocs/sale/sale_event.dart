@@ -32,6 +32,13 @@ class GridModeChange extends SaleEvent {
   GridModeChange({required this.changeMode});
 }
 
+class SelectRouter extends SaleEvent {
+  final Router router;
+  SelectRouter({required this.router});
+}
+
+
+
 
 
 

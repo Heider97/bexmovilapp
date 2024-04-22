@@ -35,6 +35,11 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
     //  on<OnCarouselPageChanged>(_onCarouselPageChanged);
     on<UnSelectClient>(_unSelectClient);
     on<CenterToUserLocation>(_centerToUserLocation);
+    on<MoveToClientLocation>(_moveToClientLocation);
+  }
+
+  _moveToClientLocation(MoveToClientLocation evemt, Emitter emit) async {
+    await moverCamera(state.markers.values.first.position);
   }
 
   Future moverCamera(LatLng newLocation) async {
@@ -168,6 +173,8 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       {required BuildContext context,
       required LatLng currentPosition,
       required List<Client> clients}) async {
+    currentMarkers = {};
+
     late BitmapDescriptor clientMarker;
     if (context.mounted) {
       clientMarker = await getMyLocationMarker(context: context);
