@@ -30,6 +30,7 @@ class _CustomDraggableScrollableSheetState
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return DraggableScrollableSheet(
         controller: scrollableController,
         initialChildSize: 0.15,
@@ -174,14 +175,14 @@ class _CustomDraggableScrollableSheetState
                                     ),
                                   ]))),
                       //  Container(height: 10,color: Colors.red,),
-                      gapH12,
+                      gapH8,
                       Divider(
                         thickness: 2,
                         color: theme.disabledColor,
                         endIndent: 10,
                         indent: 10,
                       ),
-                      gapH12,
+                      gapH8,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [

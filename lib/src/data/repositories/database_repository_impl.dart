@@ -379,9 +379,4 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<List<LatLng>> getPolyline(String codeRouter) {
     return _appDatabase.routerDao.getRouterPolylines(codeRouter);
   }
-  
-/*   Future<List<Client>> getClientsByAgeRange(String range, String seller) {
-    // TODO: implement getClientsByAgeRange
-    throw UnimplementedError();
-  } */
 }

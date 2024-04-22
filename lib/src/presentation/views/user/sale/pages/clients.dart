@@ -80,7 +80,6 @@ class _ClientsPageState extends State<ClientsPage> {
  */
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.loading) {
         return const Center(
@@ -93,51 +92,7 @@ class _ClientsPageState extends State<ClientsPage> {
     //   child: Column(
     //     children: [
     //       //  StepperWidget(currentStep: 0, steps: steps),
-    //       Padding(
-    //         padding: const EdgeInsets.all(8.0),
-    //         child: Row(
-    //           children: [
-    //             Expanded(
-    //               child: CustomSearchBar(
-    //                   onChanged: (value) {
-    //                     saleBloc.add(SearchClientSale(valueToSearch: value));
-    //                   },
-    //                   colorBackground: theme.colorScheme.secondary,
-    //                   prefixIcon: const Icon(Icons.search),
-    //                   controller: textSaleController,
-    //                   hintText: 'Buscar cliente'),
-    //             ),
-    //             BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-    //               if (state.clients != null && state.clients!.isNotEmpty) {
-    //                 return Padding(
-    //                     padding: const EdgeInsets.all(4.0),
-    //                     child: AppIconButton(
-    //                         child: Icon(
-    //                           Icons.map_rounded,
-    //                           color: theme.colorScheme.onPrimary,
-    //                         ),
-    //                         onPressed: () {
-    //                           navigationService.goTo(AppRoutes.saleMap,
-    //                               arguments: widget.codeRouter);
-    //                         })
-    //                     /*  context.read<SaleBloc>().add(NavigationSale(
-    //                             clients: state.clients!, nearest: false));
-    //                       }), */
-    //                     );
-    //               } else {
-    //                 return const Center(child: CupertinoActivityIndicator());
-    //               }
-    //             }),
-    //             AppIconButton(
-    //                 child: Icon(Icons.filter_alt_rounded,
-    //                     color: theme.colorScheme.onPrimary),
-    //                 onPressed: () => navigationService.goTo(
-    //                       AppRoutes.filtersSale,
-    //                     )),
-    //           ],
-    //         ),
-    //       ),
-    //       gapH4,
+
     //       BlocBuilder<SaleBloc, SaleState>(
     //         builder: (context, state) {
     //           if (state.status == SaleStatus.loading) {
@@ -174,9 +129,51 @@ class _ClientsPageState extends State<ClientsPage> {
   }
 
   Widget _buildBody(state, context) {
+    ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: CustomSearchBar(
+                      onChanged: (value) {
+                        saleBloc.add(SearchClientSale(valueToSearch: value));
+                      },
+                      colorBackground: theme.colorScheme.secondary,
+                      prefixIcon: const Icon(Icons.search),
+                      controller: textSaleController,
+                      hintText: 'Buscar cliente'),
+                ),
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.clients != null && state.clients!.isNotEmpty) {
+                    return Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: AppIconButton(
+                            child: Icon(
+                              Icons.map_rounded,
+                              color: theme.colorScheme.onPrimary,
+                            ),
+                            onPressed: () {
+                              navigationService.goTo(AppRoutes.saleMap,
+                                  arguments: widget.codeRouter);
+                            }));
+                  } else {
+                    return const Center(child: CupertinoActivityIndicator());
+                  }
+                }),
+                AppIconButton(
+                    child: Icon(Icons.filter_alt_rounded,
+                        color: theme.colorScheme.onPrimary),
+                    onPressed: () => navigationService.goTo(
+                          AppRoutes.filtersSale,
+                        )),
+              ],
+            ),
+          ),
+          gapH4,
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
                   title: e.name!,

@@ -53,7 +53,7 @@ class _SaleClientsState extends State<SaleClients>
             )
           ]),
           Container(
-            height: size.height - 200,
+            height: size.height - 252,
             color: Colors.grey[200],
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
