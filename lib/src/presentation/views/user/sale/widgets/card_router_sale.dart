@@ -1,36 +1,36 @@
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bexmovil/src/domain/models/router.dart' as routers;
 
 final NavigationService _navigationService = locator<NavigationService>();
 
-class CardRouter extends StatelessWidget {
-  final String quantityClients;
-  final String codeRouter;
-  final String dayRouter;
-  final int? totalClients;
-  final int? totalProspects;
-  final int? visited;
-  final int? withSale;
-  final int? coverage;
-  final int? effectiveness;
+class CardRouter extends StatefulWidget {
+  final routers.Router router;
 
-  const CardRouter(
-      {super.key,
-      required this.codeRouter,
-      required this.quantityClients,
-      required this.dayRouter,
-      this.totalClients,
-      this.totalProspects,
-      this.visited,
-      this.withSale,
-      this.coverage,
-      this.effectiveness});
+  const CardRouter({super.key, required this.router});
+
+  @override
+  State<CardRouter> createState() => _CardRouterState();
+}
+
+class _CardRouterState extends State<CardRouter> {
+  late SaleBloc saleBloc;
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +38,11 @@ class CardRouter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(7),
       child: InkWell(
-        onTap: () => _navigationService.goTo(AppRoutes.clientsSale,
-            arguments: codeRouter),
+        onTap: () {
+          saleBloc.add(SelectRouter(router: widget.router));
+          _navigationService.goTo(AppRoutes.clientsSale,
+              arguments: widget.router.dayRouter);
+        },
         child: Material(
           elevation: 1,
           child: Container(
@@ -51,22 +54,23 @@ class CardRouter extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppText(dayRouter.capitalizeString(),
+                      AppText(widget.router.nameDayRouter!.capitalizeString(),
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
                           fontSize: 14,
                           overflow: TextOverflow.ellipsis),
                       Column(
                         children: [
-                          AppText('${effectiveness ?? '0'} %',
+                          AppText(' 0 %',
                               fontWeight: FontWeight.w500,
-                              color: (effectiveness != null &&
-                                      effectiveness!.toDouble() >= 70)
+                              color: /* (widget.effectiveness != null &&
+                                      widget.effectiveness!.toDouble() >= 70)
                                   ? Colors.green[300]
-                                  : (effectiveness != null &&
-                                          effectiveness!.toDouble() >= 50)
+                                  : (widget.effectiveness != null &&
+                                          widget.effectiveness!.toDouble() >= 50)
                                       ? Colors.yellow[400]
-                                      : Colors.red[300],
+                                      : */
+                                  Colors.red[300],
                               fontSize: 12,
                               overflow: TextOverflow.ellipsis),
                           AppText('Efectividad',
@@ -93,7 +97,8 @@ class CardRouter extends StatelessWidget {
                             ),
                           ),
                           gapW12,
-                          AppText('Clientes totales: ${totalClients ?? 0}',
+                          AppText(
+                              'Clientes totales: ${widget.router.quantityClient ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -111,7 +116,8 @@ class CardRouter extends StatelessWidget {
                             ),
                           ), */
                           gapW12,
-                          AppText('Clientes visitados: ${visited ?? '0'}',
+                          AppText(
+                              'Clientes visitados: 0', // ${widget.visited ??
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -135,7 +141,7 @@ class CardRouter extends StatelessWidget {
                             ),
                           ),
                           gapW12,
-                          AppText('Prospectos: ${totalProspects ?? 0}',
+                          AppText('Prospectos: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -153,7 +159,7 @@ class CardRouter extends StatelessWidget {
                             ),
                           ),
                           gapW12, */
-                          AppText('Ventas totales: ${withSale ?? 0}',
+                          AppText('Ventas totales: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -208,21 +214,4 @@ class CardRouter extends StatelessWidget {
           )) */,
     ); */
   }
-
-/*   Widget cardButtons(IconData icon, String text, BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 18.0,
-          color: theme.colorScheme.primary,
-        ),
-        Container(
-          margin: const EdgeInsets.all(6.0),
-          child: AppText(text, fontSize: 14.0),
-        )
-      ],
-    );
-  } */
 }

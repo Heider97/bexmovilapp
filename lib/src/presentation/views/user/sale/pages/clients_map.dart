@@ -47,7 +47,7 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
     return Stack(children: [
       SizedBox(
         width: Screens.width(context),
-        height: Screens.height(context) * 0.87,
+        height: Screens.height(context) * 0.85,
         child: RoutesMap(
           codeRouter: widget.codeRouter,
         ),

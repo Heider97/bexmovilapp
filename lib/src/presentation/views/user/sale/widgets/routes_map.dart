@@ -81,7 +81,10 @@ class _RoutesMapState extends State<RoutesMap> {
                     bottom: 60,
                     right: 10,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                        mapsBloc.add(MoveToClientLocation());
+
+                        },
                         icon: CircleAvatar(
                           backgroundColor: Colors.white,
                           child: Icon(

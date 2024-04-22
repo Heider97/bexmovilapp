@@ -4,6 +4,8 @@ import 'package:bexmovil/src/presentation/views/user/sale/widgets/router_details
 import 'package:bexmovil/src/presentation/widgets/atoms/atoms.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,8 +33,8 @@ class _CustomDraggableScrollableSheetState
     final size = MediaQuery.of(context).size;
     return DraggableScrollableSheet(
         controller: scrollableController,
-        initialChildSize: 0.13,
-        minChildSize: 0.13,
+        initialChildSize: 0.15,
+        minChildSize: 0.15,
         maxChildSize: 0.95,
         snap: true,
         builder: (context, scrollController) {
@@ -75,99 +77,102 @@ class _CustomDraggableScrollableSheetState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText('Rutero',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.grey[700],
-                                                  fontSize: 14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                              AppText('Lunes primera semana',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                  fontSize: 18,
-                                                  overflow:
-                                                      TextOverflow.ellipsis)
-                                            ],
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AppText('Rutero',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.grey[700],
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                                BlocBuilder<SaleBloc,
+                                                    SaleState>(
+                                                  builder: (context, state) {
+                                                    return AppText(
+                                                      state.selectedRouter!
+                                                          .nameDayRouter!
+                                                          .capitalizeString(),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black,
+                                                      fontSize: 18,
+                                                    );
+                                                  },
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              AppText('50 %',
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                              SizedBox(
-                                                width: 100,
-                                                height: 15,
-                                                child: LinearProgressIndicator(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  backgroundColor: theme
-                                                      .colorScheme.secondary,
-                                                  value: 0.5,
-                                                  color: theme.primaryColor,
-                                                  semanticsLabel:
-                                                      'Linear progress indicator',
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                AppText('0 %',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                                SizedBox(
+                                                  width: 150,
+                                                  height: 15,
+                                                  child:
+                                                      LinearProgressIndicator(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    backgroundColor: theme
+                                                        .colorScheme.secondary,
+                                                    value: 0.0,
+                                                    color: theme.primaryColor,
+                                                    semanticsLabel:
+                                                        'Linear progress indicator',
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
                                     ),
                                     gapH8,
-                                    Center(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Opacity(
-                                            opacity: 0.7,
-                                            child: Icon(
-                                              Icons.group,
-                                              color: theme.primaryColor,
+                                    BlocBuilder<SaleBloc, SaleState>(
+                                      builder: (context, state) {
+                                        return Row(
+                                          children: [
+                                            Expanded(
+                                              child: _buildItem(
+                                                  Icons.group,
+                                                  theme.primaryColor,
+                                                  ' ${state.selectedRouter!.quantityClient ?? 0}',
+                                                  'clientes'),
                                             ),
-                                          ),
-                                          const Text('  6 '),
-                                          const VerticalDivider(
-                                            color: Colors.black,
-                                            thickness: 2,
-                                          ),
-                                          const Opacity(
-                                            opacity: 0.7,
-                                            child: Icon(
-                                              Icons.person,
-                                              color: Colors.blue,
+                                            Expanded(
+                                              child: _buildItem(
+                                                  Icons.person,
+                                                  Colors.blue,
+                                                  ' 0',
+                                                  'prospectos'),
                                             ),
-                                          ),
-                                          const Text('  2 '),
-                                          const VerticalDivider(
-                                            color: Colors.black,
-                                            thickness: 2,
-                                          ),
-                                          const Opacity(
-                                            opacity: 0.7,
-                                            child: Icon(
-                                              Icons.visibility_rounded,
-                                              color: Colors.deepPurple,
+                                            Expanded(
+                                              child: _buildItem(
+                                                  Icons.visibility_rounded,
+                                                  Colors.deepPurple,
+                                                  '  0',
+                                                  'visitados'),
                                             ),
-                                          ),
-                                          const Text('  3 '),
-                                        ],
-                                      ),
-                                    )
+                                          ],
+                                        );
+                                      },
+                                    ),
                                   ]))),
                       //  Container(height: 10,color: Colors.red,),
                       gapH8,
@@ -214,10 +219,8 @@ class _CustomDraggableScrollableSheetState
                                 child: CircularProgressIndicator());
                           } else if (state.status == SaleStatus.success &&
                               state.clients!.isNotEmpty) {
-                            return SingleChildScrollView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              controller: ScrollController(),
-                              //controller: scrollController,
+                            return SizedBox(
+                              height: Screens.height(context) * 0.8,
                               child: StepperExample(
                                 clients: state.clients!,
                                 //scrollController: scrollController,
@@ -237,4 +240,19 @@ class _CustomDraggableScrollableSheetState
           );
         });
   }
+}
+
+Widget _buildItem(IconData icon, Color color, String count, String label) {
+  return Row(
+    children: [
+      Opacity(
+        opacity: 0.7,
+        child: Icon(
+          icon,
+          color: color,
+        ),
+      ),
+      Expanded(child: Text('$count  $label')),
+    ],
+  );
 }

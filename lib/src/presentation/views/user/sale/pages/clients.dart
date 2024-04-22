@@ -57,7 +57,7 @@ class _ClientsPageState extends State<ClientsPage> {
     saleStepperBloc = BlocProvider.of(context);
   }
 
-  List<StepData> steps = [
+/*   List<StepData> steps = [
     StepData(
         "Seleccionar \nCliente",
         'assets/icons/ProfileEnable.png',
@@ -77,7 +77,7 @@ class _ClientsPageState extends State<ClientsPage> {
         'assets/icons/actionDisable.png',
         () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
   ];
-
+ */
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {

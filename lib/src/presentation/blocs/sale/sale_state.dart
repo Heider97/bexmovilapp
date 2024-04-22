@@ -2,13 +2,14 @@ part of 'sale_bloc.dart';
 
 enum SaleStatus { initial, loading, success, failed }
 
-class SaleState extends Equatable {
+class SaleState {
   final SaleStatus status;
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
+  final Router? selectedRouter;
 
   final bool? gridView;
 
@@ -22,7 +23,9 @@ class SaleState extends Equatable {
       this.clientsFounded,
       this.filters,
       this.gridView,
-      this.error});
+      this.error,
+      this.selectedRouter
+      });
 
   SaleState copyWith(
           {SaleStatus? status,
@@ -32,7 +35,10 @@ class SaleState extends Equatable {
           List<Client>? clientsFounded,
           List<Filter>? filters,
           bool? gridView,
-          String? error}) =>
+          String? error,
+          Router? selectedRouter
+          
+          }) =>
       SaleState(
           status: status ?? this.status,
           sections: sections ?? this.sections,
@@ -41,7 +47,9 @@ class SaleState extends Equatable {
           clientsFounded: clientsFounded ?? this.clientsFounded,
           filters: filters ?? this.filters,
           gridView: gridView ?? this.gridView,
-          error: error ?? this.error);
+          error: error ?? this.error,
+          selectedRouter:selectedRouter??this.selectedRouter
+          );
 
   @override
   // TODO: implement props

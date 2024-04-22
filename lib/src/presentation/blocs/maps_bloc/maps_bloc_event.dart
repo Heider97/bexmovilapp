@@ -37,3 +37,12 @@ class OnCarouselPageChanged extends MapsBlocEvent {
 class CenterToUserLocation extends MapsBlocEvent {
   CenterToUserLocation();
 }
+
+class MoveToClientLocation extends MapsBlocEvent {
+  MoveToClientLocation();
+}
+
+
+
+
+

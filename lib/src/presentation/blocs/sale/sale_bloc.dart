@@ -29,9 +29,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
-    on<NavigationSale>(_onNavigation);
-    on<SearchClientSale>(_searchClient);
+/*     on<NavigationSale>(_onNavigation);
+    on<SearchClientSale>(_searchClient); */
     on<GridModeChange>(_gridModeChange);
+    on<SelectRouter>(_selectRouter);
+  }
+  _selectRouter(SelectRouter event, Emitter emit) {
+    emit(state.copyWith(selectedRouter: event.router));
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
@@ -69,14 +73,14 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     }
   }
 
-  _searchClient(SearchClientSale event, Emitter emit) {
+/*   _searchClient(SearchClientSale event, Emitter emit) {
     emit(state.copyWith(status: SaleStatus.loading));
     List<Client>? clientsFounded = [];
     clientsFounded = buscarClientes(event.valueToSearch);
     print('value');
     emit(state.copyWith(
         clientsFounded: clientsFounded, status: SaleStatus.success));
-  }
+  } */
 
   buscarClientes(String valor) {
     if (valor == '') {
@@ -120,4 +124,5 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   //   emit(
   //       SaleOrderConfirm(state.routers, state.clients,listOfProducst: event.products, client: event.client));
   // }
+}
 }

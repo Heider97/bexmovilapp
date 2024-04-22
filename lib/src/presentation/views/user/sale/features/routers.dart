@@ -65,15 +65,7 @@ class _SaleRoutersState extends State<SaleRouters>
                         padding: EdgeInsets.zero,
                         itemCount: widget.routers?.length,
                         itemBuilder: (context, index) {
-                          return CardRouter(
-                            codeRouter: widget.routers![index].dayRouter!,
-                            quantityClients: widget
-                                .routers![index].quantityClient
-                                .toString(),
-                            dayRouter:
-                                widget.routers![index].nameDayRouter.toString(),
-                            totalClients: widget.routers![index].quantityClient,
-                          );
+                          return CardRouter(router: widget.routers![index]);
                         });
                   } else {
                     return const Text('No hay ruteros disponibles');

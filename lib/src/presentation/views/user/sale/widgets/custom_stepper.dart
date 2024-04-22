@@ -34,6 +34,7 @@ class StepperExampleState extends State<StepperExample> {
   Widget build(BuildContext context) {
     return Stepper(
       // controller: widget.scrollController,
+      physics: AlwaysScrollableScrollPhysics(),
       currentStep: _index,
       margin: EdgeInsets.zero,
       controlsBuilder: (context, controller) => Row(children: []),
