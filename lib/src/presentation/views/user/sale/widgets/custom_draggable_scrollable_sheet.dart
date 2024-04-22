@@ -28,6 +28,7 @@ class _CustomDraggableScrollableSheetState
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return DraggableScrollableSheet(
         controller: scrollableController,
         initialChildSize: 0.13,
@@ -90,7 +91,6 @@ class _CustomDraggableScrollableSheetState
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black,
                                                   fontSize: 18,
-                                                  
                                                   overflow:
                                                       TextOverflow.ellipsis)
                                             ],
@@ -109,7 +109,7 @@ class _CustomDraggableScrollableSheetState
                                                   overflow:
                                                       TextOverflow.ellipsis),
                                               SizedBox(
-                                                width: 150,
+                                                width: 100,
                                                 height: 15,
                                                 child: LinearProgressIndicator(
                                                   borderRadius:
@@ -140,8 +140,7 @@ class _CustomDraggableScrollableSheetState
                                               color: theme.primaryColor,
                                             ),
                                           ),
-                                          const Text('  6  '),
-                                          const Text('clientes '),
+                                          const Text('  6 '),
                                           const VerticalDivider(
                                             color: Colors.black,
                                             thickness: 2,
@@ -153,8 +152,7 @@ class _CustomDraggableScrollableSheetState
                                               color: Colors.blue,
                                             ),
                                           ),
-                                          const Text('  2  '),
-                                          const Text(' prospectos '),
+                                          const Text('  2 '),
                                           const VerticalDivider(
                                             color: Colors.black,
                                             thickness: 2,
@@ -166,21 +164,20 @@ class _CustomDraggableScrollableSheetState
                                               color: Colors.deepPurple,
                                             ),
                                           ),
-                                          const Text('  3  '),
-                                          const Text(' visitados '),
+                                          const Text('  3 '),
                                         ],
                                       ),
                                     )
                                   ]))),
                       //  Container(height: 10,color: Colors.red,),
-                      gapH12,
+                      gapH8,
                       Divider(
                         thickness: 2,
                         color: theme.disabledColor,
                         endIndent: 10,
                         indent: 10,
                       ),
-                      gapH12,
+                      gapH8,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -223,7 +220,7 @@ class _CustomDraggableScrollableSheetState
                               //controller: scrollController,
                               child: StepperExample(
                                 clients: state.clients!,
-                                  //scrollController: scrollController,
+                                //scrollController: scrollController,
                               ),
                             );
                           } else {
