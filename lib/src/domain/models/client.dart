@@ -20,6 +20,7 @@ class Client {
   int? color;
   //ALTERNATIVES
   String? estadoCliente;
+  String? typeClient;
   bool? isBooked;
   String? docType;
   String? expireDate;
@@ -39,6 +40,7 @@ class Client {
       this.nit,
       this.name,
       this.address,
+        this.typeClient,
       this.businessName,
       this.email,
       this.cellphone,
@@ -74,6 +76,7 @@ class Client {
         address: json['DIRCLIENTE'],
         businessName: json['RAZCLIENTE'],
         email: json['email'],
+        typeClient: json['type_client'],
         cellphone: json['TELCLIENTE'],
         branch: json['SUCCLIENTE'],
         price: json['CODPRECIO'],
