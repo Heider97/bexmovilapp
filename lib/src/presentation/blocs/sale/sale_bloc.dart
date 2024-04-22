@@ -48,16 +48,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
     var clients = <Client>[];
     emit(state.copyWith(status: SaleStatus.loading));
-//     var sellerCode = storageService.getString('username');
-//     List<Section>? sections = await queryLoaderService
-//         .getResults('sales-clients', [event.codeRouter, sellerCode]);
-
-//     clients = sections!.first.widgets!.first.components!.first.results;
 
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('sales-clients', [event.codeRouter, seller]);
 
-    if (event.codeRouter != null) {
+    clients = sections!.first.widgets!.first.components!.first.results;
+
     if (event.codeRouter != null) {
       var filters = await databaseRepository.getAllFilters();
 
@@ -66,7 +62,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
             await databaseRepository.getAllOptionsByFilter(filter.id!);
       });
 
-      emit(state.copyWith(status: SaleStatus.success, sections: sections));
+      emit(state.copyWith(status: SaleStatus.success, clients: clients, sections: sections));
 
     } else {
       emit(state.copyWith(status: SaleStatus.success, clients: clients));
