@@ -5,36 +5,33 @@ class MapsBlocState {
   final bool disposeMapController;
   final CarouselController? carouselController;
   final Map<String, Marker> markers;
-/*   final List<CardClientListOnMap>? listClients;
-  final List<CardClientListOnMap>? clientsFounded; */
+  final Map<String, Polyline> polylines;
   final Client? selectedClient;
 
   const MapsBlocState({
     this.isMapInitialized = false,
     this.disposeMapController = false,
     this.carouselController,
-/*     this.listClients,
-    this.clientsFounded, */
     this.selectedClient,
+    Map<String, Polyline>? polylines,
     Map<String, Marker>? markers,
-  }) : markers = markers ?? const {};
+  })  : polylines = polylines ?? const {},
+        markers = markers ?? const {};
 
   MapsBlocState copyWith({
     Map<String, Marker>? markers,
+    Map<String, Polyline>? polylines,
     bool? isMapInitialized,
     bool? disposeMapController,
     CarouselController? carouselController,
-/*     List<CardClientListOnMap>? listClients,
-    List<CardClientListOnMap>? clientsFounded, */
     Client? selectedClient,
   }) =>
       MapsBlocState(
         markers: markers ?? this.markers,
+        polylines: polylines ?? this.polylines,
         isMapInitialized: isMapInitialized ?? this.isMapInitialized,
         disposeMapController: disposeMapController ?? this.disposeMapController,
         carouselController: carouselController ?? this.carouselController,
-  /*       listClients: listClients ?? this.listClients,
-        clientsFounded: clientsFounded ?? this.clientsFounded, */
         selectedClient: selectedClient,
       );
 }

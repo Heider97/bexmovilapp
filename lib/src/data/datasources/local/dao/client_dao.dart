@@ -30,20 +30,9 @@ class ClientDao {
     return clients;
   }
 
-  Future<List<Client>> getAllClientsRouter(
+ /*  Future<List<Client>> getAllClientsRouter(
       String seller, String dayRouter) async {
     final db = await _appDatabase.database;
-/*     final clientsRouterList = await db!.rawQuery('''
-      SELECT tdr.diarutero, tdr.nomdiarutero, c.nomcliente, tr.diarutero, 
-      c.dircliente, c.nitcliente, c.succliente, c.email, c.telcliente, 
-      c.codprecio, c.cupo, c.codfpagovta, c.razcliente, SUM(tc.preciomov) as wallet,
-      c.latitud, c.longitud
-      FROM tblmrutero tr, tblmdiarutero tdr, tblmcliente c, tbldcartera tc
-      WHERE tr.diarutero = tdr.diarutero AND tr.codcliente = c.codcliente
-      AND tc.codcliente = tr.codcliente
-      AND tdr.DIARUTERO = '$dayRouter' AND tr.CODVENDEDOR = '$seller' 
-      GROUP BY tr.CODCLIENTE
-    '''); */
     final clientsRouterList = await db!.rawQuery('''
        SELECT 
     tdr.diarutero, 
@@ -85,7 +74,7 @@ GROUP BY
 
     final clientRouters = parseClients(clientsRouterList);
     return clientRouters;
-  }
+  } */
 
   Future<List<Client>> getClient(String codeClient) async {
     final db = await _appDatabase.database;
@@ -95,7 +84,7 @@ GROUP BY
     return routers;
   }
 
-/*   Future<List<Client>> getClientInformationByAgeRange(
+  Future<List<Client>> getClientInformationByAgeRange(
       String range, String seller) async {
     final db = _appDatabase._database;
 
@@ -161,7 +150,7 @@ GROUP BY
 
     List<Client> clients = parseClients(results);
     return clients;
-  } */
+  }
 
   Future<List<Invoice>> getInvoicesByClient(
       String range, String seller, String client) async {

@@ -1,4 +1,6 @@
+import 'package:bexmovil/src/domain/models/invoice.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,7 +53,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme= Theme.of(context);
+    ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Column(
@@ -117,27 +119,27 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                   )),
             )
           ]),
-            Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: Screens.width(context),
-                      child: Card(
-                        surfaceTintColor: theme.primaryColor,
-                        color: theme.primaryColor,
-                        child: const Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            'Supermercado Exito',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: Screens.width(context),
+              child: Card(
+                surfaceTintColor: theme.primaryColor,
+                color: theme.primaryColor,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                    widget.argument!.client!.name!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
+                    textAlign: TextAlign.center,
                   ),
+                ),
+              ),
+            ),
+          ),
           gapH4,
 
           BlocBuilder<WalletBloc, WalletState>(
@@ -146,64 +148,85 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                 return const Center(child: CupertinoActivityIndicator());
               } else if (state.canRenderView()) {
                 return Expanded(
-                  child: WalletTableSummaries(invoices: state.invoices ?? [])
-                );
+                    child:
+                        WalletTableSummaries(invoices: state.invoices ?? []));
               } else {
                 return Center(child: AppText("No se encontraron facturas."));
               }
             },
           ),
           // Expanded(child: DataGridCheckBox()),
-          Material(
-            elevation: 10,
-            borderRadius: BorderRadius.circular(10),
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Container(
-                width: size.width,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          BlocBuilder<WalletBloc, WalletState>(
+            builder: (context, state) {
+              int totalAbono = state.invoices?.fold(
+                      0, (sum, invoice) => sum! + (invoice.preciomov ?? 0)) ??
+                  0;
+
+              String textToShow = '';
+
+              if (state.invoices != null) {
+                if (state.invoices!.length == 1) {
+                  textToShow = '1 Factura';
+                } else {
+                  textToShow = '${state.invoices!.length} Facturas';
+                }
+              } else {
+                textToShow = 'No hay facturas';
+              }
+
+              return Material(
+                elevation: 10,
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    width: size.width,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          AppText('2 Facturas'),
-                          AppText('Abono: \$ 4.509.448'),
-                          AppText('Total: \$ 9.000.000'),
-                        ],
-                      ),
-                      gapW12,
-                      Row(children: [
-                        AppText('Vaciar'),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                //TODO: [Heider Zapa]
-                                //TODO: navigate realizar accion
-                                navigationService
-                                    .goTo(AppRoutes.actionWallet);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: AppText('Gestionar')),
-                        ),
-                      ])
-                    ]),
-              ),
-            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /*   AppText('${state.invoices!.length} Facturas'), */
+                              AppText(textToShow,fontWeight: FontWeight.bold,fontSize: 20,),
+                              /*      AppText(
+                                  'Abono: \$ ${''.formatted(totalAbono.toDouble())}'), */
+                              AppText(
+                                  'Total: \$ ${''.formatted(totalAbono.toDouble())}'),
+                            ],
+                          ),
+                          gapW12,
+                          Row(children: [
+                            AppText('Vaciar'),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    //TODO: [Heider Zapa]
+                                    //TODO: navigate realizar accion
+                                    navigationService
+                                        .goTo(AppRoutes.actionWallet);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: AppText('Gestionar')),
+                            ),
+                          ])
+                        ]),
+                  ),
+                ),
+              );
+            },
           )
         ],
       ),
     );
   }
-
-
 }

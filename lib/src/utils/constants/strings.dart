@@ -151,6 +151,9 @@ class Assets {
   static const String consignment = 'assets/images/wallet/consignment.png';
   static const String cash = 'assets/images/wallet/cash.png';
   static const String creditNote = 'assets/images/wallet/credit_note.png';
+
+  //imageProfile
+  static const String imageProfile = 'assets/images/userprofile.jpg';
 }
 
 class Const {

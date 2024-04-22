@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
@@ -32,7 +33,12 @@ class _CardClientState extends State<CardClient> {
         padding: const EdgeInsets.all(7),
         child: InkWell(
             onTap: () {
-              print('tapped');
+              showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (c) => DetailClientSale(client: widget.client));
+
+              setState(() {});
             },
             child: Material(
                 elevation: 1,
@@ -49,7 +55,8 @@ class _CardClientState extends State<CardClient> {
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       gapW12,
                                       Opacity(
@@ -61,7 +68,8 @@ class _CardClientState extends State<CardClient> {
                                             overflow: TextOverflow.ellipsis),
                                       ),
                                       AppText(
-                                          widget.client.name?.capitalizeString() ??
+                                          widget.client.name
+                                                  ?.capitalizeString() ??
                                               'No aplica',
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
@@ -346,8 +354,6 @@ class _CardClientState extends State<CardClient> {
                               ),
                             ),
                           ),
-                        ]))
-                        
-                        ))));
+                        ]))))));
   }
 }

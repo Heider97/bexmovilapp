@@ -72,7 +72,7 @@ class QueryLoaderService {
                                 await databaseRepository.validateLogic(logic);
                             if (result == true) {
                               var results = await determine(
-                                  widget.type!, logicQueries.first, arguments,
+                                  widget.type!, lq, arguments,
                                   needBeMapped: needBeMapped);
                               print(
                                   '*****results based on mutiple logic***** ');

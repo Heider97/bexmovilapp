@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../models/module.dart';
 import '../models/section.dart';
 import '../models/widget.dart';
@@ -71,8 +73,9 @@ abstract class DatabaseRepository {
 
   //ROUTERS
   Future<List<Router>> getAllRoutersGroupByClient(String seller);
-  Future<List<Client>> getAllClientsRouter(String seller, String dayRouter);
+  //Future<List<Client>> getAllClientsRouter(String seller, String dayRouter);
   Future<List<Router>> getAllRouters(String seller);
+  Future<List<LatLng>> getPolyline(String codeRouter);
 
   //CONFIGS
   Future<List<Config>> getConfigs(String module);

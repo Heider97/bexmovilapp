@@ -8,7 +8,9 @@ class OnMapInitializedEvent extends MapsBlocEvent {
   final GoogleMapController controller;
   final BuildContext context;
   final List<Client> clients;
-  const OnMapInitializedEvent(this.controller, this.clients, this.context);
+  final String codeRouter;
+  const OnMapInitializedEvent(
+      this.controller, this.clients, this.context, this.codeRouter);
 }
 
 class StopMapControllerEvent extends MapsBlocEvent {}
