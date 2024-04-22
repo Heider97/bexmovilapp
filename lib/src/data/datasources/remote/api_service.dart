@@ -37,7 +37,7 @@ class ApiService {
     return 'https://$company.bexmovil.com/api';
   }
 
-  ApiService({ required this.storageService }) {
+  ApiService({required this.storageService}) {
     dio = Dio(
       BaseOptions(
           baseUrl: url ?? 'https://pandapan.bexmovil.com/api/v1',
@@ -251,16 +251,16 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<RecoveryCodeResponse>>(Options(
-          method: 'POST',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
             .compose(
-          dio.options,
-          '/password/email',
-          queryParameters: queryParameters,
-          data: data,
-        )
+              dio.options,
+              '/password/email',
+              queryParameters: queryParameters,
+              data: data,
+            )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = RecoveryCodeResponse(
@@ -293,16 +293,16 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<ValidateRecoveryCodeResponse>>(Options(
-          method: 'POST',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
             .compose(
-          dio.options,
-          '/password/code/check',
-          queryParameters: queryParameters,
-          data: data,
-        )
+              dio.options,
+              '/password/code/check',
+              queryParameters: queryParameters,
+              data: data,
+            )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = ValidateRecoveryCodeResponse(
@@ -335,16 +335,16 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<ChangePasswordResponse>>(Options(
-          method: 'POST',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'POST',
+      headers: headers,
+      extra: extra,
+    )
             .compose(
-          dio.options,
-          '/password/reset',
-          queryParameters: queryParameters,
-          data: data,
-        )
+              dio.options,
+              '/password/reset',
+              queryParameters: queryParameters,
+              data: data,
+            )
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = ChangePasswordResponse(
@@ -482,12 +482,12 @@ class ApiService {
 
     final result = await dio.fetch<Map<String, dynamic>>(
         _setStreamType<Response<ModuleResponse>>(Options(
-          method: 'GET',
-          headers: headers,
-          extra: extra,
-        )
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
             .compose(dio.options, '/sync/modules',
-            queryParameters: queryParameters, data: data)
+                queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = ModuleResponse.fromJson(result.data!);

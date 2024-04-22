@@ -14,6 +14,14 @@ class RouterDao {
     return routers;
   }
 
+  List<Polyline> parsePolyline(List<Map<String, dynamic>> polylineList) {
+    final polylines = <Polyline>[];
+    for (var polyline in polylineList) {
+      //REMPLAZAR POR EL CODIGO PARA CONVERITR EL STRING EN LIST<POLYLINES>
+    }
+    return polylines;
+  }
+
   Future<List<Router>> getAllRoutersGroupByClient(String seller) async {
     final db = await _appDatabase.database;
     final routerList = await db!.rawQuery(
@@ -28,6 +36,32 @@ class RouterDao {
         .query(tableRouter, where: 'codvendedor = ?', whereArgs: [seller]);
     final routers = parseRouters(routerList);
     return routers;
+  }
+
+  Future<void> savePolyline(String codeRouter, List<LatLng> polylines) async {
+    final db = await _appDatabase.database;
+    final polylineString = polylines
+        .map((latLng) => '${latLng.latitude},${latLng.longitude}')
+        .join(';');
+    await db!.insert(
+      'polylines',
+      {'codeRouter': codeRouter, 'polylines': polylineString},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<LatLng>> getRouterPolylines(String codeRouter) async {
+    final db = await _appDatabase.database;
+    final result = await db!
+        .query('polylines', where: 'codeRouter = ?', whereArgs: [codeRouter]);
+    if (result.isEmpty) return [];
+
+    final polylineString = result.first['polylines'] as String;
+    final points = polylineString.split(';');
+    return points.map((point) {
+      final parts = point.split(',');
+      return LatLng(double.parse(parts[0]), double.parse(parts[1]));
+    }).toList();
   }
 
   Future<void> emptyRouters() async {

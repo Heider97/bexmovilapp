@@ -1,3 +1,6 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/polyline.dart';
+
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
 //models
@@ -120,12 +123,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.clientDao.getInvoicesByClient(range, seller, client);
   }
 
-  @override
+/*   @override
   Future<List<Client>> getAllClientsRouter(
       String seller, String dayRouter) async {
-    return _appDatabase.clientDao.getAllClientsRouter(seller, dayRouter);
+  /*   return _appDatabase.clientDao.getAllClientsRouter(seller, dayRouter) */;
   }
-
+ */
   @override
   Future<List<Router>> getAllRouters(String seller) async {
     return _appDatabase.routerDao.getAllRouters(seller);
@@ -372,5 +375,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   void close() {
     _appDatabase.close();
+  }
+
+  @override
+  Future<List<LatLng>> getPolyline(String codeRouter) {
+    return _appDatabase.routerDao.getRouterPolylines(codeRouter);
   }
 }

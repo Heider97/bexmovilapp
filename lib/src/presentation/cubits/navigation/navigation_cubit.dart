@@ -288,6 +288,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
           }
         }
 
+  //TODO: REVISAR ESTA LOGICA [JAIRO]
         try {
           if (waypoints.isNotEmpty) {
             final manager = OSRMManager()
