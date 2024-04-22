@@ -4,6 +4,10 @@ import 'package:collection/collection.dart';
 
 //cubit
 
+import '../../../domain/abstracts/format_abstract.dart';
+import '../../../domain/models/requests/dynamic_request.dart';
+import '../../../domain/models/requests/sync_priorities_request.dart';
+import '../../../domain/models/responses/dynamic_response.dart';
 import '../base/base_cubit.dart';
 
 //utils
@@ -30,7 +34,7 @@ import '../../../services/query_loader.dart';
 
 part 'home_state.dart';
 
-class HomeCubit extends BaseCubit<HomeState> {
+class HomeCubit extends BaseCubit<HomeState> with FormatDate {
   final DatabaseRepository databaseRepository;
   final ApiRepository apiRepository;
   final LocalStorageService storageService;
@@ -47,33 +51,6 @@ class HomeCubit extends BaseCubit<HomeState> {
     }
   }
 
-  Future<void> getModules() async {
-    //TODO: [Heider Zapa] refacto with new logic
-    // final response = await apiRepository.modules(
-    //     request:
-    //         ModuleRequest(codvendedor: storageService.getString('username')!));
-    //
-    // if (response is DataSuccess) {
-    //   await databaseRepository.init();
-    //   if (response.data != null && response.data!.modules != null) {
-    //     var modules = response.data!.modules;
-    //     await databaseRepository.insertModules(modules!);
-    //     for (var module in modules) {
-    //       if (module.components != null) {
-    //         await databaseRepository.insertComponents(module.components!);
-    //         for (var component in module.components!) {
-    //           await databaseRepository.insertQueries(component.queries!);
-    //         }
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   emit(HomeFailed(
-    //     error: 'modules-${response.data!.message}',
-    //   ));
-    // }
-  }
-
   Future<void> getConfigs() async {
     final response = await apiRepository.configs();
 
@@ -81,9 +58,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       await databaseRepository.init();
       await databaseRepository.insertConfigs(response.data!.configs);
     } else {
-      emit(HomeFailed(
-        error: 'configs-${response.data!.message}',
-      ));
+      // emit(HomeFailed(error: 'configs-${response.data}'));
     }
   }
 
@@ -99,7 +74,9 @@ class HomeCubit extends BaseCubit<HomeState> {
         }
       }
     } else {
-      emit(HomeFailed(error: 'graphics-${response.data!.message}'));
+      print(response.data);
+
+      // emit(HomeFailed(error: 'graphics-${response.data!.message}'));
     }
   }
 
@@ -112,11 +89,11 @@ class HomeCubit extends BaseCubit<HomeState> {
       final user = User.fromMap(storageService.getObject('user')!);
       final seller = storageService.getString('username');
       final sections = await queryLoaderService.getResults('home', [seller]);
-      
+
       emit(HomeSuccess(
-          user: user,
-          sections: sections,
-        ));
+        user: user,
+        sections: sections,
+      ));
     });
   }
 
@@ -126,23 +103,104 @@ class HomeCubit extends BaseCubit<HomeState> {
     await run(() async {
       emit(const HomeSynchronizing());
 
-      var functions = [
-        getModules,
-        getConfigs,
-        getFilters
-      ];
+      var functions = [getConfigs, getFilters];
 
-      var isolateModel = IsolateModel(functions, null, 3);
+      var isolateModel = IsolateModel(functions, null, 2);
       await heavyTask(isolateModel);
 
-      final user = User.fromMap(storageService.getObject('user')!);
-      final seller = storageService.getString('username');
-      final sections = await queryLoaderService.getResults('home', [seller]);
+      var configs = await databaseRepository.getConfigs('login');
 
-      emit(HomeSuccess(
-          user: user,
-          sections: sections,
-        ));
+      var version = configs.firstWhere((element) => element.name == 'version');
+
+      await databaseRepository.emptyAllTables();
+
+      var response = await apiRepository.priorities(
+          request: SyncPrioritiesRequest(
+              date: now(), version: version.value ?? "0"));
+
+      if (response is DataSuccess) {
+        var migrations = <String>[];
+        for (var migration in response.data!.priorities!) {
+          try {
+            if (migration.schema != null) {
+              String sqlScriptWithoutEscapes = migration.schema!
+                  .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+              List<String> scriptsSeparated =
+                  sqlScriptWithoutEscapes.split('CREATE');
+              for (String createTableScript in scriptsSeparated) {
+                try {
+                  String scriptCompleted =
+                      'CREATE $createTableScript'.replaceAll(';', '');
+                  migrations.add(scriptCompleted);
+                } catch (ex) {
+                  print('Error al ejecutar el script:\n$ex');
+                }
+              }
+            }
+          } catch (ex) {
+            print('Error $ex');
+          }
+        }
+        migrations.removeWhere((element) => element == 'CREATE ');
+        await databaseRepository.runMigrations(migrations);
+
+        var prioritiesAsync = response.data!.priorities!
+            .where((element) => element.runBackground == 1);
+
+        //TODO: [Heider Zapa] run with isolate
+        var prioritiesSync = response.data!.priorities!
+            .where((element) => element.runBackground == 0);
+
+        // var functions = <Function>[];
+        // var arguments = <Map<String, dynamic>>[];
+        //
+        // for (var priority in prioritiesAsync) {
+        //   print(priority.toJson());
+        //   functions.add(insertDynamicData);
+        //   arguments.add(
+        //       {'table_name': priority.name, 'content': 'application/json'});
+        // }
+
+        // var isolateModel =
+        //     IsolateModel(functions, arguments, prioritiesAsync.length);
+        // await heavyTask(isolateModel);
+
+        List<String> tables = [];
+
+        List<Future<DataState<DynamicResponse>>> futures = [];
+
+        for (var priority in prioritiesSync) {
+          futures.add(apiRepository.syncDynamic(
+              request: DynamicRequest(priority.name, 'application/json')));
+          tables.add(priority.name);
+        }
+
+        List<DataState<DynamicResponse>> responses = await Future.wait(futures);
+
+        List<Future<dynamic>> futureInserts = [];
+
+        var i = 0;
+        for (var response in responses) {
+          if (response is DataSuccess) {
+            if (response.data != null && response.data!.data != null) {
+              futureInserts.add(databaseRepository.insertAll(
+                  tables[i], response.data!.data!));
+            }
+          }
+          i++;
+        }
+
+        final user = User.fromMap(storageService.getObject('user')!);
+        final seller = storageService.getString('username');
+        final sections = await queryLoaderService.getResults('home', [seller]);
+
+        await Future.wait(futureInserts).whenComplete(() => emit(HomeSuccess(
+              user: user,
+              sections: sections,
+            )));
+      } else {
+        // emit(SyncFeaturesFailure(features: features, error: response.error));
+      }
     });
   }
 

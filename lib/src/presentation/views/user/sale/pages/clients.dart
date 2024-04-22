@@ -15,6 +15,7 @@ import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
 import '../../../../widgets/atoms/app_text.dart';
+import '../../../../widgets/organisms/app_section.dart';
 import '../widgets/card_client_sale.dart';
 
 //widgets
@@ -80,85 +81,108 @@ class _ClientsPageState extends State<ClientsPage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+      if (state.status == SaleStatus.loading) {
+        return const Center(
+            child: CupertinoActivityIndicator(color: Colors.green));
+      } else {
+        return _buildBody(state, context);
+      }
+    });
+    // return SafeArea(
+    //   child: Column(
+    //     children: [
+    //       //  StepperWidget(currentStep: 0, steps: steps),
+    //       Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Row(
+    //           children: [
+    //             Expanded(
+    //               child: CustomSearchBar(
+    //                   onChanged: (value) {
+    //                     saleBloc.add(SearchClientSale(valueToSearch: value));
+    //                   },
+    //                   colorBackground: theme.colorScheme.secondary,
+    //                   prefixIcon: const Icon(Icons.search),
+    //                   controller: textSaleController,
+    //                   hintText: 'Buscar cliente'),
+    //             ),
+    //             BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+    //               if (state.clients != null && state.clients!.isNotEmpty) {
+    //                 return Padding(
+    //                     padding: const EdgeInsets.all(4.0),
+    //                     child: AppIconButton(
+    //                         child: Icon(
+    //                           Icons.map_rounded,
+    //                           color: theme.colorScheme.onPrimary,
+    //                         ),
+    //                         onPressed: () {
+    //                           navigationService.goTo(AppRoutes.saleMap,
+    //                               arguments: widget.codeRouter);
+    //                         })
+    //                     /*  context.read<SaleBloc>().add(NavigationSale(
+    //                             clients: state.clients!, nearest: false));
+    //                       }), */
+    //                     );
+    //               } else {
+    //                 return const Center(child: CupertinoActivityIndicator());
+    //               }
+    //             }),
+    //             AppIconButton(
+    //                 child: Icon(Icons.filter_alt_rounded,
+    //                     color: theme.colorScheme.onPrimary),
+    //                 onPressed: () => navigationService.goTo(
+    //                       AppRoutes.filtersSale,
+    //                     )),
+    //           ],
+    //         ),
+    //       ),
+    //       gapH4,
+    //       BlocBuilder<SaleBloc, SaleState>(
+    //         builder: (context, state) {
+    //           if (state.status == SaleStatus.loading) {
+    //             return const Center(child: CupertinoActivityIndicator());
+    //           } else if (state.status == SaleStatus.success) {
+    //             return Expanded(
+    //               child: Container(
+    //                      color: Colors.grey[200],
+    //                 child: ListView.builder(
+    //                   /*   padding: const EdgeInsets.all(Const.padding), */
+    //                     itemCount: state.clientsFounded != null
+    //                         ? state.clientsFounded!.length
+    //                         : 0,
+    //                     itemBuilder: (context, index) {
+    //                       return CardClient(
+    //                          client: state.clientsFounded![index],
+    //                          activeSale:false
+    //                       );
+    //
+    //                    /*    return CardClientRouter(
+    //                         client: state.clientsFounded![index],
+    //                       ); */
+    //                     }),
+    //               ),
+    //             );
+    //           } else {
+    //             return Center(child: AppText("No se encontraron clientes."));
+    //           }
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
+  }
+
+  Widget _buildBody(state, context) {
     return SafeArea(
       child: Column(
         children: [
-          //  StepperWidget(currentStep: 0, steps: steps),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: CustomSearchBar(
-                      onChanged: (value) {
-                        saleBloc.add(SearchClientSale(valueToSearch: value));
-                      },
-                      colorBackground: theme.colorScheme.secondary,
-                      prefixIcon: const Icon(Icons.search),
-                      controller: textSaleController,
-                      hintText: 'Buscar cliente'),
-                ),
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.clients != null && state.clients!.isNotEmpty) {
-                    return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: AppIconButton(
-                            child: Icon(
-                              Icons.map_rounded,
-                              color: theme.colorScheme.onPrimary,
-                            ),
-                            onPressed: () {
-                              navigationService.goTo(AppRoutes.saleMap,
-                                  arguments: widget.codeRouter);
-                            })
-                        /*  context.read<SaleBloc>().add(NavigationSale(
-                                clients: state.clients!, nearest: false));
-                          }), */
-                        );
-                  } else {
-                    return const Center(child: CupertinoActivityIndicator());
-                  }
-                }),
-                AppIconButton(
-                    child: Icon(Icons.filter_alt_rounded,
-                        color: theme.colorScheme.onPrimary),
-                    onPressed: () => navigationService.goTo(
-                          AppRoutes.filtersSale,
-                        )),
-              ],
-            ),
-          ),
-          gapH4,
-          BlocBuilder<SaleBloc, SaleState>(
-            builder: (context, state) {
-              if (state.status == SaleStatus.loading) {
-                return const Center(child: CupertinoActivityIndicator());
-              } else if (state.status == SaleStatus.success) {
-                return Expanded(
-                  child: Container(
-                         color: Colors.grey[200],
-                    child: ListView.builder(
-                      /*   padding: const EdgeInsets.all(Const.padding), */
-                        itemCount: state.clientsFounded != null
-                            ? state.clientsFounded!.length
-                            : 0,
-                        itemBuilder: (context, index) {
-                          return CardClient(
-                             client: state.clientsFounded![index],
-                             activeSale:false
-                          );
-                    
-                       /*    return CardClientRouter(
-                            client: state.clientsFounded![index],
-                          ); */
-                        }),
-                  ),
-                );
-              } else {
-                return Center(child: AppText("No se encontraron clientes."));
-              }
-            },
-          ),
+          ...state.sections != null
+              ? state.sections!.map((e) => AppSection(
+                  title: e.name!,
+                  widgetItems: e.widgets ?? [],
+                  tabController: null))
+              : [],
         ],
       ),
     );

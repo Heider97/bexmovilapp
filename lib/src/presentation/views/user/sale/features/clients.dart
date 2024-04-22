@@ -33,10 +33,10 @@ class _SaleClientsState extends State<SaleClients>
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.success && widget.clients != null) {
-        return Expanded(
+        return SingleChildScrollView(
             child: Column(children: [
           TabBar(controller: _tabcontroller, tabs: const [
             SizedBox(
@@ -52,8 +52,8 @@ class _SaleClientsState extends State<SaleClients>
               ),
             )
           ]),
-          Expanded(
-              child: Container(
+          Container(
+            height: size.height - 200,
             color: Colors.grey[200],
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -74,7 +74,7 @@ class _SaleClientsState extends State<SaleClients>
                   child: AppText('No hay clientes',
                       fontSize: 15, fontWeight: FontWeight.w300))
             ]),
-          ))
+          )
         ]));
       } else {
         return const Center(child: Text('Cargando'));

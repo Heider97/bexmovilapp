@@ -366,12 +366,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.listenForTableChanges(table);
   }
 
-/*   @override
-  Future<List<Client>> getClientsByAgeRange(String range, String seller) {
-    // TODO: implement getClientsByAgeRange
-    throw UnimplementedError();
+  @override
+  Future<void> emptyAllTables() {
+    return _appDatabase.emptyAllTables();
   }
- */
   @override
   void close() {
     _appDatabase.close();
@@ -381,4 +379,9 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<List<LatLng>> getPolyline(String codeRouter) {
     return _appDatabase.routerDao.getRouterPolylines(codeRouter);
   }
+  
+/*   Future<List<Client>> getClientsByAgeRange(String range, String seller) {
+    // TODO: implement getClientsByAgeRange
+    throw UnimplementedError();
+  } */
 }

@@ -159,7 +159,7 @@ class _CardRouterState extends State<CardRouter> {
                             ),
                           ),
                           gapW12, */
-                          AppText('Ventas totales: 0}',
+                          AppText('Ventas totales: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
