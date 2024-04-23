@@ -34,6 +34,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
   }
+
   _selectRouter(SelectRouter event, Emitter emit) {
     emit(state.copyWith(selectedRouter: event.router));
   }
@@ -124,5 +125,4 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   //   emit(
   //       SaleOrderConfirm(state.routers, state.clients,listOfProducst: event.products, client: event.client));
   // }
-}
 }

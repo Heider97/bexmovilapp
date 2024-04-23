@@ -20,7 +20,7 @@ class HomeFeatures extends StatelessWidget {
         builder: (context, state) {
           return SizedBox(
               height: 100,
-              width: 500,
+              width: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: features != null ? features!.length : 0,

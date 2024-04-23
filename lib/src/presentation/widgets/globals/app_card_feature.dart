@@ -31,7 +31,7 @@ class AppCardFeature extends StatelessWidget {
           ? const Color(0XFF53E88B)
           : theme.colorScheme.primary,
       onTap: () => _launchUrl(url),
-      width: 330,
+      width: 200,
       height: height,
       child: Stack(
         fit: StackFit.expand,
@@ -56,8 +56,10 @@ class AppCardFeature extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AppText(text,
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                  Flexible(
+                    child: AppText(text,
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                   AppIconButton(
                       child: const Icon(FontAwesomeIcons.arrowUpRightFromSquare,
                           size: 15, color: Colors.white),

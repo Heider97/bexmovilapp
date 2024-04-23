@@ -98,7 +98,7 @@ class _CardRouterState extends State<CardRouter> {
                           ),
                           gapW12,
                           AppText(
-                              'Clientes totales: ${widget.router.quantityClient ?? 0}',
+                              'Clientes: ${widget.router.clients ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -141,7 +141,7 @@ class _CardRouterState extends State<CardRouter> {
                             ),
                           ),
                           gapW12,
-                          AppText('Prospectos: 0',
+                          AppText('Prospectos: ${widget.router.prospects ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,

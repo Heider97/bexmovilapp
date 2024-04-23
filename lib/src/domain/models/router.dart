@@ -12,7 +12,8 @@ class Router {
       this.city,
       this.groupDiscount,
       this.active,
-      this.quantityClient,
+      this.clients,
+      this.prospects,
       this.nameDayRouter});
 
   Router.fromJson(Map<String, dynamic> json) {
@@ -26,7 +27,8 @@ class Router {
     city = json['ciudad'];
     groupDiscount = json['codgrupodcto'];
     active = json['inactivo'];
-    quantityClient = json['CANTIDADCLIENTES'];
+    clients = json['clients'];
+    prospects = json['prospects'];
     nameDayRouter = json['NOMDIARUTERO'];
   }
 
@@ -42,7 +44,8 @@ class Router {
     data['ciudad'] = city;
     data['codgrupodcto'] = groupDiscount;
     data['inactivo'] = active;
-    data['cantidadclientes'] = quantityClient;
+    data['clients'] = clients;
+    data['prospects'] = prospects;
     data['nomdiarutero'] = nameDayRouter;
     return data;
   }
@@ -57,6 +60,7 @@ class Router {
   String? city;
   String? groupDiscount;
   String? active;
-  int? quantityClient;
+  int? clients;
+  int? prospects;
   String? nameDayRouter;
 }
