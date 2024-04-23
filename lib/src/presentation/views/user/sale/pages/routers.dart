@@ -35,9 +35,24 @@ class _RoutersPageState extends State<RoutersPage> {
   @override
   void initState() {
     super.initState();
+    print('*********************');
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadRouters());
     saleStepperBloc = BlocProvider.of(context);
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('**********updated*******');
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(LoadRouters());
+    saleStepperBloc = BlocProvider.of(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
