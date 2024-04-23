@@ -27,7 +27,6 @@ class CardClient extends StatefulWidget {
 }
 
 class _CardClientState extends State<CardClient> {
-
   final formatCurrency = NumberFormat.simpleCurrency();
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,10 @@ class _CardClientState extends State<CardClient> {
                                       gapW12,
                                       Opacity(
                                         opacity: 0.8,
-                                        child: AppText(widget.client.typeClient == 'client' ? 'Cliente' : 'Prospecto',
+                                        child: AppText(
+                                            widget.client.typeClient == 'client'
+                                                ? 'Cliente'
+                                                : 'Prospecto',
                                             fontWeight: FontWeight.w500,
                                             color: theme.primaryColor,
                                             fontSize: 12,
@@ -82,38 +84,41 @@ class _CardClientState extends State<CardClient> {
                                   ),
                                 ),
                               ),
-                              widget.client.typeClient == 'client' ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    AppText(
-                                        '${widget.client.salesEffectiveness ?? '0'} %',
-                                        fontWeight: FontWeight.w500,
-                                        color: (widget.client
-                                                        .salesEffectiveness !=
-                                                    null &&
-                                                double.parse(widget.client
-                                                        .salesEffectiveness!) >=
-                                                    70)
-                                            ? Colors.green[300]
-                                            : (widget.client.salesEffectiveness !=
-                                                        null &&
-                                                    double.parse(widget.client
-                                                                .salesEffectiveness!)
-                                                            .toDouble() >=
-                                                        50)
-                                                ? Colors.yellow[400]
-                                                : Colors.red[300],
-                                        fontSize: 14,
-                                        overflow: TextOverflow.ellipsis),
-                                    AppText('Servicio',
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
-                                        fontSize: 12,
-                                        overflow: TextOverflow.ellipsis)
-                                  ],
-                                ),
-                              ) : const SizedBox()
+                              widget.client.typeClient == 'client'
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          AppText(
+                                              '${widget.client.salesEffectiveness ?? '0'} %',
+                                              fontWeight: FontWeight.w500,
+                                              color: (widget.client
+                                                              .salesEffectiveness !=
+                                                          null &&
+                                                      double.parse(widget.client
+                                                              .salesEffectiveness!) >=
+                                                          70)
+                                                  ? Colors.green[300]
+                                                  : (widget.client.salesEffectiveness !=
+                                                              null &&
+                                                          double.parse(widget
+                                                                      .client
+                                                                      .salesEffectiveness!)
+                                                                  .toDouble() >=
+                                                              50)
+                                                      ? Colors.yellow[400]
+                                                      : Colors.red[300],
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          AppText('Servicio',
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey[800],
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis)
+                                        ],
+                                      ),
+                                    )
+                                  : const SizedBox()
                             ],
                           ),
                           gapH8,
@@ -157,58 +162,65 @@ class _CardClientState extends State<CardClient> {
                             ],
                           ),
                           gapH4,
-                          widget.client.typeClient == 'client' ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  AppText('Cartera: ',
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.ellipsis),
-                                  AppText(
-                                      widget.client.wallet != null
-                                          ? ''.formattedCompact(
-                                              widget.client.wallet.toString())
-                                          : '0',
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey[800],
-                                      fontSize: 12,
-                                      overflow: TextOverflow.ellipsis)
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  AppText('Ventas: ',
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.ellipsis),
-                                  AppText('1M / Último mes',
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey[800],
-                                      fontSize: 12,
-                                      overflow: TextOverflow.ellipsis)
-                                ],
-                              ),
-                            ],
-                          ) : const SizedBox(),
+                          widget.client.typeClient == 'client'
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        AppText('Cartera: ',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            overflow: TextOverflow.ellipsis),
+                                        AppText(
+                                            widget.client.wallet != null
+                                                ? ''.formattedCompact(widget
+                                                    .client.wallet
+                                                    .toString())
+                                                : '0',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.grey[800],
+                                            fontSize: 12,
+                                            overflow: TextOverflow.ellipsis)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        AppText('Ventas: ',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            overflow: TextOverflow.ellipsis),
+                                        AppText('1M / Último mes',
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.grey[800],
+                                            fontSize: 12,
+                                            overflow: TextOverflow.ellipsis)
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : const SizedBox(),
                           gapH4,
-                          widget.client.typeClient == 'client' ? Row(
-                            children: [
-                              AppText('Cupo disponible: ',
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  overflow: TextOverflow.ellipsis),
-                              AppText('${formatCurrency.format(widget.client.quota)}',
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey[800],
-                                  fontSize: 12,
-                                  overflow: TextOverflow.ellipsis)
-                            ],
-                          ) : const SizedBox(),
+                          widget.client.typeClient == 'client'
+                              ? Row(
+                                  children: [
+                                    AppText('Cupo disponible: ',
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis),
+                                    AppText(
+                                        formatCurrency.format(widget.client.quota),
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey[800],
+                                        fontSize: 12,
+                                        overflow: TextOverflow.ellipsis)
+                                  ],
+                                )
+                              : const SizedBox(),
                           gapH4,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -322,7 +334,10 @@ class _CardClientState extends State<CardClient> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      AppText(widget.client.typeClient == 'client' ? 'Realizar Venta' : 'Realizar Cotización',
+                                      AppText(
+                                          widget.client.typeClient == 'client'
+                                              ? 'Realizar Venta'
+                                              : 'Realizar Cotización',
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           fontSize: 14,

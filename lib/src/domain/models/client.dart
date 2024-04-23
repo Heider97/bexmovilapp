@@ -34,13 +34,14 @@ class Client {
   int? total;
   int? wallet;
   String? rutero;
+  int? service;
 
   Client(
       {this.id,
       this.nit,
       this.name,
       this.address,
-        this.typeClient,
+      this.typeClient,
       this.businessName,
       this.email,
       this.cellphone,
@@ -63,6 +64,7 @@ class Client {
       this.latitude,
       this.longitude,
       this.rutero,
+      this.service,
       this.distance,
       this.duration,
       this.color,
@@ -95,7 +97,8 @@ class Client {
         wallet: json['wallet'],
         latitude: json['latitud'],
         longitude: json['longitud'],
-        rutero: json['rutero']);
+        rutero: json['rutero'],
+        service: json['service']);
   }
 
   Map<String, dynamic> toJson() {
@@ -112,7 +115,8 @@ class Client {
       'CODFPAGOVTA': wayToPay,
       'CUPO': quota,
       'estadocliente': estadoCliente,
-      'rutero': "rutero"
+      'rutero': "rutero",
+      'service': service
     };
   }
 }
