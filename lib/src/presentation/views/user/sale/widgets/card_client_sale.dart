@@ -64,7 +64,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Dirección: ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
               Text.rich(
                 TextSpan(
                   children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Sucursal: ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -104,7 +104,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
                     child: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Cartera: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -127,7 +127,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
                     child: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Cupo disponible: ',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -136,8 +136,8 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             ),
                           ),
                           TextSpan(
-                            //  text: widget.client.quota!.toString().formattedCompact(str),
-                            style: const TextStyle(fontSize: Const.space12),
+                             text: ''.formattedCompact(widget.client.quota!.toString()),
+                            style: TextStyle(fontSize: Const.space12),
                           ),
                         ],
                       ),
@@ -161,7 +161,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
                             ),
                           ),
                           TextSpan(
-                            text: '5M / Último mes',
+                            text: '1M / Último mes',
                             style: TextStyle(fontSize: Const.space12),
                           ),
                         ],

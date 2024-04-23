@@ -57,27 +57,6 @@ class _ClientsPageState extends State<ClientsPage> {
     saleStepperBloc = BlocProvider.of(context);
   }
 
-/*   List<StepData> steps = [
-    StepData(
-        "Seleccionar \nCliente",
-        'assets/icons/ProfileEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/ProfileDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
-    StepData(
-        "Seleccionar \n Productos",
-        'assets/icons/seleccionarFacturaEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/seleccionarFacturaDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
-    StepData(
-        'Detalles de \n la orden',
-        'assets/icons/actionEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/actionDisable.png',
-        () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
-  ];
- */
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -88,44 +67,6 @@ class _ClientsPageState extends State<ClientsPage> {
         return _buildBody(state, context);
       }
     });
-    // return SafeArea(
-    //   child: Column(
-    //     children: [
-    //       //  StepperWidget(currentStep: 0, steps: steps),
-
-    //       BlocBuilder<SaleBloc, SaleState>(
-    //         builder: (context, state) {
-    //           if (state.status == SaleStatus.loading) {
-    //             return const Center(child: CupertinoActivityIndicator());
-    //           } else if (state.status == SaleStatus.success) {
-    //             return Expanded(
-    //               child: Container(
-    //                      color: Colors.grey[200],
-    //                 child: ListView.builder(
-    //                   /*   padding: const EdgeInsets.all(Const.padding), */
-    //                     itemCount: state.clientsFounded != null
-    //                         ? state.clientsFounded!.length
-    //                         : 0,
-    //                     itemBuilder: (context, index) {
-    //                       return CardClient(
-    //                          client: state.clientsFounded![index],
-    //                          activeSale:false
-    //                       );
-    //
-    //                    /*    return CardClientRouter(
-    //                         client: state.clientsFounded![index],
-    //                       ); */
-    //                     }),
-    //               ),
-    //             );
-    //           } else {
-    //             return Center(child: AppText("No se encontraron clientes."));
-    //           }
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 
   Widget _buildBody(state, context) {

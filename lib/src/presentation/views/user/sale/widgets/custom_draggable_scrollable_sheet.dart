@@ -152,14 +152,14 @@ class _CustomDraggableScrollableSheetState
                                               child: _buildItem(
                                                   Icons.group,
                                                   theme.primaryColor,
-                                                  ' ${state.selectedRouter!.quantityClient ?? 0}',
+                                                  ' ${state.selectedRouter!.clients ?? 0}',
                                                   'clientes'),
                                             ),
                                             Expanded(
                                               child: _buildItem(
                                                   Icons.person,
                                                   Colors.blue,
-                                                  ' 0',
+                                                  ' ${state.selectedRouter!.prospects ?? 0}',
                                                   'prospectos'),
                                             ),
                                             Expanded(

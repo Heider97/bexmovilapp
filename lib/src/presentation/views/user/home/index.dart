@@ -99,9 +99,7 @@ class HomeViewState extends State<HomeView>
                 children: [
                   AppIconButton(
                       onPressed: () => Scaffold.of(context).openDrawer(),
-                      child: state.user != null && state.user!.name != null
-                          ? AppText(state.user!.name![0], color: Colors.white)
-                          : AppText('B')),
+                      child: const Icon(Icons.list_outlined, color: Colors.white)),
                   AppIconButton(
                       onPressed: () => homeCubit.sync(),
                       child: const Icon(Icons.sync, color: Colors.white)),
