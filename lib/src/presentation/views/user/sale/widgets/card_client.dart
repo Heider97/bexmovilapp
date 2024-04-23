@@ -9,6 +9,7 @@ import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,6 +27,8 @@ class CardClient extends StatefulWidget {
 }
 
 class _CardClientState extends State<CardClient> {
+
+  final formatCurrency = NumberFormat.simpleCurrency();
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -61,7 +64,7 @@ class _CardClientState extends State<CardClient> {
                                       gapW12,
                                       Opacity(
                                         opacity: 0.8,
-                                        child: AppText('Cliente',
+                                        child: AppText(widget.client.typeClient == 'client' ? 'Cliente' : 'Prospecto',
                                             fontWeight: FontWeight.w500,
                                             color: theme.primaryColor,
                                             fontSize: 12,
@@ -79,7 +82,7 @@ class _CardClientState extends State<CardClient> {
                                   ),
                                 ),
                               ),
-                              Padding(
+                              widget.client.typeClient == 'client' ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
                                   children: [
@@ -110,7 +113,7 @@ class _CardClientState extends State<CardClient> {
                                         overflow: TextOverflow.ellipsis)
                                   ],
                                 ),
-                              )
+                              ) : const SizedBox()
                             ],
                           ),
                           gapH8,
@@ -122,15 +125,6 @@ class _CardClientState extends State<CardClient> {
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     children: [
-                                      /*  Opacity(
-                                        opacity: 0.5,
-                                        child: Icon(
-                                          FontAwesomeIcons.peopleGroup,
-                                          color: theme.primaryColor,
-                                          size: 15,
-                                        ),
-                                      ),
-                                      gapW12, */
                                       AppText('Dirección: ',
                                           fontWeight: FontWeight.normal,
                                           color: Colors.black,
@@ -153,7 +147,7 @@ class _CardClientState extends State<CardClient> {
                                       color: Colors.black,
                                       fontSize: 16,
                                       overflow: TextOverflow.ellipsis),
-                                  AppText('00',
+                                  AppText('${widget.client.branch}',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.grey[800],
                                       fontSize: 12,
@@ -163,20 +157,11 @@ class _CardClientState extends State<CardClient> {
                             ],
                           ),
                           gapH4,
-                          Row(
+                          widget.client.typeClient == 'client' ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
-                                  /*  Opacity(
-                                    opacity: 0.5,
-                                    child: Icon(
-                                      FontAwesomeIcons.coins,
-                                      color: theme.primaryColor,
-                                      size: 15,
-                                    ),
-                                  ),
-                                  gapW12, */
                                   AppText('Cartera: ',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.black,
@@ -200,7 +185,7 @@ class _CardClientState extends State<CardClient> {
                                       color: Colors.black,
                                       fontSize: 16,
                                       overflow: TextOverflow.ellipsis),
-                                  AppText('5M / Último mes',
+                                  AppText('1M / Último mes',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.grey[800],
                                       fontSize: 12,
@@ -208,22 +193,22 @@ class _CardClientState extends State<CardClient> {
                                 ],
                               ),
                             ],
-                          ),
+                          ) : const SizedBox(),
                           gapH4,
-                          Row(
+                          widget.client.typeClient == 'client' ? Row(
                             children: [
                               AppText('Cupo disponible: ',
                                   fontWeight: FontWeight.normal,
                                   color: Colors.black,
                                   fontSize: 16,
                                   overflow: TextOverflow.ellipsis),
-                              AppText('${widget.client.price}',
+                              AppText('${formatCurrency.format(widget.client.quota)}',
                                   fontWeight: FontWeight.normal,
                                   color: Colors.grey[800],
                                   fontSize: 12,
                                   overflow: TextOverflow.ellipsis)
                             ],
-                          ),
+                          ) : const SizedBox(),
                           gapH4,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -253,12 +238,9 @@ class _CardClientState extends State<CardClient> {
                                     },
                                     child: Material(
                                       elevation: 2,
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 200,
                                         height: 50,
-                                        /*   decoration: BoxDecoration(
-                                          color: Colors.blue[200],
-                                        ), */
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -293,12 +275,9 @@ class _CardClientState extends State<CardClient> {
                                     },
                                     child: Material(
                                       elevation: 2,
-                                      child: Container(
+                                      child: SizedBox(
                                         width: 200,
                                         height: 50,
-                                        /*   decoration: BoxDecoration(
-                                          color: Colors.blue[200],
-                                        ), */
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -343,7 +322,7 @@ class _CardClientState extends State<CardClient> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      AppText('Realizar Venta',
+                                      AppText(widget.client.typeClient == 'client' ? 'Realizar Venta' : 'Realizar Cotización',
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                           fontSize: 14,
