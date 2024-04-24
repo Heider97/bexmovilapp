@@ -121,7 +121,7 @@ class _MapPageState extends State<MapPage> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
-              gpsBloc.add(OnStartFollowingUser());
+             /*  gpsBloc.add(OnStartFollowingUser()); */
               navigationCubit.goBack();
             }),
         title: BlocSelector<NavigationCubit, NavigationState, bool>(

@@ -1,6 +1,6 @@
 part of 'sale_bloc.dart';
 
-enum SaleStatus { initial, loading, success, failed }
+enum SaleStatus { initial, loading, success, failed, showClients, showRouters }
 
 class SaleState {
   final SaleStatus status;
@@ -24,8 +24,7 @@ class SaleState {
       this.filters,
       this.gridView,
       this.error,
-      this.selectedRouter
-      });
+      this.selectedRouter});
 
   SaleState copyWith(
           {SaleStatus? status,
@@ -36,9 +35,7 @@ class SaleState {
           List<Filter>? filters,
           bool? gridView,
           String? error,
-          Router? selectedRouter
-          
-          }) =>
+          Router? selectedRouter}) =>
       SaleState(
           status: status ?? this.status,
           sections: sections ?? this.sections,
@@ -48,8 +45,7 @@ class SaleState {
           filters: filters ?? this.filters,
           gridView: gridView ?? this.gridView,
           error: error ?? this.error,
-          selectedRouter:selectedRouter??this.selectedRouter
-          );
+          selectedRouter: selectedRouter ?? this.selectedRouter);
 
   @override
   // TODO: implement props

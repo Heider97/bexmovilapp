@@ -9,8 +9,9 @@ class OnMapInitializedEvent extends MapsBlocEvent {
   final BuildContext context;
   final List<Client> clients;
   final String codeRouter;
-  const OnMapInitializedEvent(
-      this.controller, this.clients, this.context, this.codeRouter);
+  final LocationBloc locationBloc;
+  const OnMapInitializedEvent(this.controller, this.clients, this.context,
+      this.codeRouter, this.locationBloc);
 }
 
 class StopMapControllerEvent extends MapsBlocEvent {}
@@ -41,8 +42,3 @@ class CenterToUserLocation extends MapsBlocEvent {
 class MoveToClientLocation extends MapsBlocEvent {
   MoveToClientLocation();
 }
-
-
-
-
-

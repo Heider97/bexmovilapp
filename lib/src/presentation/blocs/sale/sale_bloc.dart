@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
@@ -47,7 +48,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('sales', [seller]);
 
-    emit(state.copyWith(status: SaleStatus.success, sections: sections));
+    emit(state.copyWith(status: SaleStatus.showRouters, sections: sections));
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
@@ -55,7 +56,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.loading));
 
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales-clients', [event.codeRouter, seller]);
+    var sections = await queryLoaderService
+        .getResults('sales-clients', [event.codeRouter, seller]);
 
     clients = sections!.first.widgets!.first.components!.first.results;
 
@@ -67,21 +69,14 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
             await databaseRepository.getAllOptionsByFilter(filter.id!);
       });
 
-      emit(state.copyWith(status: SaleStatus.success, clients: clients, sections: sections));
-
+      emit(state.copyWith(
+          status: SaleStatus.showClients,
+          clients: clients,
+          sections: sections));
     } else {
-      emit(state.copyWith(status: SaleStatus.success, clients: clients));
+      emit(state.copyWith(status: SaleStatus.showClients, clients: clients));
     }
   }
-
-/*   _searchClient(SearchClientSale event, Emitter emit) {
-    emit(state.copyWith(status: SaleStatus.loading));
-    List<Client>? clientsFounded = [];
-    clientsFounded = buscarClientes(event.valueToSearch);
-    print('value');
-    emit(state.copyWith(
-        clientsFounded: clientsFounded, status: SaleStatus.success));
-  } */
 
   buscarClientes(String valor) {
     if (valor == '') {

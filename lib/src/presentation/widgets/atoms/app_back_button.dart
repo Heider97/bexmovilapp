@@ -43,7 +43,7 @@ class AppBackButton extends StatelessWidget {
         if (onPressed != null) {
           onPressed!();
         } else {
-          Navigator.maybePop(context);
+          Navigator.pop(context);
         }
       },
     );

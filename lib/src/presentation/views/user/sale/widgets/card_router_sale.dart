@@ -40,7 +40,7 @@ class _CardRouterState extends State<CardRouter> {
       child: InkWell(
         onTap: () {
           saleBloc.add(SelectRouter(router: widget.router));
-          _navigationService.goTo(AppRoutes.clientsSale,
+          Navigator.pushNamed(context, AppRoutes.clientsSale,
               arguments: widget.router.dayRouter);
         },
         child: Material(
@@ -97,8 +97,7 @@ class _CardRouterState extends State<CardRouter> {
                             ),
                           ),
                           gapW12,
-                          AppText(
-                              'Clientes: ${widget.router.clients ?? 0}',
+                          AppText('Clientes: ${widget.router.clients ?? 0}',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //blocs
@@ -53,29 +54,30 @@ class _SaleProductsState extends State<SaleProducts>
               ),
             )
           ]),
-          Expanded(
-              child: Container(
-            color: Colors.grey[200],
-            child: TabBarView(controller: _tabcontroller, children: [
-              BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.success &&
-                    state.clients != null &&
-                    state.clients!.isNotEmpty == true) {
-                  return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: state.clients?.length,
-                      itemBuilder: (context, index) {
-                        return CardClient(client: state.clients![index]);
-                      });
-                } else {
-                  return const Text('No hay clientes disponibles');
-                }
-              }),
-              Center(
-                  child: AppText('No hay clientes',
-                      fontSize: 15, fontWeight: FontWeight.w300))
-            ]),
-          ))
+          Container(
+                      color: Colors.grey[200],
+                      height: Screens.height(context)*0.5,
+                      child: TabBarView(controller: _tabcontroller, children: [
+          BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+            if (state.status == SaleStatus.success &&
+                state.clients != null &&
+                state.clients!.isNotEmpty == true) {
+              return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: state.clients?.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return CardClient(client: state.clients![index]);
+                  });
+            } else {
+              return const Text('No hay clientes disponibles');
+            }
+          }),
+          Center(
+              child: AppText('No hay clientes',
+                  fontSize: 15, fontWeight: FontWeight.w300))
+                      ]),
+                    )
         ]));
       } else {
         return const Center(child: Text('Cargando'));

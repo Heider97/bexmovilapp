@@ -4,7 +4,9 @@ import 'package:bexmovil/src/config/theme/uber_map_theme.dart';
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_car_list_on_map.dart';
+import 'package:bexmovil/src/presentation/blocs/gps/gps_bloc.dart';
+import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
+
 import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:bexmovil/src/utils/widget_to_marker.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -25,6 +27,8 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   Map<String, Marker> currentMarkers = {};
   Map<String, Polyline> currentPolyline = {};
+
+  late LocationBloc locationBloc;
 
   MapsBloc() : super(const MapsBlocState()) {
     on<MapsBlocEvent>((event, emit) {});
@@ -51,26 +55,41 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   void _onInitMap(
       OnMapInitializedEvent event, Emitter<MapsBlocState> emit) async {
+    locationBloc = event.locationBloc;
     _mapController = event.controller;
     _mapController!.setMapStyle(jsonEncode(uberMapTheme));
     ThemeData theme = Theme.of(event.context);
-    final Position myCurrentPosition = await Geolocator.getCurrentPosition();
+    currentMarkers = {};
+    currentPolyline = {};
+    emit(state.copyWith(
+        gettingMarkers: true,
+        gettingPolylines: true,
+        markers: currentMarkers,
+        polylines: currentPolyline));
 
+    //final LatLng? myCurrentPosition = gpsBloc.lastRecordedLocation;
+/*
     LatLng currentPosition =
-        LatLng(myCurrentPosition.latitude, myCurrentPosition.longitude);
-
+        LatLng(myCurrentPosition.latitude, myCurrentPosition.longitude); */
+    LatLng position = LatLng(
+        locationBloc.state.lastKnownLocation?.latitude ?? 0,
+        locationBloc.state.lastKnownLocation?.longitude ?? 0);
     //UBICAR EL MAPA EN LA POCICION DEL USUARIO
-    moverCamera(currentPosition);
+    moverCamera(position);
 
     //DIBUJO LAS POLYLINES
     await drawPolylines(
-        theme: theme, codeRouter: event.codeRouter, clients: event.clients);
+        theme: theme,
+        codeRouter: event.codeRouter,
+        clients: event.clients,
+        emitter: emit);
 
     //DIBUJO LOS MARCADORES
     await drawMarkers(
         context: event.context,
-        currentPosition: currentPosition,
-        clients: event.clients);
+        currentPosition: position,
+        clients: event.clients,
+        emitter: emit);
 
     emit(state.copyWith(
         isMapInitialized: true,
@@ -112,10 +131,8 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
   void _centerToUserLocation(
       CenterToUserLocation event, Emitter<MapsBlocState> emit) async {
-    final Position position = await Geolocator.getCurrentPosition();
-
-    double latitude = position.latitude;
-    double longitude = position.longitude;
+    double latitude = locationBloc.state.lastKnownLocation?.latitude ?? 0;
+    double longitude = locationBloc.state.lastKnownLocation?.longitude ?? 0;
 
     await (moverCamera(LatLng(latitude, longitude)));
   }
@@ -123,7 +140,8 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
   drawPolylines(
       {required ThemeData theme,
       required String codeRouter,
-      required List<Client> clients}) async {
+      required List<Client> clients,
+      required Emitter emitter}) async {
 //TODO: primero debo revisar que el codeRouter no este en la tabla de las polylines,
 //TODO: Ahora tengo revisar que tenga conexion a internet para hacer la peticion normal o por cola de procesamiento
 //TODO: SI Tengo internet HACER LA PETICION Y ALMACENAR LOS DATOS EN LA BASE DE DATOS de polylines.
@@ -167,12 +185,14 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
             return LatLng(lngLat.lat, lngLat.lng);
           }).toList());
     }
+    emitter(state.copyWith(gettingPolylines: false));
   }
 
   drawMarkers(
       {required BuildContext context,
       required LatLng currentPosition,
-      required List<Client> clients}) async {
+      required List<Client> clients,
+      required Emitter emitter}) async {
     currentMarkers = {};
 
     late BitmapDescriptor clientMarker;
@@ -182,7 +202,8 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
 
     final myPositionMarker = Marker(
       markerId: const MarkerId('MyLocationMarker'),
-      position: currentPosition,
+      position: LatLng(locationBloc.state.lastKnownLocation!.latitude,
+          locationBloc.state.lastKnownLocation!.longitude),
       icon: clientMarker,
       anchor: const Offset(0.1, 1),
     );
@@ -191,7 +212,9 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       Client client = clients[i];
 
       BitmapDescriptor clientMarker = await getfinalCustomMarkerOrigin(
-          index: (i + 1).toString(), context: context);
+          index: (i + 1).toString(),
+          context: context,
+          type: clients[i].typeClient == 'client' ? false : true);
       final clienMarker = Marker(
         onTap: () {
           showClientDialog(context: context, client: client);
@@ -206,5 +229,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       currentMarkers[client.name.toString()] = clienMarker;
     }
     currentMarkers['MyLocationMarker'] = myPositionMarker;
+
+    emitter(state.copyWith(gettingMarkers: false));
   }
 }

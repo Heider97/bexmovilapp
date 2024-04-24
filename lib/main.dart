@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/config/theme/index.dart';
+import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,21 +102,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+   
     return MultiBlocProvider(
       providers: [
-        //BLOC PROVIDERS
-        BlocProvider(
-          create: (_) => NetworkBloc()..add(NetworkObserve()),
-        ),
-        BlocProvider(
-          create: (_) => MapsBloc(),
-        ),
-
         BlocProvider(
             create: (_) => GpsBloc(
                 navigationService: locator<NavigationService>(),
                 storageService: locator<LocalStorageService>(),
                 databaseRepository: locator<DatabaseRepository>())),
+        //BLOC PROVIDERS
+        BlocProvider(
+          create: (_) => NetworkBloc()..add(NetworkObserve()),
+        ),
+        BlocProvider(
+          create: (_) => LocationBloc(),
+        ),
+
+        BlocProvider(
+          create: (_) => MapsBloc(),
+        ),
+
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
