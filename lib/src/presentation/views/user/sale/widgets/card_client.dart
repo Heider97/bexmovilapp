@@ -6,7 +6,6 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';

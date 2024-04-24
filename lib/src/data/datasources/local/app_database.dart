@@ -154,6 +154,20 @@ class AppDatabase {
     List<Map<String, dynamic>> tables = await db!.rawQuery('''
       SELECT name FROM sqlite_master 
       WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      AND name NOT IN (
+        android_metadata,
+        app_functionalities,
+        app_route_transaction,
+        configs
+        error_logs,
+        features,
+        filters,
+        locations,
+        options,
+        polylines,
+        processing_queues
+        sqlite_sequence
+      )
     ''');
 
     // Iterate over each table and delete all records
