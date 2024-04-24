@@ -19,15 +19,12 @@ class WalletDashboard extends StatefulWidget {
 
 class _WalletDashboardState extends State<WalletDashboard>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
