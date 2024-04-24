@@ -26,6 +26,7 @@ class AppCardFeature extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return AppCard.filled(
       color: (color == Colors.green)
           ? const Color(0XFF53E88B)

@@ -167,13 +167,7 @@ class _CardRouterState extends State<CardRouter> {
                       ),
                     ],
                   ),
-                  gapH4,
-                  /* cardButtons(
-                      FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
-                  cardButtons(FontAwesomeIcons.usersBetweenLines,
-                      "${visited ?? '0'}", context),
-                  cardButtons(FontAwesomeIcons.chartSimple,
-                      "${effectiveness ?? '0'}%", context), */
+                  gapH4
                 ],
               ),
             ),
