@@ -63,9 +63,7 @@ class _CardClientState extends State<CardClient> {
                                       Opacity(
                                         opacity: 0.8,
                                         child: AppText(
-                                            widget.client.typeClient == 'client'
-                                                ? 'Cliente'
-                                                : 'Prospecto',
+                                            '${widget.client.order ?? '0'} ${widget.client.typeClient == 'client' ? 'Cliente' : 'Prospecto'}',
                                             fontWeight: FontWeight.w500,
                                             color: widget.client.typeClient ==
                                                     'client'

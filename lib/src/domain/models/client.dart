@@ -35,6 +35,7 @@ class Client {
   int? wallet;
   String? rutero;
   int? service;
+  int? order;
 
   Client(
       {this.id,
@@ -65,6 +66,7 @@ class Client {
       this.longitude,
       this.rutero,
       this.service,
+      this.order,
       this.distance,
       this.duration,
       this.color,
@@ -98,6 +100,7 @@ class Client {
         latitude: json['latitud'],
         longitude: json['longitud'],
         rutero: json['rutero'],
+        order: json['order'],
         service: json['service']);
   }
 
@@ -115,8 +118,9 @@ class Client {
       'CODFPAGOVTA': wayToPay,
       'CUPO': quota,
       'estadocliente': estadoCliente,
-      'rutero': "rutero",
-      'service': service
+      'rutero': rutero,
+      'service': service,
+      'order': order
     };
   }
 }

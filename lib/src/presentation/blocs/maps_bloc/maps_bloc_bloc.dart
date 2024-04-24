@@ -159,10 +159,6 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
         double lng = double.parse(client.longitude!);
         return LngLat(lat: lat, lng: lng);
       }).toList();
-      /*  List<LngLat> waypoints = [
-        LngLat(lat: 6.2688216, lng: -75.5603171),
-        LngLat(lat: 6.2640998, lng: -75.5582004)
-      ]; */
 
       final manager = OSRMManager()
         ..generatePath("https://osrm.bexsoluciones.com", waypoints.toString());
@@ -174,13 +170,11 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
         language: Languages.en,
       );
 
-      print(road);
-
       currentPolyline['poly'] = Polyline(
           endCap: Cap.roundCap,
           width: 3,
           color: Colors.blue[400]!,
-          polylineId: PolylineId('1'),
+          polylineId: const PolylineId('1'),
           points: road.polyline!.map((lngLat) {
             return LatLng(lngLat.lat, lngLat.lng);
           }).toList());
