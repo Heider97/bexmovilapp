@@ -217,7 +217,7 @@ class _CustomDraggableScrollableSheetState
                           if (state.status == SaleStatus.loading) {
                             return const Center(
                                 child: CircularProgressIndicator());
-                          } else if (state.status == SaleStatus.success &&
+                          } else if (state.status == SaleStatus.showClients &&
                               state.clients!.isNotEmpty) {
                             return SizedBox(
                               height: Screens.height(context) * 0.8,
