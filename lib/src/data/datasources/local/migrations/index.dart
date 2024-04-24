@@ -94,4 +94,14 @@ Future<void> onCreate(db, version) async {
       codeRouter TEXT, polylines TEXT
       )
     ''');
+
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS app_route_transaction (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      codRouter TEXT,
+      codCliente TEXT,
+      codTransaction TEXT,
+      date TEXT
+    )
+  ''');
 }
