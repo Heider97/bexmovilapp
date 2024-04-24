@@ -35,6 +35,6 @@ class _SlidableKpiState extends State<SlidableKpi> {
               autoPlay: true,
               viewportFraction: 1,
             ),
-            items: widget.kpis.map((kpi) => CardKpi(kpi: kpi!)).toList()));
+            items: widget.kpis.map((kpi) => CardKpi(kpi: kpi!, needConverted: true)).toList()));
   }
 }

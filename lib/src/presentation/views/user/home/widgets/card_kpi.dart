@@ -87,6 +87,9 @@ class _CardKpiState extends State<CardKpi> {
                   ? widget.kpi.results.first['y'].toString()
                   : widget.kpi.results.first['y'];
             }
+
+            print('****************');
+            print(value);
             return ''.formattedCompact(value);
           }
         }
@@ -94,7 +97,7 @@ class _CardKpiState extends State<CardKpi> {
         return "N/A";
       }
     } else {
-      if (widget.kpi.results is List) {
+      if (widget.kpi.results is List && widget.kpi.results.isNotEmpty) {
         if (widget.kpi.results.first is Kpi) {
           return "N/A";
         } else {

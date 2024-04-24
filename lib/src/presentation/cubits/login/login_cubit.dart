@@ -101,7 +101,7 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
       }
 
       if (localHour == webHour) {
-        gpsBloc?.startFollowingUser;
+        // gpsBloc?.startFollowingUser;
         var location = await gpsBloc?.getCurrentLocation();
         var device = await _helperFunction.getDevice();
         var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
