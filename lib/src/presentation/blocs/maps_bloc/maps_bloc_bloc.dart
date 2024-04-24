@@ -194,6 +194,10 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       clientMarker = await getMyLocationMarker(context: context);
     }
 
+    if(locationBloc.state.lastKnownLocation == null) {
+      await locationBloc.getCurrentPosition();
+    }
+
     final myPositionMarker = Marker(
       markerId: const MarkerId('MyLocationMarker'),
       position: LatLng(locationBloc.state.lastKnownLocation!.latitude,
