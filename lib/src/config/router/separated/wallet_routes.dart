@@ -23,8 +23,9 @@ Map<String, RouteType> walletRoutes = {
       hideAppBar: true,
       hideBottomNavigationBar: true,
       child: const WalletDashboardView()),
-  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.squared(
+  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.normal(
       opacity: 0.1,
+      hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WalletClientsView(
         argument: settings.arguments as WalletArgument,

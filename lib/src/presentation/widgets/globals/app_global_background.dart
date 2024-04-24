@@ -95,7 +95,6 @@ class AppGlobalBackground extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: Const.padding, vertical: 5),
                           child: AppIconButton(
-                             
                               onPressed: () =>
                                   Scaffold.of(context).openDrawer(),
                               child: Icon(
