@@ -1,8 +1,7 @@
 
-
+// import 'dart:mirrors';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 
@@ -95,6 +94,7 @@ class AppGlobalBackground extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: Const.padding, vertical: 5),
                           child: AppIconButton(
+
                               onPressed: () =>
                                   Scaffold.of(context).openDrawer(),
                               child: Icon(
@@ -241,6 +241,13 @@ class AppGlobalBackground extends StatelessWidget {
   final double? opacity;
   final bool? hideBottomNavigationBar;
   final bool? hideAppBar;
+
+  // // Obtén el constructor del Bloc y del Estado dinámicamente
+  // ClassMirror blocMirror = reflectClass(Bloc1);
+  // ClassMirror stateMirror = reflectClass(State1WithValue);
+  //
+  // // Llama al constructor del Bloc y crea una instancia de él
+  // InstanceMirror blocInstance = blocMirror.newInstance(const Symbol(''), []);
 
   final Widget child;
   @override
