@@ -60,10 +60,17 @@ class AppCardFeature extends StatelessWidget {
                     child: AppText(text,
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  AppIconButton(
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+               
+                    child: Icon(FontAwesomeIcons.arrowUpRightFromSquare,size: 20,),
+                  )
+
+
+              /*     AppIconButton(
                       child: const Icon(FontAwesomeIcons.arrowUpRightFromSquare,
                           size: 15, color: Colors.white),
-                      onPressed: () => _launchUrl(url)),
+                      onPressed: () => _launchUrl(url)), */
                 ],
               ),
             ),

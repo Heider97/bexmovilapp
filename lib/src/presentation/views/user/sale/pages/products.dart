@@ -49,13 +49,13 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     super.initState();
 
-    saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadClients(widget.codeRouter));
+   // saleBloc = BlocProvider.of<SaleBloc>(context);
+ //   saleBloc.add(LoadClients(widget.codeRouter));
 
     saleStepperBloc = BlocProvider.of(context);
   }
 
-  List<StepData> steps = [
+  /* List<StepData> steps = [
     StepData(
         "Seleccionar \nCliente",
         'assets/icons/ProfileEnable.png',
@@ -74,7 +74,7 @@ class _ProductsPageState extends State<ProductsPage> {
         const Color(0xFFF4F4F4),
         'assets/icons/actionDisable.png',
             () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
-  ];
+  ]; */
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class RoutersPage extends StatefulWidget {
 }
 
 late SaleStepperBloc saleStepperBloc;
+late LocationBloc locationBloc;
 
 class _RoutersPageState extends State<RoutersPage> {
   final TextEditingController searchController = TextEditingController();
@@ -35,19 +37,11 @@ class _RoutersPageState extends State<RoutersPage> {
   @override
   void initState() {
     super.initState();
-    print('*********************');
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadRouters());
-    saleStepperBloc = BlocProvider.of(context);
-  }
+    locationBloc = BlocProvider.of<LocationBloc>(context);
 
-  @override
-  void didChangeDependencies() {
-    print('**********updated*******');
-    saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadRouters());
-    saleStepperBloc = BlocProvider.of(context);
-    super.didChangeDependencies();
+    locationBloc.startFollowingUser();
   }
 
   @override
@@ -61,24 +55,24 @@ class _RoutersPageState extends State<RoutersPage> {
       if (state.status == SaleStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else {
+      } else if (state.status == SaleStatus.showRouters) {
         return _buildBody(state, context);
+      } else {
+        return Container();
       }
     });
   }
 
   Widget _buildBody(state, context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          ...state.sections != null
-              ? state.sections!.map((e) => AppSection(
-                  title: e.name!,
-                  widgetItems: e.widgets ?? [],
-                  tabController: null))
-              : [],
-        ],
-      ),
+    return Column(
+      children: [
+        ...state.sections != null
+            ? state.sections!.map((e) => AppSection(
+                title: e.name!,
+                widgetItems: e.widgets ?? [],
+                tabController: null))
+            : [],
+      ],
     );
   }
 }

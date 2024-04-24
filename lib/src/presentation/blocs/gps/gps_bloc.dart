@@ -251,6 +251,8 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
       await saveLocation('location', position, 1);
     }
 
+    print(
+        'Positon Longitude:${position.longitude} ,Latitude : ${position.latitude}');
     add(OnNewUserLocationEvent(
         position, LatLng(position.latitude, position.longitude)));
   }

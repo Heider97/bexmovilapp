@@ -53,8 +53,12 @@ class _ClientsPageState extends State<ClientsPage> {
 
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadClients(widget.codeRouter));
+  }
 
-    saleStepperBloc = BlocProvider.of(context);
+  @override
+  void dispose() {
+    saleBloc.add(LoadRouters());
+    super.dispose();
   }
 
   @override
@@ -73,6 +77,7 @@ class _ClientsPageState extends State<ClientsPage> {
     ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -88,8 +93,9 @@ class _ClientsPageState extends State<ClientsPage> {
                       controller: textSaleController,
                       hintText: 'Buscar cliente'),
                 ),
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.clients != null && state.clients!.isNotEmpty) {
+               /*  BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.clients != null &&
+                      state.status == SaleStatus.showClients) {
                     return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: AppIconButton(
@@ -104,7 +110,8 @@ class _ClientsPageState extends State<ClientsPage> {
                   } else {
                     return const Center(child: CupertinoActivityIndicator());
                   }
-                }),
+                }) */
+                gapW8,
                 AppIconButton(
                     child: Icon(Icons.filter_alt_rounded,
                         color: theme.colorScheme.onPrimary),
@@ -114,6 +121,8 @@ class _ClientsPageState extends State<ClientsPage> {
               ],
             ),
           ),
+          gapH4,
+         
           gapH4,
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(

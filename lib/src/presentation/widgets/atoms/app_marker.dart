@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 class CustomMarker extends CustomPainter {
   final String index;
   final BuildContext context;
+  final bool type;
 
   CustomMarker(
       {/* required this.dailyPrice, required this.model, */ required this.context,
-      required this.index});
+      required this.index,
+      required this.type});
 
   @override
   void paint(Canvas canvas, Size size) {
     ThemeData theme = Theme.of(context);
 
-    final primaryPaint = Paint()..color = theme.primaryColor;
+    final primaryPaint = Paint()
+      ..color = type == false ? theme.primaryColor : Colors.blue;
     final whitePaint = Paint()..color = Colors.white;
 
     const double circleBlackRadius = 40;

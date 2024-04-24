@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,34 +34,30 @@ class _SaleClientsState extends State<SaleClients>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    //final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.success && widget.clients != null) {
-        return SingleChildScrollView(
-            child: Column(children: [
-          TabBar(controller: _tabcontroller, tabs: const [
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Sin visitar',
-              ),
-            ),
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Visitados',
-              ),
-            )
-          ]),
-          Container(
-            height: size.height - 252,
-            color: Colors.grey[200],
+      if (state.status == SaleStatus.showClients && widget.clients != null) {
+        return Column(children: [
+          TabBar(
+              controller: _tabcontroller,
+              tabs: const [
+                Tab(
+                  text: 'Sin visitar',
+                ),
+                Tab(
+                  text: 'Visitados',
+                ),
+              ],
+              indicatorSize: TabBarIndicatorSize.tab),
+          SizedBox(
+            height: Screens.height(context)*0.69,
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.success &&
+                if (state.status == SaleStatus.showClients &&
                     widget.clients != null &&
                     widget.clients!.isNotEmpty == true) {
                   return ListView.builder(
+                      shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       itemCount: widget.clients?.length,
                       itemBuilder: (context, index) {
@@ -75,7 +72,7 @@ class _SaleClientsState extends State<SaleClients>
                       fontSize: 15, fontWeight: FontWeight.w300))
             ]),
           )
-        ]));
+        ]);
       } else {
         return const Center(child: Text('Cargando'));
       }

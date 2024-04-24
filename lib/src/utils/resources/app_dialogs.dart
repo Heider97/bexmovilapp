@@ -70,7 +70,8 @@ Future<void> showErrorDialog() {
       barrierDismissible: false,
       context: ctx,
       builder: (_) => AppGlobalDialog.error(
-          title: title ?? 'Error',
+
+          title: title ?? 'Active su GPS',
           description:
               'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
           image: 'assets/icons/pin.svg'));

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 
@@ -17,11 +18,14 @@ class RoutesMap extends StatefulWidget {
 class _RoutesMapState extends State<RoutesMap> {
   late MapsBloc mapsBloc;
   late SaleBloc saleBloc;
+  late LocationBloc locationBloc;
 
   @override
   void initState() {
     mapsBloc = BlocProvider.of<MapsBloc>(context);
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    locationBloc= BlocProvider.of<LocationBloc>(context);
+    
     saleBloc.add(LoadClients(widget.codeRouter));
     super.initState();
   }
@@ -54,7 +58,9 @@ class _RoutesMapState extends State<RoutesMap> {
                             controller,
                             saleState.clients ?? [],
                             context,
-                            widget.codeRouter));
+                            widget.codeRouter,
+                            locationBloc
+                            ));
                       },
                       
                       zoomControlsEnabled: false,

@@ -35,17 +35,23 @@ class AppIconButton extends StatelessWidget {
   AppIconButton({
     super.key,
     this.onPressed,
+    this.color,
     required this.child,
   }) {
     builder = (context) {
-      return Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Const.radius),
-              color: Theme.of(context).colorScheme.primary),
-          child: IconButton(
-            onPressed: onPressed,
-            icon: child,
-          ));
+      return Material(
+        borderRadius: BorderRadius.circular(Const.radius) ,
+        elevation: 5,
+        child: Container(
+            decoration: BoxDecoration(
+
+                borderRadius: BorderRadius.circular(Const.radius),
+                color:color ?? Theme.of(context).colorScheme.primary),
+            child: IconButton(
+              onPressed: onPressed,
+              icon: child,
+            )),
+      );
     };
   }
 
@@ -56,12 +62,14 @@ class AppIconButton extends StatelessWidget {
   AppIconButton.secondary({
     super.key,
     this.onPressed,
+    this.color,
     required this.child,
   }) {
     builder = (context) {
       return IconButton(
         style: IconButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          
+          backgroundColor: color ?? Theme.of(context).colorScheme.secondary,
         ),
         onPressed: onPressed,
         icon: child,
@@ -75,6 +83,7 @@ class AppIconButton extends StatelessWidget {
   AppIconButton.glass({
     super.key,
     this.onPressed,
+    this.color,
     required this.child,
   }) {
     builder = (context) {
@@ -87,7 +96,8 @@ class AppIconButton extends StatelessWidget {
               height: 40,
               child: IconButton(
                 style: IconButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor:color ??
+                      Theme.of(context).colorScheme.primary ,
                   backgroundColor: Colors.transparent,
                 ),
                 onPressed: onPressed,
@@ -106,6 +116,7 @@ class AppIconButton extends StatelessWidget {
   AppIconButton.gradient({
     super.key,
     this.onPressed,
+    this.color,
     required this.child,
   }) {
     builder = (context) {
@@ -140,6 +151,8 @@ class AppIconButton extends StatelessWidget {
   /// This should typically be an [Icon] widget, but can be any [Widget] that
   /// visually represents the button's intended action.
   final Widget child;
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

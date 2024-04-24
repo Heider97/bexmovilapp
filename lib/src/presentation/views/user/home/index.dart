@@ -111,7 +111,7 @@ class HomeViewState extends State<HomeView>
                             .goTo(AppRoutes.searchPage),
                         child: Material(
                             color: theme.cardColor,
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(20),
                             elevation: 5,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

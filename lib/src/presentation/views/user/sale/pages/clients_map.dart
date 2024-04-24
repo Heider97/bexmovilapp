@@ -1,33 +1,24 @@
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/custom_draggable_scrollable_sheet.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/routes_map.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/widgets/check_image.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/atoms.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+
 import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:map_launcher/map_launcher.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class MapAvailableCars extends StatefulWidget {
+class MapClients extends StatefulWidget {
   final String codeRouter;
-  const MapAvailableCars({super.key, required this.codeRouter});
+  const MapClients({super.key, required this.codeRouter});
 
   @override
-  State<MapAvailableCars> createState() => _MapAvailableCarsState();
+  State<MapClients> createState() => _MapClientsState();
 }
 
-class _MapAvailableCarsState extends State<MapAvailableCars> {
+class _MapClientsState extends State<MapClients> {
   late MapsBloc mapsBloc;
   late SaleBloc saleBloc;
   TextEditingController textController = TextEditingController();
@@ -45,12 +36,57 @@ class _MapAvailableCarsState extends State<MapAvailableCars> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Stack(children: [
-      SizedBox(
-        width: Screens.width(context),
-        height: Screens.height(context) * 0.85,
-        child: RoutesMap(
-          codeRouter: widget.codeRouter,
-        ),
+      BlocBuilder<MapsBloc, MapsBlocState>(
+        builder: (context, state) {
+          return SizedBox(
+              width: Screens.width(context),
+              height: Screens.height(context) * 0.85,
+              child: Stack(
+                children: [
+                  RoutesMap(
+                    codeRouter: widget.codeRouter,
+                  ),
+                  (state.gettingMarkers == true ||
+                          state.gettingPolylines == true)
+                      ? Dialog(
+                          backgroundColor: Colors.white,
+                          surfaceTintColor: Colors.transparent,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0))),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                gapH20,
+                                Image.asset(
+                                  'assets/icons/zonas.png',
+                                  width: 70,
+                                  height: 70,
+                                ),
+                                gapH20,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text('Obteniendo marcadores '),
+                                    (state.gettingPolylines == true)
+                                        ? const Text('y trazando rutas')
+                                        : const SizedBox()
+                                  ],
+                                ),
+                                gapH20
+                              ]))
+                      : SizedBox()
+                ],
+              )
+
+              /* Center(
+                child: SizedBox(          
+                  child: Text('Obteniendo...')),
+              ) */
+              );
+        },
       ),
       const CustomDraggableScrollableSheet(),
     ]);

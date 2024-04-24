@@ -68,7 +68,10 @@ class _CardClientState extends State<CardClient> {
                                                 ? 'Cliente'
                                                 : 'Prospecto',
                                             fontWeight: FontWeight.w500,
-                                            color: theme.primaryColor,
+                                            color: widget.client.typeClient ==
+                                                    'client'
+                                                ? theme.primaryColor
+                                                : Colors.blue,
                                             fontSize: 12,
                                             overflow: TextOverflow.ellipsis),
                                       ),
@@ -213,7 +216,8 @@ class _CardClientState extends State<CardClient> {
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
-                                        formatCurrency.format(widget.client.quota),
+                                        formatCurrency
+                                            .format(widget.client.quota),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
                                         fontSize: 12,
@@ -328,8 +332,11 @@ class _CardClientState extends State<CardClient> {
                                 child: Container(
                                   width: double.infinity,
                                   height: 50,
-                                  decoration:
-                                      BoxDecoration(color: theme.primaryColor),
+                                  decoration: BoxDecoration(
+                                    color: widget.client.typeClient == 'client'
+                                        ? theme.primaryColor
+                                        : Colors.blue,
+                                  ),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,

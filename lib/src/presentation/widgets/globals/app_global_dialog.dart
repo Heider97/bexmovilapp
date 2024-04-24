@@ -57,6 +57,7 @@ class AppGlobalDialog extends StatelessWidget {
       return PopScope(
         canPop: true,
         child: Dialog(
+          surfaceTintColor: Colors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Padding(
@@ -97,6 +98,7 @@ class AppGlobalDialog extends StatelessWidget {
       return PopScope(
         canPop: true,
         child: Dialog(
+          surfaceTintColor: Colors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Padding(
@@ -151,6 +153,7 @@ class AppGlobalDialog extends StatelessWidget {
       return PopScope(
         canPop: true,
         child: Dialog(
+          surfaceTintColor: Colors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Padding(
@@ -205,6 +208,7 @@ class AppGlobalDialog extends StatelessWidget {
       return PopScope(
         canPop: false,
         child: Dialog(
+          surfaceTintColor: Colors.white,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Padding(

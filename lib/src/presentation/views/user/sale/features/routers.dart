@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
+import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/cupertino.dart' hide Router;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class _SaleRoutersState extends State<SaleRouters>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.success && widget.routers != null) {
+      if (state.status == SaleStatus.showRouters && widget.routers != null) {
         return SingleChildScrollView(
           child: Column(children: [
             TabBar(controller: _tabcontroller, tabs: const [
@@ -54,11 +55,11 @@ class _SaleRoutersState extends State<SaleRouters>
               )
             ]),
             Container(
-              height: size.height - 200,
+              height: Screens.height(context)*0.76,
               color: Colors.grey[200],
               child: TabBarView(controller: _tabcontroller, children: [
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.success &&
+                  if (state.status == SaleStatus.showRouters &&
                       widget.routers != null &&
                       widget.routers!.isNotEmpty == true) {
                     return ListView.builder(
