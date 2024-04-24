@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
 import 'package:bexmovil/src/presentation/views/user/wallet/widgets/cartesian_chart.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,8 @@ class _WalletDashboardState extends State<WalletDashboard>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.success &&
+    return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+      if (state.status == WalletStatus.success &&
           widget.components != null &&
           widget.components!.isNotEmpty == true) {
         return SingleChildScrollView(
@@ -56,7 +57,7 @@ class _WalletDashboardState extends State<WalletDashboard>
           ),
         );
       } else {
-        return AppText('No hay graficos disponibles');
+        return Center(child: AppText('No hay graficos disponibles'));
       }
     });
   }
