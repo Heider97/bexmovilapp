@@ -140,14 +140,13 @@ class _MyAppState extends State<MyApp> {
                   locator<LocalStorageService>(),
                   locator<NavigationService>(),
                   locator<QueryLoaderService>(),
-                )..add(LoadRouters())),
+                )),
         BlocProvider(
             create: (_) => WalletBloc(
                 locator<DatabaseRepository>(),
                 locator<LocalStorageService>(),
                 locator<NavigationService>(),
                 locator<QueryLoaderService>())),
-
         BlocProvider(
           create: (context) => NavigationCubit(
               locator<DatabaseRepository>(),
