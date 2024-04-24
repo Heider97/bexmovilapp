@@ -32,7 +32,7 @@ class AppCardFeature extends StatelessWidget {
           ? const Color(0XFF53E88B)
           : theme.colorScheme.primary,
       onTap: () => _launchUrl(url),
-      width: 200,
+      width: 205,
       height: height,
       child: Stack(
         fit: StackFit.expand,
