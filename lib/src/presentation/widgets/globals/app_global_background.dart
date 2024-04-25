@@ -282,6 +282,9 @@ class AppGlobalBackground extends StatelessWidget {
               ),
               child
             ]),
+            bottomNavigationBar: (hideBottomNavigationBar == true)
+                ? null
+                : const AppGlobalBottomNavBar(),
           );
         },
       );
@@ -358,6 +361,7 @@ class AppGlobalBackground extends StatelessWidget {
   final bool? hideAppBar;
 
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     Widget background = builder.call(context);
