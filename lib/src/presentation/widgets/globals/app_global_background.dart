@@ -325,7 +325,7 @@ class AppGlobalBackground extends StatelessWidget {
                       }),
                     ],
                     toolbarHeight: Screens.height(context) * 0.07,
-                    title: (state.status == WalletStatus.client)
+                    title: (state.status == WalletStatus.clients)
                         ? AppText(
                             state.age ?? '',
                             fontSize: 14,

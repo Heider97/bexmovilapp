@@ -3,10 +3,10 @@ part of 'wallet_bloc.dart';
 enum WalletStatus {
   initial,
   loading,
-  client,
-  invoice,
+  dashboard,
+  clients,
+  invoices,
   collection,
-  success,
   failed
 }
 

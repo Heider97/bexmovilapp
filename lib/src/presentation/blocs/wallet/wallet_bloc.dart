@@ -43,7 +43,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     var seller = storageService.getString('username');
     List<Section> sections =
         await queryLoaderService.getResults('wallet', [seller]);
-    emit(state.copyWith(status: WalletStatus.success, sections: sections));
+    emit(state.copyWith(status: WalletStatus.dashboard, sections: sections));
   }
   
 
@@ -54,7 +54,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var seller = storageService.getString('username');
       var range = event.range;
       List<Section> sections = await queryLoaderService.getResults('wallet-clients', [seller, range]);
-      emit(state.copyWith(status: WalletStatus.client, age: event.range, sections: sections));
+      emit(state.copyWith(status: WalletStatus.clients, age: event.range, sections: sections));
     } catch (error, stackTrace) {
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));
@@ -70,7 +70,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           event.range!, seller!, event.client!.id.toString());
 
       emit(state.copyWith(
-          status: WalletStatus.success,
+          status: WalletStatus.invoices,
           client: event.client,
           invoices: invoices));
     } catch (error, stackTrace) {
@@ -81,7 +81,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   _onSelectInvoices(SelectInvoices event, Emitter emit) {
     //TODO: [Heider Zapa] get invoice from event and emit to state
-    emit(state.copyWith(status: WalletStatus.invoice));
+    emit(state.copyWith(status: WalletStatus.invoices));
   }
 
   _onCollection(Collection event, Emitter emit) {

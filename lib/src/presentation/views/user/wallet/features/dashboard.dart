@@ -28,7 +28,7 @@ class _WalletDashboardState extends State<WalletDashboard>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-      if (state.status == WalletStatus.success &&
+      if (state.status == WalletStatus.dashboard &&
           widget.components != null &&
           widget.components!.isNotEmpty == true) {
         return SingleChildScrollView(

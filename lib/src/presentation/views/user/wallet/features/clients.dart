@@ -30,7 +30,7 @@ class _WalletClientsState extends State<WalletClients>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-      if (state.status == WalletStatus.client &&
+      if (state.status == WalletStatus.clients &&
           widget.clients != null &&
           widget.clients!.isNotEmpty == true) {
         return SingleChildScrollView(

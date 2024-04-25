@@ -41,7 +41,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
       if (state.status == WalletStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else if (state.status == WalletStatus.success) {
+      } else if (state.status == WalletStatus.dashboard) {
         return _buildBody(size, theme, state, context);
       } else {
         return const SizedBox();
