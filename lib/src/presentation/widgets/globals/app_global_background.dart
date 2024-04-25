@@ -1,4 +1,3 @@
-
 // import 'dart:mirrors';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../utils/constants/strings.dart';
 //widgets
 import '../atoms/app_back_button.dart';
+import '../atoms/app_text.dart';
 import '../atoms/app_icon_button.dart';
 import 'app_global_bottom_nav_bar.dart';
 import 'app_global_drawer.dart';
@@ -94,7 +94,6 @@ class AppGlobalBackground extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: Const.padding, vertical: 5),
                           child: AppIconButton(
-
                               onPressed: () =>
                                   Scaffold.of(context).openDrawer(),
                               child: Icon(
@@ -104,12 +103,12 @@ class AppGlobalBackground extends StatelessWidget {
                         );
                       }),
                     ],
-                
-                    toolbarHeight: Screens.height(context)*0.07,
+                    toolbarHeight: Screens.height(context) * 0.07,
                     title: (state.status == SaleStatus.showClients)
-                        ? Text(
+                        ? AppText(
                             state.selectedRouter!.nameDayRouter!,
-                            style: theme.textTheme.bodyMedium,
+                            fontSize: 14,
+                            maxLines: 2,
                           )
                         : Container())
                 : null,
