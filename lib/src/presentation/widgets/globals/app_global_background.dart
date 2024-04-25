@@ -233,7 +233,7 @@ class AppGlobalBackground extends StatelessWidget {
                         padding: EdgeInsets.all(Const.padding),
                         child: AppBackButton(needPrimary: true)),
                     actions: [
-                      (state.status == SaleStatus.showClients)
+                      (state.status == SaleStatus.clients)
                           ? Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: AppIconButton(
@@ -263,7 +263,7 @@ class AppGlobalBackground extends StatelessWidget {
                       }),
                     ],
                     toolbarHeight: Screens.height(context) * 0.07,
-                    title: (state.status == SaleStatus.showClients)
+                    title: (state.status == SaleStatus.clients)
                         ? AppText(
                             state.selectedRouter!.nameDayRouter!,
                             fontSize: 14,

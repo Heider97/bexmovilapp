@@ -14,10 +14,13 @@ import '../../../presentation/views/user/sale/pages/clients.dart';
 import '../../../presentation/views/user/sale/pages/filters.dart';
 
 Map<String, RouteType> salesRoutes = {
-  AppRoutes.routersSale: (context, settings) =>
-      AppGlobalBackground.sales(hideAppBar: false, child: const RoutersPage()),
+  AppRoutes.routersSale: (context, settings) => AppGlobalBackground.sales(
+      hideAppBar: false,
+      hideBottomNavigationBar: true,
+      child: const RoutersPage()),
   AppRoutes.clientsSale: (context, settings) => AppGlobalBackground.sales(
       hideAppBar: false,
+      hideBottomNavigationBar: true,
       child: ClientsPage(codeRouter: settings.arguments as String?)),
   AppRoutes.filtersSale: (context, settings) =>
       AppGlobalBackground.sales(child: const FiltersSalePage()),

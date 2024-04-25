@@ -128,7 +128,7 @@ class _ProductsPageState extends State<ProductsPage> {
               builder: (context, state) {
                 if (state.status == SaleStatus.loading) {
                   return const Center(child: CupertinoActivityIndicator());
-                } else if (state.status == SaleStatus.success) {
+                } else if (state.status == SaleStatus.products) {
                   return Expanded(
                     child: ListView.builder(
                         padding: const EdgeInsets.all(Const.padding),
