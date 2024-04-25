@@ -56,8 +56,6 @@ class QueryLoaderService {
                       await dynamicListTypes['List<LogicQuery>']!
                           .fromMap(results);
 
-
-
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(

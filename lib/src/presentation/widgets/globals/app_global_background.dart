@@ -71,47 +71,26 @@ class AppGlobalBackground extends StatelessWidget {
           return Scaffold(
             appBar: hideAppBar == false
                 ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  (state.status == SaleStatus.showClients)
-                      ? Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: AppIconButton(
-                          color: Colors.white,
-                          child: Icon(
-                            Icons.map_rounded,
-                            color: theme.colorScheme.primary,
-                          ),
-                          onPressed: () {
-                            navigationService.goTo(AppRoutes.saleMap,
-                                arguments:
-                                state.selectedRouter!.dayRouter);
-                          }))
-                      : Container(),
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () =>
-                              Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    );
-                  }),
-                ],
-                toolbarHeight: Screens.height(context) * 0.07,
-                title: (state.status == SaleStatus.showClients)
-                    ? AppText(
-                  state.selectedRouter!.nameDayRouter!,
-                  fontSize: 14,
-                  maxLines: 2,
-                )
-                    : Container())
+                    leading: const Padding(
+                        padding: EdgeInsets.all(Const.padding),
+                        child: AppBackButton(needPrimary: true)),
+                    actions: [
+                      Builder(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Const.padding, vertical: 5),
+                          child: AppIconButton(
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Icon(
+                                Icons.menu,
+                                color: theme.colorScheme.onPrimary,
+                              )),
+                        );
+                      }),
+                    ],
+                    toolbarHeight: Screens.height(context) * 0.07,
+                  )
                 : null,
             drawer: const DrawerWidget(),
             resizeToAvoidBottomInset: false,
@@ -142,21 +121,21 @@ class AppGlobalBackground extends StatelessWidget {
       return Scaffold(
         appBar: hideAppBar == false
             ? AppBar(
-          leading: const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: AppBackButton(needPrimary: true)),
-          actions: [
-            Builder(builder: (context) {
-              return Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: Const.padding),
-                child: AppIconButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    child: const Icon(Icons.menu)),
-              );
-            }),
-          ],
-        )
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: Const.padding),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
+                ],
+              )
             : null,
         drawer: const DrawerWidget(),
         resizeToAvoidBottomInset: false,
@@ -198,21 +177,21 @@ class AppGlobalBackground extends StatelessWidget {
       return Scaffold(
         appBar: hideAppBar == false
             ? AppBar(
-          leading: const Padding(
-              padding: EdgeInsets.all(Const.padding),
-              child: AppBackButton(needPrimary: true)),
-          actions: [
-            Builder(builder: (context) {
-              return Padding(
-                padding:
-                const EdgeInsets.symmetric(vertical: Const.padding),
-                child: AppIconButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    child: const Icon(Icons.menu)),
-              );
-            }),
-          ],
-        )
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: Const.padding),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: const Icon(Icons.menu)),
+                    );
+                  }),
+                ],
+              )
             : null,
         resizeToAvoidBottomInset: false,
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -234,7 +213,6 @@ class AppGlobalBackground extends StatelessWidget {
       );
     };
   }
-
 
   AppGlobalBackground.sales({
     super.key,
@@ -378,13 +356,6 @@ class AppGlobalBackground extends StatelessWidget {
   final double? opacity;
   final bool? hideBottomNavigationBar;
   final bool? hideAppBar;
-
-  // // Obtén el constructor del Bloc y del Estado dinámicamente
-  // ClassMirror blocMirror = reflectClass(Bloc1);
-  // ClassMirror stateMirror = reflectClass(State1WithValue);
-  //
-  // // Llama al constructor del Bloc y crea una instancia de él
-  // InstanceMirror blocInstance = blocMirror.newInstance(const Symbol(''), []);
 
   final Widget child;
   @override
