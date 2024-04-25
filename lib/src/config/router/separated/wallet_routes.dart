@@ -19,8 +19,8 @@ import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
   AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.wallet(
-      // opacity: 0.5,
-      hideAppBar: true,
+      opacity: 0.5,
+      hideAppBar: false,
       hideBottomNavigationBar: true,
       child: const WalletDashboardView()),
   AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.wallet(

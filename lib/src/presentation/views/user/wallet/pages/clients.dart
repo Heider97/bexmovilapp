@@ -61,8 +61,10 @@ class _WalletClientsViewState extends State<WalletClientsView> {
       if (state.status == WalletStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else {
+      } else if (state.status == WalletStatus.client){
         return _buildBody(size, theme, state, context);
+      } else {
+        return const SizedBox();
       }
     });
   }
