@@ -18,12 +18,12 @@ import '../../../presentation/views/user/wallet/pages/collection.dart';
 import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
-  AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.normal(
+  AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.wallet(
       // opacity: 0.5,
       hideAppBar: true,
       hideBottomNavigationBar: true,
       child: const WalletDashboardView()),
-  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.normal(
+  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.wallet(
       opacity: 0.1,
       hideAppBar: false,
       hideBottomNavigationBar: true,
@@ -52,6 +52,8 @@ Map<String, RouteType> walletRoutes = {
           hideBottomNavigationBar: true,
           child: WalletDetailsScreen()),
   AppRoutes.actionWallet: (context, settings) => AppGlobalBackground.squared(
-    hideAppBar: false,
-      opacity: 0.1, hideBottomNavigationBar: true, child: WalletActionList()),
+      hideAppBar: false,
+      opacity: 0.1,
+      hideBottomNavigationBar: true,
+      child: WalletActionList()),
 };

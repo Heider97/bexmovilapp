@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
 import '../../../utils/constants/strings.dart';
 //widgets
+import '../../blocs/wallet/wallet_bloc.dart';
 import '../atoms/app_back_button.dart';
 import '../atoms/app_text.dart';
 import '../atoms/app_icon_button.dart';
@@ -56,6 +57,186 @@ class AppGlobalBackground extends StatelessWidget {
 
   /// The [elevation] defaults to 4.0.
   AppGlobalBackground.normal({
+    super.key,
+    this.color,
+    this.opacity,
+    this.hideBottomNavigationBar,
+    this.hideAppBar,
+    required this.child,
+  }) {
+    builder = (context) {
+      ThemeData theme = Theme.of(context);
+      return BlocBuilder<SaleBloc, SaleState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: hideAppBar == false
+                ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  (state.status == SaleStatus.showClients)
+                      ? Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: AppIconButton(
+                          color: Colors.white,
+                          child: Icon(
+                            Icons.map_rounded,
+                            color: theme.colorScheme.primary,
+                          ),
+                          onPressed: () {
+                            navigationService.goTo(AppRoutes.saleMap,
+                                arguments:
+                                state.selectedRouter!.dayRouter);
+                          }))
+                      : Container(),
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Const.padding, vertical: 5),
+                      child: AppIconButton(
+                          onPressed: () =>
+                              Scaffold.of(context).openDrawer(),
+                          child: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onPrimary,
+                          )),
+                    );
+                  }),
+                ],
+                toolbarHeight: Screens.height(context) * 0.07,
+                title: (state.status == SaleStatus.showClients)
+                    ? AppText(
+                  state.selectedRouter!.nameDayRouter!,
+                  fontSize: 14,
+                  maxLines: 2,
+                )
+                    : Container())
+                : null,
+            drawer: const DrawerWidget(),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Stack(fit: StackFit.expand, children: [
+              Image.asset(
+                Assets.bgPattern,
+                fit: BoxFit.cover,
+                color: Theme.of(context).colorScheme.background,
+              ),
+              child
+            ]),
+          );
+        },
+      );
+    };
+  }
+
+  AppGlobalBackground.squared({
+    super.key,
+    this.color,
+    required this.opacity,
+    required this.hideBottomNavigationBar,
+    this.hideAppBar,
+    required this.child,
+  }) {
+    builder = (context) {
+      return Scaffold(
+        appBar: hideAppBar == false
+            ? AppBar(
+          leading: const Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: AppBackButton(needPrimary: true)),
+          actions: [
+            Builder(builder: (context) {
+              return Padding(
+                padding:
+                const EdgeInsets.symmetric(vertical: Const.padding),
+                child: AppIconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    child: const Icon(Icons.menu)),
+              );
+            }),
+          ],
+        )
+            : null,
+        drawer: const DrawerWidget(),
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        backgroundColor: color ?? Theme.of(context).colorScheme.background,
+        body: Stack(fit: StackFit.expand, children: [
+          Positioned(
+            top: -540,
+            right: -280,
+            child: Transform.rotate(
+              angle: 0,
+              child: Opacity(
+                opacity: opacity!,
+                child: Image.asset(
+                  Assets.bgSquare,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          child
+        ]),
+        bottomNavigationBar: (hideBottomNavigationBar == true)
+            ? null
+            : const AppGlobalBottomNavBar(),
+      );
+    };
+  }
+
+  AppGlobalBackground.icon({
+    super.key,
+    this.color,
+    this.opacity,
+    this.hideBottomNavigationBar,
+    this.hideAppBar,
+    required this.child,
+  }) {
+    builder = (context) {
+      return Scaffold(
+        appBar: hideAppBar == false
+            ? AppBar(
+          leading: const Padding(
+              padding: EdgeInsets.all(Const.padding),
+              child: AppBackButton(needPrimary: true)),
+          actions: [
+            Builder(builder: (context) {
+              return Padding(
+                padding:
+                const EdgeInsets.symmetric(vertical: Const.padding),
+                child: AppIconButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    child: const Icon(Icons.menu)),
+              );
+            }),
+          ],
+        )
+            : null,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Stack(fit: StackFit.expand, children: [
+          Image.asset(
+            Assets.bgPattern,
+            fit: BoxFit.cover,
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset(
+              Assets.bexBackgroundWhite,
+              width: 350.0,
+              height: 350.0,
+            ),
+          ),
+          child
+        ]),
+      );
+    };
+  }
+
+
+  AppGlobalBackground.sales({
     super.key,
     this.color,
     this.opacity,
@@ -129,107 +310,64 @@ class AppGlobalBackground extends StatelessWidget {
     };
   }
 
-  AppGlobalBackground.squared({
+  AppGlobalBackground.wallet({
     super.key,
     this.color,
-    required this.opacity,
+    this.opacity,
     required this.hideBottomNavigationBar,
     this.hideAppBar,
     required this.child,
   }) {
     builder = (context) {
-      return Scaffold(
-        appBar: hideAppBar == false
-            ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: Const.padding),
-                      child: AppIconButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          child: const Icon(Icons.menu)),
-                    );
-                  }),
-                ],
-              )
-            : null,
-        drawer: const DrawerWidget(),
-        resizeToAvoidBottomInset: false,
-        extendBody: true,
-        backgroundColor: color ?? Theme.of(context).colorScheme.background,
-        body: Stack(fit: StackFit.expand, children: [
-          Positioned(
-            top: -540,
-            right: -280,
-            child: Transform.rotate(
-              angle: 0,
-              child: Opacity(
-                opacity: opacity!,
-                child: Image.asset(
-                  Assets.bgSquare,
-                  fit: BoxFit.cover,
-                ),
+      ThemeData theme = Theme.of(context);
+      return BlocBuilder<WalletBloc, WalletState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: hideAppBar == false
+                ? AppBar(
+                    leading: const Padding(
+                        padding: EdgeInsets.all(Const.padding),
+                        child: AppBackButton(needPrimary: true)),
+                    actions: [
+                      Builder(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Const.padding, vertical: 5),
+                          child: AppIconButton(
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Icon(
+                                Icons.menu,
+                                color: theme.colorScheme.onPrimary,
+                              )),
+                        );
+                      }),
+                    ],
+                    toolbarHeight: Screens.height(context) * 0.07,
+                    title: (state.status == WalletStatus.client)
+                        ? AppText(
+                            state.age!,
+                            fontSize: 14,
+                            maxLines: 2,
+                          )
+                        : Container())
+                : null,
+            drawer: const DrawerWidget(),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Stack(fit: StackFit.expand, children: [
+              Image.asset(
+                Assets.bgPattern,
+                fit: BoxFit.cover,
+                color: Theme.of(context).colorScheme.background,
               ),
-            ),
-          ),
-          child
-        ]),
-        bottomNavigationBar: (hideBottomNavigationBar == true)
-            ? null
-            : const AppGlobalBottomNavBar(),
-      );
-    };
-  }
-
-  AppGlobalBackground.icon({
-    super.key,
-    this.color,
-    this.opacity,
-    this.hideBottomNavigationBar,
-    this.hideAppBar,
-    required this.child,
-  }) {
-    builder = (context) {
-      return Scaffold(
-        appBar: hideAppBar == false
-            ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: Const.padding),
-                      child: AppIconButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          child: const Icon(Icons.menu)),
-                    );
-                  }),
-                ],
-              )
-            : null,
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Stack(fit: StackFit.expand, children: [
-          Image.asset(
-            Assets.bgPattern,
-            fit: BoxFit.cover,
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Image.asset(
-              Assets.bexBackgroundWhite,
-              width: 350.0,
-              height: 350.0,
-            ),
-          ),
-          child
-        ]),
+              child
+            ]),
+            bottomNavigationBar: (hideBottomNavigationBar == true)
+                ? null
+                : const AppGlobalBottomNavBar(),
+          );
+        },
       );
     };
   }

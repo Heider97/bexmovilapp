@@ -16,6 +16,7 @@ class WalletState extends Equatable {
   final List<Graphic>? graphics;
   final List<Client>? clients;
   final List<Invoice>? invoices;
+  final String? age;
   final Client? client;
   final String? error;
 
@@ -24,6 +25,7 @@ class WalletState extends Equatable {
       this.sections,
       this.graphics,
       this.clients,
+      this.age,
       this.client,
       this.invoices,
       this.error});
