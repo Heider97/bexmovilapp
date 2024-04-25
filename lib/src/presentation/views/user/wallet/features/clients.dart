@@ -30,22 +30,22 @@ class _WalletClientsState extends State<WalletClients>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-      if (state.status == WalletStatus.success &&
+      if (state.status == WalletStatus.client &&
           widget.clients != null &&
           widget.clients!.isNotEmpty == true) {
         return SingleChildScrollView(
           child: SizedBox(
             height: size.height - 200,
             child: ListView.builder(
-                itemCount: state.clients != null ? state.clients!.length : 0,
+                itemCount: widget.clients!.length,
                 itemBuilder: (context, index) {
                   return CardClientWallet(
                     onTap: () {
-                      // walletBloc.navigationService.goTo(
-                      //     AppRoutes.summariesWallet,
-                      //     arguments: WalletArgument(
-                      //         type: widget.argument!.type,
-                      //         client: state.clients![index]));
+                      walletBloc.navigationService.goTo(
+                          AppRoutes.summariesWallet,
+                          arguments: WalletArgument(
+                              type: state.age!,
+                              client: widget.clients![index]));
                     },
                     client: state.clients![index],
                   );
@@ -53,7 +53,7 @@ class _WalletClientsState extends State<WalletClients>
           ),
         );
       } else {
-        return Center(child: AppText('No hay graficos disponibles'));
+        return Center(child: AppText('No hay clientes'));
       }
     });
   }

@@ -19,12 +19,10 @@ class WalletDashboard extends StatefulWidget {
 
 class _WalletDashboardState extends State<WalletDashboard>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +41,8 @@ class _WalletDashboardState extends State<WalletDashboard>
                 final component = widget.components![i];
 
                 if (component.type == "kpi") {
-                  return CardKpi(kpi: component, height: 80, needConverted: true);
+                  return CardKpi(
+                      kpi: component, height: 80, needConverted: true);
                 } else if (component.type == "line") {
                   return CartesianChart(component: component);
                 } else {
