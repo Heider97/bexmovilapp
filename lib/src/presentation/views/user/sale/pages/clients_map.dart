@@ -60,10 +60,8 @@ class _MapClientsState extends State<MapClients> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 gapH20,
-                                Image.asset(
-                                  'assets/icons/zonas.png',
-                                  width: 70,
-                                  height: 70,
+                                Center(
+                                  child: CircularProgressIndicator(),
                                 ),
                                 gapH20,
                                 Row(

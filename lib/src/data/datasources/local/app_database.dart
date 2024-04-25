@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -156,7 +155,7 @@ class AppDatabase {
 
     // Iterate over each table and delete all records
     for (Map<String, dynamic> table in tables) {
-      await db.delete(table['name']);
+      await db.delete(table['name'], where: '1');
     }
   }
 
