@@ -82,6 +82,7 @@ dependencies:
   vibration: ^1.7.6
   whatsapp_unilink: ^2.1.0
   yaml: ^3.1.1
+  dialog_flowtter: ^0.3.3
 
 dev_dependencies:
   bloc_test: ^9.1.5
@@ -116,6 +117,7 @@ flutter:
     - assets/icons/
     - assets/lang/
     - pubspec.yaml
+    - assets/dialog_flow_auth.json
   fonts:
     - family: Butler
       fonts:
