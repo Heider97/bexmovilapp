@@ -64,69 +64,55 @@ class ChatScreenState extends State<ChatView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dialog Flow Chat'),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.deepPurple, Colors.deepPurpleAccent],
+    return Column(
+      children: [
+        Expanded(
+          child: MessagesScreen(
+            messages: messages,
+            scrollController: _scrollController,
           ),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: MessagesScreen(
-                messages: messages,
-                scrollController: _scrollController,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              color: Colors.transparent,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Type a message...',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide: const BorderSide(
-                            color: Colors.white,
-                            width: 2.0,
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.2),
-                        contentPadding: const EdgeInsets.all(12.0),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          color: Colors.transparent,
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: 'Escribe un mensage...',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                        width: 2.0,
                       ),
-                      onSubmitted: (text) {
-                        sendMessage(text);
-                        _controller.clear();
-                      },
                     ),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.2),
+                    contentPadding: const EdgeInsets.all(12.0),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      sendMessage(_controller.text);
-                      _controller.clear();
-                    },
-                    icon: const Icon(Icons.send),
-                  )
-                ],
+                  onSubmitted: (text) {
+                    sendMessage(text);
+                    _controller.clear();
+                  },
+                ),
               ),
-            ),
-            if (isLoading) const CircularProgressIndicator(),
-          ],
+              IconButton(
+                onPressed: () {
+                  sendMessage(_controller.text);
+                  _controller.clear();
+                },
+                icon: const Icon(Icons.send),
+              )
+            ],
+          ),
         ),
-      ),
+        if (isLoading) const CircularProgressIndicator(),
+      ],
     );
   }
 

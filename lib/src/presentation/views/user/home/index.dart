@@ -108,7 +108,7 @@ class HomeViewState extends State<HomeView>
                     height: size.height * 0.2,
                     child: GestureDetector(
                         onTap: () => homeCubit.navigationService
-                            .goTo(AppRoutes.searchPage),
+                            .goTo(AppRoutes.chat),
                         child: Material(
                             color: theme.cardColor,
                             borderRadius: BorderRadius.circular(20),
