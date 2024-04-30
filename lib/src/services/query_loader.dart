@@ -37,7 +37,6 @@ class QueryLoaderService {
           if (widgets != null && widgets.isNotEmpty) {
             section.widgets = widgets;
             for (var widget in widgets) {
-              print(widget.toJson());
               var components =
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
@@ -52,9 +51,6 @@ class QueryLoaderService {
 
                   var results =
                       await databaseRepository.logicQueries(component.id!);
-
-                  print('************');
-                  print(results);
 
                   List<LogicQuery> logicQueries =
                       await dynamicListTypes['List<LogicQuery>']!
@@ -120,7 +116,6 @@ class QueryLoaderService {
             needBeMapped: needBeMapped);
       }
     } else if(logicQuery.actionableType == 'navigation') {
-      print('*****************');
       print('navigation');
     }
   }
@@ -146,10 +141,6 @@ class QueryLoaderService {
           }
         }
       } else {
-
-        print(query);
-        print(values);
-
         for (var value in values) {
           if (value != null) {
             var replace = query.indexOf('?');
@@ -160,8 +151,6 @@ class QueryLoaderService {
 
       return query;
     } catch (e) {
-      print('error replacing');
-      print(e);
       return query;
     }
   }
@@ -192,8 +181,6 @@ class QueryLoaderService {
       }
       return dynamic;
     } catch (e) {
-      print('error executing query');
-      print(e);
       return [];
     }
   }
@@ -214,9 +201,6 @@ class QueryLoaderService {
       }
       return dynamic;
     } catch (e) {
-      print(sentence);
-      print('error executing raw query');
-      print(e);
       return [];
     }
   }
