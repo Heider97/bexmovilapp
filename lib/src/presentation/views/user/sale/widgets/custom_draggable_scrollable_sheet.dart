@@ -206,7 +206,7 @@ class _CustomDraggableScrollableSheetState
                             //  mapsBloc.add(SearchClient(valueToSearch: value));
                           },
                           colorBackground: Colors.white,
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: const Icon(Icons.search),
                           controller: TextEditingController(),
                           hintText: 'Buscar cliente',
                         ),
@@ -217,7 +217,7 @@ class _CustomDraggableScrollableSheetState
                           if (state.status == SaleStatus.loading) {
                             return const Center(
                                 child: CircularProgressIndicator());
-                          } else if (state.status == SaleStatus.showClients &&
+                          } else if (state.status == SaleStatus.clients &&
                               state.clients!.isNotEmpty) {
                             return SizedBox(
                               height: Screens.height(context) * 0.8,

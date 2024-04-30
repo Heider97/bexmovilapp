@@ -146,12 +146,45 @@ class AppDatabase {
     return await db!.query(table);
   }
 
+  Future<void> emptyAllTablesToSync() async {
+    final db = await instance.database;
+
+    // Get a list of all tables in the database
+    List<Map<String, dynamic>> tables = await db!.rawQuery('''
+      SELECT name FROM sqlite_master 
+      WHERE type='table' AND name NOT LIKE 'sqlite_%'
+      AND name NOT IN (
+        'android_metadata',
+        'app_features',
+        'app_functionalities',
+        'app_functionalities_seller',
+        'app_route_transaction',
+        'configs',
+        'error_logs',
+        'features',
+        'filters',
+        'locations',
+        'options',
+        'polylines',
+        'processing_queues',
+        'sqlite_sequence'
+      )
+    ''');
+
+    // Iterate over each table and delete all records
+    for (Map<String, dynamic> table in tables) {
+      await db.delete(table['name']);
+    }
+  }
+
   Future<void> emptyAllTables() async {
     final db = await instance.database;
 
     // Get a list of all tables in the database
-    List<Map<String, dynamic>> tables = await db!.rawQuery(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';");
+    List<Map<String, dynamic>> tables = await db!.rawQuery('''
+      SELECT name FROM sqlite_master 
+      WHERE type='table' AND name NOT LIKE 'sqlite_%'
+    ''');
 
     // Iterate over each table and delete all records
     for (Map<String, dynamic> table in tables) {

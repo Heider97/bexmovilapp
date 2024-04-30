@@ -17,6 +17,7 @@ import '../../../../../domain/models/arguments.dart';
 
 //atoms
 
+import '../../../../widgets/organisms/app_section.dart';
 import '../../../../widgets/user/custom_search_bar.dart';
 import '../widgets/card_client_wallet.dart';
 import '../../../../widgets/atomsbox.dart';
@@ -53,110 +54,33 @@ class _WalletClientsViewState extends State<WalletClientsView> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Const.padding),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppBackButton(needPrimary: true),
-                AppText(widget.argument!.type),
-                Wrap(
-                  spacing: 1,
-                  children: [
-                    /*    AppIconButton(
-                        onPressed: null,
-                        child: Icon(Icons.menu,
-                            color:
-                            Theme.of(context).colorScheme.onPrimaryContainer)), */
-                  ],
-                )
-              ],
-            ),
-            // StepperWidget(
-            //   currentStep: 0,
-            //   steps: [
-            //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
-            //         theme.primaryColor, Assets.profileDisable, () {
-            //       walletBloc.add(SelectClientEvent());
-            //     }),
-            //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-            //         theme.primaryColor, Assets.invoiceDisable, () {
-            //       walletBloc.add(InvoiceSelectionEvent());
-            //     }),
-            //     StepData(
-            //       "Recaudar",
-            //       Assets.actionEnable,
-            //       theme.primaryColor,
-            //       Assets.actionDisable,
-            //       () {
-            //         walletBloc.add(InvoiceActionEvent());
-            //       },
-            //     )
-            //   ],
-            // ),
-            Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomSearchBar(
-                        prefixIcon: const Icon(
-                          Icons.search,
-                        ),
-                        controller: searchController,
-                        hintText: 'Nombre o código del producto'),
-                  ),
-                ),
-                /* AppIconButton(
-                    child: const Icon(FontAwesomeIcons.locationArrow)),
-                gapW8, */
+    final Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
 
-                AppIconButton(
-                  onPressed: () {
-                    walletBloc.navigationService
-                        .goTo(AppRoutes.notificationWallet);
-                  },
-                  child: Icon(Icons.notification_add,color: Colors.white,),
-                ),
-                gapW12,
-                AppIconButton(child: const Icon(Icons.tune, color: Colors.white,)),
-              ],
-            ),
-            gapH4,
-            BlocBuilder<WalletBloc, WalletState>(
-              builder: (context, state) {
-                if (state.status == WalletStatus.loading) {
-                  return const Center(child: CupertinoActivityIndicator());
-                } else if (state.canRenderView()) {
-                  return Expanded(
-                    child: ListView.builder(
-                        itemCount:
-                            state.clients != null ? state.clients!.length : 0,
-                        itemBuilder: (context, index) {
-                          return CardClientWallet(
-                            onTap: () {
-                              walletBloc.navigationService.goTo(
-                                  AppRoutes.summariesWallet,
-                                  arguments: WalletArgument(
-                                      type: widget.argument!.type,
-                                      client: state.clients![index]));
-                            },
-                            client: state.clients![index],
-                          );
-                        }),
-                  );
-                } else {
-                  return Center(child: AppText("No se encontraron clientes."));
-                }
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+      if (state.status == WalletStatus.loading) {
+        return const Center(
+            child: CupertinoActivityIndicator(color: Colors.green));
+      } else if (state.status == WalletStatus.clients){
+        return _buildBody(size, theme, state, context);
+      } else {
+        return const SizedBox();
+      }
+    });
+  }
+
+  Widget _buildBody(
+      Size size, ThemeData theme, WalletState state, BuildContext context) {
+    return SafeArea(
+        child: Stack(
+      children: [
+        ...state.sections != null
+            ? state.sections!.map((e) => AppSection(
+                title: e.name!,
+                widgetItems: e.widgets ?? [],
+                tabController: null))
+            : [],
+      ],
+    ));
   }
 }

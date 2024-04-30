@@ -6,7 +6,6 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -64,9 +63,7 @@ class _CardClientState extends State<CardClient> {
                                       Opacity(
                                         opacity: 0.8,
                                         child: AppText(
-                                            widget.client.typeClient == 'client'
-                                                ? 'Cliente'
-                                                : 'Prospecto',
+                                            '${widget.client.order ?? '0'} ${widget.client.typeClient == 'client' ? 'Cliente' : 'Prospecto'}',
                                             fontWeight: FontWeight.w500,
                                             color: widget.client.typeClient ==
                                                     'client'
@@ -232,26 +229,29 @@ class _CardClientState extends State<CardClient> {
                               Expanded(
                                 child: Center(
                                   child: InkWell(
-                                    onTap: () async {
-                                      return await MapsSheet.show(
-                                          context: context,
-                                          onMapTap: (map) {
-                                            map.showDirections(
-                                              destination: Coords(
-                                                double.parse(
-                                                    widget.client.latitude!),
-                                                double.parse(
-                                                    widget.client.longitude!),
-                                              ),
-                                              destinationTitle:
-                                                  widget.client.businessName,
-                                              originTitle: 'Origen',
-                                              waypoints: null,
-                                              directionsMode:
-                                                  DirectionsMode.driving,
-                                            );
-                                          });
-                                    },
+                                    onTap: widget.client.latitude != null &&
+                                            widget.client.longitude != null
+                                        ? () async {
+                                            return await MapsSheet.show(
+                                                context: context,
+                                                onMapTap: (map) {
+                                                  map.showDirections(
+                                                    destination: Coords(
+                                                      double.parse(widget
+                                                          .client.latitude!),
+                                                      double.parse(widget
+                                                          .client.longitude!),
+                                                    ),
+                                                    destinationTitle: widget
+                                                        .client.businessName,
+                                                    originTitle: 'Origen',
+                                                    waypoints: null,
+                                                    directionsMode:
+                                                        DirectionsMode.driving,
+                                                  );
+                                                });
+                                          }
+                                        : null,
                                     child: Material(
                                       elevation: 2,
                                       child: SizedBox(
@@ -261,17 +261,36 @@ class _CardClientState extends State<CardClient> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            AppText('Navegar',
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                            Icon(
-                                              FontAwesomeIcons.locationArrow,
-                                              size: 20,
-                                              color: Colors.blue[300],
-                                            )
+                                            widget.client.latitude != null &&
+                                                    widget.client.longitude !=
+                                                        null
+                                                ? AppText('Navegar',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis)
+                                                : AppText('Georeferenciar',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                            widget.client.latitude != null &&
+                                                    widget.client.longitude !=
+                                                        null
+                                                ? Icon(
+                                                    FontAwesomeIcons
+                                                        .locationArrow,
+                                                    size: 20,
+                                                    color: Colors.blue[300],
+                                                  )
+                                                : Icon(
+                                                    FontAwesomeIcons
+                                                        .locationPin,
+                                                    size: 20,
+                                                    color: Colors.blue[300],
+                                                  )
                                           ],
                                         ),
                                       ),

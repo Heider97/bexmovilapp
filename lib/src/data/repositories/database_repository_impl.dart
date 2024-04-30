@@ -1,5 +1,4 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_flutter_platform_interface/src/types/polyline.dart';
 
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
@@ -370,6 +369,13 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyAllTables() {
     return _appDatabase.emptyAllTables();
   }
+
+
+  @override
+  Future<void> emptyAllTablesToSync() {
+    return _appDatabase.emptyAllTablesToSync();
+  }
+
   @override
   void close() {
     _appDatabase.close();

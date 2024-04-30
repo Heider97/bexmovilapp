@@ -15,8 +15,6 @@ import '../../../../widgets/organisms/app_section.dart';
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
 
-final NavigationService navigationService = locator<NavigationService>();
-
 class RoutersPage extends StatefulWidget {
   const RoutersPage({super.key});
 
@@ -24,15 +22,12 @@ class RoutersPage extends StatefulWidget {
   State<RoutersPage> createState() => _RoutersPageState();
 }
 
-late SaleStepperBloc saleStepperBloc;
-late LocationBloc locationBloc;
-
 class _RoutersPageState extends State<RoutersPage> {
   final TextEditingController searchController = TextEditingController();
-
   final formatCurrency = NumberFormat.simpleCurrency();
 
   late SaleBloc saleBloc;
+  late LocationBloc locationBloc;
 
   @override
   void initState() {
@@ -55,10 +50,10 @@ class _RoutersPageState extends State<RoutersPage> {
       if (state.status == SaleStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else if (state.status == SaleStatus.showRouters) {
+      } else if (state.status == SaleStatus.routers) {
         return _buildBody(state, context);
       } else {
-        return Container();
+        return const SizedBox();
       }
     });
   }

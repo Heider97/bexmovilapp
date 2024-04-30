@@ -37,19 +37,9 @@ class _HomeStatisticsState extends State<HomeStatistics> {
   @override
   void initState() {
     kpisOneLine = widget.kpis.where((element) => element!.line == 1).toList();
-    print(kpisOneLine.length);
 
     kpisSecondLine =
         widget.kpis.where((element) => element!.line == 2).toList();
-
-    // final duplicatesOneLine = groupBy(
-    //   kpisOneLine,
-    //   (kpi) => kpi!.type,
-    // )
-    //     .values
-    //     .where((list) => list.length > 1)
-    //     .map((list) => list.first!.type)
-    //     .toList();
 
     final duplicatesSecondLine = groupBy(
       kpisSecondLine,
@@ -60,14 +50,6 @@ class _HomeStatisticsState extends State<HomeStatistics> {
         .map((list) => list.first!.type)
         .toList();
 
-    // if (duplicatesOneLine.isNotEmpty) {
-    //   for (var dsl in duplicatesOneLine) {
-    //     kpisOneLine.removeWhere((element) => element!.type == dsl);
-    //     kpisSlidableOneLine
-    //         .add(kpisOneLine.where((kpi) => kpi!.type == dsl).toList());
-    //   }
-    // }
-
     if (duplicatesSecondLine.isNotEmpty) {
       for (var dsl in duplicatesSecondLine) {
         kpisSlidableSecondLine
@@ -75,8 +57,6 @@ class _HomeStatisticsState extends State<HomeStatistics> {
         kpisSecondLine.removeWhere((element) => element!.type == dsl);
       }
     }
-
-    print(kpisOneLine.length);
 
     super.initState();
   }
@@ -123,7 +103,7 @@ class _HomeStatisticsState extends State<HomeStatistics> {
                                     kpis: kpisSlidableOneLine[index]);
                               }
                               final kpi = kpisOneLine[index];
-                              return CardKpi(kpi: kpi!);
+                              return CardKpi(kpi: kpi!, needConverted: true);
                             }),
                       ),
                       Expanded(
@@ -137,7 +117,7 @@ class _HomeStatisticsState extends State<HomeStatistics> {
                                     kpis: kpisSlidableSecondLine[index]);
                               }
                               final kpi = kpisSecondLine[index];
-                              return CardKpi(kpi: kpi!);
+                              return CardKpi(kpi: kpi!, needConverted: true);
                             }),
                       ),
                     ],

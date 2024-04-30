@@ -10,10 +10,12 @@ import '../utils/resources/app_dynamic_caster_type.dart';
 
 //services
 import '../locator.dart';
+import 'navigation.dart';
 
 class QueryLoaderService {
   static QueryLoaderService? _instance;
   final databaseRepository = locator<DatabaseRepository>();
+  final navigationService = locator<NavigationService>();
 
   static Future<QueryLoaderService?> getInstance() async {
     _instance ??= QueryLoaderService();
@@ -59,8 +61,6 @@ class QueryLoaderService {
                       var results = await determine(
                           widget.type, logicQueries.first, arguments,
                           needBeMapped: needBeMapped);
-                      print('*****resultados from unic logic*****');
-                      print(results.toString());
                       component.results = results;
                     } else {
                       for (var lq in logicQueries) {
@@ -74,9 +74,6 @@ class QueryLoaderService {
                               var results = await determine(
                                   widget.type!, lq, arguments,
                                   needBeMapped: needBeMapped);
-                              print(
-                                  '*****results based on mutiple logic***** ');
-                              print(results.toString());
                               component.results = results;
                             }
                           }

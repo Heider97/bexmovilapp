@@ -35,7 +35,6 @@ class AppBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     assert(debugCheckHasMaterialLocalizations(context));
     return IconButton(
       icon: const Icon(Icons.close),
@@ -47,29 +46,5 @@ class AppBackButton extends StatelessWidget {
         }
       },
     );
-
-    /* Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Const.radius),
-            color: (needPrimary == true)
-                ? theme.colorScheme.primary
-                : theme.colorScheme.secondary),
-        child: IconButton(
-          style: IconButton.styleFrom(
-          /*   backgroundColor: (needPrimary == true)
-                ? theme.colorScheme.primary
-                : theme.colorScheme.secondary, */
-          ),
-          icon: const BackButtonIcon(),
-          color: Theme.of(context).colorScheme.onPrimaryContainer,
-       //   tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: () {
-            if (onPressed != null) {
-              onPressed!();
-            } else {
-              Navigator.maybePop(context);
-            }
-          },
-        )); */
   }
 }

@@ -3,10 +3,10 @@ part of 'wallet_bloc.dart';
 enum WalletStatus {
   initial,
   loading,
-  client,
-  invoice,
+  dashboard,
+  clients,
+  invoices,
   collection,
-  success,
   failed
 }
 
@@ -16,6 +16,7 @@ class WalletState extends Equatable {
   final List<Graphic>? graphics;
   final List<Client>? clients;
   final List<Invoice>? invoices;
+  final String? age;
   final Client? client;
   final String? error;
 
@@ -24,6 +25,7 @@ class WalletState extends Equatable {
       this.sections,
       this.graphics,
       this.clients,
+      this.age,
       this.client,
       this.invoices,
       this.error});
@@ -33,6 +35,7 @@ class WalletState extends Equatable {
           List<Section>? sections,
           List<Graphic>? graphics,
           List<Client>? clients,
+          String? age,
           Client? client,
           List<Invoice>? invoices,
           String? error}) =>
@@ -41,6 +44,7 @@ class WalletState extends Equatable {
         sections: sections ?? this.sections,
         graphics: graphics ?? this.graphics,
         clients: clients ?? this.clients,
+        age: age ?? this.age,
         client: client ?? this.client,
         invoices: invoices ?? this.invoices,
         error: error ?? this.error,

@@ -37,7 +37,7 @@ class _SaleRoutersState extends State<SaleRouters>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.showRouters && widget.routers != null) {
+      if (state.status == SaleStatus.routers && widget.routers != null) {
         return SingleChildScrollView(
           child: Column(children: [
             TabBar(controller: _tabcontroller, tabs: const [
@@ -55,11 +55,11 @@ class _SaleRoutersState extends State<SaleRouters>
               )
             ]),
             Container(
-              height: Screens.height(context)*0.76,
+              height: Screens.height(context) * 0.76,
               color: Colors.grey[200],
               child: TabBarView(controller: _tabcontroller, children: [
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.showRouters &&
+                  if (state.status == SaleStatus.routers &&
                       widget.routers != null &&
                       widget.routers!.isNotEmpty == true) {
                     return ListView.builder(

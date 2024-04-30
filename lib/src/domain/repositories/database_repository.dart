@@ -24,6 +24,7 @@ abstract class DatabaseRepository {
   Future<void> init();
   void close();
   Future<void> emptyAllTables();
+  Future<void> emptyAllTablesToSync();
   Future<void> runMigrations(List<String> migrations);
   Future<void> insertAll(String table, List<dynamic> objects);
   Future<List<Map<String, Object?>>> search(String table);

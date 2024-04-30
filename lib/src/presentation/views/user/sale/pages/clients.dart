@@ -93,24 +93,6 @@ class _ClientsPageState extends State<ClientsPage> {
                       controller: textSaleController,
                       hintText: 'Buscar cliente'),
                 ),
-               /*  BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.clients != null &&
-                      state.status == SaleStatus.showClients) {
-                    return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: AppIconButton(
-                            child: Icon(
-                              Icons.map_rounded,
-                              color: theme.colorScheme.onPrimary,
-                            ),
-                            onPressed: () {
-                              navigationService.goTo(AppRoutes.saleMap,
-                                  arguments: widget.codeRouter);
-                            }));
-                  } else {
-                    return const Center(child: CupertinoActivityIndicator());
-                  }
-                }) */
                 gapW8,
                 AppIconButton(
                     child: Icon(Icons.filter_alt_rounded,
@@ -121,9 +103,7 @@ class _ClientsPageState extends State<ClientsPage> {
               ],
             ),
           ),
-          gapH4,
-         
-          gapH4,
+          gapH8,
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
                   title: e.name!,

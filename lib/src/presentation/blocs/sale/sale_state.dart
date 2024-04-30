@@ -1,6 +1,6 @@
 part of 'sale_bloc.dart';
 
-enum SaleStatus { initial, loading, success, failed, showClients, showRouters }
+enum SaleStatus { initial, loading, routers, clients, warehouses,products, failed }
 
 class SaleState {
   final SaleStatus status;

@@ -58,8 +58,10 @@ class _CardKpiState extends State<CardKpi> {
           return "N/A";
         } else {
           if ((widget.kpi.results.first['dato'] != null &&
+                  widget.kpi.results.first['dato'] is String &&
                   widget.kpi.results.first['dato'].contains('/')) ||
               (widget.kpi.results.first['y'] != null &&
+                  widget.kpi.results.first['y'] is String &&
                   widget.kpi.results.first['y'].contains('/'))) {
             var splits = [];
             if (widget.kpi.results.first['dato'] != null) {
@@ -87,6 +89,7 @@ class _CardKpiState extends State<CardKpi> {
                   ? widget.kpi.results.first['y'].toString()
                   : widget.kpi.results.first['y'];
             }
+
             return ''.formattedCompact(value);
           }
         }
@@ -94,13 +97,16 @@ class _CardKpiState extends State<CardKpi> {
         return "N/A";
       }
     } else {
-      if (widget.kpi.results is List) {
+      if (widget.kpi.results is List && widget.kpi.results.isNotEmpty) {
         if (widget.kpi.results.first is Kpi) {
           return "N/A";
         } else {
-          return widget.kpi.results.first['dato'] is int
-              ? widget.kpi.results.first['dato'].toString()
-              : widget.kpi.results.first['dato'];
+          var value = widget.kpi.results.first['dato'] is int
+              ? widget.kpi.results.first['dato'].toDouble()
+              : widget.kpi.results.first['dato'] is String
+                  ? double.parse(widget.kpi.results.first['dato'])
+                  : widget.kpi.results.first['dato'];
+          return ''.formatted(value);
         }
       } else {
         return "N/A";

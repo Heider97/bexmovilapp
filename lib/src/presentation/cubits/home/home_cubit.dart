@@ -205,10 +205,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
   }
 
   Future<void> logout() async {
-    await Future.wait([
-      //DELETE  DATABASE INFORMATION
-    ]);
-
+    await databaseRepository.emptyAllTables();
     storageService.remove('token');
     navigationService.replaceTo(AppRoutes.login);
   }
