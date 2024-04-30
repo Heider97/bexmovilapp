@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
 import 'package:bexmovil/src/presentation/widgets/user/ammount.dart';
 

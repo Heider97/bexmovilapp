@@ -18,6 +18,11 @@ class Client {
   String? distance;
   String? duration;
   int? color;
+  //ES EL CODIGO DE LA LISTA DE PRECIO
+  String? codPrecio;
+  //ES EL CODIGO DEL BARRIO
+  String? barrio;
+
   //ALTERNATIVES
   String? estadoCliente;
   String? typeClient;
@@ -47,6 +52,8 @@ class Client {
       this.email,
       this.cellphone,
       this.branch,
+      this.codPrecio,
+      this.barrio,
       this.price,
       this.wayToPay,
       this.quota,
@@ -101,7 +108,9 @@ class Client {
         longitude: json['longitud'],
         rutero: json['rutero'],
         order: json['order'],
-        service: json['service']);
+        service: json['service'],
+        codPrecio: json['CODPRECIO'],
+        barrio: json['CODBARRIO']);
   }
 
   Map<String, dynamic> toJson() {
@@ -120,7 +129,8 @@ class Client {
       'estadocliente': estadoCliente,
       'rutero': rutero,
       'service': service,
-      'order': order
+      'order': order,
+      'CODBARRIO': barrio,
     };
   }
 }

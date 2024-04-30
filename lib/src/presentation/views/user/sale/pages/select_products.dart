@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/config/router/routes.dart';
-import 'package:bexmovil/src/domain/models/porduct.dart';
+
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/product_card_row.dart';
@@ -163,7 +164,7 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             onTap: () {
                               _navigationService.goTo(AppRoutes.shoppingCart);
                             },
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               child: Material(
                                 color: theme.primaryColor,

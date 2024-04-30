@@ -6,6 +6,7 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
+import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -342,7 +343,9 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.selectProducts);
+                              //mostrar alerta para seleccionar lista de precios.
+                           showPriceAndWarehouses(context);
+                              //_navigationService.goTo(AppRoutes.selectProducts);
                             },
                             child: Material(
                               elevation: 2,
