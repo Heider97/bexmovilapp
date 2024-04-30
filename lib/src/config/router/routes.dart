@@ -8,7 +8,7 @@ import './separated/home_routes.dart';
 import './separated/navigation_routes.dart';
 import './separated/sales_routes.dart';
 import './separated/wallet_routes.dart';
-
+import './separated/chat_routes.dart';
 //views
 import '../../presentation/views/global/undefined_view.dart';
 
@@ -22,6 +22,7 @@ class Routes {
       ...navigationRoutes,
       ...salesRoutes,
       ...walletRoutes,
+      ...chatRoutes
     };
   }
 

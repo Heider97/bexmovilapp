@@ -28,7 +28,6 @@ class AppRoutes {
   static const createMeet = '/code-create-meet';
 
   //sales routes
-
   static const routersSale = '/sale-routers';
   static const clientsSale = '/sale-clients';
   static const filtersSale = '/sale-filters';
@@ -56,7 +55,8 @@ class AppRoutes {
   static const walletDetailsScreen = '/wallet-details-screen';
   static const actionWallet = '/wallet-action';
   
-
+  //CHAT ROUTES
+  static const chat = '/chat';
 
 }
 
