@@ -42,6 +42,7 @@ class QueryLoaderService {
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
                 widget.components = components;
+
                 for (var component in components) {
                   var needBeMapped = component.type == "kpi" ? true : false;
 
@@ -51,6 +52,9 @@ class QueryLoaderService {
 
                   var results =
                       await databaseRepository.logicQueries(component.id!);
+
+                  print('************');
+                  print(results);
 
                   List<LogicQuery> logicQueries =
                       await dynamicListTypes['List<LogicQuery>']!
@@ -100,21 +104,24 @@ class QueryLoaderService {
 
   Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
       {needBeMapped = false}) async {
-    if (logicQuery.queryType == 'query') {
-      var q = await readQuery(logicQuery.queryId!);
+    if (logicQuery.actionableType == 'query') {
+      var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
         return await executeQuery(type, q.table!, q.where, []);
       }
-    } else if (logicQuery.queryType == 'raw_query') {
-      var q = await readRawQuery(logicQuery.queryId!);
+    } else if (logicQuery.actionableType == 'raw_query') {
+      var q = await readRawQuery(logicQuery.actionableId!);
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
+    } else if(logicQuery.actionableType == 'navigation') {
+      print('*****************');
+      print('navigation');
     }
   }
 
@@ -125,6 +132,10 @@ class QueryLoaderService {
   Future<RawQuery?> readRawQuery(int id) async {
     return databaseRepository.findRawQuery(id);
   }
+
+  // Future<Navigation?> readNavigation(int id) async {
+  //   return databaseRepository.findRawQuery(id);
+  // }
 
   String replaceValues(String query, List<dynamic> values, bool deep) {
     try {
