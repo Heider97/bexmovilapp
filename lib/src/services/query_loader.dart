@@ -1,5 +1,6 @@
 //domain
 import '../domain/models/logic_query.dart';
+import '../domain/models/navigation.dart';
 import '../domain/models/raw_query.dart';
 import '../domain/models/query.dart';
 import '../domain/repositories/database_repository.dart';
@@ -116,7 +117,12 @@ class QueryLoaderService {
             needBeMapped: needBeMapped);
       }
     } else if(logicQuery.actionableType == 'navigation') {
-      print('navigation');
+      final navigation = await readNavigation(logicQuery.actionableId!);
+
+      if(navigation != null) {
+        await navigationService.goTo(navigation.route!, arguments: arguments);
+      }
+
     }
   }
 
@@ -128,9 +134,9 @@ class QueryLoaderService {
     return databaseRepository.findRawQuery(id);
   }
 
-  // Future<Navigation?> readNavigation(int id) async {
-  //   return databaseRepository.findRawQuery(id);
-  // }
+  Future<Navigation?> readNavigation(int id) async {
+    return databaseRepository.findNavigation(id);
+  }
 
   String replaceValues(String query, List<dynamic> values, bool deep) {
     try {

@@ -20,6 +20,7 @@ import '../../../domain/models/logic.dart';
 import '../../../domain/models/logic_query.dart';
 import '../../../domain/models/query.dart';
 import '../../../domain/models/raw_query.dart';
+import '../../../domain/models/navigation.dart';
 
 /// [FUNDAMENTAL]
 import '../../../domain/models/location.dart';
@@ -55,6 +56,7 @@ part '../local/dao/component_dao.dart';
 part '../local/dao/logic_dao.dart';
 part '../local/dao/query_dao.dart';
 part '../local/dao/raw_query_dao.dart';
+part '../local/dao/navigation_dao.dart';
 // [FUNDAMENTAL]
 part '../local/dao/location_dao.dart';
 part '../local/dao/config_dao.dart';
@@ -140,6 +142,7 @@ class AppDatabase {
     final db = await instance.database;
     return await db!.rawQuery(sentence);
   }
+
 
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;
@@ -241,6 +244,8 @@ class AppDatabase {
   QueryDao get queryDao => QueryDao(instance);
 
   RawQueryDao get rawQueryDao => RawQueryDao(instance);
+
+  NavigationDao get navigationDao => NavigationDao(instance);
 
   ProcessingQueueDao get processingQueueDao => ProcessingQueueDao(instance);
 

@@ -7,6 +7,7 @@ import '../models/component.dart';
 import '../models/logic.dart';
 import '../models/query.dart';
 import '../models/raw_query.dart';
+import '../models/navigation.dart';
 
 import '../models/processing_queue.dart';
 import '../models/config.dart';
@@ -62,6 +63,10 @@ abstract class DatabaseRepository {
   //RAW QUERIES
   Future<RawQuery?> findRawQuery(int id);
   Future<void> emptyRawQueries();
+
+  //NAVIGATIONS
+  Future<Navigation?> findNavigation(int id);
+  Future<void> emptyNavigations();
 
   //FEATURES
   Future<List<Feature>> getAllFeatures();
