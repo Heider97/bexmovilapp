@@ -3,6 +3,7 @@ import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
+import '../../../domain/models/price.dart';
 import '../../../domain/models/section.dart';
 import '../../../utils/constants/strings.dart';
 //domain
@@ -98,6 +99,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService
         .getResults('sales-warehouses', seller!, [seller, event.codcliente]);
+
+    // var warehouses = sections!.first.widgets!.first.components!.first.results;
 
     emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
   }

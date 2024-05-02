@@ -353,8 +353,11 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              saleBloc.add(LoadWarehouses(widget.client.nit));
-                              showPriceAndWarehouses(context);
+                              //    _navigationService.goTo(AppRoutes.selectProducts);
+                              // saleBloc.add(LoadWarehouses(widget.client.nit));
+                              //     showPriceAndWarehouses(context);
+                              _navigationService.goTo(AppRoutes.warehousesSale,
+                                  arguments: widget.client.nit);
                             },
                             child: Material(
                               elevation: 2,

@@ -12,8 +12,7 @@ enum SaleStatus {
 
 class SaleState {
   final SaleStatus status;
-  final List<Warehouse>? availableWarehouse;
-  final Warehouse? selectedWarehouse;
+
   final String? idListPrice;
   final List<Section>? sections;
   final List<Router>? routers;
@@ -21,6 +20,10 @@ class SaleState {
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
   final Router? selectedRouter;
+  // final List<Warehouse>? warehouses;
+  // final Warehouse? warehouse;
+  // final List<Price>? prices;
+  // final Price? price;
 
   final bool? gridView;
 
@@ -29,8 +32,8 @@ class SaleState {
   const SaleState(
       {this.status = SaleStatus.initial,
       this.sections,
-      this.availableWarehouse,
-      this.selectedWarehouse,
+      // this.availableWarehouse,
+      // this.selectedWarehouse,
       this.idListPrice,
       this.routers,
       this.clients,
@@ -63,9 +66,10 @@ class SaleState {
           gridView: gridView ?? this.gridView,
           error: error ?? this.error,
           selectedRouter: selectedRouter ?? this.selectedRouter,
-          selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
+          // selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
+          // availableWarehouse: availableWarehouse ?? this.availableWarehouse,
           idListPrice: idListPrice ?? this.idListPrice,
-          availableWarehouse: availableWarehouse ?? this.availableWarehouse);
+      );
 
   @override
   // TODO: implement props
