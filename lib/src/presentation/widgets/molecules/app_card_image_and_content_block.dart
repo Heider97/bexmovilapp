@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +29,7 @@ class AppCardImageAndContentBlock extends StatefulWidget {
     required this.headline,
     this.subhead,
     this.contents,
+    this.subContents,
     this.title,
     this.supportingText,
     this.image,
@@ -52,6 +54,9 @@ class AppCardImageAndContentBlock extends StatefulWidget {
 
   /// An optional contents displayed below the subheading.
   final List<Widget>? contents;
+
+  /// An optional contents displayed below the contents.
+  final List<Widget>? subContents;
 
   /// An optional title displayed up the heading.
   final Widget? title;
@@ -164,54 +169,61 @@ class _AppCardImageAndContentBlockState
           widget.image != null
               ? Padding(
                   padding: const EdgeInsets.all(AppConstants.sm),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(AppConstants.borderRadius),
-                        child: (hovered && widget.hoverImage != null)
-                            ? widget.hoverImage!
-                            : (widget.image != null)
-                                ? widget.image!
-                                : const SizedBox(),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                AppConstants.borderRadius),
+                            child: (hovered && widget.hoverImage != null)
+                                ? widget.hoverImage!
+                                : (widget.image != null)
+                                    ? widget.image!
+                                    : const SizedBox(),
+                          ),
+                          SizedBox(
+                            width: 195,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppTextBlock(
+                                  title: widget.headline,
+                                  subtitle: (widget.subhead != null)
+                                      ? AppText(widget.subhead!, maxLines: 3)
+                                      : null,
+                                  supportingText:
+                                      (widget.supportingText != null)
+                                          ? AppText(widget.supportingText!)
+                                          : null,
+                                  titleStyle: headlineStyle,
+                                  subtitleStyle: subheadStyle,
+                                  supportingTextStyle: supportingTextStyle,
+                                ),
+                                ...?widget.contents,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: 195,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppTextBlock(
-                              title: widget.headline,
-                              subtitle: (widget.subhead != null)
-                                  ? AppText(widget.subhead!, maxLines: 3)
-                                  : null,
-                              supportingText: (widget.supportingText != null)
-                                  ? AppText(widget.supportingText!)
-                                  : null,
-                              titleStyle: headlineStyle,
-                              subtitleStyle: subheadStyle,
-                              supportingTextStyle: supportingTextStyle,
-                            ),
-                            ...?widget.contents,
-                            Row(
-                              children: (widget.actions == null)
-                                  ? []
-                                  : widget.actions!
-                                      .map(
-                                        (action) => Container(
-                                          margin: const EdgeInsets.only(
-                                            top: AppConstants.sm,
-                                            right: AppConstants.sm,
-                                          ),
-                                          child: action,
-                                        ),
-                                      )
-                                      .toList(),
-                            ),
-                          ],
-                        ),
+                      gapH8,
+                      ...?widget.subContents,
+                      Row(
+                        children: (widget.actions == null)
+                            ? []
+                            : widget.actions!
+                                .map(
+                                  (action) => Container(
+                                    margin: const EdgeInsets.only(
+                                      top: AppConstants.sm,
+                                      right: AppConstants.sm,
+                                    ),
+                                    child: action,
+                                  ),
+                                )
+                                .toList(),
                       ),
                     ],
                   ))
@@ -233,6 +245,7 @@ class _AppCardImageAndContentBlockState
                         supportingTextStyle: supportingTextStyle,
                       ),
                       ...?widget.contents,
+                      ...?widget.subContents,
                       Row(
                         children: (widget.actions == null)
                             ? []

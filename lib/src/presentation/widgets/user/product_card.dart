@@ -115,36 +115,11 @@ class _ProductCardState extends State<ProductCard> {
                       fontSize: 16,
                     ),
                     subhead: widget.product.nomProducto,
-                    image: AppImage.asset('assets/images/menu.png'),
+                    // image: AppImage.asset('assets/images/menu.png'),
                     contents: [
                       AppText(
                           'Precio: ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
                       AppText('Disponible: ${widget.product.existenciaStock}'),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     Text(
-                      //       'Aplicar descuento: ',
-                      //       style: theme.textTheme.bodyMedium!
-                      //           .copyWith(fontSize: 14),
-                      //     ),
-                      //     SizedBox(
-                      //       width: Screens.width(context) * 0.20,
-                      //       height: 20,
-                      //       child: CustomTextEditing(
-                      //           controller: discountController),
-                      //     ),
-                      //     const SizedBox()
-                      //   ],
-                      // ),
-                      // Row(
-                      //   children: [
-                      //     AppText('Cantidad:  '),
-                      //     Ammount(
-                      //       controller: ammountController,
-                      //     )
-                      //   ],
-                      // ),
                       ExpandedSection(
                           expand: expand,
                           height: 100,
@@ -158,160 +133,34 @@ class _ProductCardState extends State<ProductCard> {
                             ],
                           )),
                     ],
+                    subContents: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Aplicar descuento: ',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(fontSize: 14),
+                          ),
+                          SizedBox(
+                            width: Screens.width(context) * 0.20,
+                            height: 20,
+                            child: CustomTextEditing(
+                                controller: discountController),
+                          ),
+                          const SizedBox()
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          AppText('Cantidad:  '),
+                          Ammount(
+                            controller: ammountController,
+                          )
+                        ],
+                      ),
+                    ],
                   )
-                  // Column(
-                  //   children: [
-                  //     gapH12,
-                  //     SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: Row(
-                  //             mainAxisAlignment:
-                  //                 MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               SingleChildScrollView(
-                  //                 scrollDirection: Axis.horizontal,
-                  //                 child: Column(
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     gapW12,
-                  //                     Opacity(
-                  //                       opacity: 0.8,
-                  //                       child: AppText(widget.product.codProducto!,
-                  //                           fontWeight: FontWeight.w500,
-                  //                           color: theme.primaryColor,
-                  //                           fontSize: 12,
-                  //                           overflow: TextOverflow.ellipsis),
-                  //                     ),
-                  //                     AppText(
-                  //                         widget.product.nomProducto,
-                  //                         fontWeight: FontWeight.w500,
-                  //                         color: Colors.black,
-                  //                         fontSize: 16,
-                  //                         overflow: TextOverflow.ellipsis),
-                  //                   ],
-                  //                 ),
-                  //               ),
-                  //             ])
-                  //         ),
-                  //     gapH8,
-                  //     Row(
-                  //       children: [
-                  //         Expanded(
-                  //           child: Column(
-                  //             children: [
-                  //               Column(
-                  //                 crossAxisAlignment: CrossAxisAlignment.start,
-                  //                 mainAxisAlignment: MainAxisAlignment.start,
-                  //                 children: [
-                  //                   /*  Row(
-                  //                     children: [
-                  //
-                  //                     ],
-                  //                   ), */
-                  //                   Row(
-                  //                     children: [
-                  //                       Expanded(
-                  //                         child: SingleChildScrollView(
-                  //                           scrollDirection: Axis.horizontal,
-                  //                           child: Row(
-                  //                             children: [
-                  //                               Text(
-                  //                                 '17 %   ',
-                  //                                 style: theme
-                  //                                     .textTheme.labelMedium!
-                  //                                     .copyWith(
-                  //                                         fontWeight:
-                  //                                             FontWeight.w700,
-                  //                                         fontSize: 15,
-                  //                                         color: Color.fromARGB(
-                  //                                             255,
-                  //                                             206,
-                  //                                             47,
-                  //                                             84)),
-                  //                               ),
-                  //                               Text(
-                  //                                 '5415455465464',
-                  //                                 style: theme
-                  //                                     .textTheme.labelMedium!
-                  //                                     .copyWith(
-                  //                                   fontWeight: FontWeight.w500,
-                  //                                   fontSize: 22,
-                  //                                 ),
-                  //                               )
-                  //                             ],
-                  //                           ),
-                  //                         ),
-                  //                       )
-                  //                     ],
-                  //                   ),
-                  //                   gapH12,
-                  //                   SizedBox(
-                  //                     width: Screens.width(context),
-                  //                     child: Row(
-                  //                       children: [
-                  //                         Center(
-                  //                           child:
-                  //                         ),
-                  //                         gapW8,
-                  //                       ],
-                  //                     ),
-                  //                   ),
-                  //                   Row(
-                  //                     children: [
-                  //                       Center(
-                  //                         child: Row(
-                  //                           children: [
-                  //                             AppText('Fecha Últ. Venta: ',
-                  //                                 fontWeight: FontWeight.normal,
-                  //                                 color: Colors.black,
-                  //                                 fontSize: 14,
-                  //                                 overflow:
-                  //                                     TextOverflow.ellipsis),
-                  //                            /*  AppText(
-                  //                                 widget
-                  //                                     .product.lastQuantitySold
-                  //                                     .toString(),
-                  //                                 fontWeight: FontWeight.normal,
-                  //                                 color: Colors.grey[700],
-                  //                                 fontSize: 16,
-                  //                                 overflow:
-                  //                                     TextOverflow.ellipsis) */
-                  //                           ],
-                  //                         ),
-                  //                       ),
-                  //                     ],
-                  //                   ),
-                  //                   Row(
-                  //                     children: [
-                  //                       AppText('Disponible: ',
-                  //                           fontWeight: FontWeight.normal,
-                  //                           color: Colors.black,
-                  //                           fontSize: 14,
-                  //                           overflow: TextOverflow.ellipsis),
-                  //                       /* AppText(
-                  //                           '${widget.product.availableUnits}',
-                  //                           fontWeight: FontWeight.normal,
-                  //                           color: Colors.grey[700],
-                  //                           fontSize: 16,
-                  //                           overflow: TextOverflow.ellipsis) */
-                  //                     ],
-                  //                   ),
-
-                  //                   gapH12,
-
-                  //                   gapH12,
-
-                  //                   gapH28
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ],
-                  // )
                 ]),
               ],
             ),
