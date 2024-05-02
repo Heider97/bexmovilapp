@@ -1,4 +1,3 @@
-
 import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
@@ -17,13 +16,14 @@ import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../widgets/organisms/app_section.dart';
+
 final NavigationService _navigationService = locator<NavigationService>();
 
 class ProductsView extends StatefulWidget {
-
   final ProductArgument arguments;
 
-  const ProductsView({super.key, required this.arguments} );
+  const ProductsView({super.key, required this.arguments});
 
   @override
   State<ProductsView> createState() => _ProductsViewState();
@@ -37,7 +37,8 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
+    saleBloc.add(
+        LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
@@ -94,41 +95,47 @@ class _ProductsViewState extends State<ProductsView> {
                   )
                 ],
               ),
-              (gridMode)
-                  ? Expanded(
-                child: Container(
-                  color: Colors.grey[200],
-                  child: ListView.builder(
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child:Text('productCard') /* ProductCard(
-                                  product: product,
-                                  refresh: () {},
-                                ), */
-                        );
-                      }),
-                ),
-              )
-                  : Expanded(
-                child: Container(
-                  color: Colors.grey[200],
-                  child: ListView.builder(
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child: Text('productCardRow')/* ProductCardRow(
-                                    firstProduct: product, secondProduct: null
-                                    //TODO: que le ingresen dos clientes ambos opcionales
-                                    /*    product: product,
-                                  refresh: () {}, */
-                                    ), */
-                        );
-                      }),
-                ),
-              ),
+              ...state.sections != null
+                  ? state.sections!.map((e) => AppSection(
+                      title: e.name!,
+                      widgetItems: e.widgets ?? [],
+                      tabController: null))
+                  : [],
+              // (gridMode)
+              //     ? Expanded(
+              //   child: Container(
+              //     color: Colors.grey[200],
+              //     child: ListView.builder(
+              //         itemCount: 4,
+              //         itemBuilder: (context, index) {
+              //           return Padding(
+              //               padding: const EdgeInsets.only(top: 15.0),
+              //               child:Text('productCard') /* ProductCard(
+              //                     product: product,
+              //                     refresh: () {},
+              //                   ), */
+              //           );
+              //         }),
+              //   ),
+              // )
+              //     : Expanded(
+              //   child: Container(
+              //     color: Colors.grey[200],
+              //     child: ListView.builder(
+              //         itemCount: 2,
+              //         itemBuilder: (context, index) {
+              //           return Padding(
+              //               padding: const EdgeInsets.only(top: 15.0),
+              //               child: Text('productCardRow')/* ProductCardRow(
+              //                       firstProduct: product, secondProduct: null
+              //                       //TODO: que le ingresen dos clientes ambos opcionales
+              //                       /*    product: product,
+              //                     refresh: () {}, */
+              //                       ), */
+              //           );
+              //         }),
+              //   ),
+              // ),
               Material(
                   elevation: 10,
                   child: Container(
@@ -175,8 +182,8 @@ class _ProductsViewState extends State<ProductsView> {
                                       'Ver Orden',
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600),
                                     ),
                                   ),
                                 ),
