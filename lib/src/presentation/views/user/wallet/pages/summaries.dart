@@ -73,28 +73,6 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
               ],
             ),
           ),
-          // StepperWidget(
-          //   currentStep: 0,
-          //   steps: [
-          //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
-          //         theme.primaryColor, Assets.profileDisable, () {
-          //           walletBloc.add(SelectClientEvent());
-          //         }),
-          //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-          //         theme.primaryColor, Assets.invoiceDisable, () {
-          //           walletBloc.add(InvoiceSelectionEvent());
-          //         }),
-          //     StepData(
-          //       "Recaudar",
-          //       Assets.actionEnable,
-          //       theme.primaryColor,
-          //       Assets.actionDisable,
-          //           () {
-          //         walletBloc.add(InvoiceActionEvent());
-          //       },
-          //     )
-          //   ],
-          // ),
           Row(children: [
             Expanded(
               child: Padding(
@@ -127,10 +105,10 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                 surfaceTintColor: theme.primaryColor,
                 color: theme.primaryColor,
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Text(
                     widget.argument!.client!.name!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

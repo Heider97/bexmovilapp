@@ -2,11 +2,7 @@ import 'package:bexmovil/src/domain/models/invoice.dart';
 import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../domain/models/arguments.dart';
-import '../../../../../domain/models/client.dart';
-import '../../../../../utils/constants/strings.dart';
 import '../../../../widgets/atoms/app_text.dart';
-import '../widgets/card_client_wallet.dart';
 
 class WalletSummaries extends StatefulWidget {
   final List<Invoice>? invoices;
