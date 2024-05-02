@@ -353,7 +353,7 @@ class AppGlobalBackground extends StatelessWidget {
     };
   }
 
-  AppGlobalBackground.wallet({
+  AppGlobalBackground.walletDashboard({
     super.key,
     this.color,
     this.opacity,
@@ -394,6 +394,130 @@ class AppGlobalBackground extends StatelessWidget {
                             maxLines: 2,
                           )
                         : Container())
+                : null,
+            drawer: const DrawerWidget(),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Stack(fit: StackFit.expand, children: [
+              Image.asset(
+                Assets.bgPattern,
+                fit: BoxFit.cover,
+                color: Theme.of(context).colorScheme.background,
+              ),
+              child
+            ]),
+            bottomNavigationBar: (hideBottomNavigationBar == true)
+                ? null
+                : const AppGlobalBottomNavBar(),
+          );
+        },
+      );
+    };
+  }
+
+  AppGlobalBackground.walletClients({
+    super.key,
+    this.color,
+    this.opacity,
+    required this.hideBottomNavigationBar,
+    this.hideAppBar,
+    required this.child,
+  }) {
+    builder = (context) {
+      ThemeData theme = Theme.of(context);
+      return BlocBuilder<WalletBloc, WalletState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: hideAppBar == false
+                ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Const.padding, vertical: 5),
+                      child: AppIconButton(
+                          onPressed: () =>
+                              Scaffold.of(context).openDrawer(),
+                          child: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onPrimary,
+                          )),
+                    );
+                  }),
+                ],
+                toolbarHeight: Screens.height(context) * 0.07,
+                title: (state.status == WalletStatus.clients)
+                    ? AppText(
+                  state.age ?? '',
+                  fontSize: 14,
+                  maxLines: 2,
+                )
+                    : Container())
+                : null,
+            drawer: const DrawerWidget(),
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            body: Stack(fit: StackFit.expand, children: [
+              Image.asset(
+                Assets.bgPattern,
+                fit: BoxFit.cover,
+                color: Theme.of(context).colorScheme.background,
+              ),
+              child
+            ]),
+            bottomNavigationBar: (hideBottomNavigationBar == true)
+                ? null
+                : const AppGlobalBottomNavBar(),
+          );
+        },
+      );
+    };
+  }
+
+  AppGlobalBackground.walletSummaries({
+    super.key,
+    this.color,
+    this.opacity,
+    required this.hideBottomNavigationBar,
+    this.hideAppBar,
+    required this.child,
+  }) {
+    builder = (context) {
+      ThemeData theme = Theme.of(context);
+      return BlocBuilder<WalletBloc, WalletState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: hideAppBar == false
+                ? AppBar(
+                leading: const Padding(
+                    padding: EdgeInsets.all(Const.padding),
+                    child: AppBackButton(needPrimary: true)),
+                actions: [
+                  Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Const.padding, vertical: 5),
+                      child: AppIconButton(
+                          onPressed: () =>
+                              Scaffold.of(context).openDrawer(),
+                          child: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onPrimary,
+                          )),
+                    );
+                  }),
+                ],
+                toolbarHeight: Screens.height(context) * 0.07,
+                title: (state.status == WalletStatus.invoices)
+                    ? AppText(
+                  state.age ?? '',
+                  fontSize: 14,
+                  maxLines: 2,
+                )
+                    : Container())
                 : null,
             drawer: const DrawerWidget(),
             resizeToAvoidBottomInset: false,

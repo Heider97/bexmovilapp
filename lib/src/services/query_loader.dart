@@ -114,8 +114,6 @@ class QueryLoaderService {
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-        print(sentence);
-
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
