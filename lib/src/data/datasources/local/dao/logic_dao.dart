@@ -25,10 +25,10 @@ class LogicDao {
     return logic.first;
   }
 
-  Future<bool> validateLogic(Logic logic) async {
+  Future<bool> validateLogic(Logic logic, String seller) async {
     final db = await _appDatabase.database;
     final v = await db!.query(logic.table!,
-        where: '${logic.column} = ?', whereArgs: [logic.condition]);
+        where: '${logic.column} = ? and codvendedor = ?', whereArgs: [logic.condition, seller]);
 
     if (v.isNotEmpty) {
       return true;

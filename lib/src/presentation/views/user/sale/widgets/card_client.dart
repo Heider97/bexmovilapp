@@ -358,6 +358,7 @@ class _CardClientState extends State<CardClient> {
                           //    _navigationService.goTo(AppRoutes.selectProducts);
                           saleBloc.add(LoadWarehouseAndListPrice(/* codeClient:  */));
                               showPriceAndWarehouses(context);
+                              //_navigationService.goTo(AppRoutes.warehousesSale, arguments: widget.client.nit);
                             },
                             child: Material(
                               elevation: 2,

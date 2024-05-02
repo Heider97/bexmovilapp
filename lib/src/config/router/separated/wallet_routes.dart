@@ -18,20 +18,21 @@ import '../../../presentation/views/user/wallet/pages/collection.dart';
 import '../../../presentation/views/user/wallet/wallet_process_view.dart';
 
 Map<String, RouteType> walletRoutes = {
-  AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.wallet(
+  AppRoutes.dashboardWallet: (context, settings) => AppGlobalBackground.walletDashboard(
       opacity: 0.5,
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: const WalletDashboardView()),
-  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.wallet(
+  AppRoutes.clientsWallet: (context, settings) => AppGlobalBackground.walletClients(
       opacity: 0.1,
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WalletClientsView(
         argument: settings.arguments as WalletArgument,
       )),
-  AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.squared(
+  AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.walletSummaries(
       opacity: 0.1,
+      hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WalletSummariesView(
         argument: settings.arguments as WalletArgument,
@@ -50,10 +51,10 @@ Map<String, RouteType> walletRoutes = {
       AppGlobalBackground.squared(
           opacity: 0.1,
           hideBottomNavigationBar: true,
-          child: WalletDetailsScreen()),
+          child: const WalletDetailsScreen()),
   AppRoutes.actionWallet: (context, settings) => AppGlobalBackground.squared(
       hideAppBar: false,
       opacity: 0.1,
       hideBottomNavigationBar: true,
-      child: WalletActionList()),
+      child: const WalletActionList()),
 };

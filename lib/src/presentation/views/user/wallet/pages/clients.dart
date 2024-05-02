@@ -1,27 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-//utils
-
-import '../../../../../utils/constants/gaps.dart';
-import '../../../../../utils/constants/strings.dart';
 
 //blocs
 import '../../../../blocs/wallet/wallet_bloc.dart';
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //domain
 import '../../../../../domain/models/arguments.dart';
 
 //atoms
-
 import '../../../../widgets/organisms/app_section.dart';
-import '../../../../widgets/user/custom_search_bar.dart';
-import '../widgets/card_client_wallet.dart';
-import '../../../../widgets/atomsbox.dart';
-import '../../../../widgets/user/stepper.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -37,8 +25,6 @@ class WalletClientsView extends StatefulWidget {
   State<WalletClientsView> createState() => _WalletClientsViewState();
 }
 
-late SaleStepperBloc saleStepperBloc;
-
 class _WalletClientsViewState extends State<WalletClientsView> {
   TextEditingController searchController = TextEditingController();
 
@@ -46,10 +32,16 @@ class _WalletClientsViewState extends State<WalletClientsView> {
 
   @override
   void initState() {
+    super.initState();
+
     walletBloc = BlocProvider.of<WalletBloc>(context);
     walletBloc.add(LoadClients(range: widget.argument!.type));
-    saleStepperBloc = BlocProvider.of(context);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    walletBloc.add(LoadGraphics());
+    super.dispose();
   }
 
   @override

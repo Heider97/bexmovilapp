@@ -1,31 +1,27 @@
 class Warehouse {
-  int consecutivo;
-  String codVendedor;
-  String codBodega;
-  DateTime fecha;
-  String codGra;
+  String? codbodega;
+  String? nombodega;
+  String? ctlstockbodega;
 
   Warehouse({
-    required this.consecutivo,
-    required this.codVendedor,
-    required this.codBodega,
-    required this.fecha,
-    required this.codGra,
+    this.codbodega,
+    this.nombodega,
+    this.ctlstockbodega,
   });
 
-  factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
-        consecutivo: json['consecutivo'],
-        codVendedor: json['codVendedor'],
-        codBodega: json['codBodega'],
-        fecha: DateTime.parse(json['fecha']),
-        codGra: json['codGra'],
-      );
+  factory Warehouse.fromJson(Map<String, dynamic> json) {
+    return Warehouse(
+      codbodega: json['CODBODEGA'],
+      nombodega: json['NOMBODEGA'],
+      ctlstockbodega: json['CTLSTOCKBODEGA'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        'consecutivo': consecutivo,
-        'codVendedor': codVendedor,
-        'codBodega': codBodega,
-        'fecha': fecha.toIso8601String(),
-        'codGra': codGra,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'codbodega': codbodega,
+      'nombodega': nombodega,
+      'ctlstockbodega': ctlstockbodega,
+    };
+  }
 }

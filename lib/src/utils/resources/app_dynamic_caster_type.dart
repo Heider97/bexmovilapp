@@ -1,9 +1,12 @@
 //domain
+import 'package:bexmovil/src/domain/models/warehouse.dart';
+
 import '../../domain/models/config.dart';
 import '../../domain/models/feature.dart';
 import '../../domain/models/graphic.dart';
 import '../../domain/models/kpi.dart';
 import '../../domain/models/application.dart';
+import '../../domain/models/price.dart';
 import '../../domain/models/router.dart';
 import '../../domain/models/client.dart';
 import '../../domain/models/invoice.dart';
@@ -53,6 +56,24 @@ List<Client> parseClients(List<Map<String, dynamic>> clientList) {
     clients.add(client);
   }
   return clients;
+}
+
+List<Warehouse> parseWarehouses(List<Map<String, dynamic>> warehouseList) {
+  final warehouses = <Warehouse>[];
+  for (var warehouseMap in warehouseList) {
+    final warehouse = Warehouse.fromJson(warehouseMap);
+    warehouses.add(warehouse);
+  }
+  return warehouses;
+}
+
+List<Price> parsePrices(List<Map<String, dynamic>> priceList) {
+  final prices = <Price>[];
+  for (var priceMap in priceList) {
+    final price = Price.fromJson(priceMap);
+    prices.add(price);
+  }
+  return prices;
 }
 
 List<Invoice> parseInvoices(List<Map<String, dynamic>> invoiceList) {
@@ -108,6 +129,9 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
   "List<Client>":
       AppDynamicListCasterType<List<Client>>((s) => parseClients(s)),
+  "List<Warehouse>":
+      AppDynamicListCasterType<List<Warehouse>>((s) => parseWarehouses(s)),
+  "List<Price>": AppDynamicListCasterType<List<Price>>((s) => parsePrices(s)),
   "List<Invoice>":
       AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
   "List<LogicQuery>":

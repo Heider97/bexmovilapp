@@ -18,6 +18,8 @@ import '../../../../../domain/models/arguments.dart';
 
 //widgets
 import '../../../../widgets/atomsbox.dart';
+import '../../../../widgets/organisms/app_section.dart';
+import '../../../../widgets/user/custom_search_bar.dart';
 import '../widgets/table_summaries_wallet.dart';
 import '../../../../widgets/user/stepper.dart';
 
@@ -35,8 +37,6 @@ class WalletSummariesView extends StatefulWidget {
   State<WalletSummariesView> createState() => _WalletSummariesViewState();
 }
 
-late SaleStepperBloc saleStepperBloc;
-
 class _WalletSummariesViewState extends State<WalletSummariesView> {
   TextEditingController searchController = TextEditingController();
 
@@ -44,189 +44,168 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
 
   @override
   void initState() {
+    super.initState();
     walletBloc = BlocProvider.of<WalletBloc>(context);
     walletBloc.add(LoadSummaries(
         range: widget.argument!.type, client: widget.argument!.client));
-    saleStepperBloc = BlocProvider.of(context);
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    walletBloc.add(LoadClients(range: widget.argument!.type));
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
+
+    return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
+      if (state.status == WalletStatus.loading) {
+        return const Center(
+            child: CupertinoActivityIndicator(color: Colors.green));
+      } else if (state.status == WalletStatus.invoices) {
+        return _buildBody(size, theme, state, context);
+      } else {
+        return const SizedBox();
+      }
+    });
+
+  }
+
+  Widget _buildBody(
+      Size size, ThemeData theme, WalletState state, BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(Const.padding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppBackButton(needPrimary: true),
-                AppText(widget.argument!.type),
-                AppIconButton(
-                    onPressed: null,
-                    child: Icon(Icons.menu,
-                        color:
-                            Theme.of(context).colorScheme.onPrimaryContainer)),
-              ],
-            ),
-          ),
-          // StepperWidget(
-          //   currentStep: 0,
-          //   steps: [
-          //     StepData("Seleccionar\n Cliente", Assets.profileEnable,
-          //         theme.primaryColor, Assets.profileDisable, () {
-          //           walletBloc.add(SelectClientEvent());
-          //         }),
-          //     StepData("Seleccionar\n facturas", Assets.invoiceEnable,
-          //         theme.primaryColor, Assets.invoiceDisable, () {
-          //           walletBloc.add(InvoiceSelectionEvent());
-          //         }),
-          //     StepData(
-          //       "Recaudar",
-          //       Assets.actionEnable,
-          //       theme.primaryColor,
-          //       Assets.actionDisable,
-          //           () {
-          //         walletBloc.add(InvoiceActionEvent());
-          //       },
-          //     )
-          //   ],
-          // ),
-          Row(children: [
-            Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.all(Const.padding),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Const.space15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(Const.padding),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.search,
-                          ),
-                          gapW24,
-                          AppText(
-                            'Factura o cliente',
-                          )
-                        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: Screens.width(context),
+                child: Card(
+                  surfaceTintColor: theme.primaryColor,
+                  color: theme.primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      widget.argument!.client!.name!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                  )),
-            )
-          ]),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: Screens.width(context),
-              child: Card(
-                surfaceTintColor: theme.primaryColor,
-                color: theme.primaryColor,
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    widget.argument!.client!.name!,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
             ),
-          ),
-          gapH4,
-
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) {
-              if (state.status == WalletStatus.loading) {
-                return const Center(child: CupertinoActivityIndicator());
-              } else if (state.canRenderView()) {
-                return Expanded(
-                    child:
-                        WalletTableSummaries(invoices: state.invoices ?? []));
-              } else {
-                return Center(child: AppText("No se encontraron facturas."));
-              }
-            },
-          ),
-          // Expanded(child: DataGridCheckBox()),
-          BlocBuilder<WalletBloc, WalletState>(
-            builder: (context, state) {
-              int totalAbono = state.invoices?.fold(
-                      0, (sum, invoice) => sum! + (invoice.preciomov ?? 0)) ??
-                  0;
-
-              String textToShow = '';
-
-              if (state.invoices != null) {
-                if (state.invoices!.length == 1) {
-                  textToShow = '1 Factura';
-                } else {
-                  textToShow = '${state.invoices!.length} Facturas';
-                }
-              } else {
-                textToShow = 'No hay facturas';
-              }
-
-              return Material(
-                elevation: 10,
-                borderRadius: BorderRadius.circular(10),
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Container(
-                    width: size.width,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /*   AppText('${state.invoices!.length} Facturas'), */
-                              AppText(textToShow,fontWeight: FontWeight.bold,fontSize: 20,),
-                              /*      AppText(
-                                  'Abono: \$ ${''.formatted(totalAbono.toDouble())}'), */
-                              AppText(
-                                  'Total: \$ ${''.formatted(totalAbono.toDouble())}'),
-                            ],
-                          ),
-                          gapW12,
-                          Row(children: [
-                            AppText('Vaciar'),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    //TODO: [Heider Zapa]
-                                    //TODO: navigate realizar accion
-                                    navigationService
-                                        .goTo(AppRoutes.actionWallet);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  child: AppText('Gestionar')),
-                            ),
-                          ])
-                        ]),
+            gapH4,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomSearchBar(
+                        onChanged: (value) {
+                          walletBloc.add(SearchClientWallet(valueToSearch: value));
+                        },
+                        colorBackground: theme.colorScheme.secondary,
+                        prefixIcon: const Icon(Icons.search),
+                        controller: searchController,
+                        hintText: 'Buscar factura'),
                   ),
+                  gapW8,
+                  AppIconButton(
+                      child: Icon(Icons.filter_alt_rounded,
+                          color: theme.colorScheme.onPrimary),
+                      onPressed: () => navigationService.goTo(
+                        AppRoutes.filtersSale,
+                      )),
+                ],
+              ),
+            ),
+            gapH8,
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                title: e.name!,
+                widgetItems: e.widgets ?? [],
+                tabController: null))
+                : [],
+          ],
+        ),
+        BlocBuilder<WalletBloc, WalletState>(
+          builder: (context, state) {
+            int totalAbono = state.invoices?.fold(
+                    0, (sum, invoice) => sum! + (invoice.preciomov ?? 0)) ??
+                0;
+
+            String textToShow = '';
+
+            if (state.invoices != null) {
+              if (state.invoices!.length == 1) {
+                textToShow = '1 Factura';
+              } else {
+                textToShow = '${state.invoices!.length} Facturas';
+              }
+            } else {
+              textToShow = 'No hay facturas';
+            }
+
+            return Material(
+              elevation: 10,
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Container(
+                  width: size.width,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(textToShow,
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                            AppText(
+                                'Total: \$ ${''.formatted(totalAbono.toDouble())}'),
+                          ],
+                        ),
+                        gapW12,
+                        Row(children: [
+                          AppText('Vaciar'),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  //TODO: [Heider Zapa]
+                                  //TODO: navigate realizar accion
+                                  navigationService
+                                      .goTo(AppRoutes.actionWallet);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: AppText('Gestionar')),
+                          ),
+                        ])
+                      ]),
                 ),
-              );
-            },
-          )
-        ],
-      ),
-    );
+              ),
+            );
+          },
+        )
+      ],
+    ));
   }
 }

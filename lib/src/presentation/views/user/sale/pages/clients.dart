@@ -49,10 +49,9 @@ class _ClientsPageState extends State<ClientsPage> {
 
   @override
   void initState() {
-    super.initState();
-
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadClients(widget.codeRouter));
+    super.initState();
   }
 
   @override

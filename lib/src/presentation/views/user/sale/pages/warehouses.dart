@@ -1,39 +1,51 @@
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 //blocs
-import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
-
-//utils
 import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/constants/strings.dart';
+import '../../../../blocs/sale/sale_bloc.dart';
+import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
-//widgets
+//features
 import '../../../../widgets/organisms/app_section.dart';
-import '../widgets/circular_chart.dart';
 
-class WalletDashboardView extends StatefulWidget {
-  const WalletDashboardView({super.key});
+//services
+import '../../../../../locator.dart';
+import '../../../../../services/navigation.dart';
+
+final NavigationService navigationService = locator<NavigationService>();
+
+class WarehousesPage extends StatefulWidget {
+  final String? codrouter;
+  final String? codcliente;
+  const WarehousesPage({super.key, this.codrouter, this.codcliente});
 
   @override
-  State<WalletDashboardView> createState() => _WalletDashboardViewState();
+  State<WarehousesPage> createState() => _WarehousesPageState();
 }
 
-class _WalletDashboardViewState extends State<WalletDashboardView> {
-  TextEditingController searchController = TextEditingController();
+class _WarehousesPageState extends State<WarehousesPage> {
+  final TextEditingController searchController = TextEditingController();
 
-  late WalletBloc walletBloc;
+  final formatCurrency = NumberFormat.simpleCurrency();
+
+  late SaleBloc saleBloc;
+  TextEditingController textSaleController = TextEditingController();
 
   @override
   void initState() {
-    walletBloc = BlocProvider.of<WalletBloc>(context);
-    walletBloc.add(LoadGraphics());
     super.initState();
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(LoadWarehouses(widget.codcliente));
   }
 
   @override
   void dispose() {
+    saleBloc.add(LoadClients(widget.codrouter));
     super.dispose();
   }
 
@@ -41,23 +53,21 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
-
-    return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
-      if (state.status == WalletStatus.loading) {
+    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+      if (state.status == SaleStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else if (state.status == WalletStatus.dashboard) {
-        return _buildBody(size, theme, state, context);
       } else {
-        return const SizedBox();
+        return _buildBody(state, theme, context);
       }
     });
   }
 
-  Widget _buildBody(
-      Size size, ThemeData theme, WalletState state, BuildContext context) {
+  Widget _buildBody(state, ThemeData theme, context) {
     return SafeArea(
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
@@ -73,7 +83,9 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    navigationService.goTo(AppRoutes.manageWallet);
+                    navigationService.goTo(AppRoutes.productsSale,
+                        arguments: ProductArgument(
+                            codbodega: '00167', codprecio: '001'));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.primaryColor,
@@ -83,7 +95,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
                     ),
                   ),
                   child: Text(
-                    'Gestionar Cartera',
+                    'Continuar',
                     style: theme.textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white),
                   ),

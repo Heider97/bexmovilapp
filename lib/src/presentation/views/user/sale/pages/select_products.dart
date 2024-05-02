@@ -19,7 +19,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class SelectProductsView extends StatefulWidget {
-  const SelectProductsView({super.key});
+
+  final String codcliente;
+  final String codbodega;
+  final String codprecio;
+
+  const SelectProductsView({super.key, required this.codcliente, required this.codbodega, required this.codprecio});
 
   @override
   State<SelectProductsView> createState() => _SelectProductsViewState();
@@ -43,10 +48,18 @@ bool gridMode = false;
 
 class _SelectProductsViewState extends State<SelectProductsView> {
   late SaleBloc saleBloc;
+
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(LoadProducts(widget.codbodega, widget.codprecio));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    saleBloc.add(LoadWarehouses(widget.codcliente));
+    super.dispose();
   }
 
   @override
