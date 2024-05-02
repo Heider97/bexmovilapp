@@ -99,41 +99,6 @@ class _ProductsViewState extends State<ProductsView> {
                       widgetItems: e.widgets ?? [],
                       tabController: null))
                   : [],
-              // (gridMode)
-              //     ? Expanded(
-              //   child: Container(
-              //     color: Colors.grey[200],
-              //     child: ListView.builder(
-              //         itemCount: 4,
-              //         itemBuilder: (context, index) {
-              //           return Padding(
-              //               padding: const EdgeInsets.only(top: 15.0),
-              //               child:Text('productCard') /* ProductCard(
-              //                     product: product,
-              //                     refresh: () {},
-              //                   ), */
-              //           );
-              //         }),
-              //   ),
-              // )
-              //     : Expanded(
-              //   child: Container(
-              //     color: Colors.grey[200],
-              //     child: ListView.builder(
-              //         itemCount: 2,
-              //         itemBuilder: (context, index) {
-              //           return Padding(
-              //               padding: const EdgeInsets.only(top: 15.0),
-              //               child: Text('productCardRow')/* ProductCardRow(
-              //                       firstProduct: product, secondProduct: null
-              //                       //TODO: que le ingresen dos clientes ambos opcionales
-              //                       /*    product: product,
-              //                     refresh: () {}, */
-              //                       ), */
-              //           );
-              //         }),
-              //   ),
-              // ),
               Material(
                   elevation: 10,
                   child: Container(
@@ -148,13 +113,12 @@ class _ProductsViewState extends State<ProductsView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '4 productos',
+                              '0 productos',
                               style: theme.textTheme.titleLarge!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
-                        SizedBox(),
                         Row(children: [
                           Text(
                             'Vaciar',
@@ -166,7 +130,7 @@ class _ProductsViewState extends State<ProductsView> {
                             onTap: () {
                               _navigationService.goTo(AppRoutes.shoppingCart);
                             },
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               child: Material(
                                 color: theme.primaryColor,
@@ -177,7 +141,7 @@ class _ProductsViewState extends State<ProductsView> {
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15),
                                     child: Text(
-                                      'Ver Orden',
+                                      'Ver Carrito',
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
                                               color: Colors.white,
