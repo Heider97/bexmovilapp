@@ -79,8 +79,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<bool> validateLogic(Logic logic) async {
-    return _appDatabase.logicDao.validateLogic(logic);
+  Future<bool> validateLogic(Logic logic, String seller) async {
+    return _appDatabase.logicDao.validateLogic(logic, seller);
   }
 
   //QUERIES

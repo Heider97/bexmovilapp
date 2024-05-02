@@ -54,7 +54,7 @@ abstract class DatabaseRepository {
 
   //LOGICS
   Future<Logic?> findLogic(int id);
-  Future<bool> validateLogic(Logic logic);
+  Future<bool> validateLogic(Logic logic, String seller);
 
   //QUERIES | RAW-QUERIES
   Future<Query?> findQuery(int id);

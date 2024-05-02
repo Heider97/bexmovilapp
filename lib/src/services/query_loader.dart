@@ -27,7 +27,7 @@ class QueryLoaderService {
   /// - [type] for the type of result
   /// - [module] name of module
   /// - [arguments] List of values to get result
-  Future getResults(String moduleName, List<dynamic> arguments) async {
+  Future getResults(String moduleName, String seller, List<dynamic> arguments) async {
     // FIND CURRENT MODULE
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
@@ -70,8 +70,10 @@ class QueryLoaderService {
                               await databaseRepository.findLogic(lq.logicId!);
                           if (logic != null) {
                             var result =
-                                await databaseRepository.validateLogic(logic);
+                                await databaseRepository.validateLogic(logic, seller);
                             if (result == true) {
+                              print(logic.toJson());
+
                               var results = await determine(
                                   widget.type!, lq, arguments,
                                   needBeMapped: needBeMapped);

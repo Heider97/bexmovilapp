@@ -42,7 +42,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     //TODO: [Heider Zapa] refactor with new logic
     var seller = storageService.getString('username');
     List<Section> sections =
-        await queryLoaderService.getResults('wallet', [seller]);
+        await queryLoaderService.getResults('wallet', seller!, [seller]);
     emit(state.copyWith(status: WalletStatus.dashboard, sections: sections));
   }
 
@@ -53,7 +53,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var seller = storageService.getString('username');
       var range = event.range;
       List<Section> sections = await queryLoaderService
-          .getResults('wallet-clients', [seller, range]);
+          .getResults('wallet-clients', seller!,[seller, range]);
       emit(state.copyWith(
           status: WalletStatus.clients, age: event.range, sections: sections));
     } catch (error, stackTrace) {
@@ -70,7 +70,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var client = event.client!.id.toString();
       var range = event.range;
       List<Section> sections = await queryLoaderService
-          .getResults('wallet-summaries', [seller, client, range]);
+          .getResults('wallet-summaries', seller!,[seller, client, range]);
       emit(state.copyWith(
           status: WalletStatus.invoices, age: event.range, sections: sections));
     } catch (error, stackTrace) {
