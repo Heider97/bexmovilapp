@@ -168,10 +168,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              /*   AppText('${state.invoices!.length} Facturas'), */
-                              AppText(textToShow,fontWeight: FontWeight.bold,fontSize: 20,),
-                              /*      AppText(
-                                  'Abono: \$ ${''.formatted(totalAbono.toDouble())}'), */
+                              AppText(textToShow,fontWeight: FontWeight.bold,fontSize: 16),
                               AppText(
                                   'Total: \$ ${''.formatted(totalAbono.toDouble())}'),
                             ],

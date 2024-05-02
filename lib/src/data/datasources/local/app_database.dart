@@ -205,16 +205,19 @@ class AppDatabase {
     final db = await instance.database;
     var results = <int>[];
     try {
-      await db?.transaction((database) async {
-        final batch = database.batch();
+      await db?.transaction((tnx) async {
+        final batch = tnx.batch();
         for (var object in objects) {
           batch.insert(table, object);
         }
         await batch.commit(continueOnError: false);
+        // for (var object in objects) {
+        //   var id = await tnx.insert(table, object);
+        //   results.add(id);
+        // }
       });
       return results;
     } catch (er) {
-      print(er);
       return null;
     }
   }
