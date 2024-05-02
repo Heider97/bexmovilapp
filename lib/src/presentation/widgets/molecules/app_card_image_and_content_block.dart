@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../atoms/app_card.dart';
@@ -160,50 +161,96 @@ class _AppCardImageAndContentBlockState
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: widget.title),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-            child: (hovered && widget.hoverImage != null)
-                ? widget.hoverImage!
-                : (widget.image != null)
-                    ? widget.image!
-                    : const SizedBox(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(AppConstants.sm),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppTextBlock(
-                  title: widget.headline,
-                  subtitle: (widget.subhead != null)
-                      ? AppText(widget.subhead!, maxLines: 2)
-                      : null,
-                  supportingText: (widget.supportingText != null)
-                      ? AppText(widget.supportingText!)
-                      : null,
-                  titleStyle: headlineStyle,
-                  subtitleStyle: subheadStyle,
-                  supportingTextStyle: supportingTextStyle,
-                ),
-                ...?widget.contents,
-                Row(
-                  children: (widget.actions == null)
-                      ? []
-                      : widget.actions!
-                          .map(
-                            (action) => Container(
-                              margin: const EdgeInsets.only(
-                                top: AppConstants.sm,
-                                right: AppConstants.sm,
-                              ),
-                              child: action,
+          widget.image != null
+              ? Padding(
+                  padding: const EdgeInsets.all(AppConstants.sm),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.circular(AppConstants.borderRadius),
+                        child: (hovered && widget.hoverImage != null)
+                            ? widget.hoverImage!
+                            : (widget.image != null)
+                                ? widget.image!
+                                : const SizedBox(),
+                      ),
+                      SizedBox(
+                        width: 195,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppTextBlock(
+                              title: widget.headline,
+                              subtitle: (widget.subhead != null)
+                                  ? AppText(widget.subhead!, maxLines: 3)
+                                  : null,
+                              supportingText: (widget.supportingText != null)
+                                  ? AppText(widget.supportingText!)
+                                  : null,
+                              titleStyle: headlineStyle,
+                              subtitleStyle: subheadStyle,
+                              supportingTextStyle: supportingTextStyle,
                             ),
-                          )
-                          .toList(),
+                            ...?widget.contents,
+                            Row(
+                              children: (widget.actions == null)
+                                  ? []
+                                  : widget.actions!
+                                      .map(
+                                        (action) => Container(
+                                          margin: const EdgeInsets.only(
+                                            top: AppConstants.sm,
+                                            right: AppConstants.sm,
+                                          ),
+                                          child: action,
+                                        ),
+                                      )
+                                      .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ))
+              : Padding(
+                  padding: const EdgeInsets.all(AppConstants.sm),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTextBlock(
+                        title: widget.headline,
+                        subtitle: (widget.subhead != null)
+                            ? AppText(widget.subhead!, maxLines: 2)
+                            : null,
+                        supportingText: (widget.supportingText != null)
+                            ? AppText(widget.supportingText!)
+                            : null,
+                        titleStyle: headlineStyle,
+                        subtitleStyle: subheadStyle,
+                        supportingTextStyle: supportingTextStyle,
+                      ),
+                      ...?widget.contents,
+                      Row(
+                        children: (widget.actions == null)
+                            ? []
+                            : widget.actions!
+                                .map(
+                                  (action) => Container(
+                                    margin: const EdgeInsets.only(
+                                      top: AppConstants.sm,
+                                      right: AppConstants.sm,
+                                    ),
+                                    child: action,
+                                  ),
+                                )
+                                .toList(),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     );

@@ -111,15 +111,52 @@ class _ProductCardState extends State<ProductCard> {
                       ],
                     ),
                     headline: AppText(
-                      widget.product.codProducto!,
+                      'Código: ${widget.product.codProducto!}',
                       fontSize: 16,
                     ),
                     subhead: widget.product.nomProducto,
-                    // image: AppImage.asset('assets/images/menu.png'),
+                    image: AppImage.asset('assets/images/menu.png'),
                     contents: [
                       AppText(
-                          'Precio ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
-                      AppText('Disponible ${widget.product.existenciaStock}')
+                          'Precio: ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
+                      AppText('Disponible: ${widget.product.existenciaStock}'),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Text(
+                      //       'Aplicar descuento: ',
+                      //       style: theme.textTheme.bodyMedium!
+                      //           .copyWith(fontSize: 14),
+                      //     ),
+                      //     SizedBox(
+                      //       width: Screens.width(context) * 0.20,
+                      //       height: 20,
+                      //       child: CustomTextEditing(
+                      //           controller: discountController),
+                      //     ),
+                      //     const SizedBox()
+                      //   ],
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     AppText('Cantidad:  '),
+                      //     Ammount(
+                      //       controller: ammountController,
+                      //     )
+                      //   ],
+                      // ),
+                      ExpandedSection(
+                          expand: expand,
+                          height: 100,
+                          child: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Some Info'),
+                              Text('Some Info 2'),
+                              Text('Some Info 3'),
+                            ],
+                          )),
                     ],
                   )
                   // Column(
@@ -260,51 +297,11 @@ class _ProductCardState extends State<ProductCard> {
                   //                           overflow: TextOverflow.ellipsis) */
                   //                     ],
                   //                   ),
-                  //                   Row(
-                  //
-                  //                     mainAxisAlignment:
-                  //                         MainAxisAlignment.start,
-                  //                     children: [
-                  //                       Text(
-                  //                         'Aplicar descuento: ',
-                  //                         style: theme.textTheme.bodyMedium!
-                  //                             .copyWith(fontSize: 14),
-                  //                       ),
-                  //                       SizedBox(
-                  //                         width: Screens.width(context) * 0.20,
-                  //                         height: 20,
-                  //                         child: CustomTextEditing(
-                  //                             controller: discountController),
-                  //                       ),
-                  //                       const SizedBox()
-                  //                     ],
-                  //                   ),
+
                   //                   gapH12,
-                  //                   Row(
-                  //                     mainAxisAlignment: MainAxisAlignment.center,
-                  //                     children: [
-                  //                 /*       Text('Cantidad:  ',
-                  //                           style: theme.textTheme.bodyMedium!
-                  //                               .copyWith(fontSize: 14)), */
-                  //                       Ammount(
-                  //                         controller: ammountController,
-                  //                       )
-                  //                     ],
-                  //                   ),
+
                   //                   gapH12,
-                  //                   ExpandedSection(
-                  //                       expand: expand,
-                  //                       height: 100,
-                  //                       child: const Column(
-                  //                         mainAxisSize: MainAxisSize.min,
-                  //                         crossAxisAlignment:
-                  //                             CrossAxisAlignment.start,
-                  //                         children: [
-                  //                           Text('Some Info'),
-                  //                           Text('Some Info 2'),
-                  //                           Text('Some Info 3'),
-                  //                         ],
-                  //                       )),
+
                   //                   gapH28
                   //                 ],
                   //               ),
