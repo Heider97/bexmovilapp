@@ -1,12 +1,15 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
+import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -27,6 +30,16 @@ class CardClient extends StatefulWidget {
 
 class _CardClientState extends State<CardClient> {
   final formatCurrency = NumberFormat.simpleCurrency();
+  late SaleBloc saleBloc;
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -342,7 +355,9 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.selectProducts);
+                          //    _navigationService.goTo(AppRoutes.selectProducts);
+                          saleBloc.add(LoadWarehouseAndListPrice(/* codeClient:  */));
+                              showPriceAndWarehouses(context);
                             },
                             child: Material(
                               elevation: 2,

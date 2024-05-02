@@ -45,7 +45,8 @@ class SelectWarehouseAndListPrice extends SaleEvent {
 }
 
 class LoadWarehouseAndListPrice extends SaleEvent {
-  LoadWarehouseAndListPrice();
+  //String? codeClient;
+  LoadWarehouseAndListPrice(/* {required this.codeClient} */);
 }
 
 

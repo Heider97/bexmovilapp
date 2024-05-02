@@ -50,11 +50,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadWarehouseAndListPrice(
       LoadWarehouseAndListPrice event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections =
-        await queryLoaderService.getResults('sale-warehouses', [seller]);
+   /*  var sections = await queryLoaderService
+        .getResults('sales-warehouses', seller[seller, 62066]);
     var listAvailableWarehouses =
         sections!.first.widgets!.first.components!.first.results;
-    print(listAvailableWarehouses);
+    print(listAvailableWarehouses); */
+    
   }
 
   Future<void> _onSelectWarehouseAndListPrice(
