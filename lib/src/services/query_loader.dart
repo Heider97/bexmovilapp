@@ -102,8 +102,6 @@ class QueryLoaderService {
   Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
       {needBeMapped = false}) async {
 
-    print(logicQuery.toJson());
-
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
@@ -120,15 +118,10 @@ class QueryLoaderService {
             needBeMapped: needBeMapped);
       }
     } else if(logicQuery.actionableType == 'navigation') {
-
-      print('paso aqui');
-
       final navigation = await readNavigation(logicQuery.actionableId!);
-
       if(navigation != null) {
         await navigationService.goTo(navigation.route!, arguments: arguments);
       }
-
     }
   }
 

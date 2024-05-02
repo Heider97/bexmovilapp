@@ -214,6 +214,7 @@ class AppDatabase {
       });
       return results;
     } catch (er) {
+      print(er);
       return null;
     }
   }
