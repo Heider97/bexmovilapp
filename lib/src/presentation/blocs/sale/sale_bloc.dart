@@ -121,8 +121,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService
         .getResults('sales-products', seller!, [seller, event.codprecio, event.codbodega]);
-
-
     emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
   }
 

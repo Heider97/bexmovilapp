@@ -23,13 +23,18 @@ class SaleProducts extends StatelessWidget {
       if (state.status == SaleStatus.products &&
           products != null &&
           products!.isNotEmpty) {
-        return ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemCount: products?.length,
-            itemBuilder: (context, index) {
-              return AppText(products![index].nomProducto);
-            });
+        return SingleChildScrollView(
+          child: SizedBox(
+            height: Screens.height(context) * 0.50,
+            child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: products?.length,
+                itemBuilder: (context, index) {
+                  return AppText(products![index].nomProducto);
+                }),
+          ),
+        );
       } else {
         return Center(child: AppText('No hay Productos'));
       }
