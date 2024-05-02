@@ -24,7 +24,7 @@ class SalePrices extends StatelessWidget {
 
         if (prices != null && prices!.isNotEmpty == true) {
           return SizedBox(
-            height: Screens.height(context) * 0.30,
+            height: Screens.height(context) * 0.40,
             child: RawScrollbar(
               thumbVisibility: true,
               thumbColor: theme.primaryColor,

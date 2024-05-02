@@ -72,30 +72,30 @@ class _ProductCardState extends State<ProductCard> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(children: [
-                  Positioned(
-                      right: 3,
-                      bottom: 1,
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            expand = !expand;
-                          });
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          width: 120,
-                          height: 20,
-                          child: Center(
-                            child: Text(
-                              !expand ? "Ver más" : 'Ver menos',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )),
+                  // Positioned(
+                  //     right: 3,
+                  //     bottom: 1,
+                  //     child: GestureDetector(
+                  //       onTap: () {
+                  //         setState(() {
+                  //           expand = !expand;
+                  //         });
+                  //       },
+                  //       child: Container(
+                  //         color: Colors.transparent,
+                  //         width: 120,
+                  //         height: 20,
+                  //         child: Center(
+                  //           child: Text(
+                  //             !expand ? "Ver más" : 'Ver menos',
+                  //             textAlign: TextAlign.center,
+                  //             style: const TextStyle(
+                  //               color: Colors.white,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     )),
                   AppCardImageAndContentBlock(
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,18 +120,6 @@ class _ProductCardState extends State<ProductCard> {
                       AppText(
                           'Precio: ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
                       AppText('Disponible: ${widget.product.existenciaStock}'),
-                      ExpandedSection(
-                          expand: expand,
-                          height: 100,
-                          child: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Some Info'),
-                              Text('Some Info 2'),
-                              Text('Some Info 3'),
-                            ],
-                          )),
                     ],
                     subContents: [
                       Row(
@@ -159,6 +147,18 @@ class _ProductCardState extends State<ProductCard> {
                           )
                         ],
                       ),
+                      ExpandedSection(
+                          expand: expand,
+                          height: 100,
+                          child: const Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Some Info'),
+                              Text('Some Info 2'),
+                              Text('Some Info 3'),
+                            ],
+                          )),
                     ],
                   )
                 ]),
