@@ -31,10 +31,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
-    on<LoadWarehouseAndListPrice>(_onLoadWarehouseAndListPrice);
     on<LoadWarehouses>(_onLoadWarehouses);
-/*     on<NavigationSale>(_onNavigation);
-    on<SearchClientSale>(_searchClient); */
     on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
@@ -48,30 +45,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(gridView: event.changeMode));
   }
 
-  Future<void> _onLoadWarehouseAndListPrice(
-      LoadWarehouseAndListPrice event, Emitter emit) async {
-    var seller = storageService.getString('username');
-   /*  var sections = await queryLoaderService
-        .getResults('sales-warehouses', seller[seller, 62066]);
-    var listAvailableWarehouses =
-        sections!.first.widgets!.first.components!.first.results;
-    print(listAvailableWarehouses); */
-    
-  }
-
-  Future<void> _onSelectWarehouseAndListPrice(
-      SelectWarehouseAndListPrice event, Emitter emit) async {
-    var seller = storageService.getString('username');
-    var sections =
-        await queryLoaderService.getResults('sale-warehouses', [seller]);
-    var listAvailableWarehouses =
-        sections!.first.widgets!.first.components!.first.results;
-    print(listAvailableWarehouses);
-  }
-
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales', seller!, [seller]);
+    var sections =
+        await queryLoaderService.getResults('sales', seller!, [seller]);
 
     emit(state.copyWith(status: SaleStatus.routers, sections: sections));
   }
@@ -119,9 +96,20 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales-warehouses', seller!, [seller, event.codcliente]);
+    var sections = await queryLoaderService
+        .getResults('sales-warehouses', seller!, [seller, event.codcliente]);
 
-    emit(state.copyWith(status: SaleStatus.routers, sections: sections));
+    emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
+  }
+
+  Future<void> _onSelectWarehouseAndListPrice(
+      SelectWarehouseAndListPrice event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    // var sections =
+    //     await queryLoaderService.getResults('sale-warehouses', [seller, ]);
+    // var listAvailableWarehouses =
+    //     sections!.first.widgets!.first.components!.first.results;
+    // print(listAvailableWarehouses);
   }
 
   // _selectClient(SelectClient event, Emitter emit) {

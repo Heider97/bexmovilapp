@@ -38,8 +38,6 @@ class _CardClientState extends State<CardClient> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -355,10 +353,8 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                          //    _navigationService.goTo(AppRoutes.selectProducts);
-                          saleBloc.add(LoadWarehouseAndListPrice(/* codeClient:  */));
+                              saleBloc.add(LoadWarehouses(widget.client.nit));
                               showPriceAndWarehouses(context);
-                              //_navigationService.goTo(AppRoutes.warehousesSale, arguments: widget.client.nit);
                             },
                             child: Material(
                               elevation: 2,

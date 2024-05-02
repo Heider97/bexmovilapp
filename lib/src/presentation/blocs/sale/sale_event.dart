@@ -23,11 +23,6 @@ class LoadProducts extends SaleEvent {
   LoadProducts(this.codbodega, this.codprecio);
 }
 
-/* class SelectClient extends SaleEvent {
-  final Client client;
-  SelectClient({required this.client});
-} */
-
 class NavigationSale extends SaleEvent {
   final bool nearest;
   final List<Client> clients;
@@ -57,13 +52,9 @@ class SelectWarehouseAndListPrice extends SaleEvent {
 }
 
 class LoadWarehouseAndListPrice extends SaleEvent {
-  //String? codeClient;
+  String? codeClient;
   LoadWarehouseAndListPrice(/* {required this.codeClient} */);
 }
-
-
-
-
 
 
 //
