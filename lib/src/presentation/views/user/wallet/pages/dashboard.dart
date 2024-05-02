@@ -33,6 +33,11 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
