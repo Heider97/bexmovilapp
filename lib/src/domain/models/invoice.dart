@@ -2,12 +2,14 @@ class Invoice {
   int? codcliente;
   int? nummov;
   String? fecven;
+  String? state;
   int? preciomov;
 
   Invoice({
     this.codcliente,
     this.nummov,
     this.fecven,
+    this.state,
     this.preciomov,
   });
 
@@ -16,6 +18,7 @@ class Invoice {
       codcliente: json['codcliente'],
       nummov: json['nummov'],
       fecven: json['fecven'],
+      state: json['state'],
       preciomov: json['preciomov'],
     );
   }
@@ -25,6 +28,7 @@ class Invoice {
       'codcliente': codcliente,
       'fecven': fecven,
       'nummov': nummov,
+      'state' : state,
       'preciomov': preciomov,
     };
   }
