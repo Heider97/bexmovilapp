@@ -97,6 +97,19 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       )),
                   AppCardImageAndContentBlock(
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppTextBlock(
+                            title:
+                                AppText('Última fecha vendida', fontSize: 14),
+                            subtitle: AppText('2024/08/20')),
+                        AppTextBlock(
+                            title: AppText('Última cantidad vendida',
+                                fontSize: 14),
+                            subtitle: AppText('100')),
+                      ],
+                    ),
                     headline: AppText(
                       widget.product.codProducto!,
                       fontSize: 16,
@@ -106,7 +119,7 @@ class _ProductCardState extends State<ProductCard> {
                     contents: [
                       AppText(
                           'Precio ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
-                      AppText('Disponible')
+                      AppText('Disponible ${widget.product.existenciaStock}')
                     ],
                   )
                   // Column(
@@ -147,13 +160,6 @@ class _ProductCardState extends State<ProductCard> {
                   //     gapH8,
                   //     Row(
                   //       children: [
-                  //         if(widget.product.imagen == "S")
-                  //           const SizedBox(
-                  //             width: 140,
-                  //             height: 150,
-                  //             child: ImagesWithShadow(
-                  //                 image: '''assets/images/menu.png''', gap: 0),
-                  //           ),
                   //         Expanded(
                   //           child: Column(
                   //             children: [
@@ -208,27 +214,7 @@ class _ProductCardState extends State<ProductCard> {
                   //                     child: Row(
                   //                       children: [
                   //                         Center(
-                  //                           child: Row(
-                  //                             children: [
-                  //                               AppText('Últ. Cant. Vendida: ',
-                  //                                   fontWeight:
-                  //                                       FontWeight.normal,
-                  //                                   color: Colors.black,
-                  //                                   fontSize: 14,
-                  //                                   overflow:
-                  //                                       TextOverflow.ellipsis),
-                  //                              /*  AppText(
-                  //                                   widget.product
-                  //                                       .lastQuantitySold
-                  //                                       .toString(),
-                  //                                   fontWeight:
-                  //                                       FontWeight.normal,
-                  //                                   color: Colors.grey[700],
-                  //                                   fontSize: 16,
-                  //                                   overflow:
-                  //                                       TextOverflow.ellipsis) */
-                  //                             ],
-                  //                           ),
+                  //                           child:
                   //                         ),
                   //                         gapW8,
                   //                       ],

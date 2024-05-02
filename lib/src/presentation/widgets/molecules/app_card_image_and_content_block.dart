@@ -27,6 +27,7 @@ class AppCardImageAndContentBlock extends StatefulWidget {
     required this.headline,
     this.subhead,
     this.contents,
+    this.title,
     this.supportingText,
     this.image,
     this.hoverImage,
@@ -48,8 +49,11 @@ class AppCardImageAndContentBlock extends StatefulWidget {
   /// An optional subheading displayed below the headline.
   final String? subhead;
 
-  /// An optional subheading displayed below the headline.
+  /// An optional contents displayed below the subheading.
   final List<Widget>? contents;
+
+  /// An optional title displayed up the heading.
+  final Widget? title;
 
   /// An optional supporting text displayed below the subheading.
   final String? supportingText;
@@ -152,6 +156,10 @@ class _AppCardImageAndContentBlockState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (widget.title != null)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: widget.title),
           ClipRRect(
             borderRadius: BorderRadius.circular(AppConstants.borderRadius),
             child: (hovered && widget.hoverImage != null)
