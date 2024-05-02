@@ -1,27 +1,16 @@
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
-import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-//utils
-import '../../../../../utils/constants/strings.dart';
-import '../../../../../utils/constants/gaps.dart';
 
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
-import '../../../../widgets/atoms/app_text.dart';
 import '../../../../widgets/organisms/app_section.dart';
-import '../widgets/card_client_sale.dart';
 
-//widgets
-import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_icon_button.dart';
-import '../../../../widgets/user/stepper.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -30,8 +19,9 @@ import '../../../../../services/navigation.dart';
 final NavigationService navigationService = locator<NavigationService>();
 
 class WarehousesPage extends StatefulWidget {
+  final String? codrouter;
   final String? codcliente;
-  const WarehousesPage({super.key, this.codcliente});
+  const WarehousesPage({super.key, this.codrouter, this.codcliente});
 
   @override
   State<WarehousesPage> createState() => _WarehousesPageState();
@@ -57,7 +47,7 @@ class _WarehousesPageState extends State<WarehousesPage> {
 
   @override
   void dispose() {
-    saleBloc.add(LoadRouters());
+    saleBloc.add(LoadClients(widget.codrouter));
     super.dispose();
   }
 
@@ -74,36 +64,10 @@ class _WarehousesPageState extends State<WarehousesPage> {
   }
 
   Widget _buildBody(state, context) {
-    ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                // Expanded(
-                //   child: CustomSearchBar(
-                //       onChanged: (value) {
-                //         saleBloc.add(SearchClientSale(valueToSearch: value));
-                //       },
-                //       colorBackground: theme.colorScheme.secondary,
-                //       prefixIcon: const Icon(Icons.search),
-                //       controller: textSaleController,
-                //       hintText: 'Buscar cliente'),
-                // ),
-                gapW8,
-                AppIconButton(
-                    child: Icon(Icons.filter_alt_rounded,
-                        color: theme.colorScheme.onPrimary),
-                    onPressed: () => navigationService.goTo(
-                      AppRoutes.filtersSale,
-                    )),
-              ],
-            ),
-          ),
-          gapH8,
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
               title: e.name!,

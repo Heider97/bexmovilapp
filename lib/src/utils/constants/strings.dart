@@ -31,7 +31,7 @@ class AppRoutes {
   static const routersSale = '/sale-routers';
   static const clientsSale = '/sale-clients';
   static const filtersSale = '/sale-filters';
-  static const warehousesSale = '/sale-products';
+  static const warehousesSale = '/sale-warehouses';
   static const productsSale = '/sale-products';
   static const cartSale = '/sale-cart';
   static const historySale = '/sale-history';
