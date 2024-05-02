@@ -32,6 +32,7 @@ Map<String, RouteType> walletRoutes = {
       )),
   AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.walletSummaries(
       opacity: 0.1,
+      hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WalletSummariesView(
         argument: settings.arguments as WalletArgument,
@@ -55,5 +56,5 @@ Map<String, RouteType> walletRoutes = {
       hideAppBar: false,
       opacity: 0.1,
       hideBottomNavigationBar: true,
-      child: WalletActionList()),
+      child: const WalletActionList()),
 };

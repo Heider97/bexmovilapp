@@ -78,60 +78,66 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
       Size size, ThemeData theme, WalletState state, BuildContext context) {
     return SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            width: Screens.width(context),
-            child: Card(
-              surfaceTintColor: theme.primaryColor,
-              color: theme.primaryColor,
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  widget.argument!.client!.name!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: Screens.width(context),
+                child: Card(
+                  surfaceTintColor: theme.primaryColor,
+                  color: theme.primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      widget.argument!.client!.name!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
-          ),
-        ),
-        gapH4,
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: CustomSearchBar(
-                    onChanged: (value) {
-                      walletBloc.add(SearchClientWallet(valueToSearch: value));
-                    },
-                    colorBackground: theme.colorScheme.secondary,
-                    prefixIcon: const Icon(Icons.search),
-                    controller: searchController,
-                    hintText: 'Buscar factura'),
+            gapH4,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomSearchBar(
+                        onChanged: (value) {
+                          walletBloc.add(SearchClientWallet(valueToSearch: value));
+                        },
+                        colorBackground: theme.colorScheme.secondary,
+                        prefixIcon: const Icon(Icons.search),
+                        controller: searchController,
+                        hintText: 'Buscar factura'),
+                  ),
+                  gapW8,
+                  AppIconButton(
+                      child: Icon(Icons.filter_alt_rounded,
+                          color: theme.colorScheme.onPrimary),
+                      onPressed: () => navigationService.goTo(
+                        AppRoutes.filtersSale,
+                      )),
+                ],
               ),
-              gapW8,
-              AppIconButton(
-                  child: Icon(Icons.filter_alt_rounded,
-                      color: theme.colorScheme.onPrimary),
-                  onPressed: () => navigationService.goTo(
-                    AppRoutes.filtersSale,
-                  )),
-            ],
-          ),
-        ),
-        gapH8,
-        ...state.sections != null
-            ? state.sections!.map((e) => AppSection(
+            ),
+            gapH8,
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
                 title: e.name!,
                 widgetItems: e.widgets ?? [],
                 tabController: null))
-            : [],
+                : [],
+          ],
+        ),
         BlocBuilder<WalletBloc, WalletState>(
           builder: (context, state) {
             int totalAbono = state.invoices?.fold(
@@ -199,13 +205,6 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
             );
           },
         )
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.end,
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //
-        //   ],
-        // )
       ],
     ));
   }

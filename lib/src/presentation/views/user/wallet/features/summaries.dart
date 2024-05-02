@@ -26,13 +26,15 @@ class _WalletSummariesState extends State<WalletSummaries>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
       if (state.status == WalletStatus.invoices &&
           widget.invoices != null &&
           widget.invoices!.isNotEmpty == true) {
         return SingleChildScrollView(
-          child: Expanded(
-              child: WalletTableSummaries(invoices: state.invoices ?? [])),
+          child: SizedBox(
+              height: size.height - 389,
+              child: WalletTableSummaries(invoices: widget.invoices ?? [])),
         );
       } else {
         return Center(child: AppText('No hay facturas'));
