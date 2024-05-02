@@ -7,7 +7,33 @@ class WalletArgument {
 }
 
 class NavigationArgument {
-  NavigationArgument({ required this.clients, required this.nearest });
+  NavigationArgument({required this.clients, required this.nearest});
   List<Client> clients;
   bool nearest;
 }
+
+class WarehouseArgument {
+  final String codrouter;
+  final String codcliente;
+
+  WarehouseArgument({required this.codrouter, required this.codcliente});
+
+  WarehouseArgument fromJson(Map<String, dynamic> json) {
+    return WarehouseArgument(
+        codrouter: json['codrouter'], codcliente: json['codcliente']);
+  }
+}
+
+class ProductArgument {
+  final String codbodega;
+  final String codprecio;
+
+  ProductArgument({required this.codbodega, required this.codprecio});
+
+  ProductArgument fromJson(Map<String, dynamic> json) {
+    return ProductArgument(
+        codbodega: json['codbodega'], codprecio: json['codprecio']);
+  }
+}
+
+

@@ -69,7 +69,7 @@ class _WalletTableSummariesState extends State<WalletTableSummaries> {
       ),
       GridColumn(
         // allowFiltering: true,
-        columnName: 'fecmov',
+        columnName: 'state',
         label: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

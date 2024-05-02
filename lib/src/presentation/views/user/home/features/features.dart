@@ -6,6 +6,7 @@ import '../../../../cubits/home/home_cubit.dart';
 import '../../../../../domain/models/feature.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
+import '../../../../../utils/constants/screens.dart';
 
 class HomeFeatures extends StatelessWidget {
   final List<Feature>? features;
@@ -22,7 +23,7 @@ class HomeFeatures extends StatelessWidget {
         builder: (context, state) {
           return SizedBox(
               height: 100,
-              width: size.width,
+              width: Screens.width(context),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: features != null ? features!.length : 0,

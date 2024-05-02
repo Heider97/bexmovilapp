@@ -11,10 +11,17 @@ class LoadClients extends SaleEvent {
   LoadClients(this.codeRouter);
 }
 
-/* class SelectClient extends SaleEvent {
-  final Client client;
-  SelectClient({required this.client});
-} */
+class LoadWarehouses extends SaleEvent {
+  final String? codcliente;
+  LoadWarehouses(this.codcliente);
+}
+
+class LoadProducts extends SaleEvent {
+  final String? codbodega;
+  final String? codprecio;
+
+  LoadProducts(this.codbodega, this.codprecio);
+}
 
 class NavigationSale extends SaleEvent {
   final bool nearest;
@@ -37,12 +44,17 @@ class SelectRouter extends SaleEvent {
   SelectRouter({required this.router});
 }
 
+class SelectWarehouseAndListPrice extends SaleEvent {
+  String idListPrice;
+  String idWarehouse;
+  SelectWarehouseAndListPrice(
+      {required this.idListPrice, required this.idWarehouse});
+}
 
-
-
-
-
-
+class LoadWarehouseAndListPrice extends SaleEvent {
+  String? codeClient;
+  LoadWarehouseAndListPrice(/* {required this.codeClient} */);
+}
 
 
 //

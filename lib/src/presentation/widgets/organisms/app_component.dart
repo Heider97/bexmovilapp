@@ -1,11 +1,11 @@
-import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/features/dashboard.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/widgets/cartesian_chart.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 //domain
 import '../../../domain/models/component.dart';
 //widgets
+import '../../views/user/sale/features/prices.dart';
+import '../../views/user/sale/features/warehouses.dart';
+import '../../views/user/wallet/features/clients.dart';
+import '../../views/user/wallet/features/summaries.dart';
 import '../molecules/app_text_block.dart';
 
 //home
@@ -16,6 +16,7 @@ import '../../views/user/home/features/applications.dart';
 import '../../views/user/sale/features/routers.dart';
 import '../../views/user/sale/features/clients.dart';
 //wallet
+import '../../views/user/wallet/features/dashboard.dart';
 
 enum ComponentTypes { kpi, feature, line, pie, list }
 
@@ -75,9 +76,7 @@ class _AppWidgetState extends State<AppWidget> {
               .toList(growable: true);
 
           return HomeStatistics(
-              kpis: kpis,
-              forms: forms,
-              tabController: widget.tabController!);
+              kpis: kpis, forms: forms, tabController: widget.tabController!);
         } else {
           return HomeStatistics(
               kpis: const [],
@@ -91,16 +90,17 @@ class _AppWidgetState extends State<AppWidget> {
       case 'SaleClients':
         return SaleClients(clients: widget.components.first.results);
       case 'SaleWarehouses':
-        // return SaleWarehouses(warehouses: widget.components.first.results);
+        return SaleWarehouses(warehouses: widget.components.first.results);
+      case 'SalePrices':
+        return SalePrices(prices: widget.components.first.results);
       case 'SaleProducts':
-        // return SaleProducts(products: widget.components.first.results);
+      // return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
-        print(widget.components);
         return WalletDashboard(components: widget.components);
       case 'WalletClients':
-        // return WalletClients(clients: widget.components.first.results);
+        return WalletClients(clients: widget.components.first.results);
       case 'WalletSummaries':
-        // return WalletSummaries(summaries: widget.components.first.results);
+        return WalletSummaries(invoices: widget.components.first.results);
       default:
         return const SizedBox();
     }

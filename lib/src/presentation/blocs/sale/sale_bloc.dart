@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/warehouse.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +31,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
-/*     on<NavigationSale>(_onNavigation);
-    on<SearchClientSale>(_searchClient); */
+    on<LoadWarehouses>(_onLoadWarehouses);
+    on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
   }
@@ -46,7 +47,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales', [seller]);
+    var sections =
+        await queryLoaderService.getResults('sales', seller!, [seller]);
 
     emit(state.copyWith(status: SaleStatus.routers, sections: sections));
   }
@@ -57,8 +59,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     var seller = storageService.getString('username');
     var sections = await queryLoaderService
-        .getResults('sales-clients', [event.codeRouter, seller]);
+        .getResults('sales-clients', seller!, [event.codeRouter, seller]);
 
+    /*  var test = await queryLoaderService
+        .getResults('sale-warehouses', [seller]);
+
+    print(test);
+ */
     clients = sections!.first.widgets!.first.components!.first.results;
 
     if (event.codeRouter != null) {
@@ -70,9 +77,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       });
 
       emit(state.copyWith(
-          status: SaleStatus.clients,
-          clients: clients,
-          sections: sections));
+          status: SaleStatus.clients, clients: clients, sections: sections));
     } else {
       emit(state.copyWith(status: SaleStatus.clients, clients: clients));
     }
@@ -89,11 +94,22 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     }).toList();
   }
 
-  Future<void> _onNavigation(NavigationSale event, Emitter emit) async {
-    final arguments =
-        NavigationArgument(clients: event.clients, nearest: event.nearest);
-    navigationService.goTo(AppRoutes.navigation, arguments: arguments);
-    emit(state.copyWith());
+  Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    var sections = await queryLoaderService
+        .getResults('sales-warehouses', seller!, [seller, event.codcliente]);
+
+    emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
+  }
+
+  Future<void> _onSelectWarehouseAndListPrice(
+      SelectWarehouseAndListPrice event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    // var sections =
+    //     await queryLoaderService.getResults('sale-warehouses', [seller, ]);
+    // var listAvailableWarehouses =
+    //     sections!.first.widgets!.first.components!.first.results;
+    // print(listAvailableWarehouses);
   }
 
   // _selectClient(SelectClient event, Emitter emit) {

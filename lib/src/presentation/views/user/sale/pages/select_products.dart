@@ -1,18 +1,16 @@
 import 'package:bexmovil/src/config/router/routes.dart';
-
-import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/product_card_row.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_elevated_button.dart';
+
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
+
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
+
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,17 +18,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class SelectProductsView extends StatefulWidget {
-  const SelectProductsView({super.key});
+
+  final String codcliente;
+  final String codbodega;
+  final String codprecio;
+
+  const SelectProductsView({super.key, required this.codcliente, required this.codbodega, required this.codprecio});
 
   @override
   State<SelectProductsView> createState() => _SelectProductsViewState();
 }
 
 bool gridMode = false;
-OriginLocation origin = OriginLocation(
-    name: "Warehouse A", availableQuantity: 100, isSelected: true);
+/* OriginLocation origin = OriginLocation(
+    name: "Warehouse A", availableQuantity: 100, isSelected: true); */
 
-Product product = Product(
+/* Product product = Product(
   lastSoldOn: DateTime.now(),
   lastQuantitySold: 10,
   code: "ABC123",
@@ -40,14 +43,22 @@ Product product = Product(
   availableUnits: 100,
   quantity: 5,
   originLocation: origin,
-);
+); */
 
 class _SelectProductsViewState extends State<SelectProductsView> {
   late SaleBloc saleBloc;
+
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(LoadProducts(widget.codbodega, widget.codprecio));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    saleBloc.add(LoadWarehouses(widget.codcliente));
+    super.dispose();
   }
 
   @override
@@ -106,10 +117,10 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
-                                child: ProductCard(
+                                child:Text('productCard') /* ProductCard(
                                   product: product,
                                   refresh: () {},
-                                ),
+                                ), */
                               );
                             }),
                       ),
@@ -122,12 +133,12 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(top: 15.0),
-                                child: ProductCardRow(
+                                child: Text('productCardRow')/* ProductCardRow(
                                     firstProduct: product, secondProduct: null
                                     //TODO: que le ingresen dos clientes ambos opcionales
                                     /*    product: product,
                                   refresh: () {}, */
-                                    ),
+                                    ), */
                               );
                             }),
                       ),

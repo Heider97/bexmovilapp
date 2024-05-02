@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "able-rain-421914",
+  "private_key_id": "e08bfaae80cbd3868274577b16c41876d79af150",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCy/XhOZT1oBJZQ\nZegpCxUux1QvQWweVM3HBuijKhJqMgWwShyRenEVtkioFbCuhbKyR4TDLlG6KcKJ\nmHxy4HoBpmh6eopZmqrN+OrlcSmTGmt11BGUU+IcdOv50UMUSkac4i5KlOWZdBc/\nmiMMyQ6ou/L89Oy7aJO+f6kd3ae7s6wsFfJhw9Dgi1FVinbhmDcxH68Jh6TgQSn9\n3NAJw8Tfua4uYOWLRdCKH3CVmpKGb9wd1hjXswVSdTEG031W5+JwSX42KK/yiLdV\nix5m4CdR2YOo753fZWFXRetO3ZwoW3MoS8M4as3A30FfmKOZGnBnHBYLelmpNWCp\n/KbishzpAgMBAAECggEAQ0ewwbMfdmqG//iWYFsonrlRZSPv2qTg5seria2GV4Gv\nDrmE7JA8Ur9+pyPkEm3yIj5s4psWIGaTF/qICPxlEBq3mhZWy+CuBJdk4FL9oCxl\nqVhKNVmknDK9At4Mm2NiEJWadfFrLpfrJz6unx8yUe24JCqCk91277v322CWrKB3\nFphoWm7NgvxWeq/005wxMUjiQsz/iBarbnVBvpuOr/uxXX21yN7MXnt48lJaLmqf\nTBRIecUT5wnIl5J5FgtIuSuK5e6mRV+dvmUoWfD5b1RyCEMmmveFdQfiAICvp9Ii\n34T8Jev5LnUA6YHYH/OSkZhzjgmTgebANHAVJwvLqwKBgQDnQapl44ytTYv0hMnL\nj/T8e+gWI+FZDo+XnpzYKQS5zdZcXu8qLLjDnBOfhn8iOYApbHSQDU02ZNGzvp35\nxmKP1wi4opKU4FGR4BQPnt0anJmwj1TzTtIw2TdixyChdZlE2rmUZGh/iAw3JHLL\n0x3MJyVw3uhho59XGH40i7crawKBgQDGJC2yUkGCvD1Mf/YSvRsGO+v5hkZkCrOh\nEJ9hMkM7EIh26a2LhNQrnpinbQa+PLoZc47+Rqnw80OQuL9txGy04tCRxI7NpVXL\nzWcRM5tIRXmW7wwcdDF65z2HzdHFmxfS7itdCW7ChiNu7G0hUGJyKLTDlhFU9QNy\nnPquZLVh+wKBgQCRPvMRL4xJxOzkVQqRagdLFV+9mCePUc/qQNruAUVQlfHO7ml0\nqcYaRcslZMow6sCOQ+oqF9CpG0WCiXSbTnjVMw/tN16tVv6kioLPFM52SmlVNZD7\niEQIHkXlKoBaKIxtbJsmkrH3d7GEaMYZMq4CbYvcioSV3rjTcTTDOAWBpQKBgQCd\njYcIlH+jBSt4+QciP1yNyHgLIco3IotTN3SERQNQpATfCVEF78kGJkYcW4VRH9ib\nBFhfuLDI96ZyHXWaQuZtry1Ju5IR07Y1KE8cTnzbKuNUMSDgP0RZBibXJcH37ysy\nfk/c2vNHmoHyYe0k4FZnkBasr1d4xprHOCvdIBdaoQKBgQDb3FMLhlBeIiMIFCbg\n3xKZkdjSiqXEJCQxPqxk5f9lnV7Ew8SO0EEFlAZCcxW9SvRhQcRcyyMptzhBnArY\ntofU4Sp1pjvG+mAaOed25278Y48i2qmsGkiHF5VO1gEFCCDe09+sPR253x0HIa1x\nR3VVefZMQNBJEJTcXiyZfamkRQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "bexmovilbot@able-rain-421914.iam.gserviceaccount.com",
+  "client_id": "118444195715703285808",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bexmovilbot%40able-rain-421914.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

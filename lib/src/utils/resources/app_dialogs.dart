@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/expanded_section.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/widgets/price_warehouses_alert.dart';
+import 'package:bexmovil/src/utils/widgets/ShowPriceAndWarehousesAlert.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 

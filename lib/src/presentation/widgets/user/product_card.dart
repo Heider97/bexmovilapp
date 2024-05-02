@@ -31,28 +31,28 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   void initState() {
-    cantidad = widget.product.quantity;
+  //  cantidad = widget.product.quantity;
     super.initState();
   }
 
   void reducirCantidad() {
-    if (cantidad > 0) {
+   /*  if (cantidad > 0) {
       setState(() {
         widget.product.quantity--;
         cantidad--;
         widget.refresh();
       });
-    }
+    } */
   }
 
   void aumentarCantidad() {
-    if (cantidad < widget.product.availableUnits) {
+ /*    if (cantidad < widget.product.availableUnits) {
       setState(() {
         widget.product.quantity++;
         cantidad++;
         widget.refresh();
       });
-    }
+    } */
   }
 
   @override
@@ -217,7 +217,7 @@ class _ProductCardState extends State<ProductCard> {
                                                     fontSize: 14,
                                                     overflow:
                                                         TextOverflow.ellipsis),
-                                                AppText(
+                                               /*  AppText(
                                                     widget.product
                                                         .lastQuantitySold
                                                         .toString(),
@@ -226,7 +226,7 @@ class _ProductCardState extends State<ProductCard> {
                                                     color: Colors.grey[700],
                                                     fontSize: 16,
                                                     overflow:
-                                                        TextOverflow.ellipsis)
+                                                        TextOverflow.ellipsis) */
                                               ],
                                             ),
                                           ),
@@ -245,7 +245,7 @@ class _ProductCardState extends State<ProductCard> {
                                                   fontSize: 14,
                                                   overflow:
                                                       TextOverflow.ellipsis),
-                                              AppText(
+                                             /*  AppText(
                                                   widget
                                                       .product.lastQuantitySold
                                                       .toString(),
@@ -253,7 +253,7 @@ class _ProductCardState extends State<ProductCard> {
                                                   color: Colors.grey[700],
                                                   fontSize: 16,
                                                   overflow:
-                                                      TextOverflow.ellipsis)
+                                                      TextOverflow.ellipsis) */
                                             ],
                                           ),
                                         ),
@@ -266,12 +266,12 @@ class _ProductCardState extends State<ProductCard> {
                                             color: Colors.black,
                                             fontSize: 14,
                                             overflow: TextOverflow.ellipsis),
-                                        AppText(
+                                        /* AppText(
                                             '${widget.product.availableUnits}',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[700],
                                             fontSize: 16,
-                                            overflow: TextOverflow.ellipsis)
+                                            overflow: TextOverflow.ellipsis) */
                                       ],
                                     ),
                                     Row(

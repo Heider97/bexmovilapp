@@ -42,6 +42,10 @@ class Client {
   int? service;
   int? order;
 
+  //DATOS PARA LA BODEGA Y LISTADO DE PRECIOS
+
+  String? codBarrio;
+
   Client(
       {this.id,
       this.nit,
@@ -76,6 +80,8 @@ class Client {
       this.order,
       this.distance,
       this.duration,
+
+      this.codBarrio,
       this.color,
       this.hasCompleted = 0});
 
@@ -108,9 +114,7 @@ class Client {
         longitude: json['longitud'],
         rutero: json['rutero'],
         order: json['order'],
-        service: json['service'],
-        codPrecio: json['CODPRECIO'],
-        barrio: json['CODBARRIO']);
+        service: json['service']);
   }
 
   Map<String, dynamic> toJson() {

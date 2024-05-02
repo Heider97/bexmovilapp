@@ -10,6 +10,7 @@ import '../../domain/models/component.dart';
 import '../../domain/models/logic.dart';
 import '../../domain/models/query.dart';
 import '../../domain/models/raw_query.dart';
+import '../../domain/models/navigation.dart';
 
 import '../../domain/models/processing_queue.dart';
 import '../../domain/models/feature.dart';
@@ -78,8 +79,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<bool> validateLogic(Logic logic) async {
-    return _appDatabase.logicDao.validateLogic(logic);
+  Future<bool> validateLogic(Logic logic, String seller) async {
+    return _appDatabase.logicDao.validateLogic(logic, seller);
   }
 
   //QUERIES
@@ -102,6 +103,17 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> emptyRawQueries() async {
     return _appDatabase.rawQueryDao.emptyRawQueries();
+  }
+
+  //RAW QUERIES
+  @override
+  Future<Navigation?> findNavigation(int id) async {
+    return _appDatabase.navigationDao.findNavigation(id);
+  }
+
+  @override
+  Future<void> emptyNavigations() async {
+    return _appDatabase.navigationDao.emptyNavigations();
   }
 
   //ROUTER
