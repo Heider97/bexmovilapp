@@ -31,12 +31,12 @@ class _ProductCardState extends State<ProductCard> {
 
   @override
   void initState() {
-  //  cantidad = widget.product.quantity;
+    //  cantidad = widget.product.quantity;
     super.initState();
   }
 
   void reducirCantidad() {
-   /*  if (cantidad > 0) {
+    /*  if (cantidad > 0) {
       setState(() {
         widget.product.quantity--;
         cantidad--;
@@ -46,7 +46,7 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void aumentarCantidad() {
- /*    if (cantidad < widget.product.availableUnits) {
+    /*    if (cantidad < widget.product.availableUnits) {
       setState(() {
         widget.product.quantity++;
         cantidad++;
@@ -111,17 +111,7 @@ class _ProductCardState extends State<ProductCard> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        gapW12,
-                                        Opacity(
-                                          opacity: 0.8,
-                                          child: AppText('Producto',
-                                              fontWeight: FontWeight.w500,
-                                              color: theme.primaryColor,
-                                              fontSize: 12,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        AppText(
-                                            'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                        AppText(widget.product.nomProducto,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black,
                                             fontSize: 16,
@@ -130,24 +120,13 @@ class _ProductCardState extends State<ProductCard> {
                                     ),
                                   ),
                                 ])
-                            /*  Row(
-                            children: [
-                              Text(
-                                'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
-                                style: theme.textTheme.labelMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                  //   color: theme.colorScheme.dis,
-                                  fontSize: 18,
-                                ),
-                              )
-                            ],
-                          ), */
                             ),
                       ),
                       gapH8,
                       Row(
                         children: [
+
+
                           const SizedBox(
                             width: 140,
                             height: 150,
@@ -163,7 +142,7 @@ class _ProductCardState extends State<ProductCard> {
                                   children: [
                                     /*  Row(
                                       children: [
-                                   
+
                                       ],
                                     ), */
                                     Row(
@@ -217,7 +196,7 @@ class _ProductCardState extends State<ProductCard> {
                                                     fontSize: 14,
                                                     overflow:
                                                         TextOverflow.ellipsis),
-                                               /*  AppText(
+                                                /*  AppText(
                                                     widget.product
                                                         .lastQuantitySold
                                                         .toString(),
@@ -245,7 +224,7 @@ class _ProductCardState extends State<ProductCard> {
                                                   fontSize: 14,
                                                   overflow:
                                                       TextOverflow.ellipsis),
-                                             /*  AppText(
+                                              /*  AppText(
                                                   widget
                                                       .product.lastQuantitySold
                                                       .toString(),
@@ -275,7 +254,6 @@ class _ProductCardState extends State<ProductCard> {
                                       ],
                                     ),
                                     Row(
-                                      
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
@@ -295,9 +273,10 @@ class _ProductCardState extends State<ProductCard> {
                                     ),
                                     gapH12,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                  /*       Text('Cantidad:  ',
+                                        /*       Text('Cantidad:  ',
                                             style: theme.textTheme.bodyMedium!
                                                 .copyWith(fontSize: 14)), */
                                         Ammount(

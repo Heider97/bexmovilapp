@@ -216,15 +216,18 @@ class QueryLoaderService {
         return results;
       }
 
-      print('***********');
-      print(results);
 
       var dynamic = await dynamicListTypes[type]?.fromMap(results);
+
+      print('******dynamic*******');
+      print(dynamic);
       if (dynamic == null) {
         return [];
       }
       return dynamic;
     } catch (e) {
+      print('errorrrrr');
+      print(e);
       return [];
     }
   }
