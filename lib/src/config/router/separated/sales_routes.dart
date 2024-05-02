@@ -33,10 +33,10 @@ Map<String, RouteType> salesRoutes = {
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WarehousesPage(codcliente: settings.arguments as String?)),
-  AppRoutes.selectProducts: (context, settings) => AppGlobalBackground.squared(
-      hideBottomNavigationBar: true,
-      opacity: 0.1,
-      child: const SelectProductsView()),
+  // AppRoutes.selectProducts: (context, settings) => AppGlobalBackground.squared(
+  //     hideBottomNavigationBar: true,
+  //     opacity: 0.1,
+  //     child: const SelectProductsView()),
   AppRoutes.shoppingCart: (context, settings) => AppGlobalBackground.squared(
       hideBottomNavigationBar: true,
       opacity: 0.1,
