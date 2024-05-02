@@ -27,8 +27,6 @@ class WarehousesPage extends StatefulWidget {
   State<WarehousesPage> createState() => _WarehousesPageState();
 }
 
-late SaleStepperBloc saleStepperBloc;
-
 class _WarehousesPageState extends State<WarehousesPage> {
   final TextEditingController searchController = TextEditingController();
 
@@ -40,7 +38,6 @@ class _WarehousesPageState extends State<WarehousesPage> {
   @override
   void initState() {
     super.initState();
-
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadWarehouses(widget.codcliente));
   }

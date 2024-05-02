@@ -72,6 +72,7 @@ class QueryLoaderService {
                             var result =
                                 await databaseRepository.validateLogic(logic, seller);
                             if (result == true) {
+                              print('*******logic*****');
                               print(logic.toJson());
 
                               var results = await determine(
@@ -107,6 +108,8 @@ class QueryLoaderService {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
+        print('*****query***');
+        print(q);
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
         return await executeQuery(type, q.table!, q.where, []);
@@ -116,6 +119,10 @@ class QueryLoaderService {
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
+
+        print('sentence');
+        print(sentence);
+
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
