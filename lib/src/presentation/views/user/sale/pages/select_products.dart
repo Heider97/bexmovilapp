@@ -30,20 +30,6 @@ class SelectProductsView extends StatefulWidget {
 }
 
 bool gridMode = false;
-/* OriginLocation origin = OriginLocation(
-    name: "Warehouse A", availableQuantity: 100, isSelected: true); */
-
-/* Product product = Product(
-  lastSoldOn: DateTime.now(),
-  lastQuantitySold: 10,
-  code: "ABC123",
-  name: "Product Name",
-  sellingPrice: 20.5,
-  discount: 0.1,
-  availableUnits: 100,
-  quantity: 5,
-  originLocation: origin,
-); */
 
 class _SelectProductsViewState extends State<SelectProductsView> {
   late SaleBloc saleBloc;

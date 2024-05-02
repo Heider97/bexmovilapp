@@ -1,154 +1,196 @@
+
+import 'package:bexmovil/src/domain/models/arguments.dart';
+import 'package:bexmovil/src/domain/models/product.dart';
+import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/product_card_row.dart';
+
+import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
+
+import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
+import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/utils/constants/gaps.dart';
+
+import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
-//utils
-import '../../../../../utils/constants/strings.dart';
-import '../../../../../utils/constants/gaps.dart';
+final NavigationService _navigationService = locator<NavigationService>();
 
-//blocs
-import '../../../../blocs/sale/sale_bloc.dart';
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
+class ProductsView extends StatefulWidget {
 
-//features
-import '../../../../widgets/atoms/app_text.dart';
-import '../widgets/card_client_sale.dart';
+  final ProductArgument arguments;
 
-//widgets
-import '../../../../widgets/atoms/app_back_button.dart';
-import '../../../../widgets/atoms/app_icon_button.dart';
-import '../../../../widgets/user/stepper.dart';
-
-//services
-import '../../../../../locator.dart';
-import '../../../../../services/navigation.dart';
-
-final NavigationService navigationService = locator<NavigationService>();
-
-class ProductsPage extends StatefulWidget {
-  final String? codeRouter;
-  const ProductsPage({super.key, this.codeRouter});
+  const ProductsView({super.key, required this.arguments} );
 
   @override
-  State<ProductsPage> createState() => _ProductsPageState();
+  State<ProductsView> createState() => _ProductsViewState();
 }
 
-late SaleStepperBloc saleStepperBloc;
+bool gridMode = false;
 
-class _ProductsPageState extends State<ProductsPage> {
-  final TextEditingController searchController = TextEditingController();
-
-  final formatCurrency = NumberFormat.simpleCurrency();
-
+class _ProductsViewState extends State<ProductsView> {
   late SaleBloc saleBloc;
-  TextEditingController textSaleController = TextEditingController();
 
   @override
   void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
-
-   // saleBloc = BlocProvider.of<SaleBloc>(context);
- //   saleBloc.add(LoadClients(widget.codeRouter));
-
-    saleStepperBloc = BlocProvider.of(context);
   }
 
-  /* List<StepData> steps = [
-    StepData(
-        "Seleccionar \nCliente",
-        'assets/icons/ProfileEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/ProfileDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 0))),
-    StepData(
-        "Seleccionar \n Productos",
-        'assets/icons/seleccionarFacturaEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/seleccionarFacturaDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 1))),
-    StepData(
-        'Detalles de \n la orden',
-        'assets/icons/actionEnable.png',
-        const Color(0xFFF4F4F4),
-        'assets/icons/actionDisable.png',
-            () => saleStepperBloc.add(ChangeStepEvent(index: 2))),
-  ]; */
+  @override
+  void dispose() {
+    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(Const.space15),
-        child: Column(
-          children: [
-            //  StepperWidget(currentStep: 0, steps: steps),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomSearchBar(
-                      onChanged: (value) {
-                        saleBloc.add(SearchClientSale(valueToSearch: value));
+
+    return BlocBuilder<SaleBloc, SaleState>(
+      builder: (context, state) {
+        return SafeArea(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: CustomSearchBar(
+                          onChanged: (value) {},
+                          colorBackground: theme.colorScheme.secondary,
+                          prefixIcon: const Icon(Icons.search),
+                          controller: TextEditingController(),
+                          hintText: 'Buscar producto',
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppIconButton(
+                        child: Icon(Icons.filter_alt_rounded,
+                            color: theme.colorScheme.onPrimary),
+                        onPressed: () {}),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: AppIconButton(
+                      child: Icon(
+                          (gridMode)
+                              ? Icons.grid_view_rounded
+                              : Icons.grid_view_outlined,
+                          color: theme.colorScheme.onPrimary),
+                      onPressed: () {
+                        setState(() {
+                          gridMode = !gridMode;
+                        });
+                        //TODO: disable grid view. change icon too
                       },
-                      colorBackground: theme.colorScheme.secondary,
-                      prefixIcon: const Icon(Icons.search),
-                      controller: textSaleController,
-                      hintText: 'Buscar cliente'),
+                    ),
+                  )
+                ],
+              ),
+              (gridMode)
+                  ? Expanded(
+                child: Container(
+                  color: Colors.grey[200],
+                  child: ListView.builder(
+                      itemCount: 4,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child:Text('productCard') /* ProductCard(
+                                  product: product,
+                                  refresh: () {},
+                                ), */
+                        );
+                      }),
                 ),
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.clients != null && state.clients!.isNotEmpty) {
-                    return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: AppIconButton(
-                            child: Icon(
-                              Icons.map_rounded,
-                              color: theme.colorScheme.onPrimary,
+              )
+                  : Expanded(
+                child: Container(
+                  color: Colors.grey[200],
+                  child: ListView.builder(
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: Text('productCardRow')/* ProductCardRow(
+                                    firstProduct: product, secondProduct: null
+                                    //TODO: que le ingresen dos clientes ambos opcionales
+                                    /*    product: product,
+                                  refresh: () {}, */
+                                    ), */
+                        );
+                      }),
+                ),
+              ),
+              Material(
+                  elevation: 10,
+                  child: Container(
+                    height: 100,
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '4 productos',
+                              style: theme.textTheme.titleLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
-                            onPressed: () {
-                              navigationService.goTo(AppRoutes.saleMap,
-                                  arguments: widget.codeRouter);
-                            })
-                    );
-                  } else {
-                    return const Center(child: CupertinoActivityIndicator());
-                  }
-                }),
-                AppIconButton(
-                    child: Icon(Icons.filter_alt_rounded,
-                        color: theme.colorScheme.onPrimary),
-                    onPressed: () => navigationService.goTo(
-                      AppRoutes.filtersSale,
-                    )),
-              ],
-            ),
-            gapH4,
-            BlocBuilder<SaleBloc, SaleState>(
-              builder: (context, state) {
-                if (state.status == SaleStatus.loading) {
-                  return const Center(child: CupertinoActivityIndicator());
-                } else if (state.status == SaleStatus.products) {
-                  return Expanded(
-                    child: ListView.builder(
-                        padding: const EdgeInsets.all(Const.padding),
-                        itemCount: state.clientsFounded != null
-                            ? state.clientsFounded!.length
-                            : 0,
-                        itemBuilder: (context, index) {
-                          return CardClientRouter(
-                            client: state.clientsFounded![index],
-                          );
-                        }),
-                  );
-                } else {
-                  return Center(child: AppText("No se encontraron clientes."));
-                }
-              },
-            ),
-          ],
-        ),
-      ),
+                          ],
+                        ),
+                        SizedBox(),
+                        Row(children: [
+                          Text(
+                            'Vaciar',
+                            style: theme.textTheme.bodyMedium!
+                                .copyWith(color: theme.primaryColor),
+                          ),
+                          gapW20,
+                          InkWell(
+                            onTap: () {
+                              _navigationService.goTo(AppRoutes.shoppingCart);
+                            },
+                            child: Container(
+                              height: 40,
+                              child: Material(
+                                color: theme.primaryColor,
+                                borderRadius: BorderRadius.circular(10),
+                                elevation: 5,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15),
+                                    child: Text(
+                                      'Ver Orden',
+                                      style: theme.textTheme.bodyMedium!
+                                          .copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ])
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        );
+      },
     );
   }
 }

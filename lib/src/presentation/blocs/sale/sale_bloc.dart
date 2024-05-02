@@ -34,6 +34,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadClients>(_onLoadClientsRouter);
     on<LoadWarehouses>(_onLoadWarehouses);
     on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
+    on<LoadProducts>(_onLoadProducts);
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
   }
@@ -115,28 +116,14 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     // print(listAvailableWarehouses);
   }
 
-  // _selectClient(SelectClient event, Emitter emit) {
-  //   //TODO Agregar logica de creacion de la orden con el estado = clientSelected y guardado en BD
-  //   if (state is SaleClienteSelected) {
-  //     SaleClienteSelected currentState = state as SaleClienteSelected;
-  //     (event.client != currentState.client)
-  //         ? emit(SaleClienteSelected(state.routers, state.clients,
-  //             client: event.client))
-  //         : emit(SaleInitial(state.routers, state.clients));
-  //   } else {
-  //     emit(SaleClienteSelected(state.routers, state.clients,
-  //         client: event.client));
-  //   }
-  // }
 
-  // _confirmProducts(ConfirmProducts event, Emitter emit) {
-  //   //TODO Agregar logica de creacion de la orden con el estado = productsConfirmed y guardado en BD
-  //   emit(SaleProductConfirm(state.routers,state.clients, listOfProducst: event.products));
-  // }
-  //
-  // _confirmOrder(ConfirmOrder event, Emitter emit) {
-  //   //TODO Agregar logica de creacion de la orden con el estado = orderConfirmed y guardado en BD
-  //   emit(
-  //       SaleOrderConfirm(state.routers, state.clients,listOfProducst: event.products, client: event.client));
-  // }
+  Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    var sections = await queryLoaderService
+        .getResults('sales-products', seller!, [seller, event.codprecio, event.codbodega]);
+
+
+    emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
+  }
+
 }
