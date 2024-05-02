@@ -11,6 +11,18 @@ class LoadClients extends SaleEvent {
   LoadClients(this.codeRouter);
 }
 
+class LoadWarehouses extends SaleEvent {
+  final String? codcliente;
+  LoadWarehouses(this.codcliente);
+}
+
+class LoadProducts extends SaleEvent {
+  final String? codbodega;
+  final String? codprecio;
+
+  LoadProducts(this.codbodega, this.codprecio);
+}
+
 /* class SelectClient extends SaleEvent {
   final Client client;
   SelectClient({required this.client});
