@@ -65,45 +65,50 @@ class _WarehousesPageState extends State<WarehousesPage> {
 
   Widget _buildBody(state, ThemeData theme, context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ...state.sections != null
-              ? state.sections!.map((e) => AppSection(
-                  title: e.name!,
-                  widgetItems: e.widgets ?? [],
-                  tabController: null))
-              : [],
-          Positioned(
-            bottom: 10,
-            child: SizedBox(
-              width: Screens.width(context),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    navigationService.goTo(AppRoutes.productsSale,
-                        arguments: ProductArgument(
-                            codbodega: '00167', codprecio: '001'));
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.primaryColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                    title: e.name!,
+                    widgetItems: e.widgets ?? [],
+                    tabController: null))
+                : [],
+            Positioned(
+              bottom: 10,
+              child: SizedBox(
+                width: Screens.width(context),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      navigationService.goTo(AppRoutes.productsSale,
+                          arguments: ProductArgument(
+                              codcliente: widget.codcliente!,
+                              codbodega: '001B1',
+                              codprecio: '001'));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.primaryColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'Continuar',
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                    child: Text(
+                      'Continuar',
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

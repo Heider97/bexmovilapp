@@ -34,7 +34,6 @@ class _SaleClientsState extends State<SaleClients>
 
   @override
   Widget build(BuildContext context) {
-    //final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.clients && widget.clients != null) {
         return Column(children: [

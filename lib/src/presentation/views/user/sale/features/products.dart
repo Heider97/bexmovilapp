@@ -1,86 +1,42 @@
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+//domain
+import '../../../../../domain/models/product.dart';
+
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
-import '../widgets/card_client.dart';
 
-class SaleProducts extends StatefulWidget {
-  // final List<Product>? products;
+class SaleProducts extends StatelessWidget {
+  final List<Product>? products;
 
-  const SaleProducts({super.key});
-
-  @override
-  State<SaleProducts> createState() => _SaleProductsState();
-}
-
-class _SaleProductsState extends State<SaleProducts>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabcontroller;
-
-  @override
-  void initState() {
-    _tabcontroller = TabController(length: 2, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _tabcontroller.dispose();
-  }
+  const SaleProducts({super.key, this.products});
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.products && state.clients != null) {
-        return Expanded(
-            child: Column(children: [
-          TabBar(controller: _tabcontroller, tabs: const [
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Sin visitar',
-              ),
-            ),
-            SizedBox(
-              width: 200,
-              child: Tab(
-                text: 'Visitados',
-              ),
-            )
-          ]),
-          Container(
-            color: Colors.grey[200],
-            height: Screens.height(context) * 0.5,
-            child: TabBarView(controller: _tabcontroller, children: [
-              BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.products &&
-                    state.clients != null &&
-                    state.clients!.isNotEmpty == true) {
-                  return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: state.clients?.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return CardClient(client: state.clients![index]);
-                      });
-                } else {
-                  return const Text('No hay clientes disponibles');
-                }
-              }),
-              Center(
-                  child: AppText('No hay clientes',
-                      fontSize: 15, fontWeight: FontWeight.w300))
-            ]),
-          )
-        ]));
+      if (state.status == SaleStatus.products &&
+          products != null &&
+          products!.isNotEmpty) {
+        return SingleChildScrollView(
+          child: SizedBox(
+            height: Screens.height(context) * 0.50,
+            child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: products?.length,
+                itemBuilder: (context, index) {
+                  return AppText(products![index].nomProducto);
+                }),
+          ),
+        );
       } else {
-        return const Center(child: Text('Cargando'));
+        return Center(child: AppText('No hay Productos'));
       }
     });
   }

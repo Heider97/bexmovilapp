@@ -1,4 +1,5 @@
 //domain
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/domain/models/warehouse.dart';
 
 import '../../domain/models/config.dart';
@@ -76,6 +77,15 @@ List<Price> parsePrices(List<Map<String, dynamic>> priceList) {
   return prices;
 }
 
+List<Product> parseProducts(List<Map<String, dynamic>> productList) {
+  final products = <Product>[];
+  for (var productMap in productList) {
+    final price = Product.fromJson(productMap);
+    products.add(price);
+  }
+  return products;
+}
+
 List<Invoice> parseInvoices(List<Map<String, dynamic>> invoiceList) {
   final invoices = <Invoice>[];
   for (var invoiceMap in invoiceList) {
@@ -132,6 +142,7 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
   "List<Warehouse>":
       AppDynamicListCasterType<List<Warehouse>>((s) => parseWarehouses(s)),
   "List<Price>": AppDynamicListCasterType<List<Price>>((s) => parsePrices(s)),
+  "List<Product>": AppDynamicListCasterType<List<Product>>((s) => parseProducts(s)),
   "List<Invoice>":
       AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
   "List<LogicQuery>":

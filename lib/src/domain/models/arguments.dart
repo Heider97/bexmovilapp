@@ -25,15 +25,19 @@ class WarehouseArgument {
 }
 
 class ProductArgument {
+  final String codcliente;
   final String codbodega;
   final String codprecio;
 
-  ProductArgument({required this.codbodega, required this.codprecio});
+  ProductArgument(
+      {required this.codcliente,
+      required this.codbodega,
+      required this.codprecio});
 
   ProductArgument fromJson(Map<String, dynamic> json) {
     return ProductArgument(
-        codbodega: json['codbodega'], codprecio: json['codprecio']);
+        codcliente: json['codcliente'],
+        codbodega: json['codbodega'],
+        codprecio: json['codprecio']);
   }
 }
-
-
