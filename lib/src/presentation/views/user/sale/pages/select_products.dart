@@ -161,7 +161,7 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             onTap: () {
                               _navigationService.goTo(AppRoutes.shoppingCart);
                             },
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               child: Material(
                                 color: theme.primaryColor,

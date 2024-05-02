@@ -18,6 +18,11 @@ class Client {
   String? distance;
   String? duration;
   int? color;
+  //ES EL CODIGO DE LA LISTA DE PRECIO
+  String? codPrecio;
+  //ES EL CODIGO DEL BARRIO
+  String? barrio;
+
   //ALTERNATIVES
   String? estadoCliente;
   String? typeClient;
@@ -38,7 +43,7 @@ class Client {
   int? order;
 
   //DATOS PARA LA BODEGA Y LISTADO DE PRECIOS
-  String? codPrecio;
+
   String? codBarrio;
 
   Client(
@@ -51,6 +56,8 @@ class Client {
       this.email,
       this.cellphone,
       this.branch,
+      this.codPrecio,
+      this.barrio,
       this.price,
       this.wayToPay,
       this.quota,
@@ -73,44 +80,41 @@ class Client {
       this.order,
       this.distance,
       this.duration,
-      this.codPrecio,
+
       this.codBarrio,
       this.color,
       this.hasCompleted = 0});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-      id: json['CODCLIENTE'] ?? json['codcliente'],
-      nit: json['NITCLIENTE'],
-      name: json['NOMCLIENTE'] ?? json['nomcliente'],
-      address: json['DIRCLIENTE'],
-      businessName: json['RAZCLIENTE'],
-      email: json['email'],
-      typeClient: json['type_client'],
-      cellphone: json['TELCLIENTE'],
-      branch: json['SUCCLIENTE'],
-      price: json['CODPRECIO'],
-      wayToPay: json['CODFPAGOVTA'],
-      quota: json['CUPO'],
-      estadoCliente: json['estadocliente'],
-      startTimeOfMeeting: json['startTimeOfMeeting'],
-      endTimeOfMeeting: json['endTimeOfMeeting'],
-      averageSales: json['averageSales'],
-      salesEffectiveness: json['salesEffectiveness'],
-      lastVisited: json['lastVisited'],
-      docType: json['docType'],
-      expireDate: json['expireDate'],
-      movDate: json['movDate'],
-      total: json['total'],
-      wallet: json['wallet'],
-      latitude: json['latitud'],
-      longitude: json['longitud'],
-      rutero: json['rutero'],
-      order: json['order'],
-      service: json['service'],
-      codPrecio: json['CODPRECIO'],
-      codBarrio: json['CODBARRIO'],
-    );
+        id: json['CODCLIENTE'] ?? json['codcliente'],
+        nit: json['NITCLIENTE'],
+        name: json['NOMCLIENTE'] ?? json['nomcliente'],
+        address: json['DIRCLIENTE'],
+        businessName: json['RAZCLIENTE'],
+        email: json['email'],
+        typeClient: json['type_client'],
+        cellphone: json['TELCLIENTE'],
+        branch: json['SUCCLIENTE'],
+        price: json['CODPRECIO'],
+        wayToPay: json['CODFPAGOVTA'],
+        quota: json['CUPO'],
+        estadoCliente: json['estadocliente'],
+        startTimeOfMeeting: json['startTimeOfMeeting'],
+        endTimeOfMeeting: json['endTimeOfMeeting'],
+        averageSales: json['averageSales'],
+        salesEffectiveness: json['salesEffectiveness'],
+        lastVisited: json['lastVisited'],
+        docType: json['docType'],
+        expireDate: json['expireDate'],
+        movDate: json['movDate'],
+        total: json['total'],
+        wallet: json['wallet'],
+        latitude: json['latitud'],
+        longitude: json['longitud'],
+        rutero: json['rutero'],
+        order: json['order'],
+        service: json['service']);
   }
 
   Map<String, dynamic> toJson() {
@@ -129,7 +133,8 @@ class Client {
       'estadocliente': estadoCliente,
       'rutero': rutero,
       'service': service,
-      'order': order
+      'order': order,
+      'CODBARRIO': barrio,
     };
   }
 }
