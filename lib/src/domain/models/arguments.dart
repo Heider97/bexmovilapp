@@ -13,13 +13,27 @@ class NavigationArgument {
 }
 
 class WarehouseArgument {
-  final String codbodega;
-  final String codprecio;
+  final String codrouter;
+  final String codcliente;
 
-  WarehouseArgument({required this.codbodega, required this.codprecio});
+  WarehouseArgument({required this.codrouter, required this.codcliente});
 
   WarehouseArgument fromJson(Map<String, dynamic> json) {
     return WarehouseArgument(
+        codrouter: json['codrouter'], codcliente: json['codcliente']);
+  }
+}
+
+class ProductArgument {
+  final String codbodega;
+  final String codprecio;
+
+  ProductArgument({required this.codbodega, required this.codprecio});
+
+  ProductArgument fromJson(Map<String, dynamic> json) {
+    return ProductArgument(
         codbodega: json['codbodega'], codprecio: json['codprecio']);
   }
 }
+
+

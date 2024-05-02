@@ -97,13 +97,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.routers, sections: sections));
   }
 
-  Future<void> _onNavigation(NavigationSale event, Emitter emit) async {
-    final arguments =
-        NavigationArgument(clients: event.clients, nearest: event.nearest);
-    navigationService.goTo(AppRoutes.navigation, arguments: arguments);
-    emit(state.copyWith());
-  }
-
   // _selectClient(SelectClient event, Emitter emit) {
   //   //TODO Agregar logica de creacion de la orden con el estado = clientSelected y guardado en BD
   //   if (state is SaleClienteSelected) {
