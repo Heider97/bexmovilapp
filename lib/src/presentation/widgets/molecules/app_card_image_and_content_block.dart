@@ -26,6 +26,7 @@ class AppCardImageAndContentBlock extends StatefulWidget {
     this.actions,
     required this.headline,
     this.subhead,
+    this.contents,
     this.supportingText,
     this.image,
     this.hoverImage,
@@ -46,6 +47,9 @@ class AppCardImageAndContentBlock extends StatefulWidget {
 
   /// An optional subheading displayed below the headline.
   final String? subhead;
+
+  /// An optional subheading displayed below the headline.
+  final List<Widget>? contents;
 
   /// An optional supporting text displayed below the subheading.
   final String? supportingText;
@@ -92,40 +96,40 @@ class _AppCardImageAndContentBlockState
       onExit: (event) => setState(() => hovered = false),
       child: (widget.type == AppCardType.elevated)
           ? AppCard.elevated(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      )
+              height: widget.height,
+              width: widget.width,
+              color: hovered
+                  ? Theme.of(context).colorScheme.secondary
+                  : Theme.of(context).colorScheme.surface,
+              margin: widget.margin ?? EdgeInsets.zero,
+              child: card,
+            )
           : (widget.type == AppCardType.filled)
-          ? AppCard.filled(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      )
-          : AppCard.outlined(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      ),
+              ? AppCard.filled(
+                  height: widget.height,
+                  width: widget.width,
+                  color: hovered
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.surface,
+                  margin: widget.margin ?? EdgeInsets.zero,
+                  child: card,
+                )
+              : AppCard.outlined(
+                  height: widget.height,
+                  width: widget.width,
+                  color: hovered
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.surface,
+                  margin: widget.margin ?? EdgeInsets.zero,
+                  child: card,
+                ),
     );
   }
 
   InkWell _buildAppCardImageAndContentBlock(
-      BuildContext context,
-      bool hovered,
-      ) {
+    BuildContext context,
+    bool hovered,
+  ) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -153,8 +157,8 @@ class _AppCardImageAndContentBlockState
             child: (hovered && widget.hoverImage != null)
                 ? widget.hoverImage!
                 : (widget.image != null)
-                ? widget.image!
-                : const SizedBox(),
+                    ? widget.image!
+                    : const SizedBox(),
           ),
           Padding(
             padding: const EdgeInsets.all(AppConstants.sm),
@@ -173,20 +177,21 @@ class _AppCardImageAndContentBlockState
                   subtitleStyle: subheadStyle,
                   supportingTextStyle: supportingTextStyle,
                 ),
+                ...?widget.contents,
                 Row(
                   children: (widget.actions == null)
                       ? []
                       : widget.actions!
-                      .map(
-                        (action) => Container(
-                      margin: const EdgeInsets.only(
-                        top: AppConstants.sm,
-                        right: AppConstants.sm,
-                      ),
-                      child: action,
-                    ),
-                  )
-                      .toList(),
+                          .map(
+                            (action) => Container(
+                              margin: const EdgeInsets.only(
+                                top: AppConstants.sm,
+                                right: AppConstants.sm,
+                              ),
+                              child: action,
+                            ),
+                          )
+                          .toList(),
                 ),
               ],
             ),

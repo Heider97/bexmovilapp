@@ -10,7 +10,10 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/date_time_extension.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+
+import '../atomsbox.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
@@ -61,10 +64,9 @@ class _ProductCardState extends State<ProductCard> {
     return Column(
       children: [
         Padding(
-          padding:
-              const EdgeInsets.only(left: Const.padding, right: Const.padding),
+          padding: const EdgeInsets.only(
+              left: Const.padding, bottom: Const.padding, right: Const.padding),
           child: CustomPaint(
-            //  size: Size(200, 400),
             painter: CustomShapePainter(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -94,220 +96,239 @@ class _ProductCardState extends State<ProductCard> {
                           ),
                         ),
                       )),
-                  Column(
-                    children: [
-                      gapH12,
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24.0, right: 24),
-                        child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(widget.product.nomProducto,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            overflow: TextOverflow.ellipsis),
-                                      ],
-                                    ),
-                                  ),
-                                ])
-                            ),
-                      ),
-                      gapH8,
-                      Row(
-                        children: [
-
-
-                          const SizedBox(
-                            width: 140,
-                            height: 150,
-                            child: ImagesWithShadow(
-                                image: 'assets/images/menu.png', gap: 0),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    /*  Row(
-                                      children: [
-
-                                      ],
-                                    ), */
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  '17 %   ',
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          fontSize: 15,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              206,
-                                                              47,
-                                                              84)),
-                                                ),
-                                                Text(
-                                                  '5415455465464',
-                                                  style: theme
-                                                      .textTheme.labelMedium!
-                                                      .copyWith(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 22,
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    gapH12,
-                                    SizedBox(
-                                      width: Screens.width(context),
-                                      child: Row(
-                                        children: [
-                                          Center(
-                                            child: Row(
-                                              children: [
-                                                AppText('Últ. Cant. Vendida: ',
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.black,
-                                                    fontSize: 14,
-                                                    overflow:
-                                                        TextOverflow.ellipsis),
-                                                /*  AppText(
-                                                    widget.product
-                                                        .lastQuantitySold
-                                                        .toString(),
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.grey[700],
-                                                    fontSize: 16,
-                                                    overflow:
-                                                        TextOverflow.ellipsis) */
-                                              ],
-                                            ),
-                                          ),
-                                          gapW8,
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Center(
-                                          child: Row(
-                                            children: [
-                                              AppText('Fecha Últ. Venta: ',
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                              /*  AppText(
-                                                  widget
-                                                      .product.lastQuantitySold
-                                                      .toString(),
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.grey[700],
-                                                  fontSize: 16,
-                                                  overflow:
-                                                      TextOverflow.ellipsis) */
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        AppText('Disponible: ',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            fontSize: 14,
-                                            overflow: TextOverflow.ellipsis),
-                                        /* AppText(
-                                            '${widget.product.availableUnits}',
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.grey[700],
-                                            fontSize: 16,
-                                            overflow: TextOverflow.ellipsis) */
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Aplicar descuento: ',
-                                          style: theme.textTheme.bodyMedium!
-                                              .copyWith(fontSize: 14),
-                                        ),
-                                        SizedBox(
-                                          width: Screens.width(context) * 0.20,
-                                          height: 20,
-                                          child: CustomTextEditing(
-                                              controller: discountController),
-                                        ),
-                                        const SizedBox()
-                                      ],
-                                    ),
-                                    gapH12,
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        /*       Text('Cantidad:  ',
-                                            style: theme.textTheme.bodyMedium!
-                                                .copyWith(fontSize: 14)), */
-                                        Ammount(
-                                          controller: ammountController,
-                                        )
-                                      ],
-                                    ),
-                                    gapH12,
-                                    ExpandedSection(
-                                        expand: expand,
-                                        height: 100,
-                                        child: const Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Some Info'),
-                                            Text('Some Info 2'),
-                                            Text('Some Info 3'),
-                                          ],
-                                        )),
-                                    gapH28
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                  AppCardImageAndContentBlock(
+                    headline: AppText(
+                      widget.product.codProducto!,
+                      fontSize: 16,
+                    ),
+                    subhead: widget.product.nomProducto,
+                    // image: AppImage.asset('assets/images/menu.png'),
+                    contents: [
+                      AppText(
+                          'Precio ${''.formatted(widget.product.precioProductoPrecio?.toDouble() ?? 0.0)}'),
+                      AppText('Disponible')
                     ],
                   )
+                  // Column(
+                  //   children: [
+                  //     gapH12,
+                  //     SingleChildScrollView(
+                  //         scrollDirection: Axis.horizontal,
+                  //         child: Row(
+                  //             mainAxisAlignment:
+                  //                 MainAxisAlignment.spaceBetween,
+                  //             children: [
+                  //               SingleChildScrollView(
+                  //                 scrollDirection: Axis.horizontal,
+                  //                 child: Column(
+                  //                   crossAxisAlignment:
+                  //                       CrossAxisAlignment.start,
+                  //                   children: [
+                  //                     gapW12,
+                  //                     Opacity(
+                  //                       opacity: 0.8,
+                  //                       child: AppText(widget.product.codProducto!,
+                  //                           fontWeight: FontWeight.w500,
+                  //                           color: theme.primaryColor,
+                  //                           fontSize: 12,
+                  //                           overflow: TextOverflow.ellipsis),
+                  //                     ),
+                  //                     AppText(
+                  //                         widget.product.nomProducto,
+                  //                         fontWeight: FontWeight.w500,
+                  //                         color: Colors.black,
+                  //                         fontSize: 16,
+                  //                         overflow: TextOverflow.ellipsis),
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //             ])
+                  //         ),
+                  //     gapH8,
+                  //     Row(
+                  //       children: [
+                  //         if(widget.product.imagen == "S")
+                  //           const SizedBox(
+                  //             width: 140,
+                  //             height: 150,
+                  //             child: ImagesWithShadow(
+                  //                 image: '''assets/images/menu.png''', gap: 0),
+                  //           ),
+                  //         Expanded(
+                  //           child: Column(
+                  //             children: [
+                  //               Column(
+                  //                 crossAxisAlignment: CrossAxisAlignment.start,
+                  //                 mainAxisAlignment: MainAxisAlignment.start,
+                  //                 children: [
+                  //                   /*  Row(
+                  //                     children: [
+                  //
+                  //                     ],
+                  //                   ), */
+                  //                   Row(
+                  //                     children: [
+                  //                       Expanded(
+                  //                         child: SingleChildScrollView(
+                  //                           scrollDirection: Axis.horizontal,
+                  //                           child: Row(
+                  //                             children: [
+                  //                               Text(
+                  //                                 '17 %   ',
+                  //                                 style: theme
+                  //                                     .textTheme.labelMedium!
+                  //                                     .copyWith(
+                  //                                         fontWeight:
+                  //                                             FontWeight.w700,
+                  //                                         fontSize: 15,
+                  //                                         color: Color.fromARGB(
+                  //                                             255,
+                  //                                             206,
+                  //                                             47,
+                  //                                             84)),
+                  //                               ),
+                  //                               Text(
+                  //                                 '5415455465464',
+                  //                                 style: theme
+                  //                                     .textTheme.labelMedium!
+                  //                                     .copyWith(
+                  //                                   fontWeight: FontWeight.w500,
+                  //                                   fontSize: 22,
+                  //                                 ),
+                  //                               )
+                  //                             ],
+                  //                           ),
+                  //                         ),
+                  //                       )
+                  //                     ],
+                  //                   ),
+                  //                   gapH12,
+                  //                   SizedBox(
+                  //                     width: Screens.width(context),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         Center(
+                  //                           child: Row(
+                  //                             children: [
+                  //                               AppText('Últ. Cant. Vendida: ',
+                  //                                   fontWeight:
+                  //                                       FontWeight.normal,
+                  //                                   color: Colors.black,
+                  //                                   fontSize: 14,
+                  //                                   overflow:
+                  //                                       TextOverflow.ellipsis),
+                  //                              /*  AppText(
+                  //                                   widget.product
+                  //                                       .lastQuantitySold
+                  //                                       .toString(),
+                  //                                   fontWeight:
+                  //                                       FontWeight.normal,
+                  //                                   color: Colors.grey[700],
+                  //                                   fontSize: 16,
+                  //                                   overflow:
+                  //                                       TextOverflow.ellipsis) */
+                  //                             ],
+                  //                           ),
+                  //                         ),
+                  //                         gapW8,
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                   Row(
+                  //                     children: [
+                  //                       Center(
+                  //                         child: Row(
+                  //                           children: [
+                  //                             AppText('Fecha Últ. Venta: ',
+                  //                                 fontWeight: FontWeight.normal,
+                  //                                 color: Colors.black,
+                  //                                 fontSize: 14,
+                  //                                 overflow:
+                  //                                     TextOverflow.ellipsis),
+                  //                            /*  AppText(
+                  //                                 widget
+                  //                                     .product.lastQuantitySold
+                  //                                     .toString(),
+                  //                                 fontWeight: FontWeight.normal,
+                  //                                 color: Colors.grey[700],
+                  //                                 fontSize: 16,
+                  //                                 overflow:
+                  //                                     TextOverflow.ellipsis) */
+                  //                           ],
+                  //                         ),
+                  //                       ),
+                  //                     ],
+                  //                   ),
+                  //                   Row(
+                  //                     children: [
+                  //                       AppText('Disponible: ',
+                  //                           fontWeight: FontWeight.normal,
+                  //                           color: Colors.black,
+                  //                           fontSize: 14,
+                  //                           overflow: TextOverflow.ellipsis),
+                  //                       /* AppText(
+                  //                           '${widget.product.availableUnits}',
+                  //                           fontWeight: FontWeight.normal,
+                  //                           color: Colors.grey[700],
+                  //                           fontSize: 16,
+                  //                           overflow: TextOverflow.ellipsis) */
+                  //                     ],
+                  //                   ),
+                  //                   Row(
+                  //
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.start,
+                  //                     children: [
+                  //                       Text(
+                  //                         'Aplicar descuento: ',
+                  //                         style: theme.textTheme.bodyMedium!
+                  //                             .copyWith(fontSize: 14),
+                  //                       ),
+                  //                       SizedBox(
+                  //                         width: Screens.width(context) * 0.20,
+                  //                         height: 20,
+                  //                         child: CustomTextEditing(
+                  //                             controller: discountController),
+                  //                       ),
+                  //                       const SizedBox()
+                  //                     ],
+                  //                   ),
+                  //                   gapH12,
+                  //                   Row(
+                  //                     mainAxisAlignment: MainAxisAlignment.center,
+                  //                     children: [
+                  //                 /*       Text('Cantidad:  ',
+                  //                           style: theme.textTheme.bodyMedium!
+                  //                               .copyWith(fontSize: 14)), */
+                  //                       Ammount(
+                  //                         controller: ammountController,
+                  //                       )
+                  //                     ],
+                  //                   ),
+                  //                   gapH12,
+                  //                   ExpandedSection(
+                  //                       expand: expand,
+                  //                       height: 100,
+                  //                       child: const Column(
+                  //                         mainAxisSize: MainAxisSize.min,
+                  //                         crossAxisAlignment:
+                  //                             CrossAxisAlignment.start,
+                  //                         children: [
+                  //                           Text('Some Info'),
+                  //                           Text('Some Info 2'),
+                  //                           Text('Some Info 3'),
+                  //                         ],
+                  //                       )),
+                  //                   gapH28
+                  //                 ],
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ],
+                  // )
                 ]),
               ],
             ),
