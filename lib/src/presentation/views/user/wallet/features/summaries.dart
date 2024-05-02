@@ -33,7 +33,7 @@ class _WalletSummariesState extends State<WalletSummaries>
           widget.invoices!.isNotEmpty == true) {
         return SingleChildScrollView(
           child: SizedBox(
-              height: size.height - 389,
+              height: size.height - 411,
               child: WalletTableSummaries(invoices: widget.invoices ?? [])),
         );
       } else {

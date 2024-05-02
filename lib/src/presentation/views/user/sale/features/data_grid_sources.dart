@@ -9,7 +9,7 @@ class InvoiceDataSource extends DataGridSource {
     _invoiceData = invoiceData
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<int>(columnName: 'Factura', value: e.nummov),
-              DataGridCell<String>(columnName: 'Estado', value: e.fecven),
+              DataGridCell<String>(columnName: 'Estado', value: e.state),
               DataGridCell<String>(columnName: 'Vencimiento', value: e.fecven),
               DataGridCell<String>(
                   columnName: 'Valor',
