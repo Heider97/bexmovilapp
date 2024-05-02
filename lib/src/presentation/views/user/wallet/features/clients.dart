@@ -47,7 +47,7 @@ class _WalletClientsState extends State<WalletClients>
                               type: state.age!,
                               client: widget.clients![index]));
                     },
-                    client: state.clients![index],
+                    client: widget.clients![index],
                   );
                 }),
           ),
