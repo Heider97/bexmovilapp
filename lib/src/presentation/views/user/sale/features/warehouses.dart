@@ -20,14 +20,13 @@ class SaleWarehouses extends StatelessWidget {
         if (state.status == SaleStatus.warehouses &&
             warehouses != null &&
             warehouses!.isNotEmpty == true) {
-          return const SizedBox();
-          // return ListView.builder(
-          //     shrinkWrap: true,
-          //     padding: EdgeInsets.zero,
-          //     itemCount: widget.clients?.length,
-          //     itemBuilder: (context, index) {
-          //       return CardClient(client: widget.clients![index]);
-          //     });
+          return ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: warehouses?.length,
+              itemBuilder: (context, index) {
+                return AppText(warehouses![index].nombodega ?? "N/A");
+              });
         } else {
           return AppText('No hay bodegas disponibles');
         }
