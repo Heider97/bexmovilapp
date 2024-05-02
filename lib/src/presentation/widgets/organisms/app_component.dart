@@ -1,7 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/features/dashboard.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/widgets/cartesian_chart.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 //domain
 import '../../../domain/models/component.dart';
@@ -18,6 +14,7 @@ import '../../views/user/home/features/applications.dart';
 import '../../views/user/sale/features/routers.dart';
 import '../../views/user/sale/features/clients.dart';
 //wallet
+import '../../views/user/wallet/features/dashboard.dart';
 
 enum ComponentTypes { kpi, feature, line, pie, list }
 
