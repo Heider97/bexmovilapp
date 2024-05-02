@@ -85,8 +85,9 @@ class _WarehousesPageState extends State<WarehousesPage> {
                   onPressed: () {
                     navigationService.goTo(AppRoutes.productsSale,
                         arguments: ProductArgument(
-                            codcliente: '',
-                            codbodega: '00167', codprecio: '001'));
+                            codcliente: widget.codcliente!,
+                            codbodega: '001B1',
+                            codprecio: '001'));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.primaryColor,

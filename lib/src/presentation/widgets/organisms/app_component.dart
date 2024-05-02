@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/models/component.dart';
 //widgets
 import '../../views/user/sale/features/prices.dart';
+import '../../views/user/sale/features/products.dart';
 import '../../views/user/sale/features/warehouses.dart';
 import '../../views/user/wallet/features/clients.dart';
 import '../../views/user/wallet/features/summaries.dart';
@@ -94,7 +95,7 @@ class _AppWidgetState extends State<AppWidget> {
       case 'SalePrices':
         return SalePrices(prices: widget.components.first.results);
       case 'SaleProducts':
-      // return SaleProducts(products: widget.components.first.results);
+      return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
         return WalletDashboard(components: widget.components);
       case 'WalletClients':

@@ -10,41 +10,26 @@ import '../../../../blocs/sale/sale_bloc.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
-import '../widgets/card_client.dart';
 
-class SaleProducts extends StatefulWidget {
+class SaleProducts extends StatelessWidget {
   final List<Product>? products;
 
   const SaleProducts({super.key, this.products});
-
-  @override
-  State<SaleProducts> createState() => _SaleProductsState();
-}
-
-class _SaleProductsState extends State<SaleProducts>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabcontroller;
-
-  @override
-  void initState() {
-    _tabcontroller = TabController(length: 2, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _tabcontroller.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.products &&
-          widget.products != null &&
-          widget.products!.isNotEmpty) {
-        return const SizedBox();
+          products != null &&
+          products!.isNotEmpty) {
+        return ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: products?.length,
+            itemBuilder: (context, index) {
+              return AppText(products![index].nomProducto);
+            });
       } else {
         return Center(child: AppText('No hay Productos'));
       }
