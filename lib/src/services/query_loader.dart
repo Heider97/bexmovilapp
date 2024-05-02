@@ -27,17 +27,24 @@ class QueryLoaderService {
   /// - [type] for the type of result
   /// - [module] name of module
   /// - [arguments] List of values to get result
-  Future getResults(String moduleName, String seller, List<dynamic> arguments) async {
+  Future getResults(
+      String moduleName, String seller, List<dynamic> arguments) async {
     // FIND CURRENT MODULE
     var module = await databaseRepository.findModule(moduleName);
     if (module != null && module.id != null) {
       var sections = await databaseRepository.findSections(module.id!);
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
+          print('*******************widget');
+          print(section.toJson());
+
           var widgets = await databaseRepository.findWidgets(section.id!);
           if (widgets != null && widgets.isNotEmpty) {
             section.widgets = widgets;
             for (var widget in widgets) {
+              print('*******************widget');
+              print(widget.toJson());
+
               var components =
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
@@ -62,6 +69,7 @@ class QueryLoaderService {
                       var results = await determine(
                           widget.type, logicQueries.first, arguments,
                           needBeMapped: needBeMapped);
+
                       component.results = results;
                     } else {
                       for (var lq in logicQueries) {
@@ -69,8 +77,8 @@ class QueryLoaderService {
                           var logic =
                               await databaseRepository.findLogic(lq.logicId!);
                           if (logic != null) {
-                            var result =
-                                await databaseRepository.validateLogic(logic, seller);
+                            var result = await databaseRepository.validateLogic(
+                                logic, seller);
                             if (result == true) {
                               print('*******logic*****');
                               print(logic.toJson());
@@ -104,7 +112,6 @@ class QueryLoaderService {
 
   Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
       {needBeMapped = false}) async {
-
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
@@ -126,9 +133,9 @@ class QueryLoaderService {
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
-    } else if(logicQuery.actionableType == 'navigation') {
+    } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
-      if(navigation != null) {
+      if (navigation != null) {
         await navigationService.goTo(navigation.route!, arguments: arguments);
       }
     }

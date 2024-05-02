@@ -1,16 +1,17 @@
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-
 //blocs
+import '../../../../../utils/constants/screens.dart';
+import '../../../../../utils/constants/strings.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
 import '../../../../widgets/organisms/app_section.dart';
-
 
 //services
 import '../../../../../locator.dart';
@@ -50,27 +51,58 @@ class _WarehousesPageState extends State<WarehousesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
       } else {
-        return _buildBody(state, context);
+        return _buildBody(state, theme, context);
       }
     });
   }
 
-  Widget _buildBody(state, context) {
+  Widget _buildBody(state, ThemeData theme, context) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ...state.sections != null
               ? state.sections!.map((e) => AppSection(
-              title: e.name!,
-              widgetItems: e.widgets ?? [],
-              tabController: null))
+                  title: e.name!,
+                  widgetItems: e.widgets ?? [],
+                  tabController: null))
               : [],
+          Positioned(
+            bottom: 10,
+            child: SizedBox(
+              width: Screens.width(context),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    navigationService.goTo(AppRoutes.productsSale,
+                        arguments: ProductArgument(
+                            codbodega: '00167', codprecio: '001'));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: Text(
+                    'Continuar',
+                    style: theme.textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.w600, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

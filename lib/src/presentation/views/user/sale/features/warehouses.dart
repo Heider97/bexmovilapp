@@ -17,8 +17,7 @@ class SaleWarehouses extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-        if (state.status == SaleStatus.warehouses &&
-            warehouses != null &&
+        if (warehouses != null &&
             warehouses!.isNotEmpty == true) {
           return ListView.builder(
               shrinkWrap: true,

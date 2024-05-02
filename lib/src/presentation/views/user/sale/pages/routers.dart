@@ -6,14 +6,9 @@ import 'package:intl/intl.dart';
 
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //widgets
 import '../../../../widgets/organisms/app_section.dart';
-
-//services
-import '../../../../../locator.dart';
-import '../../../../../services/navigation.dart';
 
 class RoutersPage extends StatefulWidget {
   const RoutersPage({super.key});

@@ -27,7 +27,7 @@ class SalePrices extends StatelessWidget {
                 return AppText(prices![index].nomprecio ?? "N/A");
               });
         } else {
-          return AppText('No hay bodegas disponibles');
+          return AppText('No hay precios disponibles');
         }
       }),
     );
