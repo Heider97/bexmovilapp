@@ -1,9 +1,20 @@
 part of 'sale_bloc.dart';
 
-enum SaleStatus { initial, loading, routers, clients, warehouses,products, failed }
+enum SaleStatus {
+  initial,
+  loading,
+  routers,
+  clients,
+  warehouses,
+  products,
+  failed
+}
 
 class SaleState {
   final SaleStatus status;
+  final List<Warehouse>? availableWarehouse;
+  final Warehouse? selectedWarehouse;
+  final String? idListPrice;
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
@@ -18,6 +29,9 @@ class SaleState {
   const SaleState(
       {this.status = SaleStatus.initial,
       this.sections,
+      this.availableWarehouse,
+      this.selectedWarehouse,
+      this.idListPrice,
       this.routers,
       this.clients,
       this.clientsFounded,
@@ -33,6 +47,9 @@ class SaleState {
           List<Client>? clients,
           List<Client>? clientsFounded,
           List<Filter>? filters,
+          Warehouse? selectedWarehouse,
+          List<Warehouse>? availableWarehouse,
+          String? idListPrice,
           bool? gridView,
           String? error,
           Router? selectedRouter}) =>
@@ -45,7 +62,10 @@ class SaleState {
           filters: filters ?? this.filters,
           gridView: gridView ?? this.gridView,
           error: error ?? this.error,
-          selectedRouter: selectedRouter ?? this.selectedRouter);
+          selectedRouter: selectedRouter ?? this.selectedRouter,
+          selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
+          idListPrice: idListPrice ?? this.idListPrice,
+          availableWarehouse: availableWarehouse ?? this.availableWarehouse);
 
   @override
   // TODO: implement props

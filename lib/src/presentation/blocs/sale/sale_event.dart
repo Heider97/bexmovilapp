@@ -49,8 +49,17 @@ class SelectRouter extends SaleEvent {
   SelectRouter({required this.router});
 }
 
+class SelectWarehouseAndListPrice extends SaleEvent {
+  String idListPrice;
+  String idWarehouse;
+  SelectWarehouseAndListPrice(
+      {required this.idListPrice, required this.idWarehouse});
+}
 
-
+class LoadWarehouseAndListPrice extends SaleEvent {
+  //String? codeClient;
+  LoadWarehouseAndListPrice(/* {required this.codeClient} */);
+}
 
 
 

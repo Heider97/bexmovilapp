@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 

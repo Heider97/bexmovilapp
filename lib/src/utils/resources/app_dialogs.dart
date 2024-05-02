@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:bexmovil/src/utils/widgets/ShowPriceAndWarehousesAlert.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -75,6 +76,14 @@ Future<void> showErrorDialog() {
           description:
               'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
           image: 'assets/icons/pin.svg'));
+}
+
+Future<void> showPriceAndWarehouses(BuildContext context) {
+  return showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (_) => const ShowPriceAndWarehousesAlert(),
+  );
 }
 
 showClientDialog({required BuildContext context, required Client client}) {
