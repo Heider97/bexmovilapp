@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../domain/models/component.dart';
 //widgets
 import '../../views/user/wallet/features/clients.dart';
+import '../../views/user/wallet/features/summaries.dart';
 import '../molecules/app_text_block.dart';
 
 //home
@@ -96,12 +97,11 @@ class _AppWidgetState extends State<AppWidget> {
       case 'SaleProducts':
         // return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
-        print(widget.components);
         return WalletDashboard(components: widget.components);
       case 'WalletClients':
         return WalletClients(clients: widget.components.first.results);
       case 'WalletSummaries':
-        // return WalletSummaries(summaries: widget.components.first.results);
+        return WalletSummaries(invoices: widget.components.first.results);
       default:
         return const SizedBox();
     }
