@@ -48,7 +48,7 @@ class _AppFormState extends State<AppSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        gapH12,
+        gapH8,
         Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child:

@@ -1,4 +1,5 @@
 //utils
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/pages/clients_map.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/pages/select_products.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/pages/shopping_cart.dart';
@@ -33,10 +34,11 @@ Map<String, RouteType> salesRoutes = {
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: WarehousesPage(codcliente: settings.arguments as String?)),
-  // AppRoutes.selectProducts: (context, settings) => AppGlobalBackground.squared(
-  //     hideBottomNavigationBar: true,
-  //     opacity: 0.1,
-  //     child: const SelectProductsView()),
+  AppRoutes.productsSale: (context, settings) => AppGlobalBackground.squared(
+      hideAppBar: false,
+      hideBottomNavigationBar: true,
+      opacity: 0.1,
+      child: SelectProductsView(arguments: settings.arguments as ProductArgument)),
   AppRoutes.shoppingCart: (context, settings) => AppGlobalBackground.squared(
       hideBottomNavigationBar: true,
       opacity: 0.1,

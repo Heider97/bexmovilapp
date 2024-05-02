@@ -1,4 +1,5 @@
 
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
@@ -20,11 +21,9 @@ final NavigationService _navigationService = locator<NavigationService>();
 
 class SelectProductsView extends StatefulWidget {
 
-  final String codcliente;
-  final String codbodega;
-  final String codprecio;
+  final ProductArgument arguments;
 
-  const SelectProductsView({super.key, required this.codcliente, required this.codbodega, required this.codprecio});
+  const SelectProductsView({super.key, required this.arguments} );
 
   @override
   State<SelectProductsView> createState() => _SelectProductsViewState();
@@ -52,13 +51,13 @@ class _SelectProductsViewState extends State<SelectProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadProducts(widget.codbodega, widget.codprecio));
+    saleBloc.add(LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
   @override
   void dispose() {
-    saleBloc.add(LoadWarehouses(widget.codcliente));
+    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
     super.dispose();
   }
 
