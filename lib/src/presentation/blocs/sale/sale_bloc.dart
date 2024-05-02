@@ -111,12 +111,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     // print(listAvailableWarehouses);
   }
 
-
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService
-        .getResults('sales-products', seller!, [event.codprecio, event.codbodega]);
-    emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
+    var sections = await queryLoaderService.getResults(
+        'sales-products', seller!, [event.codprecio, event.codbodega]);
+    emit(state.copyWith(status: SaleStatus.products, sections: sections));
   }
-
 }
