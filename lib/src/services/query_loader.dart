@@ -66,28 +66,11 @@ class QueryLoaderService {
 
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
-
-
-                      if(logicQueries.first.actionableType == 'navigation'){
-                    //TODO: Add logic to navigate to ....
-                     //   navigationService.goTo(logicQueries.first.)
-
-                      }else{
                       var results = await determine(
                           widget.type, logicQueries.first, arguments,
                           needBeMapped: needBeMapped);
 
                       component.results = results;
-                      }
-
-
-
-
-
-
-
-
-                      
                     } else {
                       for (var lq in logicQueries) {
                         if (lq.logicId != null) {
@@ -232,6 +215,9 @@ class QueryLoaderService {
       if (needBeMapped) {
         return results;
       }
+
+      print('***********');
+      print(results);
 
       var dynamic = await dynamicListTypes[type]?.fromMap(results);
       if (dynamic == null) {

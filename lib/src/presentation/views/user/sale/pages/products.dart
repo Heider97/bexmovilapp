@@ -28,10 +28,9 @@ class ProductsView extends StatefulWidget {
   State<ProductsView> createState() => _ProductsViewState();
 }
 
-bool gridMode = false;
-
 class _ProductsViewState extends State<ProductsView> {
   late SaleBloc saleBloc;
+  bool gridMode = false;
 
   @override
   void initState() {

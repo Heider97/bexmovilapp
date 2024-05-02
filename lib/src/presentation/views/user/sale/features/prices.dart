@@ -23,9 +23,8 @@ class SalePrices extends StatelessWidget {
         ScrollController scrollController = ScrollController();
 
         if (prices != null && prices!.isNotEmpty == true) {
-          return Container(
+          return SizedBox(
             height: Screens.height(context) * 0.30,
-            color: Colors.grey[50],
             child: RawScrollbar(
               thumbVisibility: true,
               thumbColor: theme.primaryColor,

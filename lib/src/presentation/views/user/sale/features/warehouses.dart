@@ -23,9 +23,8 @@ class SaleWarehouses extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
         if (warehouses != null && warehouses!.isNotEmpty == true) {
-          return Container(
+          return SizedBox(
             height: Screens.height(context) * 0.30,
-            color: Colors.grey[50],
             child: RawScrollbar(
               thumbVisibility: true,
               thumbColor: theme.primaryColor,
