@@ -30,7 +30,7 @@ Map<String, RouteType> walletRoutes = {
       child: WalletClientsView(
         argument: settings.arguments as WalletArgument,
       )),
-  AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.squared(
+  AppRoutes.summariesWallet: (context, settings) => AppGlobalBackground.wallet(
       opacity: 0.1,
       hideBottomNavigationBar: true,
       child: WalletSummariesView(
@@ -50,7 +50,7 @@ Map<String, RouteType> walletRoutes = {
       AppGlobalBackground.squared(
           opacity: 0.1,
           hideBottomNavigationBar: true,
-          child: WalletDetailsScreen()),
+          child: const WalletDetailsScreen()),
   AppRoutes.actionWallet: (context, settings) => AppGlobalBackground.squared(
       hideAppBar: false,
       opacity: 0.1,

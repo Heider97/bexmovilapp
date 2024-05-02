@@ -45,7 +45,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
         await queryLoaderService.getResults('wallet', [seller]);
     emit(state.copyWith(status: WalletStatus.dashboard, sections: sections));
   }
-  
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: WalletStatus.loading));
@@ -53,8 +52,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     try {
       var seller = storageService.getString('username');
       var range = event.range;
-      List<Section> sections = await queryLoaderService.getResults('wallet-clients', [seller, range]);
-      emit(state.copyWith(status: WalletStatus.clients, age: event.range, sections: sections));
+      List<Section> sections = await queryLoaderService
+          .getResults('wallet-clients', [seller, range]);
+      emit(state.copyWith(
+          status: WalletStatus.clients, age: event.range, sections: sections));
     } catch (error, stackTrace) {
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));
@@ -68,8 +69,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var seller = storageService.getString('username');
       var client = event.client!.id.toString();
       var range = event.range;
-      List<Section> sections = await queryLoaderService.getResults('wallet-summaries', [seller, client, range]);
-      emit(state.copyWith(status: WalletStatus.clients, age: event.range, sections: sections));
+      List<Section> sections = await queryLoaderService
+          .getResults('wallet-summaries', [seller, client, range]);
+      emit(state.copyWith(
+          status: WalletStatus.invoices, age: event.range, sections: sections));
     } catch (error, stackTrace) {
       emit(
           state.copyWith(status: WalletStatus.failed, error: error.toString()));
