@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/domain/models/porduct.dart';
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/presentation/widgets/user/image_with_shadow.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';

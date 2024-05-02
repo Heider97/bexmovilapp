@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/warehouse.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +31,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
+    on<LoadWarehouseAndListPrice>(_onLoadWarehouseAndListPrice);
 /*     on<NavigationSale>(_onNavigation);
     on<SearchClientSale>(_searchClient); */
+    on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
   }
@@ -42,6 +45,26 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   _gridModeChange(GridModeChange event, Emitter emit) {
     emit(state.copyWith(gridView: event.changeMode));
+  }
+
+  Future<void> _onLoadWarehouseAndListPrice(
+      LoadWarehouseAndListPrice event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    var sections =
+        await queryLoaderService.getResults('sale-warehouses', [seller]);
+    var listAvailableWarehouses =
+        sections!.first.widgets!.first.components!.first.results;
+    print(listAvailableWarehouses);
+  }
+
+  Future<void> _onSelectWarehouseAndListPrice(
+      SelectWarehouseAndListPrice event, Emitter emit) async {
+    var seller = storageService.getString('username');
+    var sections =
+        await queryLoaderService.getResults('sale-warehouses', [seller]);
+    var listAvailableWarehouses =
+        sections!.first.widgets!.first.components!.first.results;
+    print(listAvailableWarehouses);
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -59,6 +82,11 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var sections = await queryLoaderService
         .getResults('sales-clients', [event.codeRouter, seller]);
 
+    /*  var test = await queryLoaderService
+        .getResults('sale-warehouses', [seller]);
+
+    print(test);
+ */
     clients = sections!.first.widgets!.first.components!.first.results;
 
     if (event.codeRouter != null) {
@@ -70,9 +98,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       });
 
       emit(state.copyWith(
-          status: SaleStatus.clients,
-          clients: clients,
-          sections: sections));
+          status: SaleStatus.clients, clients: clients, sections: sections));
     } else {
       emit(state.copyWith(status: SaleStatus.clients, clients: clients));
     }

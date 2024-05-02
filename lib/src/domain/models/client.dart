@@ -37,6 +37,10 @@ class Client {
   int? service;
   int? order;
 
+  //DATOS PARA LA BODEGA Y LISTADO DE PRECIOS
+  String? codPrecio;
+  String? codBarrio;
+
   Client(
       {this.id,
       this.nit,
@@ -69,39 +73,44 @@ class Client {
       this.order,
       this.distance,
       this.duration,
+      this.codPrecio,
+      this.codBarrio,
       this.color,
       this.hasCompleted = 0});
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-        id: json['CODCLIENTE'] ?? json['codcliente'],
-        nit: json['NITCLIENTE'],
-        name: json['NOMCLIENTE'] ?? json['nomcliente'],
-        address: json['DIRCLIENTE'],
-        businessName: json['RAZCLIENTE'],
-        email: json['email'],
-        typeClient: json['type_client'],
-        cellphone: json['TELCLIENTE'],
-        branch: json['SUCCLIENTE'],
-        price: json['CODPRECIO'],
-        wayToPay: json['CODFPAGOVTA'],
-        quota: json['CUPO'],
-        estadoCliente: json['estadocliente'],
-        startTimeOfMeeting: json['startTimeOfMeeting'],
-        endTimeOfMeeting: json['endTimeOfMeeting'],
-        averageSales: json['averageSales'],
-        salesEffectiveness: json['salesEffectiveness'],
-        lastVisited: json['lastVisited'],
-        docType: json['docType'],
-        expireDate: json['expireDate'],
-        movDate: json['movDate'],
-        total: json['total'],
-        wallet: json['wallet'],
-        latitude: json['latitud'],
-        longitude: json['longitud'],
-        rutero: json['rutero'],
-        order: json['order'],
-        service: json['service']);
+      id: json['CODCLIENTE'] ?? json['codcliente'],
+      nit: json['NITCLIENTE'],
+      name: json['NOMCLIENTE'] ?? json['nomcliente'],
+      address: json['DIRCLIENTE'],
+      businessName: json['RAZCLIENTE'],
+      email: json['email'],
+      typeClient: json['type_client'],
+      cellphone: json['TELCLIENTE'],
+      branch: json['SUCCLIENTE'],
+      price: json['CODPRECIO'],
+      wayToPay: json['CODFPAGOVTA'],
+      quota: json['CUPO'],
+      estadoCliente: json['estadocliente'],
+      startTimeOfMeeting: json['startTimeOfMeeting'],
+      endTimeOfMeeting: json['endTimeOfMeeting'],
+      averageSales: json['averageSales'],
+      salesEffectiveness: json['salesEffectiveness'],
+      lastVisited: json['lastVisited'],
+      docType: json['docType'],
+      expireDate: json['expireDate'],
+      movDate: json['movDate'],
+      total: json['total'],
+      wallet: json['wallet'],
+      latitude: json['latitud'],
+      longitude: json['longitud'],
+      rutero: json['rutero'],
+      order: json['order'],
+      service: json['service'],
+      codPrecio: json['CODPRECIO'],
+      codBarrio: json['CODBARRIO'],
+    );
   }
 
   Map<String, dynamic> toJson() {
