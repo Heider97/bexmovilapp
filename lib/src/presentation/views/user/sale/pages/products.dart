@@ -1,13 +1,11 @@
 import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/product_card_row.dart';
 
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
-import 'package:bexmovil/src/presentation/widgets/user/product_card.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
