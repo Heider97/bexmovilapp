@@ -12,6 +12,7 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,154 +49,124 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
+    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+      if (state.status == SaleStatus.loading) {
+        return const Center(
+            child: CupertinoActivityIndicator(color: Colors.green));
+      } else {
+        return _buildBody(state, theme, context);
+      }
+    });
+  }
 
-    return BlocBuilder<SaleBloc, SaleState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Column(
+  Widget _buildBody(state, ThemeData theme, context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: CustomSearchBar(
-                          onChanged: (value) {},
-                          colorBackground: theme.colorScheme.secondary,
-                          prefixIcon: const Icon(Icons.search),
-                          controller: TextEditingController(),
-                          hintText: 'Buscar producto',
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AppIconButton(
-                        child: Icon(Icons.filter_alt_rounded,
-                            color: theme.colorScheme.onPrimary),
-                        onPressed: () {}),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: AppIconButton(
-                      child: Icon(
-                          (gridMode)
-                              ? Icons.grid_view_rounded
-                              : Icons.grid_view_outlined,
-                          color: theme.colorScheme.onPrimary),
-                      onPressed: () {
-                        setState(() {
-                          gridMode = !gridMode;
-                        });
-                        //TODO: disable grid view. change icon too
-                      },
-                    ),
-                  )
-                ],
+              Expanded(
+                child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: CustomSearchBar(
+                      onChanged: (value) {},
+                      colorBackground: theme.colorScheme.secondary,
+                      prefixIcon: const Icon(Icons.search),
+                      controller: TextEditingController(),
+                      hintText: 'Buscar producto',
+                    )),
               ),
-              ...state.sections != null
-                  ? state.sections!.map((e) => AppSection(
-                      title: e.name!,
-                      widgetItems: e.widgets ?? [],
-                      tabController: null))
-                  : [],
-              // (gridMode)
-              //     ? Expanded(
-              //   child: Container(
-              //     color: Colors.grey[200],
-              //     child: ListView.builder(
-              //         itemCount: 4,
-              //         itemBuilder: (context, index) {
-              //           return Padding(
-              //               padding: const EdgeInsets.only(top: 15.0),
-              //               child:Text('productCard') /* ProductCard(
-              //                     product: product,
-              //                     refresh: () {},
-              //                   ), */
-              //           );
-              //         }),
-              //   ),
-              // )
-              //     : Expanded(
-              //   child: Container(
-              //     color: Colors.grey[200],
-              //     child: ListView.builder(
-              //         itemCount: 2,
-              //         itemBuilder: (context, index) {
-              //           return Padding(
-              //               padding: const EdgeInsets.only(top: 15.0),
-              //               child: Text('productCardRow')/* ProductCardRow(
-              //                       firstProduct: product, secondProduct: null
-              //                       //TODO: que le ingresen dos clientes ambos opcionales
-              //                       /*    product: product,
-              //                     refresh: () {}, */
-              //                       ), */
-              //           );
-              //         }),
-              //   ),
-              // ),
-              Material(
-                  elevation: 10,
-                  child: Container(
-                    height: 100,
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppIconButton(
+                    child: Icon(Icons.filter_alt_rounded,
+                        color: theme.colorScheme.onPrimary),
+                    onPressed: () {}),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: AppIconButton(
+                  child: Icon(
+                      (gridMode)
+                          ? Icons.grid_view_rounded
+                          : Icons.grid_view_outlined,
+                      color: theme.colorScheme.onPrimary),
+                  onPressed: () {
+                    setState(() {
+                      gridMode = !gridMode;
+                    });
+                    //TODO: disable grid view. change icon too
+                  },
+                ),
+              )
+            ],
+          ),
+          ...state.sections != null
+              ? state.sections!.map((e) => AppSection(
+                  title: e.name!,
+                  widgetItems: e.widgets ?? [],
+                  tabController: null))
+              : [],
+          Material(
+              elevation: 10,
+              child: Container(
+                height: 100,
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '4 productos',
-                              style: theme.textTheme.titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        Text(
+                          '0 productos',
+                          style: theme.textTheme.titleLarge!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(),
-                        Row(children: [
-                          Text(
-                            'Vaciar',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.primaryColor),
-                          ),
-                          gapW20,
-                          InkWell(
-                            onTap: () {
-                              _navigationService.goTo(AppRoutes.shoppingCart);
-                            },
-                            child: Container(
-                              height: 40,
-                              child: Material(
-                                color: theme.primaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                                elevation: 5,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15),
-                                    child: Text(
-                                      'Ver Orden',
-                                      style: theme.textTheme.bodyMedium!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
+                      ],
+                    ),
+                    Row(children: [
+                      Text(
+                        'Vaciar',
+                        style: theme.textTheme.bodyMedium!
+                            .copyWith(color: theme.primaryColor),
+                      ),
+                      gapW20,
+                      InkWell(
+                        onTap: () {
+                          _navigationService.goTo(AppRoutes.shoppingCart);
+                        },
+                        child: SizedBox(
+                          height: 40,
+                          child: Material(
+                            color: theme.primaryColor,
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 5,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15),
+                                child: Text(
+                                  'Ver Carrito',
+                                  style: theme.textTheme.bodyMedium!.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ),
-                          )
-                        ])
-                      ],
-                    ),
-                  ))
-            ],
-          ),
-        );
-      },
+                          ),
+                        ),
+                      )
+                    ])
+                  ],
+                ),
+              ))
+        ],
+      ),
     );
   }
 }

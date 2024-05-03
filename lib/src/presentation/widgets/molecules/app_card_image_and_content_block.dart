@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../atoms/app_card.dart';
@@ -26,6 +28,9 @@ class AppCardImageAndContentBlock extends StatefulWidget {
     this.actions,
     required this.headline,
     this.subhead,
+    this.contents,
+    this.subContents,
+    this.title,
     this.supportingText,
     this.image,
     this.hoverImage,
@@ -46,6 +51,15 @@ class AppCardImageAndContentBlock extends StatefulWidget {
 
   /// An optional subheading displayed below the headline.
   final String? subhead;
+
+  /// An optional contents displayed below the subheading.
+  final List<Widget>? contents;
+
+  /// An optional contents displayed below the contents.
+  final List<Widget>? subContents;
+
+  /// An optional title displayed up the heading.
+  final Widget? title;
 
   /// An optional supporting text displayed below the subheading.
   final String? supportingText;
@@ -92,40 +106,40 @@ class _AppCardImageAndContentBlockState
       onExit: (event) => setState(() => hovered = false),
       child: (widget.type == AppCardType.elevated)
           ? AppCard.elevated(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      )
+              height: widget.height,
+              width: widget.width,
+              color: hovered
+                  ? Theme.of(context).colorScheme.secondary
+                  : Theme.of(context).colorScheme.surface,
+              margin: widget.margin ?? EdgeInsets.zero,
+              child: card,
+            )
           : (widget.type == AppCardType.filled)
-          ? AppCard.filled(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      )
-          : AppCard.outlined(
-        height: widget.height,
-        width: widget.width,
-        color: hovered
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surface,
-        margin: widget.margin ?? EdgeInsets.zero,
-        child: card,
-      ),
+              ? AppCard.filled(
+                  height: widget.height,
+                  width: widget.width,
+                  color: hovered
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.surface,
+                  margin: widget.margin ?? EdgeInsets.zero,
+                  child: card,
+                )
+              : AppCard.outlined(
+                  height: widget.height,
+                  width: widget.width,
+                  color: hovered
+                      ? Theme.of(context).colorScheme.secondary
+                      : Theme.of(context).colorScheme.surface,
+                  margin: widget.margin ?? EdgeInsets.zero,
+                  child: card,
+                ),
     );
   }
 
   InkWell _buildAppCardImageAndContentBlock(
-      BuildContext context,
-      bool hovered,
-      ) {
+    BuildContext context,
+    bool hovered,
+  ) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -148,49 +162,108 @@ class _AppCardImageAndContentBlockState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-            child: (hovered && widget.hoverImage != null)
-                ? widget.hoverImage!
-                : (widget.image != null)
-                ? widget.image!
-                : const SizedBox(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(AppConstants.sm),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppTextBlock(
-                  title: widget.headline,
-                  subtitle: (widget.subhead != null)
-                      ? AppText(widget.subhead!, maxLines: 2)
-                      : null,
-                  supportingText: (widget.supportingText != null)
-                      ? AppText(widget.supportingText!)
-                      : null,
-                  titleStyle: headlineStyle,
-                  subtitleStyle: subheadStyle,
-                  supportingTextStyle: supportingTextStyle,
-                ),
-                Row(
-                  children: (widget.actions == null)
-                      ? []
-                      : widget.actions!
-                      .map(
-                        (action) => Container(
-                      margin: const EdgeInsets.only(
-                        top: AppConstants.sm,
-                        right: AppConstants.sm,
+          if (widget.title != null)
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: widget.title),
+          widget.image != null
+              ? Padding(
+                  padding: const EdgeInsets.all(AppConstants.sm),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                AppConstants.borderRadius),
+                            child: (hovered && widget.hoverImage != null)
+                                ? widget.hoverImage!
+                                : (widget.image != null)
+                                    ? widget.image!
+                                    : const SizedBox(),
+                          ),
+                          SizedBox(
+                            width: 195,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppTextBlock(
+                                  title: widget.headline,
+                                  subtitle: (widget.subhead != null)
+                                      ? AppText(widget.subhead!, maxLines: 3)
+                                      : null,
+                                  supportingText:
+                                      (widget.supportingText != null)
+                                          ? AppText(widget.supportingText!)
+                                          : null,
+                                  titleStyle: headlineStyle,
+                                  subtitleStyle: subheadStyle,
+                                  supportingTextStyle: supportingTextStyle,
+                                ),
+                                ...?widget.contents,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      child: action,
-                    ),
-                  )
-                      .toList(),
+                      gapH8,
+                      ...?widget.subContents,
+                      Row(
+                        children: (widget.actions == null)
+                            ? []
+                            : widget.actions!
+                                .map(
+                                  (action) => Container(
+                                    margin: const EdgeInsets.only(
+                                      top: AppConstants.sm,
+                                      right: AppConstants.sm,
+                                    ),
+                                    child: action,
+                                  ),
+                                )
+                                .toList(),
+                      ),
+                    ],
+                  ))
+              : Padding(
+                  padding: const EdgeInsets.all(AppConstants.sm),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppTextBlock(
+                        title: widget.headline,
+                        subtitle: (widget.subhead != null)
+                            ? AppText(widget.subhead!, maxLines: 2)
+                            : null,
+                        supportingText: (widget.supportingText != null)
+                            ? AppText(widget.supportingText!)
+                            : null,
+                        titleStyle: headlineStyle,
+                        subtitleStyle: subheadStyle,
+                        supportingTextStyle: supportingTextStyle,
+                      ),
+                      ...?widget.contents,
+                      ...?widget.subContents,
+                      Row(
+                        children: (widget.actions == null)
+                            ? []
+                            : widget.actions!
+                                .map(
+                                  (action) => Container(
+                                    margin: const EdgeInsets.only(
+                                      top: AppConstants.sm,
+                                      right: AppConstants.sm,
+                                    ),
+                                    child: action,
+                                  ),
+                                )
+                                .toList(),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     );

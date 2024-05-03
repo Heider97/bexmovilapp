@@ -24,7 +24,7 @@ class SaleWarehouses extends StatelessWidget {
       child: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
         if (warehouses != null && warehouses!.isNotEmpty == true) {
           return SizedBox(
-            height: Screens.height(context) * 0.30,
+            height: Screens.height(context) * 0.20,
             child: RawScrollbar(
               thumbVisibility: true,
               thumbColor: theme.primaryColor,
