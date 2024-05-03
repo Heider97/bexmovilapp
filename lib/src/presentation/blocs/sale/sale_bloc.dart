@@ -32,9 +32,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
+    on<LoadProducts>(_onLoadProducts);
     on<LoadWarehouses>(_onLoadWarehouses);
     on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
-    on<LoadProducts>(_onLoadProducts);
+
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
   }
@@ -114,7 +115,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults(
-        'sales-products', seller!, [event.codprecio, event.codbodega]);
-    emit(state.copyWith(status: SaleStatus.products, sections: sections));
+        'sales-products', seller!, [event.codbodega, event.codprecio]);
+    emit(state.copyWith(
+      status: SaleStatus.products,
+      sections: sections,
+    ));
   }
 }

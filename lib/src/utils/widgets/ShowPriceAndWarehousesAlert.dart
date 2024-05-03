@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
@@ -11,7 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class ShowPriceAndWarehousesAlert extends StatefulWidget {
+  final String codClient;
   const ShowPriceAndWarehousesAlert({
+    required this.codClient,
     super.key,
   });
 
@@ -146,7 +149,11 @@ class _ShowPriceAndWarehousesAlertState
                 onTap: () {
                   if (_selectedRadioBodega != -1 &&
                       _selectedRadioListaPrecios != -1) {
-                    _navigationService.goTo(AppRoutes.selectProducts);
+                    _navigationService.goTo(AppRoutes.productsSale,
+                        arguments: ProductArgument(
+                            codcliente: widget.codClient,
+                            codbodega: '001B1',
+                            codprecio: '001'));
                   } else {
                     // Muestra algún tipo de mensaje de advertencia o realiza otra acción según tus necesidades
                   }
