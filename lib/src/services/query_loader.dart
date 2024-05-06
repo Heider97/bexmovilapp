@@ -143,12 +143,7 @@ class QueryLoaderService {
           }
         }
 
-        print(navigation.type);
-        print(data);
-
         var argument = await dynamicDataTypes[navigation.type!]?.fromMap(data);
-
-        print(argument);
 
         if(argument != null) {
           await navigationService.goTo(navigation.route!, arguments: argument);
