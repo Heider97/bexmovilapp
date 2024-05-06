@@ -42,13 +42,17 @@ class ProductArgument {
       required this.codbodega,
       required this.codprecio});
 
-  factory ProductArgument.fromJson(Map<String, dynamic> json) =>
-      ProductArgument(
-          codcliente: json['codcliente'] is String
-              ? int.parse(json['codcliente'])
-              : json['codcliente'],
-          codbodega: json['codbodega'],
-          codprecio: json['codprecio']);
+  factory ProductArgument.fromJson(Map<String, dynamic> json){
+    print('********');
+    print(json);
+
+    return ProductArgument(
+        codcliente: json['codcliente'] is String
+            ? int.parse(json['codcliente'])
+            : json['codcliente'],
+        codbodega: json['codbodega'],
+        codprecio: json['codprecio']);
+  }
 
   Map<String, dynamic> toMap() {
     return {

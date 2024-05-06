@@ -121,6 +121,7 @@ class AppDynamicCasterType<T> {
 
 class AppDynamicDataCasterType<T> {
   final T Function(Map<String, Object?>) fromMap;
+
   AppDynamicDataCasterType(this.fromMap);
 }
 
@@ -159,7 +160,7 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
 };
 
 Map<String, AppDynamicDataCasterType> dynamicDataTypes = {
-  "ProductArguments": AppDynamicDataCasterType<ProductArgument>(
+  "ProductsArguments": AppDynamicDataCasterType<ProductArgument>(
       (s) => ProductArgument.fromJson(s)),
 };
 
