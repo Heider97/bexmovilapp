@@ -13,7 +13,6 @@ enum SaleStatus {
 class SaleState {
   final SaleStatus status;
 
-  final String? idListPrice;
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
@@ -26,10 +25,6 @@ class SaleState {
   final List<Price>? priceList;
   final Price? selectedPrice;
 
-  // final List<Warehouse>? warehouses;
-  final Warehouse? warehouse;
-  // final List<Price>? prices;
-  // final Price? price;
 
   final bool? gridView;
 
@@ -45,7 +40,7 @@ class SaleState {
       this.selectedWarehouse,
       this.priceList,
       this.selectedPrice,
-      this.idListPrice,
+
       this.routers,
       this.clients,
       this.clientsFounded,

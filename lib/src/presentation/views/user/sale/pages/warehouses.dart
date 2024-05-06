@@ -87,8 +87,8 @@ class _WarehousesPageState extends State<WarehousesPage> {
                   final user = storageService.getObject('user');
 
                   String? codbodega;
-                  if (state.warehouse != null) {
-                    codbodega = state.warehouse!.codbodega;
+                  if (state.selectedWarehouse != null) {
+                    codbodega = state.selectedWarehouse!.codbodega;
                   } else if (user?['codbodega'] != null) {
                     codbodega = user?['codbodega'];
                   } else {

@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class ShowPriceAndWarehousesAlert extends StatefulWidget {
-  final String codClient;
+  final int codClient;
   final String clientName;
 
   const ShowPriceAndWarehousesAlert({
