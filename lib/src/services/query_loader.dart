@@ -103,7 +103,8 @@ class QueryLoaderService {
     }
   }
 
-  Future determine(String? type, LogicQuery logicQuery, String seller,List<dynamic> arguments,
+  Future determine(String? type, LogicQuery logicQuery, String seller,
+      List<dynamic> arguments,
       {needBeMapped = false}) async {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
@@ -115,10 +116,10 @@ class QueryLoaderService {
     } else if (logicQuery.actionableType == 'raw_query') {
       var q = await readRawQuery(logicQuery.actionableId!);
       if (q != null) {
-        if(q.arguments != null) {
+        if (q.arguments != null) {
           var arg = jsonDecode(q.arguments!);
 
-          if(arg.keys.length == 1 && arg.containsKey("seller")) {
+          if (arg.keys.length == 1 && arg.containsKey("seller")) {
             arg['seller'] = seller;
             arguments = [seller];
           }
@@ -145,10 +146,9 @@ class QueryLoaderService {
 
         var argument = await dynamicDataTypes[navigation.type!]?.fromMap(data);
 
-        if(argument != null) {
+        if (argument != null) {
           await navigationService.goTo(navigation.route!, arguments: argument);
         }
-
       }
     }
   }
