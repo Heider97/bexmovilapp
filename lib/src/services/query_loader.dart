@@ -144,11 +144,10 @@ class QueryLoaderService {
           }
         }
 
-        var argument = await dynamicDataTypes[navigation.type!]?.fromMap(data);
+        navigation.arguments =
+            await dynamicDataTypes[navigation.type!]?.fromMap(data);
 
-        if (argument != null) {
-          await navigationService.goTo(navigation.route!, arguments: argument);
-        }
+        return navigation;
       }
     }
   }
