@@ -41,7 +41,10 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   void dispose() {
-    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
+    saleBloc.add(LoadWarehouses(
+        codcliente: widget.arguments.codcliente,
+        codprecio: widget.arguments.codprecio,
+        codbodega: widget.arguments.codbodega));
     super.dispose();
   }
 

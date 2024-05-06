@@ -13,7 +13,10 @@ class LoadClients extends SaleEvent {
 
 class LoadWarehouses extends SaleEvent {
   final int? codcliente;
-  LoadWarehouses(this.codcliente);
+  final String? codbodega;
+  final String? codprecio;
+
+  LoadWarehouses({ this.codcliente, this.codprecio, this.codbodega });
 }
 
 class LoadProducts extends SaleEvent {

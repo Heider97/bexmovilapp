@@ -40,7 +40,10 @@ class _WarehousesPageState extends State<WarehousesPage> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
+    saleBloc.add(LoadWarehouses(
+        codcliente: widget.arguments.codcliente,
+        codprecio: widget.arguments.codprecio,
+        codbodega: widget.arguments.codbodega));
     super.initState();
   }
 
@@ -82,9 +85,6 @@ class _WarehousesPageState extends State<WarehousesPage> {
               child: ElevatedButton(
                 onPressed: () {
                   final user = storageService.getObject('user');
-
-                  print('***********');
-                  print(user);
 
                   String? codbodega;
                   if (state.warehouse != null) {

@@ -1,4 +1,3 @@
-
 import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
@@ -20,10 +19,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class SelectProductsView extends StatefulWidget {
-
   final ProductArgument arguments;
 
-  const SelectProductsView({super.key, required this.arguments} );
+  const SelectProductsView({super.key, required this.arguments});
 
   @override
   State<SelectProductsView> createState() => _SelectProductsViewState();
@@ -37,13 +35,17 @@ class _SelectProductsViewState extends State<SelectProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
+    saleBloc.add(
+        LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
   @override
   void dispose() {
-    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
+    saleBloc.add(LoadWarehouses(
+        codcliente: widget.arguments.codcliente,
+        codprecio: widget.arguments.codprecio,
+        codbodega: widget.arguments.codbodega));
     super.dispose();
   }
 
@@ -102,12 +104,13 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             itemCount: 4,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child:Text('productCard') /* ProductCard(
+                                  padding: const EdgeInsets.only(top: 15.0),
+                                  child: Text(
+                                      'productCard') /* ProductCard(
                                   product: product,
                                   refresh: () {},
                                 ), */
-                              );
+                                  );
                             }),
                       ),
                     )
@@ -118,14 +121,15 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                             itemCount: 2,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(top: 15.0),
-                                child: Text('productCardRow')/* ProductCardRow(
+                                  padding: const EdgeInsets.only(top: 15.0),
+                                  child: Text(
+                                      'productCardRow') /* ProductCardRow(
                                     firstProduct: product, secondProduct: null
                                     //TODO: que le ingresen dos clientes ambos opcionales
                                     /*    product: product,
                                   refresh: () {}, */
                                     ), */
-                              );
+                                  );
                             }),
                       ),
                     ),
