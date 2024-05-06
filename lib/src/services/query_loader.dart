@@ -63,7 +63,7 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, arguments,
+                          widget.type, logicQueries.first, seller, arguments,
                           needBeMapped: needBeMapped);
 
                       component.results = results;
@@ -77,7 +77,7 @@ class QueryLoaderService {
                                 logic, seller);
                             if (result == true) {
                               var results = await determine(
-                                  widget.type!, lq, arguments,
+                                  widget.type!, lq, seller, arguments,
                                   needBeMapped: needBeMapped);
                               component.results = results;
                             }
@@ -103,7 +103,7 @@ class QueryLoaderService {
     }
   }
 
-  Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
+  Future determine(String? type, LogicQuery logicQuery, String seller,List<dynamic> arguments,
       {needBeMapped = false}) async {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
@@ -115,6 +115,18 @@ class QueryLoaderService {
     } else if (logicQuery.actionableType == 'raw_query') {
       var q = await readRawQuery(logicQuery.actionableId!);
       if (q != null) {
+
+        if(q.arguments != null) {
+          // List<dynamic> arg = jsonDecode(q.arguments!);
+          //
+          // print(arg);
+          //
+          // if(arg.contains('seller')){
+          //   var index = arg.indexOf('seller');
+          //   arg[index] = seller;
+          // }
+        }
+
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
         return await executeRawQuery(sentence, type,
