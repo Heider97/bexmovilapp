@@ -5,6 +5,7 @@ import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
 import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
@@ -18,7 +19,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgets/atoms/app_text.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+final NavigationService navigationService = locator<NavigationService>();
+final LocalStorageService storageService = locator<LocalStorageService>();
 
 class CardClient extends StatefulWidget {
   final String? codrouter;
@@ -356,10 +358,21 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.warehousesSale,
+
+                              final user = storageService.getObject('user');
+
+                              String? codbodega;
+                              if (user?['codbodega'] != null) {
+                                codbodega = user?['codbodega'];
+                              } else {
+                                codbodega = '001B1';
+                              }
+
+                              navigationService.goTo(AppRoutes.warehousesSale,
                                   arguments: WarehouseArgument(
                                     codrouter: widget.codrouter!,
                                     codcliente: widget.client.id!,
+                                    codbodega: codbodega,
                                     codprecio: widget.client.codPrecio!,
                                   ));
                               // showPriceAndWarehouses(context);

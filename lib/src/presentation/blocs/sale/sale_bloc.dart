@@ -65,9 +65,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     clients = sections!.first.widgets!.first.components!.first.results;
 
-    print('****************');
-    print(event.codeRouter);
-
     if (event.codeRouter != null) {
       var filters = await databaseRepository.getAllFilters();
 
@@ -99,7 +96,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('sales-warehouses',
-        seller!, [event.codprecio, event.codbodega, event.codcliente]);
+        seller!, [event.codbodega, event.codprecio, event.codcliente]);
 
     emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
   }

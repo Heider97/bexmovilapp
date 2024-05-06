@@ -115,18 +115,14 @@ class QueryLoaderService {
     } else if (logicQuery.actionableType == 'raw_query') {
       var q = await readRawQuery(logicQuery.actionableId!);
       if (q != null) {
-
         if(q.arguments != null) {
-          // List<dynamic> arg = jsonDecode(q.arguments!);
-          //
-          // print(arg);
-          //
-          // if(arg.contains('seller')){
-          //   var index = arg.indexOf('seller');
-          //   arg[index] = seller;
-          // }
-        }
+          var arg = jsonDecode(q.arguments!);
 
+          if(arg.keys.length == 1 && arg.containsKey("seller")) {
+            arg['seller'] = seller;
+            arguments = [seller];
+          }
+        }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
         return await executeRawQuery(sentence, type,
@@ -139,25 +135,15 @@ class QueryLoaderService {
 
         List<String> keys = data.keys.toList();
 
-        print(arguments);
-
-        // Asignar los valores de la lista a las claves correspondientes en el mapa
         for (int i = 0; i < arguments.length; i++) {
           if (i < keys.length) {
             data[keys[i]] = arguments[i];
           } else {
-            break; // No hay más claves para asignar valores
+            break;
           }
         }
-
-        // Imprimir el mapa actualizado
-        print(data);
-
-        // var argument = await dynamicDataTypes[navigation.type!]?.fromMap(mapData);
-
-        // print(argument);
-
-        // await navigationService.goTo(navigation.route!, arguments: argument);
+        var argument = await dynamicDataTypes[navigation.type!]?.fromMap(data);
+        await navigationService.goTo(navigation.route!, arguments: argument);
       }
     }
   }
