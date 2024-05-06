@@ -1,4 +1,6 @@
 //domain
+import 'dart:convert';
+
 import '../domain/models/logic_query.dart';
 import '../domain/models/navigation.dart';
 import '../domain/models/raw_query.dart';
@@ -121,14 +123,27 @@ class QueryLoaderService {
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
       if (navigation != null) {
-        Map<String, dynamic> mapData = {};
+        Map<String, dynamic> data = jsonDecode(navigation.arguments!);
 
-        for (var element in arguments) {
-          mapData[element] = element;
+        List<String> keys = data.keys.toList();
+
+        // Asignar los valores de la lista a las claves correspondientes en el mapa
+        for (int i = 0; i < arguments.length; i++) {
+          if (i < keys.length) {
+            data[keys[i]] = arguments[i];
+          } else {
+            break; // No hay más claves para asignar valores
+          }
         }
 
-        var argument = await dynamicDataTypes[navigation.type!]?.fromMap(mapData);
-        // await navigationService.goTo(navigation.route!, arguments: arguments);
+        // Imprimir el mapa actualizado
+        print(data);
+
+        // var argument = await dynamicDataTypes[navigation.type!]?.fromMap(mapData);
+
+        // print(argument);
+
+        // await navigationService.goTo(navigation.route!, arguments: argument);
       }
     }
   }
