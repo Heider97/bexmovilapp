@@ -119,7 +119,7 @@ class Client {
 
   Map<String, dynamic> toJson() {
     return {
-      'CODCLIENTE': id,
+      'id': id,
       'NITCLIENTE': nit,
       'NOMCLIENTE': name,
       'DIRCLIENTE': address,

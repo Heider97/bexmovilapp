@@ -227,8 +227,8 @@ class _CardClientState extends State<CardClient> {
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
-                                        ''
-                                            .formattedCompact(widget.client.quota!.toString()),
+                                        ''.formattedCompact(
+                                            widget.client.quota!.toString()),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
                                         fontSize: 12,
@@ -356,10 +356,13 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.warehousesSale,
-                                  arguments: WarehouseArgument(
-                                      codrouter: widget.codrouter!,
-                                      codcliente: widget.client.id!.toString()));
+                              print(widget.client.toJson());
+                              // _navigationService.goTo(AppRoutes.warehousesSale,
+                              //     arguments: WarehouseArgument(
+                              //       codrouter: widget.codrouter!,
+                              //       codcliente: widget.client.id!,
+                              //       codprecio: widget.client.codPrecio!,
+                              //     ));
                               // showPriceAndWarehouses(context);
                             },
                             child: Material(

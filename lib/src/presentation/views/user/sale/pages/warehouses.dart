@@ -44,8 +44,6 @@ class _WarehousesPageState extends State<WarehousesPage> {
 
   @override
   void dispose() {
-    print('disposing');
-    print(widget.arguments.codrouter);
     saleBloc.add(LoadClients(widget.arguments.codrouter));
     super.dispose();
   }

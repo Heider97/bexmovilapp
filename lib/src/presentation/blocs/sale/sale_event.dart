@@ -12,7 +12,7 @@ class LoadClients extends SaleEvent {
 }
 
 class LoadWarehouses extends SaleEvent {
-  final String? codcliente;
+  final int? codcliente;
   LoadWarehouses(this.codcliente);
 }
 
