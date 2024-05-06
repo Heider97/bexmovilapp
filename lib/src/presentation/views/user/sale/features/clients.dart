@@ -35,7 +35,9 @@ class _SaleClientsState extends State<SaleClients>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.clients && widget.clients != null) {
+      if ((state.status == SaleStatus.clients ||
+              state.status == SaleStatus.warehouses) &&
+          widget.clients != null) {
         return Column(children: [
           TabBar(
               controller: _tabcontroller,
@@ -52,7 +54,8 @@ class _SaleClientsState extends State<SaleClients>
             height: Screens.height(context) * 0.69,
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.clients &&
+                if ((state.status == SaleStatus.clients ||
+                    state.status == SaleStatus.warehouses) &&
                     widget.clients != null &&
                     widget.clients!.isNotEmpty == true) {
                   return ListView.builder(

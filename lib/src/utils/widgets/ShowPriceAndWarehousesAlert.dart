@@ -204,6 +204,8 @@ class _ShowPriceAndWarehousesAlertState
                   onTap: () {
                     if (_selectedRadioBodega != -1 &&
                         _selectedRadioListaPrecios != -1) {
+
+
                       navigationService.goTo(AppRoutes.productsSale,
                           arguments: ProductArgument(
                               codcliente: widget.codClient,
