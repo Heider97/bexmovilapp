@@ -35,16 +35,10 @@ class QueryLoaderService {
       var sections = await databaseRepository.findSections(module.id!);
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
-          print('*******************widget');
-          print(section.toJson());
-
           var widgets = await databaseRepository.findWidgets(section.id!);
           if (widgets != null && widgets.isNotEmpty) {
             section.widgets = widgets;
             for (var widget in widgets) {
-              print('*******************widget');
-              print(widget.toJson());
-
               var components =
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
@@ -80,9 +74,6 @@ class QueryLoaderService {
                             var result = await databaseRepository.validateLogic(
                                 logic, seller);
                             if (result == true) {
-                              print('*******logic*****');
-                              print(logic.toJson());
-
                               var results = await determine(
                                   widget.type!, lq, arguments,
                                   needBeMapped: needBeMapped);
@@ -115,8 +106,6 @@ class QueryLoaderService {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
-        print('*****query***');
-        print(q);
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
         return await executeQuery(type, q.table!, q.where, []);
@@ -126,17 +115,20 @@ class QueryLoaderService {
       if (q != null) {
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-
-        print('sentence');
-        print(sentence);
-
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
       if (navigation != null) {
-        await navigationService.goTo(navigation.route!, arguments: arguments);
+        Map<String, dynamic> mapData = {};
+
+        for (var element in arguments) {
+          mapData[element] = element;
+        }
+
+        var argument = await dynamicDataTypes[navigation.type!]?.fromMap(mapData);
+        // await navigationService.goTo(navigation.route!, arguments: arguments);
       }
     }
   }
@@ -222,8 +214,6 @@ class QueryLoaderService {
       }
       return dynamic;
     } catch (e) {
-      print('errorrrrr');
-      print(e);
       return [];
     }
   }

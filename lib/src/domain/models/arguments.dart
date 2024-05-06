@@ -21,15 +21,15 @@ class WarehouseArgument {
   WarehouseArgument(
       {required this.codrouter,
       required this.codcliente,
-      required this.codprecio, this.codbodega});
+      required this.codprecio,
+      this.codbodega});
 
-  WarehouseArgument fromJson(Map<String, dynamic> json) {
-    return WarehouseArgument(
-        codrouter: json['codrouter'],
-        codcliente: json['codcliente'],
-        codprecio: json['codprecio'],
-        codbodega: json['codbodeha']);
-  }
+  factory WarehouseArgument.fromJson(Map<String, dynamic> json) =>
+      WarehouseArgument(
+          codrouter: json['codrouter'],
+          codcliente: json['codcliente'],
+          codprecio: json['codprecio'],
+          codbodega: json['codbodeha']);
 }
 
 class ProductArgument {
@@ -42,10 +42,9 @@ class ProductArgument {
       required this.codbodega,
       required this.codprecio});
 
-  ProductArgument fromJson(Map<String, dynamic> json) {
-    return ProductArgument(
-        codcliente: json['codcliente'],
-        codbodega: json['codbodega'],
-        codprecio: json['codprecio']);
-  }
+  factory ProductArgument.fromJson(Map<String, dynamic> json) =>
+      ProductArgument(
+          codcliente: json['codcliente'],
+          codbodega: json['codbodega'],
+          codprecio: json['codprecio']);
 }
