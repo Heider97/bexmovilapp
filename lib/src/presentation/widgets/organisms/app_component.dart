@@ -94,9 +94,7 @@ class _AppWidgetState extends State<AppWidget> {
         return SaleWarehouses(warehouses: widget.components.first.results);
       case 'SalePrices':
         return SalePrices(prices: widget.components.first.results);
-      case 'SaleProducts':
-        // print('****************');
-        // print(widget.components.first.results);
+      case 'SaleProducts':      
         return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
         return WalletDashboard(components: widget.components);

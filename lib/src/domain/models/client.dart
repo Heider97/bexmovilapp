@@ -80,7 +80,6 @@ class Client {
       this.order,
       this.distance,
       this.duration,
-
       this.codBarrio,
       this.color,
       this.hasCompleted = 0});
