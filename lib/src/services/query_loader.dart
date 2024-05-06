@@ -144,7 +144,7 @@ class QueryLoaderService {
           }
         }
 
-        navigation.arguments =
+        navigation.argument =
             await dynamicDataTypes[navigation.type!]?.fromMap(data);
 
         return navigation;

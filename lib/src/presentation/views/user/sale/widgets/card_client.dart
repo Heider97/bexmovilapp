@@ -372,9 +372,6 @@ class _CardClientState extends State<CardClient> {
                                   codbodega: codbodega,
                                   codcliente: widget.client.id));
 
-                              showPriceAndWarehouses(context,
-                                  codClient: widget.client.id!,
-                                  nameClient: widget.client.name ?? 'N/A');
                             },
                             child: Material(
                               elevation: 2,

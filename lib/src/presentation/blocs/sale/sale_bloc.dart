@@ -121,7 +121,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     if(sections.first.widgets!.first.components!.first.results is Navigation) {
       var navigation = sections.first.widgets!.first.components!.first.results;
-      await navigationService.goTo(navigation.route!, arguments: navigation.arguments);
+      await navigationService.goTo(navigation.route!, arguments: navigation.argument);
     } else {
       List<Warehouse>? warehouses =
           sections.first.widgets!.first.components!.first.results;

@@ -18,13 +18,13 @@ class SaleState {
   final List<Client>? clients;
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
-  final Router? selectedRouter;
-
   final List<Warehouse>? warehouseList;
-  final Warehouse? selectedWarehouse;
   final List<Price>? priceList;
-  final Price? selectedPrice;
 
+  final Router? selectedRouter;
+  final Client? selectedClient;
+  final Warehouse? selectedWarehouse;
+  final Price? selectedPrice;
 
   final bool? gridView;
 
@@ -33,17 +33,14 @@ class SaleState {
   const SaleState(
       {this.status = SaleStatus.initial,
       this.sections,
-      // this.availableWarehouse,
-      // this.selectedWarehouse,
-
       this.warehouseList,
       this.selectedWarehouse,
       this.priceList,
       this.selectedPrice,
-
       this.routers,
       this.clients,
       this.clientsFounded,
+      this.selectedClient,
       this.filters,
       this.gridView,
       this.error,
@@ -58,6 +55,7 @@ class SaleState {
           List<Filter>? filters,
           List<Warehouse>? warehouseList,
           Warehouse? selectedWarehouse,
+          Client? selectedClient,
           List<Price>? priceList,
           Price? selectedPrice,
           bool? gridView,
@@ -69,6 +67,7 @@ class SaleState {
         routers: routers ?? this.routers,
         clients: clients ?? this.clients,
         clientsFounded: clientsFounded ?? this.clientsFounded,
+        selectedClient: selectedClient ?? this.selectedClient,
         filters: filters ?? this.filters,
         gridView: gridView ?? this.gridView,
         error: error ?? this.error,
