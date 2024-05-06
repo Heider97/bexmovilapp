@@ -20,6 +20,12 @@ class SaleState {
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
   final Router? selectedRouter;
+
+  final List<Warehouse>? warehouseList;
+  final Warehouse? selectedWarehouse;
+  final List<Price>? priceList;
+  final Price? selectedPrice;
+
   // final List<Warehouse>? warehouses;
   // final Warehouse? warehouse;
   // final List<Price>? prices;
@@ -34,6 +40,11 @@ class SaleState {
       this.sections,
       // this.availableWarehouse,
       // this.selectedWarehouse,
+
+      this.warehouseList,
+      this.selectedWarehouse,
+      this.priceList,
+      this.selectedPrice,
       this.idListPrice,
       this.routers,
       this.clients,
@@ -50,25 +61,27 @@ class SaleState {
           List<Client>? clients,
           List<Client>? clientsFounded,
           List<Filter>? filters,
+          List<Warehouse>? warehouseList,
           Warehouse? selectedWarehouse,
-          List<Warehouse>? availableWarehouse,
-          String? idListPrice,
+          List<Price>? priceList,
+          Price? selectedPrice,
           bool? gridView,
           String? error,
           Router? selectedRouter}) =>
       SaleState(
-          status: status ?? this.status,
-          sections: sections ?? this.sections,
-          routers: routers ?? this.routers,
-          clients: clients ?? this.clients,
-          clientsFounded: clientsFounded ?? this.clientsFounded,
-          filters: filters ?? this.filters,
-          gridView: gridView ?? this.gridView,
-          error: error ?? this.error,
-          selectedRouter: selectedRouter ?? this.selectedRouter,
-          // selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
-          // availableWarehouse: availableWarehouse ?? this.availableWarehouse,
-          idListPrice: idListPrice ?? this.idListPrice,
+        status: status ?? this.status,
+        sections: sections ?? this.sections,
+        routers: routers ?? this.routers,
+        clients: clients ?? this.clients,
+        clientsFounded: clientsFounded ?? this.clientsFounded,
+        filters: filters ?? this.filters,
+        gridView: gridView ?? this.gridView,
+        error: error ?? this.error,
+        selectedRouter: selectedRouter ?? this.selectedRouter,
+        warehouseList: warehouseList ?? this.warehouseList,
+        selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
+        priceList: priceList ?? this.priceList,
+        selectedPrice: selectedPrice ?? this.selectedPrice,
       );
 
   @override

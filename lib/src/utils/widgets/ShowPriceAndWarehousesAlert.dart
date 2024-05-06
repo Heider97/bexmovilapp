@@ -6,6 +6,7 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,8 +14,11 @@ final NavigationService _navigationService = locator<NavigationService>();
 
 class ShowPriceAndWarehousesAlert extends StatefulWidget {
   final String codClient;
+  final String clientName;
+
   const ShowPriceAndWarehousesAlert({
     required this.codClient,
+    required this.clientName,
     super.key,
   });
 
@@ -28,8 +32,16 @@ class _ShowPriceAndWarehousesAlertState
   ScrollController scrollController = ScrollController();
   ScrollController scrollController2 = ScrollController();
 
+  late SaleBloc saleBloc;
+
   int _selectedRadioBodega = -1;
   int _selectedRadioListaPrecios = -1;
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +57,26 @@ class _ShowPriceAndWarehousesAlertState
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Opacity(
+                opacity: 0.5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue,
+                  ),
+                  width: Screens.width(context),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.clientName,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium!
+                          .copyWith(color: theme.colorScheme.onPrimary),
+                    ),
+                  ),
+                ),
+              ),
+              gapH16,
               AppText('Bodega', fontSize: 16, fontWeight: FontWeight.bold),
               gapH8,
               const Text(
@@ -52,46 +84,55 @@ class _ShowPriceAndWarehousesAlertState
               gapH20,
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                 return Container(
-                  height: Screens.height(context) * 0.17,
-                  color: Colors.grey[50],
-                  child: RawScrollbar(
-                    thumbVisibility: true,
-                    thumbColor: theme.primaryColor,
-                    thickness: 3,
-                    controller: scrollController,
-                    child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            setState(() {
-                              _selectedRadioBodega =
-                                  index; // Actualiza el valor seleccionado
-                            });
-                          },
-                          selected: false,
-                          title: Text('Nombre bodega'),
-                          subtitle: Text(
-                            'Ubicacion Bodega',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.disabledColor),
-                          ),
-                          trailing: Radio(
-                            value: index,
-                            groupValue: _selectedRadioBodega,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedRadioBodega = value
-                                    as int; // Actualiza el valor seleccionado
-                              });
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
+                    height: Screens.height(context) * 0.17,
+                    color: Colors.grey[50],
+                    child: (state.warehouseList != null)
+                        ? RawScrollbar(
+                            thumbVisibility: true,
+                            thumbColor: theme.primaryColor,
+                            thickness: 3,
+                            controller: scrollController,
+                            child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: state.warehouseList!.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  onTap: () {
+                                    saleBloc.add(SelectWarehouse(
+                                        warehouse:
+                                            state.warehouseList![index]));
+                                    setState(() {
+                                      _selectedRadioBodega =
+                                          index; // Actualiza el valor seleccionado
+                                    });
+                                  },
+                                  selected: false,
+                                  title: Text(
+                                      state.warehouseList![index].nombodega ??
+                                          'N/A'),
+                                  subtitle: Text(
+                                    state.warehouseList![index].codbodega ??
+                                        'N/A',
+                                    style: theme.textTheme.bodyMedium!
+                                        .copyWith(color: theme.disabledColor),
+                                  ),
+                                  trailing: Radio(
+                                    value: index,
+                                    groupValue: _selectedRadioBodega,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedRadioBodega = value
+                                            as int; // Actualiza el valor seleccionado
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            ))
+                        : Center(
+                            child: (state.status == SaleStatus.loading)
+                                ? const CircularProgressIndicator()
+                                : const Text('No hay bodegas disponibles.')));
               }),
               gapH20,
               AppText('Lista de precios',
@@ -104,44 +145,55 @@ class _ShowPriceAndWarehousesAlertState
                 return Container(
                   height: Screens.height(context) * 0.15,
                   color: Colors.grey[50],
-                  child: RawScrollbar(
-                    thumbVisibility: true,
-                    thumbColor: theme.primaryColor,
-                    thickness: 3,
-                    controller: scrollController2,
-                    radius: const Radius.circular(5),
-                    child: ListView.builder(
-                      controller: scrollController2,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            setState(() {
-                              _selectedRadioListaPrecios =
-                                  index; // Actualiza el valor seleccionado
-                            });
-                          },
-                          selected: false,
-                          title: Text('Nombre lista de precios'),
-                          subtitle: Text(
-                            'Código Lista de precios',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.disabledColor),
-                          ),
-                          trailing: Radio(
-                            value: index,
-                            groupValue: _selectedRadioListaPrecios,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedRadioListaPrecios = value
-                                    as int; // Actualiza el valor seleccionado
-                              });
+                  child: (state.priceList != null)
+                      ? RawScrollbar(
+                          thumbVisibility: true,
+                          thumbColor: theme.primaryColor,
+                          thickness: 3,
+                          controller: scrollController2,
+                          radius: const Radius.circular(5),
+                          child: ListView.builder(
+                            controller: scrollController2,
+                            itemCount: state.priceList!.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                onTap: () {
+                                  saleBloc.add(SelectPriceList(
+                                      listPriceSelected:
+                                          state.priceList![index]));
+                                  setState(() {
+                                    _selectedRadioListaPrecios =
+                                        index; // Actualiza el valor seleccionado
+                                  });
+                                },
+                                selected: false,
+                                title: Text(
+                                    state.priceList?[index].nomprecio ?? 'N/A'),
+                                subtitle: Text(
+                                  state.priceList?[index].codprecio ?? 'N/A',
+                                  style: theme.textTheme.bodyMedium!
+                                      .copyWith(color: theme.disabledColor),
+                                ),
+                                trailing: Radio(
+                                  value: index,
+                                  groupValue: _selectedRadioListaPrecios,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _selectedRadioListaPrecios = value
+                                          as int; // Actualiza el valor seleccionado
+                                    });
+                                  },
+                                ),
+                              );
                             },
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        )
+                      : Center(
+                          child: (state.status == SaleStatus.loading)
+                              ? const CircularProgressIndicator()
+                              : const Text(
+                                  'No hay listado de precios disponible'),
+                        ),
                 );
               }),
               gapH20,

@@ -34,10 +34,29 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadClients>(_onLoadClientsRouter);
     on<LoadProducts>(_onLoadProducts);
     on<LoadWarehouses>(_onLoadWarehouses);
-    on<SelectWarehouseAndListPrice>(_onSelectWarehouseAndListPrice);
+
+    on<SelectWarehouse>(_selectWarehouse);
+    on<SelectPriceList>(_selectPriceList);
 
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
+
+    on<ResetStatus>(_resetStatus);
+  }
+
+  _resetStatus(ResetStatus event, Emitter emit) {
+    emit(state.copyWith(status: event.status));
+    add(LoadClients(state.selectedRouter!.dayRouter));
+  }
+
+  _selectWarehouse(SelectWarehouse event, Emitter emit) {
+    print('Selected warehouse ${event.warehouse?.nombodega}');
+    emit(state.copyWith(selectedWarehouse: event.warehouse));
+  }
+
+  _selectPriceList(SelectPriceList event, Emitter emit) {
+    print('Selected priceList ${event.listPriceSelected?.nomprecio}');
+    emit(state.copyWith(selectedPrice: event.listPriceSelected));
   }
 
   _selectRouter(SelectRouter event, Emitter emit) {
@@ -93,25 +112,24 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
-    emit(state.copyWith(status: SaleStatus.loading));
+    // emit(state.copyWith(status: SaleStatus.loading));
 
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService
+    List<Section> sections = await queryLoaderService
         .getResults('sales-warehouses', seller!, [seller, event.codcliente]);
 
     // var warehouses = sections!.first.widgets!.first.components!.first.results;
 
-    emit(state.copyWith(status: SaleStatus.warehouses, sections: sections));
-  }
+    List<Warehouse>? warehouses =
+        sections.first.widgets!.first.components!.first.results;
+    List<Price>? listPrices =
+        sections[1].widgets!.first.components!.first.results;
 
-  Future<void> _onSelectWarehouseAndListPrice(
-      SelectWarehouseAndListPrice event, Emitter emit) async {
-    var seller = storageService.getString('username');
-    // var sections =
-    //     await queryLoaderService.getResults('sale-warehouses', [seller, ]);
-    // var listAvailableWarehouses =
-    //     sections!.first.widgets!.first.components!.first.results;
-    // print(listAvailableWarehouses);
+    emit(state.copyWith(
+        //    status: SaleStatus.warehouses,
+        //   sections: sections,
+        warehouseList: warehouses,
+        priceList: listPrices));
   }
 
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
@@ -119,7 +137,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults(
-        'sales-products', seller!, [seller,event.codprecio ,event.codbodega ]);
+        'sales-products', seller!, [event.codprecio, event.codbodega]);
     emit(state.copyWith(
       status: SaleStatus.products,
       sections: sections,
