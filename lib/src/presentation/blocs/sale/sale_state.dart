@@ -27,7 +27,7 @@ class SaleState {
   final Price? selectedPrice;
 
   // final List<Warehouse>? warehouses;
-  // final Warehouse? warehouse;
+  final Warehouse? warehouse;
   // final List<Price>? prices;
   // final Price? price;
 

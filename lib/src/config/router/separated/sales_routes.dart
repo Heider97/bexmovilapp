@@ -33,7 +33,7 @@ Map<String, RouteType> salesRoutes = {
   AppRoutes.warehousesSale: (context, settings) => AppGlobalBackground.warehouses(
       hideAppBar: false,
       hideBottomNavigationBar: true,
-      child: WarehousesPage(codcliente: settings.arguments as String?)),
+      child: WarehousesPage(arguments: settings.arguments as WarehouseArgument)),
   AppRoutes.productsSale: (context, settings) => AppGlobalBackground.products(
       hideAppBar: false,
       hideBottomNavigationBar: true,

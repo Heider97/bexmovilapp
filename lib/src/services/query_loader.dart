@@ -1,4 +1,6 @@
 //domain
+import 'dart:convert';
+
 import '../domain/models/logic_query.dart';
 import '../domain/models/navigation.dart';
 import '../domain/models/raw_query.dart';
@@ -35,16 +37,10 @@ class QueryLoaderService {
       var sections = await databaseRepository.findSections(module.id!);
       if (sections != null && sections.isNotEmpty) {
         for (var section in sections) {
-          print('*******************widget');
-          print(section.toJson());
-
           var widgets = await databaseRepository.findWidgets(section.id!);
           if (widgets != null && widgets.isNotEmpty) {
             section.widgets = widgets;
             for (var widget in widgets) {
-              print('*******************widget');
-              print(widget.toJson());
-
               var components =
                   await databaseRepository.findComponents(widget.id!);
               if (components != null && components.isNotEmpty) {
@@ -67,7 +63,7 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, arguments,
+                          widget.type, logicQueries.first, seller, arguments,
                           needBeMapped: needBeMapped);
 
                       component.results = results;
@@ -80,11 +76,8 @@ class QueryLoaderService {
                             var result = await databaseRepository.validateLogic(
                                 logic, seller);
                             if (result == true) {
-                              print('*******logic*****');
-                              print(logic.toJson());
-
                               var results = await determine(
-                                  widget.type!, lq, arguments,
+                                  widget.type!, lq, seller, arguments,
                                   needBeMapped: needBeMapped);
                               component.results = results;
                             }
@@ -110,13 +103,11 @@ class QueryLoaderService {
     }
   }
 
-  Future determine(String? type, LogicQuery logicQuery, List<dynamic> arguments,
+  Future determine(String? type, LogicQuery logicQuery, String seller,List<dynamic> arguments,
       {needBeMapped = false}) async {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
-        print('*****query***');
-        print(q);
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
         return await executeQuery(type, q.table!, q.where, []);
@@ -124,19 +115,40 @@ class QueryLoaderService {
     } else if (logicQuery.actionableType == 'raw_query') {
       var q = await readRawQuery(logicQuery.actionableId!);
       if (q != null) {
+        if(q.arguments != null) {
+          var arg = jsonDecode(q.arguments!);
+
+          if(arg.keys.length == 1 && arg.containsKey("seller")) {
+            arg['seller'] = seller;
+            arguments = [seller];
+          }
+        }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-
-        print('sentence');
-        print(sentence);
-
         return await executeRawQuery(sentence, type,
             needBeMapped: needBeMapped);
       }
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
       if (navigation != null) {
-        await navigationService.goTo(navigation.route!, arguments: arguments);
+        Map<String, dynamic> data = jsonDecode(navigation.arguments!);
+
+        List<String> keys = data.keys.toList();
+
+        for (int i = 0; i < arguments.length; i++) {
+          if (i < keys.length) {
+            data[keys[i]] = arguments[i];
+          } else {
+            break;
+          }
+        }
+
+        var argument = await dynamicDataTypes[navigation.type!]?.fromMap(data);
+
+        if(argument != null) {
+          await navigationService.goTo(navigation.route!, arguments: argument);
+        }
+
       }
     }
   }
@@ -222,8 +234,6 @@ class QueryLoaderService {
       }
       return dynamic;
     } catch (e) {
-      print('errorrrrr');
-      print(e);
       return [];
     }
   }
