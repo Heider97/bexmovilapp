@@ -21,7 +21,7 @@ class SaleState {
   final List<Filter>? filters;
   final Router? selectedRouter;
   // final List<Warehouse>? warehouses;
-  // final Warehouse? warehouse;
+  final Warehouse? warehouse;
   // final List<Price>? prices;
   // final Price? price;
 
@@ -33,7 +33,7 @@ class SaleState {
       {this.status = SaleStatus.initial,
       this.sections,
       // this.availableWarehouse,
-      // this.selectedWarehouse,
+      this.warehouse,
       this.idListPrice,
       this.routers,
       this.clients,
@@ -50,25 +50,25 @@ class SaleState {
           List<Client>? clients,
           List<Client>? clientsFounded,
           List<Filter>? filters,
-          Warehouse? selectedWarehouse,
+          Warehouse? warehouse,
           List<Warehouse>? availableWarehouse,
           String? idListPrice,
           bool? gridView,
           String? error,
           Router? selectedRouter}) =>
       SaleState(
-          status: status ?? this.status,
-          sections: sections ?? this.sections,
-          routers: routers ?? this.routers,
-          clients: clients ?? this.clients,
-          clientsFounded: clientsFounded ?? this.clientsFounded,
-          filters: filters ?? this.filters,
-          gridView: gridView ?? this.gridView,
-          error: error ?? this.error,
-          selectedRouter: selectedRouter ?? this.selectedRouter,
-          // selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
-          // availableWarehouse: availableWarehouse ?? this.availableWarehouse,
-          idListPrice: idListPrice ?? this.idListPrice,
+        status: status ?? this.status,
+        sections: sections ?? this.sections,
+        routers: routers ?? this.routers,
+        clients: clients ?? this.clients,
+        clientsFounded: clientsFounded ?? this.clientsFounded,
+        filters: filters ?? this.filters,
+        gridView: gridView ?? this.gridView,
+        error: error ?? this.error,
+        selectedRouter: selectedRouter ?? this.selectedRouter,
+        warehouse: warehouse ?? this.warehouse,
+        // availableWarehouse: availableWarehouse ?? this.availableWarehouse,
+        idListPrice: idListPrice ?? this.idListPrice,
       );
 
   @override

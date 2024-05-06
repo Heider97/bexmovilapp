@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/arguments.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
+final LocalStorageService storageService = locator<LocalStorageService>();
 
 class WarehousesPage extends StatefulWidget {
   final WarehouseArgument arguments;
@@ -61,7 +63,7 @@ class _WarehousesPageState extends State<WarehousesPage> {
     });
   }
 
-  Widget _buildBody(state, ThemeData theme, context) {
+  Widget _buildBody(SaleState state, ThemeData theme, context) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,12 +81,24 @@ class _WarehousesPageState extends State<WarehousesPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
+                  final user = storageService.getObject('user');
 
+                  print('***********');
+                  print(user);
+
+                  String? codbodega;
+                  if(state.warehouse != null) {
+                    codbodega = state.warehouse!.codbodega;
+                  } else if (user?['codbodega'] != null) {
+                    codbodega = user?['codbodega'];
+                  } else {
+                    codbodega = '001B1';
+                  }
 
                   navigationService.goTo(AppRoutes.productsSale,
                       arguments: ProductArgument(
                           codcliente: widget.arguments.codcliente,
-                          codbodega: '001B1',
+                          codbodega:  codbodega!,
                           codprecio: widget.arguments.codprecio));
                 },
                 style: ElevatedButton.styleFrom(
