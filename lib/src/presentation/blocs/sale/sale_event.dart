@@ -26,6 +26,11 @@ class LoadProducts extends SaleEvent {
   LoadProducts(this.codbodega, this.codprecio);
 }
 
+class ResetStatus extends SaleEvent {
+  final SaleStatus status;
+  ResetStatus({required this.status});
+}
+
 class NavigationSale extends SaleEvent {
   final bool nearest;
   final List<Client> clients;
@@ -58,6 +63,20 @@ class LoadWarehouseAndListPrice extends SaleEvent {
   String? codeClient;
   LoadWarehouseAndListPrice(/* {required this.codeClient} */);
 }
+
+class SelectWarehouse extends SaleEvent {
+  final Warehouse? warehouse;
+  SelectWarehouse({required this.warehouse});
+}
+
+class SelectPriceList extends SaleEvent {
+  final Price? listPriceSelected;
+  SelectPriceList({required this.listPriceSelected});
+}
+
+
+
+
 
 
 //

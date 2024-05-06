@@ -148,23 +148,10 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
         var prioritiesAsync = response.data!.priorities!
             .where((element) => element.runBackground == 1);
 
-        //TODO: [Heider Zapa] run with isolate
+
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
 
-        // var functions = <Function>[];
-        // var arguments = <Map<String, dynamic>>[];
-        //
-        // for (var priority in prioritiesAsync) {
-        //   print(priority.toJson());
-        //   functions.add(insertDynamicData);
-        //   arguments.add(
-        //       {'table_name': priority.name, 'content': 'application/json'});
-        // }
-
-        // var isolateModel =
-        //     IsolateModel(functions, arguments, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
 
         List<String> tables = [];
 

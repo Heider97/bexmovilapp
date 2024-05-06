@@ -15,8 +15,6 @@ import '../../services/styled_dialog_controller.dart';
 //widgets
 import '../../presentation/widgets/atomsbox.dart';
 
-
-
 void registerDialogs() {
   locator<StyledDialogController>()
       .registerDialogOf(style: Status.success, builder: showSuccessDialog);
@@ -43,14 +41,17 @@ Future<void> showSuccessDialog() {
           image: image));
 }
 
-Future<void> showPriceAndWarehouses(BuildContext context) {
+Future<void> showPriceAndWarehouses(BuildContext context,
+    {required String codClient,required String nameClient}) {
   return showDialog(
     barrierDismissible: true,
     context: context,
-    builder: (_) => ShowPriceAndWarehousesAlert(),
+    builder: (_) => ShowPriceAndWarehousesAlert(
+      codClient: codClient,
+      clientName: nameClient,
+    ),
   );
 }
-
 
 Future<void> showLoadingDialog() {
   final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
