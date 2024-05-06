@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+final NavigationService navigationService = locator<NavigationService>();
 
 class ShowPriceAndWarehousesAlert extends StatefulWidget {
   final int codClient;
@@ -165,8 +165,7 @@ class _ShowPriceAndWarehousesAlertState
                                       listPriceSelected:
                                           state.priceList![index]));
                                   setState(() {
-                                    _selectedRadioListaPrecios =
-                                        index; // Actualiza el valor seleccionado
+                                    _selectedRadioListaPrecios = index;
                                   });
                                 },
                                 selected: false,
@@ -200,45 +199,52 @@ class _ShowPriceAndWarehousesAlertState
                 );
               }),
               gapH20,
-              InkWell(
-                onTap: () {
-                  if (_selectedRadioBodega != -1 &&
-                      _selectedRadioListaPrecios != -1) {
-                    _navigationService.goTo(AppRoutes.productsSale,
-                        arguments: ProductArgument(
-                            codcliente: widget.codClient,
-                            codbodega: '001B1',
-                            codprecio: '001'));
-                  } else {
-                    // Muestra algún tipo de mensaje de advertencia o realiza otra acción según tus necesidades
-                  }
-                },
-                child: SizedBox(
-                  height: 40,
-                  child: Opacity(
-                    opacity: (_selectedRadioBodega != -1 &&
-                            _selectedRadioListaPrecios != -1)
-                        ? 1
-                        : 0.5,
-                    child: Material(
-                      color: theme.primaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                      elevation: 5,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15),
-                          child: Text(
-                            'Confirmar',
-                            style: theme.textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600),
+              BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                return InkWell(
+                  onTap: () {
+                    if (_selectedRadioBodega != -1 &&
+                        _selectedRadioListaPrecios != -1) {
+                      navigationService.goTo(AppRoutes.productsSale,
+                          arguments: ProductArgument(
+                              codcliente: widget.codClient,
+                              codbodega: state
+                                  .warehouseList![_selectedRadioBodega]
+                                  .codbodega!,
+                              codprecio: state
+                                  .priceList![_selectedRadioListaPrecios]
+                                  .codprecio!));
+                    } else {
+                      // Muestra algún tipo de mensaje de advertencia o realiza otra acción según tus necesidades
+                    }
+                  },
+                  child: SizedBox(
+                    height: 40,
+                    child: Opacity(
+                      opacity: (_selectedRadioBodega != -1 &&
+                              _selectedRadioListaPrecios != -1)
+                          ? 1
+                          : 0.5,
+                      child: Material(
+                        color: theme.primaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                        elevation: 5,
+                        child: Center(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 15),
+                            child: Text(
+                              'Confirmar',
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
+                );
+              }),
             ]),
       ),
     );
