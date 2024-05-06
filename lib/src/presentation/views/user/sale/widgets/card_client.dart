@@ -367,15 +367,6 @@ class _CardClientState extends State<CardClient> {
                                 codbodega = '001B1';
                               }
 
-                              // navigationService.goTo(AppRoutes.warehousesSale,
-                              //     arguments: WarehouseArgument(
-                              //       codrouter: widget.codrouter!,
-                              //       codcliente: widget.client.id!,
-                              //       codbodega: codbodega,
-                              //       codprecio: widget.client.codPrecio!,
-                              //     ));
-                              // showPriceAndWarehouses(context);
-
                               saleBloc.add(LoadWarehouses(
                                   codprecio: widget.client.codPrecio,
                                   codbodega: codbodega,
