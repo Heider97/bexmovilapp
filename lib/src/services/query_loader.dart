@@ -127,6 +127,8 @@ class QueryLoaderService {
 
         List<String> keys = data.keys.toList();
 
+        print(arguments);
+
         // Asignar los valores de la lista a las claves correspondientes en el mapa
         for (int i = 0; i < arguments.length; i++) {
           if (i < keys.length) {
