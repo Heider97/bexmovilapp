@@ -368,6 +368,9 @@ class _CardClientState extends State<CardClient> {
                               }
 
                               saleBloc.add(LoadWarehouses(
+                                  navigation: 'go',
+                                  codrouter: widget.codrouter,
+                                  client: widget.client,
                                   codprecio: widget.client.codPrecio,
                                   codbodega: codbodega,
                                   codcliente: widget.client.id));

@@ -43,6 +43,7 @@ class _SelectProductsViewState extends State<SelectProductsView> {
   @override
   void dispose() {
     saleBloc.add(LoadWarehouses(
+        navigation: 'back',
         codcliente: widget.arguments.codcliente,
         codprecio: widget.arguments.codprecio,
         codbodega: widget.arguments.codbodega));

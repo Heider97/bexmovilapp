@@ -12,11 +12,15 @@ class LoadClients extends SaleEvent {
 }
 
 class LoadWarehouses extends SaleEvent {
+  final Client? client;
+  final String? codrouter;
   final int? codcliente;
   final String? codbodega;
   final String? codprecio;
+  final String navigation;
 
-  LoadWarehouses({ this.codcliente, this.codprecio, this.codbodega });
+  LoadWarehouses(
+      {this.client, this.codrouter, this.codcliente, this.codprecio, this.codbodega, required this.navigation});
 }
 
 class LoadProducts extends SaleEvent {
@@ -73,11 +77,6 @@ class SelectPriceList extends SaleEvent {
   final Price? listPriceSelected;
   SelectPriceList({required this.listPriceSelected});
 }
-
-
-
-
-
 
 //
 // class SelectProducts extends SaleEvent {

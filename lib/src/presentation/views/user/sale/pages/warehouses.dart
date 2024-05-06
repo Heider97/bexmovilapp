@@ -41,6 +41,8 @@ class _WarehousesPageState extends State<WarehousesPage> {
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadWarehouses(
+        navigation: 'go',
+        codrouter: widget.arguments.codrouter,
         codcliente: widget.arguments.codcliente,
         codprecio: widget.arguments.codprecio,
         codbodega: widget.arguments.codbodega));
