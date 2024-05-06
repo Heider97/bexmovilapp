@@ -135,11 +135,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(
             create: (_) => SaleBloc(
-                  locator<DatabaseRepository>(),
-                  locator<LocalStorageService>(),
-                  locator<NavigationService>(),
-                  locator<QueryLoaderService>(),
-                )),
+                locator<DatabaseRepository>(),
+                locator<LocalStorageService>(),
+                locator<NavigationService>(),
+                locator<QueryLoaderService>(),
+                locator<StyledDialogController>())),
         BlocProvider(
             create: (_) => WalletBloc(
                 locator<DatabaseRepository>(),

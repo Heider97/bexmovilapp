@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 //utils
+import '../../../../../services/styled_dialog_controller.dart';
 import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/constants/gaps.dart';
 
@@ -29,6 +30,7 @@ import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
+final styledDialogController = locator<StyledDialogController>();
 
 class ClientsPage extends StatefulWidget {
   final String? codeRouter;
@@ -65,9 +67,8 @@ class _ClientsPageState extends State<ClientsPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<SaleBloc, SaleState>(listener: (previous, current) {
       if (current.status == SaleStatus.warehouses) {
-        showPriceAndWarehouses(context,
-            codClient: current.selectedClient!.id!,
-            nameClient: current.selectedClient!.name ?? 'N/A');
+        styledDialogController.showDialogWithStyle(Status.info,
+            closingFunction: () => Navigator.of(context).pop());
       }
     }, builder: (context, state) {
       if (state.status == SaleStatus.loading) {

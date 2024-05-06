@@ -1,23 +1,21 @@
-import 'package:bexmovil/src/domain/models/navigation.dart';
-import 'package:bexmovil/src/domain/models/warehouse.dart';
-import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
+
+//domain
 import '../../../domain/models/price.dart';
 import '../../../domain/models/section.dart';
-import '../../../utils/constants/strings.dart';
-//domain
-import '../../../domain/models/arguments.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/filter.dart';
+import 'package:bexmovil/src/domain/models/navigation.dart';
+import 'package:bexmovil/src/domain/models/warehouse.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
 import '../../../services/storage.dart';
 import '../../../services/navigation.dart';
 import '../../../services/query_loader.dart';
+import '../../../services/styled_dialog_controller.dart';
 
 part 'sale_event.dart';
 part 'sale_state.dart';
@@ -27,9 +25,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   final LocalStorageService storageService;
   final NavigationService navigationService;
   final QueryLoaderService queryLoaderService;
+  final StyledDialogController styledDialogController;
 
   SaleBloc(this.databaseRepository, this.storageService, this.navigationService,
-      this.queryLoaderService)
+      this.queryLoaderService, this.styledDialogController)
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClientsRouter);
@@ -122,9 +121,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       var navigation = sections.first.widgets!.first.components!.first.results;
       await navigationService.goTo(navigation.route!,
           arguments: navigation.argument);
-    } else if (sections.first.widgets!.first.components!.first.results
-            is Navigation &&
-        event.navigation == 'back') {
+    } else if (event.navigation == 'back') {
+      styledDialogController.closeVisibleDialog();
       add(LoadClients(event.codrouter));
     } else {
       List<Warehouse>? warehouses =
