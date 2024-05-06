@@ -87,7 +87,7 @@ class _WarehousesPageState extends State<WarehousesPage> {
                   print(user);
 
                   String? codbodega;
-                  if(state.warehouse != null) {
+                  if (state.warehouse != null) {
                     codbodega = state.warehouse!.codbodega;
                   } else if (user?['codbodega'] != null) {
                     codbodega = user?['codbodega'];
@@ -98,7 +98,7 @@ class _WarehousesPageState extends State<WarehousesPage> {
                   navigationService.goTo(AppRoutes.productsSale,
                       arguments: ProductArgument(
                           codcliente: widget.arguments.codcliente,
-                          codbodega:  codbodega!,
+                          codbodega: codbodega!,
                           codprecio: widget.arguments.codprecio));
                 },
                 style: ElevatedButton.styleFrom(

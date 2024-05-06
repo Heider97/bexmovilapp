@@ -22,7 +22,6 @@ class User extends Equatable {
       name: map['nomvendedor'] != null ? map['nomvendedor'] as String : null,
       codbodega: map['codbodega'] != null ? map['codbodega'] as String : null,
       consultainventario: map['consultainventario'] != null ? map['consultainventario'] as String : null,
-
     );
   }
 
