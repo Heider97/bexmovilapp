@@ -20,6 +20,12 @@ class SaleState {
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
   final Router? selectedRouter;
+
+  final List<Warehouse>? warehouseList;
+  final Warehouse? selectedWarehouse;
+  final List<Price>? priceList;
+  final Price? selectedPrice;
+
   // final List<Warehouse>? warehouses;
   final Warehouse? warehouse;
   // final List<Price>? prices;
@@ -33,7 +39,12 @@ class SaleState {
       {this.status = SaleStatus.initial,
       this.sections,
       // this.availableWarehouse,
-      this.warehouse,
+      // this.selectedWarehouse,
+
+      this.warehouseList,
+      this.selectedWarehouse,
+      this.priceList,
+      this.selectedPrice,
       this.idListPrice,
       this.routers,
       this.clients,
@@ -50,9 +61,10 @@ class SaleState {
           List<Client>? clients,
           List<Client>? clientsFounded,
           List<Filter>? filters,
-          Warehouse? warehouse,
-          List<Warehouse>? availableWarehouse,
-          String? idListPrice,
+          List<Warehouse>? warehouseList,
+          Warehouse? selectedWarehouse,
+          List<Price>? priceList,
+          Price? selectedPrice,
           bool? gridView,
           String? error,
           Router? selectedRouter}) =>
@@ -66,9 +78,10 @@ class SaleState {
         gridView: gridView ?? this.gridView,
         error: error ?? this.error,
         selectedRouter: selectedRouter ?? this.selectedRouter,
-        warehouse: warehouse ?? this.warehouse,
-        // availableWarehouse: availableWarehouse ?? this.availableWarehouse,
-        idListPrice: idListPrice ?? this.idListPrice,
+        warehouseList: warehouseList ?? this.warehouseList,
+        selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
+        priceList: priceList ?? this.priceList,
+        selectedPrice: selectedPrice ?? this.selectedPrice,
       );
 
   @override

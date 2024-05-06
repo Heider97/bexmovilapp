@@ -358,7 +358,6 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-
                               final user = storageService.getObject('user');
 
                               String? codbodega;
@@ -376,6 +375,13 @@ class _CardClientState extends State<CardClient> {
                                     codprecio: widget.client.codPrecio!,
                                   ));
                               // showPriceAndWarehouses(context);
+                              
+                              saleBloc.add(LoadWarehouses(widget.client.nit!));
+
+                              showPriceAndWarehouses(context,
+                                  codClient: widget.client.nit!,
+                                  nameClient: widget.client.name ?? 'N/A');
+
                             },
                             child: Material(
                               elevation: 2,
