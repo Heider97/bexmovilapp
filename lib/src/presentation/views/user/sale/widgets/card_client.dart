@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
@@ -20,9 +21,11 @@ import '../../../../widgets/atoms/app_text.dart';
 final NavigationService _navigationService = locator<NavigationService>();
 
 class CardClient extends StatefulWidget {
+  final String? codrouter;
   final Client client;
   final bool? activeSale;
-  const CardClient({super.key, required this.client, this.activeSale});
+  const CardClient(
+      {super.key, this.codrouter, required this.client, this.activeSale});
 
   @override
   State<CardClient> createState() => _CardClientState();
@@ -224,8 +227,8 @@ class _CardClientState extends State<CardClient> {
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
-                                        formatCurrency
-                                            .format(widget.client.quota),
+                                        ''
+                                            .formattedCompact(widget.client.quota!.toString()),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
                                         fontSize: 12,
@@ -353,7 +356,10 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.warehousesSale, arguments: widget.client.nit);
+                              _navigationService.goTo(AppRoutes.warehousesSale,
+                                  arguments: WarehouseArgument(
+                                      codrouter: widget.codrouter!,
+                                      codcliente: widget.client.id!.toString()));
                               // showPriceAndWarehouses(context);
                             },
                             child: Material(

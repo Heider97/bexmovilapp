@@ -49,7 +49,7 @@ class _SaleClientsState extends State<SaleClients>
               ],
               indicatorSize: TabBarIndicatorSize.tab),
           SizedBox(
-            height: Screens.height(context)*0.69,
+            height: Screens.height(context) * 0.69,
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                 if (state.status == SaleStatus.clients &&
@@ -60,7 +60,9 @@ class _SaleClientsState extends State<SaleClients>
                       padding: EdgeInsets.zero,
                       itemCount: widget.clients?.length,
                       itemBuilder: (context, index) {
-                        return CardClient(client: widget.clients![index]);
+                        return CardClient(
+                            codrouter: state.selectedRouter!.dayRouter,
+                            client: widget.clients![index]);
                       });
                 } else {
                   return const Text('No hay clientes disponibles');

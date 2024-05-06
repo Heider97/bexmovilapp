@@ -20,9 +20,8 @@ import '../../../../../services/navigation.dart';
 final NavigationService navigationService = locator<NavigationService>();
 
 class WarehousesPage extends StatefulWidget {
-  final String? codrouter;
-  final String? codcliente;
-  const WarehousesPage({super.key, this.codrouter, this.codcliente});
+  final WarehouseArgument arguments;
+  const WarehousesPage({super.key, required this.arguments});
 
   @override
   State<WarehousesPage> createState() => _WarehousesPageState();
@@ -38,20 +37,21 @@ class _WarehousesPageState extends State<WarehousesPage> {
 
   @override
   void initState() {
-    super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadWarehouses(widget.codcliente));
+    saleBloc.add(LoadWarehouses(widget.arguments.codcliente));
+    super.initState();
   }
 
   @override
   void dispose() {
-    saleBloc.add(LoadClients(widget.codrouter));
+    print('disposing');
+    print(widget.arguments.codrouter);
+    saleBloc.add(LoadClients(widget.arguments.codrouter));
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.loading) {
@@ -83,7 +83,7 @@ class _WarehousesPageState extends State<WarehousesPage> {
                 onPressed: () {
                   navigationService.goTo(AppRoutes.productsSale,
                       arguments: ProductArgument(
-                          codcliente: widget.codcliente!,
+                          codcliente: widget.arguments.codcliente,
                           codbodega: '001B1',
                           codprecio: '001'));
                 },

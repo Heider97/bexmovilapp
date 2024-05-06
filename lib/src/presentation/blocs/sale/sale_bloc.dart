@@ -65,6 +65,9 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     clients = sections!.first.widgets!.first.components!.first.results;
 
+    print('****************');
+    print(event.codeRouter);
+
     if (event.codeRouter != null) {
       var filters = await databaseRepository.getAllFilters();
 
