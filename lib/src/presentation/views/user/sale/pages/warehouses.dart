@@ -79,11 +79,13 @@ class _WarehousesPageState extends State<WarehousesPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
+
+
                   navigationService.goTo(AppRoutes.productsSale,
                       arguments: ProductArgument(
                           codcliente: widget.arguments.codcliente,
                           codbodega: '001B1',
-                          codprecio: '001'));
+                          codprecio: widget.arguments.codprecio));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primaryColor,

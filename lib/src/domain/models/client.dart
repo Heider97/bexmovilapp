@@ -80,7 +80,6 @@ class Client {
       this.order,
       this.distance,
       this.duration,
-
       this.codBarrio,
       this.color,
       this.hasCompleted = 0});
@@ -96,7 +95,7 @@ class Client {
         typeClient: json['type_client'],
         cellphone: json['TELCLIENTE'],
         branch: json['SUCCLIENTE'],
-        price: json['CODPRECIO'],
+        codPrecio: json['CODPRECIO'],
         wayToPay: json['CODFPAGOVTA'],
         quota: json['CUPO'],
         estadoCliente: json['estadocliente'],
