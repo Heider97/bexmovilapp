@@ -58,7 +58,10 @@ class _ShowPriceAndWarehousesAlertState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Opacity(
-                opacity: 0.5,
+                opacity: (_selectedRadioBodega != -1 &&
+                        _selectedRadioListaPrecios != -1)
+                    ? 1
+                    : 0.5,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
