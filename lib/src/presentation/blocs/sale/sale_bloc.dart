@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/navigation.dart';
 import 'package:bexmovil/src/domain/models/warehouse.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -112,22 +113,31 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
-    // emit(state.copyWith(status: SaleStatus.loading));
-
     var seller = storageService.getString('username');
     var sections = await queryLoaderService.getResults('sales-warehouses',
         seller!, [event.codbodega, event.codprecio, event.codcliente]);
 
-    List<Warehouse>? warehouses =
-        sections.first.widgets!.first.components!.first.results;
-    List<Price>? listPrices =
-        sections[1].widgets!.first.components!.first.results;
+    if (sections.first.widgets!.first.components!.first.results is Navigation &&
+        event.navigation == 'go') {
+      var navigation = sections.first.widgets!.first.components!.first.results;
+      await navigationService.goTo(navigation.route!,
+          arguments: navigation.argument);
+    } else if (sections.first.widgets!.first.components!.first.results
+            is Navigation &&
+        event.navigation == 'back') {
+      add(LoadClients(event.codrouter));
+    } else {
+      List<Warehouse>? warehouses =
+          sections.first.widgets!.first.components!.first.results;
+      List<Price>? listPrices =
+          sections[1].widgets!.first.components!.first.results;
 
-    emit(state.copyWith(
-        //    status: SaleStatus.warehouses,
-        //   sections: sections,
-        warehouseList: warehouses,
-        priceList: listPrices));
+      emit(state.copyWith(
+          status: SaleStatus.warehouses,
+          selectedClient: event.client,
+          warehouseList: warehouses,
+          priceList: listPrices));
+    }
   }
 
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {

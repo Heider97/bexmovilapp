@@ -10,6 +10,7 @@ import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/constants/gaps.dart';
 
 //blocs
+import '../../../../../utils/resources/app_dialogs.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
 import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
@@ -62,7 +63,13 @@ class _ClientsPageState extends State<ClientsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+    return BlocConsumer<SaleBloc, SaleState>(listener: (previous, current) {
+      if (current.status == SaleStatus.warehouses) {
+        showPriceAndWarehouses(context,
+            codClient: current.selectedClient!.id!,
+            nameClient: current.selectedClient!.name ?? 'N/A');
+      }
+    }, builder: (context, state) {
       if (state.status == SaleStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));

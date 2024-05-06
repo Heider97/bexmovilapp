@@ -41,6 +41,8 @@ class _WarehousesPageState extends State<WarehousesPage> {
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(LoadWarehouses(
+        navigation: 'go',
+        codrouter: widget.arguments.codrouter,
         codcliente: widget.arguments.codcliente,
         codprecio: widget.arguments.codprecio,
         codbodega: widget.arguments.codbodega));
@@ -87,8 +89,8 @@ class _WarehousesPageState extends State<WarehousesPage> {
                   final user = storageService.getObject('user');
 
                   String? codbodega;
-                  if (state.warehouse != null) {
-                    codbodega = state.warehouse!.codbodega;
+                  if (state.selectedWarehouse != null) {
+                    codbodega = state.selectedWarehouse!.codbodega;
                   } else if (user?['codbodega'] != null) {
                     codbodega = user?['codbodega'];
                   } else {

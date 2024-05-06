@@ -21,6 +21,7 @@ class Navigation {
     int? id,
     String? route,
     String? arguments,
+    dynamic argument,
     String? type,
   }) =>
       Navigation(
@@ -34,6 +35,7 @@ class Navigation {
     id = json['id'];
     route = json['route'];
     arguments = json['arguments'];
+    argument = json['argument'];
     type = json['type'];
   }
 
@@ -41,6 +43,7 @@ class Navigation {
     final data = <String, dynamic>{};
     data['route'] = route;
     data['arguments'] = arguments;
+    data['argument'] = argument;
     data['type'] = type;
     return data;
   }
@@ -48,5 +51,6 @@ class Navigation {
   int? id;
   String? route;
   String? arguments;
+  dynamic argument;
   String? type;
 }

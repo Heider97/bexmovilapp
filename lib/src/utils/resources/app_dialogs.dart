@@ -42,7 +42,7 @@ Future<void> showSuccessDialog() {
 }
 
 Future<void> showPriceAndWarehouses(BuildContext context,
-    {required String codClient,required String nameClient}) {
+    {required int codClient,required String nameClient}) {
   return showDialog(
     barrierDismissible: true,
     context: context,
