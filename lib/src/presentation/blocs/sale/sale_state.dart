@@ -26,6 +26,9 @@ class SaleState {
   final Warehouse? selectedWarehouse;
   final Price? selectedPrice;
 
+//ID CLIENTE - ID PRODUCTO Y STCOK
+  //final List<Map<String, String>>? product;
+
   final bool? gridView;
 
   final String? error;
@@ -46,21 +49,23 @@ class SaleState {
       this.error,
       this.selectedRouter});
 
-  SaleState copyWith(
-          {SaleStatus? status,
-          List<Section>? sections,
-          List<Router>? routers,
-          List<Client>? clients,
-          List<Client>? clientsFounded,
-          List<Filter>? filters,
-          List<Warehouse>? warehouseList,
-          Warehouse? selectedWarehouse,
-          Client? selectedClient,
-          List<Price>? priceList,
-          Price? selectedPrice,
-          bool? gridView,
-          String? error,
-          Router? selectedRouter}) =>
+  SaleState copyWith({
+    SaleStatus? status,
+    List<Section>? sections,
+    List<Router>? routers,
+    List<Client>? clients,
+    List<Client>? clientsFounded,
+    List<Filter>? filters,
+    List<Warehouse>? warehouseList,
+    Warehouse? selectedWarehouse,
+    List<Map<String, Product>>? product,
+    List<Price>? priceList,
+    Client? selectedClient,
+    Price? selectedPrice,
+    bool? gridView,
+    String? error,
+    Router? selectedRouter,
+  }) =>
       SaleState(
         status: status ?? this.status,
         sections: sections ?? this.sections,
@@ -70,6 +75,7 @@ class SaleState {
         selectedClient: selectedClient ?? this.selectedClient,
         filters: filters ?? this.filters,
         gridView: gridView ?? this.gridView,
+        //product: product ?? this.product,
         error: error ?? this.error,
         selectedRouter: selectedRouter ?? this.selectedRouter,
         warehouseList: warehouseList ?? this.warehouseList,
@@ -78,8 +84,6 @@ class SaleState {
         selectedPrice: selectedPrice ?? this.selectedPrice,
       );
 
-  @override
-  // TODO: implement props
   List<Object?> get props =>
       [status, sections, routers, clients, filters, error];
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/atoms/app_text.dart';
+
 class MessagesScreen extends StatefulWidget {
   final List messages;
   final ScrollController scrollController;
@@ -45,11 +47,11 @@ class MessageScreenState extends State<MessagesScreen> {
                       ),
                     ),
                     color: widget.messages[index]['isUserMessage']
-                        ? Colors.grey.shade800
-                        : Colors.grey.shade900.withOpacity(0.8),
+                        ? Colors.blue.shade800
+                        : Colors.blue.shade900.withOpacity(0.8),
                   ),
                   constraints: BoxConstraints(maxWidth: w * 2 / 3),
-                  child: Text(widget.messages[index]['message'].text.text[0]),
+                  child: AppText(widget.messages[index]['message'].text.text[0], color: Colors.white),
                 ),
               ),
             ],

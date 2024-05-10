@@ -27,7 +27,7 @@ class AppSection extends StatefulWidget {
   });
 
   /// The optional title widget to display at the top of the form.
-  final String title;
+  final String? title;
 
   /// The list of form items to display in the form.
   ///
@@ -49,11 +49,13 @@ class _AppFormState extends State<AppSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         gapH8,
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child:
-              AppText(widget.title, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+        (widget.title != null)
+            ? Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: AppText(widget.title!,
+                    fontSize: 20, fontWeight: FontWeight.bold),
+              )
+            : Container(),
         ...widget.widgetItems.map(
           (item) {
             var listIndex = widget.widgetItems.indexOf(item);

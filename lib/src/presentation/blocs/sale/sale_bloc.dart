@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 //utils
 
+import '../../../utils/constants/strings.dart';
 //domain
-import '../../../domain/models/price.dart';
-import '../../../domain/models/section.dart';
+import '../../../domain/models/arguments.dart';
 import '../../../domain/models/client.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/filter.dart';
-import 'package:bexmovil/src/domain/models/navigation.dart';
-import 'package:bexmovil/src/domain/models/warehouse.dart';
+import '../../../domain/models/price.dart';
+import '../../../domain/models/section.dart';
+import '../../../domain/models/navigation.dart';
+import '../../../domain/models/warehouse.dart';
+import '../../../domain/models/product.dart';
 import '../../../domain/repositories/database_repository.dart';
 
 //services
@@ -121,7 +124,9 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       var navigation = sections.first.widgets!.first.components!.first.results;
       await navigationService.goTo(navigation.route!,
           arguments: navigation.argument);
-    } else if (event.navigation == 'back') {
+    } else if (sections.first.widgets!.first.components!.first.results
+            is Navigation &&
+        event.navigation == 'back') {
       styledDialogController.closeVisibleDialog();
       add(LoadClients(event.codrouter));
     } else {
