@@ -159,8 +159,7 @@ class AppDatabase {
       AND name NOT IN (
         'android_metadata',
         'app_features',
-        'app_functionalities',
-        'app_functionalities_seller',
+        'app-funcionalities'
         'app_route_transaction',
         'configs',
         'error_logs',
@@ -176,7 +175,7 @@ class AppDatabase {
 
     // Iterate over each table and delete all records
     for (Map<String, dynamic> table in tables) {
-      await db.delete(table['name']);
+      await db.delete(table['name'], where: '1');
     }
   }
 

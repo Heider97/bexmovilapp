@@ -113,7 +113,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
       var version = configs.firstWhere((element) => element.name == 'version');
 
-      await databaseRepository.emptyAllTables();
+      await databaseRepository.emptyAllTablesToSync();
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(
