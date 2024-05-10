@@ -62,111 +62,58 @@ class _ProductsViewState extends State<ProductsView> {
   }
 
   Widget _buildBody(state, ThemeData theme, context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: CustomSearchBar(
-                      onChanged: (value) {},
-                      colorBackground: theme.colorScheme.secondary,
-                      prefixIcon: const Icon(Icons.search),
-                      controller: TextEditingController(),
-                      hintText: 'Buscar producto',
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AppIconButton(
-                    child: Icon(Icons.filter_alt_rounded,
+    return BlocBuilder<SaleBloc, SaleState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: CustomSearchBar(
+                        onChanged: (value) {},
+                        colorBackground: theme.colorScheme.secondary,
+                        prefixIcon: const Icon(Icons.search),
+                        controller: TextEditingController(),
+                        hintText: 'Buscar producto',
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: AppIconButton(
+                      child: Icon(Icons.filter_alt_rounded,
+                          color: theme.colorScheme.onPrimary),
+                      onPressed: () {}),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: AppIconButton(
+                    child: Icon(
+                        (gridMode)
+                            ? Icons.grid_view_rounded
+                            : Icons.grid_view_outlined,
                         color: theme.colorScheme.onPrimary),
-                    onPressed: () {}),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: AppIconButton(
-                  child: Icon(
-                      (gridMode)
-                          ? Icons.grid_view_rounded
-                          : Icons.grid_view_outlined,
-                      color: theme.colorScheme.onPrimary),
-                  onPressed: () {
-                    setState(() {
-                      gridMode = !gridMode;
-                    });
-                    //TODO: disable grid view. change icon too
-                  },
-                ),
-              )
-            ],
-          ),
-          ...state.sections != null
-              ? state.sections!.map((e) => AppSection(
-                  title: e.name!,
-                  widgetItems: e.widgets ?? [],
-                  tabController: null))
-              : [],
-          Material(
-              elevation: 10,
-              child: Container(
-                height: 100,
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          '0 productos',
-                          style: theme.textTheme.titleLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Row(children: [
-                      Text(
-                        'Vaciar',
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(color: theme.primaryColor),
-                      ),
-                      gapW20,
-                      InkWell(
-                        onTap: () {
-                          _navigationService.goTo(AppRoutes.shoppingCart);
-                        },
-                        child: SizedBox(
-                          height: 40,
-                          child: Material(
-                            color: theme.primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                            elevation: 5,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15.0, right: 15),
-                                child: Text(
-                                  'Ver Carrito',
-                                  style: theme.textTheme.bodyMedium!.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ])
-                  ],
-                ),
-              ))
-        ],
-      ),
+                    onPressed: () {
+                      setState(() {
+                        gridMode = !gridMode;
+                      });
+                      //TODO: disable grid view. change icon too
+                    },
+                  ),
+                )
+              ],
+            ),
+            ...state.sections != null
+                ? state.sections!.map((e) => AppSection(
+                    title:null /* e.name! */,
+                    widgetItems: e.widgets ?? [],
+                    tabController: null))
+                : [],
+           
+          ],
+        );
+      },
     );
   }
 }

@@ -31,6 +31,12 @@ class SaleState {
   // final List<Price>? prices;
   // final Price? price;
 
+//ID CLIENTE - ID PRODUCTO Y STCOK
+  //final List<Map<String, String>>? product;
+
+
+  
+
   final bool? gridView;
 
   final String? error;
@@ -38,9 +44,11 @@ class SaleState {
   const SaleState(
       {this.status = SaleStatus.initial,
       this.sections,
+      
       // this.availableWarehouse,
       // this.selectedWarehouse,
 
+    //  this.product,
       this.warehouseList,
       this.selectedWarehouse,
       this.priceList,
@@ -54,20 +62,22 @@ class SaleState {
       this.error,
       this.selectedRouter});
 
-  SaleState copyWith(
-          {SaleStatus? status,
-          List<Section>? sections,
-          List<Router>? routers,
-          List<Client>? clients,
-          List<Client>? clientsFounded,
-          List<Filter>? filters,
-          List<Warehouse>? warehouseList,
-          Warehouse? selectedWarehouse,
-          List<Price>? priceList,
-          Price? selectedPrice,
-          bool? gridView,
-          String? error,
-          Router? selectedRouter}) =>
+  SaleState copyWith({
+    SaleStatus? status,
+    List<Section>? sections,
+    List<Router>? routers,
+    List<Client>? clients,
+    List<Client>? clientsFounded,
+    List<Filter>? filters,
+    List<Warehouse>? warehouseList,
+    Warehouse? selectedWarehouse,
+    List<Map<String, Product>>? product,
+    List<Price>? priceList,
+    Price? selectedPrice,
+    bool? gridView,
+    String? error,
+    Router? selectedRouter,
+  }) =>
       SaleState(
         status: status ?? this.status,
         sections: sections ?? this.sections,
@@ -76,6 +86,7 @@ class SaleState {
         clientsFounded: clientsFounded ?? this.clientsFounded,
         filters: filters ?? this.filters,
         gridView: gridView ?? this.gridView,
+        //product: product ?? this.product,
         error: error ?? this.error,
         selectedRouter: selectedRouter ?? this.selectedRouter,
         warehouseList: warehouseList ?? this.warehouseList,

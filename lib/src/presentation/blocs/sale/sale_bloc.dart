@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/domain/models/warehouse.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:equatable/equatable.dart';
