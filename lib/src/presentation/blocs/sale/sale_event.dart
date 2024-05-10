@@ -20,7 +20,12 @@ class LoadWarehouses extends SaleEvent {
   final String navigation;
 
   LoadWarehouses(
-      {this.client, this.codrouter, this.codcliente, this.codprecio, this.codbodega, required this.navigation});
+      {this.client,
+      this.codrouter,
+      this.codcliente,
+      this.codprecio,
+      this.codbodega,
+      required this.navigation});
 }
 
 class LoadProducts extends SaleEvent {

@@ -127,8 +127,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     } else if (sections.first.widgets!.first.components!.first.results
             is Navigation &&
         event.navigation == 'back') {
-      styledDialogController.closeVisibleDialog();
       add(LoadClients(event.codrouter));
+      styledDialogController.closeVisibleDialog();
     } else {
       List<Warehouse>? warehouses =
           sections.first.widgets!.first.components!.first.results;
