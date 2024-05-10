@@ -1,4 +1,5 @@
 //domain
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/domain/models/warehouse.dart';
 
@@ -118,6 +119,12 @@ class AppDynamicCasterType<T> {
   AppDynamicCasterType(this.fromString);
 }
 
+class AppDynamicDataCasterType<T> {
+  final T Function(Map<String, Object?>) fromMap;
+
+  AppDynamicDataCasterType(this.fromMap);
+}
+
 class AppDynamicListCasterType<T> {
   final T Function(List<Map<String, Object?>>) fromMap;
   AppDynamicListCasterType(this.fromMap);
@@ -142,13 +149,19 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
   "List<Warehouse>":
       AppDynamicListCasterType<List<Warehouse>>((s) => parseWarehouses(s)),
   "List<Price>": AppDynamicListCasterType<List<Price>>((s) => parsePrices(s)),
-  "List<Product>": AppDynamicListCasterType<List<Product>>((s) => parseProducts(s)),
+  "List<Product>":
+      AppDynamicListCasterType<List<Product>>((s) => parseProducts(s)),
   "List<Invoice>":
       AppDynamicListCasterType<List<Invoice>>((s) => parseInvoices(s)),
   "List<LogicQuery>":
       AppDynamicListCasterType<List<LogicQuery>>((s) => parseLogicQuery(s)),
   "List<ChartData>":
       AppDynamicListCasterType<List<ChartData>>((s) => parseChartData(s)),
+};
+
+Map<String, AppDynamicDataCasterType> dynamicDataTypes = {
+  "ProductsArguments": AppDynamicDataCasterType<ProductArgument>(
+      (s) => ProductArgument.fromJson(s)),
 };
 
 Future<dynamic> generateVariable(Config config) async {

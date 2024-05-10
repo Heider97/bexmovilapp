@@ -14,18 +14,26 @@ class NavigationArgument {
 
 class WarehouseArgument {
   final String codrouter;
-  final String codcliente;
+  final int codcliente;
+  final String codprecio;
+  final String? codbodega;
 
-  WarehouseArgument({required this.codrouter, required this.codcliente});
+  WarehouseArgument(
+      {required this.codrouter,
+      required this.codcliente,
+      required this.codprecio,
+      this.codbodega});
 
-  WarehouseArgument fromJson(Map<String, dynamic> json) {
-    return WarehouseArgument(
-        codrouter: json['codrouter'], codcliente: json['codcliente']);
-  }
+  factory WarehouseArgument.fromJson(Map<String, dynamic> json) =>
+      WarehouseArgument(
+          codrouter: json['codrouter'],
+          codcliente: json['codcliente'],
+          codprecio: json['codprecio'],
+          codbodega: json['codbodeha']);
 }
 
 class ProductArgument {
-  final String codcliente;
+  final int codcliente;
   final String codbodega;
   final String codprecio;
 
@@ -34,10 +42,23 @@ class ProductArgument {
       required this.codbodega,
       required this.codprecio});
 
-  ProductArgument fromJson(Map<String, dynamic> json) {
+  factory ProductArgument.fromJson(Map<String, dynamic> json){
+    print('********');
+    print(json);
+
     return ProductArgument(
-        codcliente: json['codcliente'],
+        codcliente: json['codcliente'] is String
+            ? int.parse(json['codcliente'])
+            : json['codcliente'],
         codbodega: json['codbodega'],
         codprecio: json['codprecio']);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'codcliente': codcliente,
+      'codbodega': codbodega,
+      'codprecio': codprecio
+    };
   }
 }

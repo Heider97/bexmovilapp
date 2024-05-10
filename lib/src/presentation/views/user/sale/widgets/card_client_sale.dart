@@ -137,7 +137,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
                           ),
                           TextSpan(
                              text: ''.formattedCompact(widget.client.quota!.toString()),
-                            style: TextStyle(fontSize: Const.space12),
+                            style: const TextStyle(fontSize: Const.space12),
                           ),
                         ],
                       ),
@@ -145,7 +145,7 @@ class _CardClientRouterState extends State<CardClientRouter> {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
@@ -192,9 +192,6 @@ class _CardClientRouterState extends State<CardClientRouter> {
               ),
             ],
           ),
-          /*   trailing: AppIconButton(
-              onPressed: null,
-              child: const Icon(Icons.add_shopping_cart, color: Colors.white)) */
         ),
       ),
     );

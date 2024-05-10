@@ -13,23 +13,18 @@ enum SaleStatus {
 class SaleState {
   final SaleStatus status;
 
-  final String? idListPrice;
   final List<Section>? sections;
   final List<Router>? routers;
   final List<Client>? clients;
   final List<Client>? clientsFounded;
   final List<Filter>? filters;
-  final Router? selectedRouter;
-
   final List<Warehouse>? warehouseList;
-  final Warehouse? selectedWarehouse;
   final List<Price>? priceList;
-  final Price? selectedPrice;
 
-  // final List<Warehouse>? warehouses;
-  // final Warehouse? warehouse;
-  // final List<Price>? prices;
-  // final Price? price;
+  final Router? selectedRouter;
+  final Client? selectedClient;
+  final Warehouse? selectedWarehouse;
+  final Price? selectedPrice;
 
 //ID CLIENTE - ID PRODUCTO Y STCOK
   //final List<Map<String, String>>? product;
@@ -44,19 +39,14 @@ class SaleState {
   const SaleState(
       {this.status = SaleStatus.initial,
       this.sections,
-      
-      // this.availableWarehouse,
-      // this.selectedWarehouse,
-
-    //  this.product,
       this.warehouseList,
       this.selectedWarehouse,
       this.priceList,
       this.selectedPrice,
-      this.idListPrice,
       this.routers,
       this.clients,
       this.clientsFounded,
+      this.selectedClient,
       this.filters,
       this.gridView,
       this.error,
@@ -84,6 +74,7 @@ class SaleState {
         routers: routers ?? this.routers,
         clients: clients ?? this.clients,
         clientsFounded: clientsFounded ?? this.clientsFounded,
+        selectedClient: selectedClient ?? this.selectedClient,
         filters: filters ?? this.filters,
         gridView: gridView ?? this.gridView,
         //product: product ?? this.product,

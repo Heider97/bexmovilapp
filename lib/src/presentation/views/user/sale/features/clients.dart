@@ -35,7 +35,9 @@ class _SaleClientsState extends State<SaleClients>
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.clients && widget.clients != null) {
+      if ((state.status == SaleStatus.clients ||
+              state.status == SaleStatus.warehouses) &&
+          widget.clients != null) {
         return Column(children: [
           TabBar(
               controller: _tabcontroller,
@@ -49,10 +51,11 @@ class _SaleClientsState extends State<SaleClients>
               ],
               indicatorSize: TabBarIndicatorSize.tab),
           SizedBox(
-            height: Screens.height(context)*0.69,
+            height: Screens.height(context) * 0.69,
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                if (state.status == SaleStatus.clients &&
+                if ((state.status == SaleStatus.clients ||
+                    state.status == SaleStatus.warehouses) &&
                     widget.clients != null &&
                     widget.clients!.isNotEmpty == true) {
                   return ListView.builder(
@@ -60,7 +63,9 @@ class _SaleClientsState extends State<SaleClients>
                       padding: EdgeInsets.zero,
                       itemCount: widget.clients?.length,
                       itemBuilder: (context, index) {
-                        return CardClient(client: widget.clients![index]);
+                        return CardClient(
+                            codrouter: state.selectedRouter!.dayRouter,
+                            client: widget.clients![index]);
                       });
                 } else {
                   return const Text('No hay clientes disponibles');

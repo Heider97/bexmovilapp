@@ -95,7 +95,7 @@ class Client {
         typeClient: json['type_client'],
         cellphone: json['TELCLIENTE'],
         branch: json['SUCCLIENTE'],
-        price: json['CODPRECIO'],
+        codPrecio: json['CODPRECIO'],
         wayToPay: json['CODFPAGOVTA'],
         quota: json['CUPO'],
         estadoCliente: json['estadocliente'],
@@ -118,7 +118,7 @@ class Client {
 
   Map<String, dynamic> toJson() {
     return {
-      'CODCLIENTE': id,
+      'id': id,
       'NITCLIENTE': nit,
       'NOMCLIENTE': name,
       'DIRCLIENTE': address,

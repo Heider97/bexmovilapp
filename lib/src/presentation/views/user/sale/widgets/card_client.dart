@@ -1,9 +1,11 @@
+import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
 import 'package:bexmovil/src/services/navigation.dart';
+import 'package:bexmovil/src/services/storage.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
@@ -17,12 +19,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgets/atoms/app_text.dart';
 
-final NavigationService _navigationService = locator<NavigationService>();
+final NavigationService navigationService = locator<NavigationService>();
+final LocalStorageService storageService = locator<LocalStorageService>();
 
 class CardClient extends StatefulWidget {
+  final String? codrouter;
   final Client client;
   final bool? activeSale;
-  const CardClient({super.key, required this.client, this.activeSale});
+  const CardClient(
+      {super.key, this.codrouter, required this.client, this.activeSale});
 
   @override
   State<CardClient> createState() => _CardClientState();
@@ -224,8 +229,8 @@ class _CardClientState extends State<CardClient> {
                                         fontSize: 16,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
-                                        formatCurrency
-                                            .format(widget.client.quota),
+                                        ''.formattedCompact(
+                                            widget.client.quota!.toString()),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
                                         fontSize: 12,
@@ -353,11 +358,23 @@ class _CardClientState extends State<CardClient> {
                           gapH12,
                           InkWell(
                             onTap: () {
-                              saleBloc.add(LoadWarehouses(widget.client.nit!));
+                              final user = storageService.getObject('user');
 
-                              showPriceAndWarehouses(context,
-                                  codClient: widget.client.nit!,
-                                  nameClient: widget.client.name ?? 'N/A');
+                              String? codbodega;
+                              if (user?['codbodega'] != null) {
+                                codbodega = user?['codbodega'];
+                              } else {
+                                codbodega = '001B1';
+                              }
+
+                              saleBloc.add(LoadWarehouses(
+                                  navigation: 'go',
+                                  codrouter: widget.codrouter,
+                                  client: widget.client,
+                                  codprecio: widget.client.codPrecio,
+                                  codbodega: codbodega,
+                                  codcliente: widget.client.id));
+
                             },
                             child: Material(
                               elevation: 2,
