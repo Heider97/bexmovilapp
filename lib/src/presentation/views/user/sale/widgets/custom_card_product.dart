@@ -190,7 +190,6 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              //TEXTFIELD
                                               Expanded(
                                                   child: TextFormField(
                                                       onChanged: (value) {

@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +10,13 @@ import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/constants/gaps.dart';
 
 //blocs
-import '../../../../../utils/resources/app_dialogs.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
-import '../../../../blocs/sale_stepper/sale_stepper_bloc.dart';
 
 //features
-import '../../../../widgets/atoms/app_text.dart';
 import '../../../../widgets/organisms/app_section.dart';
-import '../widgets/card_client_sale.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_back_button.dart';
 import '../../../../widgets/atoms/app_icon_button.dart';
-import '../../../../widgets/user/stepper.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -39,8 +32,6 @@ class ClientsPage extends StatefulWidget {
   @override
   State<ClientsPage> createState() => _ClientsPageState();
 }
-
-late SaleStepperBloc saleStepperBloc;
 
 class _ClientsPageState extends State<ClientsPage> {
   final TextEditingController searchController = TextEditingController();
