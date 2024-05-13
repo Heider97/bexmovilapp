@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:bexmovil/src/domain/models/kpi.dart';
 
 //utils
-import '../../../../../domain/models/component.dart';
 import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
-//widgets
+//domain
+import '../../../../../domain/models/component.dart';
+import '../../../../../domain/models/kpi.dart';
 
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
 
 class CardKpi extends StatefulWidget {

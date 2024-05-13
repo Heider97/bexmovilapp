@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+//utils
+import '../../../../../utils/constants/screens.dart';
 //cubits
 import '../../../../cubits/home/home_cubit.dart';
-//domain
-import '../../../../../domain/models/feature.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
-import '../../../../../utils/constants/screens.dart';
 
 class HomeFeatures extends StatelessWidget {
   const HomeFeatures({super.key});
