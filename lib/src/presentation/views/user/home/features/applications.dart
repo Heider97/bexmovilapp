@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 //domain
 import '../../../../../domain/models/application.dart';
 //cubit
@@ -20,12 +21,14 @@ class HomeApplications extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+        print(state);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ...applications != null
-                ? applications!.map((app) => AppShimmerLoading(
-                    isLoading: state is HomeSynchronizing,
+                ? applications!.map((app) => Skeletonizer(
+                    enabled: state is HomeSynchronizing || state is HomeLoading,
+                    ignoreContainers: true,
                     child: AppItem(
                         enabled: app.enabled ?? false,
                         iconName: app.title!,

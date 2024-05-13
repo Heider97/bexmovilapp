@@ -104,79 +104,81 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     await run(() async {
       emit(const HomeSynchronizing());
 
-      var functions = [getConfigs, getFilters];
-
-      var isolateModel = IsolateModel(functions, null, 2);
-      await heavyTask(isolateModel);
-
-      var configs = await databaseRepository.getConfigs('login');
-
-      var version = configs.firstWhere((element) => element.name == 'version');
-
-      await databaseRepository.emptyAllTablesToSync();
-
-      var response = await apiRepository.priorities(
-          request: SyncPrioritiesRequest(
-              date: now(), version: version.value ?? "0"));
-
-      if (response is DataSuccess) {
-        var migrations = <String>[];
-        for (var migration in response.data!.priorities!) {
-          try {
-            if (migration.schema != null) {
-              String sqlScriptWithoutEscapes = migration.schema!
-                  .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-              List<String> scriptsSeparated =
-                  sqlScriptWithoutEscapes.split('CREATE');
-              for (String createTableScript in scriptsSeparated) {
-                try {
-                  String scriptCompleted =
-                      'CREATE $createTableScript'.replaceAll(';', '');
-                  migrations.add(scriptCompleted);
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            }
-          } catch (ex) {
-            print('Error $ex');
-          }
-        }
-        migrations.removeWhere((element) => element == 'CREATE ');
-        await databaseRepository.runMigrations(migrations);
-
-        var prioritiesAsync = response.data!.priorities!
-            .where((element) => element.runBackground == 1);
 
 
-        var prioritiesSync = response.data!.priorities!
-            .where((element) => element.runBackground == 0);
-
-
-        List<String> tables = [];
-
-        List<Future<DataState<DynamicResponse>>> futures = [];
-
-        for (var priority in prioritiesSync) {
-          futures.add(apiRepository.syncDynamic(
-              request: DynamicRequest(priority.name, 'application/json')));
-          tables.add(priority.name);
-        }
-
-        List<DataState<DynamicResponse>> responses = await Future.wait(futures);
-
-        List<Future<dynamic>> futureInserts = [];
-
-        var i = 0;
-        for (var response in responses) {
-          if (response is DataSuccess) {
-            if (response.data != null && response.data!.data != null) {
-              futureInserts.add(databaseRepository.insertAll(
-                  tables[i], response.data!.data!));
-            }
-          }
-          i++;
-        }
+      // var functions = [getConfigs, getFilters];
+      //
+      // var isolateModel = IsolateModel(functions, null, 2);
+      // await heavyTask(isolateModel);
+      //
+      // var configs = await databaseRepository.getConfigs('login');
+      //
+      // var version = configs.firstWhere((element) => element.name == 'version');
+      //
+      // await databaseRepository.emptyAllTablesToSync();
+      //
+      // var response = await apiRepository.priorities(
+      //     request: SyncPrioritiesRequest(
+      //         date: now(), version: version.value ?? "0"));
+      //
+      // if (response is DataSuccess) {
+      //   var migrations = <String>[];
+      //
+      //   for (var migration in response.data!.priorities!) {
+      //     try {
+      //       if (migration.schema != null) {
+      //         String sqlScriptWithoutEscapes = migration.schema!
+      //             .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
+      //         List<String> scriptsSeparated =
+      //             sqlScriptWithoutEscapes.split('CREATE');
+      //         for (String createTableScript in scriptsSeparated) {
+      //           try {
+      //             String scriptCompleted =
+      //                 'CREATE $createTableScript'.replaceAll(';', '');
+      //             migrations.add(scriptCompleted);
+      //           } catch (ex) {
+      //             print('Error al ejecutar el script:\n$ex');
+      //           }
+      //         }
+      //       }
+      //     } catch (ex) {
+      //       print('Error $ex');
+      //     }
+      //   }
+      //
+      //   migrations.removeWhere((element) => element == 'CREATE ');
+      //   await databaseRepository.runMigrations(migrations);
+      //
+      //   var prioritiesAsync = response.data!.priorities!
+      //       .where((element) => element.runBackground == 1);
+      //
+      //   var prioritiesSync = response.data!.priorities!
+      //       .where((element) => element.runBackground == 0);
+      //
+      //   List<String> tables = [];
+      //
+      //   List<Future<DataState<DynamicResponse>>> futures = [];
+      //
+      //   for (var priority in prioritiesSync) {
+      //     futures.add(apiRepository.syncDynamic(
+      //         request: DynamicRequest(priority.name, 'application/json')));
+      //     tables.add(priority.name);
+      //   }
+      //
+      //   List<DataState<DynamicResponse>> responses = await Future.wait(futures);
+      //
+      //   List<Future<dynamic>> futureInserts = [];
+      //
+      //   var i = 0;
+      //   for (var response in responses) {
+      //     if (response is DataSuccess) {
+      //       if (response.data != null && response.data!.data != null) {
+      //         futureInserts.add(databaseRepository.insertAll(
+      //             tables[i], response.data!.data!));
+      //       }
+      //     }
+      //     i++;
+      //   }
 
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
@@ -184,13 +186,14 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
         final sections =
             await queryLoaderService.getResults('home', seller!, [seller]);
 
-        await Future.wait(futureInserts).whenComplete(() => emit(HomeSuccess(
-              user: user,
-              sections: sections,
-            )));
-      } else {
-        // emit(SyncFeaturesFailure(features: features, error: response.error));
-      }
+        // await Future.wait(futureInserts).whenComplete(() => );
+        emit(HomeSuccess(
+          user: user,
+          sections: sections,
+        ));
+      // } else {
+      //   // emit(SyncFeaturesFailure(features: features, error: response.error));
+      // }
     });
   }
 
