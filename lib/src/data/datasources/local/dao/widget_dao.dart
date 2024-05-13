@@ -27,7 +27,7 @@ class WidgetDao {
   Future<List<Widget>?> findWidgetsByBloc(int appBlocId) async {
     final db = await _appDatabase.database;
     var widgetList = await db!.query(tableWidgets,
-        where: 'app_bloc_id = ?', whereArgs: [appBlocId], groupBy: 'name');
+        where: 'app_bloc_event_id = ?', whereArgs: [appBlocId], groupBy: 'name');
     var widgets = parseWidgets(widgetList);
     return widgets;
   }
