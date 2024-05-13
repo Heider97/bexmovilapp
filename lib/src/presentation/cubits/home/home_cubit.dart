@@ -105,7 +105,10 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
       var fakFeatures = List.filled(2, Feature(coddashboard: 0));
       emit(state.copyWith(status: HomeStatus.synchronizing, features: fakFeatures));
 
-      Future.delayed(const Duration(seconds: 10)).then((value) async {
+      Future.delayed(const Duration(seconds: 4)).then((value) async {
+
+        print(value);
+
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
 

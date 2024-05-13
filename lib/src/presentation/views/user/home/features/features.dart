@@ -9,9 +9,7 @@ import '../../../../widgets/atomsbox.dart';
 import '../../../../../utils/constants/screens.dart';
 
 class HomeFeatures extends StatelessWidget {
-  final List<Feature>? features;
-
-  const HomeFeatures({super.key, required this.features});
+  const HomeFeatures({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +19,23 @@ class HomeFeatures extends StatelessWidget {
         buildWhen: (current, previous) =>
             current.runtimeType != previous.runtimeType,
         builder: (context, state) {
+
+
           return SizedBox(
               height: 100,
               width: Screens.width(context),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: features != null ? features!.length : 0,
+                itemCount: state.features != null ? state.features!.length : 0,
                 itemBuilder: (BuildContext context, int index) => Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: AppShimmerLoading(
-                    isLoading:
-                        state is HomeSynchronizing || state is HomeLoading,
+                    isLoading: state.status == HomeStatus.synchronizing ||
+                        state.status == HomeStatus.loading,
                     child: AppCardFeature(
                         axis: Axis.horizontal,
-                        text: features![index].descripcion!,
-                        url: features![index].urldesc,
+                        text: state.features![index].descripcion!,
+                        url: state.features![index].urldesc,
                         color: index / 2 == 0 ? Colors.orange : Colors.green),
                   ),
                 ),

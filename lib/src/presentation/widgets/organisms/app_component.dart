@@ -66,7 +66,7 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     switch (widget.name) {
       case 'HomeFeatures':
-        return HomeFeatures(features: widget.components.first.results);
+        // return HomeFeatures(features: widget.components.first.results);
       case 'HomeStatistics':
         if (widget.components.isNotEmpty) {
           var kpis = widget.components
@@ -85,7 +85,7 @@ class _AppWidgetState extends State<AppWidget> {
               tabController: widget.tabController!);
         }
       case 'HomeApplications':
-        return HomeApplications(applications: widget.components.first.results);
+        // return HomeApplications(applications: widget.components.first.results);
       case 'SaleRouters':
         return SaleRouters(routers: widget.components.first.results);
       case 'SaleClients':

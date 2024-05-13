@@ -1,3 +1,6 @@
+import 'package:bexmovil/src/presentation/views/user/home/features/applications.dart';
+import 'package:bexmovil/src/presentation/views/user/home/features/features.dart';
+import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +74,7 @@ class HomeViewState extends State<HomeView>
     }, builder: (context, state) {
       return BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          if (state is HomeLoading) {
+          if (state.status == HomeStatus.loading) {
             return const Center(
                 child: CupertinoActivityIndicator(color: Colors.red));
           } else {
@@ -133,6 +136,9 @@ class HomeViewState extends State<HomeView>
               ),
             ),
             gapH8,
+            const HomeFeatures(),
+            // HomeStatistics(kpis: state.kpis),
+            const HomeApplications(),
 
           ],
         ),
