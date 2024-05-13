@@ -2,7 +2,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../datasources/local/app_database.dart';
 import '../../domain/repositories/database_repository.dart';
+
 //models
+import '../../domain/models/view.dart';
+import '../../domain/models/bloc.dart';
+import '../../domain/models/bloc_event.dart';
 import '../../domain/models/module.dart';
 import '../../domain/models/section.dart';
 import '../../domain/models/widget.dart';
@@ -27,6 +31,41 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
+
+  //BLOCS
+  @override
+  Future<Bloc?> findBloc(String name) async {
+    return _appDatabase.blocDao.findBloc(name);
+  }
+
+  @override
+  Future<void> emptyBlocs() async {
+    return _appDatabase.blocDao.emptyBlocs();
+  }
+
+
+  //BLOC EVENTS
+  @override
+  Future<BlocEvent?> findBlocEvent(String name) async {
+    return _appDatabase.blocEventDao.findBlocEvent(name);
+  }
+
+  @override
+  Future<void> emptyBlocEvents() async {
+    return _appDatabase.blocEventDao.emptyBlocEvents();
+  }
+
+  //VIEWS
+  @override
+  Future<View?> findView(String name) async {
+    return _appDatabase.viewDao.findView(name);
+  }
+
+  @override
+  Future<void> emptyViews() async {
+    return _appDatabase.viewDao.emptyViews();
+  }
+
 
   //MODULES
   @override

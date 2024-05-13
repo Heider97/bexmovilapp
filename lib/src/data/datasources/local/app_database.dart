@@ -13,6 +13,9 @@ import '../../../utils/constants/strings.dart';
 // [MODELS]
 /// [CORE]
 import '../../../domain/models/module.dart';
+import '../../../domain/models/view.dart';
+import '../../../domain/models/bloc.dart';
+import '../../../domain/models/bloc_event.dart';
 import '../../../domain/models/section.dart';
 import '../../../domain/models/widget.dart';
 import '../../../domain/models/component.dart';
@@ -50,6 +53,9 @@ part 'migrations/index.dart';
 // [DAOS]
 // [CORE]
 part '../local/dao/module_dao.dart';
+part '../local/dao/view_dao.dart';
+part '../local/dao/bloc_dao.dart';
+part '../local/dao/bloc_event_dao.dart';
 part '../local/dao/section_dao.dart';
 part '../local/dao/widget_dao.dart';
 part '../local/dao/component_dao.dart';
@@ -233,6 +239,12 @@ class AppDatabase {
     final db = await instance.database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  ViewDao get viewDao => ViewDao(instance);
+
+  BlocDao get blocDao => BlocDao(instance);
+
+  BlocEventDao get blocEventDao => BlocEventDao(instance);
 
   ModuleDao get moduleDao => ModuleDao(instance);
 

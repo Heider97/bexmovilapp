@@ -1,5 +1,8 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../models/view.dart';
+import '../models/bloc.dart';
+import '../models/bloc_event.dart';
 import '../models/module.dart';
 import '../models/section.dart';
 import '../models/widget.dart';
@@ -35,6 +38,18 @@ abstract class DatabaseRepository {
   Future<List<Map<String, Object?>>> rawQuery(String sentence);
   Future<List<Map<String, Object?>>> logicQueries(int componentId);
   Future<bool> listenForTableChanges(String? table);
+
+  //VIEWS
+  Future<View?> findView(String name);
+  Future<void> emptyViews();
+
+  //BLOCS
+  Future<Bloc?> findBloc(String name);
+  Future<void> emptyBlocs();
+
+  //BLOC EVENTS
+  Future<BlocEvent?> findBlocEvent(String name);
+  Future<void> emptyBlocEvents();
 
   //MODULES
   Future<Module?> findModule(String name);
