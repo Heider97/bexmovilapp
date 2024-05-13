@@ -104,8 +104,6 @@ class GpsBloc extends Bloc<GpsEvent, GpsState> with FormatDate {
             isGpsEnabled: state.isGpsEnabled, isGpsPermissionGranted: false));
         openAppSettings();
         break;
-      case PermissionStatus.provisional:
-        break;
     }
   }
 

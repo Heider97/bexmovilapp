@@ -37,13 +37,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadClients>(_onLoadClientsRouter);
     on<LoadProducts>(_onLoadProducts);
     on<LoadWarehouses>(_onLoadWarehouses);
-
     on<SelectWarehouse>(_selectWarehouse);
     on<SelectPriceList>(_selectPriceList);
-
     on<GridModeChange>(_gridModeChange);
     on<SelectRouter>(_selectRouter);
-
     on<ResetStatus>(_resetStatus);
   }
 

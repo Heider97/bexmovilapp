@@ -62,8 +62,6 @@ import 'src/presentation/widgets/atomsbox.dart';
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
 
-part 'app_blocs_providers.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then;
