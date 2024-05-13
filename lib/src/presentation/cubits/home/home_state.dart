@@ -1,11 +1,6 @@
 part of 'home_cubit.dart';
 
-enum HomeStatus {
-  loading,
-  synchronizing,
-  success,
-  failed
-}
+enum HomeStatus { loading, synchronizing, success, failed }
 
 class HomeState extends Equatable {
   final User? user;
@@ -34,6 +29,7 @@ class HomeState extends Equatable {
       String? error}) {
     return HomeState(
       user: user ?? this.user,
+      status: status ?? this.status,
       features: features ?? this.features,
       kpis: kpis ?? this.kpis,
       applications: applications ?? this.applications,

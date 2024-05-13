@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 //cubits
 import '../../../../cubits/home/home_cubit.dart';
 //domain
@@ -13,14 +14,9 @@ class HomeFeatures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return BlocBuilder<HomeCubit, HomeState>(
-        buildWhen: (current, previous) =>
-            current.runtimeType != previous.runtimeType,
+        buildWhen: (current, previous) => current.status != previous.status,
         builder: (context, state) {
-
-
           return SizedBox(
               height: 100,
               width: Screens.width(context),
@@ -29,13 +25,13 @@ class HomeFeatures extends StatelessWidget {
                 itemCount: state.features != null ? state.features!.length : 0,
                 itemBuilder: (BuildContext context, int index) => Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: AppShimmerLoading(
-                    isLoading: state.status == HomeStatus.synchronizing ||
+                  child: Skeletonizer(
+                    enabled: state.status == HomeStatus.synchronizing ||
                         state.status == HomeStatus.loading,
                     child: AppCardFeature(
                         axis: Axis.horizontal,
-                        text: state.features![index].descripcion!,
-                        url: state.features![index].urldesc,
+                        text: state.features![index].descripcion ?? 'N/A',
+                        url: state.features![index].urldesc ?? 'N/A',
                         color: index / 2 == 0 ? Colors.orange : Colors.green),
                   ),
                 ),
