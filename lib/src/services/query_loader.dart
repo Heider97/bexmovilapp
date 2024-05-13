@@ -111,9 +111,7 @@ class QueryLoaderService {
     final b = await databaseRepository.findBloc(bloc);
     final e = await databaseRepository.findBlocEvent(event);
 
-    final widgets = await databaseRepository.findWidgets(e!.appBlocId!);
-
-    print(widgets);
+    final widgets = await databaseRepository.findWidgetsByBloc(e!.appBlocId!);
 
     if (widgets != null && widgets.isNotEmpty) {
       for (var widget in widgets) {
@@ -128,13 +126,8 @@ class QueryLoaderService {
                 ? widget.type = "List<ChartData>"
                 : widget.type;
 
-            print(component.id);
-
             var logicables =
                 await databaseRepository.logicQueries(component.id!);
-
-            print('************');
-            print(logicables);
 
             List<LogicQuery> logicQueries =
                 await dynamicListTypes['List<LogicQuery>']!.fromMap(logicables);
@@ -145,8 +138,6 @@ class QueryLoaderService {
                 var data = await determine(
                     widget.type, logicQueries.first, seller, arguments,
                     needBeMapped: needBeMapped);
-
-                print(data);
 
                 results[widget.name!] = data;
               } else {
@@ -160,9 +151,6 @@ class QueryLoaderService {
                         var data = await determine(
                             widget.type!, lq, seller, arguments,
                             needBeMapped: needBeMapped);
-
-                        print(data);
-
 
                         results[widget.name!] = data;
                       }
