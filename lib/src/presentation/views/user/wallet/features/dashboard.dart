@@ -1,15 +1,19 @@
-import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/home/widgets/card_kpi.dart';
-import 'package:bexmovil/src/presentation/views/user/wallet/widgets/cartesian_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/component.dart';
-import '../../../../blocs/sale/sale_bloc.dart';
+//blocs
+import '../../../../blocs/wallet/wallet_bloc.dart';
+
+//domain
+import '../../../../../domain/models/kpi.dart';
+
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
+import '../../home/widgets/card_kpi.dart';
+import '../widgets/cartesian_chart.dart';
 
 class WalletDashboard extends StatefulWidget {
-  final List<Component>? components;
+  final List<Kpi>? components;
 
   const WalletDashboard({super.key, this.components});
 

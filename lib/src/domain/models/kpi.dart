@@ -1,43 +1,75 @@
 const String tableKpis = 'kpis';
 
 class KpiFields {
-  static final List<String> values = [id, title, type, value];
+  static final List<String> values = [
+    id,
+    title,
+    subtitle,
+    type,
+    line,
+    interactive,
+    trigger,
+    logicQueryId,
+    widgetId
+  ];
 
   static const String id = 'id';
   static const String title = 'title';
-  static const String line = 'line';
+  static const String subtitle = 'subtitle';
   static const String type = 'type';
-  static const String value = 'value';
+  static const String line = 'line';
+  static const String interactive = 'interactive';
+  static const String trigger = 'trigger';
+  static const String logicQueryId = 'logic_query_id';
+  static const String widgetId = 'widget_id';
 }
 
 class Kpi {
   int? id;
   String? title;
+  String? subtitle;
   String? type;
   int? line;
-  String? value;
+  int? interactive;
+  String? trigger;
+  int? logicQueryId;
+  int? widgetId;
+  dynamic results;
 
   Kpi({
     this.id,
     this.title,
+    this.subtitle,
     this.type,
     this.line,
-    this.value,
+    this.interactive,
+    this.trigger,
+    this.logicQueryId,
+    this.widgetId,
+    this.results
   });
 
   factory Kpi.fromJson(Map<String, dynamic> json) => Kpi(
-    id: json["id"],
-    title: json["title"],
-    type: json["type"],
-    line: json["line"],
-    value: json["value"],
+    id: json['id'],
+    title: json['title'],
+    subtitle: json['subtitle'],
+    type: json['type'],
+    line: json['line'],
+    interactive: json['interactive'],
+    trigger: json['trigger'],
+    logicQueryId: json['logicQueryId'],
+    widgetId: json['widget_id'],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "type": type,
-    "line": line,
-    "value": value,
+    'id': id,
+    'title': title,
+    'subtitle': subtitle,
+    'type': type,
+    'line': line,
+    'interactive': interactive,
+    'trigger': trigger,
+    'logic_query_id': logicQueryId,
+    'widget_id': widgetId,
   };
 }

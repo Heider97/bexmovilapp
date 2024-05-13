@@ -20,7 +20,6 @@ class HomeApplications extends StatelessWidget {
       child: BlocBuilder<HomeCubit, HomeState>(
           buildWhen: (current, previous) => current.status != previous.status,
           builder: (context, state) {
-            print(state.applications);
             if (state.applications != null && state.applications!.isNotEmpty) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

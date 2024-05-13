@@ -66,26 +66,26 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     switch (widget.name) {
       case 'HomeFeatures':
-        // return HomeFeatures(features: widget.components.first.results);
+      // return HomeFeatures(features: widget.components.first.results);
       case 'HomeStatistics':
-        if (widget.components.isNotEmpty) {
-          var kpis = widget.components
-              .map((e) => e.type == "kpi" ? e : null)
-              .toList(growable: true);
-          var forms = widget.components
-              .map((e) => e.type == "form" ? e : null)
-              .toList(growable: true);
-
-          return HomeStatistics(
-              kpis: kpis, forms: forms, tabController: widget.tabController!);
-        } else {
-          return HomeStatistics(
-              kpis: const [],
-              forms: const [],
-              tabController: widget.tabController!);
-        }
+      // if (widget.components.isNotEmpty) {
+      //   var kpis = widget.components
+      //       .map((e) => e.type == "kpi" ? e : null)
+      //       .toList(growable: true);
+      //   var forms = widget.components
+      //       .map((e) => e.type == "form" ? e : null)
+      //       .toList(growable: true);
+      //
+      //   return HomeStatistics(
+      //       kpis: kpis, forms: forms, tabController: widget.tabController!);
+      // } else {
+      //   return HomeStatistics(
+      //       kpis: const [],
+      //       forms: const [],
+      //       tabController: widget.tabController!);
+      // }
       case 'HomeApplications':
-        // return HomeApplications(applications: widget.components.first.results);
+      // return HomeApplications(applications: widget.components.first.results);
       case 'SaleRouters':
         return SaleRouters(routers: widget.components.first.results);
       case 'SaleClients':
@@ -94,10 +94,10 @@ class _AppWidgetState extends State<AppWidget> {
         return SaleWarehouses(warehouses: widget.components.first.results);
       case 'SalePrices':
         return SalePrices(prices: widget.components.first.results);
-      case 'SaleProducts':      
+      case 'SaleProducts':
         return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
-        return WalletDashboard(components: widget.components);
+      // return WalletDashboard(components: widget.components);
       case 'WalletClients':
         return WalletClients(clients: widget.components.first.results);
       case 'WalletSummaries':

@@ -11,7 +11,7 @@ import '../../../../../utils/constants/screens.dart';
 import 'card_kpi.dart';
 
 class SlidableKpi extends StatefulWidget {
-  final List<Component?> kpis;
+  final List<Kpi?> kpis;
 
   const SlidableKpi({
     super.key,

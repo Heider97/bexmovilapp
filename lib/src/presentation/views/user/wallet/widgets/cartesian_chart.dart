@@ -11,14 +11,14 @@ import '../../../../blocs/wallet/wallet_bloc.dart';
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/strings.dart';
 //domain
-import '../../../../../domain/models/component.dart';
+import '../../../../../domain/models/kpi.dart';
 import '../../../../../domain/models/arguments.dart';
 //widgets
 
 import '../../../../widgets/atoms/app_text.dart';
 
 class CartesianChart extends StatelessWidget {
-  final Component component;
+  final Kpi component;
 
   const CartesianChart({super.key, required this.component});
 

@@ -50,26 +50,26 @@ class Component {
   });
 
   factory Component.fromJson(Map<String, dynamic> json) => Component(
-        id: json['id'],
-        title: json['title'],
-        subtitle: json['subtitle'],
-        type: json['type'],
-        line: json['line'],
-        interactive: json['interactive'],
-        trigger: json['trigger'],
-        logicQueryId: json['logicQueryId'],
-        widgetId: json['widget_id'],
-      );
+    id: json['id'],
+    title: json['title'],
+    subtitle: json['subtitle'],
+    type: json['type'],
+    line: json['line'],
+    interactive: json['interactive'],
+    trigger: json['trigger'],
+    logicQueryId: json['logicQueryId'],
+    widgetId: json['widget_id'],
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'subtitle': subtitle,
-        'type': type,
-        'line': line,
-        'interactive': interactive,
-        'trigger': trigger,
-        'logic_query_id': logicQueryId,
-        'widget_id': widgetId,
-      };
+    'id': id,
+    'title': title,
+    'subtitle': subtitle,
+    'type': type,
+    'line': line,
+    'interactive': interactive,
+    'trigger': trigger,
+    'logic_query_id': logicQueryId,
+    'widget_id': widgetId,
+  };
 }

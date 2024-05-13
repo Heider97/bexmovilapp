@@ -2,7 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 //domain
-import '../../../../../domain/models/component.dart';
+import '../../../../../domain/models/kpi.dart';
+// import '../../../../../domain/models/form.dart';
 //utils
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/screens.dart';
@@ -15,8 +16,8 @@ import '../widgets/slide_kpi.dart';
 class HomeStatistics extends StatefulWidget {
   final TabController tabController;
 
-  final List<Component?> kpis;
-  final List<Component?> forms;
+  final List<Kpi?> kpis;
+  final List<Form?> forms;
 
   const HomeStatistics(
       {super.key,
@@ -29,10 +30,10 @@ class HomeStatistics extends StatefulWidget {
 }
 
 class _HomeStatisticsState extends State<HomeStatistics> {
-  List<Component?> kpisOneLine = [];
-  List<Component?> kpisSecondLine = [];
-  List<List<Component?>> kpisSlidableOneLine = [];
-  List<List<Component?>> kpisSlidableSecondLine = [];
+  List<Kpi?> kpisOneLine = [];
+  List<Kpi?> kpisSecondLine = [];
+  List<List<Kpi?>> kpisSlidableOneLine = [];
+  List<List<Kpi?>> kpisSlidableSecondLine = [];
 
   @override
   void initState() {

@@ -5,14 +5,13 @@ import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
 //domain
-import '../../../../../domain/models/component.dart';
 import '../../../../../domain/models/kpi.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
 
 class CardKpi extends StatefulWidget {
-  final Component kpi;
+  final Kpi kpi;
   final double? height;
   final bool needConverted;
 
