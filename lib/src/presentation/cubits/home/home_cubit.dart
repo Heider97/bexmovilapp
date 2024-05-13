@@ -43,7 +43,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
   HomeCubit(this.databaseRepository, this.apiRepository, this.storageService,
       this.navigationService, this.queryLoaderService)
-      : super(const HomeLoading());
+      : super(const HomeState(status: HomeStatus.loading));
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
@@ -84,16 +84,16 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeLoading());
+      emit(state.copyWith(status: HomeStatus.loading));
 
       final user = User.fromMap(storageService.getObject('user')!);
       final seller = storageService.getString('username');
       final sections =
           await queryLoaderService.getResults('home', seller!, [seller]);
 
-      emit(HomeSuccess(
+      emit(state.copyWith(
+        status: HomeStatus.success,
         user: user,
-        sections: sections,
       ));
     });
   }
@@ -102,7 +102,8 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeSynchronizing());
+      var fakFeatures = List.filled(2, Feature(coddashboard: 0));
+      emit(state.copyWith(status: HomeStatus.synchronizing, features: fakFeatures));
 
       Future.delayed(const Duration(seconds: 10)).then((value) async {
         final user = User.fromMap(storageService.getObject('user')!);
@@ -112,9 +113,9 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
             await queryLoaderService.getResults('home', seller!, [seller]);
 
         // await Future.wait(futureInserts).whenComplete(() => );
-        emit(HomeSuccess(
+        emit(state.copyWith(
+          status: HomeStatus.success,
           user: user,
-          sections: sections,
         ));
       });
 

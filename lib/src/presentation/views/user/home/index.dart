@@ -133,12 +133,7 @@ class HomeViewState extends State<HomeView>
               ),
             ),
             gapH8,
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title: e.name!,
-                    widgetItems: e.widgets ?? [],
-                    tabController: _tabController))
-                : [],
+
           ],
         ),
       ),
