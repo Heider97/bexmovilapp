@@ -159,7 +159,7 @@ class AppDatabase {
       AND name NOT IN (
         'android_metadata',
         'app_features',
-        'app-funcionalities'
+        'app_funcionalities',
         'app_route_transaction',
         'configs',
         'error_logs',

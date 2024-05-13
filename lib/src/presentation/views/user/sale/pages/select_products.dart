@@ -164,7 +164,7 @@ class _SelectProductsViewState extends State<SelectProductsView> {
                           gapW20,
                           InkWell(
                             onTap: () {
-                              _navigationService.goTo(AppRoutes.shoppingCart);
+                              // _navigationService.goTo(AppRoutes.shoppingCart);
                             },
                             child: SizedBox(
                               height: 40,

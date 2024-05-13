@@ -180,6 +180,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
+
         final sections =
             await queryLoaderService.getResults('home', seller!, [seller]);
 

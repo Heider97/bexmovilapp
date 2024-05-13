@@ -35,8 +35,4 @@ Map<String, RouteType> salesRoutes = {
       hideBottomNavigationBar: true,
       opacity: 0.1,
       child: ProductsView(arguments: settings.arguments as ProductArgument)),
-  AppRoutes.shoppingCart: (context, settings) => AppGlobalBackground.squared(
-      hideBottomNavigationBar: true,
-      opacity: 0.1,
-      child: const ShoppingCartView())
 };
