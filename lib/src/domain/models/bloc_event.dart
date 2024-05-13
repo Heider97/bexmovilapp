@@ -22,9 +22,9 @@ class BlocEvent {
   int? id;
   String? name;
   String? type;
-  bool? createdAt;
   int? appBlocId;
   String? arguments;
+  String? createdAt;
 
   BlocEvent({
     this.id,

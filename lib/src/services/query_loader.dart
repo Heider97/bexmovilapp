@@ -107,7 +107,74 @@ class QueryLoaderService {
       String seller, List<dynamic> arguments) async {
     Map<String, dynamic> results = {};
 
+    final v = await databaseRepository.findView(view);
+    final b = await databaseRepository.findBloc(bloc);
+    final e = await databaseRepository.findBlocEvent(event);
 
+    final widgets = await databaseRepository.findWidgets(e!.appBlocId!);
+
+    print(widgets);
+
+    if (widgets != null && widgets.isNotEmpty) {
+      for (var widget in widgets) {
+        var components = await databaseRepository.findComponents(widget.id!);
+
+        if (components != null && components.isNotEmpty) {
+
+          for (var component in components) {
+            var needBeMapped = component.type == "kpi" ? true : false;
+
+            component.type == "line"
+                ? widget.type = "List<ChartData>"
+                : widget.type;
+
+            print(component.id);
+
+            var logicables =
+                await databaseRepository.logicQueries(component.id!);
+
+            print('************');
+            print(logicables);
+
+            List<LogicQuery> logicQueries =
+                await dynamicListTypes['List<LogicQuery>']!.fromMap(logicables);
+
+            if (logicQueries.isNotEmpty) {
+              if (logicQueries.length == 1) {
+
+                var data = await determine(
+                    widget.type, logicQueries.first, seller, arguments,
+                    needBeMapped: needBeMapped);
+
+                print(data);
+
+                results[widget.name!] = data;
+              } else {
+                for (var lq in logicQueries) {
+                  if (lq.logicId != null) {
+                    var logic = await databaseRepository.findLogic(lq.logicId!);
+                    if (logic != null) {
+                      var result =
+                          await databaseRepository.validateLogic(logic, seller);
+                      if (result == true) {
+                        var data = await determine(
+                            widget.type!, lq, seller, arguments,
+                            needBeMapped: needBeMapped);
+
+                        print(data);
+
+
+                        results[widget.name!] = data;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
 
     return results;
   }

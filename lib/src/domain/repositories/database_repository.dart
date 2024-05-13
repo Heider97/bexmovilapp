@@ -61,6 +61,7 @@ abstract class DatabaseRepository {
 
   //WIDGETS
   Future<List<Widget>?> findWidgets(int sectionId);
+  Future<List<Widget>?> findWidgetsByBloc(int appBlocId);
   Future<void> emptyWidgets();
 
   //COMPONENTS

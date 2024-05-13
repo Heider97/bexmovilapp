@@ -96,6 +96,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<List<Widget>?> findWidgetsByBloc(int appBlocId) async {
+    return _appDatabase.widgetDao.findWidgetsByBloc(appBlocId);
+  }
+
+
+  @override
   Future<void> emptyWidgets() async {
     return _appDatabase.widgetDao.emptyWidgets();
   }
