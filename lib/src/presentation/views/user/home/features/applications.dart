@@ -28,8 +28,8 @@ class HomeApplications extends StatelessWidget {
                   ignoreContainers: true,
                   child: AppItem(
                       enabled: app.enabled ?? false,
-                      iconName: app.title!,
-                      imagePath: app.svg!,
+                      iconName: app.title,
+                      imagePath: app.svg,
                       onTap: () {
                         navigationService.goTo(app.route!);
                       })))

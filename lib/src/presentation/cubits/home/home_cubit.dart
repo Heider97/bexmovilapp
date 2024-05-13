@@ -1,13 +1,7 @@
-import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
 //cubit
-
-import '../../../domain/abstracts/format_abstract.dart';
-import '../../../domain/models/requests/dynamic_request.dart';
-import '../../../domain/models/requests/sync_priorities_request.dart';
-import '../../../domain/models/responses/dynamic_response.dart';
 import '../base/base_cubit.dart';
 
 //utils
@@ -16,11 +10,14 @@ import '../../../utils/resources/data_state.dart';
 
 //domain
 import '../../../domain/models/user.dart';
-import '../../../domain/models/section.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/isolate.dart';
+import '../../../domain/abstracts/format_abstract.dart';
+import '../../../domain/models/requests/dynamic_request.dart';
+import '../../../domain/models/requests/sync_priorities_request.dart';
+import '../../../domain/models/responses/dynamic_response.dart';
 //requests
 import '../../../domain/models/requests/module_request.dart';
 import '../../../domain/models/requests/filter_request.dart';
@@ -102,13 +99,15 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      var fakFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeApplications = List.filled(4, Application());
+
       emit(state.copyWith(
-          status: HomeStatus.synchronizing, features: fakFeatures));
+          status: HomeStatus.synchronizing,
+          features: fakeFeatures,
+          applications: fakeApplications));
 
       Future.delayed(const Duration(seconds: 4)).then((value) async {
-        print(value);
-
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
 

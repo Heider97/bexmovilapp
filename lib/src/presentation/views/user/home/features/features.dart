@@ -27,6 +27,7 @@ class HomeFeatures extends StatelessWidget {
                   child: Skeletonizer(
                     enabled: state.status == HomeStatus.synchronizing ||
                         state.status == HomeStatus.loading,
+                    ignoreContainers: true,
                     child: AppCardFeature(
                         axis: Axis.horizontal,
                         text: state.features![index].descripcion ?? 'N/A',
