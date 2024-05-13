@@ -73,7 +73,7 @@ class HomeViewState extends State<HomeView>
         builder: (context, state) {
           if (state is HomeLoading) {
             return const Center(
-                child: CupertinoActivityIndicator(color: Colors.green));
+                child: CupertinoActivityIndicator(color: Colors.red));
           } else {
             return _buildBody(size, theme, state, context);
           }
@@ -107,8 +107,8 @@ class HomeViewState extends State<HomeView>
                     width: size.width / 1.6,
                     height: size.height * 0.2,
                     child: GestureDetector(
-                        onTap: () => homeCubit.navigationService
-                            .goTo(AppRoutes.chat),
+                        onTap: () =>
+                            homeCubit.navigationService.goTo(AppRoutes.chat),
                         child: Material(
                             color: theme.cardColor,
                             borderRadius: BorderRadius.circular(20),

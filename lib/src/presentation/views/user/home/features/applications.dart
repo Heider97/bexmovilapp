@@ -21,6 +21,7 @@ class HomeApplications extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+        print('***************');
         print(state);
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

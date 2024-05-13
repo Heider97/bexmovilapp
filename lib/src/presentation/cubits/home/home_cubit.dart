@@ -104,7 +104,19 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     await run(() async {
       emit(const HomeSynchronizing());
 
+      Future.delayed(const Duration(seconds: 10)).then((value) async {
+        final user = User.fromMap(storageService.getObject('user')!);
+        final seller = storageService.getString('username');
 
+        final sections =
+            await queryLoaderService.getResults('home', seller!, [seller]);
+
+        // await Future.wait(futureInserts).whenComplete(() => );
+        emit(HomeSuccess(
+          user: user,
+          sections: sections,
+        ));
+      });
 
       // var functions = [getConfigs, getFilters];
       //
@@ -180,17 +192,17 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
       //     i++;
       //   }
 
-        final user = User.fromMap(storageService.getObject('user')!);
-        final seller = storageService.getString('username');
+      // final user = User.fromMap(storageService.getObject('user')!);
+      // final seller = storageService.getString('username');
+      //
+      // final sections =
+      //     await queryLoaderService.getResults('home', seller!, [seller]);
 
-        final sections =
-            await queryLoaderService.getResults('home', seller!, [seller]);
-
-        // await Future.wait(futureInserts).whenComplete(() => );
-        emit(HomeSuccess(
-          user: user,
-          sections: sections,
-        ));
+      // await Future.wait(futureInserts).whenComplete(() => );
+      // emit(HomeSuccess(
+      //   user: user,
+      //   sections: sections,
+      // ));
       // } else {
       //   // emit(SyncFeaturesFailure(features: features, error: response.error));
       // }
