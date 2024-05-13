@@ -17,28 +17,31 @@ class HomeApplications extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-        if (state.applications != null && state.applications!.isNotEmpty) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ...state.applications!.map((app) => Skeletonizer(
-                  enabled: state.status == HomeStatus.synchronizing ||
-                      state.status == HomeStatus.loading,
-                  ignoreContainers: true,
-                  child: AppItem(
-                      enabled: app.enabled ?? false,
-                      iconName: app.title,
-                      imagePath: app.svg,
-                      onTap: () {
-                        navigationService.goTo(app.route!);
-                      })))
-            ],
-          );
-        } else {
-          return const SizedBox();
-        }
-      }),
+      child: BlocBuilder<HomeCubit, HomeState>(
+          buildWhen: (current, previous) => current.status != previous.status,
+          builder: (context, state) {
+            print(state.applications);
+            if (state.applications != null && state.applications!.isNotEmpty) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ...state.applications!.map((app) => Skeletonizer(
+                      enabled: state.status == HomeStatus.synchronizing ||
+                          state.status == HomeStatus.loading,
+                      ignoreContainers: true,
+                      child: AppItem(
+                          enabled: app.enabled ?? false,
+                          iconName: app.title ?? 'N/A',
+                          imagePath: app.svg,
+                          onTap: () {
+                            navigationService.goTo(app.route!);
+                          })))
+                ],
+              );
+            } else {
+              return const SizedBox();
+            }
+          }),
     );
   }
 }

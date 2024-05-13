@@ -5,13 +5,13 @@ import '../../../../widgets/atoms/app_text.dart';
 
 class AppItem extends StatelessWidget {
   final bool enabled;
-  final String? iconName;
+  final String iconName;
   final String? imagePath;
   final Function() onTap;
   const AppItem(
       {super.key,
       required this.enabled,
-      this.iconName,
+      required this.iconName,
       this.imagePath,
       required this.onTap});
 
@@ -32,8 +32,7 @@ class AppItem extends StatelessWidget {
                   height: 40,
                 ),
               ),
-            if(iconName != null)
-              AppText(iconName!)
+            AppText(iconName)
           ],
         ),
       ),
