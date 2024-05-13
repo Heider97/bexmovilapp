@@ -1,5 +1,8 @@
+import 'package:bexmovil/src/presentation/cubits/home/home_cubit.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 //domain
 import '../../../../../domain/models/kpi.dart';
@@ -32,8 +35,8 @@ class HomeStatistics extends StatefulWidget {
 class _HomeStatisticsState extends State<HomeStatistics> {
   List<Kpi?> kpisOneLine = [];
   List<Kpi?> kpisSecondLine = [];
-  List<List<Kpi?>> kpisSlidableOneLine = [];
-  List<List<Kpi?>> kpisSlidableSecondLine = [];
+  List<List<Kpi?>> kpisSliderOneLine = [];
+  List<List<Kpi?>> kpisSliderSecondLine = [];
 
   @override
   void initState() {
@@ -53,7 +56,7 @@ class _HomeStatisticsState extends State<HomeStatistics> {
 
     if (duplicatesSecondLine.isNotEmpty) {
       for (var dsl in duplicatesSecondLine) {
-        kpisSlidableSecondLine
+        kpisSliderSecondLine
             .add(kpisSecondLine.where((kpi) => kpi!.type == dsl).toList());
         kpisSecondLine.removeWhere((element) => element!.type == dsl);
       }
@@ -85,64 +88,76 @@ class _HomeStatisticsState extends State<HomeStatistics> {
               ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: widget.tabController,
-              children: [
-                SizedBox(
-                  width: Screens.width(context) / 2,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: kpisSlidableOneLine.length +
-                                kpisOneLine.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (kpisSlidableOneLine.isNotEmpty) {
-                                return SlidableKpi(
-                                    kpis: kpisSlidableOneLine[index]);
-                              }
-                              final kpi = kpisOneLine[index];
-                              return CardKpi(kpi: kpi!, needConverted: true);
-                            }),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: kpisSlidableSecondLine.length +
-                                kpisSecondLine.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (kpisSlidableSecondLine.isNotEmpty) {
-                                return SlidableKpi(
-                                    kpis: kpisSlidableSecondLine[index]);
-                              }
-                              final kpi = kpisSecondLine[index];
-                              return CardKpi(kpi: kpi!, needConverted: true);
-                            }),
-                      ),
-                    ],
+          BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+            return Expanded(
+              child: TabBarView(
+                controller: widget.tabController,
+                children: [
+                  SizedBox(
+                    width: Screens.width(context) / 2,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Skeletonizer(
+                            enabled: state.status == HomeStatus.synchronizing ||
+                                state.status == HomeStatus.loading,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: kpisSliderOneLine.length +
+                                    kpisOneLine.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (kpisSliderOneLine.isNotEmpty) {
+                                    return SlidableKpi(
+                                        kpis: kpisSliderOneLine[index]);
+                                  }
+                                  final kpi = kpisOneLine[index];
+                                  return CardKpi(
+                                      kpi: kpi!, needConverted: true);
+                                }),
+                          ),
+                        ),
+                        Expanded(
+                          child: Skeletonizer(
+                            enabled: state.status == HomeStatus.synchronizing ||
+                                state.status == HomeStatus.loading,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: kpisSliderSecondLine.length +
+                                    kpisSecondLine.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (kpisSliderSecondLine.isNotEmpty) {
+                                    return SlidableKpi(
+                                        kpis: kpisSliderSecondLine[index]);
+                                  }
+                                  final kpi = kpisSecondLine[index];
+                                  return CardKpi(
+                                      kpi: kpi!, needConverted: true);
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Column(
-                  children: [
-                    gapH12,
-                    CardReports(
-                        iconCard: Icons.star_rate_rounded,
-                        urlIcon: "assets/svg/wallet-money.svg",
-                        title: "Mi\nPresupuesto",
-                        eventCard: () {}),
-                    gapH12,
-                    CardReports(
-                        iconCard: Icons.star_rate_rounded,
-                        urlIcon: "assets/svg/graphic.svg",
-                        title: "Mis\nestadísticas",
-                        eventCard: () {}),
-                  ],
-                )
-              ],
-            ),
-          ),
+                  Column(
+                    children: [
+                      gapH12,
+                      CardReports(
+                          iconCard: Icons.star_rate_rounded,
+                          urlIcon: "assets/svg/wallet-money.svg",
+                          title: "Mi\nPresupuesto",
+                          eventCard: () {}),
+                      gapH12,
+                      CardReports(
+                          iconCard: Icons.star_rate_rounded,
+                          urlIcon: "assets/svg/graphic.svg",
+                          title: "Mis\nestadísticas",
+                          eventCard: () {}),
+                    ],
+                  )
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

@@ -103,6 +103,16 @@ class QueryLoaderService {
     }
   }
 
+  Future<Map<String, dynamic>> load(String view, String seller, List<dynamic> arguments) async {
+    Map<String, dynamic> results = {};
+
+    
+
+
+    return results;
+
+  }
+
   Future determine(String? type, LogicQuery logicQuery, String seller,
       List<dynamic> arguments,
       {needBeMapped = false}) async {

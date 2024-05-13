@@ -81,7 +81,15 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(state.copyWith(status: HomeStatus.loading));
+      var fakeFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeKpis = List.filled(2, Kpi(line: 1));
+      var fakeApplications = List.filled(4, Application());
+
+      emit(state.copyWith(
+          status: HomeStatus.loading,
+          features: fakeFeatures,
+          kpis: fakeKpis,
+          applications: fakeApplications));
 
       final user = User.fromMap(storageService.getObject('user')!);
       final seller = storageService.getString('username');
@@ -100,23 +108,46 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
     await run(() async {
       var fakeFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeKpis = List.filled(8, Kpi(line: 1));
       var fakeApplications = List.filled(4, Application());
 
       emit(state.copyWith(
           status: HomeStatus.synchronizing,
           features: fakeFeatures,
+          kpis: fakeKpis,
           applications: fakeApplications));
 
       Future.delayed(const Duration(seconds: 4)).then((value) async {
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
 
-        final sections =
-            await queryLoaderService.getResults('home', seller!, [seller]);
+        Map<String, dynamic> variables = await queryLoaderService.getResults('home', seller!, [seller]);
+
+        var features = <Feature>[];
+        var kpis = <Kpi>[];
+        // var forms = <Form>[];
+        var applications = <Application>[];
+
+        List<String> keys = variables.keys.toList();
+
+        for(int i = 0; i < variables.length; i++){
+          if(keys[i] == 'features') {
+            features = variables[keys[i]];
+          } else if (keys[i] == 'kpis') {
+            kpis = variables[keys[i]];
+          } else if (keys[i] == 'forms') {
+
+          } else if (keys[i] == 'applications') {
+            applications = variables[keys[i]];
+          }
+        }
 
         // await Future.wait(futureInserts).whenComplete(() => );
         emit(state.copyWith(
           status: HomeStatus.success,
+          features: features,
+          kpis: kpis,
+          applications: applications,
           user: user,
         ));
       });

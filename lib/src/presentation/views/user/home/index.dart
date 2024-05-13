@@ -142,12 +142,14 @@ class HomeViewState extends State<HomeView>
             gapH4,
             AppText('Estadisticas', fontSize: 16),
             gapH8,
-            // HomeStatistics(kpis: state.kpis),
+            HomeStatistics(
+                kpis: state.kpis ?? [],
+                forms: const [],
+                tabController: _tabController),
             gapH4,
             AppText('Mis Aplicaciones', fontSize: 16),
             gapH8,
             const HomeApplications(),
-
           ],
         ),
       ),
