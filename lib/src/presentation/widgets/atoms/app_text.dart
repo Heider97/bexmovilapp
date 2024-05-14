@@ -31,17 +31,18 @@ import '../../../config/app_typedef.dart';
 // ignore: must_be_immutable
 class AppText extends Text {
   AppText(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -55,23 +56,25 @@ class AppText extends Text {
           fontSize: fontSize,
           fontWeight: fontWeight,
           letterSpacing: letterSpacing,
+          decoration: decoration,
         ),
       );
     };
   }
 
   AppText.displayLarge(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -80,28 +83,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.displayLarge!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.displayMedium(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -110,28 +115,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.displayMedium!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.displaySmall(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -140,28 +147,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.displaySmall!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.headlineLarge(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -170,28 +179,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.headlineMedium(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -200,28 +211,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.headlineSmall(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -230,28 +243,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.titleLarge(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -260,28 +275,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.titleMedium(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -290,28 +307,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.titleSmall(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -320,28 +339,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.titleSmall!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.bodyLarge(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -350,28 +371,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.bodyMedium(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -380,28 +403,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.bodySmall(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -410,28 +435,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.labelLarge(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -440,28 +467,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.labelMedium(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -470,28 +499,30 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.labelMedium!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
 
   AppText.labelSmall(
-      super.data, {
-        super.key,
-        this.color,
-        this.height,
-        this.fontSize,
-        this.fontWeight,
-        this.letterSpacing,
-        super.textAlign,
-        super.maxLines,
-        super.overflow,
-      }) {
+    super.data, {
+    super.key,
+    this.color,
+    this.height,
+    this.fontSize,
+    this.fontWeight,
+    this.letterSpacing,
+    this.decoration,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+  }) {
     builder = (context) {
       return Text(
         data ?? '',
@@ -500,12 +531,13 @@ class AppText extends Text {
         maxLines: maxLines,
         overflow: overflow,
         style: Theme.of(context).textTheme.labelSmall!.copyWith(
-          color: color,
-          height: height,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
-          letterSpacing: letterSpacing,
-        ),
+              color: color,
+              height: height,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing,
+              decoration: decoration,
+            ),
       );
     };
   }
@@ -538,6 +570,8 @@ class AppText extends Text {
   ///
   ///  This is an optional double type property.
   final double? letterSpacing;
+
+  final TextDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {

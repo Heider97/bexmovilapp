@@ -106,7 +106,8 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                         children: [
                                           AppText('Antes: '),
                                           AppText(' \$60.000.000',
-
+                                              decoration:
+                                                  TextDecoration.lineThrough,
                                               fontSize: 12,
                                               overflow: TextOverflow.ellipsis),
                                         ],
@@ -169,11 +170,11 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      AppText('Disponible ${widget.product.existenciaStock}',
+                                      AppText(
+                                          'Disponible ${widget.product.existenciaStock}',
                                           fontSize: 12,
                                           color: Colors.grey[600]),
                                       AppText('Cantidad: '),
-
                                     ],
                                   ),
                                   gapW4,
