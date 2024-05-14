@@ -129,6 +129,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       }
     }
 
+    // styledDialogController.closeVisibleDialog();
+
     emit(state.copyWith(
         status: SaleStatus.warehouses,
         client: event.client,

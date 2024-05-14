@@ -37,37 +37,36 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
 
     return BlocBuilder<SaleBloc, SaleState>(
       builder: (context, state) {
-        return SafeArea(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: CustomSearchBar(
-                          onChanged: (value) {},
-                          colorBackground: theme.colorScheme.secondary,
-                          prefixIcon: const Icon(Icons.search),
-                          controller: TextEditingController(),
-                          hintText: 'Buscar producto',
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Const.padding, vertical: 5),
-                    child: AppIconButton(
-                        onPressed: () => Scaffold.of(context).openDrawer(),
-                        child: Icon(
-                          Icons.menu,
-                          color: theme.colorScheme.onPrimary,
-                        )),
-                  )
-                ],
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.grey[200],
+        if (state.cart != null && state.cart!.isNotEmpty) {
+          return SafeArea(
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: CustomSearchBar(
+                            onChanged: (value) {},
+                            colorBackground: theme.colorScheme.secondary,
+                            prefixIcon: const Icon(Icons.search),
+                            controller: TextEditingController(),
+                            hintText: 'Buscar producto',
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Const.padding, vertical: 5),
+                      child: AppIconButton(
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          child: Icon(
+                            Icons.menu,
+                            color: theme.colorScheme.onPrimary,
+                          )),
+                    )
+                  ],
+                ),
+                Expanded(
                   child: ListView.builder(
                       itemCount: state.cart?.length ?? 0,
                       itemBuilder: (context, index) {
@@ -85,55 +84,57 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                             ));
                       }),
                 ),
-              ),
-              Material(
-                  elevation: 10,
-                  child: Container(
-                    height: 100,
-                    color: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText.bodyMedium('Subtotal'),
-                            AppText.titleLarge(
-                                ''.formatted(state.subtotal ?? 0.0)),
-                          ],
-                        ),
-                        const SizedBox(),
-                        Row(children: [
-                          AppText.bodyMedium('Vaciar'),
-                          gapW20,
-                          InkWell(
-                            onTap: () {},
-                            child: SizedBox(
-                              height: 40,
-                              child: Material(
-                                color: theme.primaryColor,
-                                borderRadius: BorderRadius.circular(10),
-                                elevation: 5,
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15),
-                                    child: AppText.bodyMedium('Confirmar',
-                                        color: Colors.white),
+                Material(
+                    elevation: 10,
+                    child: Container(
+                      height: 100,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText.bodyMedium('Subtotal'),
+                              AppText.titleLarge(
+                                  ''.formatted(state.subtotal ?? 0.0)),
+                            ],
+                          ),
+                          const SizedBox(),
+                          Row(children: [
+                            AppText.bodyMedium('Vaciar'),
+                            gapW20,
+                            InkWell(
+                              onTap: () {},
+                              child: SizedBox(
+                                height: 40,
+                                child: Material(
+                                  color: theme.primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                  elevation: 5,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15.0, right: 15),
+                                      child: AppText.bodyMedium('Confirmar',
+                                          color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        ])
-                      ],
-                    ),
-                  ))
-            ],
-          ),
-        );
+                            )
+                          ])
+                        ],
+                      ),
+                    ))
+              ],
+            ),
+          );
+        } else {
+          return Center(child: AppText('No hay productos en el carrito'));
+        }
       },
     );
   }
