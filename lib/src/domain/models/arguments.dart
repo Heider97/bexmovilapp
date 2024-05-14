@@ -33,32 +33,22 @@ class WarehouseArgument {
 }
 
 class ProductArgument {
-  final int codcliente;
+  final Client? client;
+
   final String codbodega;
   final String codprecio;
 
   ProductArgument(
-      {required this.codcliente,
-      required this.codbodega,
-      required this.codprecio});
+      {required this.client, required this.codbodega, required this.codprecio});
 
-  factory ProductArgument.fromJson(Map<String, dynamic> json){
-    print('********');
-    print(json);
-
+  factory ProductArgument.fromJson(Map<String, dynamic> json) {
     return ProductArgument(
-        codcliente: json['codcliente'] is String
-            ? int.parse(json['codcliente'])
-            : json['codcliente'],
+        client: json['client'] != null ? Client.fromJson(json['client']) : null,
         codbodega: json['codbodega'],
         codprecio: json['codprecio']);
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'codcliente': codcliente,
-      'codbodega': codbodega,
-      'codprecio': codprecio
-    };
+    return {'client': client, 'codbodega': codbodega, 'codprecio': codprecio};
   }
 }

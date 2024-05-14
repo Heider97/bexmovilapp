@@ -171,6 +171,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
+    print(event.toString());
+
     var seller = storageService.getString('username');
     var products = <Product>[];
 

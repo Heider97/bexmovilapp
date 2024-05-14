@@ -201,7 +201,7 @@ class _ShowPriceAndWarehousesAlertState
                           _selectedRadioListaPrecios != -1) {
                         navigationService.goTo(AppRoutes.productsSale,
                             arguments: ProductArgument(
-                                codcliente: state.client!.id!,
+                                client: state.client!,
                                 codbodega: state
                                     .warehouses![_selectedRadioBodega]
                                     .codbodega!,
