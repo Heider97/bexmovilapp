@@ -1,10 +1,17 @@
-import 'package:bexmovil/src/domain/models/product.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+//blocs
+import '../../../../../presentation/blocs/sale/sale_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/extensions/string_extension.dart';
+
+//domain
+import '../../../../../domain/models/product.dart';
+
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
 
 class CustomCardProduct extends StatefulWidget {
@@ -206,7 +213,11 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                   child: TextFormField(
                                                       onChanged: (value) {
                                                         inputValue = value;
-                                                        setState(() {});
+                                                        setState(() {
+                                                          widget.product.cant =
+                                                              int.parse(
+                                                                  inputValue);
+                                                        });
                                                       },
                                                       controller:
                                                           textController,
@@ -234,34 +245,43 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                               .none, // Puedes establecer un borde si lo deseas
                                                         ),
                                                       ))),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: Opacity(
-                                                  opacity: 0.75,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                      color:
-                                                          (inputValue.isEmpty)
-                                                              ? Colors.grey[200]
-                                                              : primaryColor,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              6.0),
-                                                      child: Text(
-                                                        'Aplicar',
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color: (inputValue
-                                                                    .isEmpty)
-                                                                ? Colors
-                                                                    .grey[400]
-                                                                : Colors.white),
+                                              InkWell(
+                                                onTap: () {
+                                                  context.read<SaleBloc>().add(
+                                                      SelectProduct(
+                                                          product:
+                                                              widget.product));
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Opacity(
+                                                    opacity: 0.75,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
+                                                        color: (inputValue
+                                                                .isEmpty)
+                                                            ? Colors.grey[200]
+                                                            : primaryColor,
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(6.0),
+                                                        child: Text(
+                                                          'Aplicar',
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: (inputValue
+                                                                      .isEmpty)
+                                                                  ? Colors
+                                                                      .grey[400]
+                                                                  : Colors
+                                                                      .white),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
