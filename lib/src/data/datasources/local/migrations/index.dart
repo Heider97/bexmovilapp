@@ -76,6 +76,24 @@ Future<void> onCreate(db, version) async {
       )
     ''');
   await db.execute('''
+    CREATE TABLE $tableFeature (
+      ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
+      ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
+      ${FeaturesFields.descripcion} TEXT DEFAULT NULL,
+      ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
+      ${FeaturesFields.categoria} TEXT DEFAULT NULL,
+      ${FeaturesFields.codcliente} TEXT DEFAULT NULL,
+      ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
+      ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
+      ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
+      ${FeaturesFields.requerido} TEXT DEFAULT NULL,
+      ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
+      ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
+      ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
+      ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
+    )
+  ''');
+  await db.execute('''
     CREATE TABLE IF NOT EXISTS app_cart (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       codrouter TEXT NOT NULL,
