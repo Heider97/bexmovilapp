@@ -52,9 +52,6 @@ class _CardKpiState extends State<CardKpi> {
   }
 
   String buildContentKpi() {
-
-    print(widget.kpi.results);
-
     if(widget.kpi.results is String ) {
       return widget.kpi.results;
     } else {

@@ -154,7 +154,7 @@ class QueryLoaderService {
                         print(d);
 
                         if (component.type != null && d != null) {
-                          print('added $d');
+                          print('added ${d.toJson()}');
                           data.add(d.toJson());
                         } else {
                           results[widget.name!] = d;
