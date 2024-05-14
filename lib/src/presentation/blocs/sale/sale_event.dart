@@ -66,6 +66,11 @@ class LoadProducts extends SaleEvent {
       this.codbodega, this.codprecio);
 }
 
+class SearchProduct extends SaleEvent {
+  final String? value;
+  SearchProduct(this.value);
+}
+
 class GridModeChange extends SaleEvent {
   final bool changeMode;
   GridModeChange({required this.changeMode});

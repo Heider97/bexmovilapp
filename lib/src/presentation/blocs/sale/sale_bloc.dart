@@ -37,6 +37,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<SelectWarehouse>(_onSelectWarehouse);
     on<SelectPriceList>(_onSelectPrice);
     on<LoadProducts>(_onLoadProducts);
+    on<SearchProduct>(_onSearchProduct);
     on<SelectProduct>(_onSelectProduct);
     on<GridModeChange>(_gridModeChange);
     on<LoadCart>(_onLoadCart);
@@ -195,6 +196,21 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       status: SaleStatus.products,
       products: products,
     ));
+  }
+
+  Future<void> _onSearchProduct(SearchProduct event, Emitter emit) async {
+    if (event.value == null || event.value == '') {
+      emit(state.copyWith(
+        status: SaleStatus.products,
+      ));
+    } else {
+      var products = state.products!.where((product) {
+        return product.nomProducto.toLowerCase().contains(event.value!) ||
+            product.codProducto!.toLowerCase().contains(event.value!);
+      }).toList();
+
+      emit(state.copyWith(status: SaleStatus.products, products: products));
+    }
   }
 
   Future<void> _onSelectProduct(SelectProduct event, Emitter emit) async {
