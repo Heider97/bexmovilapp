@@ -36,13 +36,11 @@ class _CardKpiState extends State<CardKpi> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  child: AppText(widget.kpi.title ?? "N/A",
-                      maxLines: 2, fontWeight: FontWeight.normal),
+                  child: AppText(widget.kpi.title ?? "N/A", maxLines: 2),
                 ),
                 Row(
                   children: [
-                    AppText(buildContentKpi(),
-                        fontWeight: FontWeight.normal, fontSize: 22),
+                    AppText(buildContentKpi(), fontSize: 20),
                   ],
                 ),
               ],
