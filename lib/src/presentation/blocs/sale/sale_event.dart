@@ -75,3 +75,7 @@ class SelectProduct extends SaleEvent {
   final Product? product;
   SelectProduct({required this.product});
 }
+
+class LoadCart extends SaleEvent {
+  LoadCart();
+}

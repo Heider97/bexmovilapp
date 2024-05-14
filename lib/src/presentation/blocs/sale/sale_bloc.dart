@@ -39,6 +39,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadProducts>(_onLoadProducts);
     on<SelectProduct>(_onSelectProduct);
     on<GridModeChange>(_gridModeChange);
+    on<LoadCart>(_onLoadCart);
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -203,4 +204,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var cant = state.cant ?? 0 + 1;
     emit(state.copyWith(status: SaleStatus.products, total: total, cant: cant));
   }
+
+  Future<void> _onLoadCart(LoadCart event, Emitter emit) async {}
 }
