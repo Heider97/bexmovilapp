@@ -144,11 +144,23 @@ class AppDatabase {
     return await db!.query(query, where: where, whereArgs: values);
   }
 
+  Future<Map<String, Object?>> querySingle(
+      String query, String? where, List<dynamic>? values) async {
+    final db = await instance.database;
+    final results = await db!.query(query, where: where, whereArgs: values);
+    return results.first;
+  }
+
   Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
     final db = await instance.database;
     return await db!.rawQuery(sentence);
   }
 
+  Future<Map<String, Object?>> rawQuerySingle(String sentence) async {
+    final db = await instance.database;
+    final results = await db!.rawQuery(sentence);
+    return results.first;
+  }
 
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;

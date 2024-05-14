@@ -134,6 +134,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.queryDao.findQuery(id);
   }
 
+
   @override
   Future<void> emptyQueries() async {
     return _appDatabase.queryDao.emptyQueries();
@@ -393,6 +394,12 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<Map<String, Object?>> querySingle(
+      String table, String? where, List<dynamic>? arguments) async {
+    return await _appDatabase.querySingle(table, where, arguments);
+  }
+
+  @override
   Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
     return await _appDatabase.logicQueries(componentId);
   }
@@ -400,6 +407,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
     return await _appDatabase.rawQuery(sentence);
+  }
+
+  @override
+  Future<Map<String, Object?>> rawQuerySingle(String sentence) async {
+    return await _appDatabase.rawQuerySingle(sentence);
   }
 
   @override

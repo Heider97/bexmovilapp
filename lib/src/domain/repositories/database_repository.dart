@@ -35,7 +35,10 @@ abstract class DatabaseRepository {
 
   Future<List<Map<String, Object?>>> query(
       String table, String? where, List<dynamic>? values);
+  Future<Map<String, Object?>> querySingle(
+      String table, String? where, List<dynamic>? values);
   Future<List<Map<String, Object?>>> rawQuery(String sentence);
+  Future<Map<String, Object?>> rawQuerySingle(String sentence);
   Future<List<Map<String, Object?>>> logicQueries(int componentId);
   Future<bool> listenForTableChanges(String? table);
 
