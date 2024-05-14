@@ -221,5 +221,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.products, total: total, cant: cant));
   }
 
-  Future<void> _onLoadCart(LoadCart event, Emitter emit) async {}
+  Future<void> _onLoadCart(LoadCart event, Emitter emit) async {
+
+  }
 }

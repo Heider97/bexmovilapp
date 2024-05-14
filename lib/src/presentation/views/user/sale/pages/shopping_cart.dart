@@ -7,8 +7,11 @@ import 'package:bexmovil/src/presentation/widgets/user/product_ammount.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../widgets/atoms/app_text.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
@@ -20,8 +23,8 @@ class ShoppingCartView extends StatefulWidget {
 }
 
 class _ShoppingCartViewState extends State<ShoppingCartView> {
-  @override
   late SaleBloc saleBloc;
+
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
@@ -49,26 +52,27 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                           controller: TextEditingController(),
                           hintText: 'Buscar producto',
                         )),
-                  ),Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Const.padding, vertical: 5),
+                    child: AppIconButton(
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        child: Icon(
+                          Icons.menu,
+                          color: theme.colorScheme.onPrimary,
+                        )),
+                  )
                 ],
               ),
               Expanded(
                 child: Container(
                   color: Colors.grey[200],
                   child: ListView.builder(
-                      itemCount: 8,
+                      itemCount: state.cart?.length ?? 0,
                       itemBuilder: (context, index) {
                         return Padding(
-                            padding: EdgeInsets.only(top: 15.0),
+                            padding: const EdgeInsets.only(top: 15.0),
                             child: ProductAmmount(
                               product: ItemAmount(
                                   image: 'assets/images/menu.png',
@@ -95,28 +99,18 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Subtotal',
-                              style: theme.textTheme.bodyMedium!
-                            ),
-                            Text(
-                              '\$ 592.800.000',
-                              style: theme.textTheme.titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
+                            AppText.bodyMedium('Subtotal'),
+                            AppText.titleLarge(
+                                ''.formatted(state.subtotal ?? 0.0)),
                           ],
                         ),
-                        SizedBox(),
+                        const SizedBox(),
                         Row(children: [
-                          Text(
-                            'Vaciar',
-                            style: theme.textTheme.bodyMedium!
-                                .copyWith(color: theme.primaryColor),
-                          ),
+                          AppText.bodyMedium('Vaciar'),
                           gapW20,
                           InkWell(
                             onTap: () {},
-                            child: Container(
+                            child: SizedBox(
                               height: 40,
                               child: Material(
                                 color: theme.primaryColor,
@@ -126,13 +120,8 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15),
-                                    child: Text(
-                                      'Confirmar',
-                                      style: theme.textTheme.bodyMedium!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600),
-                                    ),
+                                    child: AppText.bodyMedium('Confirmar',
+                                        color: Colors.white),
                                   ),
                                 ),
                               ),
