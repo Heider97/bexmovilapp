@@ -244,8 +244,7 @@ class AppGlobalBackground extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     navigationService.goTo(AppRoutes.saleMap,
-                                        arguments:
-                                            state.selectedRouter!.dayRouter);
+                                        arguments: state.router!.dayRouter);
                                   }))
                           : Container(),
                       Builder(builder: (context) {
@@ -265,7 +264,7 @@ class AppGlobalBackground extends StatelessWidget {
                     toolbarHeight: Screens.height(context) * 0.07,
                     title: (state.status == SaleStatus.clients)
                         ? AppText(
-                            state.selectedRouter!.nameDayRouter!,
+                            state.router!.nameDayRouter!,
                             fontSize: 14,
                             maxLines: 2,
                           )
@@ -327,7 +326,7 @@ class AppGlobalBackground extends StatelessWidget {
                     toolbarHeight: Screens.height(context) * 0.07,
                     title: (state.status == SaleStatus.warehouses)
                         ? AppText(
-                            state.selectedRouter!.nameDayRouter!,
+                            state.router!.nameDayRouter!,
                             fontSize: 14,
                             maxLines: 2,
                           )
@@ -368,32 +367,32 @@ class AppGlobalBackground extends StatelessWidget {
           return Scaffold(
             appBar: hideAppBar == false
                 ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () =>
-                              Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    );
-                  }),
-                ],
-                toolbarHeight: Screens.height(context) * 0.07,
-                title: (state.status == SaleStatus.products)
-                    ? AppText(
-                  state.selectedRouter!.nameDayRouter!,
-                  fontSize: 14,
-                  maxLines: 2,
-                )
-                    : Container())
+                    leading: const Padding(
+                        padding: EdgeInsets.all(Const.padding),
+                        child: AppBackButton(needPrimary: true)),
+                    actions: [
+                      Builder(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Const.padding, vertical: 5),
+                          child: AppIconButton(
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Icon(
+                                Icons.menu,
+                                color: theme.colorScheme.onPrimary,
+                              )),
+                        );
+                      }),
+                    ],
+                    toolbarHeight: Screens.height(context) * 0.07,
+                    title: (state.status == SaleStatus.products)
+                        ? AppText(
+                            state.router!.nameDayRouter!,
+                            fontSize: 14,
+                            maxLines: 2,
+                          )
+                        : Container())
                 : null,
             drawer: const DrawerWidget(),
             resizeToAvoidBottomInset: false,
@@ -492,32 +491,32 @@ class AppGlobalBackground extends StatelessWidget {
           return Scaffold(
             appBar: hideAppBar == false
                 ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () =>
-                              Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    );
-                  }),
-                ],
-                toolbarHeight: Screens.height(context) * 0.07,
-                title: (state.status == WalletStatus.clients)
-                    ? AppText(
-                  state.age ?? '',
-                  fontSize: 14,
-                  maxLines: 2,
-                )
-                    : Container())
+                    leading: const Padding(
+                        padding: EdgeInsets.all(Const.padding),
+                        child: AppBackButton(needPrimary: true)),
+                    actions: [
+                      Builder(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Const.padding, vertical: 5),
+                          child: AppIconButton(
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Icon(
+                                Icons.menu,
+                                color: theme.colorScheme.onPrimary,
+                              )),
+                        );
+                      }),
+                    ],
+                    toolbarHeight: Screens.height(context) * 0.07,
+                    title: (state.status == WalletStatus.clients)
+                        ? AppText(
+                            state.age ?? '',
+                            fontSize: 14,
+                            maxLines: 2,
+                          )
+                        : Container())
                 : null,
             drawer: const DrawerWidget(),
             resizeToAvoidBottomInset: false,
@@ -554,32 +553,32 @@ class AppGlobalBackground extends StatelessWidget {
           return Scaffold(
             appBar: hideAppBar == false
                 ? AppBar(
-                leading: const Padding(
-                    padding: EdgeInsets.all(Const.padding),
-                    child: AppBackButton(needPrimary: true)),
-                actions: [
-                  Builder(builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () =>
-                              Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    );
-                  }),
-                ],
-                toolbarHeight: Screens.height(context) * 0.07,
-                title: (state.status == WalletStatus.invoices)
-                    ? AppText(
-                  state.age ?? '',
-                  fontSize: 14,
-                  maxLines: 2,
-                )
-                    : Container())
+                    leading: const Padding(
+                        padding: EdgeInsets.all(Const.padding),
+                        child: AppBackButton(needPrimary: true)),
+                    actions: [
+                      Builder(builder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Const.padding, vertical: 5),
+                          child: AppIconButton(
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              child: Icon(
+                                Icons.menu,
+                                color: theme.colorScheme.onPrimary,
+                              )),
+                        );
+                      }),
+                    ],
+                    toolbarHeight: Screens.height(context) * 0.07,
+                    title: (state.status == WalletStatus.invoices)
+                        ? AppText(
+                            state.age ?? '',
+                            fontSize: 14,
+                            maxLines: 2,
+                          )
+                        : Container())
                 : null,
             drawer: const DrawerWidget(),
             resizeToAvoidBottomInset: false,

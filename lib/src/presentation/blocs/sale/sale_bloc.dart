@@ -31,7 +31,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       this.queryLoaderService, this.styledDialogController)
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
-    on<LoadClients>(_onLoadClientsRouter);
+    on<LoadClients>(_onLoadClients);
     on<LoadProducts>(_onLoadProducts);
     on<LoadWarehouses>(_onLoadWarehouses);
     on<SelectWarehouse>(_selectWarehouse);
@@ -43,21 +43,21 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   _resetStatus(ResetStatus event, Emitter emit) {
     emit(state.copyWith(status: event.status));
-    add(LoadClients(state.selectedRouter!.dayRouter));
+    add(LoadClients(state.router!.dayRouter));
   }
 
   _selectWarehouse(SelectWarehouse event, Emitter emit) {
     print('Selected warehouse ${event.warehouse?.nombodega}');
-    emit(state.copyWith(selectedWarehouse: event.warehouse));
+    emit(state.copyWith(warehouse: event.warehouse));
   }
 
   _selectPriceList(SelectPriceList event, Emitter emit) {
     print('Selected priceList ${event.listPriceSelected?.nomprecio}');
-    emit(state.copyWith(selectedPrice: event.listPriceSelected));
+    emit(state.copyWith(price: event.listPriceSelected));
   }
 
   _selectRouter(SelectRouter event, Emitter emit) {
-    emit(state.copyWith(selectedRouter: event.router));
+    emit(state.copyWith(router: event.router));
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
@@ -75,7 +75,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     List<String> keys = variables.keys.toList();
 
     for (var i = 0; i < variables.length; i++) {
-      if (keys[i] == 'clients') {
+      if (keys[i] == 'routers') {
         routers = variables[keys[i]];
       }
     }
@@ -83,29 +83,28 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.routers, routers: routers));
   }
 
-  Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {
-    var clients = <Client>[];
+  Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
+    var clients = <Client>[];
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService
-        .getResults('sales-clients', seller!, [event.codeRouter, seller]);
 
-    clients = sections!.first.widgets!.first.components!.first.results;
+    Map<String, dynamic> variables = await queryLoaderService.load(
+        '/sales-clients',
+        'SaleBloc',
+        'LoadClients',
+        seller!,
+        [event.codeRouter, seller]);
 
-    if (event.codeRouter != null) {
-      var filters = await databaseRepository.getAllFilters();
+    List<String> keys = variables.keys.toList();
 
-      Future.forEach(filters, (filter) async {
-        filter.options =
-            await databaseRepository.getAllOptionsByFilter(filter.id!);
-      });
-
-      emit(state.copyWith(
-          status: SaleStatus.clients, clients: clients, sections: sections));
-    } else {
-      emit(state.copyWith(status: SaleStatus.clients, clients: clients));
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'clients') {
+        clients = variables[keys[i]];
+      }
     }
+
+    emit(state.copyWith(status: SaleStatus.routers, clients: clients));
   }
 
   buscarClientes(String valor) {
@@ -140,11 +139,11 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       List<Price>? listPrices =
           sections[1].widgets!.first.components!.first.results;
 
-      emit(state.copyWith(
-          status: SaleStatus.warehouses,
-          selectedClient: event.client,
-          warehouseList: warehouses,
-          priceList: listPrices));
+      // emit(state.copyWith(
+      //     status: SaleStatus.warehouses,
+      //     selectedClient: event.client,
+      //     warehouseList: warehouses,
+      //     priceList: listPrices));
     }
   }
 
@@ -156,7 +155,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         'sales-products', seller!, [event.codprecio, event.codbodega]);
     emit(state.copyWith(
       status: SaleStatus.products,
-      sections: sections,
+      // sections: sections,
     ));
   }
 }

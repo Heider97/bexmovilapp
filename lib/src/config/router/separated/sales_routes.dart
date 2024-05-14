@@ -1,10 +1,6 @@
+//domain
+import '../../../domain/models/arguments.dart';
 //utils
-import 'package:bexmovil/src/domain/models/arguments.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/pages/clients_map.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/pages/shopping_cart.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/pages/warehouses.dart';
-
-import '../../../presentation/views/user/sale/pages/products.dart';
 import '../../../utils/constants/strings.dart';
 //router
 import '../route_type.dart';
@@ -13,7 +9,9 @@ import '../../../presentation/widgets/atomsbox.dart';
 //views
 import '../../../presentation/views/user/sale/pages/routers.dart';
 import '../../../presentation/views/user/sale/pages/clients.dart';
+import '../../../presentation/views/user/sale/pages/clients_map.dart';
 import '../../../presentation/views/user/sale/pages/filters.dart';
+import '../../../presentation/views/user/sale/pages/products.dart';
 
 Map<String, RouteType> salesRoutes = {
   AppRoutes.routersSale: (context, settings) => AppGlobalBackground.sales(

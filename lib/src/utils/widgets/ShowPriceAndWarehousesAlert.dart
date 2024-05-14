@@ -67,7 +67,7 @@ class _ShowPriceAndWarehousesAlertState
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        state.selectedClient!.name!,
+                        state.client!.name!,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium!
                             .copyWith(color: theme.colorScheme.onPrimary),
@@ -85,7 +85,7 @@ class _ShowPriceAndWarehousesAlertState
                   return Container(
                       height: Screens.height(context) * 0.17,
                       color: Colors.grey[50],
-                      child: (state.warehouseList != null)
+                      child: (state.warehouses != null)
                           ? RawScrollbar(
                               thumbVisibility: true,
                               thumbColor: theme.primaryColor,
@@ -93,13 +93,12 @@ class _ShowPriceAndWarehousesAlertState
                               controller: scrollController,
                               child: ListView.builder(
                                 controller: scrollController,
-                                itemCount: state.warehouseList!.length,
+                                itemCount: state.warehouses!.length,
                                 itemBuilder: (context, index) {
                                   return ListTile(
                                     onTap: () {
                                       saleBloc.add(SelectWarehouse(
-                                          warehouse:
-                                              state.warehouseList![index]));
+                                          warehouse: state.warehouses![index]));
                                       setState(() {
                                         _selectedRadioBodega =
                                             index; // Actualiza el valor seleccionado
@@ -107,10 +106,10 @@ class _ShowPriceAndWarehousesAlertState
                                     },
                                     selected: false,
                                     title: Text(
-                                        state.warehouseList![index].nombodega ??
+                                        state.warehouses![index].nombodega ??
                                             'N/A'),
                                     subtitle: Text(
-                                      state.warehouseList![index].codbodega ??
+                                      state.warehouses![index].codbodega ??
                                           'N/A',
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(color: theme.disabledColor),
@@ -144,7 +143,7 @@ class _ShowPriceAndWarehousesAlertState
                   return Container(
                     height: Screens.height(context) * 0.15,
                     color: Colors.grey[50],
-                    child: (state.priceList != null)
+                    child: (state.prices != null)
                         ? RawScrollbar(
                             thumbVisibility: true,
                             thumbColor: theme.primaryColor,
@@ -153,23 +152,22 @@ class _ShowPriceAndWarehousesAlertState
                             radius: const Radius.circular(5),
                             child: ListView.builder(
                               controller: scrollController2,
-                              itemCount: state.priceList!.length,
+                              itemCount: state.prices!.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
                                   onTap: () {
                                     saleBloc.add(SelectPriceList(
                                         listPriceSelected:
-                                            state.priceList![index]));
+                                            state.prices![index]));
                                     setState(() {
                                       _selectedRadioListaPrecios = index;
                                     });
                                   },
                                   selected: false,
                                   title: Text(
-                                      state.priceList?[index].nomprecio ??
-                                          'N/A'),
+                                      state.prices?[index].nomprecio ?? 'N/A'),
                                   subtitle: Text(
-                                    state.priceList?[index].codprecio ?? 'N/A',
+                                    state.prices?[index].codprecio ?? 'N/A',
                                     style: theme.textTheme.bodyMedium!
                                         .copyWith(color: theme.disabledColor),
                                   ),
@@ -203,12 +201,12 @@ class _ShowPriceAndWarehousesAlertState
                           _selectedRadioListaPrecios != -1) {
                         navigationService.goTo(AppRoutes.productsSale,
                             arguments: ProductArgument(
-                                codcliente: state.selectedClient!.id!,
+                                codcliente: state.client!.id!,
                                 codbodega: state
-                                    .warehouseList![_selectedRadioBodega]
+                                    .warehouses![_selectedRadioBodega]
                                     .codbodega!,
                                 codprecio: state
-                                    .priceList![_selectedRadioListaPrecios]
+                                    .prices![_selectedRadioListaPrecios]
                                     .codprecio!));
                       } else {
                         // Muestra algún tipo de mensaje de advertencia o realiza otra acción según tus necesidades

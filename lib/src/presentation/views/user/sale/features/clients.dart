@@ -55,7 +55,7 @@ class _SaleClientsState extends State<SaleClients>
             child: TabBarView(controller: _tabcontroller, children: [
               BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                 if ((state.status == SaleStatus.clients ||
-                    state.status == SaleStatus.warehouses) &&
+                        state.status == SaleStatus.warehouses) &&
                     widget.clients != null &&
                     widget.clients!.isNotEmpty == true) {
                   return ListView.builder(
@@ -64,7 +64,7 @@ class _SaleClientsState extends State<SaleClients>
                       itemCount: widget.clients?.length,
                       itemBuilder: (context, index) {
                         return CardClient(
-                            codrouter: state.selectedRouter!.dayRouter,
+                            codrouter: state.router!.dayRouter,
                             client: widget.clients![index]);
                       });
                 } else {

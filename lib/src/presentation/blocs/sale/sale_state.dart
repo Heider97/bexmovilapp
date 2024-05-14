@@ -13,18 +13,20 @@ enum SaleStatus {
 class SaleState {
   final SaleStatus status;
 
-  final List<Section>? sections;
   final List<Router>? routers;
+  final Router? router;
+
   final List<Client>? clients;
   final List<Client>? clientsFounded;
-  final List<Filter>? filters;
-  final List<Warehouse>? warehouseList;
-  final List<Price>? priceList;
+  final Client? client;
 
-  final Router? selectedRouter;
-  final Client? selectedClient;
-  final Warehouse? selectedWarehouse;
-  final Price? selectedPrice;
+  final List<Filter>? filters;
+
+  final List<Warehouse>? warehouses;
+  final Warehouse? warehouse;
+
+  final List<Price>? prices;
+  final Price? price;
 
 //ID CLIENTE - ID PRODUCTO Y STCOK
   //final List<Map<String, String>>? product;
@@ -33,57 +35,54 @@ class SaleState {
 
   final String? error;
 
-  const SaleState(
-      {this.status = SaleStatus.initial,
-      this.sections,
-      this.warehouseList,
-      this.selectedWarehouse,
-      this.priceList,
-      this.selectedPrice,
-      this.routers,
-      this.clients,
-      this.clientsFounded,
-      this.selectedClient,
-      this.filters,
-      this.gridView,
-      this.error,
-      this.selectedRouter});
+  const SaleState({
+    this.status = SaleStatus.initial,
+    this.routers,
+    this.router,
+    this.clients,
+    this.clientsFounded,
+    this.client,
+    this.filters,
+    this.warehouses,
+    this.warehouse,
+    this.prices,
+    this.price,
+    this.gridView,
+    this.error,
+  });
 
   SaleState copyWith({
     SaleStatus? status,
-    List<Section>? sections,
     List<Router>? routers,
+    Router? router,
     List<Client>? clients,
+    Client? client,
     List<Client>? clientsFounded,
     List<Filter>? filters,
-    List<Warehouse>? warehouseList,
-    Warehouse? selectedWarehouse,
+    List<Warehouse>? warehouses,
+    Warehouse? warehouse,
+    List<Price>? prices,
+    Price? price,
     List<Map<String, Product>>? product,
-    List<Price>? priceList,
-    Client? selectedClient,
-    Price? selectedPrice,
     bool? gridView,
     String? error,
-    Router? selectedRouter,
   }) =>
       SaleState(
         status: status ?? this.status,
-        sections: sections ?? this.sections,
         routers: routers ?? this.routers,
+        router: router ?? this.router,
         clients: clients ?? this.clients,
         clientsFounded: clientsFounded ?? this.clientsFounded,
-        selectedClient: selectedClient ?? this.selectedClient,
+        client: client ?? this.client,
         filters: filters ?? this.filters,
+        warehouses: warehouses ?? this.warehouses,
+        warehouse: warehouse ?? this.warehouse,
+        prices: prices ?? this.prices,
+        price: price ?? this.price,
         gridView: gridView ?? this.gridView,
         //product: product ?? this.product,
         error: error ?? this.error,
-        selectedRouter: selectedRouter ?? this.selectedRouter,
-        warehouseList: warehouseList ?? this.warehouseList,
-        selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
-        priceList: priceList ?? this.priceList,
-        selectedPrice: selectedPrice ?? this.selectedPrice,
       );
 
-  List<Object?> get props =>
-      [status, sections, routers, clients, filters, error];
+  List<Object?> get props => [status, routers, clients, filters, error];
 }

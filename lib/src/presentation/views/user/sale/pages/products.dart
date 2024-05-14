@@ -106,13 +106,6 @@ class _ProductsViewState extends State<ProductsView> {
                 )
               ],
             ),
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title:null /* e.name! */,
-                    widgetItems: e.widgets ?? [],
-                    tabController: null))
-                : [],
-           
           ],
         );
       },
