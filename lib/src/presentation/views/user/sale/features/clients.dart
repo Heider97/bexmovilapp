@@ -35,41 +35,42 @@ class _SaleClientsState extends State<SaleClients>
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      TabBar(
-          controller: _tabcontroller,
-          tabs: const [
-            Tab(
-              text: 'Sin visitar',
-            ),
-            Tab(
-              text: 'Visitados',
-            ),
-          ],
-          indicatorSize: TabBarIndicatorSize.tab),
-      SizedBox(
-        height: Screens.height(context) * 0.69,
-        child: TabBarView(controller: _tabcontroller, children: [
-          BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-            if ((state.status == SaleStatus.clients ||
-                    state.status == SaleStatus.warehouses) &&
-                state.clients != null &&
-                state.clients!.isNotEmpty) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: state.clients?.length,
-                  itemBuilder: (context, index) {
-                    return CardClient(
-                        codrouter: state.router!.dayRouter,
-                        client: state.clients![index]);
-                  });
-            } else {
-              return const Text('No hay clientes disponibles');
-            }
-          }),
-        ]),
-      )
-    ]);
+    return Expanded(
+      child: Column(children: [
+        TabBar(
+            controller: _tabcontroller,
+            tabs: const [
+              Tab(
+                text: 'Sin visitar',
+              ),
+              Tab(
+                text: 'Visitados',
+              ),
+            ],
+            indicatorSize: TabBarIndicatorSize.tab),
+        Expanded(
+          child: TabBarView(controller: _tabcontroller, children: [
+            BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+              if ((state.status == SaleStatus.clients ||
+                      state.status == SaleStatus.warehouses) &&
+                  state.clients != null &&
+                  state.clients!.isNotEmpty) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: state.clients?.length,
+                    itemBuilder: (context, index) {
+                      return CardClient(
+                          codrouter: state.router!.dayRouter,
+                          client: state.clients![index]);
+                    });
+              } else {
+                return const Text('No hay clientes disponibles');
+              }
+            }),
+          ]),
+        ),
+      ]),
+    );
   }
 }

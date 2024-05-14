@@ -32,62 +32,56 @@ class _SaleRoutersState extends State<SaleRouters>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.routers && state.routers != null) {
-        return Expanded(
-          child: Column(children: [
-            TabBar(controller: _tabcontroller, tabs: const [
-              SizedBox(
-                width: 200,
-                child: Tab(
-                  text: 'Pendiente',
-                ),
-              ),
-              SizedBox(
-                width: 200,
-                child: Tab(
-                  text: 'Historial',
-                ),
-              )
-            ]),
-            Expanded(
-              child: TabBarView(controller: _tabcontroller, children: [
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.routers &&
-                      state.routers != null &&
-                      state.routers!.isNotEmpty) {
-                    return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: state.routers?.length,
-                        itemBuilder: (context, index) {
-                          return CardRouter(router: state.routers![index]);
-                        });
-                  } else {
-                    return const Text('No hay ruteros disponibles');
-                  }
-                }),
-                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-                  if (state.status == SaleStatus.routers &&
-                      state.routers != null &&
-                      state.routers!.isNotEmpty) {
-                    return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: state.routers?.length,
-                        itemBuilder: (context, index) {
-                          return CardRouter(router: state.routers![index]);
-                        });
-                  } else {
-                    return const Center(
-                        child: Text('No hay ruteros disponibles'));
-                  }
-                }),
-              ]),
+    return Expanded(
+      child: Column(children: [
+        TabBar(controller: _tabcontroller, tabs: const [
+          SizedBox(
+            width: 200,
+            child: Tab(
+              text: 'Pendiente',
             ),
+          ),
+          SizedBox(
+            width: 200,
+            child: Tab(
+              text: 'Historial',
+            ),
+          )
+        ]),
+        Expanded(
+          child: TabBarView(controller: _tabcontroller, children: [
+            BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+              if (state.status == SaleStatus.routers &&
+                  state.routers != null &&
+                  state.routers!.isNotEmpty) {
+                return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: state.routers?.length,
+                    itemBuilder: (context, index) {
+                      return CardRouter(router: state.routers![index]);
+                    });
+              } else {
+                return const Text('No hay ruteros disponibles');
+              }
+            }),
+            BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+              if (state.status == SaleStatus.routers &&
+                  state.historical != null &&
+                  state.historical!.isNotEmpty) {
+                return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: state.historical?.length,
+                    itemBuilder: (context, index) {
+                      return CardRouter(router: state.historical![index]);
+                    });
+              } else {
+                return const Center(
+                    child: Text('No hay historico disponibles'));
+              }
+            }),
           ]),
-        );
-      } else {
-        return const Center(child: Text('Cargando'));
-      }
-    });
+        ),
+      ]),
+    );
   }
 }

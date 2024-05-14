@@ -68,6 +68,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     var seller = storageService.getString('username');
 
     var routers = <Router>[];
+    var historical = <Router>[];
 
     Map<String, dynamic> variables = await queryLoaderService
         .load('/sales-routers', 'SaleBloc', 'LoadRouters', seller!, []);
@@ -77,10 +78,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     for (var i = 0; i < variables.length; i++) {
       if (keys[i] == 'routers') {
         routers = variables[keys[i]];
+      } else if (keys[i] == 'historical') {
+        historical = variables[keys[i]];
       }
     }
 
-    emit(state.copyWith(status: SaleStatus.routers, routers: routers));
+    emit(state.copyWith(
+        status: SaleStatus.routers, routers: routers, historical: historical));
   }
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
@@ -131,8 +135,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         [event.codbodega, event.codprecio, event.codcliente]);
 
     List<String> keys = variables.keys.toList();
-
-    print(variables);
 
     for (var i = 0; i < variables.length; i++) {
       if (keys[i] == 'warehouses') {

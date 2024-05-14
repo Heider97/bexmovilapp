@@ -5,14 +5,24 @@ import '../../presentation/widgets/organisms/app_component.dart';
 
 extension StringUtil on String {
   String get capitalize {
-    if (isEmpty) return "";
+    if (isEmpty) return '';
     return "${this[0].toUpperCase()}${substring(1)}";
   }
 
-  String capitalizeString() {  
-    return this[0].toUpperCase() + substring(1).toLowerCase();
-  }
+  String capitalizeString() {
+    if (contains(' ')) {
+      var split = this.split(' ');
+      var string = [];
+      for (var i = 0; i < split.length; i++) {
+        string.add(
+            split[i][0].toUpperCase() + split[i].substring(1).toLowerCase());
+      }
 
+      return string.join(' ');
+    } else {
+      return this[0].toUpperCase() + substring(1).toLowerCase();
+    }
+  }
 
   String formatted(double value) {
     return '\$${NumberFormat('#,##0', 'es_CO').format(value)}';
@@ -27,7 +37,6 @@ extension StringUtil on String {
     return result;
   }
 
-//TODO funcion para mostrar el valor en millones.
   String formattedMillion(String str) {
     var result = NumberFormat.compact(locale: 'en').format(double.parse(str));
     return result;

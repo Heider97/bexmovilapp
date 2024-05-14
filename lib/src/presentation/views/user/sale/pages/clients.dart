@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,13 +98,21 @@ class _ClientsPageState extends State<ClientsPage> {
                     onPressed: () => navigationService.goTo(
                           AppRoutes.filtersSale,
                         )),
+                gapW8,
+                AppIconButton(
+                    child: Icon(Icons.map_rounded,
+                        color: theme.colorScheme.onPrimary),
+                    onPressed: () => navigationService.goTo(
+                          AppRoutes.saleMap,
+                        )),
               ],
             ),
           ),
           gapH8,
           Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: AppText(state.router!.nameDayRouter!, fontSize: 16)),
+              child: AppText(state.router!.nameDayRouter!.capitalizeString(),
+                  fontSize: 16)),
           gapH8,
           const SaleClients()
         ],

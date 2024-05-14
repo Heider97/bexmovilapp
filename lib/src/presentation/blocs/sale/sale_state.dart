@@ -13,6 +13,7 @@ enum SaleStatus {
 class SaleState {
   final SaleStatus status;
   final List<Router>? routers;
+  final List<Router>? historical;
   final Router? router;
   final List<Client>? clients;
   final List<Client>? clientsFounded;
@@ -34,6 +35,7 @@ class SaleState {
   const SaleState({
     this.status = SaleStatus.initial,
     this.routers,
+    this.historical,
     this.router,
     this.clients,
     this.clientsFounded,
@@ -51,6 +53,7 @@ class SaleState {
   SaleState copyWith({
     SaleStatus? status,
     List<Router>? routers,
+    List<Router>? historical,
     Router? router,
     List<Client>? clients,
     Client? client,
@@ -68,6 +71,7 @@ class SaleState {
       SaleState(
         status: status ?? this.status,
         routers: routers ?? this.routers,
+        historical: historical ?? this.historical,
         router: router ?? this.router,
         clients: clients ?? this.clients,
         clientsFounded: clientsFounded ?? this.clientsFounded,
@@ -83,5 +87,5 @@ class SaleState {
         error: error ?? this.error,
       );
 
-  List<Object?> get props => [status, routers, clients, filters, error];
+  List<Object?> get props => [status, error];
 }
