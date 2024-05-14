@@ -63,8 +63,7 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, seller, arguments,
-                          needBeMapped: needBeMapped);
+                          widget.type, logicQueries.first, seller, arguments);
 
                       component.results = results;
                     } else {
@@ -77,8 +76,7 @@ class QueryLoaderService {
                                 logic, seller);
                             if (result == true) {
                               var results = await determine(
-                                  widget.type!, lq, seller, arguments,
-                                  needBeMapped: needBeMapped);
+                                  widget.type!, lq, seller, arguments);
                               component.results = results;
                             }
                           }
@@ -118,8 +116,10 @@ class QueryLoaderService {
         var components = await databaseRepository.findComponents(widget.id!);
 
         if (components != null && components.isNotEmpty) {
+
+          var data = <Map<String, dynamic>>[];
+
           for (var component in components) {
-            var data = <Map<String, dynamic>>[];
 
             var logicables =
                 await databaseRepository.logicQueries(component.id!);
@@ -130,11 +130,13 @@ class QueryLoaderService {
             if (logicQueries.isNotEmpty) {
               if (logicQueries.length == 1) {
                 var d = await determine(component.type ?? widget.type,
-                    logicQueries.first, seller, arguments,
-                    needBeMapped: true);
+                    logicQueries.first, seller, arguments);
+
+                print(d);
 
                 if (component.type != null && d != null) {
-                  data.add(d);
+                  print('added $d');
+                  data.add(d.toJson());
                 } else {
                   results[widget.name!] = d;
                 }
@@ -147,11 +149,13 @@ class QueryLoaderService {
                           await databaseRepository.validateLogic(logic, seller);
                       if (result == true) {
                         var d = await determine(component.type ?? widget.type!,
-                            lq, seller, arguments,
-                            needBeMapped: true);
+                            lq, seller, arguments);
+
+                        print(d);
 
                         if (component.type != null && d != null) {
-                          data.add(d);
+                          print('added $d');
+                          data.add(d.toJson());
                         } else {
                           results[widget.name!] = d;
                         }
@@ -161,11 +165,11 @@ class QueryLoaderService {
                 }
               }
             }
+          }
 
-            if (data.isNotEmpty) {
-              var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
-              results[widget.name!] = dynamic;
-            }
+          if (data.isNotEmpty) {
+            var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
+            results[widget.name!] = dynamic;
           }
         }
       }
@@ -175,8 +179,7 @@ class QueryLoaderService {
   }
 
   Future determine(String? type, LogicQuery logicQuery, String seller,
-      List<dynamic> arguments,
-      {needBeMapped = false}) async {
+      List<dynamic> arguments) async {
     if (logicQuery.actionableType == 'query') {
       var q = await readQuery(logicQuery.actionableId!);
       if (q != null && q.arguments != null) {
@@ -197,8 +200,7 @@ class QueryLoaderService {
         }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-        return await executeRawQuery(sentence, type,
-            needBeMapped: needBeMapped);
+        return await executeRawQuery(sentence, type);
       }
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
@@ -307,8 +309,6 @@ class QueryLoaderService {
         dynamic = await dynamicListTypes[type]?.fromMap(results);
       } else {
         var results = await databaseRepository.rawQuerySingle(sentence);
-        print('*************');
-        print(results);
         dynamic = await dynamicDataTypes[type]?.fromMap(results);
       }
 

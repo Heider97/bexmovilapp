@@ -104,13 +104,11 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
       List<String> keys = variables.keys.toList();
 
-      print(variables);
-
       for (var i = 0; i < variables.length; i++) {
         if (keys[i] == 'features') {
           features = variables[keys[i]];
         } else if (keys[i] == 'kpis') {
-          // kpis = variables[keys[i]];
+          kpis = variables[keys[i]];
         } else if (keys[i] == 'forms') {
         } else if (keys[i] == 'applications') {
           applications = variables[keys[i]];

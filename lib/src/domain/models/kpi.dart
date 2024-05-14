@@ -7,6 +7,7 @@ class KpiFields {
     subtitle,
     type,
     line,
+    results,
   ];
 
   static const String id = 'id';
@@ -14,6 +15,7 @@ class KpiFields {
   static const String subtitle = 'subtitle';
   static const String type = 'type';
   static const String line = 'line';
+  static const String results = 'results';
 }
 
 class Kpi {
@@ -32,6 +34,7 @@ class Kpi {
         subtitle: json['subtitle'],
         type: json['type'],
         line: json['line'],
+        results: json['results']
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,5 +43,6 @@ class Kpi {
         'subtitle': subtitle,
         'type': type,
         'line': line,
+        'results' : results
       };
 }
