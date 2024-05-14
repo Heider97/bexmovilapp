@@ -112,11 +112,12 @@ class _ClientsPageState extends State<ClientsPage> {
             ),
           ),
           gapH8,
-          Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: AppText(
-                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
-                  fontSize: 14)),
+          if (state.router != null)
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                    'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
+                    fontSize: 14)),
           gapH8,
           const SaleClients()
         ],

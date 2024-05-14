@@ -43,6 +43,16 @@ class LoadWarehousesAndPrices extends SaleEvent {
       required this.navigation});
 }
 
+class SelectWarehouse extends SaleEvent {
+  final Warehouse? warehouse;
+  SelectWarehouse({required this.warehouse});
+}
+
+class SelectPriceList extends SaleEvent {
+  final Price? listPriceSelected;
+  SelectPriceList({required this.listPriceSelected});
+}
+
 class LoadProducts extends SaleEvent {
   final Client? client;
   final Router? router;
@@ -54,16 +64,6 @@ class LoadProducts extends SaleEvent {
 
   LoadProducts(this.client, this.router, this.warehouse, this.price,
       this.codbodega, this.codprecio);
-}
-
-class SelectWarehouse extends SaleEvent {
-  final Warehouse? warehouse;
-  SelectWarehouse({required this.warehouse});
-}
-
-class SelectPriceList extends SaleEvent {
-  final Price? listPriceSelected;
-  SelectPriceList({required this.listPriceSelected});
 }
 
 class GridModeChange extends SaleEvent {

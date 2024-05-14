@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +25,6 @@ import 'detail_client.dart';
 import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
 import '../../../../../services/storage.dart';
-
 
 final NavigationService navigationService = locator<NavigationService>();
 final LocalStorageService storageService = locator<LocalStorageService>();
