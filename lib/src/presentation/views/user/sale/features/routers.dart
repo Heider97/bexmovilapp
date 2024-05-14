@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//blocs
 
+//blocs
 import '../../../../blocs/sale/sale_bloc.dart';
-//utils
-import '../../../../../utils/constants/screens.dart';
+
 //widgets
-import '../../../../widgets/atoms/app_text.dart';
 import '../widgets/card_router_sale.dart';
 
 class SaleRouters extends StatefulWidget {
@@ -36,7 +34,7 @@ class _SaleRoutersState extends State<SaleRouters>
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.routers && state.routers != null) {
-        return SingleChildScrollView(
+        return Expanded(
           child: Column(children: [
             TabBar(controller: _tabcontroller, tabs: const [
               SizedBox(
@@ -52,9 +50,7 @@ class _SaleRoutersState extends State<SaleRouters>
                 ),
               )
             ]),
-            Container(
-              height: Screens.height(context) * 0.76,
-              color: Colors.grey[200],
+            Expanded(
               child: TabBarView(controller: _tabcontroller, children: [
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   if (state.status == SaleStatus.routers &&
@@ -70,11 +66,23 @@ class _SaleRoutersState extends State<SaleRouters>
                     return const Text('No hay ruteros disponibles');
                   }
                 }),
-                Center(
-                    child: AppText('No hay ruteros',
-                        fontSize: 15, fontWeight: FontWeight.w300))
+                BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                  if (state.status == SaleStatus.routers &&
+                      state.routers != null &&
+                      state.routers!.isNotEmpty) {
+                    return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: state.routers?.length,
+                        itemBuilder: (context, index) {
+                          return CardRouter(router: state.routers![index]);
+                        });
+                  } else {
+                    return const Center(
+                        child: Text('No hay ruteros disponibles'));
+                  }
+                }),
               ]),
-            )
+            ),
           ]),
         );
       } else {

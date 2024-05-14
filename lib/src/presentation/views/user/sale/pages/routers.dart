@@ -58,15 +58,17 @@ class _RoutersPageState extends State<RoutersPage> {
   }
 
   Widget _buildBody(state, context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding),
-            child: AppText('Ruteros', fontSize: 16)),
-        gapH8,
-        const SaleRouters()
-      ],
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(left: kDefaultPadding),
+              child: AppText('Ruteros', fontSize: 16)),
+          gapH8,
+          const SaleRouters()
+        ],
+      ),
     );
   }
 }
