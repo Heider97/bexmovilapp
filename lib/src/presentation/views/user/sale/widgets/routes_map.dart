@@ -1,15 +1,20 @@
-import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:flutter/material.dart' hide Router;
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+//domain
+import '../../../../../domain/models/router.dart';
+
+//blocs
+import '../../../../blocs/location/location_bloc.dart';
+import '../../../../blocs/maps_bloc/maps_bloc_bloc.dart';
+import '../../../../blocs/sale/sale_bloc.dart';
+
 class RoutesMap extends StatefulWidget {
-  final String codeRouter;
-  const RoutesMap({super.key, required this.codeRouter});
+  final Router router;
+  const RoutesMap({super.key, required this.router});
 
   @override
   State<RoutesMap> createState() => _RoutesMapState();
@@ -24,9 +29,9 @@ class _RoutesMapState extends State<RoutesMap> {
   void initState() {
     mapsBloc = BlocProvider.of<MapsBloc>(context);
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    locationBloc= BlocProvider.of<LocationBloc>(context);
-    
-    saleBloc.add(LoadClients(widget.codeRouter));
+    locationBloc = BlocProvider.of<LocationBloc>(context);
+
+    saleBloc.add(LoadClients(widget.router));
     super.initState();
   }
 
@@ -44,8 +49,7 @@ class _RoutesMapState extends State<RoutesMap> {
               child: Stack(
                 children: [
                   GoogleMap(
-                    
-                    
+
                       //mapType: MapType.satellite,
                       mapToolbarEnabled: true,
                       myLocationEnabled: false,
@@ -58,11 +62,9 @@ class _RoutesMapState extends State<RoutesMap> {
                             controller,
                             saleState.clients ?? [],
                             context,
-                            widget.codeRouter,
-                            locationBloc
-                            ));
+                            widget.router.dayRouter!,
+                            locationBloc));
                       },
-                      
                       zoomControlsEnabled: false,
                       markers: state.markers.values.toSet(),
                       polylines: state.polylines.values.toSet(),
@@ -88,8 +90,7 @@ class _RoutesMapState extends State<RoutesMap> {
                     right: 10,
                     child: IconButton(
                         onPressed: () {
-                        mapsBloc.add(MoveToClientLocation());
-
+                          mapsBloc.add(MoveToClientLocation());
                         },
                         icon: CircleAvatar(
                           backgroundColor: Colors.white,

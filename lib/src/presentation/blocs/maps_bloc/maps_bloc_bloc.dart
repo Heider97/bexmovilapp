@@ -142,10 +142,6 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       required String codeRouter,
       required List<Client> clients,
       required Emitter emitter}) async {
-//TODO: primero debo revisar que el codeRouter no este en la tabla de las polylines,
-//TODO: Ahora tengo revisar que tenga conexion a internet para hacer la peticion normal o por cola de procesamiento
-//TODO: SI Tengo internet HACER LA PETICION Y ALMACENAR LOS DATOS EN LA BASE DE DATOS de polylines.
-//TODO: SI NO tengo INTERNET REVISAR QUE NO HAYA OTRA PETICION IGUAL EN LA COLA Y ENVIARLA Y ALMACENAR LOS DATOS EN LA BASE DE DATOS de polylines.
 
     List<LatLng> polylines = await databaseRepository.getPolyline(codeRouter);
 
@@ -194,7 +190,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
       clientMarker = await getMyLocationMarker(context: context);
     }
 
-    if(locationBloc.state.lastKnownLocation == null) {
+    if (locationBloc.state.lastKnownLocation == null) {
       await locationBloc.getCurrentPosition();
     }
 

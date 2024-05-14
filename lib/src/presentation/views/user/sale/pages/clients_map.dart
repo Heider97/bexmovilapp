@@ -1,18 +1,24 @@
-import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/custom_draggable_scrollable_sheet.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/routes_map.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-
-import 'package:bexmovil/src/utils/constants/screens.dart';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+//domain
+import '../../../../../domain/models/router.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/screens.dart';
+
+//blocs
+import '../../../../../presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
+import '../../../../../presentation/blocs/sale/sale_bloc.dart';
+
+import '../../../../../presentation/views/user/sale/widgets/custom_draggable_scrollable_sheet.dart';
+import '../../../../../presentation/views/user/sale/widgets/routes_map.dart';
+
 class MapClients extends StatefulWidget {
-  final String codeRouter;
-  const MapClients({super.key, required this.codeRouter});
+  final Router router;
+  const MapClients({super.key, required this.router});
 
   @override
   State<MapClients> createState() => _MapClientsState();
@@ -28,7 +34,7 @@ class _MapClientsState extends State<MapClients> {
     mapsBloc = BlocProvider.of<MapsBloc>(context);
     saleBloc = BlocProvider.of<SaleBloc>(context);
 
-    saleBloc.add(LoadClients(widget.codeRouter));
+    saleBloc.add(LoadClients(widget.router));
     super.initState();
   }
 
@@ -44,7 +50,7 @@ class _MapClientsState extends State<MapClients> {
               child: Stack(
                 children: [
                   RoutesMap(
-                    codeRouter: widget.codeRouter,
+                    router: widget.router,
                   ),
                   (state.gettingMarkers == true ||
                           state.gettingPolylines == true)
@@ -60,7 +66,7 @@ class _MapClientsState extends State<MapClients> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 gapH20,
-                                Center(
+                                const Center(
                                   child: CircularProgressIndicator(),
                                 ),
                                 gapH20,
@@ -75,15 +81,9 @@ class _MapClientsState extends State<MapClients> {
                                 ),
                                 gapH20
                               ]))
-                      : SizedBox()
+                      : const SizedBox()
                 ],
-              )
-
-              /* Center(
-                child: SizedBox(          
-                  child: Text('Obteniendo...')),
-              ) */
-              );
+              ));
         },
       ),
       const CustomDraggableScrollableSheet(),

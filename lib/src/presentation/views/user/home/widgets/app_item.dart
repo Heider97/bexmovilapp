@@ -6,13 +6,13 @@ import '../../../../widgets/atoms/app_text.dart';
 class AppItem extends StatelessWidget {
   final bool enabled;
   final String iconName;
-  final String imagePath;
+  final String? imagePath;
   final Function() onTap;
   const AppItem(
       {super.key,
       required this.enabled,
       required this.iconName,
-      required this.imagePath,
+      this.imagePath,
       required this.onTap});
 
   @override
@@ -21,16 +21,17 @@ class AppItem extends StatelessWidget {
       onTap: enabled ? onTap : null,
       child: Opacity(
         opacity: enabled ? 1 : 0.3,
-        child: Column( 
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              child: SvgPicture.asset(
-                imagePath,
-                width: 40,
-                height: 40,
+            if(imagePath != null)
+              SizedBox(
+                child: SvgPicture.asset(
+                  imagePath!,
+                  width: 40,
+                  height: 40,
+                ),
               ),
-            ),
             AppText(iconName)
           ],
         ),

@@ -1,8 +1,9 @@
-import 'package:bexmovil/src/domain/models/component.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 //domain
+import 'package:bexmovil/src/domain/models/component.dart';
 import 'package:bexmovil/src/domain/models/kpi.dart';
 //utils
 import '../../../../../utils/constants/screens.dart';
@@ -10,7 +11,7 @@ import '../../../../../utils/constants/screens.dart';
 import 'card_kpi.dart';
 
 class SlidableKpi extends StatefulWidget {
-  final List<Component?> kpis;
+  final List<Kpi?> kpis;
 
   const SlidableKpi({
     super.key,

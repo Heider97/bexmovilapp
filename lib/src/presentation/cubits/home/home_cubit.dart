@@ -1,13 +1,7 @@
-import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
 import 'package:equatable/equatable.dart';
 import 'package:collection/collection.dart';
 
 //cubit
-
-import '../../../domain/abstracts/format_abstract.dart';
-import '../../../domain/models/requests/dynamic_request.dart';
-import '../../../domain/models/requests/sync_priorities_request.dart';
-import '../../../domain/models/responses/dynamic_response.dart';
 import '../base/base_cubit.dart';
 
 //utils
@@ -16,11 +10,14 @@ import '../../../utils/resources/data_state.dart';
 
 //domain
 import '../../../domain/models/user.dart';
-import '../../../domain/models/section.dart';
 import '../../../domain/models/application.dart';
 import '../../../domain/models/feature.dart';
 import '../../../domain/models/kpi.dart';
 import '../../../domain/models/isolate.dart';
+import '../../../domain/abstracts/format_abstract.dart';
+import '../../../domain/models/requests/dynamic_request.dart';
+import '../../../domain/models/requests/sync_priorities_request.dart';
+import '../../../domain/models/responses/dynamic_response.dart';
 //requests
 import '../../../domain/models/requests/module_request.dart';
 import '../../../domain/models/requests/filter_request.dart';
@@ -43,7 +40,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
   HomeCubit(this.databaseRepository, this.apiRepository, this.storageService,
       this.navigationService, this.queryLoaderService)
-      : super(const HomeLoading());
+      : super(const HomeState(status: HomeStatus.loading));
 
   Future<void> heavyTask(IsolateModel model) async {
     for (var i = 0; i < model.iteration; i++) {
@@ -84,17 +81,46 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeLoading());
+      var fakeFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeKpis = List.filled(2, Kpi(line: 1));
+      var fakeApplications = List.filled(4, Application());
+
+      emit(state.copyWith(
+          status: HomeStatus.loading,
+          features: fakeFeatures,
+          kpis: fakeKpis,
+          applications: fakeApplications));
 
       final user = User.fromMap(storageService.getObject('user')!);
       final seller = storageService.getString('username');
-      final sections =
-          await queryLoaderService.getResults('home', seller!, [seller]);
 
-      emit(HomeSuccess(
-        user: user,
-        sections: sections,
-      ));
+      var features = <Feature>[];
+      var kpis = <Kpi>[];
+      var forms = [];
+      var applications = <Application>[];
+
+      Map<String, dynamic> variables = await queryLoaderService
+          .load('/home', 'HomeCubit', 'init', seller!, []);
+
+      List<String> keys = variables.keys.toList();
+
+      for (var i = 0; i < variables.length; i++) {
+        if (keys[i] == 'features') {
+          features = variables[keys[i]];
+        } else if (keys[i] == 'kpis') {
+          kpis = variables[keys[i]];
+        } else if (keys[i] == 'forms') {
+        } else if (keys[i] == 'applications') {
+          applications = variables[keys[i]];
+        }
+      }
+
+      emit(state.copyWith(
+          status: HomeStatus.success,
+          user: user,
+          features: features,
+          kpis: kpis,
+          applications: applications));
     });
   }
 
@@ -102,7 +128,15 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
     if (isBusy) return;
 
     await run(() async {
-      emit(const HomeSynchronizing());
+      var fakeFeatures = List.filled(2, Feature(coddashboard: 0));
+      var fakeKpis = List.filled(8, Kpi(line: 1));
+      var fakeApplications = List.filled(4, Application());
+
+      emit(state.copyWith(
+          status: HomeStatus.synchronizing,
+          features: fakeFeatures,
+          kpis: fakeKpis,
+          applications: fakeApplications));
 
       var functions = [getConfigs, getFilters];
 
@@ -121,6 +155,7 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
       if (response is DataSuccess) {
         var migrations = <String>[];
+
         for (var migration in response.data!.priorities!) {
           try {
             if (migration.schema != null) {
@@ -142,16 +177,15 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
             print('Error $ex');
           }
         }
+
         migrations.removeWhere((element) => element == 'CREATE ');
         await databaseRepository.runMigrations(migrations);
 
         var prioritiesAsync = response.data!.priorities!
             .where((element) => element.runBackground == 1);
 
-
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
-
 
         List<String> tables = [];
 
@@ -180,13 +214,34 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
 
         final user = User.fromMap(storageService.getObject('user')!);
         final seller = storageService.getString('username');
-        final sections =
-            await queryLoaderService.getResults('home', seller!, [seller]);
 
-        await Future.wait(futureInserts).whenComplete(() => emit(HomeSuccess(
-              user: user,
-              sections: sections,
-            )));
+        var features = <Feature>[];
+        var kpis = <Kpi>[];
+        var forms = [];
+        var applications = <Application>[];
+
+        Map<String, dynamic> variables = await queryLoaderService
+            .load('/home', 'HomeCubit', 'init', seller!, []);
+
+        List<String> keys = variables.keys.toList();
+
+        for (var i = 0; i < variables.length; i++) {
+          if (keys[i] == 'features') {
+            features = variables[keys[i]];
+          } else if (keys[i] == 'kpis') {
+            kpis = variables[keys[i]];
+          } else if (keys[i] == 'forms') {
+          } else if (keys[i] == 'applications') {
+            applications = variables[keys[i]];
+          }
+        }
+
+        await Future.wait(futureInserts).whenComplete(() => emit(state.copyWith(
+            status: HomeStatus.success,
+            user: user,
+            features: features,
+            kpis: kpis,
+            applications: applications)));
       } else {
         // emit(SyncFeaturesFailure(features: features, error: response.error));
       }

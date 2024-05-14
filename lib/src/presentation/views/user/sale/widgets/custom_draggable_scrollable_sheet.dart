@@ -94,7 +94,7 @@ class _CustomDraggableScrollableSheetState
                                                     SaleState>(
                                                   builder: (context, state) {
                                                     return AppText(
-                                                      state.selectedRouter!
+                                                      state.router!
                                                           .nameDayRouter!
                                                           .capitalizeString(),
                                                       fontWeight:
@@ -152,14 +152,14 @@ class _CustomDraggableScrollableSheetState
                                               child: _buildItem(
                                                   Icons.group,
                                                   theme.primaryColor,
-                                                  ' ${state.selectedRouter!.clients ?? 0}',
+                                                  ' ${state.router!.clients ?? 0}',
                                                   'clientes'),
                                             ),
                                             Expanded(
                                               child: _buildItem(
                                                   Icons.person,
                                                   Colors.blue,
-                                                  ' ${state.selectedRouter!.prospects ?? 0}',
+                                                  ' ${state.router!.prospects ?? 0}',
                                                   'prospectos'),
                                             ),
                                             Expanded(
@@ -196,7 +196,7 @@ class _CustomDraggableScrollableSheetState
                               textAlign: TextAlign.start,
                             ),
                           ),
-                          SizedBox()
+                          const SizedBox()
                         ],
                       ),
                       Padding(

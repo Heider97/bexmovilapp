@@ -16,8 +16,8 @@ class ComponentDao {
 
   Future<List<Component>?> findComponents(int widgetId) async {
     final db = await _appDatabase.database;
-    var componentList = await db!.query(tableComponents,
-        where: 'widget_id = ?', whereArgs: [widgetId]);
+    var componentList = await db!
+        .query(tableComponents, where: 'widget_id = ?', whereArgs: [widgetId]);
     var components = parseComponents(componentList);
     return components;
   }
@@ -28,11 +28,13 @@ class ComponentDao {
 
     await Future.forEach(components, (component) async {
       var foundProduct = await db.query(tableComponents,
-          where: 'title = ?', whereArgs: [component.title]);
+          where: 'type = ? and widget_id = ?',
+          whereArgs: [component.type, component.widgetId]);
 
       if (foundProduct.isNotEmpty) {
         batch.update(tableComponents, component.toJson(),
-            where: 'title = ?', whereArgs: [component.title]);
+            where: 'ype = ? and widget_id = ?',
+            whereArgs: [component.type, component.widgetId]);
       } else {
         batch.insert(tableComponents, component.toJson());
       }

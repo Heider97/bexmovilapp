@@ -62,8 +62,6 @@ import 'src/presentation/widgets/atomsbox.dart';
 //undefined
 import 'src/presentation/views/global/undefined_view.dart';
 
-part 'app_blocs_providers.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp().then;
@@ -135,11 +133,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => SaleStepperBloc()),
         BlocProvider(
             create: (_) => SaleBloc(
-                  locator<DatabaseRepository>(),
-                  locator<LocalStorageService>(),
-                  locator<NavigationService>(),
-                  locator<QueryLoaderService>(),
-                )),
+                locator<DatabaseRepository>(),
+                locator<LocalStorageService>(),
+                locator<NavigationService>(),
+                locator<QueryLoaderService>(),
+                locator<StyledDialogController>())),
         BlocProvider(
             create: (_) => WalletBloc(
                 locator<DatabaseRepository>(),

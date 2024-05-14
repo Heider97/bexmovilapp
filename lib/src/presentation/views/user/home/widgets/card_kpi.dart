@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:bexmovil/src/domain/models/kpi.dart';
 
 //utils
-import '../../../../../domain/models/component.dart';
 import '../../../../../utils/constants/strings.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
-//widgets
+//domain
+import '../../../../../domain/models/kpi.dart';
 
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
 
 class CardKpi extends StatefulWidget {
-  final Component kpi;
+  final Kpi kpi;
   final double? height;
   final bool needConverted;
 
@@ -36,13 +36,11 @@ class _CardKpiState extends State<CardKpi> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  child: AppText(widget.kpi.title ?? "N/A",
-                      maxLines: 2, fontWeight: FontWeight.normal),
+                  child: AppText(widget.kpi.title ?? "N/A", maxLines: 2),
                 ),
                 Row(
                   children: [
-                    AppText(buildContentKpi(),
-                        fontWeight: FontWeight.normal, fontSize: 22),
+                    AppText(buildContentKpi(), fontSize: 20),
                   ],
                 ),
               ],
@@ -52,65 +50,24 @@ class _CardKpiState extends State<CardKpi> {
   }
 
   String buildContentKpi() {
-    if (widget.needConverted == true && widget.kpi.results != null) {
-      if (widget.kpi.results is List && widget.kpi.results.isNotEmpty) {
-        if (widget.kpi.results.first is Kpi) {
-          return "N/A";
-        } else {
-          if ((widget.kpi.results.first['dato'] != null &&
-                  widget.kpi.results.first['dato'] is String &&
-                  widget.kpi.results.first['dato'].contains('/')) ||
-              (widget.kpi.results.first['y'] != null &&
-                  widget.kpi.results.first['y'] is String &&
-                  widget.kpi.results.first['y'].contains('/'))) {
-            var splits = [];
-            if (widget.kpi.results.first['dato'] != null) {
-              splits = widget.kpi.results.first['dato'].split('/');
-            } else if (widget.kpi.results.first['y'] != null) {
-              splits = widget.kpi.results.first['y'].split('/');
-            }
-            var result = [];
-            for (var split in splits) {
-              split =
-                  split is int || split is double ? split.toString() : split;
-              result.add(''.formattedCompact(split));
-            }
-            return result.join('/');
-          } else {
-            var value = '';
-            if (widget.kpi.results.first['dato'] != null) {
-              value = widget.kpi.results.first['dato'] is double ||
-                      widget.kpi.results.first['dato'] is int
-                  ? widget.kpi.results.first['dato'].toString()
-                  : widget.kpi.results.first['dato'];
-            } else if (widget.kpi.results.first['y'] != null) {
-              value = widget.kpi.results.first['y'] is double ||
-                      widget.kpi.results.first['y'] is int
-                  ? widget.kpi.results.first['y'].toString()
-                  : widget.kpi.results.first['y'];
-            }
-
-            return ''.formattedCompact(value);
-          }
+    if (widget.kpi.results is String) {
+      if (widget.kpi.results.contains('/')) {
+        var splits = widget.kpi.results.split('/');
+        var result = [];
+        for (var split in splits) {
+          split = split is int || split is double ? split.toString() : split;
+          result.add(''.formattedCompact(split));
         }
+        return result.join('/');
       } else {
-        return "N/A";
+        return widget.kpi.results;
       }
+    } else if (widget.kpi.results is int) {
+      return ''.formatted(widget.kpi.results.toDouble());
+    } else if (widget.kpi.results is double) {
+      return ''.formattedCompact(widget.kpi.results);
     } else {
-      if (widget.kpi.results is List && widget.kpi.results.isNotEmpty) {
-        if (widget.kpi.results.first is Kpi) {
-          return "N/A";
-        } else {
-          var value = widget.kpi.results.first['dato'] is int
-              ? widget.kpi.results.first['dato'].toDouble()
-              : widget.kpi.results.first['dato'] is String
-                  ? double.parse(widget.kpi.results.first['dato'])
-                  : widget.kpi.results.first['dato'];
-          return ''.formatted(value);
-        }
-      } else {
-        return "N/A";
-      }
+      return "N/A";
     }
   }
 }

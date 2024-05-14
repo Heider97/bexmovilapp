@@ -39,9 +39,8 @@ class _CardRouterState extends State<CardRouter> {
       padding: const EdgeInsets.all(7),
       child: InkWell(
         onTap: () {
-          saleBloc.add(SelectRouter(router: widget.router));
-          Navigator.pushNamed(context, AppRoutes.clientsSale,
-              arguments: widget.router.dayRouter);
+          _navigationService.goTo(AppRoutes.clientsSale,
+              arguments: widget.router);
         },
         child: Material(
           elevation: 1,
@@ -106,17 +105,8 @@ class _CardRouterState extends State<CardRouter> {
                       ),
                       Row(
                         children: [
-                          /*      Opacity(
-                            opacity: 0.5,
-                            child: Icon(
-                              FontAwesomeIcons.usersBetweenLines,
-                              color: theme.primaryColor,
-                              size: 15,
-                            ),
-                          ), */
                           gapW12,
-                          AppText(
-                              'Clientes visitados: 0', // ${widget.visited ??
+                          AppText('Clientes visitados: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,
@@ -149,15 +139,6 @@ class _CardRouterState extends State<CardRouter> {
                       ),
                       Row(
                         children: [
-/*                           Opacity(
-                            opacity: 0.5,
-                            child: Icon(
-                              FontAwesomeIcons.cashRegister,
-                              color: theme.primaryColor,
-                              size: 15,
-                            ),
-                          ),
-                          gapW12, */
                           AppText('Ventas totales: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
@@ -175,36 +156,5 @@ class _CardRouterState extends State<CardRouter> {
         ),
       ),
     );
-
-    /*  AppCard.filled(
-      onTap: () =>
-          _navigationService.goTo(AppRoutes.clientsSale, arguments: codeRouter),
-     /*  shape: RoundedRectangleBorder(
-        side: const BorderSide(color: Colors.grey, width: 1),
-        borderRadius: BorderRadius.circular(10),
-      ), */
-      color: Colors.red,
-      surfaceTintColor: Colors.red,
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-      child: Text(dayRouter)/* AppListTile(
-          title: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: AppText(dayRouter,
-                  fontWeight: FontWeight.normal,
-                  overflow: TextOverflow.ellipsis)),
-          subtitle: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              cardButtons(FontAwesomeIcons.peopleGroup,
-                  "${totalClients ?? '0'}", context),
-              cardButtons(
-                  FontAwesomeIcons.cashRegister, "${withSale ?? '0'}", context),
-              cardButtons(FontAwesomeIcons.usersBetweenLines,
-                  "${visited ?? '0'}", context),
-              cardButtons(FontAwesomeIcons.chartSimple,
-                  "${effectiveness ?? '0'}%", context),
-            ],
-          )) */,
-    ); */
   }
 }

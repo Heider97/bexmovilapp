@@ -124,35 +124,38 @@ class _AppShimmerLoadingState extends State<AppShimmerLoading> {
     }
 
     // Collect ancestor AppShimmer info.
+    final appShimmer = AppShimmer.of(context);
 
-    final appShimmer = AppShimmer.of(context)!;
+    if (appShimmer != null) {
+      if (!appShimmer.isSized) {
+        // The ancestor AppShimmer widget has not laid
+        // itself out yet. Return an empty box.
+        return const SizedBox();
+      }
 
-    if (!appShimmer.isSized) {
-      // The ancestor AppShimmer widget has not laid
-      // itself out yet. Return an empty box.
+      final appShimmerSize = appShimmer.size;
+      final gradient = appShimmer.gradient;
+      final offsetWithinAppShimmer = appShimmer.getDescendantOffset(
+        descendant: context.findRenderObject() as RenderBox,
+      );
+
+      return ShaderMask(
+        blendMode: BlendMode.srcATop,
+        shaderCallback: (bounds) {
+          return gradient.createShader(
+            Rect.fromLTWH(
+              -offsetWithinAppShimmer.dx,
+              -offsetWithinAppShimmer.dy,
+              appShimmerSize.width,
+              appShimmerSize.height,
+            ),
+          );
+        },
+        child: widget.child,
+      );
+    } else {
       return const SizedBox();
     }
-
-    final appShimmerSize = appShimmer.size;
-    final gradient = appShimmer.gradient;
-    final offsetWithinAppShimmer = appShimmer.getDescendantOffset(
-      descendant: context.findRenderObject() as RenderBox,
-    );
-
-    return ShaderMask(
-      blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) {
-        return gradient.createShader(
-          Rect.fromLTWH(
-            -offsetWithinAppShimmer.dx,
-            -offsetWithinAppShimmer.dy,
-            appShimmerSize.width,
-            appShimmerSize.height,
-          ),
-        );
-      },
-      child: widget.child,
-    );
   }
 }
 

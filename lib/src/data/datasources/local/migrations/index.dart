@@ -2,7 +2,7 @@ part of '../app_database.dart';
 
 Future<void> onCreate(db, version) async {
   await db.execute('''
-    CREATE TABLE $tableLocations (
+    CREATE TABLE IF NOT EXISTS $tableLocations (
       ${LocationFields.id} INTEGER PRIMARY KEY,
       ${LocationFields.latitude} REAL DEFAULT NULL,
       ${LocationFields.longitude} REAL DEFAULT NULL,
@@ -15,7 +15,7 @@ Future<void> onCreate(db, version) async {
     )
   ''');
   await db.execute('''
-    CREATE TABLE $tableProcessingQueues (
+    CREATE TABLE IF NOT EXISTS $tableProcessingQueues (
       ${ProcessingQueueFields.id} INTEGER PRIMARY KEY,
       ${ProcessingQueueFields.body} TEXT DEFAULT NULL,
       ${ProcessingQueueFields.task} TEXT DEFAULT NULL,
@@ -26,25 +26,7 @@ Future<void> onCreate(db, version) async {
     )
   ''');
   await db.execute('''
-    CREATE TABLE $tableFeature (
-      ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
-      ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
-      ${FeaturesFields.descripcion} TEXT DEFAULT NULL,
-      ${FeaturesFields.urldesc} TEXT DEFAULT NULL,
-      ${FeaturesFields.categoria} TEXT DEFAULT NULL,
-      ${FeaturesFields.codcliente} TEXT DEFAULT NULL,
-      ${FeaturesFields.fechaevento} TEXT DEFAULT NULL,
-      ${FeaturesFields.fechafinevento} TEXT DEFAULT NULL,
-      ${FeaturesFields.fecgra} TEXT DEFAULT NULL,
-      ${FeaturesFields.requerido} TEXT DEFAULT NULL,
-      ${FeaturesFields.createdById} INTEGER DEFAULT NULL,
-      ${FeaturesFields.createdAt} TEXT DEFAULT NULL,
-      ${FeaturesFields.updatedAt} TEXT DEFAULT NULL,
-      ${FeaturesFields.deletedAt} TEXT DEFAULT NULL
-    )
-  ''');
-  await db.execute('''
-    CREATE TABLE $tableConfig (
+    CREATE TABLE IF NOT EXISTS $tableConfig (
       ${ConfigFields.id} INTEGER PRIMARY KEY,
       ${ConfigFields.name} TEXT DEFAULT NULL,
       ${ConfigFields.type} TEXT DEFAULT NULL,
@@ -52,7 +34,6 @@ Future<void> onCreate(db, version) async {
       ${ConfigFields.module} TEXT DEFAULT NULL
     )
   ''');
-
   await db.execute('''
     CREATE TABLE IF NOT EXISTS $tableApplications (
       ${ApplicationFields.id} INTEGER PRIMARY KEY,
@@ -94,14 +75,14 @@ Future<void> onCreate(db, version) async {
       codeRouter TEXT, polylines TEXT
       )
     ''');
-
-    await db.execute('''
-    CREATE TABLE IF NOT EXISTS app_route_transaction (
+  await db.execute('''
+    CREATE TABLE IF NOT EXISTS app_cart (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      codRouter TEXT,
-      codCliente TEXT,
-      codTransaction TEXT,
-      date TEXT
+      codrouter TEXT NOT NULL,
+      codcliente TEXT NOT NULL,
+      codproduct TEXT NOT NULL,
+      state TEXT NOT NULL,
+      date TEXT NOT NULL
     )
   ''');
 }

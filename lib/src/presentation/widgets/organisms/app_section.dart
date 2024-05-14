@@ -52,9 +52,7 @@ class _AppFormState extends State<AppSection> {
         (widget.title != null)
             ? Padding(
                 padding: const EdgeInsets.only(left: 15.0),
-                child: AppText(widget.title!,
-                    fontSize: 20, fontWeight: FontWeight.bold),
-              )
+                child: AppText(widget.title!, fontSize: 20))
             : Container(),
         ...widget.widgetItems.map(
           (item) {

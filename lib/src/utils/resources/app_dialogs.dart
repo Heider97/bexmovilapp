@@ -5,6 +5,7 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/widgets/ShowPriceAndWarehousesAlert.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 //services
 import '../../locator.dart';
@@ -22,6 +23,8 @@ void registerDialogs() {
       .registerDialogOf(style: Status.loading, builder: showLoadingDialog);
   locator<StyledDialogController>()
       .registerDialogOf(style: Status.error, builder: showErrorDialog);
+  locator<StyledDialogController>()
+      .registerDialogOf(style: Status.info, builder: showPriceAndWarehouses);
 }
 
 Future<void> showSuccessDialog() {
@@ -41,15 +44,13 @@ Future<void> showSuccessDialog() {
           image: image));
 }
 
-Future<void> showPriceAndWarehouses(BuildContext context,
-    {required int codClient,required String nameClient}) {
+Future<void> showPriceAndWarehouses() {
+  final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
+
   return showDialog(
     barrierDismissible: true,
-    context: context,
-    builder: (_) => ShowPriceAndWarehousesAlert(
-      codClient: codClient,
-      clientName: nameClient,
-    ),
+    context: ctx,
+    builder: (_) => const ShowPriceAndWarehousesAlert(),
   );
 }
 

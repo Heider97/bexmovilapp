@@ -7,32 +7,13 @@ class SaleEvent {
 class LoadRouters extends SaleEvent {}
 
 class LoadClients extends SaleEvent {
-  final String? codeRouter;
-  LoadClients(this.codeRouter);
+  final Router? router;
+  LoadClients(this.router);
 }
 
-class LoadWarehouses extends SaleEvent {
-  final Client? client;
-  final String? codrouter;
-  final int? codcliente;
-  final String? codbodega;
-  final String? codprecio;
-  final String navigation;
-
-  LoadWarehouses(
-      {this.client, this.codrouter, this.codcliente, this.codprecio, this.codbodega, required this.navigation});
-}
-
-class LoadProducts extends SaleEvent {
-  final String? codbodega;
-  final String? codprecio;
-
-  LoadProducts(this.codbodega, this.codprecio);
-}
-
-class ResetStatus extends SaleEvent {
-  final SaleStatus status;
-  ResetStatus({required this.status});
+class SearchClient extends SaleEvent {
+  final String? value;
+  SearchClient(this.value);
 }
 
 class NavigationSale extends SaleEvent {
@@ -46,26 +27,20 @@ class SearchClientSale extends SaleEvent {
   SearchClientSale({required this.valueToSearch});
 }
 
-class GridModeChange extends SaleEvent {
-  final bool changeMode;
-  GridModeChange({required this.changeMode});
-}
+class LoadWarehousesAndPrices extends SaleEvent {
+  final Client? client;
+  final Router? router;
 
-class SelectRouter extends SaleEvent {
-  final Router router;
-  SelectRouter({required this.router});
-}
+  final String? codbodega;
+  final String? codprecio;
+  final String navigation;
 
-class SelectWarehouseAndListPrice extends SaleEvent {
-  String idListPrice;
-  String idWarehouse;
-  SelectWarehouseAndListPrice(
-      {required this.idListPrice, required this.idWarehouse});
-}
-
-class LoadWarehouseAndListPrice extends SaleEvent {
-  String? codeClient;
-  LoadWarehouseAndListPrice(/* {required this.codeClient} */);
+  LoadWarehousesAndPrices(
+      {this.client,
+      this.router,
+      this.codprecio,
+      this.codbodega,
+      required this.navigation});
 }
 
 class SelectWarehouse extends SaleEvent {
@@ -78,19 +53,34 @@ class SelectPriceList extends SaleEvent {
   SelectPriceList({required this.listPriceSelected});
 }
 
-//
-// class SelectProducts extends SaleEvent {
-//   final Product product;
-//   SelectProducts({required this.product});
-// }
-//
-// class ConfirmProducts extends SaleEvent {
-//   final List<Product> products;
-//   ConfirmProducts({required this.products});
-// }
-//
-// class ConfirmOrder extends SaleEvent {
-//   final List<Product> products;
-//   final Client client;
-//   ConfirmOrder({required this.products, required this.client});
-// }
+class LoadProducts extends SaleEvent {
+  final Client? client;
+  final Router? router;
+  final Warehouse? warehouse;
+  final Price? price;
+
+  final String? codbodega;
+  final String? codprecio;
+
+  LoadProducts(this.client, this.router, this.warehouse, this.price,
+      this.codbodega, this.codprecio);
+}
+
+class SearchProduct extends SaleEvent {
+  final String? value;
+  SearchProduct(this.value);
+}
+
+class GridModeChange extends SaleEvent {
+  final bool changeMode;
+  GridModeChange({required this.changeMode});
+}
+
+class SelectProduct extends SaleEvent {
+  final Product? product;
+  SelectProduct({required this.product});
+}
+
+class LoadCart extends SaleEvent {
+  LoadCart();
+}

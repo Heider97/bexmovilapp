@@ -160,6 +160,7 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
 };
 
 Map<String, AppDynamicDataCasterType> dynamicDataTypes = {
+  "Kpi": AppDynamicDataCasterType<Kpi>((s) => Kpi.fromJson(s)),
   "ProductsArguments": AppDynamicDataCasterType<ProductArgument>(
       (s) => ProductArgument.fromJson(s)),
 };

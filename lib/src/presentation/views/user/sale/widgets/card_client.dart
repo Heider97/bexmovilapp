@@ -1,33 +1,40 @@
-import 'package:bexmovil/src/domain/models/arguments.dart';
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/detail_client.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/show_map_direction_widget.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/services/storage.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+//domain
+import '../../../../../domain/models/client.dart';
+import '../../../../../domain/models/router.dart';
+
+//blocs
+import '../../../../blocs/sale/sale_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/extensions/string_extension.dart';
+
+//widgets
 import '../../../../widgets/atoms/app_text.dart';
+import '../../../../widgets/atoms/show_map_direction_widget.dart';
+import 'detail_client.dart';
+
+//services
+import '../../../../../locator.dart';
+import '../../../../../services/navigation.dart';
+import '../../../../../services/storage.dart';
 
 final NavigationService navigationService = locator<NavigationService>();
 final LocalStorageService storageService = locator<LocalStorageService>();
 
 class CardClient extends StatefulWidget {
-  final String? codrouter;
+  final Router? router;
   final Client client;
   final bool? activeSale;
   const CardClient(
-      {super.key, this.codrouter, required this.client, this.activeSale});
+      {super.key, this.router, required this.client, this.activeSale});
 
   @override
   State<CardClient> createState() => _CardClientState();
@@ -94,7 +101,7 @@ class _CardClientState extends State<CardClient> {
                                               'No aplica',
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
-                                          fontSize: 16,
+                                          fontSize: 14,
                                           overflow: TextOverflow.ellipsis),
                                     ],
                                   ),
@@ -137,7 +144,7 @@ class _CardClientState extends State<CardClient> {
                                   : const SizedBox()
                             ],
                           ),
-                          gapH8,
+                          gapH4,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -148,13 +155,13 @@ class _CardClientState extends State<CardClient> {
                                     children: [
                                       AppText('Dirección: ',
                                           fontWeight: FontWeight.normal,
-                                          color: Colors.black,
-                                          fontSize: 16,
+                                          color: Colors.grey[800],
+                                          fontSize: 14,
                                           overflow: TextOverflow.ellipsis),
                                       AppText('${widget.client.address ?? 0}',
                                           fontWeight: FontWeight.normal,
-                                          color: Colors.grey[700],
-                                          fontSize: 12,
+                                          color: Colors.grey[800],
+                                          fontSize: 14,
                                           overflow: TextOverflow.ellipsis)
                                     ],
                                   ),
@@ -165,13 +172,13 @@ class _CardClientState extends State<CardClient> {
                                 children: [
                                   AppText('Sucursal: ',
                                       fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                      fontSize: 16,
+                                      color: Colors.grey[800],
+                                      fontSize: 14,
                                       overflow: TextOverflow.ellipsis),
                                   AppText('${widget.client.branch}',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.grey[800],
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       overflow: TextOverflow.ellipsis)
                                 ],
                               ),
@@ -187,8 +194,8 @@ class _CardClientState extends State<CardClient> {
                                       children: [
                                         AppText('Cartera: ',
                                             fontWeight: FontWeight.normal,
-                                            color: Colors.black,
-                                            fontSize: 16,
+                                            color: Colors.grey[800],
+                                            fontSize: 14,
                                             overflow: TextOverflow.ellipsis),
                                         AppText(
                                             widget.client.wallet != null
@@ -198,21 +205,21 @@ class _CardClientState extends State<CardClient> {
                                                 : '0',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[800],
-                                            fontSize: 12,
+                                            fontSize: 14,
                                             overflow: TextOverflow.ellipsis)
                                       ],
                                     ),
                                     Row(
                                       children: [
                                         AppText('Ventas: ',
-                                            fontWeight: FontWeight.normal,
+                                            fontWeight: FontWeight.w500,
                                             color: Colors.black,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             overflow: TextOverflow.ellipsis),
                                         AppText('1M / Último mes',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[800],
-                                            fontSize: 12,
+                                            fontSize: 14,
                                             overflow: TextOverflow.ellipsis)
                                       ],
                                     ),
@@ -225,15 +232,15 @@ class _CardClientState extends State<CardClient> {
                                   children: [
                                     AppText('Cupo disponible: ',
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        fontSize: 16,
+                                        color: Colors.grey[800],
+                                        fontSize: 14,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
                                         ''.formattedCompact(
                                             widget.client.quota!.toString()),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         overflow: TextOverflow.ellipsis)
                                   ],
                                 )
@@ -281,14 +288,16 @@ class _CardClientState extends State<CardClient> {
                                                     widget.client.longitude !=
                                                         null
                                                 ? AppText('Navegar',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey[800],
                                                     fontSize: 14,
                                                     overflow:
                                                         TextOverflow.ellipsis)
                                                 : AppText('Georeferenciar',
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey[800],
                                                     fontSize: 14,
                                                     overflow:
                                                         TextOverflow.ellipsis),
@@ -336,8 +345,8 @@ class _CardClientState extends State<CardClient> {
                                             AppText(
                                                 widget.client.cellphone ??
                                                     'No disponible',
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey[800],
                                                 fontSize: 14,
                                                 overflow:
                                                     TextOverflow.ellipsis),
@@ -367,14 +376,13 @@ class _CardClientState extends State<CardClient> {
                                 codbodega = '001B1';
                               }
 
-                              saleBloc.add(LoadWarehouses(
-                                  navigation: 'go',
-                                  codrouter: widget.codrouter,
-                                  client: widget.client,
-                                  codprecio: widget.client.codPrecio,
-                                  codbodega: codbodega,
-                                  codcliente: widget.client.id));
-
+                              saleBloc.add(LoadWarehousesAndPrices(
+                                navigation: 'go',
+                                router: widget.router,
+                                client: widget.client,
+                                codprecio: widget.client.codPrecio,
+                                codbodega: codbodega,
+                              ));
                             },
                             child: Material(
                               elevation: 2,

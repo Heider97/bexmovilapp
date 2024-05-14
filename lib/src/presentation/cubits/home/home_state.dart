@@ -1,46 +1,42 @@
 part of 'home_cubit.dart';
 
+enum HomeStatus { loading, synchronizing, success, failed }
+
 class HomeState extends Equatable {
   final User? user;
-  final List<Section>? sections;
+  final HomeStatus? status;
+
+  final List<Feature>? features;
+  final List<Kpi>? kpis;
+  final List<Application>? applications;
+
   final String? error;
 
   const HomeState(
       {this.user,
-      this.sections,
+      this.status,
+      this.features,
+      this.kpis,
+      this.applications,
       this.error});
 
   HomeState copyWith(
       {User? user,
-      List<Section>? sections,
+      HomeStatus? status,
+      List<Feature>? features,
+      List<Kpi>? kpis,
+      List<Application>? applications,
       String? error}) {
     return HomeState(
       user: user ?? this.user,
-      sections: sections ?? this.sections,
+      status: status ?? this.status,
+      features: features ?? this.features,
+      kpis: kpis ?? this.kpis,
+      applications: applications ?? this.applications,
       error: error ?? this.error,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [user, sections, error];
-}
-
-class HomeLoading extends HomeState {
-  const HomeLoading();
-}
-
-class HomeSynchronizing extends HomeState {
-  const HomeSynchronizing();
-}
-
-class HomeSuccess extends HomeState {
-  const HomeSuccess(
-      {super.user,
-      super.sections,
-  });
-}
-
-class HomeFailed extends HomeState {
-  const HomeFailed({super.error});
+  List<Object?> get props => [user, status, error];
 }

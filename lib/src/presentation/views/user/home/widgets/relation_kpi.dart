@@ -1,6 +1,7 @@
-import 'package:bexmovil/src/domain/models/kpi.dart';
-
 import 'package:flutter/material.dart';
+
+//domain
+import '../../../../../domain/models/kpi.dart';
 
 class RelationKpi extends StatefulWidget {
   final Kpi kpi;
@@ -29,7 +30,7 @@ class _RelationKpiState extends State<RelationKpi> {
           Row(
             children: [
               Text(
-                widget.kpi.value ?? "N/A",
+                widget.kpi.results ?? "N/A",
                 style: theme.textTheme.bodyMedium!
                     .copyWith(fontWeight: FontWeight.bold, fontSize: 25),
               ),

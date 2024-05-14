@@ -1,3 +1,6 @@
+import 'package:bexmovil/src/presentation/views/user/home/features/applications.dart';
+import 'package:bexmovil/src/presentation/views/user/home/features/features.dart';
+import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,9 +74,9 @@ class HomeViewState extends State<HomeView>
     }, builder: (context, state) {
       return BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          if (state is HomeLoading) {
+          if (state.status == HomeStatus.loading) {
             return const Center(
-                child: CupertinoActivityIndicator(color: Colors.green));
+                child: CupertinoActivityIndicator(color: Colors.red));
           } else {
             return _buildBody(size, theme, state, context);
           }
@@ -107,8 +110,8 @@ class HomeViewState extends State<HomeView>
                     width: size.width / 1.6,
                     height: size.height * 0.2,
                     child: GestureDetector(
-                        onTap: () => homeCubit.navigationService
-                            .goTo(AppRoutes.chat),
+                        onTap: () =>
+                            homeCubit.navigationService.goTo(AppRoutes.chat),
                         child: Material(
                             color: theme.cardColor,
                             borderRadius: BorderRadius.circular(20),
@@ -133,12 +136,20 @@ class HomeViewState extends State<HomeView>
               ),
             ),
             gapH8,
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title: e.name!,
-                    widgetItems: e.widgets ?? [],
-                    tabController: _tabController))
-                : [],
+            AppText('Novedades', fontSize: 16),
+            gapH8,
+            const HomeFeatures(),
+            gapH4,
+            AppText('Estadisticas', fontSize: 16),
+            gapH8,
+            HomeStatistics(
+                kpis: state.kpis ?? [],
+                forms: const [],
+                tabController: _tabController),
+            gapH4,
+            AppText('Mis Aplicaciones', fontSize: 16),
+            gapH8,
+            const HomeApplications(),
           ],
         ),
       ),

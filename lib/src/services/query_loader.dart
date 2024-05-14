@@ -63,8 +63,7 @@ class QueryLoaderService {
                   if (logicQueries.isNotEmpty) {
                     if (logicQueries.length == 1) {
                       var results = await determine(
-                          widget.type, logicQueries.first, seller, arguments,
-                          needBeMapped: needBeMapped);
+                          widget.type, logicQueries.first, seller, arguments);
 
                       component.results = results;
                     } else {
@@ -77,8 +76,7 @@ class QueryLoaderService {
                                 logic, seller);
                             if (result == true) {
                               var results = await determine(
-                                  widget.type!, lq, seller, arguments,
-                                  needBeMapped: needBeMapped);
+                                  widget.type!, lq, seller, arguments);
                               component.results = results;
                             }
                           }
@@ -103,11 +101,89 @@ class QueryLoaderService {
     }
   }
 
+  Future<Map<String, dynamic>> load(String view, String bloc, String event,
+      String seller, List<dynamic> arguments) async {
+    Map<String, dynamic> results = {};
+
+    final v = await databaseRepository.findView(view);
+    final b = await databaseRepository.findBloc(bloc);
+    final e = await databaseRepository.findBlocEvent(event);
+
+    final widgets = await databaseRepository.findWidgetsByBloc(e!.id!);
+
+    if (widgets != null && widgets.isNotEmpty) {
+      for (var widget in widgets) {
+        var components = await databaseRepository.findComponents(widget.id!);
+
+        if (components != null && components.isNotEmpty) {
+
+          var data = <Map<String, dynamic>>[];
+
+          for (var component in components) {
+            var logicables =
+                await databaseRepository.logicQueries(component.id!);
+
+            List<LogicQuery> logicQueries =
+                await dynamicListTypes['List<LogicQuery>']!.fromMap(logicables);
+
+            if (logicQueries.isNotEmpty) {
+              if (logicQueries.length == 1) {
+
+                var d = await determine(component.type ?? widget.type,
+                    logicQueries.first, seller, arguments);
+
+                if (component.type != null && d != null) {
+                  data.add(d.toJson());
+                } else {
+                  results[widget.name!] = d;
+                }
+              } else {
+                for (var lq in logicQueries) {
+                  if (lq.logicId != null) {
+                    var logic = await databaseRepository.findLogic(lq.logicId!);
+
+                    if (logic != null) {
+                      var result =
+                          await databaseRepository.validateLogic(logic, seller);
+                      if (result == true) {
+
+                        print(widget.type);
+
+                        var d = await determine(component.type ?? widget.type!,
+                            lq, seller, arguments);
+
+                        print(d);
+
+                        if (component.type != null && d != null) {
+                          data.add(d.toJson());
+                        } else {
+                          results[widget.name!] = d;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          if (data.isNotEmpty) {
+            var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
+            results[widget.name!] = dynamic;
+          }
+        }
+      }
+    }
+
+    return results;
+  }
+
   Future determine(String? type, LogicQuery logicQuery, String seller,
-      List<dynamic> arguments,
-      {needBeMapped = false}) async {
+      List<dynamic> arguments) async {
     if (logicQuery.actionableType == 'query') {
+
       var q = await readQuery(logicQuery.actionableId!);
+
       if (q != null && q.arguments != null) {
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
@@ -126,8 +202,7 @@ class QueryLoaderService {
         }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-        return await executeRawQuery(sentence, type,
-            needBeMapped: needBeMapped);
+        return await executeRawQuery(sentence, type);
       }
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
@@ -202,37 +277,47 @@ class QueryLoaderService {
     return indexes;
   }
 
-  Future<List<dynamic>> executeQuery(String? type, String table, String? where,
+  Future executeQuery(String? type, String table, String? where,
       List<dynamic> arguments) async {
     try {
       if (type == null) return [];
-      var results = await databaseRepository.query(table, where, arguments);
-      var dynamic = await dynamicListTypes[type]?.fromMap(results);
-      if (dynamic == null) {
-        return [];
+
+      var dynamic;
+
+      if (type.contains('List')) {
+        var results = await databaseRepository.query(table, where, arguments);
+        dynamic = await dynamicListTypes[type]?.fromMap(results);
+      } else {
+        var results =
+            await databaseRepository.querySingle(table, where, arguments);
+        dynamic = await dynamicDataTypes[type]?.fromMap(results);
       }
+
       return dynamic;
     } catch (e) {
       return [];
     }
   }
 
-  Future<List<dynamic>> executeRawQuery(String sentence, String? type,
+  Future executeRawQuery(String sentence, String? type,
       {needBeMapped = false}) async {
     try {
       if (type == null) return [];
-      var results = await databaseRepository.rawQuery(sentence);
 
-      if (needBeMapped) {
-        return results;
+      var dynamic;
+
+      if (type.contains('List')) {
+        var results = await databaseRepository.rawQuery(sentence);
+        dynamic = await dynamicListTypes[type]?.fromMap(results);
+      } else {
+        var results = await databaseRepository.rawQuerySingle(sentence);
+        dynamic = await dynamicDataTypes[type]?.fromMap(results);
       }
 
-      var dynamic = await dynamicListTypes[type]?.fromMap(results);
-      if (dynamic == null) {
-        return [];
-      }
       return dynamic;
     } catch (e) {
+      print('error');
+      print(e);
       return [];
     }
   }

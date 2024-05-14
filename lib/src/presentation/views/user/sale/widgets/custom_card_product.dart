@@ -1,8 +1,18 @@
-import 'package:bexmovil/src/domain/models/product.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//blocs
+import '../../../../../presentation/blocs/sale/sale_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/extensions/string_extension.dart';
+
+//domain
+import '../../../../../domain/models/product.dart';
+
+//widgets
+import '../../../../widgets/atoms/app_text.dart';
 
 class CustomCardProduct extends StatefulWidget {
   final Product product;
@@ -14,14 +24,14 @@ class CustomCardProduct extends StatefulWidget {
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
   TextEditingController textController = TextEditingController();
-  Color primaryColor = Color(0xFFF27114);
+  Color primaryColor = const Color(0xFFF27114);
   String inputValue = '';
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {},
         child: Material(
@@ -29,7 +39,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
           child: Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(2.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -39,36 +49,26 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          widget.product.nomProducto
-                                  .toLowerCase()
-                                  .capitalizeString() ??
-                              'N/A',
+                        child: AppText(
+                          widget.product.nomProducto.toLowerCase(),
                           maxLines: 2,
-                          softWrap:
-                              true, // Permite que el texto se envuelva si supera el límite de una línea
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 14,
                           overflow: TextOverflow
                               .ellipsis, // Trunca el texto si supera las dos líneas
                         ),
                       ),
                       Row(
                         children: [
-                          SizedBox(width: 20,),
-                          Text(
+                          const SizedBox(width: 20),
+                          AppText(
                             'Código: \n${widget.product.codProducto}',
                             maxLines: 2,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              
-                              fontSize: 12,
-                            ),
-                            overflow:
-                                TextOverflow.visible, // Cambiado overflow a visible
+                            fontSize: 12,
+                            overflow: TextOverflow
+                                .visible, // Cambiado overflow a visible
                           ),
                         ],
                       ),
@@ -76,10 +76,30 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                   ),
                   Row(
                     children: [
+                      Expanded(
+                          child: Center(
+                        child: Opacity(
+                          opacity: 0.75,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[350],
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: AppText('Imagen\n no disponible.',
+                                  textAlign: TextAlign.center,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                          ),
+                        ),
+                      )),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -91,36 +111,30 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                     children: [
                                       Row(
                                         children: [
-                                          Text('Antes: '),
-                                          Text(
-                                            ' \$60.000.000',
-                                            style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                fontSize: 12,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
+                                          AppText('Antes: '),
+                                          AppText(' \$60.000.000',
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis),
                                         ],
                                       ),
                                       Row(
                                         children: [
                                           Column(
                                             children: [
-                                              Text('cop'),
-                                              SizedBox(
+                                              AppText('cop '),
+                                              const SizedBox(
                                                 height: 10,
                                               )
                                             ],
                                           ),
-                                          Text(
-                                            ' 50.000.000',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
-                                          SizedBox(
+                                          AppText(
+                                              ''.formatted(widget.product
+                                                  .precioProductoPrecio!),
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          const SizedBox(
                                             width: 10,
                                           ),
                                           Opacity(
@@ -133,16 +147,12 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(2),
-                                                child: Text(
-                                                  ' -25 %',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white,
-                                                      fontSize: 8,
-                                                      overflow: TextOverflow
-                                                          .ellipsis),
-                                                ),
+                                                child: AppText(' -25 %',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                    fontSize: 8,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ),
                                           ),
@@ -150,13 +160,11 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                       ),
                                     ],
                                   ),
-
-                                  //TODO: DESCOMENTAR
                                 ],
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
                           Row(
@@ -165,13 +173,18 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                               Row(
                                 children: [
                                   Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('Cantidad: '),
-                                      SizedBox(
-                                        height: 20,
-                                      )
+                                      AppText(
+                                          'Disponible ${widget.product.existenciaStock}',
+                                          fontSize: 12,
+                                          color: Colors.grey[600]),
+                                      AppText('Cantidad: '),
                                     ],
                                   ),
+                                  gapW4,
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -196,13 +209,15 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              //TEXTFIELD
-
                                               Expanded(
                                                   child: TextFormField(
                                                       onChanged: (value) {
                                                         inputValue = value;
-                                                        setState(() {});
+                                                        setState(() {
+                                                          widget.product.cant =
+                                                              int.parse(
+                                                                  inputValue);
+                                                        });
                                                       },
                                                       controller:
                                                           textController,
@@ -230,46 +245,49 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                               .none, // Puedes establecer un borde si lo deseas
                                                         ),
                                                       ))),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(4.0),
-                                                child: Opacity(
-                                                  opacity: 0.75,
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              3),
-                                                      color:
-                                                          (inputValue.isEmpty)
-                                                              ? Colors.grey[200]
-                                                              : primaryColor,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              6.0),
-                                                      child: Text(
-                                                        'Aplicar',
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color: (inputValue
-                                                                    .isEmpty)
-                                                                ? Colors
-                                                                    .grey[400]
-                                                                : Colors.white),
+                                              InkWell(
+                                                onTap: () {
+                                                  context.read<SaleBloc>().add(
+                                                      SelectProduct(
+                                                          product:
+                                                              widget.product));
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Opacity(
+                                                    opacity: 0.75,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
+                                                        color: (inputValue
+                                                                .isEmpty)
+                                                            ? Colors.grey[200]
+                                                            : primaryColor,
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(6.0),
+                                                        child: Text(
+                                                          'Aplicar',
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: (inputValue
+                                                                      .isEmpty)
+                                                                  ? Colors
+                                                                      .grey[400]
+                                                                  : Colors
+                                                                      .white),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               )
                                             ]),
-                                      ),
-                                      Text(
-                                        'Disponible +1000',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey[400]),
                                       ),
                                     ],
                                   )
@@ -279,29 +297,6 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                           ),
                         ],
                       ),
-                      Expanded(
-                          child: Center(
-                        child: Opacity(
-                          opacity: 0.75,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[350],
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Text(
-                                'Imagen\n no disponible.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    overflow: TextOverflow.ellipsis),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ))
                     ],
                   ),
                 ],

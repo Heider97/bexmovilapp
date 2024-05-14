@@ -12,82 +12,91 @@ enum SaleStatus {
 
 class SaleState {
   final SaleStatus status;
-
-  final List<Section>? sections;
   final List<Router>? routers;
+  final List<Router>? historical;
+  final Router? router;
   final List<Client>? clients;
   final List<Client>? clientsFounded;
+  final Client? client;
   final List<Filter>? filters;
-  final List<Warehouse>? warehouseList;
-  final List<Price>? priceList;
-
-  final Router? selectedRouter;
-  final Client? selectedClient;
-  final Warehouse? selectedWarehouse;
-  final Price? selectedPrice;
-
-//ID CLIENTE - ID PRODUCTO Y STCOK
-  //final List<Map<String, String>>? product;
-
-
-  
-
+  final List<Warehouse>? warehouses;
+  final Warehouse? warehouse;
+  final List<Price>? prices;
+  final Price? price;
+  final List<Product>? products;
+  final double? total;
+  final int? cant;
   final bool? gridView;
+  final List<Product>? cart;
+  final double? subtotal;
 
   final String? error;
 
-  const SaleState(
-      {this.status = SaleStatus.initial,
-      this.sections,
-      this.warehouseList,
-      this.selectedWarehouse,
-      this.priceList,
-      this.selectedPrice,
-      this.routers,
-      this.clients,
-      this.clientsFounded,
-      this.selectedClient,
-      this.filters,
-      this.gridView,
-      this.error,
-      this.selectedRouter});
+  const SaleState({
+    this.status = SaleStatus.initial,
+    this.routers,
+    this.historical,
+    this.router,
+    this.clients,
+    this.clientsFounded,
+    this.client,
+    this.filters,
+    this.warehouses,
+    this.warehouse,
+    this.prices,
+    this.price,
+    this.products,
+    this.total,
+    this.cant,
+    this.gridView,
+    this.cart,
+    this.subtotal,
+    this.error,
+  });
 
   SaleState copyWith({
     SaleStatus? status,
-    List<Section>? sections,
     List<Router>? routers,
+    List<Router>? historical,
+    Router? router,
     List<Client>? clients,
+    Client? client,
     List<Client>? clientsFounded,
     List<Filter>? filters,
-    List<Warehouse>? warehouseList,
-    Warehouse? selectedWarehouse,
+    List<Warehouse>? warehouses,
+    Warehouse? warehouse,
+    List<Price>? prices,
+    Price? price,
+    List<Product>? products,
     List<Map<String, Product>>? product,
-    List<Price>? priceList,
-    Price? selectedPrice,
+    double? total,
+    int? cant,
     bool? gridView,
+    List<Product>? cart,
+    double? subtotal,
     String? error,
-    Router? selectedRouter,
   }) =>
       SaleState(
         status: status ?? this.status,
-        sections: sections ?? this.sections,
         routers: routers ?? this.routers,
+        historical: historical ?? this.historical,
+        router: router ?? this.router,
         clients: clients ?? this.clients,
         clientsFounded: clientsFounded ?? this.clientsFounded,
-        selectedClient: selectedClient ?? this.selectedClient,
+        client: client ?? this.client,
         filters: filters ?? this.filters,
+        warehouses: warehouses ?? this.warehouses,
+        warehouse: warehouse ?? this.warehouse,
+        prices: prices ?? this.prices,
+        price: price ?? this.price,
+        products: products ?? this.products,
+        total: total ?? this.total,
+        cant: cant ?? this.cant,
         gridView: gridView ?? this.gridView,
-        //product: product ?? this.product,
+        cart: cart ?? this.cart,
+        subtotal: subtotal ?? this.subtotal,
         error: error ?? this.error,
-        selectedRouter: selectedRouter ?? this.selectedRouter,
-        warehouseList: warehouseList ?? this.warehouseList,
-        selectedWarehouse: selectedWarehouse ?? this.selectedWarehouse,
-        priceList: priceList ?? this.priceList,
-        selectedPrice: selectedPrice ?? this.selectedPrice,
       );
 
-  @override
-  // TODO: implement props
-  List<Object?> get props =>
-      [status, sections, routers, clients, filters, error];
+  List<Object?> get props => [status, error];
 }

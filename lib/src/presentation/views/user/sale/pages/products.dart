@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/features/products.dart';
 
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
@@ -10,9 +11,11 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:googleapis/transcoder/v1.dart';
 
 import '../../../../widgets/organisms/app_section.dart';
 
@@ -29,21 +32,23 @@ class ProductsView extends StatefulWidget {
 
 class _ProductsViewState extends State<ProductsView> {
   late SaleBloc saleBloc;
+
+  final TextEditingController textEditingController = TextEditingController();
   bool gridMode = false;
 
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(
-        LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
+    saleBloc.add(LoadProducts(null, null, null, null,
+        widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
   @override
   void dispose() {
-    saleBloc.add(LoadWarehouses(
+    saleBloc.add(LoadWarehousesAndPrices(
         navigation: 'back',
-        codcliente: widget.arguments.codcliente,
+        client: widget.arguments.client,
         codprecio: widget.arguments.codprecio,
         codbodega: widget.arguments.codbodega));
     super.dispose();
@@ -51,7 +56,6 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.loading) {
@@ -67,6 +71,7 @@ class _ProductsViewState extends State<ProductsView> {
     return BlocBuilder<SaleBloc, SaleState>(
       builder: (context, state) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -74,10 +79,12 @@ class _ProductsViewState extends State<ProductsView> {
                   child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: CustomSearchBar(
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          saleBloc.add(SearchProduct(value));
+                        },
                         colorBackground: theme.colorScheme.secondary,
                         prefixIcon: const Icon(Icons.search),
-                        controller: TextEditingController(),
+                        controller: textEditingController,
                         hintText: 'Buscar producto',
                       )),
                 ),
@@ -100,19 +107,30 @@ class _ProductsViewState extends State<ProductsView> {
                       setState(() {
                         gridMode = !gridMode;
                       });
-                      //TODO: disable grid view. change icon too
                     },
                   ),
                 )
               ],
             ),
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                    title:null /* e.name! */,
-                    widgetItems: e.widgets ?? [],
-                    tabController: null))
-                : [],
-           
+            gapH8,
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Cliente: ${state.client!.name!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
+            gapH8,
+            const SaleProducts()
           ],
         );
       },

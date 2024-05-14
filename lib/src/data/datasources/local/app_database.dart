@@ -13,6 +13,9 @@ import '../../../utils/constants/strings.dart';
 // [MODELS]
 /// [CORE]
 import '../../../domain/models/module.dart';
+import '../../../domain/models/view.dart';
+import '../../../domain/models/bloc.dart';
+import '../../../domain/models/bloc_event.dart';
 import '../../../domain/models/section.dart';
 import '../../../domain/models/widget.dart';
 import '../../../domain/models/component.dart';
@@ -50,6 +53,9 @@ part 'migrations/index.dart';
 // [DAOS]
 // [CORE]
 part '../local/dao/module_dao.dart';
+part '../local/dao/view_dao.dart';
+part '../local/dao/bloc_dao.dart';
+part '../local/dao/bloc_event_dao.dart';
 part '../local/dao/section_dao.dart';
 part '../local/dao/widget_dao.dart';
 part '../local/dao/component_dao.dart';
@@ -138,11 +144,23 @@ class AppDatabase {
     return await db!.query(query, where: where, whereArgs: values);
   }
 
+  Future<Map<String, Object?>> querySingle(
+      String query, String? where, List<dynamic>? values) async {
+    final db = await instance.database;
+    final results = await db!.query(query, where: where, whereArgs: values);
+    return results.first;
+  }
+
   Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
     final db = await instance.database;
     return await db!.rawQuery(sentence);
   }
 
+  Future<Map<String, Object?>> rawQuerySingle(String sentence) async {
+    final db = await instance.database;
+    final results = await db!.rawQuery(sentence);
+    return results.first;
+  }
 
   Future<List<Map<String, Object?>>> search(String table) async {
     final db = await instance.database;
@@ -159,7 +177,7 @@ class AppDatabase {
       AND name NOT IN (
         'android_metadata',
         'app_features',
-        'app-funcionalities'
+        'app_funcionalities',
         'app_route_transaction',
         'configs',
         'error_logs',
@@ -233,6 +251,12 @@ class AppDatabase {
     final db = await instance.database;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  ViewDao get viewDao => ViewDao(instance);
+
+  BlocDao get blocDao => BlocDao(instance);
+
+  BlocEventDao get blocEventDao => BlocEventDao(instance);
 
   ModuleDao get moduleDao => ModuleDao(instance);
 
