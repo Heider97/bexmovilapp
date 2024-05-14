@@ -106,9 +106,8 @@ class _ClientsPageState extends State<ClientsPage> {
                 AppIconButton(
                     child: Icon(Icons.map_rounded,
                         color: theme.colorScheme.onPrimary),
-                    onPressed: () => navigationService.goTo(
-                          AppRoutes.saleMap,
-                        )),
+                    onPressed: () => navigationService.goTo(AppRoutes.saleMap,
+                        arguments: state.router)),
               ],
             ),
           ),

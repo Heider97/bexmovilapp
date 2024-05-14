@@ -111,7 +111,6 @@ class QueryLoaderService {
 
     final widgets = await databaseRepository.findWidgetsByBloc(e!.id!);
 
-
     if (widgets != null && widgets.isNotEmpty) {
       for (var widget in widgets) {
         var components = await databaseRepository.findComponents(widget.id!);

@@ -16,26 +16,26 @@ import '../../../presentation/views/user/sale/pages/products.dart';
 import '../../../presentation/views/user/sale/pages/shopping_cart.dart';
 
 Map<String, RouteType> salesRoutes = {
-  AppRoutes.routersSale: (context, settings) => AppGlobalBackground.sales(
+  AppRoutes.routersSale: (context, settings) => AppGlobalBackground.normal(
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: const RoutersPage()),
-  AppRoutes.clientsSale: (context, settings) => AppGlobalBackground.sales(
+  AppRoutes.clientsSale: (context, settings) => AppGlobalBackground.normal(
       hideAppBar: false,
       hideBottomNavigationBar: true,
       child: ClientsPage(router: settings.arguments as Router)),
   AppRoutes.filtersSale: (context, settings) =>
-      AppGlobalBackground.sales(child: const FiltersSalePage()),
+      AppGlobalBackground.normal(child: const FiltersSalePage()),
   AppRoutes.saleMap: (context, settings) => AppGlobalBackground.squared(
       hideBottomNavigationBar: true,
       opacity: 0.1,
       child: MapClients(router: settings.arguments as Router)),
-  AppRoutes.productsSale: (context, settings) => AppGlobalBackground.products(
+  AppRoutes.productsSale: (context, settings) => AppGlobalBackground.normal(
       hideAppBar: false,
       hideBottomNavigationBar: true,
       opacity: 0.1,
       child: ProductsView(arguments: settings.arguments as ProductArgument)),
-  AppRoutes.cartSale: (context, settings) => AppGlobalBackground.sales(
+  AppRoutes.cartSale: (context, settings) => AppGlobalBackground.normal(
       hideAppBar: false,
       hideBottomNavigationBar: true,
       opacity: 0.1,
