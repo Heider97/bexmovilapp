@@ -1,4 +1,3 @@
-import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +11,11 @@ import '../../../../../utils/constants/gaps.dart';
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
 
-//features
-import '../../../../widgets/organisms/app_section.dart';
-
-//widgets
+//widgets and features
 import '../../../../widgets/atoms/app_icon_button.dart';
+import '../../../../widgets/atoms/app_text.dart';
+import '../../../../widgets/user/custom_search_bar.dart';
+import '../features/clients.dart';
 
 //services
 import '../../../../../locator.dart';
@@ -71,7 +70,7 @@ class _ClientsPageState extends State<ClientsPage> {
     });
   }
 
-  Widget _buildBody(state, context) {
+  Widget _buildBody(SaleState state, context) {
     ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Column(
@@ -102,12 +101,11 @@ class _ClientsPageState extends State<ClientsPage> {
             ),
           ),
           gapH8,
-          ...state.sections != null
-              ? state.sections!.map((e) => AppSection(
-                  title: e.name!,
-                  widgetItems: e.widgets ?? [],
-                  tabController: null))
-              : [],
+          Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: AppText(state.router!.nameDayRouter!, fontSize: 16)),
+          gapH8,
+          const SaleClients()
         ],
       ),
     );

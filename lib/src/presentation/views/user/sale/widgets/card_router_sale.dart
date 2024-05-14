@@ -106,17 +106,9 @@ class _CardRouterState extends State<CardRouter> {
                       ),
                       Row(
                         children: [
-                          /*      Opacity(
-                            opacity: 0.5,
-                            child: Icon(
-                              FontAwesomeIcons.usersBetweenLines,
-                              color: theme.primaryColor,
-                              size: 15,
-                            ),
-                          ), */
                           gapW12,
                           AppText(
-                              'Clientes visitados: 0', // ${widget.visited ??
+                              'Clientes visitados: 0',
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,

@@ -104,7 +104,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       }
     }
 
-    emit(state.copyWith(status: SaleStatus.routers, clients: clients));
+    emit(state.copyWith(status: SaleStatus.clients, clients: clients));
   }
 
   buscarClientes(String valor) {
