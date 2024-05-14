@@ -33,7 +33,6 @@ class SaleProducts extends StatefulWidget {
 class _SaleProductsState extends State<SaleProducts> {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(
         buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
@@ -50,32 +49,33 @@ class _SaleProductsState extends State<SaleProducts> {
                           padding: EdgeInsets.zero,
                           itemCount: state.products?.length,
                           itemBuilder: (context, index) {
-                            List<Widget> carouselItems = [
-                              CustomCardProduct(
-                                  product: state.products![index]),
-                              CustomCardProductBack(
-                                  product: state.products![index])
-                            ];
-                            return CarouselSlider(
-                              options: CarouselOptions(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.22,
-                                enableInfiniteScroll: false,
-                                autoPlayInterval: const Duration(seconds: 4),
-                                aspectRatio: 2,
-                                enlargeCenterPage: false,
-                                scrollDirection: Axis.horizontal,
-                                autoPlay: false,
-                                viewportFraction: 1,
-                              ),
-                              items: carouselItems.map((item) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return item;
-                                  },
-                                );
-                              }).toList(),
-                            );
+                            return CustomCardProduct(
+                                product: state.products![index]);
+                            // List<Widget> carouselItems = [
+                            //
+                            //   CustomCardProductBack(
+                            //       product: state.products![index])
+                            // ];
+                            // return CarouselSlider(
+                            //   options: CarouselOptions(
+                            //     height:
+                            //         MediaQuery.of(context).size.height * 0.22,
+                            //     enableInfiniteScroll: false,
+                            //     autoPlayInterval: const Duration(seconds: 4),
+                            //     aspectRatio: 2,
+                            //     enlargeCenterPage: false,
+                            //     scrollDirection: Axis.horizontal,
+                            //     autoPlay: false,
+                            //     viewportFraction: 1,
+                            //   ),
+                            //   items: carouselItems.map((item) {
+                            //     return Builder(
+                            //       builder: (BuildContext context) {
+                            //         return item;
+                            //       },
+                            //     );
+                            //   }).toList(),
+                            // );
                           })),
                   Material(
                       elevation: 10,

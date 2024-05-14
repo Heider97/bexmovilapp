@@ -1,8 +1,11 @@
 import 'package:bexmovil/src/domain/models/product.dart';
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../../../widgets/atoms/app_text.dart';
 
 class CustomCardProduct extends StatefulWidget {
   final Product product;
@@ -39,17 +42,12 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                     children: [
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          widget.product.nomProducto
-                              .toLowerCase()
-                              .capitalizeString(),
+                        child: AppText(
+                          widget.product.nomProducto.toLowerCase(),
                           maxLines: 2,
-                          softWrap: true,
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 17,
-                          ),
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontSize: 14,
                           overflow: TextOverflow
                               .ellipsis, // Trunca el texto si supera las dos líneas
                         ),
@@ -57,13 +55,11 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                       Row(
                         children: [
                           const SizedBox(width: 20),
-                          Text(
+                          AppText(
                             'Código: \n${widget.product.codProducto}',
                             maxLines: 2,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
+                            fontSize: 12,
                             overflow: TextOverflow
                                 .visible, // Cambiado overflow a visible
                           ),
@@ -73,6 +69,26 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                   ),
                   Row(
                     children: [
+                      Expanded(
+                          child: Center(
+                        child: Opacity(
+                          opacity: 0.75,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.grey[350],
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: AppText('Imagen\n no disponible.',
+                                  textAlign: TextAlign.center,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                          ),
+                        ),
+                      )),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -86,37 +102,30 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Row(
+                                      Row(
                                         children: [
-                                          Text('Antes: '),
-                                          Text(
-                                            ' \$60.000.000',
-                                            style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                fontSize: 12,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
+                                          AppText('Antes: '),
+                                          AppText(' \$60.000.000',
+
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis),
                                         ],
                                       ),
                                       Row(
                                         children: [
-                                          const Column(
+                                          Column(
                                             children: [
-                                              Text('cop '),
-                                              SizedBox(
+                                              AppText('cop '),
+                                              const SizedBox(
                                                 height: 10,
                                               )
                                             ],
                                           ),
-                                          Text(
-                                            ''.formatted(widget.product.precioProductoPrecio!),
-                                            style: const TextStyle(
-                                                fontSize: 20,
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
+                                          AppText(
+                                              ''.formatted(widget.product
+                                                  .precioProductoPrecio!),
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
                                           const SizedBox(
                                             width: 10,
                                           ),
@@ -127,18 +136,15 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                   color: primaryColor,
                                                   borderRadius:
                                                       BorderRadius.circular(5)),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(2),
-                                                child: Text(
-                                                  ' -25 %',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.white,
-                                                      fontSize: 8,
-                                                      overflow: TextOverflow
-                                                          .ellipsis),
-                                                ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                child: AppText(' -25 %',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                    fontSize: 8,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ),
                                           ),
@@ -158,14 +164,19 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                             children: [
                               Row(
                                 children: [
-                                  const Column(
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text('Cantidad: '),
-                                      SizedBox(
-                                        height: 20,
-                                      )
+                                      AppText('Disponible ${widget.product.existenciaStock}',
+                                          fontSize: 12,
+                                          color: Colors.grey[600]),
+                                      AppText('Cantidad: '),
+
                                     ],
                                   ),
+                                  gapW4,
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -257,12 +268,6 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                               )
                                             ]),
                                       ),
-                                      // Text(
-                                      //   'Disponible +1000',
-                                      //   style: TextStyle(
-                                      //       fontSize: 12,
-                                      //       color: Colors.grey[400]),
-                                      // ),
                                     ],
                                   )
                                 ],
@@ -271,29 +276,6 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                           ),
                         ],
                       ),
-                      Expanded(
-                          child: Center(
-                        child: Opacity(
-                          opacity: 0.75,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[350],
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Padding(
-                              padding: EdgeInsets.all(2),
-                              child: Text(
-                                'Imagen\n no disponible.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    overflow: TextOverflow.ellipsis),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ))
                     ],
                   ),
                 ],

@@ -11,6 +11,7 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,6 +69,7 @@ class _ProductsViewState extends State<ProductsView> {
     return BlocBuilder<SaleBloc, SaleState>(
       builder: (context, state) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -110,7 +112,20 @@ class _ProductsViewState extends State<ProductsView> {
             gapH8,
             Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: AppText(state.client!.name!, fontSize: 16)),
+                child: AppText(
+                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Cliente: ${state.client!.name!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
             gapH8,
             const SaleProducts()
           ],
