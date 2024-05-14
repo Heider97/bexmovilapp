@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/nums.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,7 +59,14 @@ class _RoutersPageState extends State<RoutersPage> {
 
   Widget _buildBody(state, context) {
     return Column(
-      children: [AppText('Ruteros'), gapH8, const SaleRouters()],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(left: kDefaultPadding),
+            child: AppText('Ruteros', fontSize: 16)),
+        gapH8,
+        const SaleRouters()
+      ],
     );
   }
 }

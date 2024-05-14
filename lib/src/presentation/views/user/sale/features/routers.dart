@@ -59,7 +59,7 @@ class _SaleRoutersState extends State<SaleRouters>
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   if (state.status == SaleStatus.routers &&
                       state.routers != null &&
-                      state.routers!.isNotEmpty == true) {
+                      state.routers!.isNotEmpty) {
                     return ListView.builder(
                         padding: EdgeInsets.zero,
                         itemCount: state.routers?.length,
