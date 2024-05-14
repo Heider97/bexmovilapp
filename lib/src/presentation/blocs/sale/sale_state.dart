@@ -25,6 +25,9 @@ class SaleState {
   final Price? price;
   final List<Product>? products;
 
+  final double? total;
+  final int? cant;
+
   //ID CLIENTE - ID PRODUCTO Y STCOK
   //final List<Map<String, String>>? product;
 
@@ -46,6 +49,8 @@ class SaleState {
     this.prices,
     this.price,
     this.products,
+    this.total,
+    this.cant,
     this.gridView,
     this.error,
   });
@@ -65,6 +70,8 @@ class SaleState {
     Price? price,
     List<Product>? products,
     List<Map<String, Product>>? product,
+    double? total,
+    int? cant,
     bool? gridView,
     String? error,
   }) =>
@@ -82,6 +89,8 @@ class SaleState {
         prices: prices ?? this.prices,
         price: price ?? this.price,
         products: products ?? this.products,
+        total: total ?? this.total,
+        cant: cant ?? this.cant,
         gridView: gridView ?? this.gridView,
         //product: product ?? this.product,
         error: error ?? this.error,

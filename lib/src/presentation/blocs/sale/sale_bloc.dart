@@ -32,36 +32,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       : super(const SaleState(status: SaleStatus.initial)) {
     on<LoadRouters>(_onLoadRouters);
     on<LoadClients>(_onLoadClients);
+    on<SearchClient>(_onSearchClient);
+    on<LoadWarehousesAndPrices>(_onLoadWarehousesAndPrices);
+    on<SelectWarehouse>(_onSelectWarehouse);
+    on<SelectPriceList>(_onSelectPrice);
     on<LoadProducts>(_onLoadProducts);
-    on<LoadWarehouses>(_onLoadWarehouses);
-    on<SelectWarehouse>(_selectWarehouse);
-    on<SelectPriceList>(_selectPriceList);
     on<GridModeChange>(_gridModeChange);
-    on<SelectRouter>(_selectRouter);
-    on<ResetStatus>(_resetStatus);
-  }
-
-  _resetStatus(ResetStatus event, Emitter emit) {
-    emit(state.copyWith(status: event.status));
-    add(LoadClients(state.router!.dayRouter));
-  }
-
-  _selectWarehouse(SelectWarehouse event, Emitter emit) {
-    print('Selected warehouse ${event.warehouse?.nombodega}');
-    emit(state.copyWith(warehouse: event.warehouse));
-  }
-
-  _selectPriceList(SelectPriceList event, Emitter emit) {
-    print('Selected priceList ${event.listPriceSelected?.nomprecio}');
-    emit(state.copyWith(price: event.listPriceSelected));
-  }
-
-  _selectRouter(SelectRouter event, Emitter emit) {
-    emit(state.copyWith(router: event.router));
-  }
-
-  _gridModeChange(GridModeChange event, Emitter emit) {
-    emit(state.copyWith(gridView: event.changeMode));
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -98,7 +74,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         'SaleBloc',
         'LoadClients',
         seller!,
-        [event.codeRouter, seller]);
+        [event.router!.dayRouter, seller]);
 
     List<String> keys = variables.keys.toList();
 
@@ -108,21 +84,27 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       }
     }
 
-    emit(state.copyWith(status: SaleStatus.clients, clients: clients));
+    emit(state.copyWith(
+        status: SaleStatus.clients, router: event.router, clients: clients));
   }
 
-  buscarClientes(String valor) {
-    if (valor == '') {
-      return state.clients!;
+  Future<void> _onSearchClient(SearchClient event, Emitter emit) async {
+    if (event.value == null || event.value == '') {
+      emit(state.copyWith(
+        status: SaleStatus.clients,
+      ));
+    } else {
+      var clients = state.clients!.where((client) {
+        return client.name!.toLowerCase().contains(event.value!) ||
+            client.businessName!.toLowerCase().contains(event.value!);
+      }).toList();
+
+      emit(state.copyWith(status: SaleStatus.clients, clients: clients));
     }
-
-    return state.clients!.where((client) {
-      return client.name!.toLowerCase().contains(valor) ||
-          client.businessName!.toLowerCase().contains(valor);
-    }).toList();
   }
 
-  Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
+  Future<void> _onLoadWarehousesAndPrices(
+      LoadWarehousesAndPrices event, Emitter emit) async {
     var seller = storageService.getString('username');
     var warehouses = <Warehouse>[];
     var prices = <Price>[];
@@ -132,7 +114,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
         'SaleBloc',
         'LoadWarehousesAndPrices',
         seller!,
-        [event.codbodega, event.codprecio, event.codcliente]);
+        [event.codbodega, event.codprecio, event.client!.id]);
 
     List<String> keys = variables.keys.toList();
 
@@ -174,6 +156,18 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     // }
   }
 
+  _onSelectWarehouse(SelectWarehouse event, Emitter emit) {
+    emit(state.copyWith(warehouse: event.warehouse));
+  }
+
+  _onSelectPrice(SelectPriceList event, Emitter emit) {
+    emit(state.copyWith(price: event.listPriceSelected));
+  }
+
+  _gridModeChange(GridModeChange event, Emitter emit) {
+    emit(state.copyWith(gridView: event.changeMode));
+  }
+
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
@@ -199,5 +193,12 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       status: SaleStatus.products,
       products: products,
     ));
+  }
+
+  Future<void> _onSetProduct(SelectProduct event, Emitter emit) async {
+    // emit(state.copyWith(
+    //   status: SaleStatus.products,
+    //   products: products,
+    // ));
   }
 }

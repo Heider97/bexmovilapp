@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -83,17 +84,23 @@ class _SaleProductsState extends State<SaleProducts> {
                         height: 60,
                         color: Colors.white,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppText(
-                                  ' 0 Productos',
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AppText(
+                                    'Productos: ${state.cant ?? 0}',
+                                  ),
+                                  AppText(
+                                    'Total: ${''.formatted(state.total ?? 0.0)}',
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(children: [
                               AppText('Vaciar'),

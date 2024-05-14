@@ -39,9 +39,10 @@ class _CardRouterState extends State<CardRouter> {
       padding: const EdgeInsets.all(7),
       child: InkWell(
         onTap: () {
-          saleBloc.add(SelectRouter(router: widget.router));
-          Navigator.pushNamed(context, AppRoutes.clientsSale,
-              arguments: widget.router.dayRouter);
+          //TODO [Heider Zapa] resolve
+          // saleBloc.add(SelectRouter(router: widget.router));
+          // Navigator.pushNamed(context, AppRoutes.clientsSale,
+          //     arguments: widget.router.dayRouter);
         },
         child: Material(
           elevation: 1,

@@ -37,18 +37,19 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(
-        LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
+    //TODO: [Heider Zapa] resolve
+    // saleBloc.add(
+    //     LoadProducts(widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
   @override
   void dispose() {
-    saleBloc.add(LoadWarehouses(
-        navigation: 'back',
-        codcliente: widget.arguments.codcliente,
-        codprecio: widget.arguments.codprecio,
-        codbodega: widget.arguments.codbodega));
+    // saleBloc.add(LoadWarehouses(
+    //     navigation: 'back',
+    //     codcliente: widget.arguments.codcliente,
+    //     codprecio: widget.arguments.codprecio,
+    //     codbodega: widget.arguments.codbodega));
     super.dispose();
   }
 

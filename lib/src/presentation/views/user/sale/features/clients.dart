@@ -61,8 +61,7 @@ class _SaleClientsState extends State<SaleClients>
                     itemCount: state.clients?.length,
                     itemBuilder: (context, index) {
                       return CardClient(
-                          codrouter: state.router!.dayRouter,
-                          client: state.clients![index]);
+                          router: state.router!, client: state.clients![index]);
                     });
               } else {
                 return const Text('No hay clientes disponibles');

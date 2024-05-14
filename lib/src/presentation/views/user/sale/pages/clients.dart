@@ -1,13 +1,16 @@
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' hide Router;
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 //utils
 import '../../../../../services/styled_dialog_controller.dart';
 import '../../../../../utils/constants/strings.dart';
+import '../../../../../utils/extensions/string_extension.dart';
 import '../../../../../utils/constants/gaps.dart';
+
+//domain
+import '../../../../../domain/models/router.dart';
 
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
@@ -26,8 +29,8 @@ final NavigationService navigationService = locator<NavigationService>();
 final styledDialogController = locator<StyledDialogController>();
 
 class ClientsPage extends StatefulWidget {
-  final String? codeRouter;
-  const ClientsPage({super.key, this.codeRouter});
+  final Router? router;
+  const ClientsPage({super.key, this.router});
 
   @override
   State<ClientsPage> createState() => _ClientsPageState();
@@ -44,7 +47,7 @@ class _ClientsPageState extends State<ClientsPage> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadClients(widget.codeRouter));
+    saleBloc.add(LoadClients(widget.router));
     super.initState();
   }
 
@@ -111,8 +114,9 @@ class _ClientsPageState extends State<ClientsPage> {
           gapH8,
           Padding(
               padding: const EdgeInsets.only(left: 10),
-              child: AppText(state.router!.nameDayRouter!.capitalizeString(),
-                  fontSize: 16)),
+              child: AppText(
+                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
+                  fontSize: 14)),
           gapH8,
           const SaleClients()
         ],
