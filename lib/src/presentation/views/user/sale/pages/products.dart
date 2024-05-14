@@ -32,12 +32,13 @@ class ProductsView extends StatefulWidget {
 
 class _ProductsViewState extends State<ProductsView> {
   late SaleBloc saleBloc;
+
+  final TextEditingController textEditingController = TextEditingController();
   bool gridMode = false;
 
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    //TODO: [Heider Zapa] resolve
     saleBloc.add(LoadProducts(null, null, null, null,
         widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
@@ -78,10 +79,12 @@ class _ProductsViewState extends State<ProductsView> {
                   child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: CustomSearchBar(
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          saleBloc.add(SearchProduct(value));
+                        },
                         colorBackground: theme.colorScheme.secondary,
                         prefixIcon: const Icon(Icons.search),
-                        controller: TextEditingController(),
+                        controller: textEditingController,
                         hintText: 'Buscar producto',
                       )),
                 ),

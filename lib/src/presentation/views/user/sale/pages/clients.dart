@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
 import 'package:flutter/cupertino.dart' hide Router;
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,7 +88,7 @@ class _ClientsPageState extends State<ClientsPage> {
                 Expanded(
                   child: CustomSearchBar(
                       onChanged: (value) {
-                        saleBloc.add(SearchClientSale(valueToSearch: value));
+                        // saleBloc.add(SearchClient(valueToSearch: value));
                       },
                       colorBackground: theme.colorScheme.secondary,
                       prefixIcon: const Icon(Icons.search),

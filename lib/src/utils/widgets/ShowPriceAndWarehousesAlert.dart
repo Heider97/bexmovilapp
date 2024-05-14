@@ -65,20 +65,19 @@ class _ShowPriceAndWarehousesAlertState
                     ),
                     width: Screens.width(context),
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
+                      padding: const EdgeInsets.all(8.0),
+                      child: AppText(
                         state.client!.name!,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(color: theme.colorScheme.onPrimary),
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
                 gapH16,
-                AppText('Bodega', fontSize: 16, fontWeight: FontWeight.bold),
+                AppText('Bodega', fontSize: 16),
                 gapH8,
-                const Text(
+                AppText(
                     'Selecciona la bodega de la cual saldran los articulos a vender.'),
                 gapH20,
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -105,14 +104,15 @@ class _ShowPriceAndWarehousesAlertState
                                       });
                                     },
                                     selected: false,
-                                    title: Text(
-                                        state.warehouses![index].nombodega ??
-                                            'N/A'),
-                                    subtitle: Text(
+                                    title: AppText(
+                                      state.warehouses![index].nombodega ??
+                                          'N/A',
+                                      fontSize: 14,
+                                    ),
+                                    subtitle: AppText(
                                       state.warehouses![index].codbodega ??
                                           'N/A',
-                                      style: theme.textTheme.bodyMedium!
-                                          .copyWith(color: theme.disabledColor),
+                                      fontSize: 14,
                                     ),
                                     trailing: Radio(
                                       value: index,
@@ -130,13 +130,12 @@ class _ShowPriceAndWarehousesAlertState
                           : Center(
                               child: (state.status == SaleStatus.loading)
                                   ? const CircularProgressIndicator()
-                                  : const Text('No hay bodegas disponibles.')));
+                                  : AppText('No hay bodegas disponibles.')));
                 }),
                 gapH20,
-                AppText('Lista de precios',
-                    fontSize: 16, fontWeight: FontWeight.bold),
+                AppText('Lista de precios', fontSize: 16),
                 gapH8,
-                const Text(
+                AppText(
                     'Escoge la lista de precios para aplicar al cliente seleccionado.'),
                 gapH20,
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -164,12 +163,12 @@ class _ShowPriceAndWarehousesAlertState
                                     });
                                   },
                                   selected: false,
-                                  title: Text(
-                                      state.prices?[index].nomprecio ?? 'N/A'),
-                                  subtitle: Text(
+                                  title: AppText(
+                                      state.prices?[index].nomprecio ?? 'N/A',
+                                      fontSize: 14),
+                                  subtitle: AppText(
                                     state.prices?[index].codprecio ?? 'N/A',
-                                    style: theme.textTheme.bodyMedium!
-                                        .copyWith(color: theme.disabledColor),
+                                    fontSize: 14,
                                   ),
                                   trailing: Radio(
                                     value: index,
@@ -188,7 +187,7 @@ class _ShowPriceAndWarehousesAlertState
                         : Center(
                             child: (state.status == SaleStatus.loading)
                                 ? const CircularProgressIndicator()
-                                : const Text(
+                                : AppText(
                                     'No hay listado de precios disponible'),
                           ),
                   );
@@ -227,11 +226,9 @@ class _ShowPriceAndWarehousesAlertState
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(left: 15.0, right: 15),
-                              child: Text(
+                              child: AppText.bodyMedium(
                                 'Confirmar',
-                                style: theme.textTheme.bodyMedium!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600),
+                                color: Colors.white,
                               ),
                             ),
                           ),
