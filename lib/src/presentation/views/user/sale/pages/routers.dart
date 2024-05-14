@@ -35,7 +35,7 @@ class _RoutersPageState extends State<RoutersPage> {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     locationBloc = BlocProvider.of<LocationBloc>(context);
     saleBloc.add(LoadRouters());
-    locationBloc.startFollowingUser();
+    // locationBloc.startFollowingUser();
   }
 
   @override
