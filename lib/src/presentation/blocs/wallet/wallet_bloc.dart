@@ -31,19 +31,24 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     on<LoadSummaries>(_onLoadSummaries);
     on<SelectInvoices>(_onSelectInvoices);
     on<Collection>(_onCollection);
-    on<SelectClientEvent>(_selectClientEvent);
-  }
-
-  _selectClientEvent(SelectClientEvent event, Emitter emit) {
-    //
   }
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
-    //TODO: [Heider Zapa] refactor with new logic
     var seller = storageService.getString('username');
-    List<Section> sections =
-        await queryLoaderService.getResults('wallet', seller!, [seller]);
-    emit(state.copyWith(status: WalletStatus.dashboard, sections: sections));
+    var graphics = <Graphic>[];
+
+    Map<String, dynamic> variables = await queryLoaderService
+        .load('/wallet-dashboard', 'WalletBloc', 'LoadGraphics', seller!, []);
+
+    List<String> keys = variables.keys.toList();
+
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'graphics') {
+        graphics = variables[keys[i]];
+      }
+    }
+
+    emit(state.copyWith(status: WalletStatus.dashboard, graphics: graphics));
   }
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
@@ -53,7 +58,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var seller = storageService.getString('username');
       var range = event.range;
       List<Section> sections = await queryLoaderService
-          .getResults('wallet-clients', seller!,[seller, range]);
+          .getResults('wallet-clients', seller!, [seller, range]);
       emit(state.copyWith(
           status: WalletStatus.clients, age: event.range, sections: sections));
     } catch (error, stackTrace) {
@@ -70,7 +75,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var client = event.client!.id.toString();
       var range = event.range;
       List<Section> sections = await queryLoaderService
-          .getResults('wallet-summaries', seller!,[seller, client, range]);
+          .getResults('wallet-summaries', seller!, [seller, client, range]);
       emit(state.copyWith(
           status: WalletStatus.invoices, age: event.range, sections: sections));
     } catch (error, stackTrace) {

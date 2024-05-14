@@ -13,9 +13,7 @@ import '../../home/widgets/card_kpi.dart';
 import '../widgets/cartesian_chart.dart';
 
 class WalletDashboard extends StatefulWidget {
-  final List<Kpi>? components;
-
-  const WalletDashboard({super.key, this.components});
+  const WalletDashboard({super.key});
 
   @override
   State<WalletDashboard> createState() => _WalletDashboardState();
@@ -33,22 +31,24 @@ class _WalletDashboardState extends State<WalletDashboard>
     final size = MediaQuery.of(context).size;
     return BlocBuilder<WalletBloc, WalletState>(builder: (context, state) {
       if (state.status == WalletStatus.dashboard &&
-          widget.components != null &&
-          widget.components!.isNotEmpty == true) {
+          state.graphics != null &&
+          state.graphics!.isNotEmpty == true) {
         return SingleChildScrollView(
           child: SizedBox(
             height: size.height - 200,
             child: ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: widget.components!.length,
+              itemCount: state.graphics!.length,
               itemBuilder: (c, i) {
-                final component = widget.components![i];
+                final component = state.graphics![i];
 
                 if (component.type == "kpi") {
-                  return CardKpi(
-                      kpi: component, height: 80, needConverted: true);
+                  // return CardKpi(
+                  //     kpi: component, height: 80, needConverted: true);
+                  return const SizedBox();
                 } else if (component.type == "line") {
-                  return CartesianChart(component: component);
+                  // return CartesianChart(component: component);
+                  return const SizedBox();
                 } else {
                   return const SizedBox();
                 }

@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,9 @@ import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //widgets
+import '../../../../widgets/atoms/app_text.dart';
 import '../../../../widgets/organisms/app_section.dart';
+import '../features/dashboard.dart';
 import '../widgets/circular_chart.dart';
 
 class WalletDashboardView extends StatefulWidget {
@@ -59,12 +62,7 @@ class _WalletDashboardViewState extends State<WalletDashboardView> {
     return SafeArea(
       child: Stack(
         children: [
-          ...state.sections != null
-              ? state.sections!.map((e) => AppSection(
-                  title: e.name!,
-                  widgetItems: e.widgets ?? [],
-                  tabController: null))
-              : [],
+          const WalletDashboard(),
           Positioned(
             bottom: 10,
             child: SizedBox(
