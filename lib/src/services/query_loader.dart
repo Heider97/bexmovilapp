@@ -111,14 +111,21 @@ class QueryLoaderService {
 
     final widgets = await databaseRepository.findWidgetsByBloc(e!.id!);
 
+
     if (widgets != null && widgets.isNotEmpty) {
       for (var widget in widgets) {
         var components = await databaseRepository.findComponents(widget.id!);
 
+        print(components);
+
         if (components != null && components.isNotEmpty) {
+
           var data = <Map<String, dynamic>>[];
 
           for (var component in components) {
+
+            print(component.toJson());
+
             var logicables =
                 await databaseRepository.logicQueries(component.id!);
 

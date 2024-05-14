@@ -86,8 +86,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
-    var clients = <Client>[];
     var seller = storageService.getString('username');
+    var clients = <Client>[];
 
     Map<String, dynamic> variables = await queryLoaderService.load(
         '/sales-clients',
@@ -120,31 +120,56 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadWarehouses(LoadWarehouses event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults('sales-warehouses',
-        seller!, [event.codbodega, event.codprecio, event.codcliente]);
+    var warehouses = <Warehouse>[];
+    var prices = <Price>[];
 
-    if (sections.first.widgets!.first.components!.first.results is Navigation &&
-        event.navigation == 'go') {
-      var navigation = sections.first.widgets!.first.components!.first.results;
-      await navigationService.goTo(navigation.route!,
-          arguments: navigation.argument);
-    } else if (sections.first.widgets!.first.components!.first.results
-            is Navigation &&
-        event.navigation == 'back') {
-      add(LoadClients(event.codrouter));
-      styledDialogController.closeVisibleDialog();
-    } else {
-      List<Warehouse>? warehouses =
-          sections.first.widgets!.first.components!.first.results;
-      List<Price>? listPrices =
-          sections[1].widgets!.first.components!.first.results;
+    Map<String, dynamic> variables = await queryLoaderService.load(
+        '/sale-warehouses-and-prices',
+        'SaleBloc',
+        'LoadWarehousesAndPrices',
+        seller!,
+        [event.codbodega, event.codprecio, event.codcliente]);
 
-      // emit(state.copyWith(
-      //     status: SaleStatus.warehouses,
-      //     selectedClient: event.client,
-      //     warehouseList: warehouses,
-      //     priceList: listPrices));
+    List<String> keys = variables.keys.toList();
+
+    print(variables);
+
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'warehouses') {
+        warehouses = variables[keys[i]];
+      } else if (keys[i] == 'prices') {
+        prices = variables[keys[i]];
+      }
     }
+
+    emit(state.copyWith(
+        status: SaleStatus.warehouses,
+        client: event.client,
+        warehouses: warehouses,
+        prices: prices));
+
+    // if (sections.first.widgets!.first.components!.first.results is Navigation &&
+    //     event.navigation == 'go') {
+    //   var navigation = sections.first.widgets!.first.components!.first.results;
+    //   await navigationService.goTo(navigation.route!,
+    //       arguments: navigation.argument);
+    // } else if (sections.first.widgets!.first.components!.first.results
+    //         is Navigation &&
+    //     event.navigation == 'back') {
+    //   add(LoadClients(event.codrouter));
+    //   styledDialogController.closeVisibleDialog();
+    // } else {
+    //   List<Warehouse>? warehouses =
+    //       sections.first.widgets!.first.components!.first.results;
+    //   List<Price>? listPrices =
+    //       sections[1].widgets!.first.components!.first.results;
+    //
+    //   emit(state.copyWith(
+    //       status: SaleStatus.warehouses,
+    //       selectedClient: event.client,
+    //       warehouseList: warehouses,
+    //       priceList: listPrices));
+    // }
   }
 
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
