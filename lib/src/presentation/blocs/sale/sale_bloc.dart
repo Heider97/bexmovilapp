@@ -199,8 +199,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onSelectProduct(SelectProduct event, Emitter emit) async {
     var totalProduct =
         event.product!.precioProductoPrecio! * event.product!.cant!;
-    var total = state.total! + totalProduct;
-    var cant = state.cant! + 1;
+    var total = state.total ?? 0 + totalProduct;
+    var cant = state.cant ?? 0 + 1;
     emit(state.copyWith(status: SaleStatus.products, total: total, cant: cant));
   }
 }

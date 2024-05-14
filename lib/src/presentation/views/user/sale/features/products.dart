@@ -35,94 +35,93 @@ class _SaleProductsState extends State<SaleProducts> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(
-        buildWhen: (previous, current) => previous.status != current.status,
+        // buildWhen: (previous, current) => previous.status != current.status || current.cant != previous.cant,
         builder: (context, state) {
-          if (state.status == SaleStatus.products &&
-              state.products != null &&
-              state.products!.isNotEmpty) {
-            return Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: state.products?.length,
-                          itemBuilder: (context, index) {
-                            return CustomCardProduct(
-                                product: state.products![index]);
-                            // List<Widget> carouselItems = [
-                            //
-                            //   CustomCardProductBack(
-                            //       product: state.products![index])
-                            // ];
-                            // return CarouselSlider(
-                            //   options: CarouselOptions(
-                            //     height:
-                            //         MediaQuery.of(context).size.height * 0.22,
-                            //     enableInfiniteScroll: false,
-                            //     autoPlayInterval: const Duration(seconds: 4),
-                            //     aspectRatio: 2,
-                            //     enlargeCenterPage: false,
-                            //     scrollDirection: Axis.horizontal,
-                            //     autoPlay: false,
-                            //     viewportFraction: 1,
-                            //   ),
-                            //   items: carouselItems.map((item) {
-                            //     return Builder(
-                            //       builder: (BuildContext context) {
-                            //         return item;
-                            //       },
-                            //     );
-                            //   }).toList(),
-                            // );
-                          })),
-                  Material(
-                      elevation: 10,
-                      child: Container(
-                        height: 60,
-                        color: Colors.white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AppText(
-                                    'Productos: ${state.cant ?? 0}',
-                                  ),
-                                  AppText(
-                                    'Total: ${''.formatted(state.total ?? 0.0)}',
-                                  ),
-                                ],
+      if (state.status == SaleStatus.products &&
+          state.products != null &&
+          state.products!.isNotEmpty) {
+        return Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: state.products?.length,
+                      itemBuilder: (context, index) {
+                        return CustomCardProduct(
+                            product: state.products![index]);
+                        // List<Widget> carouselItems = [
+                        //
+                        //   CustomCardProductBack(
+                        //       product: state.products![index])
+                        // ];
+                        // return CarouselSlider(
+                        //   options: CarouselOptions(
+                        //     height:
+                        //         MediaQuery.of(context).size.height * 0.22,
+                        //     enableInfiniteScroll: false,
+                        //     autoPlayInterval: const Duration(seconds: 4),
+                        //     aspectRatio: 2,
+                        //     enlargeCenterPage: false,
+                        //     scrollDirection: Axis.horizontal,
+                        //     autoPlay: false,
+                        //     viewportFraction: 1,
+                        //   ),
+                        //   items: carouselItems.map((item) {
+                        //     return Builder(
+                        //       builder: (BuildContext context) {
+                        //         return item;
+                        //       },
+                        //     );
+                        //   }).toList(),
+                        // );
+                      })),
+              Material(
+                  elevation: 10,
+                  child: Container(
+                    height: 60,
+                    color: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText(
+                                'Productos: ${state.cant ?? 0}',
                               ),
-                            ),
-                            Row(children: [
-                              AppText('Vaciar'),
-                              gapW20,
-                              SizedBox(
-                                  height: 40,
-                                  child: AppTextButton(
-                                      child: AppText('Ver Carrito'),
-                                      onPressed: () {
-                                        _navigationService
-                                            .goTo(AppRoutes.cartSale);
-                                      })),
-                            ])
-                          ],
+                              AppText(
+                                'Total: ${''.formatted(state.total ?? 0.0)}',
+                              ),
+                            ],
+                          ),
                         ),
-                      ))
-                ],
-              ),
-            );
-          } else {
-            return Center(child: AppText('No hay Productos'));
-          }
-        });
+                        Row(children: [
+                          AppText('Vaciar'),
+                          gapW20,
+                          SizedBox(
+                              height: 40,
+                              child: AppTextButton(
+                                  child: AppText('Ver Carrito'),
+                                  onPressed: () {
+                                    _navigationService.goTo(AppRoutes.cartSale);
+                                  })),
+                        ])
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        );
+      } else {
+        return Center(child: AppText('No hay Productos'));
+      }
+    });
   }
 }

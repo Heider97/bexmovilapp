@@ -104,7 +104,6 @@ class _ProductsViewState extends State<ProductsView> {
                       setState(() {
                         gridMode = !gridMode;
                       });
-                      //TODO: disable grid view. change icon too
                     },
                   ),
                 )
