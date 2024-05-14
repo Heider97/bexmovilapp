@@ -116,16 +116,11 @@ class QueryLoaderService {
       for (var widget in widgets) {
         var components = await databaseRepository.findComponents(widget.id!);
 
-        print(components);
-
         if (components != null && components.isNotEmpty) {
 
           var data = <Map<String, dynamic>>[];
 
           for (var component in components) {
-
-            print(component.toJson());
-
             var logicables =
                 await databaseRepository.logicQueries(component.id!);
 
@@ -134,14 +129,11 @@ class QueryLoaderService {
 
             if (logicQueries.isNotEmpty) {
               if (logicQueries.length == 1) {
+
                 var d = await determine(component.type ?? widget.type,
                     logicQueries.first, seller, arguments);
 
-                print('************');
-                print(d);
-
                 if (component.type != null && d != null) {
-                  print('added $d');
                   data.add(d.toJson());
                 } else {
                   results[widget.name!] = d;
@@ -150,12 +142,18 @@ class QueryLoaderService {
                 for (var lq in logicQueries) {
                   if (lq.logicId != null) {
                     var logic = await databaseRepository.findLogic(lq.logicId!);
+
                     if (logic != null) {
                       var result =
                           await databaseRepository.validateLogic(logic, seller);
                       if (result == true) {
+
+                        print(widget.type);
+
                         var d = await determine(component.type ?? widget.type!,
                             lq, seller, arguments);
+
+                        print(d);
 
                         if (component.type != null && d != null) {
                           data.add(d.toJson());
@@ -184,7 +182,9 @@ class QueryLoaderService {
   Future determine(String? type, LogicQuery logicQuery, String seller,
       List<dynamic> arguments) async {
     if (logicQuery.actionableType == 'query') {
+
       var q = await readQuery(logicQuery.actionableId!);
+
       if (q != null && q.arguments != null) {
         return await executeQuery(type, q.table!, q.where, arguments);
       } else if (q != null) {
@@ -203,7 +203,6 @@ class QueryLoaderService {
         }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
-
         return await executeRawQuery(sentence, type);
       }
     } else if (logicQuery.actionableType == 'navigation') {
@@ -318,6 +317,8 @@ class QueryLoaderService {
 
       return dynamic;
     } catch (e) {
+      print('error');
+      print(e);
       return [];
     }
   }

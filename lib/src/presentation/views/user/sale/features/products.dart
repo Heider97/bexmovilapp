@@ -1,30 +1,27 @@
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/custom_card_product.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/custom_card_product_back.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-//domain
-import '../../../../../domain/models/product.dart';
-
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/screens.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
 import '../../../../widgets/user/product_card.dart';
+import '../widgets/custom_card_product.dart';
+import '../widgets/custom_card_product_back.dart';
+
+//services
+import '../../../../../locator.dart';
+import '../../../../../services/navigation.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
 
 class SaleProducts extends StatefulWidget {
-  final List<Product>? products;
-
-  const SaleProducts({super.key, this.products});
+  const SaleProducts({super.key});
 
   @override
   State<SaleProducts> createState() => _SaleProductsState();
@@ -42,59 +39,56 @@ class _SaleProductsState extends State<SaleProducts> {
   @override
   void dispose() {
     saleBloc.add(ResetStatus(status: SaleStatus.clients));
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.products &&
-          widget.products != null &&
-          widget.products!.isNotEmpty) {
-        return Column(
-          children: [
-            Container(
-              color: Colors.grey[200]!,
-              height: Screens.height(context) * 0.77,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: widget.products?.length,
-                  itemBuilder: (context, index) {
-                    List<Widget> carouselItems = [
-                      CustomCardProduct(product: widget.products![index]),
-                      CustomCardProductBack(product: widget.products![index])
-                    ];
+    return BlocBuilder<SaleBloc, SaleState>(
+        buildWhen: (previous, current) => previous.status != current.status,
+        builder: (context, state) {
+          print(state.status);
 
-                    return CarouselSlider(
-                      options: CarouselOptions(
-                        height: MediaQuery.of(context).size.height * 0.22,
-                        enableInfiniteScroll: false,
-                        autoPlayInterval: const Duration(seconds: 4),
-                        aspectRatio: 2,
-                        enlargeCenterPage: false,
-                        scrollDirection: Axis.horizontal,
-                        autoPlay: false,
-                        viewportFraction: 1,
-                      ),
-                      items: carouselItems.map((item) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return item;
-                          },
+          if (state.status == SaleStatus.products &&
+              state.products != null &&
+              state.products!.isNotEmpty) {
+            return Column(
+              children: [
+                Container(
+                  color: Colors.grey[200]!,
+                  height: Screens.height(context) * 0.77,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: state.products?.length,
+                      itemBuilder: (context, index) {
+                        List<Widget> carouselItems = [
+                          CustomCardProduct(product: state.products![index]),
+                          CustomCardProductBack(product: state.products![index])
+                        ];
+                        return CarouselSlider(
+                          options: CarouselOptions(
+                            height: MediaQuery.of(context).size.height * 0.22,
+                            enableInfiniteScroll: false,
+                            autoPlayInterval: const Duration(seconds: 4),
+                            aspectRatio: 2,
+                            enlargeCenterPage: false,
+                            scrollDirection: Axis.horizontal,
+                            autoPlay: false,
+                            viewportFraction: 1,
+                          ),
+                          items: carouselItems.map((item) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return item;
+                              },
+                            );
+                          }).toList(),
                         );
-                      }).toList(),
-                    );
-
-                    /*  return ProductCard(
-                      product: widget.products![index],
-                      refresh: () {},
-                    ); */
-                  }),
-            ),
-          /*   Material(
+                      }),
+                ),
+                /*   Material(
                 elevation: 10,
                 child: Container(
                   height: 80,
@@ -150,11 +144,11 @@ class _SaleProductsState extends State<SaleProducts> {
                     ],
                   ),
                 )) */
-          ],
-        );
-      } else {
-        return Center(child: AppText('No hay Productos'));
-      }
-    });
+              ],
+            );
+          } else {
+            return Center(child: AppText('No hay Productos'));
+          }
+        });
   }
 }

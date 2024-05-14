@@ -216,25 +216,32 @@ class HomeCubit extends BaseCubit<HomeState> with FormatDate {
         final seller = storageService.getString('username');
 
         var features = <Feature>[];
+        var kpis = <Kpi>[];
+        var forms = [];
+        var applications = <Application>[];
 
         Map<String, dynamic> variables = await queryLoaderService
             .load('/home', 'HomeCubit', 'init', seller!, []);
 
-        print('************');
-        print(variables);
-
         List<String> keys = variables.keys.toList();
 
         for (var i = 0; i < variables.length; i++) {
-          print(keys[i]);
-
           if (keys[i] == 'features') {
             features = variables[keys[i]];
+          } else if (keys[i] == 'kpis') {
+            kpis = variables[keys[i]];
+          } else if (keys[i] == 'forms') {
+          } else if (keys[i] == 'applications') {
+            applications = variables[keys[i]];
           }
         }
 
         await Future.wait(futureInserts).whenComplete(() => emit(state.copyWith(
-            status: HomeStatus.success, user: user, features: features)));
+            status: HomeStatus.success,
+            user: user,
+            features: features,
+            kpis: kpis,
+            applications: applications)));
       } else {
         // emit(SyncFeaturesFailure(features: features, error: response.error));
       }

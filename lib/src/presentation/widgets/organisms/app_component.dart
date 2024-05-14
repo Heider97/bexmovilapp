@@ -87,15 +87,15 @@ class _AppWidgetState extends State<AppWidget> {
       case 'HomeApplications':
       // return HomeApplications(applications: widget.components.first.results);
       case 'SaleRouters':
-        //return SaleRouters(routers: widget.components.first.results);
+      //return SaleRouters(routers: widget.components.first.results);
       case 'SaleClients':
-        // return SaleClients(clients: widget.components.first.results);
+      // return SaleClients(clients: widget.components.first.results);
       case 'SaleWarehouses':
         return SaleWarehouses(warehouses: widget.components.first.results);
       case 'SalePrices':
         return SalePrices(prices: widget.components.first.results);
       case 'SaleProducts':
-        return SaleProducts(products: widget.components.first.results);
+      // return SaleProducts(products: widget.components.first.results);
       case 'WalletHome':
       // return WalletDashboard(components: widget.components);
       case 'WalletClients':

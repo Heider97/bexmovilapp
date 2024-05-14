@@ -10,6 +10,9 @@ class Warehouse {
   });
 
   factory Warehouse.fromJson(Map<String, dynamic> json) {
+
+    print(json);
+
     return Warehouse(
       codbodega: json['CODBODEGA'],
       nombodega: json['NOMBODEGA'],

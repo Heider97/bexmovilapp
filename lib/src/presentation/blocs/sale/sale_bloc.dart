@@ -176,11 +176,26 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.loading));
 
     var seller = storageService.getString('username');
-    var sections = await queryLoaderService.getResults(
-        'sales-products', seller!, [event.codprecio, event.codbodega]);
+    var products = <Product>[];
+
+    Map<String, dynamic> variables = await queryLoaderService.load(
+        '/sale-products',
+        'SaleBloc',
+        'LoadProducts',
+        seller!,
+        [event.codprecio, event.codbodega]);
+
+    List<String> keys = variables.keys.toList();
+
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'products') {
+        products = variables[keys[i]];
+      }
+    }
+
     emit(state.copyWith(
       status: SaleStatus.products,
-      // sections: sections,
+      products: products,
     ));
   }
 }

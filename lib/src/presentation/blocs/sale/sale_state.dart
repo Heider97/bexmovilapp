@@ -12,23 +12,19 @@ enum SaleStatus {
 
 class SaleState {
   final SaleStatus status;
-
   final List<Router>? routers;
   final Router? router;
-
   final List<Client>? clients;
   final List<Client>? clientsFounded;
   final Client? client;
-
   final List<Filter>? filters;
-
   final List<Warehouse>? warehouses;
   final Warehouse? warehouse;
-
   final List<Price>? prices;
   final Price? price;
+  final List<Product>? products;
 
-//ID CLIENTE - ID PRODUCTO Y STCOK
+  //ID CLIENTE - ID PRODUCTO Y STCOK
   //final List<Map<String, String>>? product;
 
   final bool? gridView;
@@ -47,6 +43,7 @@ class SaleState {
     this.warehouse,
     this.prices,
     this.price,
+    this.products,
     this.gridView,
     this.error,
   });
@@ -63,6 +60,7 @@ class SaleState {
     Warehouse? warehouse,
     List<Price>? prices,
     Price? price,
+    List<Product>? products,
     List<Map<String, Product>>? product,
     bool? gridView,
     String? error,
@@ -79,6 +77,7 @@ class SaleState {
         warehouse: warehouse ?? this.warehouse,
         prices: prices ?? this.prices,
         price: price ?? this.price,
+        products: products ?? this.products,
         gridView: gridView ?? this.gridView,
         //product: product ?? this.product,
         error: error ?? this.error,

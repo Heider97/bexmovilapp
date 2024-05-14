@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/arguments.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/features/products.dart';
 
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 
@@ -13,6 +14,7 @@ import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:googleapis/transcoder/v1.dart';
 
 import '../../../../widgets/organisms/app_section.dart';
 
@@ -51,7 +53,6 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     ThemeData theme = Theme.of(context);
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
       if (state.status == SaleStatus.loading) {
@@ -106,6 +107,12 @@ class _ProductsViewState extends State<ProductsView> {
                 )
               ],
             ),
+            gapH8,
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(state.client!.name!, fontSize: 16)),
+            gapH8,
+            const SaleProducts()
           ],
         );
       },
