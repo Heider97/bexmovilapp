@@ -66,10 +66,21 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var sections =
-        await queryLoaderService.getResults('sales', seller!, [seller]);
 
-    emit(state.copyWith(status: SaleStatus.routers, sections: sections));
+    var routers = <Router>[];
+
+    Map<String, dynamic> variables = await queryLoaderService
+        .load('/sales-routers', 'SaleBloc', 'LoadRouters', seller!, []);
+
+    List<String> keys = variables.keys.toList();
+
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'clients') {
+        routers = variables[keys[i]];
+      }
+    }
+
+    emit(state.copyWith(status: SaleStatus.routers, routers: routers));
   }
 
   Future<void> _onLoadClientsRouter(LoadClients event, Emitter emit) async {

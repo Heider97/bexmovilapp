@@ -1,17 +1,16 @@
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_router_sale.dart';
-import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:flutter/cupertino.dart' hide Router;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+//blocs
 
-import '../../../../../domain/models/router.dart' as router;
 import '../../../../blocs/sale/sale_bloc.dart';
+//utils
+import '../../../../../utils/constants/screens.dart';
+//widgets
+import '../../../../widgets/atoms/app_text.dart';
+import '../widgets/card_router_sale.dart';
 
 class SaleRouters extends StatefulWidget {
-  final List<router.Router>? routers;
-
-  const SaleRouters({super.key, this.routers});
+  const SaleRouters({super.key});
 
   @override
   State<SaleRouters> createState() => _SaleRoutersState();
@@ -35,9 +34,8 @@ class _SaleRoutersState extends State<SaleRouters>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-      if (state.status == SaleStatus.routers && widget.routers != null) {
+      if (state.status == SaleStatus.routers && state.routers != null) {
         return SingleChildScrollView(
           child: Column(children: [
             TabBar(controller: _tabcontroller, tabs: const [
@@ -60,13 +58,13 @@ class _SaleRoutersState extends State<SaleRouters>
               child: TabBarView(controller: _tabcontroller, children: [
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   if (state.status == SaleStatus.routers &&
-                      widget.routers != null &&
-                      widget.routers!.isNotEmpty == true) {
+                      state.routers != null &&
+                      state.routers!.isNotEmpty == true) {
                     return ListView.builder(
                         padding: EdgeInsets.zero,
-                        itemCount: widget.routers?.length,
+                        itemCount: state.routers?.length,
                         itemBuilder: (context, index) {
-                          return CardRouter(router: widget.routers![index]);
+                          return CardRouter(router: state.routers![index]);
                         });
                   } else {
                     return const Text('No hay ruteros disponibles');

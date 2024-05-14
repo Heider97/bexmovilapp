@@ -116,11 +116,9 @@ class QueryLoaderService {
         var components = await databaseRepository.findComponents(widget.id!);
 
         if (components != null && components.isNotEmpty) {
-
           var data = <Map<String, dynamic>>[];
 
           for (var component in components) {
-
             var logicables =
                 await databaseRepository.logicQueries(component.id!);
 
@@ -132,6 +130,7 @@ class QueryLoaderService {
                 var d = await determine(component.type ?? widget.type,
                     logicQueries.first, seller, arguments);
 
+                print('************');
                 print(d);
 
                 if (component.type != null && d != null) {
@@ -151,10 +150,7 @@ class QueryLoaderService {
                         var d = await determine(component.type ?? widget.type!,
                             lq, seller, arguments);
 
-                        print(d);
-
                         if (component.type != null && d != null) {
-                          print('added ${d.toJson()}');
                           data.add(d.toJson());
                         } else {
                           results[widget.name!] = d;
@@ -200,6 +196,7 @@ class QueryLoaderService {
         }
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
+
         return await executeRawQuery(sentence, type);
       }
     } else if (logicQuery.actionableType == 'navigation') {

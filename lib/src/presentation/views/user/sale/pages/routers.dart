@@ -1,14 +1,18 @@
-import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 //blocs
+import '../../../../blocs/location/location_bloc.dart';
 import '../../../../blocs/sale/sale_bloc.dart';
 
-//widgets
-import '../../../../widgets/organisms/app_section.dart';
+//utils
+import '../../../../../utils/constants/gaps.dart';
+
+//widgets and features
+import '../../../../widgets/atoms/app_text.dart';
+import '../features/routers.dart';
 
 class RoutersPage extends StatefulWidget {
   const RoutersPage({super.key});
@@ -29,7 +33,6 @@ class _RoutersPageState extends State<RoutersPage> {
     super.initState();
     saleBloc = BlocProvider.of<SaleBloc>(context);
     locationBloc = BlocProvider.of<LocationBloc>(context);
-
     saleBloc.add(LoadRouters());
     // locationBloc.startFollowingUser();
   }
@@ -55,14 +58,7 @@ class _RoutersPageState extends State<RoutersPage> {
 
   Widget _buildBody(state, context) {
     return Column(
-      children: [
-        ...state.sections != null
-            ? state.sections!.map((e) => AppSection(
-                title: e.name!,
-                widgetItems: e.widgets ?? [],
-                tabController: null))
-            : [],
-      ],
+      children: [AppText('Ruteros'), gapH8, const SaleRouters()],
     );
   }
 }
