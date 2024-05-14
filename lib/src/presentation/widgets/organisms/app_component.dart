@@ -4,7 +4,6 @@ import '../../../domain/models/component.dart';
 //widgets
 import '../../views/user/sale/features/prices.dart';
 import '../../views/user/sale/features/products.dart';
-import '../../views/user/sale/features/warehouses.dart';
 import '../../views/user/wallet/features/clients.dart';
 import '../../views/user/wallet/features/summaries.dart';
 import '../molecules/app_text_block.dart';
@@ -91,7 +90,7 @@ class _AppWidgetState extends State<AppWidget> {
       case 'SaleClients':
       // return SaleClients(clients: widget.components.first.results);
       case 'SaleWarehouses':
-        return SaleWarehouses(warehouses: widget.components.first.results);
+      // return SaleWarehouses(warehouses: widget.components.first.results);
       case 'SalePrices':
         return SalePrices(prices: widget.components.first.results);
       case 'SaleProducts':
