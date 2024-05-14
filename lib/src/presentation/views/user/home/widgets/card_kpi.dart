@@ -54,12 +54,10 @@ class _CardKpiState extends State<CardKpi> {
       if (widget.kpi.results.contains('/')) {
         var splits = widget.kpi.results.split('/');
         var result = [];
-
         for (var split in splits) {
           split = split is int || split is double ? split.toString() : split;
           result.add(''.formattedCompact(split));
         }
-
         return result.join('/');
       } else {
         return widget.kpi.results;
