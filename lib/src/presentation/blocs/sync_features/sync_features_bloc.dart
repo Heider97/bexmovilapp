@@ -69,7 +69,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   }
 
   void _observe(event, emit) async {
-    //TODO: [Heider Zapa] refacto with new logic
     var features = await databaseRepository.getAllFeatures();
     var configs = await databaseRepository.getConfigs('login');
 
