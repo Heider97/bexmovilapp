@@ -112,26 +112,18 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      // Row(
+                                      //   children: [
+                                      //     AppText('Antes: '),
+                                      //     AppText(' \$60.000.000',
+                                      //         decoration:
+                                      //             TextDecoration.lineThrough,
+                                      //         fontSize: 12,
+                                      //         overflow: TextOverflow.ellipsis),
+                                      //   ],
+                                      // ),
                                       Row(
                                         children: [
-                                          AppText('Antes: '),
-                                          AppText(' \$60.000.000',
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: 12,
-                                              overflow: TextOverflow.ellipsis),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              AppText('cop '),
-                                              const SizedBox(
-                                                height: 10,
-                                              )
-                                            ],
-                                          ),
                                           AppText(
                                               ''.formatted(widget.product
                                                   .precioProductoPrecio!),
