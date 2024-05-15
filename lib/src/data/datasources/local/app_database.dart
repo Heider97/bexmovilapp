@@ -231,18 +231,16 @@ class AppDatabase {
     final db = await instance.database;
     print('************');
     print(objects.length);
+
+    if (objects.isEmpty) return null;
     var results = <int>[];
     try {
       await db?.transaction((tnx) async {
-        // final batch = tnx.batch();
-        // for (var object in objects) {
-        //   batch.insert(table, object);
-        // }
-        // await batch.commit(continueOnError: false);
+        final batch = tnx.batch();
         for (var object in objects) {
-          var id = await tnx.insert(table, object);
-          results.add(id);
+          batch.insert(table, object);
         }
+        await batch.commit(continueOnError: true, noResult: true);
       });
       return results;
     } catch (er) {
