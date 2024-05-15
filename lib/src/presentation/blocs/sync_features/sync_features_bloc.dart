@@ -105,6 +105,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             print('Error $ex');
           }
         }
+
         migrations.removeWhere((element) => element == 'CREATE ');
         await databaseRepository.runMigrations(migrations);
 
@@ -153,7 +154,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             }
           }
           i++;
-          emit(SyncFeaturesLoading(features: features, completed: i));
+          emit(SyncFeaturesLoading(features: features, processes: futures.length, completed: i));
         }
 
         await Future.wait(futureInserts).whenComplete(() {
