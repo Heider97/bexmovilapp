@@ -47,6 +47,7 @@ import '../../../domain/abstracts/format_abstract.dart';
 // [SERVICES]
 import '../../../locator.dart';
 import '../../../services/storage.dart';
+import '../../../utils/extensions/inser_bulk_extension.dart';
 
 // [MIGRATIONS]
 part 'migrations/index.dart';
@@ -229,19 +230,31 @@ class AppDatabase {
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
     final db = await instance.database;
-    print('************');
-    print(objects.length);
-
     if (objects.isEmpty) return null;
     var results = <int>[];
     try {
-      await db?.transaction((tnx) async {
-        final batch = tnx.batch();
-        for (var object in objects) {
-          batch.insert(table, object);
+      Iterable<Map<String, Object?>> iterableMap = objects.map((item) {
+        if (item is Map<String, dynamic>) {
+          return item;
+        } else {
+          return {};
         }
-        await batch.commit(continueOnError: true, noResult: true);
       });
+
+      var result = await db!.insertMultiple(table, iterableMap,
+          conflictAlgorithm: ConflictAlgorithm.ignore, blockSize: 500);
+      if (result != null) {
+        results.add(result);
+      }
+
+      // await db?.transaction((tnx) async {
+      //   final batch = tnx.batch();
+      //   for (var object in objects) {
+      //     batch.insert(table, object);
+      //   }
+      //   await batch.commit(continueOnError: true, noResult: true);
+      // });
+
       return results;
     } catch (er) {
       return null;
