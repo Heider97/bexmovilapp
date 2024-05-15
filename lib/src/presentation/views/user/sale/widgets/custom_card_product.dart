@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,9 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          showProductDialog(context: context);
+        },
         child: Material(
           elevation: 1,
           child: Container(
@@ -177,11 +180,12 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                       AppText('Cantidad: '),
                                       AppText(
                                           'Disponible ${widget.product.existenciaStock}',
                                           fontSize: 12,
                                           color: Colors.grey[600]),
-                                      AppText('Cantidad: '),
+                                     
                                     ],
                                   ),
                                   gapW4,
