@@ -102,7 +102,7 @@ class DrawerWidget extends StatelessWidget {
               context: context,
               icon: Icons.task,
               text: 'PROCESAMIENTO',
-              onTap: () => _navigationService.goTo(AppRoutes.cartSale),
+              onTap: () => _navigationService.goTo(AppRoutes.processingQueue),
               image: "assets/svg/pqrs.svg",
               countNotifications: 0),
           gapH12,
