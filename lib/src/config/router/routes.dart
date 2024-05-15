@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/config/router/separated/developer_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:showcaseview/showcaseview.dart';
 //utils
@@ -22,7 +23,8 @@ class Routes {
       ...navigationRoutes,
       ...salesRoutes,
       ...walletRoutes,
-      ...chatRoutes
+      ...chatRoutes,
+      ...developerRoutes
     };
   }
 
