@@ -94,9 +94,10 @@ class _SyncViewState extends State<SyncView> {
 
   Widget _buildLoading(SyncFeaturesState state, theme) {
     return CountDown(
-      target: DateTime.now().add(
-        const Duration(minutes: 2),
-      ),
+      state: state,
+      // target: DateTime.now().add(
+      //   const Duration(minutes: 2),
+      // ),
     );
   }
 
@@ -122,11 +123,11 @@ class _SyncViewState extends State<SyncView> {
 }
 
 class CountDown extends StatelessWidget {
-  final DateTime target;
+  final SyncFeaturesState state;
 
   const CountDown({
     Key? key,
-    required this.target,
+    required this.state,
   }) : super(key: key);
 
   @override
@@ -136,9 +137,7 @@ class CountDown extends StatelessWidget {
       builder: (context, snapshot) {
         return Column(
           children: [
-            AppText('Espere hasta ${DateFormat.Hms().format(target)}'),
-            gapH24,
-            AppText(target.difference(DateTime.now()).toString().split('.')[0])
+            AppText('Procesos ${state.completed ?? 0}/${state.processes ?? 0}'),
           ],
         );
       },

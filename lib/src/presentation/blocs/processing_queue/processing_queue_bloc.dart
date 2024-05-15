@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //utils
-
 import '../../../utils/resources/data_state.dart';
 
 //domain
@@ -44,7 +43,6 @@ class ProcessingQueueBloc extends Bloc<ProcessingQueueEvent, ProcessingQueueStat
 
   void _observe(event, emit) async {
     if(isConnected != null && isConnected == true){
-      print('activate procesing_queue');
       var queues = await _databaseRepository.getAllProcessingQueues();
       sendProcessingQueues(queues);
     }

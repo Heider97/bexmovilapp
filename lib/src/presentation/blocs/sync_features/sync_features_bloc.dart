@@ -75,6 +75,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     try {
       emit(SyncFeaturesLoading(features: features));
 
+      final startTime = DateTime.now();
       var version = configs.firstWhere((element) => element.name == 'version');
 
       var response = await apiRepository.priorities(
@@ -114,19 +115,18 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         var prioritiesSync = response.data!.priorities!
             .where((element) => element.runBackground == 0);
 
-        // var functions = <Function>[];
-        // var arguments = <Map<String, dynamic>>[];
-        //
-        // for (var priority in prioritiesAsync) {
-        //   print(priority.toJson());
-        //   functions.add(insertDynamicData);
-        //   arguments.add(
-        //       {'table_name': priority.name, 'content': 'application/json'});
-        // }
+        var functions = <Function>[];
+        var arguments = <Map<String, dynamic>>[];
 
-        // var isolateModel =
-        //     IsolateModel(functions, arguments, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
+        for (var priority in prioritiesAsync) {
+          functions.add(insertDynamicData);
+          arguments.add(
+              {'table_name': priority.name, 'content': 'application/json'});
+        }
+
+        var isolateModel =
+            IsolateModel(functions, arguments, prioritiesAsync.length);
+        await heavyTask(isolateModel);
 
         List<String> tables = [];
 
@@ -137,6 +137,8 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               request: DynamicRequest(priority.name, 'application/json')));
           tables.add(priority.name);
         }
+
+        emit(SyncFeaturesLoading(features: features, processes: futures.length));
 
         List<DataState<DynamicResponse>> responses = await Future.wait(futures);
 
@@ -151,10 +153,17 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
             }
           }
           i++;
+          emit(SyncFeaturesLoading(features: features, completed: i));
         }
 
-        await Future.wait(futureInserts)
-            .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
+        await Future.wait(futureInserts).whenComplete(() {
+          final endTime = DateTime.now();
+          final elapsedTime = endTime.difference(startTime);
+          print(
+              'Time taken for sequential calls: ${elapsedTime.inMilliseconds} ms');
+
+          emit(SyncFeaturesSuccess(features: features));
+        });
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
