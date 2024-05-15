@@ -106,6 +106,7 @@ class AppDatabase {
       if (_database == null) {
         dbName ??= databaseName;
         _database = await _initDatabase('$dbName.db');
+        _streamDatabase = BriteDatabase(_database!);
       }
     });
     return _database;
@@ -222,24 +223,26 @@ class AppDatabase {
 
   //INSERT METHOD
   Future<int> insert(String table, Map<String, dynamic> row) async {
-    final db = await instance.streamDatabase;
+    final db = await instance.database;
     return db!.insert(table, row);
   }
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
-    final db = await instance.streamDatabase;
+    final db = await instance.database;
+    print('************');
+    print(objects.length);
     var results = <int>[];
     try {
       await db?.transaction((tnx) async {
-        final batch = tnx.batch();
-        for (var object in objects) {
-          batch.insert(table, object);
-        }
-        await batch.commit(continueOnError: false);
+        // final batch = tnx.batch();
         // for (var object in objects) {
-        //   var id = await tnx.insert(table, object);
-        //   results.add(id);
+        //   batch.insert(table, object);
         // }
+        // await batch.commit(continueOnError: false);
+        for (var object in objects) {
+          var id = await tnx.insert(table, object);
+          results.add(id);
+        }
       });
       return results;
     } catch (er) {
