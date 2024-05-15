@@ -1,6 +1,4 @@
-import 'package:bexmovil/src/presentation/views/user/home/features/applications.dart';
-import 'package:bexmovil/src/presentation/views/user/home/features/features.dart';
-import 'package:bexmovil/src/presentation/views/user/home/features/statistics.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +13,12 @@ import '../../../cubits/home/home_cubit.dart';
 import '../../../../utils/constants/gaps.dart';
 import '../../../../utils/constants/strings.dart';
 
+//features
+import './features/applications.dart';
+import './features/features.dart';
+import './features/statistics.dart';
+
 //widgets
-import '../../../widgets/organisms/app_section.dart';
 import '../../../widgets/atoms/app_text.dart';
 import '../../../widgets/atoms/app_icon_button.dart';
 
