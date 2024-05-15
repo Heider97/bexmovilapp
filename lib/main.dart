@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
               locator<ApiRepository>(),
+              locator<LocalStorageService>(),
               BlocProvider.of<NetworkBloc>(context))
             ..add(ProcessingQueueObserve()),
         ),
