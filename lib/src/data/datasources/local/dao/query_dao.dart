@@ -5,18 +5,18 @@ class QueryDao {
 
   QueryDao(this._appDatabase);
 
-  List<Query> parseQueries(List<Map<String, dynamic>> queryList) {
-    final queries = <Query>[];
+  List<q.Query> parseQueries(List<Map<String, dynamic>> queryList) {
+    final queries = <q.Query>[];
     for (var queryMap in queryList) {
-      final query = Query.fromJson(queryMap);
+      final query = q.Query.fromJson(queryMap);
       queries.add(query);
     }
     return queries;
   }
 
-  Future<Query?> findQuery(int id) async {
+  Future<q.Query?> findQuery(int id) async {
     final db = await _appDatabase.database;
-    final queryList = await db!.query(tableQueries, where: 'id = ?', whereArgs: [id]);
+    final queryList = await db!.query(q.tableQueries, where: 'id = ?', whereArgs: [id]);
     final query = parseQueries(queryList);
     if(query.isEmpty){
       return null;
@@ -26,7 +26,7 @@ class QueryDao {
 
   Future<void> emptyQueries() async {
     final db = await _appDatabase.database;
-    await db!.delete(tableQueries, where: 'id > 0');
+    await db!.delete(q.tableQueries, where: 'id > 0');
     return Future.value();
   }
 }

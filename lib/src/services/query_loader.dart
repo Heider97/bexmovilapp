@@ -109,55 +109,59 @@ class QueryLoaderService {
     final b = await databaseRepository.findBloc(bloc);
     final e = await databaseRepository.findBlocEvent(event);
 
-    final widgets = await databaseRepository.findWidgetsByBloc(e!.id!);
+    if (e != null) {
+      final widgets = await databaseRepository.findWidgetsByBloc(e.id!);
 
-    if (widgets != null && widgets.isNotEmpty) {
-      for (var widget in widgets) {
-        var components = await databaseRepository.findComponents(widget.id!);
+      if (widgets != null && widgets.isNotEmpty) {
+        for (var widget in widgets) {
+          var components = await databaseRepository.findComponents(widget.id!);
 
-        if (components != null && components.isNotEmpty) {
+          if (components != null && components.isNotEmpty) {
+            var data = <Map<String, dynamic>>[];
 
-          var data = <Map<String, dynamic>>[];
+            for (var component in components) {
+              var logicables =
+                  await databaseRepository.logicQueries(component.id!);
 
-          for (var component in components) {
-            var logicables =
-                await databaseRepository.logicQueries(component.id!);
+              List<LogicQuery> logicQueries =
+                  await dynamicListTypes['List<LogicQuery>']!
+                      .fromMap(logicables);
 
-            List<LogicQuery> logicQueries =
-                await dynamicListTypes['List<LogicQuery>']!.fromMap(logicables);
+              if (logicQueries.isNotEmpty) {
+                if (logicQueries.length == 1) {
+                  var d = await determine(component.type ?? widget.type,
+                      logicQueries.first, seller, arguments);
 
-            if (logicQueries.isNotEmpty) {
-              if (logicQueries.length == 1) {
-
-                var d = await determine(component.type ?? widget.type,
-                    logicQueries.first, seller, arguments);
-
-                if (component.type != null && d != null) {
-                  data.add(d.toJson());
+                  if (component.type != null && d != null) {
+                    data.add(d.toJson());
+                  } else {
+                    results[widget.name!] = d;
+                  }
                 } else {
-                  results[widget.name!] = d;
-                }
-              } else {
-                for (var lq in logicQueries) {
-                  if (lq.logicId != null) {
-                    var logic = await databaseRepository.findLogic(lq.logicId!);
+                  for (var lq in logicQueries) {
+                    if (lq.logicId != null) {
+                      var logic =
+                          await databaseRepository.findLogic(lq.logicId!);
 
-                    if (logic != null) {
-                      var result =
-                          await databaseRepository.validateLogic(logic, seller);
-                      if (result == true) {
+                      if (logic != null) {
+                        var result = await databaseRepository.validateLogic(
+                            logic, seller);
+                        if (result == true) {
+                          print(widget.type);
 
-                        print(widget.type);
+                          var d = await determine(
+                              component.type ?? widget.type!,
+                              lq,
+                              seller,
+                              arguments);
 
-                        var d = await determine(component.type ?? widget.type!,
-                            lq, seller, arguments);
+                          print(d);
 
-                        print(d);
-
-                        if (component.type != null && d != null) {
-                          data.add(d.toJson());
-                        } else {
-                          results[widget.name!] = d;
+                          if (component.type != null && d != null) {
+                            data.add(d.toJson());
+                          } else {
+                            results[widget.name!] = d;
+                          }
                         }
                       }
                     }
@@ -165,11 +169,11 @@ class QueryLoaderService {
                 }
               }
             }
-          }
 
-          if (data.isNotEmpty) {
-            var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
-            results[widget.name!] = dynamic;
+            if (data.isNotEmpty) {
+              var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
+              results[widget.name!] = dynamic;
+            }
           }
         }
       }
@@ -181,7 +185,6 @@ class QueryLoaderService {
   Future determine(String? type, LogicQuery logicQuery, String seller,
       List<dynamic> arguments) async {
     if (logicQuery.actionableType == 'query') {
-
       var q = await readQuery(logicQuery.actionableId!);
 
       if (q != null && q.arguments != null) {
