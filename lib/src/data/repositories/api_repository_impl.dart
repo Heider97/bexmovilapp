@@ -110,7 +110,6 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     );
   }
 
-
   @override
   Future<DataState<SyncPrioritiesResponse>> priorities(
       {required SyncPrioritiesRequest request}) {
@@ -164,6 +163,14 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
       {required GraphicRequest request}) {
     return getStateOf<GraphicResponse>(
       request: () => _apiService.graphics(codvendedor: request.codvendedor),
+    );
+  }
+
+  @override
+  Future<DataState<DynamicMultitableResponse>> syncDynamicMultiTables(
+      {required DynamicRequestMultitable request}) {
+    return getStateOf<DynamicMultitableResponse>(
+      request: () => _apiService.syncDynamicMultiTables(tables: request.tables),
     );
   }
 }

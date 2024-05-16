@@ -5,17 +5,37 @@ class DynamicResponse extends Equatable {
   final String? message;
   final List<dynamic>? data;
 
-  const DynamicResponse({
-    required this.status,
-    required this.message,
-    this.data
-  });
+  const DynamicResponse(
+      {required this.status, required this.message, this.data});
 
   factory DynamicResponse.fromMap(Map<String, dynamic> map, String table) {
     return DynamicResponse(
       status: map['status'],
       message: map['message'],
-      data : map[table],
+      data: map[table],
+    );
+  }
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object?> get props => [status, message, data];
+}
+
+class DynamicMultitableResponse extends Equatable {
+  final bool? status;
+  final String? message;
+  final Map<String, dynamic>? data;
+
+  const DynamicMultitableResponse(
+      {required this.status, required this.message, this.data});
+
+  factory DynamicMultitableResponse.fromMap(Map<String, dynamic> map) {
+    return DynamicMultitableResponse(
+      status: map['status'],
+      message: map['message'],
+      data: map['tables'],
     );
   }
 

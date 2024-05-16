@@ -58,6 +58,7 @@ class ProcessingQueueBloc extends Bloc<ProcessingQueueEvent, ProcessingQueueStat
           try {
             var body = jsonDecode(queue.body);
             var table = body['table_name'];
+            //dude
             var content = body['content'];
             queue.task = 'processing';
             await _databaseRepository.updateProcessingQueue(queue);
