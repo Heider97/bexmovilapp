@@ -469,13 +469,11 @@ class ApiService {
         headers: result.headers);
   }
 
-  Future<Response<DynamicMultitableResponse>> syncDynamicMultiTables(
+  Future<Response<DynamicTablesResponse>> syncDynamicMultiTables(
       {required List<String> tables}) async {
     const extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
-
-    print(jsonEncode(tables));
 
     final data = <String, dynamic>{r'tables': jsonEncode(tables)};
 
@@ -491,8 +489,7 @@ class ApiService {
                 queryParameters: queryParameters, data: data)
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
-
-    final value = DynamicMultitableResponse.fromMap(result.data!);
+    final value = DynamicTablesResponse.fromMap(result.data!);
 
     return Response(
         data: value,

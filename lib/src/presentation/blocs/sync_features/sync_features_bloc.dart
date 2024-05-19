@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:bexmovil/src/core/functions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,6 +38,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   final ProcessingQueueBloc processingQueueBloc;
   final NavigationService navigationService;
   final LocalStorageService storageService;
+  final helperFunctions = HelperFunctions();
 
   SyncFeaturesBloc(this.databaseRepository, this.apiRepository,
       this.processingQueueBloc, this.navigationService, this.storageService)
@@ -83,30 +85,8 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               date: now(), version: version.value ?? "0"));
 
       if (response is DataSuccess) {
-        var migrations = <String>[];
-        for (var migration in response.data!.priorities!) {
-          try {
-            if (migration.schema != null) {
-              String sqlScriptWithoutEscapes = migration.schema!
-                  .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-              List<String> scriptsSeparated =
-                  sqlScriptWithoutEscapes.split('CREATE');
-              for (String createTableScript in scriptsSeparated) {
-                try {
-                  String scriptCompleted =
-                      'CREATE $createTableScript'.replaceAll(';', '');
-                  migrations.add(scriptCompleted);
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            }
-          } catch (ex) {
-            print('Error $ex');
-          }
-        }
-        migrations.removeWhere((element) => element == 'CREATE ');
-        await databaseRepository.runMigrations(migrations);
+
+        helperFunctions.runMigrations(response.data!.priorities!);
 
         var prioritiesAsync = response.data!.priorities!
             .where((element) => element.runBackground == 1);
@@ -131,9 +111,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
         List<String> tables = [];
 
-        List<Future<DataState<DynamicMultitableResponse>>> futures = [];
-
-        //MONTAR LA DIVISION,
+        List<Future<DataState<DynamicTablesResponse>>> futures = [];
 
         for (var priority in prioritiesSync) {
           tables.add(priority.name);
@@ -150,7 +128,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               request: DynamicRequestMultitable(resultado[i])));
         }
 
-        List<DataState<DynamicMultitableResponse>> responses =
+        List<DataState<DynamicTablesResponse>> responses =
             await Future.wait(futures);
 
         List<Future<dynamic>> futureInserts = [];
