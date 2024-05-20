@@ -78,6 +78,7 @@ class Logging extends Interceptor {
     // }
     return err.type == DioExceptionType.unknown &&
         ((err.error is HttpException &&
+            err.message != null &&
             err.message!.contains(
                 'Connection closed before full header was received')));
   }

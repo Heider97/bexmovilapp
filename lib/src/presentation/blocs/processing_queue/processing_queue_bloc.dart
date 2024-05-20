@@ -193,15 +193,15 @@ class ProcessingQueueBloc
       case 'store_dynamic_data':
         try {
           var body = jsonDecode(queue.body);
-          var table = body['table_name'];
-          var content = body['content'];
+          var tables = body['tables'];
           queue.task = 'processing';
           await databaseRepository.updateProcessingQueue(queue);
-          var response = await apiRepository.syncDynamic(
-              request: DynamicRequest(table, content));
+          var response = await apiRepository.syncDynamicMultiTables(
+              request: DynamicRequestMultitable(tables));
           if (response is DataSuccess) {
             queue.task = 'done';
-            await databaseRepository.insertAll(table, response.data!.data!);
+
+            // await databaseRepository.insertAll(table, response.data!.data!);
           } else {
             queue.task = 'error';
             queue.error = response.error;

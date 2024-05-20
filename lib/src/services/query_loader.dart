@@ -131,7 +131,6 @@ class QueryLoaderService {
                 if (logicQueries.length == 1) {
                   var d = await determine(component.type ?? widget.type,
                       logicQueries.first, seller, arguments);
-
                   if (component.type != null && d != null) {
                     data.add(d.toJson());
                   } else {
@@ -147,15 +146,11 @@ class QueryLoaderService {
                         var result = await databaseRepository.validateLogic(
                             logic, seller);
                         if (result == true) {
-                          print(widget.type);
-
                           var d = await determine(
                               component.type ?? widget.type!,
                               lq,
                               seller,
                               arguments);
-
-                          print(d);
 
                           if (component.type != null && d != null) {
                             data.add(d.toJson());

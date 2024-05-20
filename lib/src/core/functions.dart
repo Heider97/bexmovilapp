@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -13,7 +14,11 @@ import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:yaml/yaml.dart';
 
 //blocs
+import '../domain/models/isolate.dart';
 import '../domain/models/priority.dart';
+import '../domain/models/processing_queue.dart';
+import '../domain/models/requests/dynamic_request.dart';
+import '../domain/models/responses/dynamic_response.dart';
 import '../presentation/blocs/gps/gps_bloc.dart';
 //cubits
 import '../presentation/cubits/login/login_cubit.dart';
@@ -30,6 +35,7 @@ import '../services/storage.dart';
 
 //widgets
 import '../presentation/widgets/atomsbox.dart';
+import '../utils/resources/data_state.dart';
 
 class HelperFunctions with FormatDate {
   final LocalStorageService storageService = locator<LocalStorageService>();
@@ -118,6 +124,74 @@ class HelperFunctions with FormatDate {
     await databaseRepository.runMigrations(migrations);
   }
 
+  Future<List<Future<dynamic>>> insertSyncPriorities(
+      List<Priority> prioritiesSync) async {
+    List<String> tables =
+        prioritiesSync.map((priority) => priority.name).toList();
+
+    List<List<String>> results = subdivideArray(tables, 5);
+
+    List<Future<dynamic>> futureInserts = [];
+
+    for (var result in results) {
+      var response = await apiRepository.syncDynamicMultiTables(
+          request: DynamicRequestMultitable(result));
+
+      if (response is DataSuccess &&
+          response.data != null &&
+          response.data!.data != null) {
+        for (var entry in response.data!.data!.entries) {
+          futureInserts
+              .add(databaseRepository.insertAll(entry.key, entry.value));
+        }
+      }
+    }
+
+    return futureInserts;
+  }
+
+  Future<void> insertAsyncPriorities(List<Priority> prioritiesAsync) async {
+    var functions = <Function>[];
+    var tables = <String>[];
+    var arguments = <Map<String, dynamic>>[];
+
+    for (var priority in prioritiesAsync) {
+      tables.add(priority.name);
+    }
+
+    List<List<String>> results = subdivideArray(tables, 5);
+
+    for (int i = 0; i < results.length; i++) {
+      functions.add(insertDynamicData);
+      arguments.add({'tables': results[i]});
+    }
+
+    var isolateModel = IsolateModel(functions, arguments, results.length);
+
+    await heavyTask(isolateModel);
+  }
+
+  Future<void> insertDynamicData(List<String> tables) async {
+    var processingQueue = ProcessingQueue(
+        body: jsonEncode({'tables': tables}),
+        task: 'incomplete',
+        code: 'store_dynamic_data',
+        createdAt: now(),
+        updatedAt: now());
+
+    // processingQueueBloc.addProcessingQueue(processingQueue);
+  }
+
+  Future<void> heavyTask(IsolateModel model) async {
+    for (var i = 0; i < model.iteration; i++) {
+      if (model.arguments![i].isNotEmpty) {
+        await model.functions[i](model.arguments![i]['tables']);
+      } else {
+        await model.functions[i]();
+      }
+    }
+  }
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -194,5 +268,17 @@ class HelperFunctions with FormatDate {
     // );
     // await _databaseRepository.insertError(errorData);
     await FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  }
+
+  List<List<String>> subdivideArray(List<String> array, int maxElements) {
+    List<List<String>> subarrays = [];
+
+    for (int i = 0; i < array.length; i += maxElements) {
+      int fin =
+          (i + maxElements < array.length) ? i + maxElements : array.length;
+      subarrays.add(array.sublist(i, fin));
+    }
+
+    return subarrays;
   }
 }
