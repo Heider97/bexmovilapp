@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bexmovil/src/data/datasources/local/dao/shopping_cart_dao.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -293,6 +294,8 @@ class AppDatabase {
   OptionDao get optionDao => OptionDao(instance);
 
   ErrorDao get errorDao => ErrorDao(instance);
+
+  ShoppingCartDao get shoppingCartDao => ShoppingCartDao(instance);
 
   void close() {
     _database!.close();

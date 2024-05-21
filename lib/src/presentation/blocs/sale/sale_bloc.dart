@@ -162,11 +162,11 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   _onSelectWarehouse(SelectWarehouse event, Emitter emit) {
-    emit(state.copyWith(warehouse: event.warehouse));
+    emit(state.copyWith(warehouseSelected: event.warehouse));
   }
 
   _onSelectPrice(SelectPriceList event, Emitter emit) {
-    emit(state.copyWith(price: event.listPriceSelected));
+    emit(state.copyWith(priceSelected: event.listPriceSelected));
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {

@@ -20,9 +20,9 @@ class SaleState {
   final Client? client;
   final List<Filter>? filters;
   final List<Warehouse>? warehouses;
-  final Warehouse? warehouse;
+  final Warehouse? warehouseSelected;
   final List<Price>? prices;
-  final Price? price;
+  final Price? priceSelected;
   final List<Product>? products;
   final double? total;
   final int? cant;
@@ -42,9 +42,9 @@ class SaleState {
     this.client,
     this.filters,
     this.warehouses,
-    this.warehouse,
+    this.warehouseSelected,
     this.prices,
-    this.price,
+    this.priceSelected,
     this.products,
     this.total,
     this.cant,
@@ -64,9 +64,9 @@ class SaleState {
     List<Client>? clientsFounded,
     List<Filter>? filters,
     List<Warehouse>? warehouses,
-    Warehouse? warehouse,
+    Warehouse? warehouseSelected,
     List<Price>? prices,
-    Price? price,
+    Price? priceSelected,
     List<Product>? products,
     List<Map<String, Product>>? product,
     double? total,
@@ -86,9 +86,9 @@ class SaleState {
         client: client ?? this.client,
         filters: filters ?? this.filters,
         warehouses: warehouses ?? this.warehouses,
-        warehouse: warehouse ?? this.warehouse,
+        warehouseSelected: warehouseSelected ?? this.warehouseSelected,
         prices: prices ?? this.prices,
-        price: price ?? this.price,
+        priceSelected: priceSelected ?? this.priceSelected,
         products: products ?? this.products,
         total: total ?? this.total,
         cant: cant ?? this.cant,

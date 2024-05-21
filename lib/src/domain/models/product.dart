@@ -1,4 +1,5 @@
 class Product {
+
   String? codProducto;
   String? codEmpresa;
   String? pluProducto;
@@ -53,6 +54,7 @@ class Product {
   int? cant;
 
   Product({
+
     this.codProducto,
     this.codEmpresa,
     this.pluProducto,
@@ -104,6 +106,7 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
+   
         codProducto: json['CODPRODUCTO'],
         codEmpresa: json['CODEMPRESA'],
         pluProducto: json['PLUPRODUCTO'],
@@ -206,4 +209,48 @@ class Product {
         // 'PRECIOSUGERIDO': precioSugerido,
         // 'otroimp': otroImp,
       };
+}
+
+class ProductCart {
+  final Product product;
+  final int stock;
+
+  ProductCart({required this.product, required this.stock});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'product': product.toJson(),
+      'stock': stock,
+    };
+  }
+}
+
+class CartProductInfo {
+  final String cartId;
+  final String codRouter;
+  final String codClient;
+  final String codPrecio;
+  final String codBodega;
+
+  final List<ProductCart> products;
+
+  CartProductInfo({
+    required this.cartId,
+    required this.codRouter,
+    required this.codClient,
+    required this.codPrecio,
+    required this.codBodega,
+    required this.products,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'cartId': cartId,
+      'codRouter': codRouter,
+      'codClient': codClient,
+      'products': products.map((productCart) => productCart.toMap()).toList(),
+      'codPrecio': codPrecio,
+      'codBodega': codBodega
+    };
+  }
 }

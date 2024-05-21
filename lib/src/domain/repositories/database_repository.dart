@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../models/product.dart';
 import '../models/view.dart';
 import '../models/bloc.dart';
 import '../models/bloc_event.dart';
@@ -146,4 +147,24 @@ abstract class DatabaseRepository {
   Future<int> updateProcessingQueue(ProcessingQueue processingQueue);
   Future<void> insertProcessingQueue(ProcessingQueue processingQueue);
   Future<void> emptyProcessingQueues();
+
+  //SHIPPING CART
+
+  Future<Product> getProductById(
+      String productId, String codPrecio, String codBodega);
+  Future<List<String>> getProductsByRouterAndClient(
+      String codrouter, String codcliente);
+  Future<int> getStockByProduct(String productId);
+  Future<void> insertCart(
+      String codrouter,
+      String codPrecio,
+      String codBodega,
+      String codcliente,
+      String codproducts,
+      int quantity,
+      String state,
+      String date);
+
+  Future<int> getTotalProductQuantity(
+      String codrouter, String codPrecio, String codBodega, String codcliente);
 }

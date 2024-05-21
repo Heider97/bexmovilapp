@@ -1,5 +1,7 @@
+import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -23,6 +25,7 @@ import '../../../../../locator.dart';
 import '../../../../../services/navigation.dart';
 
 final NavigationService _navigationService = locator<NavigationService>();
+final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class SaleProducts extends StatefulWidget {
   const SaleProducts({super.key});
@@ -45,43 +48,20 @@ class _SaleProductsState extends State<SaleProducts> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: state.products?.length,
-                      itemBuilder: (context, index) {
-                        return CustomCardProduct(
-                            product: state.products![index]);
-                        // List<Widget> carouselItems = [
-                        //
-                        //   CustomCardProductBack(
-                        //       product: state.products![index])
-                        // ];
-                        // return CarouselSlider(
-                        //   options: CarouselOptions(
-                        //     height:
-                        //         MediaQuery.of(context).size.height * 0.22,
-                        //     enableInfiniteScroll: false,
-                        //     autoPlayInterval: const Duration(seconds: 4),
-                        //     aspectRatio: 2,
-                        //     enlargeCenterPage: false,
-                        //     scrollDirection: Axis.horizontal,
-                        //     autoPlay: false,
-                        //     viewportFraction: 1,
-                        //   ),
-                        //   items: carouselItems.map((item) {
-                        //     return Builder(
-                        //       builder: (BuildContext context) {
-                        //         return item;
-                        //       },
-                        //     );
-                        //   }).toList(),
-                        // );
-                      })),
+                  child: Container(
+                color: Colors.grey[100],
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: state.products?.length,
+                    itemBuilder: (context, index) {
+                      return CustomCardProduct(product: state.products![index]);
+                    }),
+              )),
               Material(
                   elevation: 10,
                   child: Container(
-                    height: 60,
+                    height: Screens.height(context) * 0.1,
                     color: Colors.white,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,11 +73,22 @@ class _SaleProductsState extends State<SaleProducts> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppText(
-                                'Productos: ${state.cant ?? 0}',
-                              ),
-                              AppText(
-                                'Total: ${''.formatted(state.total ?? 0.0)}',
+                              FutureBuilder(
+                                future:
+                                    _databaseRepository.getTotalProductQuantity(
+                                        state.router!.dayRouter!,
+                                        state.priceSelected!.codprecio!,
+                                        state.warehouseSelected!.codbodega!,
+                                        state.client!.id.toString()),
+                                builder: (context, snapshot) {
+                                  return (snapshot.hasData)
+                                      ? AppText(
+                                          'Productos: ${snapshot.data ?? 0.0}',
+                                        )
+                                      : AppText(
+                                          'Productos: 0',
+                                        );
+                                },
                               ),
                             ],
                           ),

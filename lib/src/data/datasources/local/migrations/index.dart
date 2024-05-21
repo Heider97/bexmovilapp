@@ -76,7 +76,7 @@ Future<void> onCreate(db, version) async {
       )
     ''');
   await db.execute('''
-    CREATE TABLE $tableFeature (
+    CREATE TABLE IF NOT EXISTS $tableFeature (
       ${FeaturesFields.coddashboard} INTEGER PRIMARY KEY,
       ${FeaturesFields.codvendedor} TEXT DEFAULT NULL,
       ${FeaturesFields.descripcion} TEXT DEFAULT NULL,
@@ -97,10 +97,22 @@ Future<void> onCreate(db, version) async {
     CREATE TABLE IF NOT EXISTS app_cart (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       codrouter TEXT NOT NULL,
+      codPrecio TEXT NOT NULL,
+      codBodega TEXT NOT NULL,
       codcliente TEXT NOT NULL,
-      codproduct TEXT NOT NULL,
+      codproducts TEXT NOT NULL,
       state TEXT NOT NULL,
       date TEXT NOT NULL
     )
   ''');
+
+  await db.execute('''
+      CREATE TABLE IF NOT EXISTS app_cart_stock (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        cart_id INTEGER NOT NULL,
+        product_id TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        FOREIGN KEY(cart_id) REFERENCES app_cart(id)
+      )
+    ''');
 }
