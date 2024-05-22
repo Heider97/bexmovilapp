@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../datasources/local/app_database.dart';
@@ -43,7 +44,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.blocDao.emptyBlocs();
   }
 
-
   //BLOC EVENTS
   @override
   Future<BlocEvent?> findBlocEvent(String name) async {
@@ -65,7 +65,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<void> emptyViews() async {
     return _appDatabase.viewDao.emptyViews();
   }
-
 
   //MODULES
   @override
@@ -100,7 +99,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.widgetDao.findWidgetsByBloc(appBlocId);
   }
 
-
   @override
   Future<void> emptyWidgets() async {
     return _appDatabase.widgetDao.emptyWidgets();
@@ -133,7 +131,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<Query?> findQuery(int id) async {
     return _appDatabase.queryDao.findQuery(id);
   }
-
 
   @override
   Future<void> emptyQueries() async {
@@ -477,19 +474,60 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     return _appDatabase.emptyAllTables();
   }
 
-
   @override
   Future<void> emptyAllTablesToSync() {
     return _appDatabase.emptyAllTablesToSync();
   }
 
   @override
-  void close() {
-    _appDatabase.close();
+  Future<List<LatLng>> getPolyline(String codeRouter) {
+    return _appDatabase.routerDao.getRouterPolylines(codeRouter);
+  }
+
+  //SHIPPING CART
+
+  @override
+  Future<Product> getProductById(
+      String productId, String codPrecio, String codBodega) async {
+    return await _appDatabase.shoppingCartDao
+        .getProductById(productId, codPrecio, codBodega);
   }
 
   @override
-  Future<List<LatLng>> getPolyline(String codeRouter) {
-    return _appDatabase.routerDao.getRouterPolylines(codeRouter);
+  Future<List<String>> getProductsByRouterAndClient(
+      String codrouter, String codcliente) {
+    return _appDatabase.shoppingCartDao
+        .getProductsByRouterAndClient(codrouter, codcliente);
+  }
+
+  @override
+  Future<int> getStockByProduct(String productId) {
+    return _appDatabase.shoppingCartDao.getStockByProduct(productId);
+  }
+
+  @override
+  Future<void> insertCart(
+      String codrouter,
+      String codPrecio,
+      String codBodega,
+      String codcliente,
+      String codproducts,
+      int quantity,
+      String state,
+      String date) {
+    return _appDatabase.shoppingCartDao.insertCart(codrouter, codPrecio,
+        codBodega, codcliente, codproducts, quantity, state, date);
+  }
+
+  @override
+  Future<int> getTotalProductQuantity(
+      String codrouter, String codPrecio, String codBodega, String codcliente) {
+    return _appDatabase.shoppingCartDao
+        .getTotalProductQuantity(codrouter, codPrecio, codBodega, codcliente);
+  }
+
+  @override
+  void close() {
+    _appDatabase.close();
   }
 }

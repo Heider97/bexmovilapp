@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -131,11 +132,11 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
 
         List<String> tables = [];
 
-        List<Future<DataState<DynamicResponse>>> futures = [];
+        List<Future<DataState<DynamicMultitableResponse>>> futures = [];
+
+        //MONTAR LA DIVISION,
 
         for (var priority in prioritiesSync) {
-          futures.add(apiRepository.syncDynamic(
-              request: DynamicRequest(priority.name, 'application/json')));
           tables.add(priority.name);
         }
 
@@ -149,8 +150,17 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         for (var response in responses) {
           if (response is DataSuccess) {
             if (response.data != null && response.data!.data != null) {
-              futureInserts.add(databaseRepository.insertAll(
-                  tables[i], response.data!.data!));
+              /*     futureInserts.add(databaseRepository.insertAll(
+                  tables[i], response.data!.data!)); */
+
+              var keys = response.data!.data!.keys.toList();
+
+              for (var key in keys) {
+                futureInserts.add(databaseRepository.insertAll(
+                    key, response.data!.data![key]));
+              }
+              print(response.data);
+              print('Cantidad de peticione: $i');
             }
           }
           i++;
@@ -180,4 +190,16 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   void goToHome() {
     navigationService.goTo(AppRoutes.home);
   }
+}
+
+List<List<String>> subdividirArreglo(List<String> arreglo, int maxElementos) {
+  List<List<String>> subarreglos = [];
+
+  for (int i = 0; i < arreglo.length; i += maxElementos) {
+    int fin =
+        (i + maxElementos < arreglo.length) ? i + maxElementos : arreglo.length;
+    subarreglos.add(arreglo.sublist(i, fin));
+  }
+
+  return subarreglos;
 }

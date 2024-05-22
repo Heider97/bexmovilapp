@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
@@ -456,6 +457,42 @@ class ApiService {
             .copyWith(baseUrl: url ?? dio.options.baseUrl)));
 
     final value = DynamicResponse.fromMap(result.data!, table);
+
+    return Response(
+        data: value,
+        requestOptions: result.requestOptions,
+        statusCode: result.statusCode,
+        statusMessage: result.statusMessage,
+        isRedirect: result.isRedirect,
+        redirects: result.redirects,
+        extra: result.extra,
+        headers: result.headers);
+  }
+
+  Future<Response<DynamicMultitableResponse>> syncDynamicMultiTables(
+      {required List<String> tables}) async {
+    const extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+
+    print(jsonEncode(tables));
+
+    final data = <String, dynamic>{r'tables': jsonEncode(tables)};
+
+    final headers = <String, dynamic>{};
+
+    final result = await dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Response<SyncPrioritiesResponse>>(Options(
+      method: 'GET',
+      headers: headers,
+      extra: extra,
+    )
+            .compose(dio.options, '/sync/dynamics',
+                queryParameters: queryParameters, data: data)
+            .copyWith(baseUrl: url ?? dio.options.baseUrl)));
+
+
+    final value = DynamicMultitableResponse.fromMap(result.data!);
 
     return Response(
         data: value,

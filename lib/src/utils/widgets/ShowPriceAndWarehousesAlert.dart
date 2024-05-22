@@ -29,9 +29,6 @@ class _ShowPriceAndWarehousesAlertState
 
   late SaleBloc saleBloc;
 
-  int _selectedRadioBodega = -1;
-  int _selectedRadioListaPrecios = -1;
-
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
@@ -54,8 +51,8 @@ class _ShowPriceAndWarehousesAlertState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Opacity(
-                  opacity: (_selectedRadioBodega != -1 &&
-                          _selectedRadioListaPrecios != -1)
+                  opacity: (state.priceSelected != null &&
+                          state.warehouseSelected != null)
                       ? 1
                       : 0.5,
                   child: Container(
@@ -95,36 +92,26 @@ class _ShowPriceAndWarehousesAlertState
                                 itemCount: state.warehouses!.length,
                                 itemBuilder: (context, index) {
                                   return ListTile(
-                                    onTap: () {
-                                      saleBloc.add(SelectWarehouse(
-                                          warehouse: state.warehouses![index]));
-                                      setState(() {
-                                        _selectedRadioBodega =
-                                            index; // Actualiza el valor seleccionado
-                                      });
-                                    },
-                                    selected: false,
-                                    title: AppText(
-                                      state.warehouses![index].nombodega ??
-                                          'N/A',
-                                      fontSize: 14,
-                                    ),
-                                    subtitle: AppText(
-                                      state.warehouses![index].codbodega ??
-                                          'N/A',
-                                      fontSize: 14,
-                                    ),
-                                    trailing: Radio(
-                                      value: index,
-                                      groupValue: _selectedRadioBodega,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _selectedRadioBodega = value
-                                              as int; // Actualiza el valor seleccionado
-                                        });
+                                      onTap: () {
+                                        saleBloc.add(SelectWarehouse(
+                                            warehouse:
+                                                state.warehouses![index]));
                                       },
-                                    ),
-                                  );
+                                      selected: false,
+                                      title: AppText(
+                                        state.warehouses![index].nombodega ??
+                                            'N/A',
+                                        fontSize: 14,
+                                      ),
+                                      subtitle: AppText(
+                                        state.warehouses![index].codbodega ??
+                                            'N/A',
+                                        fontSize: 14,
+                                      ),
+                                      trailing: (state.warehouses![index] ==
+                                              state.warehouseSelected)
+                                          ? Icon(Icons.radio_button_checked)
+                                          : Icon(Icons.radio_button_off));
                                 },
                               ))
                           : Center(
@@ -154,33 +141,23 @@ class _ShowPriceAndWarehousesAlertState
                               itemCount: state.prices!.length,
                               itemBuilder: (context, index) {
                                 return ListTile(
-                                  onTap: () {
-                                    saleBloc.add(SelectPriceList(
-                                        listPriceSelected:
-                                            state.prices![index]));
-                                    setState(() {
-                                      _selectedRadioListaPrecios = index;
-                                    });
-                                  },
-                                  selected: false,
-                                  title: AppText(
-                                      state.prices?[index].nomprecio ?? 'N/A',
-                                      fontSize: 14),
-                                  subtitle: AppText(
-                                    state.prices?[index].codprecio ?? 'N/A',
-                                    fontSize: 14,
-                                  ),
-                                  trailing: Radio(
-                                    value: index,
-                                    groupValue: _selectedRadioListaPrecios,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedRadioListaPrecios = value
-                                            as int; // Actualiza el valor seleccionado
-                                      });
+                                    onTap: () {
+                                      saleBloc.add(SelectPriceList(
+                                          listPriceSelected:
+                                              state.prices![index]));
                                     },
-                                  ),
-                                );
+                                    selected: false,
+                                    title: AppText(
+                                        state.prices?[index].nomprecio ?? 'N/A',
+                                        fontSize: 14),
+                                    subtitle: AppText(
+                                      state.prices?[index].codprecio ?? 'N/A',
+                                      fontSize: 14,
+                                    ),
+                                    trailing: (state.prices![index] ==
+                                            state.priceSelected)
+                                        ? Icon(Icons.radio_button_checked)
+                                        : Icon(Icons.radio_button_off));
                               },
                             ),
                           )
@@ -196,7 +173,16 @@ class _ShowPriceAndWarehousesAlertState
                 BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                   return InkWell(
                     onTap: () {
-                      if (_selectedRadioBodega != -1 &&
+                      if (state.priceSelected != null &&
+                          state.warehouseSelected != null) {
+                        navigationService.goTo(AppRoutes.productsSale,
+                            arguments: ProductArgument(
+                                client: state.client!,
+                                codbodega: state.warehouseSelected!.codbodega!,
+                                codprecio: state.priceSelected!.codprecio!));
+                      }
+
+                      /*     if (_selectedRadioBodega != -1 &&
                           _selectedRadioListaPrecios != -1) {
                         navigationService.goTo(AppRoutes.productsSale,
                             arguments: ProductArgument(
@@ -208,14 +194,14 @@ class _ShowPriceAndWarehousesAlertState
                                     .prices![_selectedRadioListaPrecios]
                                     .codprecio!));
                       } else {
-                        // Muestra algún tipo de mensaje de advertencia o realiza otra acción según tus necesidades
-                      }
+                        // Muestra algún tipo de mensaje de advertencia o realiza otra acción 
+                      } */
                     },
                     child: SizedBox(
                       height: 40,
                       child: Opacity(
-                        opacity: (_selectedRadioBodega != -1 &&
-                                _selectedRadioListaPrecios != -1)
+                        opacity: (state.priceSelected != null &&
+                                state.warehouseSelected != null)
                             ? 1
                             : 0.5,
                         child: Material(
