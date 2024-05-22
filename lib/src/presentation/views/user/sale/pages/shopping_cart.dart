@@ -28,6 +28,7 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(GetProductsShippingCart());
     super.initState();
   }
 
@@ -37,7 +38,8 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
 
     return BlocBuilder<SaleBloc, SaleState>(
       builder: (context, state) {
-        if (state.cart != null && state.cart!.isNotEmpty) {
+        if (state.cartProductInfo != null &&
+            state.cartProductInfo!.products.isNotEmpty) {
           return SafeArea(
             child: Column(
               children: [
@@ -68,20 +70,13 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: state.cart?.length ?? 0,
+                      itemCount: state.cartProductInfo!.products.length,
                       itemBuilder: (context, index) {
                         return Padding(
                             padding: const EdgeInsets.only(top: 15.0),
                             child: ProductAmmount(
-                              product: ItemAmount(
-                                  image: 'assets/images/menu.png',
-                                  title:
-                                      'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
-                                  weight: '40 Kg',
-                                  price: 541545549,
-                                  discount: '17%',
-                                  origin: 'origin'),
-                            ));
+                                product:
+                                    state.cartProductInfo!.products[index]));
                       }),
                 ),
                 Material(
@@ -99,7 +94,7 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                             children: [
                               AppText.bodyMedium('Subtotal'),
                               AppText.titleLarge(
-                                  ''.formatted(state.subtotal ?? 0.0)),
+                                  ''.formatted(state.totalPriceShippingCart ?? 0.0)),
                             ],
                           ),
                           const SizedBox(),

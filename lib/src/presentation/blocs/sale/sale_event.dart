@@ -84,3 +84,13 @@ class SelectProduct extends SaleEvent {
 class LoadCart extends SaleEvent {
   LoadCart();
 }
+
+class GetDetailsShippingCart extends SaleEvent {
+  GetDetailsShippingCart();
+}
+
+class GetProductsShippingCart extends SaleEvent {
+  GetProductsShippingCart();
+}
+
+

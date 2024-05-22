@@ -29,8 +29,15 @@ class CustomCardProduct extends StatefulWidget {
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
   TextEditingController textController = TextEditingController();
+  late SaleBloc saleBloc;
   Color primaryColor = const Color(0xFFF27114);
   String inputValue = '';
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -282,23 +289,28 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                           ))),
                                                   InkWell(
                                                     onTap: () async {
-                                                      await _databaseRepository
-                                                          .insertCart(
-                                                              state
-                                                                  .router!.dayRouter!,
-                                                              state.priceSelected!
-                                                                  .codprecio!,
-                                                              state.warehouseSelected!
-                                                                  .codbodega!,
-                                                              state.client!.id!
-                                                                  .toString(),
-                                                              widget.product
-                                                                  .codProducto!,
-                                                              5,
-                                                              'pending',
-                                                              DateTime.now()
-                                                                  .toString());
+                                                      await _databaseRepository.insertCart(
+                                                          state.router!
+                                                              .dayRouter!,
+                                                          state.priceSelected!
+                                                              .codprecio!,
+                                                          state
+                                                              .warehouseSelected!
+                                                              .codbodega!,
+                                                          state.client!.id!
+                                                              .toString(),
+                                                          widget.product
+                                                              .codProducto!,
+                                                          int.parse(
+                                                              textController
+                                                                  .text),
+                                                          'pending',
+                                                          DateTime.now()
+                                                              .toString());
                                                       print('add to cart ');
+
+                                                      saleBloc.add(
+                                                          GetDetailsShippingCart());
                                                       /*    context.read<SaleBloc>().add(
                                                             SelectProduct(
                                                                 product:
