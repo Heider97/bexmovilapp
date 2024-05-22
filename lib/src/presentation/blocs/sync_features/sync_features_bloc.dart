@@ -82,6 +82,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
         await Future.wait(futureInserts).whenComplete(() {
           final endTime = DateTime.now();
           final elapsedTime = endTime.difference(startTime);
+
           print(
               'Time taken for sequential calls: ${elapsedTime.inMilliseconds} ms');
 
