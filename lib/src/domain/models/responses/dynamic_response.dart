@@ -23,16 +23,16 @@ class DynamicResponse extends Equatable {
   List<Object?> get props => [status, message, data];
 }
 
-class DynamicMultitableResponse extends Equatable {
+class DynamicTablesResponse extends Equatable {
   final bool? status;
   final String? message;
   final Map<String, dynamic>? data;
 
-  const DynamicMultitableResponse(
+  const DynamicTablesResponse(
       {required this.status, required this.message, this.data});
 
-  factory DynamicMultitableResponse.fromMap(Map<String, dynamic> map) {
-    return DynamicMultitableResponse(
+  factory DynamicTablesResponse.fromMap(Map<String, dynamic> map) {
+    return DynamicTablesResponse(
       status: map['status'],
       message: map['message'],
       data: map['tables'],
