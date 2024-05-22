@@ -84,7 +84,6 @@ dependencies:
   yaml: ^3.1.1
   dialog_flowtter: ^0.3.3
   skeletonizer: ^1.1.2+1
-  syncfusion_flutter_barcodes: ^23.2.7
 
 dev_dependencies:
   bloc_test: ^9.1.5

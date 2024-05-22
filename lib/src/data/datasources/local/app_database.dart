@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/material.dart' as material;
+
 
 import 'package:bexmovil/src/data/datasources/local/dao/shopping_cart_dao.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-
-import 'package:sqflite/sqflite.dart';
+import 'package:sqlbrite/sqlbrite.dart';
 import 'package:synchronized/synchronized.dart';
 
 // [UTILS]
@@ -22,7 +24,7 @@ import '../../../domain/models/widget.dart';
 import '../../../domain/models/component.dart';
 import '../../../domain/models/logic.dart';
 import '../../../domain/models/logic_query.dart';
-import '../../../domain/models/query.dart';
+import '../../../domain/models/query.dart' as q;
 import '../../../domain/models/raw_query.dart';
 import '../../../domain/models/navigation.dart';
 
@@ -47,6 +49,7 @@ import '../../../domain/abstracts/format_abstract.dart';
 // [SERVICES]
 import '../../../locator.dart';
 import '../../../services/storage.dart';
+import '../../../utils/extensions/inser_bulk_extension.dart';
 
 // [MIGRATIONS]
 part 'migrations/index.dart';
@@ -80,6 +83,8 @@ part '../local/dao/option_dao.dart';
 final LocalStorageService _storageService = locator<LocalStorageService>();
 
 class AppDatabase {
+  static BriteDatabase? _streamDatabase;
+
   static var lock = Lock();
   AppDatabase._privateConstructor();
   static final AppDatabase instance = AppDatabase._privateConstructor();
@@ -104,14 +109,20 @@ class AppDatabase {
       if (_database == null) {
         dbName ??= databaseName;
         _database = await _initDatabase('$dbName.db');
+        _streamDatabase = BriteDatabase(_database!);
       }
     });
     return _database;
   }
 
+  Future<BriteDatabase?> get streamDatabase async {
+    await database;
+    return _streamDatabase;
+  }
+
   //SCRIPTING
   Future<void> runMigrations(List<String> migrations) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     try {
       await db?.transaction((database) async {
         for (var migration in migrations) {
@@ -125,13 +136,13 @@ class AppDatabase {
   }
 
   Future<bool> listenForTableChanges(String? table) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     var result = await db!.rawQuery('SELECT changes($table)');
     return result.isNotEmpty;
   }
 
   Future<List<Map<String, Object?>>> logicQueries(int componentId) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     final results = await db!.rawQuery('''
     SELECT * FROM $tableLogicsQueries 
     WHERE ${LogicQueryFields.componentId} = $componentId
@@ -141,35 +152,35 @@ class AppDatabase {
 
   Future<List<Map<String, Object?>>> query(
       String query, String? where, List<dynamic>? values) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     return await db!.query(query, where: where, whereArgs: values);
   }
 
   Future<Map<String, Object?>> querySingle(
       String query, String? where, List<dynamic>? values) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     final results = await db!.query(query, where: where, whereArgs: values);
     return results.first;
   }
 
   Future<List<Map<String, Object?>>> rawQuery(String sentence) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     return await db!.rawQuery(sentence);
   }
 
   Future<Map<String, Object?>> rawQuerySingle(String sentence) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     final results = await db!.rawQuery(sentence);
     return results.first;
   }
 
   Future<List<Map<String, Object?>>> search(String table) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     return await db!.query(table);
   }
 
   Future<void> emptyAllTablesToSync() async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
 
     // Get a list of all tables in the database
     List<Map<String, dynamic>> tables = await db!.rawQuery('''
@@ -199,7 +210,7 @@ class AppDatabase {
   }
 
   Future<void> emptyAllTables() async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
 
     // Get a list of all tables in the database
     List<Map<String, dynamic>> tables = await db!.rawQuery('''
@@ -221,19 +232,31 @@ class AppDatabase {
 
   Future<List<int>?> insertAll(String table, List<dynamic> objects) async {
     final db = await instance.database;
+    if (objects.isEmpty) return null;
     var results = <int>[];
     try {
-      await db?.transaction((tnx) async {
-        final batch = tnx.batch();
-        for (var object in objects) {
-          batch.insert(table, object);
+      Iterable<Map<String, Object?>> iterableMap = objects.map((item) {
+        if (item is Map<String, dynamic>) {
+          return item;
+        } else {
+          return {};
         }
-        await batch.commit(continueOnError: false);
-        // for (var object in objects) {
-        //   var id = await tnx.insert(table, object);
-        //   results.add(id);
-        // }
       });
+
+      var result = await db!.insertMultiple(table, iterableMap,
+          conflictAlgorithm: ConflictAlgorithm.ignore, blockSize: 500);
+      if (result != null) {
+        results.add(result);
+      }
+
+      // await db?.transaction((tnx) async {
+      //   final batch = tnx.batch();
+      //   for (var object in objects) {
+      //     batch.insert(table, object);
+      //   }
+      //   await batch.commit(continueOnError: true, noResult: true);
+      // });
+
       return results;
     } catch (er) {
       return null;
@@ -243,13 +266,13 @@ class AppDatabase {
   //UPDATE METHOD
   Future<int> update(
       String table, Map<String, dynamic> value, String columnId, int id) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     return db!.update(table, value, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //DELETE METHOD
   Future<int> delete(String table, String columnId, int id) async {
-    final db = await instance.database;
+    final db = await instance.streamDatabase;
     return db!.delete(table, where: '$columnId = ?', whereArgs: [id]);
   }
 

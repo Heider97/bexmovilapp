@@ -39,7 +39,7 @@ class LogicDao {
 
   Future<void> emptyQueries() async {
     final db = await _appDatabase.database;
-    await db!.delete(tableQueries, where: 'id > 0');
+    await db!.delete(q.tableQueries, where: 'id > 0');
     return Future.value();
   }
 }
