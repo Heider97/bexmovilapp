@@ -35,6 +35,16 @@ class SaleProducts extends StatefulWidget {
 }
 
 class _SaleProductsState extends State<SaleProducts> {
+  late SaleBloc saleBloc;
+  int totalProducts = 0;
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(GetDetailsShippingCart());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SaleBloc, SaleState>(
@@ -73,23 +83,12 @@ class _SaleProductsState extends State<SaleProducts> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FutureBuilder(
-                                future:
-                                    _databaseRepository.getTotalProductQuantity(
-                                        state.router!.dayRouter!,
-                                        state.priceSelected!.codprecio!,
-                                        state.warehouseSelected!.codbodega!,
-                                        state.client!.id.toString()),
-                                builder: (context, snapshot) {
-                                  return (snapshot.hasData)
-                                      ? AppText(
-                                          'Productos: ${snapshot.data ?? 0.0}',
-                                        )
-                                      : AppText(
-                                          'Productos: 0',
-                                        );
-                                },
+                              AppText(
+                                'Productos: ${state.totalProductsShippingCart ?? 0}',
                               ),
+                              AppText(fontSize: 20,fontWeight: FontWeight.w300,
+                                'Total: ${''.formatted(state.totalPriceShippingCart!)}',
+                              )
                             ],
                           ),
                         ),
@@ -114,5 +113,13 @@ class _SaleProductsState extends State<SaleProducts> {
         return Center(child: AppText('No hay Productos'));
       }
     });
+  }
+
+  getProductsQuantity(state) async {
+    return await _databaseRepository.getTotalProductQuantity(
+        state.router!.dayRouter!,
+        state.priceSelected!.codprecio!,
+        state.warehouseSelected!.codbodega!,
+        state.client!.id.toString());
   }
 }

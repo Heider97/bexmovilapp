@@ -188,7 +188,10 @@ class AppDatabase {
         'options',
         'polylines',
         'processing_queues',
-        'sqlite_sequence'
+        'sqlite_sequence',
+        'app_cart_stock',
+        'app_cart'
+
       )
     ''');
 

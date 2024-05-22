@@ -1,4 +1,5 @@
 import 'package:bexmovil/src/domain/models/item_ammount.dart';
+import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_text.dart';
 import 'package:bexmovil/src/presentation/widgets/user/ammount.dart';
 import 'package:bexmovil/src/presentation/widgets/user/image_with_shadow.dart';
@@ -6,13 +7,14 @@ import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 
 import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProductAmmount extends StatelessWidget {
-  final ItemAmount product;
+  final ProductCart product;
   const ProductAmmount({super.key, required this.product});
 
   @override
@@ -71,17 +73,19 @@ class ProductAmmount extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                     child: Row(
                       children: [
-                        SizedBox(
-                          width: 100,
-                          height: Screens.height(context) * 0.15,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ImagesWithShadow(
-                              image: product.image,
-                              gap: 0,
-                            ),
-                          ),
-                        ),
+                        (product.product.imagen != null)
+                            ? SizedBox(
+                                width: 100,
+                                height: Screens.height(context) * 0.15,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ImagesWithShadow(
+                                    image: product.product.imagen!,
+                                    gap: 0,
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(Const.padding),
@@ -108,24 +112,22 @@ class ProductAmmount extends StatelessWidget {
                                                       child: AppText('Código: ',
                                                           fontWeight:
                                                               FontWeight.w500,
-                                                         /*  color: theme
+                                                          /*  color: theme
                                                               .primaryColor, */
                                                           fontSize: 12,
                                                           overflow: TextOverflow
                                                               .ellipsis),
                                                     ),
-                                                    AppText(
-                                                        'GM1594S',
+                                                    AppText('GM1594S',
                                                         fontWeight:
-                                                          FontWeight.bold,
+                                                            FontWeight.bold,
                                                         color: Colors.black,
                                                         fontSize: 12,
                                                         overflow: TextOverflow
                                                             .ellipsis),
                                                   ],
                                                 ),
-                                                AppText(
-                                                    'Cerdo Levante 1 Naranga Mega Pro 35% Para Vacas',
+                                                AppText(product.product.nomProducto,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.black,
                                                     fontSize: 16,
@@ -137,16 +139,16 @@ class ProductAmmount extends StatelessWidget {
                                         ])),
                                 Row(
                                   children: [
-                                    Text(
-                                      '- ${product.discount} ',
+                                    /* Text(
+                                      '- ${product} ',
                                       style: const TextStyle(
                                           color:
                                               Color.fromARGB(255, 219, 8, 57)),
-                                    ),
+                                    ), */
                                     Text.rich(
                                       TextSpan(
                                         text:
-                                            '\$ ${product.price.toStringAsFixed(2)}',
+                                            ''.formatted(product.product.precioProductoPrecio ?? 0),
                                         style: theme.textTheme.labelMedium!
                                             .copyWith(
                                           //fontWeight: FontWeight.bold,
@@ -158,10 +160,10 @@ class ProductAmmount extends StatelessWidget {
                                     gapW12,
                                   ],
                                 ),
-                              gapH4,
+                                gapH4,
                                 Row(
                                   children: [
-                                 /*    AppText('Unidad: ',
+                                    /*    AppText('Unidad: ',
                                         fontWeight: FontWeight.w500,
                                         color: Colors.black,
                                         fontSize: 13,
@@ -178,7 +180,9 @@ class ProductAmmount extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     SizedBox(),
-                                    Ammount(controller: TextEditingController())
+                                    Ammount(
+                                        controller: TextEditingController(
+                                            text: product.stock.toString()))
                                   ],
                                 )
 
