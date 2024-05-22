@@ -137,6 +137,33 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                             width: 10,
                                           ),
                                           Opacity(
+                                              opacity: 0.75,
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(2),
+                                                    child: AppText(' -25 %',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.white,
+                                                        fontSize: 8,
+                                                        overflow: TextOverflow
+                                                            .ellipsis),
+                                                  ))),
+                                          AppText(
+                                              ''.formatted(widget.product
+                                                  .precioProductoPrecio!),
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Opacity(
                                             opacity: 0.75,
                                             child: Container(
                                               decoration: BoxDecoration(
@@ -153,211 +180,167 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                     overflow:
                                                         TextOverflow.ellipsis),
                                               ),
-                                              AppText(
-                                                  ''.formatted(widget.product
-                                                      .precioProductoPrecio!),
-                                                  fontSize: 14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Opacity(
-                                                opacity: 0.75,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: primaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5)),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(2),
-                                                    child: AppText(' -25 %',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.white,
-                                                        fontSize: 8,
-                                                        overflow: TextOverflow
-                                                            .ellipsis),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          AppText('Cantidad: '),
-                                          AppText(
-                                              'Disponible ${widget.product.existenciaStock}',
-                                              fontSize: 12,
-                                              color: Colors.grey[600]),
-                                        ],
-                                      ),
-                                      gapW4,
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 40,
-                                            width: 120,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                color: (textController
-                                                        .text.isEmpty)
-                                                    ? Colors.grey[200]!
-                                                    : primaryColor, // Color del borde
-                                                width: 1, // Grosor del borde
-                                              ),
                                             ),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
-                                                      child: TextFormField(
-                                                          onChanged: (value) {
-                                                            inputValue = value;
-                                                            setState(() {
-                                                              widget.product
-                                                                      .cant =
-                                                                  int.parse(
-                                                                      inputValue);
-                                                            });
-                                                          },
-                                                          controller:
-                                                              textController,
-                                                          keyboardType:
-                                                              TextInputType
-                                                                  .number,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            focusColor:
-                                                                primaryColor,
-                                                            filled: true,
-                                                            fillColor:
-                                                                Colors.white,
-                                                            contentPadding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                              //  vertical: Const.space5,
-                                                              vertical: 1,
-                                                              horizontal: 5,
-                                                            ),
-                                                            border:
-                                                                OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5.0), // Ajusta el radio para cambiar la cantidad de redondez
-                                                              borderSide: BorderSide
-                                                                  .none, // Puedes establecer un borde si lo deseas
-                                                            ),
-                                                          ))),
-                                                  InkWell(
-                                                    onTap: () async {
-                                                      await _databaseRepository
-                                                          .insertCart(
-                                                              state
-                                                                  .router!.dayRouter!,
-                                                              state.priceSelected!
-                                                                  .codprecio!,
-                                                              state.warehouseSelected!
-                                                                  .codbodega!,
-                                                              state.client!.id!
-                                                                  .toString(),
-                                                              widget.product
-                                                                  .codProducto!,
-                                                              5,
-                                                              'pending',
-                                                              DateTime.now()
-                                                                  .toString());
-                                                      print('add to cart ');
-                                                      /*    context.read<SaleBloc>().add(
-                                                            SelectProduct(
-                                                                product:
-                                                                    widget.product)); */
-                                                    },
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              4.0),
-                                                      child: Opacity(
-                                                        opacity: 0.75,
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        3),
-                                                            color: (inputValue
-                                                                    .isEmpty)
-                                                                ? Colors
-                                                                    .grey[200]
-                                                                : primaryColor,
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(6.0),
-                                                            child: Text(
-                                                              'Aplicar',
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: (inputValue
-                                                                          .isEmpty)
-                                                                      ? Colors.grey[
-                                                                          400]
-                                                                      : Colors
-                                                                          .white),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ]),
                                           ),
                                         ],
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ],
                               ),
                             ],
                           ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AppText('Cantidad: '),
+                                      AppText(
+                                          'Disponible ${widget.product.existenciaStock}',
+                                          fontSize: 12,
+                                          color: Colors.grey[600]),
+                                    ],
+                                  ),
+                                  gapW4,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 120,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                            color: (textController.text.isEmpty)
+                                                ? Colors.grey[200]!
+                                                : primaryColor, // Color del borde
+                                            width: 1, // Grosor del borde
+                                          ),
+                                        ),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Expanded(
+                                                  child: TextFormField(
+                                                      onChanged: (value) {
+                                                        inputValue = value;
+                                                        setState(() {
+                                                          widget.product.cant =
+                                                              int.parse(
+                                                                  inputValue);
+                                                        });
+                                                      },
+                                                      controller:
+                                                          textController,
+                                                      keyboardType:
+                                                          TextInputType.number,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        focusColor:
+                                                            primaryColor,
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          //  vertical: Const.space5,
+                                                          vertical: 1,
+                                                          horizontal: 5,
+                                                        ),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  5.0), // Ajusta el radio para cambiar la cantidad de redondez
+                                                          borderSide: BorderSide
+                                                              .none, // Puedes establecer un borde si lo deseas
+                                                        ),
+                                                      ))),
+                                              InkWell(
+                                                onTap: () async {
+                                                  await _databaseRepository
+                                                      .insertCart(
+                                                          state.router!
+                                                              .dayRouter!,
+                                                          state.priceSelected!
+                                                              .codprecio!,
+                                                          state
+                                                              .warehouseSelected!
+                                                              .codbodega!,
+                                                          state.client!.id!
+                                                              .toString(),
+                                                          widget.product
+                                                              .codProducto!,
+                                                          5,
+                                                          'pending',
+                                                          DateTime.now()
+                                                              .toString());
+                                                  print('add to cart ');
+                                                  /*    context.read<SaleBloc>().add(
+                                                            SelectProduct(
+                                                                product:
+                                                                    widget.product)); */
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Opacity(
+                                                    opacity: 0.75,
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(3),
+                                                        color: (inputValue
+                                                                .isEmpty)
+                                                            ? Colors.grey[200]
+                                                            : primaryColor,
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(6.0),
+                                                        child: Text(
+                                                          'Aplicar',
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: (inputValue
+                                                                      .isEmpty)
+                                                                  ? Colors
+                                                                      .grey[400]
+                                                                  : Colors
+                                                                      .white),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ]),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      )
                     ],
                   ),
                 ),
