@@ -34,12 +34,12 @@ class ShoppingCartDao {
     return products;
   }
 
-  Future<int> getStockByProduct(String productId) async {
+  Future<int> getStockByProduct(String productId, String cartId) async {
     final db = await _appDatabase.database;
 
     List<Map<String, dynamic>> result = await db!.rawQuery(
-      'SELECT SUM(quantity) as total_stock FROM app_cart_stock WHERE product_id = ?',
-      [productId],
+      'SELECT SUM(quantity) as total_stock FROM app_cart_stock WHERE product_id = ? AND cart_id = ?',
+      [productId,cartId],
     );
 
     if (result.isNotEmpty) {
@@ -49,16 +49,86 @@ class ShoppingCartDao {
     }
   }
 
+  Future<double> getTotalProductValue(
+    String codrouter,
+    String codPrecio,
+    String codBodega,
+    String codcliente,
+  ) async {
+    final db = await _appDatabase.database;
+
+    // Primero, obtener los cart_id correspondientes
+    List<Map<String, dynamic>> cartIds = await db!.query(
+      'app_cart',
+      columns: ['id'],
+      where:
+          'codrouter = ? AND codPrecio = ? AND codBodega = ? AND codcliente = ?',
+      whereArgs: [codrouter, codPrecio, codBodega, codcliente],
+    );
+
+    // Si no hay resultados, devolver 0
+    if (cartIds.isEmpty) {
+      return 0;
+    }
+
+    // Crear una lista de cart_ids para usar en la siguiente consulta
+    List<int> cartIdList = cartIds.map((cart) => cart['id'] as int).toList();
+
+    // Consulta para sumar todas las cantidades de la columna 'quantity' para los cart_ids especificados
+    String cartIdString = cartIdList.join(',');
+    var quantityResult = await db.rawQuery(
+        'SELECT product_id, SUM(quantity) as total FROM app_cart_stock WHERE cart_id IN ($cartIdString) GROUP BY product_id');
+
+    if (quantityResult.isEmpty) {
+      return 0;
+    }
+
+    double totalValue = 0;
+
+    for (var row in quantityResult) {
+      String productId = row['product_id'] as String;
+      int totalQuantity = (row['total'] ?? 0) as int;
+
+      // Obtener el precio del producto basado en CODPRODUCTO
+      List<Map<String, dynamic>> priceResult = await db.query(
+        'tbldproductoprecio',
+        columns: ['precioproductoprecio'],
+        where: 'CODPRODUCTO = ?',
+        whereArgs: [productId],
+      );
+
+      if (priceResult.isEmpty) {
+        throw Exception('Product not found for CODPRODUCTO: $productId');
+      }
+
+// Convertir el precio del producto a double
+      num precioProductoNum = priceResult.first['precioproductoprecio'];
+      double precioProducto = precioProductoNum.toDouble();
+     
+
+      // Calcular el valor total del producto
+      totalValue += precioProducto * totalQuantity;
+    }
+
+    return totalValue;
+  }
+
   Future<CartProductInfo> getCartProductInfo(
-      String codrouter, String codcliente) async {
+    String codrouter,
+    String codcliente,
+    String codPrecio,
+    String codBodega,
+  ) async {
     final db = await _appDatabase.database;
     // Obtener los productos del carrito por codRouter y codCliente
     List<Map<String, dynamic>> cartResults = await db!.query(
       'app_cart',
       columns: ['id', 'codproducts'],
-      where: 'codrouter = ? AND codcliente = ?',
-      whereArgs: [codrouter, codcliente],
+      where: 'codrouter = ? AND codcliente = ? AND codPrecio = ? AND codBodega = ?',
+      whereArgs: [codrouter, codcliente, codPrecio, codBodega],
     );
+
+    
 
     if (cartResults.isEmpty) {
       throw Exception('No cart found for the given codRouter and codCliente');
@@ -68,15 +138,14 @@ class ShoppingCartDao {
     var cartRow = cartResults.first;
     String cartId = cartRow['id'].toString();
     List<String> productIds = (cartRow['codproducts'] as String).split(',');
-    String codBodega = cartRow['codBodega'];
-    String codPrecio = cartRow['codPrecio'];
+
     // Obtener los productos y su información
     List<ProductCart> productCarts = [];
     for (String productId in productIds) {
       // Obtener la información del producto por su ID
       Product product = await getProductById(productId, codPrecio, codBodega);
       // Obtener el stock del producto
-      int stock = await getStockByProduct(productId);
+      int stock = await getStockByProduct(productId,cartId);
       // Crear un objeto ProductCart
       productCarts.add(ProductCart(product: product, stock: stock));
     }
@@ -179,10 +248,6 @@ class ShoppingCartDao {
       int cartId = await db.insert('app_cart', cart);
       await insertCartStock(cartId, codproducts, quantity);
     }
-    
-
-   /*  getTotalProductQuantity(.
-    ); */
   }
 
   Future<void> insertCartStock(

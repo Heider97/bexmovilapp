@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //domain
@@ -20,6 +21,8 @@ import '../../../services/styled_dialog_controller.dart';
 part 'sale_event.dart';
 part 'sale_state.dart';
 
+final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
+
 class SaleBloc extends Bloc<SaleEvent, SaleState> {
   final DatabaseRepository databaseRepository;
   final LocalStorageService storageService;
@@ -41,6 +44,42 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<SelectProduct>(_onSelectProduct);
     on<GridModeChange>(_gridModeChange);
     on<LoadCart>(_onLoadCart);
+    on<GetDetailsShippingCart>(_onGetDetailsShippingCart);
+    on<GetProductsShippingCart>(_onGetProductsShippingCart);
+  }
+
+  Future<void> _onGetProductsShippingCart(
+      GetProductsShippingCart event, Emitter emit) async {
+    CartProductInfo cartProductInfo =
+        await _databaseRepository.getCartProductInfo(
+      state.router!.dayRouter!,
+      state.client!.id.toString(),
+      state.priceSelected!.codprecio!,
+      state.warehouseSelected!.codbodega!,
+    );
+
+    emit(state.copyWith(cartProductInfo: cartProductInfo));
+  }
+
+  Future<void> _onGetDetailsShippingCart(
+      GetDetailsShippingCart event, Emitter emit) async {
+    int totalProductsQuantity =
+        await _databaseRepository.getTotalProductQuantity(
+            state.router!.dayRouter!,
+            state.priceSelected!.codprecio!,
+            state.warehouseSelected!.codbodega!,
+            state.client!.id.toString());
+
+    double totalPriceShippingCart =
+        await _databaseRepository.getTotalProductValue(
+            state.router!.dayRouter!,
+            state.priceSelected!.codprecio!,
+            state.warehouseSelected!.codbodega!,
+            state.client!.id.toString());
+
+    emit(state.copyWith(
+        totalProductsShippingCart: totalProductsQuantity,
+        totalPriceShippingCart: totalPriceShippingCart));
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -223,7 +262,5 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     emit(state.copyWith(status: SaleStatus.products, total: total, cant: cant));
   }
 
-  Future<void> _onLoadCart(LoadCart event, Emitter emit) async {
-
-  }
+  Future<void> _onLoadCart(LoadCart event, Emitter emit) async {}
 }

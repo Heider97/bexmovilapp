@@ -501,8 +501,23 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<int> getStockByProduct(String productId) {
-    return _appDatabase.shoppingCartDao.getStockByProduct(productId);
+  Future<int> getStockByProduct(String productId, String cartId) {
+    return _appDatabase.shoppingCartDao.getStockByProduct(productId,cartId);
+  }
+
+  @override
+  Future<CartProductInfo> getCartProductInfo(
+    String codrouter,
+    String codcliente,
+    String codPrecio,
+    String codBodega,
+  ) {
+    return _appDatabase.shoppingCartDao.getCartProductInfo(
+     codrouter,
+codcliente,
+codPrecio,
+codBodega,
+    );
   }
 
   @override
@@ -524,6 +539,14 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
       String codrouter, String codPrecio, String codBodega, String codcliente) {
     return _appDatabase.shoppingCartDao
         .getTotalProductQuantity(codrouter, codPrecio, codBodega, codcliente);
+  }
+
+
+  @override
+  Future<double> getTotalProductValue(
+      String codrouter, String codPrecio, String codBodega, String codcliente) {
+    return _appDatabase.shoppingCartDao
+        .getTotalProductValue(codrouter, codPrecio, codBodega, codcliente);
   }
 
   @override

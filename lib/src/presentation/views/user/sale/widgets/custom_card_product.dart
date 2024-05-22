@@ -29,8 +29,15 @@ class CustomCardProduct extends StatefulWidget {
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
   TextEditingController textController = TextEditingController();
+  late SaleBloc saleBloc;
   Color primaryColor = const Color(0xFFF27114);
   String inputValue = '';
+
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

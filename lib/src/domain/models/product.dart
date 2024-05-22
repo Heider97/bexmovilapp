@@ -231,7 +231,6 @@ class CartProductInfo {
   final String codClient;
   final String codPrecio;
   final String codBodega;
-
   final List<ProductCart> products;
 
   CartProductInfo({
