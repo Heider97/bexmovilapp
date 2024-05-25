@@ -114,11 +114,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (_) => LocationBloc(),
         ),
-
         BlocProvider(
           create: (_) => MapsBloc(),
         ),
-
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
@@ -158,7 +156,8 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(
             create: (context) => PermissionCubit(locator<NavigationService>())),
-        BlocProvider(create: (context) => PoliticsCubit()),
+        BlocProvider(
+            create: (context) => PoliticsCubit(locator<LocalStorageService>())),
         BlocProvider(
             create: (context) => LoginCubit(
                 locator<ApiRepository>(),
