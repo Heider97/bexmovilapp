@@ -5,15 +5,16 @@ import '../../../utils/constants/strings.dart';
 import '../base/base_cubit.dart';
 
 //service
-import '../../../locator.dart';
 import '../../../services/storage.dart';
+import '../../../services/navigation.dart';
 
 part 'politics_state.dart';
 
 class PoliticsCubit extends BaseCubit<PoliticsState> {
   final LocalStorageService storageService;
+  final NavigationService navigationService;
 
-  PoliticsCubit(this.storageService)
+  PoliticsCubit(this.storageService, this.navigationService)
       : super(PoliticsSuccess(token: storageService.getString('token')));
 
   Future<void> goTo() async {

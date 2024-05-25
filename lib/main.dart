@@ -157,7 +157,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (context) => PermissionCubit(locator<NavigationService>())),
         BlocProvider(
-            create: (context) => PoliticsCubit(locator<LocalStorageService>())),
+            create: (context) => PoliticsCubit(
+                locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (context) => LoginCubit(
                 locator<ApiRepository>(),
