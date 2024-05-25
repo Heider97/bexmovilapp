@@ -47,7 +47,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                 );
               }
               return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const AppIconText(
                       path: 'assets/icons/permission.svg', messages: []),
@@ -81,7 +81,6 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                       }
                     },
                   ),
-                  gapH20
                 ],
               );
             }),
