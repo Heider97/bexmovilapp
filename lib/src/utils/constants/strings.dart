@@ -10,14 +10,15 @@ class AppRoutes {
   //auth routes
   static const splash = '/splash';
   static const politics = '/politics';
-  static const company = '/company';
   static const permission = '/permission';
+  static const language = '/language';
+  static const selectEnterprise = '/select-enterprise';
+  static const company = '/company';
   static const login = '/login';
   static const searchPage = '/search';
   static const codeFormRequest = '/code-form-request';
   static const codeValidation = '/code-validation';
   static const recoverPassword = '/recover-password';
-  static const selectEnterprise = '/select-enterprise';
 
   //home routes
   static const home = '/home';
