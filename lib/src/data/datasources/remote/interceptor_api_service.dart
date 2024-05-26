@@ -6,17 +6,15 @@ import 'package:flutter/foundation.dart';
 import '../../../core/functions.dart';
 
 //services
-import '../../../locator.dart';
 import '../../../services/storage.dart';
 
-final LocalStorageService _storageService = locator<LocalStorageService>();
-const String appToken = 'token';
-
-final helperFunction = HelperFunctions();
-
 class Logging extends Interceptor {
+  final LocalStorageService storageService;
+  final helperFunction = HelperFunctions();
+
   Logging({
     required this.dio,
+    required this.storageService
   });
 
   final Dio dio;
@@ -27,13 +25,12 @@ class Logging extends Interceptor {
       print('REQUEST[${options.method}] => PATH: ${options.path}');
     }
     try {
-      var token = _storageService.getString(appToken) ?? '';
+      var token = storageService.getString('token') ?? '';
       options.headers['Authorization'] = 'Bearer $token';
       options.headers[HttpHeaders.contentTypeHeader] = 'application/json';
       options.headers[HttpHeaders.acceptHeader] = 'application/json';
     } catch (e) {
       if (kDebugMode) {
-        print('***************');
         print(e);
       }
     }

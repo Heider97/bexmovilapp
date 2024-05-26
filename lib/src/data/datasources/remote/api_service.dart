@@ -47,7 +47,7 @@ class ApiService {
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
     );
     dio.options.validateStatus = (_) => true;
-    dio.interceptors.add(Logging(dio: dio));
+    dio.interceptors.add(Logging(dio: dio, storageService: storageService));
   }
 
   //ENTERPRISES.

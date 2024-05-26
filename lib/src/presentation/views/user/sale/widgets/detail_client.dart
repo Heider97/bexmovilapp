@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/data/datasources/remote/interceptor_api_service.dart';
+import 'package:bexmovil/src/core/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +13,9 @@ import '../../../../widgets/atomsbox.dart';
 
 class DetailClientSale extends StatelessWidget {
   final Client client;
+  final helperFunction = HelperFunctions();
 
-  const DetailClientSale({
+  DetailClientSale({
     super.key,
     required this.client,
   });
