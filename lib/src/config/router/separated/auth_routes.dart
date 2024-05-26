@@ -16,9 +16,9 @@ import '../../../presentation/views/global/sync_view.dart';
 Map<String, RouteType> authRoutes = {
   AppRoutes.splash: (context, settings) =>
       AppGlobalBackground.normal(child: const SplashView()),
-  AppRoutes.language: (context, settings) => const LanguageView(),
   AppRoutes.politics: (context, settings) => const PoliticsView(),
   AppRoutes.permission: (context, settings) => const RequestPermissionView(),
+  AppRoutes.language: (context, settings) => const LanguageView(),
   AppRoutes.selectEnterprise: (context, settings) =>
       AppGlobalBackground.normal(child: const SelectEnterpriseView()),
   AppRoutes.login: (context, settings) =>

@@ -10,10 +10,8 @@ import '../../../../../domain/models/client.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
 
-
 class DetailClientSale extends StatelessWidget {
   final Client client;
-  final helperFunction = HelperFunctions();
 
   DetailClientSale({
     super.key,
@@ -56,7 +54,6 @@ class DetailClientSale extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: Column(
-                
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _paddingDetails(
@@ -91,12 +88,13 @@ class DetailClientSale extends StatelessWidget {
                               size: 15,
                             ),
                             [
-                              AppIconButton(
-                                  onPressed: () => helperFunction.launchWhatsApp(
-                                      client.cellphone!,
-                                      '!Hola! ${client.name}, te saluda'), //TODO NOMBRE DEL VENDEDOR.
-
-                                  child: const Icon(FontAwesomeIcons.whatsapp)),
+                              //TODO: [Heider Zapa] fix
+                              // AppIconButton(
+                              //     onPressed: () => helperFunction.launchWhatsApp(
+                              //         client.cellphone!,
+                              //         '!Hola! ${client.name}, te saluda'), //TODO NOMBRE DEL VENDEDOR.
+                              //
+                              //     child: const Icon(FontAwesomeIcons.whatsapp)),
                               AppIconButton(
                                   onPressed: () => launchUrl(
                                       Uri.parse('tel://${client.cellphone}')),

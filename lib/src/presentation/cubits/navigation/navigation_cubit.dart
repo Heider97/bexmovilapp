@@ -50,7 +50,6 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   final NavigationService navigationService;
   final LocalStorageService storageService;
   final StyledDialogController styledDialogController;
-  final helperFunctions = HelperFunctions();
   final GpsBloc gpsBloc;
 
   NavigationCubit(
@@ -440,7 +439,7 @@ class NavigationCubit extends BaseCubit<NavigationState> {
   ) async {
     var currentLocation = gpsBloc.state.lastKnownLocation;
     if (context.mounted) {
-      helperFunctions.showMapDirection(context, work, currentLocation!);
+      // helperFunctions.showMapDirection(context, work, currentLocation!);
     }
   }
 }

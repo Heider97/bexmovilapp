@@ -30,7 +30,6 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   final ProcessingQueueBloc processingQueueBloc;
   final NavigationService navigationService;
   final LocalStorageService storageService;
-  final helperFunction = HelperFunctions();
 
   SyncFeaturesBloc(this.databaseRepository, this.apiRepository,
       this.processingQueueBloc, this.navigationService, this.storageService)
@@ -47,6 +46,11 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
       emit(SyncFeaturesLoading(features: features));
 
       var version = configs.firstWhere((element) => element.name == 'version');
+
+      final helperFunction = HelperFunctions(
+          storageService: storageService,
+          apiRepository: apiRepository,
+          databaseRepository: databaseRepository);
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(

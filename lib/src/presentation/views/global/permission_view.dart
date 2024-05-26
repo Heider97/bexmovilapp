@@ -75,7 +75,7 @@ class RequestPermissionViewState extends State<RequestPermissionView> {
                     onPressed: () async {
                       if (state.permissionRepository.isGranted != null &&
                           state.permissionRepository.isGranted == true) {
-                        navigationService.goTo(AppRoutes.selectEnterprise);
+                        navigationService.goTo(AppRoutes.language);
                       } else {
                         return await permissionCubit.onRequestAllPermission();
                       }

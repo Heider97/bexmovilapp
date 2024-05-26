@@ -10,12 +10,8 @@ import '../../../services/storage.dart';
 
 class Logging extends Interceptor {
   final LocalStorageService storageService;
-  final helperFunction = HelperFunctions();
 
-  Logging({
-    required this.dio,
-    required this.storageService
-  });
+  Logging({required this.dio, required this.storageService});
 
   final Dio dio;
 

@@ -29,8 +29,6 @@ class ProcessingQueueBloc
   final NetworkBloc? networkBloc;
   final LocalStorageService storageService;
 
-  final helperFunctions = HelperFunctions();
-
   ProcessingQueueBloc(this.databaseRepository, this.apiRepository,
       this.storageService, this.networkBloc)
       : super(const ProcessingQueueState(

@@ -38,9 +38,16 @@ import '../presentation/widgets/atomsbox.dart';
 import '../utils/resources/data_state.dart';
 
 class HelperFunctions with FormatDate {
-  final LocalStorageService storageService = locator<LocalStorageService>();
-  final ApiRepository apiRepository = locator<ApiRepository>();
-  final DatabaseRepository databaseRepository = locator<DatabaseRepository>();
+
+  final LocalStorageService storageService;
+  final ApiRepository apiRepository;
+  final DatabaseRepository databaseRepository;
+
+  HelperFunctions({
+      required this.storageService,
+      required this.apiRepository,
+      required this.databaseRepository
+  });
 
   Future<Map<String, dynamic>?> getDevice() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
