@@ -61,11 +61,11 @@ class CartesianChart extends StatelessWidget {
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
               final data = component.data?.elementAt(args.pointIndex);
-              // if (data != null && component.interactive == true) {
-              //   var arguments = WalletArgument(type: data.x);
-              //   navigationService.goTo(AppRoutes.clientsWallet,
-              //       arguments: arguments);
-              // }
+              if (data != null && component.interactive == true) {
+                var arguments = WalletArgument(type: data.x);
+                navigationService.goTo(AppRoutes.clientsWallet,
+                    arguments: arguments);
+              }
             },
             series: <CartesianSeries<ChartData, String>>[
               ColumnSeries<ChartData, String>(
@@ -77,7 +77,7 @@ class CartesianChart extends StatelessWidget {
                           arguments: arguments);
                     }
                   },
-                  dataSource: component.data!,
+                  dataSource: component.data ?? [],
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),
