@@ -21,6 +21,7 @@ import 'src/presentation/providers/theme_provider.dart';
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
+import 'src/presentation/cubits/language/language_cubit.dart';
 
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
@@ -113,6 +114,10 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (_) => LocationBloc(),
+        ),
+        BlocProvider(
+          create: (_) => LanguageCubit(
+              locator<LocalStorageService>(), locator<NavigationService>()),
         ),
         BlocProvider(
           create: (_) => MapsBloc(),

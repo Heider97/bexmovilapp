@@ -32,7 +32,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
         } else if (company != null) {
           emit(const Loaded(route: AppRoutes.login));
         } else {
-          emit(const Loaded(route: AppRoutes.selectEnterprise));
+          emit(const Loaded(route: AppRoutes.language));
         }
       }
     });
@@ -66,7 +66,7 @@ class SplashScreenBloc extends Bloc<SplashScreenEvent, SplashScreenState> {
     } else if (company != null) {
       yield const Loaded(route: AppRoutes.login);
     } else {
-      yield const Loaded(route: AppRoutes.selectEnterprise);
+      yield const Loaded(route: AppRoutes.language);
     }
   }
 }
