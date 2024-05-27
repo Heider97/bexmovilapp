@@ -1,9 +1,13 @@
-import 'package:bexmovil/src/presentation/cubits/index/index_cubit.dart';
-import 'package:bexmovil/src/presentation/views/user/home/pages/calendar.dart';
-import 'package:bexmovil/src/presentation/views/user/home/pages/clients.dart';
-import 'package:bexmovil/src/presentation/views/user/home/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+//cubit
+import '../../../cubits/index/index_cubit.dart';
+
+//pages
+import './pages/calendar.dart';
+import './pages/clients.dart';
+import './pages/home.dart';
 
 class IndexView extends StatefulWidget {
   const IndexView({super.key});

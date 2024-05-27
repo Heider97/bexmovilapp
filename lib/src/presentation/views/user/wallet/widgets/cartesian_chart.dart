@@ -18,7 +18,7 @@ import '../../../../../domain/models/arguments.dart';
 import '../../../../widgets/atoms/app_text.dart';
 
 class CartesianChart extends StatelessWidget {
-  final Kpi component;
+  final Graphic component;
 
   const CartesianChart({super.key, required this.component});
 
@@ -60,7 +60,7 @@ class CartesianChart extends StatelessWidget {
                 // Applies currency format for y axis labels and also for data labels
                 numberFormat: NumberFormat.compactCurrency(symbol: '\$')),
             onDataLabelTapped: (args) {
-              final data = component.results?.elementAt(args.pointIndex);
+              final data = component.data?.elementAt(args.pointIndex);
               // if (data != null && component.interactive == true) {
               //   var arguments = WalletArgument(type: data.x);
               //   navigationService.goTo(AppRoutes.clientsWallet,
@@ -70,14 +70,14 @@ class CartesianChart extends StatelessWidget {
             series: <CartesianSeries<ChartData, String>>[
               ColumnSeries<ChartData, String>(
                   onPointTap: (ChartPointDetails details) {
-                    final data = component.results?.elementAt(details.pointIndex!);
-                    // if (data != null && component.interactive == 1) {
-                    //   var arguments = WalletArgument(type: data.x);
-                    //   navigationService.goTo(AppRoutes.clientsWallet,
-                    //       arguments: arguments);
-                    // }
+                    final data = component.data?.elementAt(details.pointIndex!);
+                    if (data != null && component.interactive == 1) {
+                      var arguments = WalletArgument(type: data.x);
+                      navigationService.goTo(AppRoutes.clientsWallet,
+                          arguments: arguments);
+                    }
                   },
-                  dataSource: component.results!,
+                  dataSource: component.data!,
                   xValueMapper: (ChartData sales, _) => sales.x,
                   yValueMapper: (ChartData sales, _) => double.parse(sales.y),
                   borderRadius: BorderRadius.circular(15),
