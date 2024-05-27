@@ -24,12 +24,12 @@ class AppGlobalBottomNavBar extends StatelessWidget {
           AppBottomNavBarItem(
             icon: Icons.calendar_month,
             label: 'Agenda',
-            onTap: () => context.read<IndexCubit>().bottomTapped(0),
+            onTap: () => context.read<IndexCubit>().bottomTapped(1),
           ),
           AppBottomNavBarItem(
               icon: Icons.people,
               label: 'Cliente',
-              onTap: () => context.read<IndexCubit>().bottomTapped(0)),
+              onTap: () => context.read<IndexCubit>().bottomTapped(2)),
         ],
       );
     });
