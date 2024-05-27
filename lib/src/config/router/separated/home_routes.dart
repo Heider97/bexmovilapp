@@ -8,5 +8,6 @@ import '../../../presentation/widgets/atomsbox.dart';
 import '../../../presentation/views/user/home/index.dart';
 
 Map<String, RouteType> homeRoutes = {
-  AppRoutes.home: (context, settings) => const IndexView(),
+  AppRoutes.home: (context, settings) => AppGlobalBackground.squared(
+      opacity: 0.1, hideBottomNavigationBar: false, child: const IndexView()),
 };

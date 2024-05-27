@@ -11,17 +11,22 @@ extension IndexStatusX on IndexStatus {
 
 abstract class IndexState extends Equatable {
   final int? index;
+  final PageController? pageController;
   final String? error;
   final IndexStatus? status;
 
-  const IndexState({this.index, this.status, this.error});
+  const IndexState({this.index, this.pageController, this.status, this.error});
 
   @override
-  List<Object?> get props => [index, status, error];
+  List<Object?> get props => [index, pageController, status, error];
 }
 
 class IndexInitial extends IndexState {
-  const IndexInitial({super.status = IndexStatus.initial, super.index = 0});
+  const IndexInitial({
+    super.status = IndexStatus.initial,
+    super.index = 0,
+    super.pageController
+  });
 }
 
 class IndexLoading extends IndexState {

@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/config/theme/index.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
+import 'package:bexmovil/src/presentation/cubits/index/index_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -117,6 +118,10 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (_) => LanguageCubit(
+              locator<LocalStorageService>(), locator<NavigationService>()),
+        ),
+        BlocProvider(
+          create: (_) => IndexCubit(
               locator<LocalStorageService>(), locator<NavigationService>()),
         ),
         BlocProvider(
