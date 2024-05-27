@@ -42,14 +42,12 @@ class _WalletDashboardState extends State<WalletDashboard>
               itemCount: state.graphics!.length,
               itemBuilder: (c, i) {
                 final component = state.graphics![i];
-
+                print(component.toJson());
                 if (component is Kpi) {
                   return CardKpi(
                       kpi: component, height: 80, needConverted: true);
-                  return const SizedBox();
                 } else if (component is Graphic) {
                   return CartesianChart(component: component);
-                  return const SizedBox();
                 } else {
                   return const SizedBox();
                 }
