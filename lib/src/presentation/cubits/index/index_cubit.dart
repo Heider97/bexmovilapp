@@ -13,21 +13,23 @@ class IndexCubit extends Cubit<IndexState> {
   final NavigationService navigationService;
 
   IndexCubit(this.storageService, this.navigationService)
-      : super(IndexInitial(
+      : super(IndexState(
+            index: 0,
+            status: IndexStatus.initial,
             pageController: PageController(
-          initialPage: 0,
-          keepPage: true,
-        )));
+              initialPage: 0,
+              keepPage: true,
+            )));
 
   void pageChanged(int index) {
-    emit(IndexSuccess(status: IndexStatus.success, index: index));
+    emit(state.copyWith(status: IndexStatus.success, index: index));
   }
 
   void bottomTapped(
     int index,
   ) {
+    emit(state.copyWith(status: IndexStatus.success, index: index));
     state.pageController!.animateToPage(index,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
-    emit(IndexSuccess(status: IndexStatus.success, index: index));
   }
 }
