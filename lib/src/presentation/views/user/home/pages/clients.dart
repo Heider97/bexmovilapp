@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../../widgets/atoms/app_text.dart';
+
 class ClientsView extends StatefulWidget {
   const ClientsView({super.key});
 
@@ -10,6 +12,10 @@ class ClientsView extends StatefulWidget {
 class ClientsViewState extends State<ClientsView> {
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return SafeArea(
+      child: SizedBox(
+        child: Center(child: AppText('Proximamente!')),
+      ),
+    );
   }
 }
