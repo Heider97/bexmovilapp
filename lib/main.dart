@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/config/theme/index.dart';
 import 'package:bexmovil/src/presentation/blocs/location/location_bloc.dart';
 import 'package:bexmovil/src/presentation/blocs/maps_bloc/maps_bloc_bloc.dart';
+import 'package:bexmovil/src/presentation/cubits/index/index_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +22,7 @@ import 'src/presentation/providers/theme_provider.dart';
 import 'src/presentation/cubits/initial/initial_cubit.dart';
 import 'src/presentation/cubits/permission/permission_cubit.dart';
 import 'src/presentation/cubits/politics/politics_cubit.dart';
+import 'src/presentation/cubits/language/language_cubit.dart';
 
 import 'src/presentation/cubits/login/login_cubit.dart';
 import 'src/presentation/cubits/productivity/productivity_cubit.dart';
@@ -114,11 +116,17 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (_) => LocationBloc(),
         ),
-
+        BlocProvider(
+          create: (_) => LanguageCubit(
+              locator<LocalStorageService>(), locator<NavigationService>()),
+        ),
+        BlocProvider(
+          create: (_) => IndexCubit(
+              locator<LocalStorageService>(), locator<NavigationService>()),
+        ),
         BlocProvider(
           create: (_) => MapsBloc(),
         ),
-
         BlocProvider(
           create: (context) => ProcessingQueueBloc(
               locator<DatabaseRepository>(),
@@ -158,7 +166,9 @@ class _MyAppState extends State<MyApp> {
             create: (context) => InitialCubit(locator<ApiRepository>())),
         BlocProvider(
             create: (context) => PermissionCubit(locator<NavigationService>())),
-        BlocProvider(create: (context) => PoliticsCubit()),
+        BlocProvider(
+            create: (context) => PoliticsCubit(
+                locator<LocalStorageService>(), locator<NavigationService>())),
         BlocProvider(
             create: (context) => LoginCubit(
                 locator<ApiRepository>(),

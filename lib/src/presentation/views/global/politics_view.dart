@@ -9,14 +9,8 @@ import '../../../utils/constants/gaps.dart';
 //cubit
 import '../../cubits/politics/politics_cubit.dart';
 
-//services
-import '../../../locator.dart';
-import '../../../services/navigation.dart';
-
 //widgets
 import '../../widgets/atomsbox.dart';
-
-final NavigationService _navigationService = locator<NavigationService>();
 
 class PoliticsView extends StatefulWidget {
   const PoliticsView({super.key});
@@ -31,6 +25,7 @@ class PoliticsViewState extends State<PoliticsView> {
 
   @override
   void initState() {
+    politicsCubit = BlocProvider.of<PoliticsCubit>(context);
     super.initState();
   }
 
@@ -43,7 +38,7 @@ class PoliticsViewState extends State<PoliticsView> {
       body: BlocConsumer<PoliticsCubit, PoliticsState>(
         listener: (context, state) {
           if (state is PoliticsSuccess) {
-            _navigationService.goTo(state.route!);
+            politicsCubit.navigationService.goTo(state.route!);
           }
         },
         builder: (context, state) => SingleChildScrollView(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //blocs
+import '../../../../../domain/models/graphic.dart';
 import '../../../../blocs/wallet/wallet_bloc.dart';
 
 //domain
@@ -41,14 +42,12 @@ class _WalletDashboardState extends State<WalletDashboard>
               itemCount: state.graphics!.length,
               itemBuilder: (c, i) {
                 final component = state.graphics![i];
-
-                if (component.type == "kpi") {
-                  // return CardKpi(
-                  //     kpi: component, height: 80, needConverted: true);
-                  return const SizedBox();
-                } else if (component.type == "line") {
-                  // return CartesianChart(component: component);
-                  return const SizedBox();
+                print(component.toJson());
+                if (component is Kpi) {
+                  return CardKpi(
+                      kpi: component, height: 80, needConverted: true);
+                } else if (component is Graphic) {
+                  return CartesianChart(component: component);
                 } else {
                   return const SizedBox();
                 }

@@ -1,4 +1,4 @@
-import 'package:bexmovil/src/data/datasources/remote/interceptor_api_service.dart';
+import 'package:bexmovil/src/core/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -10,11 +10,10 @@ import '../../../../../domain/models/client.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
 
-
 class DetailClientSale extends StatelessWidget {
   final Client client;
 
-  const DetailClientSale({
+  DetailClientSale({
     super.key,
     required this.client,
   });
@@ -55,7 +54,6 @@ class DetailClientSale extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(1.0),
                     child: Column(
-                
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _paddingDetails(
@@ -90,12 +88,13 @@ class DetailClientSale extends StatelessWidget {
                               size: 15,
                             ),
                             [
-                              AppIconButton(
-                                  onPressed: () => helperFunction.launchWhatsApp(
-                                      client.cellphone!,
-                                      '!Hola! ${client.name}, te saluda'), //TODO NOMBRE DEL VENDEDOR.
-
-                                  child: const Icon(FontAwesomeIcons.whatsapp)),
+                              //TODO: [Heider Zapa] fix
+                              // AppIconButton(
+                              //     onPressed: () => helperFunction.launchWhatsApp(
+                              //         client.cellphone!,
+                              //         '!Hola! ${client.name}, te saluda'), //TODO NOMBRE DEL VENDEDOR.
+                              //
+                              //     child: const Icon(FontAwesomeIcons.whatsapp)),
                               AppIconButton(
                                   onPressed: () => launchUrl(
                                       Uri.parse('tel://${client.cellphone}')),

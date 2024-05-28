@@ -34,10 +34,9 @@ part 'login_state.dart';
 class LoginCubit extends BaseCubit<LoginState> with FormatDate {
   final ApiRepository apiRepository;
   final DatabaseRepository databaseRepository;
-  final LocalStorageService? storageService;
-  final NavigationService? navigationService;
+  final LocalStorageService storageService;
+  final NavigationService navigationService;
   final GpsBloc? gpsBloc;
-  final _helperFunction = HelperFunctions();
 
   LoginCubit(this.apiRepository, this.databaseRepository, this.storageService,
       this.navigationService, this.gpsBloc)
@@ -89,6 +88,11 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
               ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
               : null));
 
+      final helperFunction = HelperFunctions(
+          storageService: storageService,
+          apiRepository: apiRepository,
+          databaseRepository: databaseRepository);
+
       final response = await Dio().get('https://worldtimeapi.org/api/ip');
 
       String? localHour;
@@ -103,7 +107,7 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
       if (localHour == webHour) {
         // gpsBloc?.startFollowingUser;
         var location = await gpsBloc?.getCurrentLocation();
-        var device = await _helperFunction.getDevice();
+        var device = await helperFunction.getDevice();
         var yaml = loadYaml(await rootBundle.loadString('pubspec.yaml'));
         var version = yaml['version'];
 
@@ -122,15 +126,15 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
         emit(LoginFailed(
             error:
                 'Las horas no son iguales porfavor actualiza la hora de tu dispositivo a la hora correcta.',
-            enterprise: storageService!.getObject('enterprise') != null
-                ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+            enterprise: storageService.getObject('enterprise') != null
+                ? Enterprise.fromMap(storageService.getObject('enterprise')!)
                 : null));
       }
     } catch (e) {
       emit(LoginFailed(
           error: e.toString(),
           enterprise: storageService!.getObject('enterprise') != null
-              ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              ? Enterprise.fromMap(storageService.getObject('enterprise')!)
               : null));
     }
   }
@@ -142,8 +146,8 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
     await run(() async {
       try {
         emit(LoginLoading(
-            enterprise: storageService!.getObject('enterprise') != null
-                ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+            enterprise: storageService.getObject('enterprise') != null
+                ? Enterprise.fromMap(storageService.getObject('enterprise')!)
                 : null));
 
         final response = await apiRepository.login(
@@ -154,15 +158,12 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
           final login = response.data!.login;
 
           if (!testing) {
-            storageService!.setString('username', loginRequest.username);
-            storageService!.setString('password', loginRequest.password);
-            storageService!.setString('token', login?.token);
-            storageService!.setObject('user', login?.user!.toMap());
+            storageService.setString('username', loginRequest.username);
+            storageService.setString('password', loginRequest.password);
+            storageService.setString('token', login?.token);
+            storageService.setObject('user', login?.user!.toMap());
 
-            var functions = [
-              getConfigs,
-              getFeatures
-            ];
+            var functions = [getConfigs, getFeatures];
 
             var isolateModel = IsolateModel(functions, null, 2);
             await heavyTask(isolateModel);
@@ -170,38 +171,38 @@ class LoginCubit extends BaseCubit<LoginState> with FormatDate {
 
           emit(LoginSuccess(
               login: login,
-              enterprise: storageService!.getObject('enterprise') != null
-                  ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              enterprise: storageService.getObject('enterprise') != null
+                  ? Enterprise.fromMap(storageService.getObject('enterprise')!)
                   : null));
         } else if (response is DataFailed) {
           emit(LoginFailed(
               error: response.error,
-              enterprise: storageService!.getObject('enterprise') != null
-                  ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+              enterprise: storageService.getObject('enterprise') != null
+                  ? Enterprise.fromMap(storageService.getObject('enterprise')!)
                   : null));
         }
       } catch (e) {
         emit(LoginFailed(
             error: e.toString(),
-            enterprise: storageService!.getObject('enterprise') != null
-                ? Enterprise.fromMap(storageService!.getObject('enterprise')!)
+            enterprise: storageService.getObject('enterprise') != null
+                ? Enterprise.fromMap(storageService.getObject('enterprise')!)
                 : null));
       }
     });
   }
 
   void goToSync() {
-    navigationService!.replaceTo(AppRoutes.sync);
+    navigationService.replaceTo(AppRoutes.sync);
   }
 
   void goToCompany() {
-    storageService!.remove('company_name');
-    storageService!.remove('enterprise');
+    storageService.remove('company_name');
+    storageService.remove('enterprise');
 
-    navigationService!.replaceTo(AppRoutes.selectEnterprise);
+    navigationService.replaceTo(AppRoutes.selectEnterprise);
   }
 
   void goToForget() {
-    navigationService!.replaceTo(AppRoutes.selectEnterprise);
+    navigationService.replaceTo(AppRoutes.selectEnterprise);
   }
 }

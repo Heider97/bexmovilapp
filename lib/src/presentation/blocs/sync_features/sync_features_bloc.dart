@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:bexmovil/src/data/datasources/remote/interceptor_api_service.dart';
+import 'package:bexmovil/src/core/functions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,17 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/processing_queue/processing_queue_bloc.dart';
 
 //repositories
-
-import '../../../domain/models/processing_queue.dart';
 import '../../../domain/repositories/api_repository.dart';
 import '../../../domain/repositories/database_repository.dart';
 //domain
-import '../../../domain/models/isolate.dart';
 import '../../../domain/models/feature.dart';
-
-import '../../../domain/models/requests/dynamic_request.dart';
 import '../../../domain/models/requests/sync_priorities_request.dart';
-import '../../../domain/models/responses/dynamic_response.dart';
 //abstracts
 import '../../../domain/abstracts/format_abstract.dart';
 //utils
@@ -53,6 +46,11 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
       emit(SyncFeaturesLoading(features: features));
 
       var version = configs.firstWhere((element) => element.name == 'version');
+
+      final helperFunction = HelperFunctions(
+          storageService: storageService,
+          apiRepository: apiRepository,
+          databaseRepository: databaseRepository);
 
       var response = await apiRepository.priorities(
           request: SyncPrioritiesRequest(

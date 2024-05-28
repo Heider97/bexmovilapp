@@ -87,7 +87,6 @@ dependencies:
   syncfusion_flutter_barcodes: ^23.2.7
   another_flushbar: ^1.12.30
 
-
 dev_dependencies:
   bloc_test: ^9.1.5
   build_runner: ^2.3.3

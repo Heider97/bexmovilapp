@@ -110,6 +110,7 @@ class _AppBottomNavBarState extends State<AppBottomNavBar> {
           : BottomAppBar(
               padding: EdgeInsets.zero,
               height: widget.height + MediaQuery.of(context).viewPadding.bottom,
+
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: bottomNavBarItem,

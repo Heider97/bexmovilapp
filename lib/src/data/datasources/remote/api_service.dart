@@ -41,13 +41,13 @@ class ApiService {
   ApiService({required this.storageService}) {
     dio = Dio(
       BaseOptions(
-          baseUrl: url ?? 'https://pandapan.bexmovil.com/api/v1',
+          baseUrl: url ?? 'https://dllo.bexmovil.com/api/v1',
           connectTimeout: const Duration(seconds: 5000),
           receiveTimeout: const Duration(seconds: 3000),
           headers: {HttpHeaders.contentTypeHeader: 'application/json'}),
     );
     dio.options.validateStatus = (_) => true;
-    dio.interceptors.add(Logging(dio: dio));
+    dio.interceptors.add(Logging(dio: dio, storageService: storageService));
   }
 
   //ENTERPRISES.

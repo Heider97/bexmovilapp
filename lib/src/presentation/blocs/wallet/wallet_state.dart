@@ -13,7 +13,7 @@ enum WalletStatus {
 class WalletState extends Equatable {
   final WalletStatus status;
   final List<Section>? sections;
-  final List<Graphic>? graphics;
+  final List<dynamic>? graphics;
   final List<Client>? clients;
   final List<Invoice>? invoices;
   final String? age;
@@ -33,7 +33,7 @@ class WalletState extends Equatable {
   WalletState copyWith(
           {WalletStatus? status,
           List<Section>? sections,
-          List<Graphic>? graphics,
+          List<dynamic>? graphics,
           List<Client>? clients,
           String? age,
           Client? client,

@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 class AppIconText extends StatelessWidget {
   final Key? keyWidget;
   final String path;
-  final List<String> messages;
+  final List<String>? messages;
 
   const AppIconText(
-      {super.key, required this.path, required this.messages, this.keyWidget});
+      {super.key, required this.path, this.messages, this.keyWidget});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AppIconText extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(path, height: 150, width: 180),
-          for (var message in messages) Text(message)
+          for (var message in messages ?? []) Text(message)
         ],
       ),
     );

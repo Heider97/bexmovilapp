@@ -35,7 +35,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
 
   Future<void> _onLoadGraphics(LoadGraphics event, Emitter emit) async {
     var seller = storageService.getString('username');
-    var graphics = <Graphic>[];
+    var graphics = [];
 
     Map<String, dynamic> variables = await queryLoaderService
         .load('/wallet-dashboard', 'WalletBloc', 'LoadGraphics', seller!, []);
