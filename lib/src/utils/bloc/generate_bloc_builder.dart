@@ -20,7 +20,6 @@ class GenericBlocBuilder<B extends BlocBase<S>, S> extends StatelessWidget {
     return BlocBuilder<B, S>(
       bloc: bloc,
       builder: (context, state) {
-        // Aquí decides qué renderizar basado en los estados de los Blocs
         if (state.runtimeType == stateType) {
           return blocBuilder(state);
         } else {
