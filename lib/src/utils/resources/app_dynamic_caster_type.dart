@@ -151,7 +151,8 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
   "List<Application>":
       AppDynamicListCasterType<List<Application>>((s) => parseApplications(s)),
   "List<Kpi>": AppDynamicListCasterType<List<Kpi>>((s) => parseKpis(s)),
-  "List<Graphic>": AppDynamicListCasterType<List<Graphic>>((s) => parseGraphics(s)),
+  "List<Graphic>":
+      AppDynamicListCasterType<List<Graphic>>((s) => parseGraphics(s)),
   "List<Router>":
       AppDynamicListCasterType<List<Router>>((s) => parseRouters(s)),
   "List<Client>":
@@ -167,7 +168,28 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<LogicQuery>>((s) => parseLogicQuery(s)),
   "List<ChartData>":
       AppDynamicListCasterType<List<ChartData>>((s) => parseChartData(s)),
+  "List<dynamic>": AppDynamicListCasterType<List<dynamic>>((s) {
+    var components = [];
+
+    for (var i = 0; i < s.length; i++) {
+      if (belongsToKpi(s[i])) {
+        components.add(Kpi.fromJson(s[i]));
+      } else if (belongsToGraphic(s[i])) {
+        components.add(Graphic.fromJson(s[i]));
+      }
+    }
+
+    return components;
+  }),
 };
+
+bool belongsToKpi(Map<String, dynamic> map) {
+  return map.containsKey('title') && map.containsKey('results');
+}
+
+bool belongsToGraphic(Map<String, dynamic> map) {
+  return map.containsKey('title') && map.containsKey('data');
+}
 
 Map<String, AppDynamicDataCasterType> dynamicDataTypes = {
   "Kpi": AppDynamicDataCasterType<Kpi>((s) => Kpi.fromJson(s)),

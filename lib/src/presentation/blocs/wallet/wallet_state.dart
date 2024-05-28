@@ -33,7 +33,7 @@ class WalletState extends Equatable {
   WalletState copyWith(
           {WalletStatus? status,
           List<Section>? sections,
-          List<Graphic>? graphics,
+          List<dynamic>? graphics,
           List<Client>? clients,
           String? age,
           Client? client,
