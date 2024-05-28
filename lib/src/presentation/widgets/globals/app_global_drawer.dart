@@ -49,7 +49,7 @@ class DrawerWidget extends StatelessWidget {
               ],
             ),
           ),
-          gapH68,
+          gapH48,
           _createDrawerItem(
               context: context,
               icon: Icons.sell,
@@ -100,6 +100,14 @@ class DrawerWidget extends StatelessWidget {
           gapH12,
           _createDrawerItem(
               context: context,
+              icon: Icons.task,
+              text: 'PROCESAMIENTO',
+              onTap: () => _navigationService.goTo(AppRoutes.processingQueue),
+              image: "assets/svg/pqrs.svg",
+              countNotifications: 0),
+          gapH12,
+          _createDrawerItem(
+              context: context,
               icon: Icons.business_center,
               text: 'Salir',
               onTap: () => context.read<HomeCubit>().logout(),
@@ -112,11 +120,11 @@ class DrawerWidget extends StatelessWidget {
 
   Widget _createDrawerItem(
       {required BuildContext context,
-        required IconData icon,
-        required String image,
-        required String text,
-        int? countNotifications,
-        GestureTapCallback? onTap}) {
+      required IconData icon,
+      required String image,
+      required String text,
+      int? countNotifications,
+      GestureTapCallback? onTap}) {
     return ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,

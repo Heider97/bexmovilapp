@@ -65,7 +65,7 @@ abstract class ApiRepository {
   Future<DataState<DynamicResponse>> syncDynamic(
       {required DynamicRequest request});
 
-  Future<DataState<DynamicMultitableResponse>> syncDynamicMultiTables(
+  Future<DataState<DynamicTablesResponse>> syncDynamicMultiTables(
       {required DynamicRequestMultitable request});
 
   Future<DataState<KpiResponse>> kpis({required KpiRequest request});

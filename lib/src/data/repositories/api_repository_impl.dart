@@ -167,9 +167,9 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
   }
 
   @override
-  Future<DataState<DynamicMultitableResponse>> syncDynamicMultiTables(
+  Future<DataState<DynamicTablesResponse>> syncDynamicMultiTables(
       {required DynamicRequestMultitable request}) {
-    return getStateOf<DynamicMultitableResponse>(
+    return getStateOf<DynamicTablesResponse>(
       request: () => _apiService.syncDynamicMultiTables(tables: request.tables),
     );
   }

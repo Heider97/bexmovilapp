@@ -168,43 +168,29 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                 children: [
                                   Row(
                                     children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      // Row(
+                                      //   children: [
+                                      //     AppText('Antes: '),
+                                      //     AppText(' \$60.000.000',
+                                      //         decoration:
+                                      //             TextDecoration.lineThrough,
+                                      //         fontSize: 12,
+                                      //         overflow: TextOverflow.ellipsis),
+                                      //   ],
+                                      // ),
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              AppText('Antes: '),
-                                              AppText(' \$60.000.000',
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  fontSize: 12,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                            ],
+                                          AppText(
+                                              ''.formatted(widget.product
+                                                  .precioProductoPrecio!),
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                          Row(
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  AppText('cop '),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  )
-                                                ],
-                                              ),
-                                              AppText(
-                                                  ''.formatted(widget.product
-                                                      .precioProductoPrecio!),
-                                                  fontSize: 14,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Opacity(
-                                                opacity: 0.75,
-                                                child: Container(
+                                          Opacity(
+                                              opacity: 0.75,
+                                              child: Container(
                                                   decoration: BoxDecoration(
                                                       color: primaryColor,
                                                       borderRadius:
@@ -220,10 +206,33 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                         fontSize: 8,
                                                         overflow: TextOverflow
                                                             .ellipsis),
-                                                  ),
-                                                ),
+                                                  ))),
+                                          AppText(
+                                              ''.formatted(widget.product
+                                                  .precioProductoPrecio!),
+                                              fontSize: 14,
+                                              overflow: TextOverflow.ellipsis),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Opacity(
+                                            opacity: 0.75,
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                child: AppText(' -25 %',
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white,
+                                                    fontSize: 8,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -515,7 +524,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                         ],
                                       )
                                     ],
-                                  ),
+                                  )
                                 ],
                               ),
                               if (_errorMessage != null)
@@ -530,9 +539,6 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      )
                     ],
                   ),
                 ),

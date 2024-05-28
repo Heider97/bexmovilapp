@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
+import 'package:bexmovil/src/data/datasources/remote/interceptor_api_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,32 +45,7 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
     on<SyncFeatureLeave>(_go);
   }
 
-  Future<void> heavyTask(IsolateModel model) async {
-    for (var i = 0; i < model.iteration; i++) {
-      if (model.arguments![i].isNotEmpty) {
-        await model.functions[i](
-            model.arguments![i]['table_name'], model.arguments![i]['content']);
-      } else {
-        await model.functions[i]();
-      }
-    }
-  }
-
-  Future<void> insertDynamicData(String tableName, String content) async {
-    var processingQueue = ProcessingQueue(
-        body: jsonEncode({
-          'table_name': tableName,
-          'content': content,
-        }),
-        task: 'incomplete',
-        code: 'store_dynamic_data',
-        createdAt: now(),
-        updatedAt: now());
-    processingQueueBloc.addProcessingQueue(processingQueue);
-  }
-
   void _observe(event, emit) async {
-    //TODO: [Heider Zapa] refacto with new logic
     var features = await databaseRepository.getAllFeatures();
     var configs = await databaseRepository.getConfigs('login');
 
@@ -84,101 +59,35 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
               date: now(), version: version.value ?? "0"));
 
       if (response is DataSuccess) {
-        var migrations = <String>[];
-        for (var migration in response.data!.priorities!) {
-          try {
-            if (migration.schema != null) {
-              String sqlScriptWithoutEscapes = migration.schema!
-                  .replaceAll(RegExp(r'\\r\\n|\r\n|\n|\r'), ' ');
-              List<String> scriptsSeparated =
-                  sqlScriptWithoutEscapes.split('CREATE');
-              for (String createTableScript in scriptsSeparated) {
-                try {
-                  String scriptCompleted =
-                      'CREATE $createTableScript'.replaceAll(';', '');
-                  migrations.add(scriptCompleted);
-                } catch (ex) {
-                  print('Error al ejecutar el script:\n$ex');
-                }
-              }
-            }
-          } catch (ex) {
-            print('Error $ex');
-          }
-        }
-        migrations.removeWhere((element) => element == 'CREATE ');
-        await databaseRepository.runMigrations(migrations);
+        helperFunction.runMigrations(response.data!.priorities!);
 
         var prioritiesAsync = response.data!.priorities!
-            .where((element) => element.runBackground == 1);
+            .where((element) => element.runBackground == 1)
+            .toList(growable: false);
 
-        //TODO: [Heider Zapa] run with isolate
+        helperFunction.insertAsyncPriorities(prioritiesAsync);
+
         var prioritiesSync = response.data!.priorities!
-            .where((element) => element.runBackground == 0);
+            .where((element) => element.runBackground == 0)
+            .toList(growable: false);
 
-        // var functions = <Function>[];
-        // var arguments = <Map<String, dynamic>>[];
-        //
-        // for (var priority in prioritiesAsync) {
-        //   print(priority.toJson());
-        //   functions.add(insertDynamicData);
-        //   arguments.add(
-        //       {'table_name': priority.name, 'content': 'application/json'});
-        // }
+        final startTime = DateTime.now();
 
-        // var isolateModel =
-        //     IsolateModel(functions, arguments, prioritiesAsync.length);
-        // await heavyTask(isolateModel);
+        emit(SyncFeaturesLoading(
+            features: features, processes: prioritiesSync.length));
 
-        List<String> tables = [];
+        var futureInserts =
+            await helperFunction.insertSyncPriorities(prioritiesSync);
 
-        List<Future<DataState<DynamicMultitableResponse>>> futures = [];
+        await Future.wait(futureInserts).whenComplete(() {
+          final endTime = DateTime.now();
+          final elapsedTime = endTime.difference(startTime);
 
-        //MONTAR LA DIVISION,
+          print(
+              'Time taken for sequential calls: ${elapsedTime.inMilliseconds} ms');
 
-        for (var priority in prioritiesSync) {
-          tables.add(priority.name);
-        }
-
-        /* futures.add(apiRepository.syncDynamicMultiTables(
-              request: DynamicRequestMultitable())); */
-
-        //TODO: COLOCAR EL VALOR QUE VIENE DE LAS CONFIGURACIONES DE USUARIO
-        List<List<String>> resultado = subdividirArreglo(tables, 5);
-
-        for (int i = 0; i < resultado.length; i++) {
-          print("Subarreglo ${i + 1}: ${resultado[i]}");
-          futures.add(apiRepository.syncDynamicMultiTables(
-              request: DynamicRequestMultitable(resultado[i])));
-        }
-
-        List<DataState<DynamicMultitableResponse>> responses =
-            await Future.wait(futures);
-
-        List<Future<dynamic>> futureInserts = [];
-
-        var i = 0;
-        for (var response in responses) {
-          if (response is DataSuccess) {
-            if (response.data != null && response.data!.data != null) {
-              /*     futureInserts.add(databaseRepository.insertAll(
-                  tables[i], response.data!.data!)); */
-
-              var keys = response.data!.data!.keys.toList();
-
-              for (var key in keys) {
-                futureInserts.add(databaseRepository.insertAll(
-                    key, response.data!.data![key]));
-              }
-              print(response.data);
-              print('Cantidad de peticione: $i');
-            }
-          }
-          i++;
-        }
-
-        await Future.wait(futureInserts)
-            .whenComplete(() => emit(SyncFeaturesSuccess(features: features)));
+          emit(SyncFeaturesSuccess(features: features));
+        });
       } else {
         emit(SyncFeaturesFailure(features: features, error: response.error));
       }
@@ -194,16 +103,4 @@ class SyncFeaturesBloc extends Bloc<SyncFeaturesEvent, SyncFeaturesState>
   void goToHome() {
     navigationService.goTo(AppRoutes.home);
   }
-}
-
-List<List<String>> subdividirArreglo(List<String> arreglo, int maxElementos) {
-  List<List<String>> subarreglos = [];
-
-  for (int i = 0; i < arreglo.length; i += maxElementos) {
-    int fin =
-        (i + maxElementos < arreglo.length) ? i + maxElementos : arreglo.length;
-    subarreglos.add(arreglo.sublist(i, fin));
-  }
-
-  return subarreglos;
 }

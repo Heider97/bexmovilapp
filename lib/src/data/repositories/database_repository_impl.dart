@@ -190,8 +190,46 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   //PROCESSING QUEUE
   @override
-  Future<List<ProcessingQueue>> getAllProcessingQueues() async {
-    return _appDatabase.processingQueueDao.getAllProcessingQueues();
+  Future<List<ProcessingQueue>> getAllProcessingQueues(String? code, String? task) {
+    return _appDatabase.processingQueueDao.getAllProcessingQueues(code, task);
+  }
+
+  @override
+  Future<ProcessingQueue> findProcessingQueue(int id) {
+    return _appDatabase.processingQueueDao.findProcessingQueue(id);
+  }
+
+  @override
+  Future<List<ProcessingQueue>> getAllProcessingQueuesPaginated(int? page, int? limit) {
+    return _appDatabase.processingQueueDao.getAllProcessingQueuesPaginated(page, limit);
+  }
+
+  @override
+  Stream<List<ProcessingQueue>> watchAllProcessingQueues() {
+    return _appDatabase.processingQueueDao.watchAllProcessingQueues();
+  }
+
+  @override
+  Future<List<ProcessingQueue>> getAllProcessingQueuesIncomplete() async {
+    return _appDatabase.processingQueueDao.getAllProcessingQueuesIncomplete();
+  }
+
+  @override
+  Future<int> countProcessingQueueIncompleteToTransactions() {
+    return _appDatabase.processingQueueDao
+        .countProcessingQueueIncompleteToTransactions();
+  }
+
+  @override
+  Stream<List<Map<String, dynamic>>> getProcessingQueueIncompleteToTransactions() {
+    return _appDatabase.processingQueueDao
+        .getProcessingQueueIncompleteToTransactions();
+  }
+
+  @override
+  Future<bool> validateIfProcessingQueueIsIncomplete() {
+    return _appDatabase.processingQueueDao
+        .validateIfProcessingQueueIsIncomplete();
   }
 
   @override
