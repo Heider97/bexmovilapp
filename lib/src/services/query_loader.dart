@@ -173,19 +173,15 @@ class QueryLoaderService {
               }
             }
 
-            print(widget.type);
-
-            if (data.isNotEmpty && widget.type != 'List<dynamic>') {
+            if (data.isNotEmpty) {
               var dynamic = await dynamicListTypes[widget.type]?.fromMap(data);
+
               results[widget.name!] = dynamic;
-            } else {
-              // results[widget.name!] = data;
             }
           }
         }
       }
     }
-
     return results;
   }
 

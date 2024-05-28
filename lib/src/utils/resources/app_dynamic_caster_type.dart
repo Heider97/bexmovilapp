@@ -135,7 +135,7 @@ class AppDynamicDataCasterType<T> {
 }
 
 class AppDynamicListCasterType<T> {
-  final T Function(List<Map<String, Object?>>) fromMap;
+  final T Function(List<Map<String, dynamic>>) fromMap;
   AppDynamicListCasterType(this.fromMap);
 }
 
@@ -170,7 +170,6 @@ Map<String, AppDynamicListCasterType> dynamicListTypes = {
       AppDynamicListCasterType<List<ChartData>>((s) => parseChartData(s)),
   "List<dynamic>": AppDynamicListCasterType<List<dynamic>>((s) {
     var components = [];
-
     for (var i = 0; i < s.length; i++) {
       if (belongsToKpi(s[i])) {
         components.add(Kpi.fromJson(s[i]));
