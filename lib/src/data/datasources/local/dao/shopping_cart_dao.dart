@@ -3,8 +3,6 @@ import 'package:bexmovil/src/domain/models/product.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/services/query_loader.dart';
 import 'package:bexmovil/src/services/storage.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 final LocalStorageService storageService = locator<LocalStorageService>();
 final QueryLoaderService queryLoaderService = locator<QueryLoaderService>();
@@ -39,7 +37,7 @@ class ShoppingCartDao {
 
     List<Map<String, dynamic>> result = await db!.rawQuery(
       'SELECT SUM(quantity) as total_stock FROM app_cart_stock WHERE product_id = ? AND cart_id = ?',
-      [productId,cartId],
+      [productId, cartId],
     );
 
     if (result.isNotEmpty) {
@@ -57,14 +55,19 @@ class ShoppingCartDao {
   ) async {
     final db = await _appDatabase.database;
 
+  List<Map<String, dynamic>> cartIds = [];
     // Primero, obtener los cart_id correspondientes
-    List<Map<String, dynamic>> cartIds = await db!.query(
-      'app_cart',
-      columns: ['id'],
-      where:
-          'codrouter = ? AND codPrecio = ? AND codBodega = ? AND codcliente = ?',
-      whereArgs: [codrouter, codPrecio, codBodega, codcliente],
-    );
+    try {
+      cartIds = await db!.query(
+        'app_cart',
+        columns: ['id'],
+        where:
+            'codrouter = ? AND codPrecio = ? AND codBodega = ? AND codcliente = ?',
+        whereArgs: [codrouter, codPrecio, codBodega, codcliente],
+      );
+    } catch (error) {
+      return 0;
+    }
 
     // Si no hay resultados, devolver 0
     if (cartIds.isEmpty) {
@@ -104,7 +107,6 @@ class ShoppingCartDao {
 // Convertir el precio del producto a double
       num precioProductoNum = priceResult.first['precioproductoprecio'];
       double precioProducto = precioProductoNum.toDouble();
-     
 
       // Calcular el valor total del producto
       totalValue += precioProducto * totalQuantity;
@@ -124,11 +126,10 @@ class ShoppingCartDao {
     List<Map<String, dynamic>> cartResults = await db!.query(
       'app_cart',
       columns: ['id', 'codproducts'],
-      where: 'codrouter = ? AND codcliente = ? AND codPrecio = ? AND codBodega = ?',
+      where:
+          'codrouter = ? AND codcliente = ? AND codPrecio = ? AND codBodega = ?',
       whereArgs: [codrouter, codcliente, codPrecio, codBodega],
     );
-
-    
 
     if (cartResults.isEmpty) {
       throw Exception('No cart found for the given codRouter and codCliente');
@@ -145,7 +146,7 @@ class ShoppingCartDao {
       // Obtener la información del producto por su ID
       Product product = await getProductById(productId, codPrecio, codBodega);
       // Obtener el stock del producto
-      int stock = await getStockByProduct(productId,cartId);
+      int stock = await getStockByProduct(productId, cartId);
       // Crear un objeto ProductCart
       productCarts.add(ProductCart(product: product, stock: stock));
     }
@@ -314,5 +315,91 @@ class ShoppingCartDao {
 
     int totalQuantity = (result.first['total'] ?? 0) as int;
     return totalQuantity;
+  }
+
+  Future<int> getTotalProductQuantityAlreadyExist(
+      String codrouter,
+      String codPrecio,
+      String codBodega,
+      String codcliente,
+      String productId) async {
+    final db = await _appDatabase.database;
+    final result = await db!.rawQuery(
+      '''
+      SELECT acs.quantity
+      FROM app_cart ac
+      JOIN app_cart_stock acs ON ac.id = acs.cart_id
+      WHERE ac.codrouter = ? AND ac.codPrecio = ? AND ac.codBodega = ? AND ac.codcliente = ? AND acs.product_id = ?
+      ''',
+      [codrouter, codPrecio, codBodega, codcliente, productId],
+    );
+
+    if (result.isNotEmpty) {
+      return result.first['quantity'] as int;
+    }
+    return 0;
+  }
+
+  Future<void> deleteProductAndUpdateCart(
+    String codrouter,
+    String codPrecio,
+    String codBodega,
+    String codcliente,
+    String productId,
+  ) async {
+    final db = await _appDatabase.database;
+    // Iniciar una transacción
+
+    // Obtener el registro de app_cart con las columnas especificadas
+    List<Map<String, dynamic>> existingCarts = await db!.query(
+      'app_cart',
+      where:
+          'codrouter = ? AND codPrecio = ? AND codBodega = ? AND codcliente = ?',
+      whereArgs: [codrouter, codPrecio, codBodega, codcliente],
+    );
+
+    if (existingCarts.isNotEmpty) {
+      // Obtener el cartId del primer registro encontrado
+      Map<String, dynamic> existingCart = existingCarts.first;
+      int cartId = existingCart['id'];
+
+      // Eliminar el registro de app_cart_stock
+      await db.delete(
+        'app_cart_stock',
+        where: 'cart_id = ? AND product_id = ?',
+        whereArgs: [cartId, productId],
+      );
+
+      // Obtener y actualizar la lista de productos en app_cart
+      List<String> productList = existingCart['codproducts'].split(',');
+      if (productList.contains(productId)) {
+        productList.remove(productId);
+
+      /*   if (productList.isEmpty) {
+          // Si la lista está vacía, eliminar todo el registro de app_cart
+          await db.delete(
+            'app_cart',
+            where: 'id = ?',
+            whereArgs: [cartId],
+          );
+        } else { */
+          String newTime = DateTime.now().toString();
+          // Si la lista no está vacía, convertir la lista actualizada de productos a un string
+          String updatedProductList = productList.join(',');
+
+
+          // Actualizar el registro en app_cart
+          await db.update(
+            'app_cart',
+            {
+              'codproducts': updatedProductList,
+              'date': newTime,
+            },
+            where: 'id = ?',
+            whereArgs: [cartId],
+          );
+        /* } */
+      }
+    }
   }
 }
