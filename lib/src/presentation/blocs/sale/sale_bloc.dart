@@ -46,6 +46,19 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<LoadCart>(_onLoadCart);
     on<GetDetailsShippingCart>(_onGetDetailsShippingCart);
     on<GetProductsShippingCart>(_onGetProductsShippingCart);
+    on<RemoveItemCart>(_removeItemCart);
+  }
+
+  Future<void> _removeItemCart(RemoveItemCart event, Emitter emit) async {
+    await _databaseRepository.deleteProductAndUpdateCart(
+        state.router!.dayRouter!,
+        state.priceSelected!.codprecio!,
+        state.warehouseSelected!.codbodega!,
+        state.client!.id!.toString(),
+        event.codProduct);
+
+    add(GetDetailsShippingCart());
+    add(GetProductsShippingCart());
   }
 
   Future<void> _onGetProductsShippingCart(

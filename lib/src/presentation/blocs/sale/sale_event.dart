@@ -94,3 +94,9 @@ class GetProductsShippingCart extends SaleEvent {
 }
 
 
+class RemoveItemCart extends SaleEvent {
+  final String codProduct;
+  RemoveItemCart({required this.codProduct});
+}
+
+

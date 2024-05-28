@@ -154,7 +154,7 @@ abstract class DatabaseRepository {
       String productId, String codPrecio, String codBodega);
   Future<List<String>> getProductsByRouterAndClient(
       String codrouter, String codcliente);
-  Future<int> getStockByProduct(String productId,String cartId);
+  Future<int> getStockByProduct(String productId, String cartId);
   Future<void> insertCart(
       String codrouter,
       String codPrecio,
@@ -168,13 +168,19 @@ abstract class DatabaseRepository {
   Future<int> getTotalProductQuantity(
       String codrouter, String codPrecio, String codBodega, String codcliente);
 
+  Future<int> getTotalProductQuantityAlreadyExist(String codrouter,
+      String codPrecio, String codBodega, String codcliente, String productId);
+
   Future<double> getTotalProductValue(
       String codrouter, String codPrecio, String codBodega, String codcliente);
 
   Future<CartProductInfo> getCartProductInfo(
-    String codrouter,
-    String codcliente,
-    String codPrecio,
-    String codBodega
-  );
+      String codrouter, String codcliente, String codPrecio, String codBodega);
+
+  Future<void> deleteProductAndUpdateCart(
+      String codrouter,
+      String codPrecio,
+      String codBodega,
+      String codcliente,
+      String productId);
 }

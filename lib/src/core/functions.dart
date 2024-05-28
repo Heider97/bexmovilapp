@@ -32,7 +32,7 @@ class HelperFunctions with FormatDate {
 
   final LocalStorageService _storageService = locator<LocalStorageService>();
   final ApiRepository _apiRepository = locator<ApiRepository>();
-  final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
+ 
 
   Future<Map<String, dynamic>?> getDevice() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();

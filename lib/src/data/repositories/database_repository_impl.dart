@@ -464,7 +464,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   @override
   Future<int> getStockByProduct(String productId, String cartId) {
-    return _appDatabase.shoppingCartDao.getStockByProduct(productId,cartId);
+    return _appDatabase.shoppingCartDao.getStockByProduct(productId, cartId);
   }
 
   @override
@@ -475,10 +475,10 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
     String codBodega,
   ) {
     return _appDatabase.shoppingCartDao.getCartProductInfo(
-     codrouter,
-codcliente,
-codPrecio,
-codBodega,
+      codrouter,
+      codcliente,
+      codPrecio,
+      codBodega,
     );
   }
 
@@ -503,6 +503,27 @@ codBodega,
         .getTotalProductQuantity(codrouter, codPrecio, codBodega, codcliente);
   }
 
+  @override
+  Future<int> getTotalProductQuantityAlreadyExist(String codrouter,
+      String codPrecio, String codBodega, String codcliente, String productId) {
+    return _appDatabase.shoppingCartDao.getTotalProductQuantityAlreadyExist(
+        codrouter, codPrecio, codBodega, codcliente, productId);
+  }
+
+  @override
+  Future<void> deleteProductAndUpdateCart(
+         String codrouter,
+      String codPrecio,
+      String codBodega,
+      String codcliente,
+      String productId) {
+    return _appDatabase.shoppingCartDao.deleteProductAndUpdateCart(
+        codrouter,
+codPrecio,
+codBodega,
+codcliente,
+productId);
+  }
 
   @override
   Future<double> getTotalProductValue(
