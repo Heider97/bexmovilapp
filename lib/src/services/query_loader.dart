@@ -131,10 +131,6 @@ class QueryLoaderService {
                 if (logicQueries.length == 1) {
                   var d = await determine(component.type ?? widget.type,
                       logicQueries.first, seller, arguments);
-
-                  print('*********');
-                  print(d);
-
                   if (component.type != null && d != null) {
                     data.add(d.toJson());
                   } else {
@@ -156,9 +152,6 @@ class QueryLoaderService {
                               lq,
                               seller,
                               arguments);
-
-                          print('*********');
-                          print(d);
 
                           if (component.type != null && d != null) {
                             data.add(d.toJson());
