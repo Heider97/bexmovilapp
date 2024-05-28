@@ -1,6 +1,5 @@
 import 'package:bexmovil/src/domain/models/client.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
-import 'package:bexmovil/src/presentation/widgets/user/expanded_section.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/widgets/ShowPriceAndWarehousesAlert.dart';
 import 'package:bexmovil/src/utils/widgets/product_details_alert.dart';
@@ -17,15 +16,21 @@ import '../../services/styled_dialog_controller.dart';
 //widgets
 import '../../presentation/widgets/atomsbox.dart';
 
+//modals
+import './modals/warehouses_and_prices.dart';
+
 void registerDialogs() {
   locator<StyledDialogController>()
       .registerDialogOf(style: Status.success, builder: showSuccessDialog);
+
   locator<StyledDialogController>()
       .registerDialogOf(style: Status.loading, builder: showLoadingDialog);
+
   locator<StyledDialogController>()
       .registerDialogOf(style: Status.error, builder: showErrorDialog);
-  locator<StyledDialogController>()
-      .registerDialogOf(style: Status.info, builder: showPriceAndWarehouses);
+
+  locator<StyledDialogController>().registerDialogOf(
+      style: Status.warehouseAndPrices, builder: showPriceAndWarehouses);
 }
 
 Future<void> showSuccessDialog() {
@@ -51,7 +56,7 @@ Future<void> showPriceAndWarehouses() {
   return showDialog(
     barrierDismissible: true,
     context: ctx,
-    builder: (_) => const ShowPriceAndWarehousesAlert(),
+    builder: (_) => const ModalWarehousesAndPrices(),
   );
 }
 
@@ -91,10 +96,10 @@ Future<void> showErrorDialog() {
 }
 
 showProductDialog({required BuildContext context}) {
-  return   showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (_) => CustomAlert());
+  return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (_) => const CustomAlert());
 }
 
 showClientDialog({required BuildContext context, required Client client}) {
