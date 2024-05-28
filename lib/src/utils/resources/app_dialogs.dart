@@ -1,11 +1,4 @@
-import 'package:bexmovil/src/domain/models/client.dart';
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_client.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/widgets/ShowPriceAndWarehousesAlert.dart';
-import 'package:bexmovil/src/utils/widgets/product_details_alert.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 //services
 import '../../locator.dart';
@@ -17,6 +10,7 @@ import '../../services/styled_dialog_controller.dart';
 import '../../presentation/widgets/atomsbox.dart';
 
 //modals
+import './modals/product_info.dart';
 import './modals/warehouses_and_prices.dart';
 
 void registerDialogs() {
@@ -30,7 +24,13 @@ void registerDialogs() {
       .registerDialogOf(style: Status.error, builder: showErrorDialog);
 
   locator<StyledDialogController>().registerDialogOf(
-      style: Status.warehouseAndPrices, builder: showPriceAndWarehouses);
+      style: Status.clientInfo, builder: showClientInfoDialog);
+
+  locator<StyledDialogController>().registerDialogOf(
+      style: Status.warehouseAndPrices, builder: showPriceAndWarehousesDialog);
+
+  locator<StyledDialogController>().registerDialogOf(
+      style: Status.productInfo, builder: showProductInfoDialog);
 }
 
 Future<void> showSuccessDialog() {
@@ -50,7 +50,7 @@ Future<void> showSuccessDialog() {
           image: image));
 }
 
-Future<void> showPriceAndWarehouses() {
+Future<void> showPriceAndWarehousesDialog() {
   final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
 
   return showDialog(
@@ -95,115 +95,27 @@ Future<void> showErrorDialog() {
           image: 'assets/icons/pin.svg'));
 }
 
-showProductDialog({required BuildContext context}) {
+Future<void> showProductInfoDialog() {
+  final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
+
   return showDialog(
       barrierDismissible: true,
-      context: context,
-      builder: (_) => const CustomAlert());
+      context: ctx,
+      builder: (_) => const ModalProductInfo());
 }
 
-showClientDialog({required BuildContext context, required Client client}) {
+Future<void> showClientInfoDialog() {
+  final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
+
   return showDialog(
-      context: context,
+      context: ctx,
       builder: (_) {
-        Size size = MediaQuery.of(context).size;
-        ThemeData theme = Theme.of(context);
-        return Dialog(
+        return const Dialog(
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            /*    shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))), */
             child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CardClient(
-                    client: client,
-                  )
-                ]));
+                children: []));
       });
-}
-
-class CarouselImageDialog extends StatefulWidget {
-  final List<String> productImagesList;
-
-  const CarouselImageDialog({Key? key, required this.productImagesList})
-      : super(key: key);
-
-  @override
-  _CarouselImageDialogState createState() => _CarouselImageDialogState();
-}
-
-class _CarouselImageDialogState extends State<CarouselImageDialog> {
-  final CarouselController _controller = CarouselController();
-  int _current = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    ThemeData theme = Theme.of(context);
-    return Dialog(
-      surfaceTintColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              height: size.height * 0.4,
-              enlargeCenterPage: true,
-              autoPlay: false,
-              aspectRatio: 16 / 9,
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              viewportFraction: 1,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
-            ),
-            items: widget.productImagesList.map((image) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Image.asset(image, fit: BoxFit.contain),
-                  );
-                },
-              );
-            }).toList(),
-          ),
-          gapH20,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: widget.productImagesList.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 4.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: /* (Theme.of(context).brightness == Brightness.dark */
-                        /*  ? */ Colors.white
-                            /*  : theme.primaryColor */ /* ) */
-                            .withOpacity(_current == entry.key ? 0.9 : 0.4),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-          gapH12
-        ],
-      ),
-    );
-  }
 }

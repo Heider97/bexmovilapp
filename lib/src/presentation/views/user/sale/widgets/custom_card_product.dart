@@ -1,10 +1,5 @@
 import 'package:another_flushbar/flushbar.dart';
-import 'package:bexmovil/src/domain/repositories/database_repository.dart';
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/utils/constants/screens.dart';
-import 'package:bexmovil/src/utils/resources/app_dialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //blocs
@@ -12,6 +7,7 @@ import '../../../../../presentation/blocs/sale/sale_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/extensions/string_extension.dart';
 
 //domain
@@ -19,8 +15,6 @@ import '../../../../../domain/models/product.dart';
 
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
-
-final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class CustomCardProduct extends StatefulWidget {
   final Product product;
@@ -31,7 +25,6 @@ class CustomCardProduct extends StatefulWidget {
 }
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
-  final _formKey = GlobalKey<FormState>();
 
   TextEditingController textController = TextEditingController();
   TextEditingController suggestion = TextEditingController();

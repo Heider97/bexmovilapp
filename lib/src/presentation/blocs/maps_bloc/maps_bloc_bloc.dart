@@ -211,7 +211,7 @@ class MapsBloc extends Bloc<MapsBlocEvent, MapsBlocState> {
           type: clients[i].typeClient == 'client' ? false : true);
       final clienMarker = Marker(
         onTap: () {
-          showClientDialog(context: context, client: client);
+          // showClientDialog(context: context, client: client);
         },
         markerId: MarkerId(client.name!.toString()),
         position: LatLng(double.parse(client.latitude ?? '0'),

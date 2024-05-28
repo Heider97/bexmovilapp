@@ -1,6 +1,16 @@
 import 'dialog_controller.dart';
 
-enum Status { loading, error, success, info, warehouseAndPrices, gpsDisabled, iddle }
+enum Status {
+  loading,
+  error,
+  success,
+  info,
+  gpsDisabled,
+  clientInfo,
+  warehouseAndPrices,
+  productInfo,
+  iddle
+}
 
 class StyledDialogController<S> {
   Map<String, DialogShowHandler> _styleBuilders = {};
