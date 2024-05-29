@@ -1,3 +1,4 @@
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_sale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -43,8 +44,6 @@ class _SaleProductsState extends State<SaleProducts> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-
-    print('***********************');
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -53,8 +52,6 @@ class _SaleProductsState extends State<SaleProducts> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      print('fetching');
-
       final newItems = await saleBloc.loadProductsPaginated(
           widget.codprecio, widget.codbodega, pageKey, _pageSize);
 
@@ -85,8 +82,11 @@ class _SaleProductsState extends State<SaleProducts> {
               child: PagedListView<int, Product>(
                 pagingController: _pagingController,
                 builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, item, index) => CustomCardProduct(
-                    product: item,
+                  itemBuilder: (context, item, index) => Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CardProductSale(
+                      product: item,
+                    ),
                   ),
                 ),
               ),

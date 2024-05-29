@@ -61,6 +61,7 @@ class _ProductsViewState extends State<ProductsView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            gapH8,
             Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: AppText(
