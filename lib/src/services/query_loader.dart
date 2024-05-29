@@ -131,6 +131,7 @@ class QueryLoaderService {
                 if (logicQueries.length == 1) {
                   var d = await determine(component.type ?? widget.type,
                       logicQueries.first, seller, arguments);
+
                   if (component.type != null && d != null) {
                     data.add(d.toJson());
                   } else {
@@ -190,6 +191,7 @@ class QueryLoaderService {
       }
     } else if (logicQuery.actionableType == 'raw_query') {
       var q = await readRawQuery(logicQuery.actionableId!);
+
       if (q != null) {
         if (q.arguments != null) {
           var arg = jsonDecode(q.arguments!);
@@ -199,8 +201,10 @@ class QueryLoaderService {
             arguments = [seller];
           }
         }
+
         var sentence =
             replaceValues(q.sentence!, arguments, q.replaceAll ?? false);
+
         return await executeRawQuery(sentence, type);
       }
     } else if (logicQuery.actionableType == 'navigation') {
@@ -250,7 +254,7 @@ class QueryLoaderService {
         for (var value in values) {
           if (value != null) {
             var replace = query.indexOf('?');
-            query = query.replaceCharAt(query, replace, value);
+            query = query.replaceCharAt(query, replace, value.toString());
           }
         }
       }

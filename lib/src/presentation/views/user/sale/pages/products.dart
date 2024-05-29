@@ -29,8 +29,6 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
-    saleBloc.add(LoadProducts(null, null, null, null,
-        widget.arguments.codbodega, widget.arguments.codprecio));
     super.initState();
   }
 
@@ -120,7 +118,7 @@ class _ProductsViewState extends State<ProductsView> {
               ],
             ),
             gapH8,
-            const SaleProducts()
+            SaleProducts(codprecio: widget.arguments.codprecio, codbodega: widget.arguments.codbodega)
           ],
         );
       },

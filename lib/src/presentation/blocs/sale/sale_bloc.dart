@@ -6,8 +6,6 @@ import '../../../domain/models/client.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/price.dart';
-import '../../../domain/models/section.dart';
-import '../../../domain/models/navigation.dart';
 import '../../../domain/models/warehouse.dart';
 import '../../../domain/models/product.dart';
 import '../../../domain/repositories/database_repository.dart';
@@ -223,6 +221,31 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   _gridModeChange(GridModeChange event, Emitter emit) {
     emit(state.copyWith(gridView: event.changeMode));
+  }
+
+  Future<List<Product>> loadProductsPaginated(
+      String codprecio, String codbodega, int offset, int limit) async {
+    var seller = storageService.getString('username');
+    var products = <Product>[];
+
+    print(products);
+
+    Map<String, dynamic> variables = await queryLoaderService.load(
+        '/sale-products',
+        'SaleBloc',
+        'LoadProducts',
+        seller!,
+        [codprecio, codbodega, limit, offset]);
+
+    List<String> keys = variables.keys.toList();
+
+    for (var i = 0; i < variables.length; i++) {
+      if (keys[i] == 'products') {
+        products = variables[keys[i]];
+      }
+    }
+
+    return products;
   }
 
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
