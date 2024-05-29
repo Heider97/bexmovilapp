@@ -1,28 +1,31 @@
-import 'package:bexmovil/src/locator.dart';
-import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
-import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
-import 'package:bexmovil/src/services/navigation.dart';
-import 'package:bexmovil/src/utils/constants/gaps.dart';
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bexmovil/src/domain/models/router.dart' as routers;
 
-final NavigationService _navigationService = locator<NavigationService>();
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/strings.dart';
+import '../../../../../utils/extensions/string_extension.dart';
 
-class CardRouter extends StatefulWidget {
-  final routers.Router router;
+//blocs
+import '../../../../../presentation/blocs/sale/sale_bloc.dart';
 
-  const CardRouter({super.key, required this.router});
+//domain
+import '../../../../../domain/models/router.dart';
+
+//widgets
+import '../../../../../presentation/widgets/atomsbox.dart';
+
+class CardRouterSale extends StatefulWidget {
+  final Router router;
+
+  const CardRouterSale({super.key, required this.router});
 
   @override
-  State<CardRouter> createState() => _CardRouterState();
+  State<CardRouterSale> createState() => _CardRouterSaleState();
 }
 
-class _CardRouterState extends State<CardRouter> {
+class _CardRouterSaleState extends State<CardRouterSale> {
   late SaleBloc saleBloc;
 
   @override
@@ -39,8 +42,8 @@ class _CardRouterState extends State<CardRouter> {
       padding: const EdgeInsets.all(7),
       child: InkWell(
         onTap: () {
-          _navigationService.goTo(AppRoutes.clientsSale,
-              arguments: widget.router);
+          saleBloc.navigationService
+              .goTo(AppRoutes.clientsSale, arguments: widget.router);
         },
         child: Material(
           elevation: 1,
@@ -59,17 +62,11 @@ class _CardRouterState extends State<CardRouter> {
                           fontSize: 14,
                           overflow: TextOverflow.ellipsis),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          AppText(' 0 %',
+                          AppText('0%',
                               fontWeight: FontWeight.w500,
-                              color: /* (widget.effectiveness != null &&
-                                      widget.effectiveness!.toDouble() >= 70)
-                                  ? Colors.green[300]
-                                  : (widget.effectiveness != null &&
-                                          widget.effectiveness!.toDouble() >= 50)
-                                      ? Colors.yellow[400]
-                                      : */
-                                  Colors.red[300],
+                              color: Colors.red[300],
                               fontSize: 12,
                               overflow: TextOverflow.ellipsis),
                           AppText('Efectividad',
@@ -96,7 +93,7 @@ class _CardRouterState extends State<CardRouter> {
                             ),
                           ),
                           gapW12,
-                          AppText('Clientes: ${widget.router.clients ?? 0}',
+                          AppText("Clientes: ${widget.router.clients ?? 0}",
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[800],
                               fontSize: 14,

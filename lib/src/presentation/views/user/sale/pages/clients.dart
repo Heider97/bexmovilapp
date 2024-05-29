@@ -62,7 +62,7 @@ class _ClientsPageState extends State<ClientsPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<SaleBloc, SaleState>(listener: (previous, current) {
       if (current.status == SaleStatus.warehouses) {
-        styledDialogController.showDialogWithStyle(Status.info,
+        styledDialogController.showDialogWithStyle(Status.warehouseAndPrices,
             closingFunction: () => Navigator.of(context).pop());
       }
     }, builder: (context, state) {

@@ -40,12 +40,18 @@ class _SaleClientsState extends State<SaleClients>
         TabBar(
             controller: _tabcontroller,
             tabs: const [
-              Tab(
-                text: 'Sin visitar',
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Sin visitar',
+                ),
               ),
-              Tab(
-                text: 'Visitados',
-              ),
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Visitados',
+                ),
+              )
             ],
             indicatorSize: TabBarIndicatorSize.tab),
         Expanded(
@@ -65,6 +71,23 @@ class _SaleClientsState extends State<SaleClients>
                     });
               } else {
                 return const Text('No hay clientes disponibles');
+              }
+            }),
+            BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+              if ((state.status == SaleStatus.clients ||
+                      state.status == SaleStatus.warehouses) &&
+                  state.clients != null &&
+                  state.clients!.isNotEmpty) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: state.clients?.length,
+                    itemBuilder: (context, index) {
+                      return CardClient(
+                          router: state.router!, client: state.clients![index]);
+                    });
+              } else {
+                return const Text('No hay clientes visitados');
               }
             }),
           ]),

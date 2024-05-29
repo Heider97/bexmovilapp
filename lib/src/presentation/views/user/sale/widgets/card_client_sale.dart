@@ -7,16 +7,16 @@ import '../../../../../domain/models/client.dart';
 import '../../../../widgets/atomsbox.dart';
 import 'detail_client.dart';
 
-class CardClientRouter extends StatefulWidget {
+class CardClientSale extends StatefulWidget {
   final Client client;
 
-  const CardClientRouter({super.key, required this.client});
+  const CardClientSale({super.key, required this.client});
 
   @override
-  State<CardClientRouter> createState() => _CardClientRouterState();
+  State<CardClientSale> createState() => _CardClientSaleState();
 }
 
-class _CardClientRouterState extends State<CardClientRouter> {
+class _CardClientSaleState extends State<CardClientSale> {
   Color _color = Colors.white; // Color inicial
 
   void _toggleColor(Color color) {

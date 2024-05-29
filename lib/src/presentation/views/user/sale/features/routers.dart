@@ -34,20 +34,23 @@ class _SaleRoutersState extends State<SaleRouters>
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(children: [
-        TabBar(controller: _tabcontroller, tabs: const [
-          SizedBox(
-            width: 200,
-            child: Tab(
-              text: 'Pendiente',
-            ),
-          ),
-          SizedBox(
-            width: 200,
-            child: Tab(
-              text: 'Historial',
-            ),
-          )
-        ]),
+        TabBar(
+            controller: _tabcontroller,
+            tabs: const [
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Pendiente',
+                ),
+              ),
+              SizedBox(
+                width: 200,
+                child: Tab(
+                  text: 'Historial',
+                ),
+              )
+            ],
+            indicatorSize: TabBarIndicatorSize.tab),
         Expanded(
           child: TabBarView(controller: _tabcontroller, children: [
             BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
@@ -58,7 +61,7 @@ class _SaleRoutersState extends State<SaleRouters>
                     padding: EdgeInsets.zero,
                     itemCount: state.routers?.length,
                     itemBuilder: (context, index) {
-                      return CardRouter(router: state.routers![index]);
+                      return CardRouterSale(router: state.routers![index]);
                     });
               } else {
                 return const Text('No hay ruteros disponibles');
@@ -72,7 +75,7 @@ class _SaleRoutersState extends State<SaleRouters>
                     padding: EdgeInsets.zero,
                     itemCount: state.historical?.length,
                     itemBuilder: (context, index) {
-                      return CardRouter(router: state.historical![index]);
+                      return CardRouterSale(router: state.historical![index]);
                     });
               } else {
                 return const Center(
