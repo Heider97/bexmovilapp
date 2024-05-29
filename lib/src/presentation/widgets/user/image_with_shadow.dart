@@ -19,11 +19,11 @@ class ImagesWithShadow extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         /*  showCarouselImageDialog(context: context, productImagesList: [image,image,image,image]); */
-        showDialog(
-          context: context,
-          builder: (_) => CarouselImageDialog(
-              productImagesList: [image, image, image, image]),
-        );
+        // showDialog(
+        //   context: context,
+        //   builder: (_) => CarouselImageDialog(
+        //       productImagesList: [image, image, image, image]),
+        // );
       },
       child: SizedBox(
         child: ClipRect(

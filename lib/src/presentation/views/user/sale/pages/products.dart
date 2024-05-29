@@ -1,25 +1,15 @@
 import 'package:bexmovil/src/domain/models/arguments.dart';
-import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
 import 'package:bexmovil/src/presentation/views/user/sale/features/products.dart';
 
-import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
-
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
-import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 
-import 'package:bexmovil/src/utils/constants/strings.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:googleapis/transcoder/v1.dart';
-
-import '../../../../widgets/organisms/app_section.dart';
-
-final NavigationService _navigationService = locator<NavigationService>();
 
 class ProductsView extends StatefulWidget {
   final ProductArgument arguments;

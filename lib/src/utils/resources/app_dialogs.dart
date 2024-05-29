@@ -24,6 +24,9 @@ void registerDialogs() {
       .registerDialogOf(style: Status.error, builder: showErrorDialog);
 
   locator<StyledDialogController>().registerDialogOf(
+      style: Status.gpsDisabled, builder: showGpsDisabledDialog);
+
+  locator<StyledDialogController>().registerDialogOf(
       style: Status.clientInfo, builder: showClientInfoDialog);
 
   locator<StyledDialogController>().registerDialogOf(
@@ -90,6 +93,18 @@ Future<void> showErrorDialog() {
       context: ctx,
       builder: (_) => AppGlobalDialog.error(
           title: title ?? 'Active su GPS',
+          description: description,
+          image: image!));
+}
+
+Future<void> showGpsDisabledDialog() {
+  final ctx = locator<NavigationService>().navigatorKey.currentState!.context;
+
+  return showDialog(
+      barrierDismissible: false,
+      context: ctx,
+      builder: (_) => AppGlobalDialog.error(
+          title: 'Active su GPS',
           description:
               'Necesitamos saber tu ubicacion,\n activa tu GPS para continuar disfrutando de la APP.',
           image: 'assets/icons/pin.svg'));

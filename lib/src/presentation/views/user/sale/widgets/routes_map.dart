@@ -49,14 +49,11 @@ class _RoutesMapState extends State<RoutesMap> {
               child: Stack(
                 children: [
                   GoogleMap(
-
-                      //mapType: MapType.satellite,
                       mapToolbarEnabled: true,
                       myLocationEnabled: false,
                       myLocationButtonEnabled: false,
                       compassEnabled: false,
                       minMaxZoomPreference: MinMaxZoomPreference.unbounded,
-                      //trafficEnabled: true,
                       onMapCreated: (controller) {
                         mapsBloc.add(OnMapInitializedEvent(
                             controller,

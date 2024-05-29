@@ -26,6 +26,8 @@ class CustomCardProduct extends StatefulWidget {
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
 
+  //TODO [Heider Zapa] refactor complete
+
   TextEditingController textController = TextEditingController();
   TextEditingController suggestion = TextEditingController();
 
@@ -83,7 +85,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
         builder: (context, state) {
           return InkWell(
             onTap: () {
-              showProductDialog(context: context);
+              // showProductDialog(context: context);
             },
             child: Material(
               elevation: 1,
@@ -306,33 +308,33 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                                     textController
                                                                         .text)) {
                                                                   try {
-                                                                    await _databaseRepository.insertCart(
-                                                                        state
-                                                                            .router!
-                                                                            .dayRouter!,
-                                                                        state
-                                                                            .priceSelected!
-                                                                            .codprecio!,
-                                                                        state
-                                                                            .warehouseSelected!
-                                                                            .codbodega!,
-                                                                        state
-                                                                            .client!
-                                                                            .id!
-                                                                            .toString(),
-                                                                        widget
-                                                                            .product
-                                                                            .codProducto!,
-                                                                        int.parse(textController
-                                                                            .text),
-                                                                        'pending',
-                                                                        DateTime.now()
-                                                                            .toString());
-                                                                    print(
-                                                                        'add to cart ');
+                                                                    // await _databaseRepository.insertCart(
+                                                                    //     state
+                                                                    //         .router!
+                                                                    //         .dayRouter!,
+                                                                    //     state
+                                                                    //         .priceSelected!
+                                                                    //         .codprecio!,
+                                                                    //     state
+                                                                    //         .warehouseSelected!
+                                                                    //         .codbodega!,
+                                                                    //     state
+                                                                    //         .client!
+                                                                    //         .id!
+                                                                    //         .toString(),
+                                                                    //     widget
+                                                                    //         .product
+                                                                    //         .codProducto!,
+                                                                    //     int.parse(textController
+                                                                    //         .text),
+                                                                    //     'pending',
+                                                                    //     DateTime.now()
+                                                                    //         .toString());
+                                                                    // print(
+                                                                    //     'add to cart ');
 
-                                                                    saleBloc.add(
-                                                                        GetDetailsShippingCart());
+                                                                    // saleBloc.add(
+                                                                    //     GetDetailsShippingCart());
                                                                     /*    context.read<SaleBloc>().add(
                                                             SelectProduct(
                                                                 product:
@@ -411,31 +413,31 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                               textController
                                                                   .text)) {
                                                             try {
-                                                              await _databaseRepository.insertCart(
-                                                                  state.router!
-                                                                      .dayRouter!,
-                                                                  state
-                                                                      .priceSelected!
-                                                                      .codprecio!,
-                                                                  state
-                                                                      .warehouseSelected!
-                                                                      .codbodega!,
-                                                                  state.client!
-                                                                      .id!
-                                                                      .toString(),
-                                                                  widget.product
-                                                                      .codProducto!,
-                                                                  int.parse(
-                                                                      textController
-                                                                          .text),
-                                                                  'pending',
-                                                                  DateTime.now()
-                                                                      .toString());
-                                                              print(
-                                                                  'add to cart ');
+                                                              // await _databaseRepository.insertCart(
+                                                              //     state.router!
+                                                              //         .dayRouter!,
+                                                              //     state
+                                                              //         .priceSelected!
+                                                              //         .codprecio!,
+                                                              //     state
+                                                              //         .warehouseSelected!
+                                                              //         .codbodega!,
+                                                              //     state.client!
+                                                              //         .id!
+                                                              //         .toString(),
+                                                              //     widget.product
+                                                              //         .codProducto!,
+                                                              //     int.parse(
+                                                              //         textController
+                                                              //             .text),
+                                                              //     'pending',
+                                                              //     DateTime.now()
+                                                              //         .toString());
+                                                              // print(
+                                                              //     'add to cart ');
 
-                                                              saleBloc.add(
-                                                                  GetDetailsShippingCart());
+                                                              // saleBloc.add(
+                                                              //     GetDetailsShippingCart());
                                                               /*    context.read<SaleBloc>().add(
                                                             SelectProduct(
                                                                 product:
@@ -579,8 +581,8 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
 
   Future<void> findAmmountAlreadyInCar(String codrouter, String codPrecio,
       String codBodega, String codcliente, String productId) async {
-    alreadyInCar =
-        await _databaseRepository.getTotalProductQuantityAlreadyExist(
-            codrouter, codPrecio, codBodega, codcliente, productId);
+    // alreadyInCar =
+    //     await _databaseRepository.getTotalProductQuantityAlreadyExist(
+    //         codrouter, codPrecio, codBodega, codcliente, productId);
   }
 }
