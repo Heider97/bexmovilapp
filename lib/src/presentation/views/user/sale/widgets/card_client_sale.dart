@@ -40,6 +40,7 @@ class _CardClientSaleState extends State<CardClientSale> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return AppCard.filled(
       onTap: () {},
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -192,95 +193,70 @@ class _CardClientSaleState extends State<CardClientSale> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
-                    child: Center(
-                      child: InkWell(
-                        onTap: widget.client.latitude != null &&
-                                widget.client.longitude != null
-                            ? () async {}
-                            : null,
-                        child: Material(
-                          elevation: 2,
-                          child: SizedBox(
-                            width: 200,
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                widget.client.latitude != null &&
-                                        widget.client.longitude != null
-                                    ? AppText('Navegar',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey[800],
-                                        fontSize: 14,
-                                        overflow: TextOverflow.ellipsis)
-                                    : AppText('Georeferenciar',
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.grey[800],
-                                        fontSize: 14,
-                                        overflow: TextOverflow.ellipsis),
-                                widget.client.latitude != null &&
-                                        widget.client.longitude != null
-                                    ? Icon(
-                                        FontAwesomeIcons.locationArrow,
-                                        size: 20,
-                                        color: Colors.blue[300],
-                                      )
-                                    : Icon(
-                                        FontAwesomeIcons.locationPin,
-                                        size: 20,
-                                        color: Colors.blue[300],
-                                      )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                  AppElevatedButton(
+                    minimumSize: Size(size.width / 2.3, 40),
+                    onPressed: widget.client.latitude != null &&
+                            widget.client.longitude != null
+                        ? () async {}
+                        : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                            widget.client.latitude != null &&
+                                    widget.client.longitude != null
+                                ? 'Navegar'
+                                : 'Georeferenciar',
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[800],
+                            fontSize: 12,
+                            overflow: TextOverflow.ellipsis),
+                        Icon(
+                          widget.client.latitude != null &&
+                                  widget.client.longitude != null
+                              ? FontAwesomeIcons.locationArrow
+                              : FontAwesomeIcons.locationPin,
+                          size: 20,
+                          color: Colors.blue[300],
+                        )
+                      ],
                     ),
                   ),
                   gapW8,
-                  Expanded(
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          // launchUrl(
-                          //   Uri.parse('tel://${widget.client.cellphone}'),
-                          // );
-                        },
-                        child: Material(
-                          elevation: 2,
-                          child: SizedBox(
-                            width: 200,
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                AppText(
-                                    widget.client.cellphone ?? 'No disponible',
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.grey[800],
-                                    fontSize: 14,
-                                    overflow: TextOverflow.ellipsis),
-                                Icon(
-                                  FontAwesomeIcons.phone,
-                                  size: 20,
-                                  color: Colors.green[300],
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                  AppElevatedButton(
+                    minimumSize: Size(size.width / 2.3, 40),
+                    onPressed: () {
+                      // launchUrl(
+                      //   Uri.parse('tel://${widget.client.cellphone}'),
+                      // );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(widget.client.cellphone ?? 'No disponible',
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey[800],
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis),
+                        Icon(
+                          FontAwesomeIcons.phone,
+                          size: 20,
+                          color: Colors.green[300],
+                        )
+                      ],
                     ),
                   ),
                 ],
               ),
-              AppTextButton(
+              gapH8,
+              AppElevatedButton(
+                  minimumSize: Size(size.width, 40),
                   child: AppText(
                       widget.client.typeClient == 'client'
                           ? 'Realizar Venta'
                           : 'Realizar Cotización',
-                      fontWeight: FontWeight.bold,
                       fontSize: 12,
                       overflow: TextOverflow.ellipsis),
                   onPressed: () {

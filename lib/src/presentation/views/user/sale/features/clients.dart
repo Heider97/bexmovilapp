@@ -81,7 +81,7 @@ class _SaleClientsState extends State<SaleClients>
                     padding: EdgeInsets.zero,
                     itemCount: state.clients?.length,
                     itemBuilder: (context, index) {
-                      return CardClientSale(
+                      return CardClient(
                           router: state.router!, client: state.clients![index]);
                     });
               } else {

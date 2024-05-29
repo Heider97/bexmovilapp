@@ -1,31 +1,21 @@
-import 'package:bexmovil/src/domain/repositories/database_repository.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
-//blocs
+//utils
 import '../../../../../utils/constants/gaps.dart';
 import '../../../../../utils/constants/strings.dart';
+import '../../../../../utils/extensions/string_extension.dart';
+
+//blocs
+
 import '../../../../blocs/sale/sale_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/screens.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_text.dart';
-import '../../../../widgets/atoms/app_text_button.dart';
-import '../../../../widgets/user/product_card.dart';
+import '../../../../widgets/atoms/atoms.dart';
 import '../widgets/custom_card_product.dart';
-import '../widgets/custom_card_product_back.dart';
-
-//services
-import '../../../../../locator.dart';
-import '../../../../../services/navigation.dart';
-
-final NavigationService _navigationService = locator<NavigationService>();
-final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class SaleProducts extends StatefulWidget {
   const SaleProducts({super.key});
@@ -86,22 +76,22 @@ class _SaleProductsState extends State<SaleProducts> {
                               AppText(
                                 'Productos: ${state.totalProductsShippingCart ?? 0}',
                               ),
-                              AppText(fontSize: 20,fontWeight: FontWeight.w300,
+                              AppText(
                                 'Total: ${''.formatted(state.totalPriceShippingCart!)}',
                               )
                             ],
                           ),
                         ),
                         Row(children: [
-                          AppText('Vaciar'),
+                          AppTextButton(
+                              onPressed: null, child: AppText('Vaciar')),
                           gapW20,
-                          SizedBox(
-                              height: 40,
-                              child: AppTextButton(
-                                  child: AppText('Ver Carrito'),
-                                  onPressed: () {
-                                    _navigationService.goTo(AppRoutes.cartSale);
-                                  })),
+                          AppTextButton(
+                              child: AppText('Ver Carrito'),
+                              onPressed: () {
+                                saleBloc.navigationService
+                                    .goTo(AppRoutes.cartSale);
+                              })
                         ])
                       ],
                     ),
@@ -116,10 +106,10 @@ class _SaleProductsState extends State<SaleProducts> {
   }
 
   getProductsQuantity(state) async {
-    return await _databaseRepository.getTotalProductQuantity(
-        state.router!.dayRouter!,
-        state.priceSelected!.codprecio!,
-        state.warehouseSelected!.codbodega!,
-        state.client!.id.toString());
+    // return await _databaseRepository.getTotalProductQuantity(
+    //     state.router!.dayRouter!,
+    //     state.priceSelected!.codprecio!,
+    //     state.warehouseSelected!.codbodega!,
+    //     state.client!.id.toString());
   }
 }

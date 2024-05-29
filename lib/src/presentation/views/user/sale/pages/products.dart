@@ -63,6 +63,23 @@ class _ProductsViewState extends State<ProductsView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
+            Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: AppText(
+                  'Cliente: ${state.client!.name!.capitalizeString()}',
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey[800],
+                  fontSize: 14,
+                )),
+            gapH8,
             Row(
               children: [
                 Expanded(
@@ -102,23 +119,6 @@ class _ProductsViewState extends State<ProductsView> {
                 )
               ],
             ),
-            gapH8,
-            Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: AppText(
-                  'Rutero: ${state.router!.nameDayRouter!.capitalizeString()}',
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey[800],
-                  fontSize: 14,
-                )),
-            Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: AppText(
-                  'Cliente: ${state.client!.name!.capitalizeString()}',
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey[800],
-                  fontSize: 14,
-                )),
             gapH8,
             const SaleProducts()
           ],
