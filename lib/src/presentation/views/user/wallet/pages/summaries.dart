@@ -18,7 +18,6 @@ import '../../../../../domain/models/arguments.dart';
 
 //widgets
 import '../../../../widgets/atomsbox.dart';
-import '../../../../widgets/organisms/app_section.dart';
 import '../../../../widgets/user/custom_search_bar.dart';
 import '../widgets/table_summaries_wallet.dart';
 import '../../../../widgets/user/stepper.dart';
@@ -130,12 +129,7 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
               ),
             ),
             gapH8,
-            ...state.sections != null
-                ? state.sections!.map((e) => AppSection(
-                title: e.name!,
-                widgetItems: e.widgets ?? [],
-                tabController: null))
-                : [],
+            //TODO [Heider Zapa]
           ],
         ),
         BlocBuilder<WalletBloc, WalletState>(

@@ -62,34 +62,6 @@ class CircularChart extends StatelessWidget {
                 xValueMapper: (ChartData data, _) => data.x,
                 yValueMapper: (ChartData data, _) => double.parse(data.y)),
           ]),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: Column(
-          //         children: [
-          //           const Text('Agenda mas alta'),
-          //           const Text('\$80M'),
-          //           Text('Lunes',
-          //               style: theme.textTheme.bodyLarge!
-          //                   .copyWith(fontWeight: FontWeight.bold)),
-          //         ],
-          //       ),
-          //     ),
-          //     Expanded(
-          //       child: Column(
-          //         children: [
-          //           const Text('Cliente más alto'),
-          //           const Text('\$55M'),
-          //           Text(
-          //             'Pandapan',
-          //             style: theme.textTheme.bodyLarge!
-          //                 .copyWith(fontWeight: FontWeight.bold),
-          //           ),
-          //         ],
-          //       ),
-          //     )
-          //   ],
-          // ),
           gapH16
         ],
       ),

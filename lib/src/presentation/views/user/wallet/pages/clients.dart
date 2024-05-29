@@ -8,15 +8,6 @@ import '../../../../blocs/wallet/wallet_bloc.dart';
 //domain
 import '../../../../../domain/models/arguments.dart';
 
-//atoms
-import '../../../../widgets/organisms/app_section.dart';
-
-//services
-import '../../../../../locator.dart';
-import '../../../../../services/navigation.dart';
-
-final NavigationService navigationService = locator<NavigationService>();
-
 class WalletClientsView extends StatefulWidget {
   final WalletArgument? argument;
   const WalletClientsView({super.key, this.argument});
@@ -53,7 +44,7 @@ class _WalletClientsViewState extends State<WalletClientsView> {
       if (state.status == WalletStatus.loading) {
         return const Center(
             child: CupertinoActivityIndicator(color: Colors.green));
-      } else if (state.status == WalletStatus.clients){
+      } else if (state.status == WalletStatus.clients) {
         return _buildBody(size, theme, state, context);
       } else {
         return const SizedBox();
@@ -65,14 +56,7 @@ class _WalletClientsViewState extends State<WalletClientsView> {
       Size size, ThemeData theme, WalletState state, BuildContext context) {
     return SafeArea(
         child: Stack(
-      children: [
-        ...state.sections != null
-            ? state.sections!.map((e) => AppSection(
-                title: e.name!,
-                widgetItems: e.widgets ?? [],
-                tabController: null))
-            : [],
-      ],
+      children: [],
     ));
   }
 }

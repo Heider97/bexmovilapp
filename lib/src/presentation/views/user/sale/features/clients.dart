@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //blocs
 import '../../../../blocs/sale/sale_bloc.dart';
-//utils
-import '../../../../../utils/constants/screens.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_text.dart';
+import '../widgets/card_client_sale.dart';
 import '../widgets/card_client.dart';
 
 class SaleClients extends StatefulWidget {
@@ -66,7 +64,7 @@ class _SaleClientsState extends State<SaleClients>
                     padding: EdgeInsets.zero,
                     itemCount: state.clients?.length,
                     itemBuilder: (context, index) {
-                      return CardClient(
+                      return CardClientSale(
                           router: state.router!, client: state.clients![index]);
                     });
               } else {
@@ -83,7 +81,7 @@ class _SaleClientsState extends State<SaleClients>
                     padding: EdgeInsets.zero,
                     itemCount: state.clients?.length,
                     itemBuilder: (context, index) {
-                      return CardClient(
+                      return CardClientSale(
                           router: state.router!, client: state.clients![index]);
                     });
               } else {

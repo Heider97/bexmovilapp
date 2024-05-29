@@ -1,18 +1,15 @@
-import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //blocs
-import 'package:bexmovil/src/presentation/blocs/wallet/wallet_bloc.dart';
+import '../../../../blocs/wallet/wallet_bloc.dart';
 
 //utils
 import '../../../../../utils/constants/screens.dart';
 import '../../../../../utils/constants/strings.dart';
 
 //widgets
-import '../../../../widgets/atoms/app_text.dart';
-import '../../../../widgets/organisms/app_section.dart';
 import '../features/dashboard.dart';
 import '../widgets/circular_chart.dart';
 

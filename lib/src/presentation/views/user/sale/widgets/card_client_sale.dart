@@ -1,101 +1,102 @@
-import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:bexmovil/src/utils/extensions/string_extension.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+//blocs
+import '../../../../blocs/sale/sale_bloc.dart';
+
+//utils
+import '../../../../../utils/constants/gaps.dart';
+import '../../../../../utils/constants/strings.dart';
+import '../../../../../utils/extensions/string_extension.dart';
+
 //domain
 import '../../../../../domain/models/client.dart';
+import '../../../../../domain/models/router.dart';
+
 //widgets
 import '../../../../widgets/atomsbox.dart';
-import 'detail_client.dart';
 
 class CardClientSale extends StatefulWidget {
+  final Router? router;
   final Client client;
+  final bool? activeSale;
 
-  const CardClientSale({super.key, required this.client});
+  const CardClientSale(
+      {super.key, required this.client, this.router, this.activeSale});
 
   @override
   State<CardClientSale> createState() => _CardClientSaleState();
 }
 
 class _CardClientSaleState extends State<CardClientSale> {
-  Color _color = Colors.white; // Color inicial
+  late SaleBloc saleBloc;
 
-  void _toggleColor(Color color) {
-    setState(() {
-      // Cambiar el color de la tarjeta
-      _color = (_color == Colors.white) ? color : Colors.white;
-    });
+  @override
+  void initState() {
+    saleBloc = BlocProvider.of<SaleBloc>(context);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    return AppCard.elevated(
-      color: _color,
-      surfaceTintColor: _color,
-      elevation: 5,
-      onLongPress: () {
-        _toggleColor(theme.colorScheme.secondary);
-      },
-      onTap: () {
-        (_color != Colors.white)
-            ? _color = Colors.white
-            : showModalBottomSheet(
-                isScrollControlled: true,
-                context: context,
-                builder: (c) => DetailClientSale(client: widget.client));
-
-        setState(() {});
-      },
-      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
+    return AppCard.filled(
+      onTap: () {},
+      margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AppListTile(
-          color: _color,
           title: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: AppText(widget.client.name ?? "N/A",
                   fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: theme.primaryColor,
+                  fontSize: 12,
                   overflow: TextOverflow.ellipsis)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Dirección: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Const.space12,
-                        //   color: theme.primaryColor
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Dirección: ',
+                            style: TextStyle(
+                              fontSize: Const.space12,
+                              //   color: theme.primaryColor
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${widget.client.address}',
+                            style: const TextStyle(fontSize: Const.space12),
+                          ),
+                        ],
                       ),
                     ),
-                    TextSpan(
-                      text: '${widget.client.address}',
-                      style: const TextStyle(fontSize: Const.space12),
-                    ),
-                  ],
-                ),
-              ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Sucursal: ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Const.space12,
-                        // color: theme.primaryColor
+                  ),
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Sucursal: ',
+                            style: TextStyle(
+                              fontSize: Const.space12,
+                              // color: theme.primaryColor
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${widget.client.branch}',
+                            style: const TextStyle(fontSize: Const.space12),
+                          ),
+                        ],
                       ),
                     ),
-                    TextSpan(
-                      text: '${widget.client.branch}',
-                      style: const TextStyle(fontSize: Const.space12),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +108,6 @@ class _CardClientSaleState extends State<CardClientSale> {
                           const TextSpan(
                             text: 'Cartera: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
                               fontSize: Const.space12,
                               //  color: theme.primaryColor
                             ),
@@ -130,13 +130,13 @@ class _CardClientSaleState extends State<CardClientSale> {
                           const TextSpan(
                             text: 'Cupo disponible: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
                               fontSize: Const.space12,
                               //  color: theme.primaryColor
                             ),
                           ),
                           TextSpan(
-                             text: ''.formattedCompact(widget.client.quota!.toString()),
+                            text: ''.formattedCompact(
+                                widget.client.quota!.toString()),
                             style: const TextStyle(fontSize: Const.space12),
                           ),
                         ],
@@ -155,7 +155,6 @@ class _CardClientSaleState extends State<CardClientSale> {
                           TextSpan(
                             text: 'Ventas: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
                               fontSize: Const.space12,
                               //color: theme.primaryColor
                             ),
@@ -175,13 +174,12 @@ class _CardClientSaleState extends State<CardClientSale> {
                           TextSpan(
                             text: 'Servicio: ',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
                               fontSize: Const.space12,
                               //color: theme.primaryColor
                             ),
                           ),
                           TextSpan(
-                            text: '90 % ',
+                            text: '0%',
                             style: TextStyle(fontSize: Const.space12),
                           ),
                         ],
@@ -190,6 +188,119 @@ class _CardClientSaleState extends State<CardClientSale> {
                   ),
                 ],
               ),
+              gapH4,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: InkWell(
+                        onTap: widget.client.latitude != null &&
+                                widget.client.longitude != null
+                            ? () async {}
+                            : null,
+                        child: Material(
+                          elevation: 2,
+                          child: SizedBox(
+                            width: 200,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                widget.client.latitude != null &&
+                                        widget.client.longitude != null
+                                    ? AppText('Navegar',
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey[800],
+                                        fontSize: 14,
+                                        overflow: TextOverflow.ellipsis)
+                                    : AppText('Georeferenciar',
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey[800],
+                                        fontSize: 14,
+                                        overflow: TextOverflow.ellipsis),
+                                widget.client.latitude != null &&
+                                        widget.client.longitude != null
+                                    ? Icon(
+                                        FontAwesomeIcons.locationArrow,
+                                        size: 20,
+                                        color: Colors.blue[300],
+                                      )
+                                    : Icon(
+                                        FontAwesomeIcons.locationPin,
+                                        size: 20,
+                                        color: Colors.blue[300],
+                                      )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  gapW8,
+                  Expanded(
+                    child: Center(
+                      child: InkWell(
+                        onTap: () {
+                          // launchUrl(
+                          //   Uri.parse('tel://${widget.client.cellphone}'),
+                          // );
+                        },
+                        child: Material(
+                          elevation: 2,
+                          child: SizedBox(
+                            width: 200,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                AppText(
+                                    widget.client.cellphone ?? 'No disponible',
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey[800],
+                                    fontSize: 14,
+                                    overflow: TextOverflow.ellipsis),
+                                Icon(
+                                  FontAwesomeIcons.phone,
+                                  size: 20,
+                                  color: Colors.green[300],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              AppTextButton(
+                  child: AppText(
+                      widget.client.typeClient == 'client'
+                          ? 'Realizar Venta'
+                          : 'Realizar Cotización',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      overflow: TextOverflow.ellipsis),
+                  onPressed: () {
+                    final user = saleBloc.storageService.getObject('user');
+
+                    String? codbodega;
+                    if (user?['codbodega'] != null) {
+                      codbodega = user?['codbodega'];
+                    } else {
+                      codbodega = '001B1';
+                    }
+
+                    saleBloc.add(LoadWarehousesAndPrices(
+                      navigation: 'go',
+                      router: widget.router,
+                      client: widget.client,
+                      codprecio: widget.client.codPrecio,
+                      codbodega: codbodega,
+                    ));
+                  })
             ],
           ),
         ),
