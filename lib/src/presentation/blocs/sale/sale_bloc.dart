@@ -220,7 +220,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
-    emit(state.copyWith(gridView: event.changeMode));
+    // emit(state.copyWith(gridView: event.changeMode));
   }
 
   Future<List<Product>> loadProductsPaginated(
@@ -251,28 +251,15 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
-    var seller = storageService.getString('username');
-    var products = <Product>[];
+    var grids = [
+      'normal',
+      'photo',
+      'brief',
+    ];
 
-    Map<String, dynamic> variables = await queryLoaderService.load(
-        '/sale-products',
-        'SaleBloc',
-        'LoadProducts',
-        seller!,
-        [event.codprecio, event.codbodega]);
+    var grid = grids.first;
 
-    List<String> keys = variables.keys.toList();
-
-    for (var i = 0; i < variables.length; i++) {
-      if (keys[i] == 'products') {
-        products = variables[keys[i]];
-      }
-    }
-
-    emit(state.copyWith(
-      status: SaleStatus.products,
-      products: products,
-    ));
+    emit(state.copyWith(status: SaleStatus.products, grids: grids, grid: grid));
   }
 
   Future<void> _onSearchProduct(SearchProduct event, Emitter emit) async {
