@@ -112,9 +112,7 @@ class _ProductsViewState extends State<ProductsView> {
                             : Icons.grid_view_outlined,
                         color: theme.colorScheme.onPrimary),
                     onPressed: () {
-                      setState(() {
-                        gridMode = !gridMode;
-                      });
+                      context.read<SaleBloc>().add(GridModeChange(grid: 'photo'));
                     },
                   ),
                 )

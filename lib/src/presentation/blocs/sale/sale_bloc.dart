@@ -220,15 +220,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
-    // emit(state.copyWith(gridView: event.changeMode));
+    emit(state.copyWith(grid: event.grid));
   }
 
   Future<List<Product>> loadProductsPaginated(
       String codprecio, String codbodega, int offset, int limit) async {
     var seller = storageService.getString('username');
     var products = <Product>[];
-
-    print(products);
 
     Map<String, dynamic> variables = await queryLoaderService.load(
         '/sale-products',

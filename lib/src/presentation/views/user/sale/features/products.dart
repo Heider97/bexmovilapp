@@ -41,37 +41,31 @@ class _SaleProductsState extends State<SaleProducts> {
     Product(
       nomProducto: 'Tenis Superstar',
       precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
+      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
       existenciaStock: 20,
     ),
     Product(
       nomProducto: 'Tenis Superstar',
       precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
+      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
       existenciaStock: 20,
     ),
     Product(
       nomProducto: 'Tenis Superstar',
       precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
+      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
       existenciaStock: 20,
     ),
     Product(
       nomProducto: 'Tenis Superstar',
       precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
+      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
       existenciaStock: 20,
     ),
     Product(
       nomProducto: 'Tenis Superstar',
       precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
-      existenciaStock: 20,
-    ),
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://example.com/superstar.png',
+      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
       existenciaStock: 20,
     ),
   ];
