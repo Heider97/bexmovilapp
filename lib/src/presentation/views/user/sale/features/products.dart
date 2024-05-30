@@ -1,4 +1,5 @@
-import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_normal_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_photo_sale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -35,6 +36,45 @@ class SaleProducts extends StatefulWidget {
 class _SaleProductsState extends State<SaleProducts> {
   late SaleBloc saleBloc;
   int totalProducts = 0;
+
+  final List<Product> products = [
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+    Product(
+      nomProducto: 'Tenis Superstar',
+      precioProductoPrecio: 799.950,
+      imagen: 'https://example.com/superstar.png',
+      existenciaStock: 20,
+    ),
+  ];
 
   static const _pageSize = 20;
 
@@ -78,19 +118,7 @@ class _SaleProductsState extends State<SaleProducts> {
           children: [
             Expanded(
                 child: Container(
-              color: Colors.grey[100],
-              child: PagedListView<int, Product>(
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, item, index) => Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: CardProductSale(
-                      product: item,
-                    ),
-                  ),
-                ),
-              ),
-            )),
+                    color: Colors.grey[100], child: getGridProducts(state))),
             Material(
                 elevation: 10,
                 child: Container(
@@ -133,6 +161,37 @@ class _SaleProductsState extends State<SaleProducts> {
         ),
       );
     });
+  }
+
+  Widget getGridProducts(SaleState state) {
+    if (state.grid == 'normal') {
+      return PagedListView<int, Product>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Product>(
+          itemBuilder: (context, item, index) => Padding(
+            padding: const EdgeInsets.all(10),
+            child: CardProductSale(
+              product: item,
+            ),
+          ),
+        ),
+      );
+    } else if (state.grid == 'photo') {
+      return GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.75,
+        ),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return CardProductPhotoSale(product: products[index]);
+        },
+      );
+    } else if (state.grid == 'brief') {
+      return const SizedBox();
+    } else {
+      return const SizedBox();
+    }
   }
 
   getProductsQuantity(state) async {
