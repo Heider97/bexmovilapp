@@ -16,16 +16,16 @@ import '../../../../../domain/models/product.dart';
 //widgets
 import '../../../../widgets/atomsbox.dart';
 
-class CardProductSale extends StatefulWidget {
+class CardProductNormalSale extends StatefulWidget {
   final Product product;
 
-  const CardProductSale({super.key, required this.product});
+  const CardProductNormalSale({super.key, required this.product});
 
   @override
-  State<CardProductSale> createState() => _CardProductSaleState();
+  State<CardProductNormalSale> createState() => _CardProductNormalSaleState();
 }
 
-class _CardProductSaleState extends State<CardProductSale> {
+class _CardProductNormalSaleState extends State<CardProductNormalSale> {
   late SaleBloc saleBloc;
 
   @override

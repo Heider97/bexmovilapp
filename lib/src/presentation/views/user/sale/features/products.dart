@@ -37,39 +37,6 @@ class _SaleProductsState extends State<SaleProducts> {
   late SaleBloc saleBloc;
   int totalProducts = 0;
 
-  final List<Product> products = [
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
-      existenciaStock: 20,
-    ),
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
-      existenciaStock: 20,
-    ),
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
-      existenciaStock: 20,
-    ),
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
-      existenciaStock: 20,
-    ),
-    Product(
-      nomProducto: 'Tenis Superstar',
-      precioProductoPrecio: 799.950,
-      imagen: 'https://fyel.bexsoluciones.com/bexmovil/img/productos/055/000NA2.jpg',
-      existenciaStock: 20,
-    ),
-  ];
-
   static const _pageSize = 20;
 
   final PagingController<int, Product> _pagingController =
@@ -164,23 +131,27 @@ class _SaleProductsState extends State<SaleProducts> {
         builderDelegate: PagedChildBuilderDelegate<Product>(
           itemBuilder: (context, item, index) => Padding(
             padding: const EdgeInsets.all(10),
-            child: CardProductSale(
+            child: CardProductNormalSale(
               product: item,
             ),
           ),
         ),
       );
     } else if (state.grid == 'photo') {
-      return GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.75,
-        ),
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return CardProductPhotoSale(product: products[index]);
-        },
-      );
+      return PagedGridView(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Product>(
+            itemBuilder: (context, item, index) => Padding(
+              padding: const EdgeInsets.all(10),
+              child: CardProductPhotoSale(
+                product: item,
+              ),
+            ),
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+          ));
     } else if (state.grid == 'brief') {
       return const SizedBox();
     } else {
