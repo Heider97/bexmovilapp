@@ -106,13 +106,14 @@ class _ProductsViewState extends State<ProductsView> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppIconButton(
-                    child: Icon(
-                        (gridMode)
-                            ? Icons.grid_view_rounded
-                            : Icons.grid_view_outlined,
+                    child: Icon(Icons.grid_view_rounded,
                         color: theme.colorScheme.onPrimary),
                     onPressed: () {
-                      context.read<SaleBloc>().add(GridModeChange(grid: 'photo'));
+                      int currentIndex = state.grids!.indexOf(state.grid!);
+                      int nextIndex = (currentIndex + 1) % state.grids!.length;
+                      var grid = state.grids![nextIndex];
+
+                      context.read<SaleBloc>().add(GridModeChange(grid: grid));
                     },
                   ),
                 )

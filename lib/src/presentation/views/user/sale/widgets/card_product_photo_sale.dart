@@ -1,5 +1,6 @@
 import 'package:bexmovil/src/presentation/widgets/atoms/app_card.dart';
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 //domain
@@ -18,7 +19,15 @@ class CardProductPhotoSale extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           product.imagen != null
-              ? Image.network(product.imagen!)
+              ? CachedNetworkImage(
+                  imageUrl: product.imagen!,
+                  placeholder: (context, url) => const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(child: CircularProgressIndicator())),
+                  errorWidget: (context, url, error) => Image.asset(
+                      'assets/images/shopping_cart.png',
+                      fit: BoxFit.fill),
+                )
               : Image.asset('assets/images/shopping_cart.png',
                   fit: BoxFit.fill),
           Padding(
