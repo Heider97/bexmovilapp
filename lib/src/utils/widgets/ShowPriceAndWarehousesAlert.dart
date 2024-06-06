@@ -6,7 +6,7 @@ import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 import 'package:bexmovil/src/utils/constants/strings.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +32,7 @@ class _ShowPriceAndWarehousesAlertState
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    
     super.initState();
   }
 
@@ -180,6 +181,8 @@ class _ShowPriceAndWarehousesAlertState
                                 client: state.client!,
                                 codbodega: state.warehouseSelected!.codbodega!,
                                 codprecio: state.priceSelected!.codprecio!));
+
+                               
                       }
 
                       /*     if (_selectedRadioBodega != -1 &&

@@ -69,7 +69,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       state.warehouseSelected!.codbodega!,
     );
 
-    emit(state.copyWith(cartProductInfo: cartProductInfo));
+    emit(state.copyWith(cartProductInfo: cartProductInfo, status: SaleStatus.clients));
   }
 
   Future<void> _onGetDetailsShippingCart(
@@ -89,8 +89,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
             state.client!.id.toString());
 
     emit(state.copyWith(
-        totalProductsShippingCart: totalProductsQuantity,
-        totalPriceShippingCart: totalPriceShippingCart));
+      totalProductsShippingCart: totalProductsQuantity,
+      totalPriceShippingCart: totalPriceShippingCart,
+        status: SaleStatus.clients
+    ));
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -118,6 +120,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
+
+
 
     var seller = storageService.getString('username');
     var clients = <Client>[];

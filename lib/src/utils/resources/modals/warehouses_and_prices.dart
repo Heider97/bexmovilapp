@@ -182,6 +182,8 @@ class ModalWarehousesAndPricesState extends State<ModalWarehousesAndPrices> {
                                 client: state.client!,
                                 codbodega: state.warehouseSelected!.codbodega!,
                                 codprecio: state.priceSelected!.codprecio!));
+
+                             
                       }
                     },
                     child: SizedBox(

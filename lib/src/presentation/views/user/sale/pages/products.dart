@@ -29,6 +29,7 @@ class _ProductsViewState extends State<ProductsView> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+    saleBloc.add(GetDetailsShippingCart());
     super.initState();
   }
 

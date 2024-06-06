@@ -1,6 +1,6 @@
 //TODO: [Heider Zapa] organize
 import 'package:bexmovil/src/domain/models/requests/change_password_request.dart';
-import 'package:bexmovil/src/domain/models/requests/client_location_request.dart';
+
 import 'package:bexmovil/src/domain/models/requests/recovery_code_request.dart';
 import 'package:bexmovil/src/domain/models/requests/validate_code_request.dart';
 import 'package:bexmovil/src/domain/models/responses/change_password_response.dart';
@@ -11,7 +11,8 @@ import 'package:bexmovil/src/domain/models/responses/nearby_places_response.dart
 import '../../utils/resources/data_state.dart';
 
 import '../models/requests/dynamic_request.dart';
-import '../models/requests/google_request.dart';
+
+
 import '../models/requests/google_maps_request.dart';
 import '../models/requests/functionality_request.dart';
 import '../models/requests/enterprise_request.dart';

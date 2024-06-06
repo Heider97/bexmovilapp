@@ -55,7 +55,7 @@ class ShoppingCartDao {
   ) async {
     final db = await _appDatabase.database;
 
-  List<Map<String, dynamic>> cartIds = [];
+    List<Map<String, dynamic>> cartIds = [];
     // Primero, obtener los cart_id correspondientes
     try {
       cartIds = await db!.query(
@@ -96,8 +96,8 @@ class ShoppingCartDao {
       List<Map<String, dynamic>> priceResult = await db.query(
         'tbldproductoprecio',
         columns: ['precioproductoprecio'],
-        where: 'CODPRODUCTO = ?',
-        whereArgs: [productId],
+        where: 'CODPRODUCTO = ? AND codPrecio = ?',
+        whereArgs: [productId, codPrecio],
       );
 
       if (priceResult.isEmpty) {
@@ -142,13 +142,16 @@ class ShoppingCartDao {
 
     // Obtener los productos y su información
     List<ProductCart> productCarts = [];
+
     for (String productId in productIds) {
-      // Obtener la información del producto por su ID
-      Product product = await getProductById(productId, codPrecio, codBodega);
-      // Obtener el stock del producto
-      int stock = await getStockByProduct(productId, cartId);
-      // Crear un objeto ProductCart
-      productCarts.add(ProductCart(product: product, stock: stock));
+      if (productId != '') {
+// Obtener la información del producto por su ID
+        Product product = await getProductById(productId, codPrecio, codBodega);
+        // Obtener el stock del producto
+        int stock = await getStockByProduct(productId, cartId);
+        // Crear un objeto ProductCart
+        productCarts.add(ProductCart(product: product, stock: stock));
+      }
     }
 
     return CartProductInfo(
@@ -162,27 +165,24 @@ class ShoppingCartDao {
 
   Future<Product> getProductById(
       String productId, String codPrecio, String codBodega) async {
-    var seller = storageService.getString('username');
     var products = <Product>[];
 
-    Map<String, dynamic> variables = await queryLoaderService.load(
-        '/sale-products',
-        'SaleBloc',
-        'LoadProducts',
-        seller!,
-        [codPrecio, codBodega]);
+    final db = await _appDatabase.database;
+    final result = await db!.rawQuery(
+      '''
+      SELECT tblmproducto.*, tbldproductoprecio.*  FROM tblmproducto
+      INNER JOIN tbldproductoprecio ON tbldproductoprecio.CODPRODUCTO = tblmproducto.CODPRODUCTO
+      WHERE tbldproductoprecio.codprecio = "$codPrecio"
+      ''',
+    );
 
-    List<String> keys = variables.keys.toList();
-
-    for (var i = 0; i < variables.length; i++) {
-      if (keys[i] == 'products') {
-        products = variables[keys[i]];
-      }
+    if (result.isNotEmpty) {
+      products = result.map((json) => Product.fromJson(json)).toList();
     }
 
-    for (Product producto in products) {
-      if (producto.codProducto == productId) {
-        return producto;
+    for (Product product in products) {
+      if (product.codProducto == productId) {
+        return product;
       }
     }
     // Si no se encuentra el producto, lanzar una excepción
@@ -375,7 +375,7 @@ class ShoppingCartDao {
       if (productList.contains(productId)) {
         productList.remove(productId);
 
-      /*   if (productList.isEmpty) {
+        /*   if (productList.isEmpty) {
           // Si la lista está vacía, eliminar todo el registro de app_cart
           await db.delete(
             'app_cart',
@@ -383,21 +383,20 @@ class ShoppingCartDao {
             whereArgs: [cartId],
           );
         } else { */
-          String newTime = DateTime.now().toString();
-          // Si la lista no está vacía, convertir la lista actualizada de productos a un string
-          String updatedProductList = productList.join(',');
+        String newTime = DateTime.now().toString();
+        // Si la lista no está vacía, convertir la lista actualizada de productos a un string
+        String updatedProductList = productList.join(',');
 
-
-          // Actualizar el registro en app_cart
-          await db.update(
-            'app_cart',
-            {
-              'codproducts': updatedProductList,
-              'date': newTime,
-            },
-            where: 'id = ?',
-            whereArgs: [cartId],
-          );
+        // Actualizar el registro en app_cart
+        await db.update(
+          'app_cart',
+          {
+            'codproducts': updatedProductList,
+            'date': newTime,
+          },
+          where: 'id = ?',
+          whereArgs: [cartId],
+        );
         /* } */
       }
     }

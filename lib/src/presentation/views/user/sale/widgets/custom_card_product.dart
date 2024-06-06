@@ -1,4 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:bexmovil/src/domain/repositories/database_repository.dart';
+import 'package:bexmovil/src/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +18,8 @@ import '../../../../../domain/models/product.dart';
 //widgets
 import '../../../../widgets/atoms/app_text.dart';
 
+final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
+
 class CustomCardProduct extends StatefulWidget {
   final Product product;
   const CustomCardProduct({super.key, required this.product});
@@ -25,7 +29,6 @@ class CustomCardProduct extends StatefulWidget {
 }
 
 class __CustomCardProducStateState extends State<CustomCardProduct> {
-
   //TODO [Heider Zapa] refactor complete
 
   TextEditingController textController = TextEditingController();
@@ -39,7 +42,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
   String? _errorMessage;
   String inputValue = '';
 
-  int? alreadyInCar;
+  int alreadyInCar = 0;
 
   bool editMode = false;
 
@@ -91,7 +94,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
               elevation: 1,
               child: Container(
                 decoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(4)),
+                    BoxDecoration(borderRadius: BorderRadius.circular(4)),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Column(
@@ -135,37 +138,37 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                         children: [
                           Expanded(
                               child: Center(
-                                child: Opacity(
-                                  opacity: 0.75,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[350],
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2),
-                                      child: AppText('Imagen\n no disponible.',
-                                          textAlign: TextAlign.center,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          overflow: TextOverflow.ellipsis),
-                                    ),
-                                  ),
+                            child: Opacity(
+                              opacity: 0.75,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[350],
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: AppText('Imagen\n no disponible.',
+                                      textAlign: TextAlign.center,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      overflow: TextOverflow.ellipsis),
                                 ),
-                              )),
+                              ),
+                            ),
+                          )),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             children: [
@@ -175,7 +178,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                       .lineThrough,
                                                   fontSize: 12,
                                                   overflow:
-                                                  TextOverflow.ellipsis),
+                                                      TextOverflow.ellipsis),
                                             ],
                                           ),
                                           Row(
@@ -193,7 +196,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                       .precioProductoPrecio!),
                                                   fontSize: 14,
                                                   overflow:
-                                                  TextOverflow.ellipsis),
+                                                      TextOverflow.ellipsis),
                                               const SizedBox(
                                                 width: 10,
                                               ),
@@ -203,14 +206,14 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                   decoration: BoxDecoration(
                                                       color: primaryColor,
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          5)),
+                                                          BorderRadius.circular(
+                                                              5)),
                                                   child: Padding(
                                                     padding:
-                                                    const EdgeInsets.all(2),
+                                                        const EdgeInsets.all(2),
                                                     child: AppText(' -25 %',
                                                         fontWeight:
-                                                        FontWeight.w500,
+                                                            FontWeight.w500,
                                                         color: Colors.white,
                                                         fontSize: 8,
                                                         overflow: TextOverflow
@@ -308,40 +311,41 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                                     textController
                                                                         .text)) {
                                                                   try {
-                                                                    // await _databaseRepository.insertCart(
-                                                                    //     state
-                                                                    //         .router!
-                                                                    //         .dayRouter!,
-                                                                    //     state
-                                                                    //         .priceSelected!
-                                                                    //         .codprecio!,
-                                                                    //     state
-                                                                    //         .warehouseSelected!
-                                                                    //         .codbodega!,
-                                                                    //     state
-                                                                    //         .client!
-                                                                    //         .id!
-                                                                    //         .toString(),
-                                                                    //     widget
-                                                                    //         .product
-                                                                    //         .codProducto!,
-                                                                    //     int.parse(textController
-                                                                    //         .text),
-                                                                    //     'pending',
-                                                                    //     DateTime.now()
-                                                                    //         .toString());
-                                                                    // print(
-                                                                    //     'add to cart ');
+                                                                    await _databaseRepository.insertCart(
+                                                                        state
+                                                                            .router!
+                                                                            .dayRouter!,
+                                                                        state
+                                                                            .priceSelected!
+                                                                            .codprecio!,
+                                                                        state
+                                                                            .warehouseSelected!
+                                                                            .codbodega!,
+                                                                        state
+                                                                            .client!
+                                                                            .id!
+                                                                            .toString(),
+                                                                        widget
+                                                                            .product
+                                                                            .codProducto!,
+                                                                        int.parse(textController
+                                                                            .text),
+                                                                        'pending',
+                                                                        DateTime.now()
+                                                                            .toString());
+                                                                    print(
+                                                                        'add to cart ');
 
-                                                                    // saleBloc.add(
-                                                                    //     GetDetailsShippingCart());
-                                                                    /*    context.read<SaleBloc>().add(
+                                                                    saleBloc.add(
+                                                                        GetDetailsShippingCart());
+
+                                                                       /* context.read<SaleBloc>().add(
                                                             SelectProduct(
                                                                 product:
                                                                     widget.product)); */
 
                                                                     alreadyInCar =
-                                                                        alreadyInCar! +
+                                                                        alreadyInCar +
                                                                             int.parse(textController.text);
 
                                                                     textController
@@ -353,7 +357,10 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                                         'Producto agregado al carrito');
 
                                                                     //ejecutar funcion para actualizar el stock agregado.
-                                                                  } catch (error) {}
+                                                                  } catch (error) {
+                                                                    print(
+                                                                        'Error agregando los productos: $error');
+                                                                  }
                                                                 }
                                                               },
                                                               focusNode:
@@ -413,37 +420,34 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                               textController
                                                                   .text)) {
                                                             try {
-                                                              // await _databaseRepository.insertCart(
-                                                              //     state.router!
-                                                              //         .dayRouter!,
-                                                              //     state
-                                                              //         .priceSelected!
-                                                              //         .codprecio!,
-                                                              //     state
-                                                              //         .warehouseSelected!
-                                                              //         .codbodega!,
-                                                              //     state.client!
-                                                              //         .id!
-                                                              //         .toString(),
-                                                              //     widget.product
-                                                              //         .codProducto!,
-                                                              //     int.parse(
-                                                              //         textController
-                                                              //             .text),
-                                                              //     'pending',
-                                                              //     DateTime.now()
-                                                              //         .toString());
-                                                              // print(
-                                                              //     'add to cart ');
+                                                              await _databaseRepository.insertCart(
+                                                                  state.router!
+                                                                      .dayRouter!,
+                                                                  state
+                                                                      .priceSelected!
+                                                                      .codprecio!,
+                                                                  state
+                                                                      .warehouseSelected!
+                                                                      .codbodega!,
+                                                                  state.client!
+                                                                      .id!
+                                                                      .toString(),
+                                                                  widget.product
+                                                                      .codProducto!,
+                                                                  int.parse(
+                                                                      textController
+                                                                          .text),
+                                                                  'pending',
+                                                                  DateTime.now()
+                                                                      .toString());
+                                                              print(
+                                                                  'add to cart ');
 
-                                                              // saleBloc.add(
-                                                              //     GetDetailsShippingCart());
-                                                              /*    context.read<SaleBloc>().add(
-                                                            SelectProduct(
-                                                                product:
-                                                                    widget.product)); */
+                                                              saleBloc.add(
+                                                                  GetDetailsShippingCart());
+
                                                               alreadyInCar =
-                                                                  alreadyInCar! +
+                                                                  alreadyInCar +
                                                                       int.parse(
                                                                           textController
                                                                               .text);
@@ -567,12 +571,14 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
 
   void showTopSnackBar(BuildContext context, String message) {
     Flushbar(
+      backgroundColor: Theme.of(context).primaryColor,
+      messageColor: Theme.of(context).colorScheme.onPrimary,
       message: message,
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       borderRadius: BorderRadius.circular(8),
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       flushbarPosition: FlushbarPosition.TOP,
-      icon: Icon(
+      icon: const Icon(
         Icons.info,
         color: Colors.white,
       ),
@@ -581,8 +587,8 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
 
   Future<void> findAmmountAlreadyInCar(String codrouter, String codPrecio,
       String codBodega, String codcliente, String productId) async {
-    // alreadyInCar =
-    //     await _databaseRepository.getTotalProductQuantityAlreadyExist(
-    //         codrouter, codPrecio, codBodega, codcliente, productId);
+    alreadyInCar =
+        await _databaseRepository.getTotalProductQuantityAlreadyExist(
+            codrouter, codPrecio, codBodega, codcliente, productId);
   }
 }
