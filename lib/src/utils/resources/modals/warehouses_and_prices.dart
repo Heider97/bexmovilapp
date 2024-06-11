@@ -112,8 +112,8 @@ class ModalWarehousesAndPricesState extends State<ModalWarehousesAndPrices> {
                                       ),
                                       trailing: (state.warehouses![index] ==
                                               state.warehouseSelected)
-                                          ? Icon(Icons.radio_button_checked)
-                                          : Icon(Icons.radio_button_off));
+                                          ? const Icon(Icons.radio_button_checked)
+                                          : const Icon(Icons.radio_button_off));
                                 },
                               ))
                           : Center(
@@ -158,8 +158,8 @@ class ModalWarehousesAndPricesState extends State<ModalWarehousesAndPrices> {
                                     ),
                                     trailing: (state.prices![index] ==
                                             state.priceSelected)
-                                        ? Icon(Icons.radio_button_checked)
-                                        : Icon(Icons.radio_button_off));
+                                        ? const Icon(Icons.radio_button_checked)
+                                        : const Icon(Icons.radio_button_off));
                               },
                             ),
                           )
