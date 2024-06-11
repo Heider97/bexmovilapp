@@ -159,6 +159,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadWarehousesAndPrices(
       LoadWarehousesAndPrices event, Emitter emit) async {
     var seller = storageService.getString('username');
+
     var warehouses = <Warehouse>[];
     var prices = <Price>[];
 
