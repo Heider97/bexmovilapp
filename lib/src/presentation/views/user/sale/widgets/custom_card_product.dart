@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:bexmovil/src/domain/repositories/database_repository.dart';
 import 'package:bexmovil/src/locator.dart';
+import 'package:bexmovil/src/utils/resources/modals/product_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -88,7 +89,12 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
         builder: (context, state) {
           return InkWell(
             onTap: () {
-              // showProductDialog(context: context);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ModalProductInfo();
+                },
+              );
             },
             child: Material(
               elevation: 1,
@@ -136,13 +142,38 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                       ),
                       Row(
                         children: [
+                          //TODO: Asignar el 30-40% de la fila.
+                    /*       Container(
+                            width: Screens.width(context)*0.3,
+                            child:Center(
+                            child: Opacity(
+                              opacity: 0.75,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2),
+                                  child: AppText('Imagen\n no disponible.',
+                                      textAlign: TextAlign.center,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                              ),
+                            ),
+                          ) ,),
+ */
+
+
                           Expanded(
                               child: Center(
                             child: Opacity(
                               opacity: 0.75,
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Colors.grey[350],
+                                    color: Colors.grey,
                                     borderRadius: BorderRadius.circular(5)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(2),
@@ -156,6 +187,12 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                               ),
                             ),
                           )),
+                          /* Expanded(
+                          child:
+
+                          --
+
+                          ) */
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -339,7 +376,7 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                                                     saleBloc.add(
                                                                         GetDetailsShippingCart());
 
-                                                                       /* context.read<SaleBloc>().add(
+                                                                    /* context.read<SaleBloc>().add(
                                                             SelectProduct(
                                                                 product:
                                                                     widget.product)); */

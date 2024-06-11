@@ -139,14 +139,14 @@ class _ProductCardState extends State<ProductCard> {
                           const SizedBox()
                         ],
                       ),
-                      Row(
+                    /*   Row(
                         children: [
                           AppText('Cantidad:  '),
                           Ammount(
                             controller: ammountController,
                           )
                         ],
-                      ),
+                      ), */
                       ExpandedSection(
                           expand: expand,
                           height: 100,

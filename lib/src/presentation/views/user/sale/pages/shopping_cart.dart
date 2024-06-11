@@ -1,6 +1,7 @@
 import 'package:bexmovil/src/domain/models/item_ammount.dart';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/pages/invoice_confirmation.dart';
 import 'package:bexmovil/src/presentation/widgets/atoms/app_icon_button.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/presentation/widgets/user/product_ammount.dart';
@@ -73,7 +74,7 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                       itemCount: state.cartProductInfo!.products.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
+                            padding: const EdgeInsets.only(top: 15.0, bottom: 5),
                             child: ProductAmmount(
                                 product:
                                     state.cartProductInfo!.products[index]));
@@ -93,8 +94,8 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText.bodyMedium('Subtotal'),
-                              AppText.titleLarge(
-                                  ''.formatted(state.totalPriceShippingCart ?? 0.0)),
+                              AppText.titleLarge(''.formatted(
+                                  state.totalPriceShippingCart ?? 0.0)),
                             ],
                           ),
                           const SizedBox(),
@@ -102,7 +103,14 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
                             AppText.bodyMedium('Vaciar'),
                             gapW20,
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          GettingStartedSignaturePad()),
+                                );
+                              },
                               child: SizedBox(
                                 height: 40,
                                 child: Material(

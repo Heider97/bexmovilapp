@@ -132,7 +132,17 @@ class ShoppingCartDao {
     );
 
     if (cartResults.isEmpty) {
-      throw Exception('No cart found for the given codRouter and codCliente');
+    /*   throw Exception('No cart found for the given codRouter and codCliente'); */
+
+      
+    return CartProductInfo(
+        cartId: null,
+        codRouter: codrouter,
+        codClient: codcliente,
+        products: [],
+        codBodega: codBodega,
+        codPrecio: codPrecio);
+
     }
 
     // Asumimos que solo hay un carrito por codRouter y codCliente
