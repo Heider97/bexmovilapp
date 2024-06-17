@@ -209,6 +209,8 @@ class QueryLoaderService {
       }
     } else if (logicQuery.actionableType == 'navigation') {
       final navigation = await readNavigation(logicQuery.actionableId!);
+
+      print('****************');
       if (navigation != null) {
         Map<String, dynamic> data = jsonDecode(navigation.arguments!);
 
@@ -221,6 +223,9 @@ class QueryLoaderService {
             break;
           }
         }
+
+        print(data);
+
 
         navigation.argument =
             await dynamicDataTypes[navigation.type!]?.fromMap(data);

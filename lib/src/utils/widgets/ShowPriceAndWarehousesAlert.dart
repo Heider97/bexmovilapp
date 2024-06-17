@@ -184,21 +184,6 @@ class _ShowPriceAndWarehousesAlertState
 
                                
                       }
-
-                      /*     if (_selectedRadioBodega != -1 &&
-                          _selectedRadioListaPrecios != -1) {
-                        navigationService.goTo(AppRoutes.productsSale,
-                            arguments: ProductArgument(
-                                client: state.client!,
-                                codbodega: state
-                                    .warehouses![_selectedRadioBodega]
-                                    .codbodega!,
-                                codprecio: state
-                                    .prices![_selectedRadioListaPrecios]
-                                    .codprecio!));
-                      } else {
-                        // Muestra algún tipo de mensaje de advertencia o realiza otra acción 
-                      } */
                     },
                     child: SizedBox(
                       height: 40,

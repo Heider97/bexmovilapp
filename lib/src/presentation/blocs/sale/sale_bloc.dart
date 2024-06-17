@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 //domain
 import '../../../domain/models/client.dart';
+import '../../../domain/models/navigation.dart';
 import '../../../domain/models/router.dart';
 import '../../../domain/models/filter.dart';
 import '../../../domain/models/price.dart';
@@ -163,6 +164,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadWarehousesAndPrices(
       LoadWarehousesAndPrices event, Emitter emit) async {
     var seller = storageService.getString('username');
+
     var warehouses = <Warehouse>[];
     var prices = <Price>[];
 
@@ -176,14 +178,25 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     List<String> keys = variables.keys.toList();
 
     for (var i = 0; i < variables.length; i++) {
-      if (keys[i] == 'warehouses') {
+      if (keys[i] == 'warehouses' && variables[keys[i]] is List) {
         warehouses = variables[keys[i]];
-      } else if (keys[i] == 'prices') {
+      } else if (keys[i] == 'prices' && variables[keys[i]] is List) {
         prices = variables[keys[i]];
       }
     }
 
-    // styledDialogController.closeVisibleDialog();
+    if (warehouses.isEmpty && prices.isEmpty) {
+      for (var i = 0; i < variables.length; i++) {
+        if (variables[keys[i]] is Navigation) {
+          var navigation = variables[keys[i]];
+          print(navigation.toJson());
+          // await navigationService.goTo(navigation.route!,
+          //     arguments: navigation.argument);
+        }
+      }
+    }
+
+    styledDialogController.closeVisibleDialog();
 
     emit(state.copyWith(
         status: SaleStatus.warehouses,
@@ -193,9 +206,7 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     // if (sections.first.widgets!.first.components!.first.results is Navigation &&
     //     event.navigation == 'go') {
-    //   var navigation = sections.first.widgets!.first.components!.first.results;
-    //   await navigationService.goTo(navigation.route!,
-    //       arguments: navigation.argument);
+
     // } else if (sections.first.widgets!.first.components!.first.results
     //         is Navigation &&
     //     event.navigation == 'back') {
@@ -224,15 +235,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   }
 
   _gridModeChange(GridModeChange event, Emitter emit) {
-    emit(state.copyWith(gridView: event.changeMode));
+    emit(state.copyWith(grid: event.grid));
   }
 
   Future<List<Product>> loadProductsPaginated(
       String codprecio, String codbodega, int offset, int limit) async {
     var seller = storageService.getString('username');
     var products = <Product>[];
-
-    print(products);
 
     Map<String, dynamic> variables = await queryLoaderService.load(
         '/sale-products',
@@ -255,28 +264,15 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
   Future<void> _onLoadProducts(LoadProducts event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
 
-    var seller = storageService.getString('username');
-    var products = <Product>[];
+    var grids = [
+      'normal',
+      'photo',
+      'brief',
+    ];
 
-    Map<String, dynamic> variables = await queryLoaderService.load(
-        '/sale-products',
-        'SaleBloc',
-        'LoadProducts',
-        seller!,
-        [event.codprecio, event.codbodega]);
+    var grid = grids.first;
 
-    List<String> keys = variables.keys.toList();
-
-    for (var i = 0; i < variables.length; i++) {
-      if (keys[i] == 'products') {
-        products = variables[keys[i]];
-      }
-    }
-
-    emit(state.copyWith(
-      status: SaleStatus.products,
-      products: products,
-    ));
+    emit(state.copyWith(status: SaleStatus.products, grids: grids, grid: grid));
   }
 
   Future<void> _onSearchProduct(SearchProduct event, Emitter emit) async {

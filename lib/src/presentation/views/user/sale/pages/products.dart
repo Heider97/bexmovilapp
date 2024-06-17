@@ -30,6 +30,10 @@ class _ProductsViewState extends State<ProductsView> {
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(GetDetailsShippingCart());
+    
+    //saleBloc.add(LoadProducts(null, null, null, null,
+    //    widget.arguments.codbodega, widget.arguments.codprecio));
+
     super.initState();
   }
 
@@ -62,6 +66,7 @@ class _ProductsViewState extends State<ProductsView> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            gapH8,
             Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: AppText(
@@ -104,22 +109,23 @@ class _ProductsViewState extends State<ProductsView> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: AppIconButton(
-                    child: Icon(
-                        (gridMode)
-                            ? Icons.grid_view_rounded
-                            : Icons.grid_view_outlined,
+                    child: Icon(Icons.grid_view_rounded,
                         color: theme.colorScheme.onPrimary),
                     onPressed: () {
-                      setState(() {
-                        gridMode = !gridMode;
-                      });
+                      int currentIndex = state.grids!.indexOf(state.grid!);
+                      int nextIndex = (currentIndex + 1) % state.grids!.length;
+                      var grid = state.grids![nextIndex];
+
+                      context.read<SaleBloc>().add(GridModeChange(grid: grid));
                     },
                   ),
                 )
               ],
             ),
             gapH8,
-            SaleProducts(codprecio: widget.arguments.codprecio, codbodega: widget.arguments.codbodega)
+            SaleProducts(
+                codprecio: widget.arguments.codprecio,
+                codbodega: widget.arguments.codbodega)
           ],
         );
       },
