@@ -42,6 +42,8 @@ class ProductArgument {
       {required this.client, required this.codbodega, required this.codprecio});
 
   factory ProductArgument.fromJson(Map<String, dynamic> json) {
+    print('****json***');
+    print(json);
     return ProductArgument(
         client: json['client'] != null ? Client.fromJson(json['client']) : null,
         codbodega: json['codbodega'],

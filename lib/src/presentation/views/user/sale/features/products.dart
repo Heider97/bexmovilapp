@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_normal_sale.dart';
+import 'package:bexmovil/src/presentation/views/user/sale/widgets/card_product_photo_sale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -54,8 +56,6 @@ class _SaleProductsState extends State<SaleProducts>
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      print('fetching');
-
       final newItems = await saleBloc.loadProductsPaginated(
           widget.codprecio, widget.codbodega, pageKey, _pageSize);
 
@@ -117,16 +117,7 @@ class _SaleProductsState extends State<SaleProducts>
           children: [
             Expanded(
                 child: Container(
-              color: Colors.grey[100],
-              child: PagedListView<int, Product>(
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Product>(
-                  itemBuilder: (context, item, index) => CustomCardProduct(
-                    product: item,
-                  ),
-                ),
-              ),
-            )),
+                    color: Colors.grey[100], child: getGridProducts(state))),
             Material(
                 elevation: 10,
                 child: Container(
@@ -169,6 +160,41 @@ class _SaleProductsState extends State<SaleProducts>
         ),
       );
     });
+  }
+
+  Widget getGridProducts(SaleState state) {
+    if (state.grid == 'normal') {
+      return PagedListView<int, Product>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Product>(
+          itemBuilder: (context, item, index) => Padding(
+            padding: const EdgeInsets.all(10),
+            child: CardProductNormalSale(
+              product: item,
+            ),
+          ),
+        ),
+      );
+    } else if (state.grid == 'photo') {
+      return PagedGridView(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Product>(
+            itemBuilder: (context, item, index) => Padding(
+              padding: const EdgeInsets.all(10),
+              child: CardProductPhotoSale(
+                product: item,
+              ),
+            ),
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
+          ));
+    } else if (state.grid == 'brief') {
+      return const SizedBox();
+    } else {
+      return const SizedBox();
+    }
   }
 
   getProductsQuantity(state) async {

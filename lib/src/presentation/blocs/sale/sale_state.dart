@@ -35,7 +35,8 @@ class SaleState {
   final List<Product>? products;
   final double? total;
   final int? cant;
-  final bool? gridView;
+  final List<String>? grids;
+  final String? grid;
   final List<Product>? cart;
   final double? subtotal;
   final String? error;
@@ -61,7 +62,8 @@ class SaleState {
       this.products,
       this.total,
       this.cant,
-      this.gridView,
+      this.grids,
+      this.grid,
       this.cart,
       this.subtotal,
       this.error,
@@ -88,7 +90,8 @@ class SaleState {
           List<Map<String, Product>>? product,
           double? total,
           int? cant,
-          bool? gridView,
+          List<String>? grids,
+          String? grid,
           List<Product>? cart,
           double? subtotal,
           String? error,
@@ -113,7 +116,8 @@ class SaleState {
           products: products ?? this.products,
           total: total ?? this.total,
           cant: cant ?? this.cant,
-          gridView: gridView ?? this.gridView,
+          grids: grids ?? this.grids,
+          grid: grid ?? this.grid,
           cart: cart ?? this.cart,
           subtotal: subtotal ?? this.subtotal,
           error: error ?? this.error,

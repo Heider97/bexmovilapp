@@ -193,7 +193,7 @@ bool belongsToGraphic(Map<String, dynamic> map) {
 Map<String, AppDynamicDataCasterType> dynamicDataTypes = {
   "Kpi": AppDynamicDataCasterType<Kpi>((s) => Kpi.fromJson(s)),
   "Graphic": AppDynamicDataCasterType<Graphic>((s) => Graphic.fromJson(s)),
-  "ProductsArguments": AppDynamicDataCasterType<ProductArgument>(
+  "ProductArgument": AppDynamicDataCasterType<ProductArgument>(
       (s) => ProductArgument.fromJson(s)),
 };
 

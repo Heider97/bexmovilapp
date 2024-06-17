@@ -45,7 +45,7 @@ class _CardClientSaleState extends State<CardClientSale> {
       onTap: () {},
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(4.0),
         child: AppListTile(
           title: SingleChildScrollView(
               scrollDirection: Axis.horizontal,

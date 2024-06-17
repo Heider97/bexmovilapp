@@ -72,8 +72,8 @@ class SearchProduct extends SaleEvent {
 }
 
 class GridModeChange extends SaleEvent {
-  final bool changeMode;
-  GridModeChange({required this.changeMode});
+  final String grid;
+  GridModeChange({required this.grid});
 }
 
 class SelectProduct extends SaleEvent {

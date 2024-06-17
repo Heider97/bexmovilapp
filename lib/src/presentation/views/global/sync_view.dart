@@ -60,9 +60,31 @@ class _SyncViewState extends State<SyncView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          gapH64,
+          SizedBox(
+            height: 200,
+            width: 200,
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.cloud,
+                  size: 150,
+                  color: Colors.purple[100],
+                ),
+                const Icon(
+                  Icons.sync,
+                  size: 60,
+                ),
+              ],
+            ),
+          ),
           AppText('Sincronizando', fontSize: 22, fontWeight: FontWeight.bold),
-          const Text('Mientras esperas, conoce nuestras ultimas novedades. ',
+          gapH12,
+          AppText(
+            "Estamos sincronizando sus formularios para su uso sin conexión",
+            textAlign: TextAlign.center,
+          ),
+          AppText('Mientras esperas, conoce nuestras ultimas novedades. ',
               textAlign: TextAlign.center),
           const SizedBox(height: 40),
           Expanded(
@@ -93,11 +115,12 @@ class _SyncViewState extends State<SyncView> {
   }
 
   Widget _buildLoading(SyncFeaturesState state, theme) {
-    return CountDown(
-      state: state,
-      // target: DateTime.now().add(
-      //   const Duration(minutes: 2),
-      // ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+      child: LinearProgressIndicator(
+        valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
+        backgroundColor: Colors.purple[100],
+      ),
     );
   }
 

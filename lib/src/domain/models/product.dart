@@ -127,7 +127,7 @@ class Product {
         codBarra: json['codbarra'],
         estadoInactivo: json['estadoinactivo'],
         // unidadVenta: json['unidadventa'],
-        imagen: json['imagen'],
+        imagen: json['IMAGEN'],
         unidadEmpPed: json['unidadempped'],
         kit: json['kit'],
         // porcentajeDeIva: json['procentajedeiva'],
