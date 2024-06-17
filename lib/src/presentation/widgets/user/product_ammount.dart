@@ -21,7 +21,6 @@ final DatabaseRepository _databaseRepository = locator<DatabaseRepository>();
 
 class ProductAmmount extends StatefulWidget {
   final ProductCart product;
-  
 
   const ProductAmmount({super.key, required this.product});
 
@@ -75,10 +74,9 @@ class _ProductAmmountState extends State<ProductAmmount> {
                                   BorderRadius.all(Radius.circular(10))),
                           child: InkWell(
                             onTap: () async {
-
-                              saleBloc.add(RemoveItemCart(codProduct: widget.product.product.codProducto!));
-
-                            
+                              saleBloc.add(RemoveItemCart(
+                                  codProduct:
+                                      widget.product.product.codProducto!));
                             },
                             child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +153,7 @@ class _ProductAmmountState extends State<ProductAmmount> {
                                                                   TextOverflow
                                                                       .ellipsis),
                                                         ),
-                                                        AppText('GM1594S',
+                                                        AppText('${widget.product.product.codProducto}',
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             color: Colors.black,
@@ -188,7 +186,9 @@ class _ProductAmmountState extends State<ProductAmmount> {
                                                   ), */
                                         Text.rich(
                                           TextSpan(
-                                            text: ''.formatted(widget.product.product
+                                            text: ''.formatted(widget
+                                                    .product
+                                                    .product
                                                     .precioProductoPrecio ??
                                                 0),
                                             style: theme.textTheme.labelMedium!
@@ -223,8 +223,11 @@ class _ProductAmmountState extends State<ProductAmmount> {
                                       children: [
                                         SizedBox(),
                                         Ammount(
+                                            codeProduct: widget
+                                                .product.product.codProducto!,
                                             controller: TextEditingController(
-                                                text: widget.product.stock.toString()))
+                                                text: widget.product.stock
+                                                    .toString()))
                                       ],
                                     )
 

@@ -33,7 +33,8 @@ class SaleProducts extends StatefulWidget {
   State<SaleProducts> createState() => _SaleProductsState();
 }
 
-class _SaleProductsState extends State<SaleProducts> {
+class _SaleProductsState extends State<SaleProducts>
+    with AutomaticKeepAliveClientMixin {
   late SaleBloc saleBloc;
   int totalProducts = 0;
 
@@ -45,9 +46,11 @@ class _SaleProductsState extends State<SaleProducts> {
   @override
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
+
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+
     super.initState();
   }
 
@@ -70,6 +73,7 @@ class _SaleProductsState extends State<SaleProducts> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<SaleBloc, SaleState>(
         // buildWhen: (previous, current) => previous.status != current.status || current.cant != previous.cant,
         builder: (context, state) {
@@ -166,4 +170,8 @@ class _SaleProductsState extends State<SaleProducts> {
     //     state.warehouseSelected!.codbodega!,
     //     state.client!.id.toString());
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

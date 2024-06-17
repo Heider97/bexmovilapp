@@ -226,7 +226,7 @@ class ProductCart {
 }
 
 class CartProductInfo {
-  final String cartId;
+  final String? cartId;
   final String codRouter;
   final String codClient;
   final String codPrecio;
