@@ -143,31 +143,47 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                       Row(
                         children: [
                           //TODO: Asignar el 30-40% de la fila.
-                    /*       Container(
-                            width: Screens.width(context)*0.3,
-                            child:Center(
-                            child: Opacity(
-                              opacity: 0.75,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2),
-                                  child: AppText('Imagen\n no disponible.',
-                                      textAlign: TextAlign.center,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      overflow: TextOverflow.ellipsis),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: Screens.height(context) * 0.15,
+                                  width: Screens.width(context) * 0.4,
+                                  decoration: BoxDecoration(
+
+                                      border: Border.all(
+                                          color: theme.disabledColor,
+
+                                          width: 1.0),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Center(
+                                    child: Opacity(
+                                      opacity: 0.75,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2),
+                                          child: AppText(
+                                              'Imagen\n no disponible.',
+                                              textAlign: TextAlign.center,
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              overflow: TextOverflow.ellipsis),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ) ,),
- */
+                            ],
+                          ),
 
-
-                          Expanded(
+                          /*   Expanded(
                               child: Center(
                             child: Opacity(
                               opacity: 0.75,
@@ -186,13 +202,8 @@ class __CustomCardProducStateState extends State<CustomCardProduct> {
                                 ),
                               ),
                             ),
-                          )),
-                          /* Expanded(
-                          child:
+                          )), */
 
-                          --
-
-                          ) */
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

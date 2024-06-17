@@ -59,12 +59,46 @@ class _SaleProductsState extends State<SaleProducts>
       final newItems = await saleBloc.loadProductsPaginated(
           widget.codprecio, widget.codbodega, pageKey, _pageSize);
 
-      final isLastPage = newItems.length < _pageSize;
+      List<Product> orderedProducts = List.from(newItems, growable: true);
+
+      print("Orden actual: ${saleBloc.state.orderOption}");
+      print("Productos antes de ordenar: $orderedProducts");
+
+      switch (saleBloc.state.orderOption) {
+        case OrderOption.codBarrasAsc:
+          orderedProducts
+              .sort((a, b) => (a.codBarra ?? '').compareTo(b.codBarra ?? ''));
+          break;
+        case OrderOption.codBarrasDesc:
+          orderedProducts
+              .sort((a, b) => (b.codBarra ?? '').compareTo(a.codBarra ?? ''));
+          break;
+        case OrderOption.nombreAsc:
+          orderedProducts
+              .sort((a, b) => a.nomProducto.compareTo(b.nomProducto));
+          break;
+        case OrderOption.nombreDesc:
+          orderedProducts
+              .sort((a, b) => b.nomProducto.compareTo(a.nomProducto));
+          break;
+        case OrderOption.codProductoAsc:
+          orderedProducts.sort(
+              (a, b) => (a.codProducto ?? '').compareTo(b.codProducto ?? ''));
+          break;
+        case OrderOption.codProductoDesc:
+          orderedProducts.sort(
+              (a, b) => (b.codProducto ?? '').compareTo(a.codProducto ?? ''));
+          break;
+        default:
+          break;
+      }
+
+      final isLastPage = orderedProducts.length < _pageSize;
       if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
+        _pagingController.appendLastPage(orderedProducts);
       } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(newItems, nextPageKey);
+        final nextPageKey = pageKey + orderedProducts.length;
+        _pagingController.appendPage(orderedProducts, nextPageKey);
       }
     } catch (error) {
       _pagingController.error = error;

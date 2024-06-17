@@ -10,6 +10,15 @@ enum SaleStatus {
   failed
 }
 
+enum OrderOption {
+  codBarrasAsc,
+  codBarrasDesc,
+  nombreAsc,
+  nombreDesc,
+  codProductoAsc,
+  codProductoDesc
+}
+
 class SaleState {
   final SaleStatus status;
   final List<Router>? routers;
@@ -33,6 +42,8 @@ class SaleState {
   final int? totalProductsShippingCart;
   final double? totalPriceShippingCart;
   final CartProductInfo? cartProductInfo;
+  final bool? showingShippingCart;
+  final OrderOption? orderOption;
 
   const SaleState(
       {this.status = SaleStatus.initial,
@@ -56,7 +67,9 @@ class SaleState {
       this.error,
       this.totalProductsShippingCart,
       this.totalPriceShippingCart,
-      this.cartProductInfo});
+      this.cartProductInfo,
+      this.showingShippingCart = false,
+      this.orderOption = OrderOption.nombreDesc});
 
   SaleState copyWith(
           {SaleStatus? status,
@@ -81,7 +94,9 @@ class SaleState {
           String? error,
           int? totalProductsShippingCart,
           double? totalPriceShippingCart,
-          CartProductInfo? cartProductInfo}) =>
+          CartProductInfo? cartProductInfo,
+          bool? showingShippingCart,
+          OrderOption? orderOption}) =>
       SaleState(
           status: status ?? this.status,
           routers: routers ?? this.routers,
@@ -106,7 +121,9 @@ class SaleState {
               totalProductsShippingCart ?? this.totalProductsShippingCart,
           totalPriceShippingCart:
               totalPriceShippingCart ?? this.totalPriceShippingCart,
-          cartProductInfo: cartProductInfo ?? this.cartProductInfo);
+          cartProductInfo: cartProductInfo ?? this.cartProductInfo,
+          showingShippingCart: showingShippingCart ?? this.showingShippingCart,
+          orderOption: orderOption ?? this.orderOption);
 
   List<Object?> get props => [status, error];
 }

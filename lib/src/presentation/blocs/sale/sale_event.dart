@@ -93,10 +93,26 @@ class GetProductsShippingCart extends SaleEvent {
   GetProductsShippingCart();
 }
 
+class DisposeShippingCart extends SaleEvent {
+  DisposeShippingCart();
+}
 
 class RemoveItemCart extends SaleEvent {
   final String codProduct;
   RemoveItemCart({required this.codProduct});
 }
 
+class OrderProductsBy extends SaleEvent {
+  final OrderOption orderOption;
+  OrderProductsBy({required this.orderOption});
+}
 
+class LoadProductsPaginated extends SaleEvent {
+  final String codprecio, codbodega;
+  final int offset, limit;
+  LoadProductsPaginated(
+      {required this.codprecio,
+      required this.codbodega,
+      required this.offset,
+      required this.limit});
+}
