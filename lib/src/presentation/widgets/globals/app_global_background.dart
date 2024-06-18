@@ -1,6 +1,7 @@
 // import 'dart:mirrors';
 import 'package:bexmovil/src/locator.dart';
 import 'package:bexmovil/src/presentation/blocs/sale/sale_bloc.dart';
+import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/services/navigation.dart';
 import 'package:bexmovil/src/utils/constants/screens.dart';
 
@@ -71,6 +72,15 @@ class AppGlobalBackground extends StatelessWidget {
           return Scaffold(
             appBar: hideAppBar == false
                 ? AppBar(
+                    title: (state.showingShippingCart!= null && state.showingShippingCart!)
+                        ? CustomSearchBar(
+                            onChanged: (value) {},
+                            colorBackground: theme.colorScheme.secondary,
+                            prefixIcon: const Icon(Icons.search),
+                            controller: TextEditingController(),
+                            hintText: 'Buscar producto',
+                          )
+                        : null,
                     leading: const Padding(
                         padding: EdgeInsets.all(Const.padding),
                         child: AppBackButton(needPrimary: true)),

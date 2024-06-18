@@ -46,6 +46,16 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     on<GetDetailsShippingCart>(_onGetDetailsShippingCart);
     on<GetProductsShippingCart>(_onGetProductsShippingCart);
     on<RemoveItemCart>(_removeItemCart);
+    on<DisposeShippingCart>(_disposeShippingCart);
+    on<OrderProductsBy>(_orderProductsBy);
+  }
+
+  _orderProductsBy(OrderProductsBy event, Emitter emit) {
+    emit(state.copyWith(orderOption: event.orderOption));
+  }
+
+  _disposeShippingCart(DisposeShippingCart event, Emitter emit) {
+    emit(state.copyWith(showingShippingCart: false));
   }
 
   Future<void> _removeItemCart(RemoveItemCart event, Emitter emit) async {
@@ -70,7 +80,10 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
       state.warehouseSelected!.codbodega!,
     );
 
-    emit(state.copyWith(cartProductInfo: cartProductInfo, status: SaleStatus.clients));
+    emit(state.copyWith(
+        showingShippingCart: cartProductInfo.products.isNotEmpty,
+        cartProductInfo: cartProductInfo,
+        status: SaleStatus.clients));
   }
 
   Future<void> _onGetDetailsShippingCart(
@@ -90,10 +103,9 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
             state.client!.id.toString());
 
     emit(state.copyWith(
-      totalProductsShippingCart: totalProductsQuantity,
-      totalPriceShippingCart: totalPriceShippingCart,
-        status: SaleStatus.clients
-    ));
+        totalProductsShippingCart: totalProductsQuantity,
+        totalPriceShippingCart: totalPriceShippingCart,
+        status: SaleStatus.clients));
   }
 
   Future<void> _onLoadRouters(LoadRouters event, Emitter emit) async {
@@ -121,8 +133,6 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
   Future<void> _onLoadClients(LoadClients event, Emitter emit) async {
     emit(state.copyWith(status: SaleStatus.loading));
-
-
 
     var seller = storageService.getString('username');
     var clients = <Client>[];

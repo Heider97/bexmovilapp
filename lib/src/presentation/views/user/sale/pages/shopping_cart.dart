@@ -34,6 +34,12 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
   }
 
   @override
+  void dispose() {
+    saleBloc.add(DisposeShippingCart());
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
@@ -44,37 +50,13 @@ class _ShoppingCartViewState extends State<ShoppingCartView> {
           return SafeArea(
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: CustomSearchBar(
-                            onChanged: (value) {},
-                            colorBackground: theme.colorScheme.secondary,
-                            prefixIcon: const Icon(Icons.search),
-                            controller: TextEditingController(),
-                            hintText: 'Buscar producto',
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: Const.padding, vertical: 5),
-                      child: AppIconButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          child: Icon(
-                            Icons.menu,
-                            color: theme.colorScheme.onPrimary,
-                          )),
-                    )
-                  ],
-                ),
                 Expanded(
                   child: ListView.builder(
                       itemCount: state.cartProductInfo!.products.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                            padding: const EdgeInsets.only(top: 15.0, bottom: 5),
+                            padding:
+                                const EdgeInsets.only(top: 15.0, bottom: 5),
                             child: ProductAmmount(
                                 product:
                                     state.cartProductInfo!.products[index]));
