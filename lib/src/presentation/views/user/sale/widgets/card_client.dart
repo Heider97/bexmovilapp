@@ -1,3 +1,5 @@
+import 'package:bexmovil/src/utils/constants/strings.dart';
+import 'package:bexmovil/src/utils/widgets/product_details_alert.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -58,12 +60,14 @@ class _CardClientState extends State<CardClient> {
         padding: const EdgeInsets.all(7),
         child: InkWell(
             onTap: () {
-              showModalBottomSheet(
+              /*    showModalBottomSheet(
                   isScrollControlled: true,
                   context: context,
-                  builder: (c) => DetailClientSale(client: widget.client));
-
-              setState(() {});
+                  builder: (c) => DetailClientSale(client: widget.client)); */
+              showDialog(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (_) => CustomAlert());
             },
             child: Material(
                 elevation: 1,
@@ -71,7 +75,7 @@ class _CardClientState extends State<CardClient> {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(4)),
                     child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Column(children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +106,7 @@ class _CardClientState extends State<CardClient> {
                                               'No aplica',
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black,
-                                          fontSize: 14,
+                                          fontSize: Const.space12,
                                           overflow: TextOverflow.ellipsis),
                                     ],
                                   ),
@@ -110,7 +114,7 @@ class _CardClientState extends State<CardClient> {
                               ),
                               widget.client.typeClient == 'client'
                                   ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(4.0),
                                       child: Column(
                                         children: [
                                           AppText(
@@ -132,7 +136,7 @@ class _CardClientState extends State<CardClient> {
                                                               50)
                                                       ? Colors.yellow[400]
                                                       : Colors.red[300],
-                                              fontSize: 14,
+                                              fontSize: Const.space12,
                                               overflow: TextOverflow.ellipsis),
                                           AppText('Servicio',
                                               fontWeight: FontWeight.w500,
@@ -157,7 +161,7 @@ class _CardClientState extends State<CardClient> {
                                       AppText('Dirección: ',
                                           fontWeight: FontWeight.normal,
                                           color: Colors.grey[800],
-                                          fontSize: 14,
+                                          fontSize: Const.space12,
                                           overflow: TextOverflow.ellipsis),
                                       AppText('${widget.client.address ?? 0}',
                                           fontWeight: FontWeight.normal,
@@ -174,12 +178,12 @@ class _CardClientState extends State<CardClient> {
                                   AppText('Sucursal: ',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.grey[800],
-                                      fontSize: 14,
+                                      fontSize: Const.space12,
                                       overflow: TextOverflow.ellipsis),
                                   AppText('${widget.client.branch}',
                                       fontWeight: FontWeight.normal,
                                       color: Colors.grey[800],
-                                      fontSize: 14,
+                                      fontSize: Const.space12,
                                       overflow: TextOverflow.ellipsis)
                                 ],
                               ),
@@ -196,7 +200,7 @@ class _CardClientState extends State<CardClient> {
                                         AppText('Cartera: ',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[800],
-                                            fontSize: 14,
+                                            fontSize: Const.space12,
                                             overflow: TextOverflow.ellipsis),
                                         AppText(
                                             widget.client.wallet != null
@@ -206,7 +210,7 @@ class _CardClientState extends State<CardClient> {
                                                 : '0',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[800],
-                                            fontSize: 14,
+                                            fontSize: Const.space12,
                                             overflow: TextOverflow.ellipsis)
                                       ],
                                     ),
@@ -215,12 +219,12 @@ class _CardClientState extends State<CardClient> {
                                         AppText('Ventas: ',
                                             fontWeight: FontWeight.w500,
                                             color: Colors.black,
-                                            fontSize: 14,
+                                            fontSize: Const.space12,
                                             overflow: TextOverflow.ellipsis),
                                         AppText('1M / Último mes',
                                             fontWeight: FontWeight.normal,
                                             color: Colors.grey[800],
-                                            fontSize: 14,
+                                            fontSize: Const.space12,
                                             overflow: TextOverflow.ellipsis)
                                       ],
                                     ),
@@ -234,20 +238,20 @@ class _CardClientState extends State<CardClient> {
                                     AppText('Cupo disponible: ',
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
-                                        fontSize: 14,
+                                        fontSize: Const.space12,
                                         overflow: TextOverflow.ellipsis),
                                     AppText(
                                         ''.formattedCompact(
                                             widget.client.quota!.toString()),
                                         fontWeight: FontWeight.normal,
                                         color: Colors.grey[800],
-                                        fontSize: 14,
+                                        fontSize: Const.space12,
                                         overflow: TextOverflow.ellipsis)
                                   ],
                                 )
                               : const SizedBox(),
                           gapH4,
-                          Row(
+                          /* Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Expanded(
@@ -364,7 +368,7 @@ class _CardClientState extends State<CardClient> {
                                 ),
                               ),
                             ],
-                          ),
+                          ), */
                           gapH12,
                           InkWell(
                             onTap: () {
@@ -385,32 +389,30 @@ class _CardClientState extends State<CardClient> {
                                 codbodega: codbodega,
                               ));
                             },
-                            child: Material(
-                              elevation: 2,
-                              child: Opacity(
-                                opacity: 0.8,
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    color: widget.client.typeClient == 'client'
-                                        ? theme.primaryColor
-                                        : Colors.blue,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      AppText(
-                                          widget.client.typeClient == 'client'
-                                              ? 'Realizar Venta'
-                                              : 'Realizar Cotización',
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          overflow: TextOverflow.ellipsis),
-                                    ],
-                                  ),
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: Container(
+                                width: double.infinity,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: widget.client.typeClient == 'client'
+                                      ? theme.primaryColor
+                                      : Colors.blue,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    AppText(
+                                        widget.client.typeClient == 'client'
+                                            ? 'Realizar Venta'
+                                            : 'Realizar Cotización',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: Const.space12,
+                                        overflow: TextOverflow.ellipsis),
+                                  ],
                                 ),
                               ),
                             ),

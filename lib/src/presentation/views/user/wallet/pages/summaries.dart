@@ -179,6 +179,8 @@ class _WalletSummariesViewState extends State<WalletSummariesView> {
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                                 onPressed: () {
+
+                                  
                                   //TODO: [Heider Zapa]
                                   //TODO: navigate realizar accion
                                   navigationService

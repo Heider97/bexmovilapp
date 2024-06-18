@@ -119,6 +119,8 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
 
     List<String> keys = variables.keys.toList();
 
+    
+
     for (var i = 0; i < variables.length; i++) {
       if (keys[i] == 'routers') {
         routers = variables[keys[i]];

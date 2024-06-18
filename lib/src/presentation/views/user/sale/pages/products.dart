@@ -5,14 +5,13 @@ import 'package:bexmovil/src/presentation/views/user/sale/features/products.dart
 import 'package:bexmovil/src/presentation/widgets/atomsbox.dart';
 import 'package:bexmovil/src/presentation/widgets/user/custom_search_bar.dart';
 import 'package:bexmovil/src/utils/constants/gaps.dart';
+import 'package:bexmovil/src/utils/constants/strings.dart';
 
 import 'package:bexmovil/src/utils/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
 
 class ProductsView extends StatefulWidget {
   final ProductArgument arguments;
@@ -63,17 +62,17 @@ class _ProductsViewState extends State<ProductsView> {
   String _getText(OrderOption option) {
     switch (option) {
       case OrderOption.codBarrasAsc:
-        return 'Cod Barras\n ASC';
+        return 'Cod Barras';
       case OrderOption.codBarrasDesc:
-        return 'Cod Barras\n DESC';
+        return 'Cod Barras';
       case OrderOption.nombreAsc:
-        return 'Nombre\n ASC';
+        return 'Nombre';
       case OrderOption.nombreDesc:
-        return 'Nombre\nDESC';
+        return 'Nombre';
       case OrderOption.codProductoAsc:
-        return 'Cod Producto\n ASC';
+        return 'Cod Producto';
       case OrderOption.codProductoDesc:
-        return 'Cod Producto\nDESC';
+        return 'Cod Producto';
       default:
         return 'Código';
     }
@@ -83,7 +82,7 @@ class _ProductsViewState extends State<ProductsView> {
   void initState() {
     saleBloc = BlocProvider.of<SaleBloc>(context);
     saleBloc.add(GetDetailsShippingCart());
-    
+
     //saleBloc.add(LoadProducts(null, null, null, null,
     //    widget.arguments.codbodega, widget.arguments.codprecio));
 
@@ -136,6 +135,52 @@ class _ProductsViewState extends State<ProductsView> {
                   color: Colors.grey[800],
                   fontSize: 14,
                 )),
+            Padding(
+              padding: const EdgeInsets.only(left:10.0, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Dirección: ',
+                            style: TextStyle(
+                              fontSize: Const.space12,
+                              //   color: theme.primaryColor
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${widget.arguments.client!.address}',
+                            style: const TextStyle(fontSize: Const.space12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'Sucursal: ',
+                            style: TextStyle(
+                              fontSize: Const.space12,
+                              // color: theme.primaryColor
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${widget.arguments.client!.branch}',
+                            style: const TextStyle(fontSize: Const.space12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             gapH8,
             Row(
               children: [

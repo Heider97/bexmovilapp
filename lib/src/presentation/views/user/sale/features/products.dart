@@ -20,7 +20,7 @@ import '../../../../../utils/constants/screens.dart';
 
 //widgets
 import '../../../../widgets/atoms/atoms.dart';
-import '../widgets/custom_card_product.dart';
+
 
 class SaleProducts extends StatefulWidget {
   final String codprecio;
@@ -51,6 +51,7 @@ class _SaleProductsState extends State<SaleProducts>
       _fetchPage(pageKey);
     });
 
+    print('fetching data products');
     super.initState();
   }
 
@@ -144,7 +145,9 @@ class _SaleProductsState extends State<SaleProducts>
                       ),
                       Row(children: [
                         AppTextButton(
-                            onPressed: null, child: AppText('Vaciar')),
+                            onPressed: () {
+                              
+                            }, child: AppText('Vaciar')),
                         gapW20,
                         AppTextButton(
                             child: AppText('Ver Carrito'),
